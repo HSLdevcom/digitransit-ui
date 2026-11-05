@@ -17,7 +17,7 @@ export const handleDateSelectChange = (option, onDateChange) => {
   onDateChange(option.value);
 };
 
-function DateSelectGrouped({
+export default function DateSelectGrouped({
   startDate,
   selectedDay,
   dateFormat,
@@ -256,7 +256,3 @@ DateSelectGrouped.propTypes = {
   dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)),
   onDateChange: PropTypes.func.isRequired,
 };
-
-DateSelectGrouped.displayName = 'DateSelectGrouped';
-
-export default DateSelectGrouped;

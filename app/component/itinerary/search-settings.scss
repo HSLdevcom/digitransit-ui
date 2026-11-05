@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .searchsettings-container {
   display: block;
   background-color: $white;
@@ -54,14 +56,6 @@
 
     .icon {
       font-size: 20px;
-    }
-
-    .super-icon {
-      fill: $highlight-color;
-      position: absolute;
-      right: 0;
-      top: -2px;
-      font-size: $font-size-xxsmall;
     }
 
     .customized-settings-indicator {

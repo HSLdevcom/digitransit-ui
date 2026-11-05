@@ -16,7 +16,7 @@ const TOGGLEABLE_FILTERS = [
   },
 ];
 
-const ToggleableFilters = () => {
+export default function ToggleableFilters() {
   const { selectedFilters, setFilter, removeFilter } = useFilterContext();
   const favourites = useFavourites();
 
@@ -46,6 +46,4 @@ const ToggleableFilters = () => {
       ))}
     </fieldset>
   );
-};
-
-export default ToggleableFilters;
+}

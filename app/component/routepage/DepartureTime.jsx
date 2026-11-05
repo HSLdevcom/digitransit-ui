@@ -95,8 +95,6 @@ export default function DepartureTime({
   );
 }
 
-DepartureTime.displayName = 'DepartureTime';
-
 DepartureTime.propTypes = {
   className: PropTypes.string,
   canceled: PropTypes.bool,

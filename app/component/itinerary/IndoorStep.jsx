@@ -13,7 +13,7 @@ import {
 } from '../../../utils/shared/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
-function IndoorStep({
+export default function IndoorStep({
   focusAction,
   type,
   verticalDirection,
@@ -101,5 +101,3 @@ IndoorStep.propTypes = {
   onlyOneStep: PropTypes.bool,
   indoorLegType: PropTypes.oneOf(Object.values(IndoorLegType)),
 };
-
-export default IndoorStep;

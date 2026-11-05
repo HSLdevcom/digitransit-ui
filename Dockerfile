@@ -15,34 +15,25 @@ ENV \
 # packages, only invalidating on a real dependency change.
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
-COPY schema/package.json ./schema/package.json
-COPY --parents digitransit-util/packages/*/package.json ./
-COPY --parents digitransit-search-util/packages/*/package.json ./
-COPY --parents digitransit-component/packages/*/package.json ./
-COPY --parents digitransit-store/packages/*/package.json ./
+COPY --parents packages/*/*/package.json ./
 RUN \
   # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
   # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
   export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
   && yarn install --immutable --inline-builds
 
-# Deliberately scoped to config, schema, and the workspace packages' full
+# Deliberately scoped to the packages' full
 # source (rather than folded into the `COPY . .` + `yarn run build` step
 # below): this keeps the RUN below cacheable by Docker's layer cache
 # whenever only app/server files change.
-COPY config ./config
-COPY schema ./schema
-COPY digitransit-util ./digitransit-util
-COPY digitransit-search-util ./digitransit-search-util
-COPY digitransit-component ./digitransit-component
-COPY digitransit-store ./digitransit-store
+COPY packages ./packages
 RUN \
-  yarn run workspace-packages-build
+  yarn run packages-build
 
 # Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
 # This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
 # configs processed), but the resulting image won't be able to serve other instances. Declared here
-# (only read by webpack.config.js below, not by the workspace-package build above) rather than
+# (only read by webpack.config.js below, not by the package build above) rather than
 # earlier, so that building for a different CONFIG doesn't needlessly invalidate that step's cache too.
 ARG CONFIG=''
 ENV CONFIG=${CONFIG}
@@ -53,7 +44,7 @@ RUN \
   && rm -rf /tmp/Relay*
 
 # Prune node_modules down to production-only dependencies across every workspace
-# (root + digitransit-component/store/search-util/util packages) *before* the
+# (root + packages/ workspaces) *before* the
 # final stage's `COPY --from=builder` below, not after: a later `RUN` in the
 # final stage can only add a whiteout for deleted files - the full unpruned
 # tree would still be baked into the `COPY` layer itself and still count
@@ -65,14 +56,15 @@ RUN \
 # Once this finishes, nothing later needs Yarn/Lerna/Nx again (the final image
 # doesn't invoke any of them - see its CMD), so their toolchain/config files
 # are removed here too, alongside the build-only rollup/babel/relay-schema
-# config (only read by `yarn run workspace-packages-build` above), the dangling
-# `schema` workspace link in node_modules, and `static`
+# config (only read by `yarn run packages-build` above), the
+# `packages/private` workspaces (rollup config, schema), the dangling private-workspace
+# links in node_modules, and `static`
 # (source assets consumed by CopyWebpackPlugin, see webpack.config.js, already
 # copied into `_static` by the build above).
 RUN \
   yarn workspaces focus --all --production \
   && yarn cache clean --all \
-  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json config schema node_modules/@digitransit-ui static
+  && rm -rf .yarn .yarnrc.yml yarn.lock lerna.json nx.json packages/private node_modules/@digitransit-ui static
 
 FROM node:24.14.1-alpine
 LABEL org.opencontainers.image.title="digitransit-ui"

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 const STOP_SIGN_POLE_WIDTH = 3;
 const STOP_SIGN_POLE_X = 20 - STOP_SIGN_POLE_WIDTH / 2;
 
-const IconBackground = ({ shape, color = 'white' }) => {
+export default function IconBackground({ shape, color = 'white' }) {
   if (shape === undefined) {
     return null;
   }
@@ -37,11 +37,9 @@ const IconBackground = ({ shape, color = 'white' }) => {
       )}
     </>
   );
-};
+}
 
 IconBackground.propTypes = {
   shape: PropTypes.oneOf(['circle', 'stopsign', 'square']),
   color: PropTypes.string,
 };
-
-export default IconBackground;

@@ -7,7 +7,7 @@ import RouteBadgeGroup from './RouteBadgeGroup';
 import DisruptionBadge from '../DisruptionBadge';
 import { patternShape, routeShape } from '../../../../utils/client/shapes';
 
-const CancellationContainer = ({ routeSummary, mode }) => {
+export default function CancellationContainer({ routeSummary, mode }) {
   const {
     route: { shortName, gtfsId },
     patterns,
@@ -49,7 +49,7 @@ const CancellationContainer = ({ routeSummary, mode }) => {
       </div>
     </div>
   );
-};
+}
 
 CancellationContainer.propTypes = {
   routeSummary: PropTypes.shape({
@@ -62,5 +62,3 @@ CancellationContainer.propTypes = {
   }).isRequired,
   mode: PropTypes.string.isRequired,
 };
-
-export default CancellationContainer;

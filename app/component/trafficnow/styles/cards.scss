@@ -3,6 +3,9 @@
 // ============================================================================
 // Disruption cards, canceled trips cards, and related card container styles
 
+@use '../../../../styles/abstracts' as *;
+@use 'tokens';
+
 .traffic-now {
   &__body {
     .detail-view {
@@ -38,20 +41,6 @@
     }
 
     .canceled-trips {
-      &__header {
-        display: flex;
-        flex-direction: row;
-        width: 100%;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0 var(--space-m);
-        background-color: $white;
-
-        @media screen and (max-width: $bp-tablet) {
-          padding: var(--space-m);
-        }
-      }
-
       &__body {
         width: 100%;
         overflow: auto;
@@ -59,7 +48,7 @@
         flex-direction: column;
         gap: var(--space-xs);
 
-        @media screen and (max-width: $bp-tablet) {
+        @media screen and (max-width: tokens.$bp-tablet) {
           gap: var(--space-s);
         }
       }
@@ -97,7 +86,7 @@
         width: auto;
         max-width: 100%;
 
-        @media screen and (max-width: $bp-tablet) {
+        @media screen and (max-width: tokens.$bp-tablet) {
           padding: 0;
           gap: var(--space-s);
           width: 100%;
@@ -110,7 +99,7 @@
           width: 100%;
           gap: var(--space-m);
 
-          @media screen and (max-width: $bp-tablet) {
+          @media screen and (max-width: tokens.$bp-tablet) {
             padding: var(--space-fixed-m);
             background-color: $white;
             border-top: 1px solid $light-gray;
@@ -118,7 +107,7 @@
           }
 
           &:first-child {
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               border-top: 0;
             }
           }
@@ -129,7 +118,7 @@
             justify-content: space-between;
             align-items: center;
 
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               width: 100%;
             }
           }
@@ -144,7 +133,7 @@
               gap: var(--space-fixed-s);
               margin-bottom: var(--space-s);
 
-              @media screen and (max-width: $bp-tablet) {
+              @media screen and (max-width: tokens.$bp-tablet) {
                 > .badge-container,
                 > .badge-container .entity-name,
                 > .badge-container .entity-name a {
@@ -167,7 +156,7 @@
               }
             }
 
-            @media screen and (max-width: $bp-tablet) {
+            @media screen and (max-width: tokens.$bp-tablet) {
               width: 100%;
             }
           }
@@ -220,16 +209,6 @@
         cursor: pointer;
       }
 
-      &:hover &__icon {
-        transform: translateX(4px);
-        transition: transform $transition-short;
-
-        &--inverted {
-          transform: rotate(180deg) translateY(4px);
-          transition: transform $transition-short;
-        }
-      }
-
       header {
         display: flex;
         flex-direction: row;
@@ -248,33 +227,6 @@
         align-items: center;
         gap: var(--space-xs);
         flex-wrap: wrap;
-      }
-
-      &__icon {
-        &--inverted {
-          transform: rotate(180deg);
-        }
-      }
-
-      &__body {
-        max-height: 0;
-        opacity: 0;
-        overflow: hidden;
-        transition:
-          max-height $transition-medium $transition-easing-expansion,
-          opacity $transition-short ease-in $transition-short;
-
-        &--open {
-          max-height: $card-body-max-height-expanded; // Used for smooth expand/collapse animation
-          opacity: 1;
-        }
-      }
-
-      &__body-row {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        width: 100%;
       }
     }
   }

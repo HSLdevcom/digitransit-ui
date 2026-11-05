@@ -75,7 +75,7 @@ const nodeProject = name => ({
     // Caches transformed modules under node_modules/.vitest-cache to speed
     // up reruns; rides along with CI's whole-node_modules cache.
     fsModuleCache: true,
-    include: [`${name}/packages/*/test.js`],
+    include: [`packages/${name}/*/test.js`],
   },
 });
 
@@ -93,14 +93,13 @@ export default {
               plugins: ['relay'],
             },
           }),
-          // App code only ever side-effect-imports stylesheets (no CSS
-          // Modules), so stub them to an empty module instead of letting
-          // Vite try to compile Sass.
+          // Stub global stylesheets instead of letting Vite compile Sass.
+          // Vitest stubs `.module.scss` itself, with real class names.
           {
             name: 'digitransit-ui:style-import-stub',
             enforce: 'pre',
             transform(_code, id) {
-              if (!/\.s?css$/.test(id)) {
+              if (!/\.s?css$/.test(id) || /\.module\.s?css$/.test(id)) {
                 return undefined;
               }
               return { code: 'export default {};' };
@@ -172,10 +171,10 @@ export default {
         resolve: {
           alias: [
             {
-              find: /^@digitransit-component\/(digitransit-component-.+)$/,
+              find: /^@digitransit-component\/digitransit-component-(.+)$/,
               replacement: path.join(
                 import.meta.dirname,
-                'digitransit-component/packages/$1/src/index',
+                'packages/digitransit-component/$1/src/index',
               ),
             },
           ],
@@ -246,7 +245,7 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['digitransit-component/packages/*/test.{js,jsx}'],
+          include: ['packages/digitransit-component/*/test.{js,jsx}'],
         },
       },
       nodeProject('digitransit-search-util'),

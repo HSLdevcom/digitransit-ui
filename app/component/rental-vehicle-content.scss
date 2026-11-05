@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .mobile {
   .scooter-page-container {
     height: calc(100% - 20rem);
@@ -129,7 +131,7 @@
             padding: 6px 0 3px 6px;
 
             .rental-vehicle-link .external-link-container {
-              border: none !important;
+              border: none;
 
               .external-link {
                 font-weight: $font-weight-medium;

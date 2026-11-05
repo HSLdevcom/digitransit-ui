@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
-import AutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
 import { useIntl } from 'react-intl';
 import LoginPrompt from './LoginPrompt';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from './WithSearchContext';
+import SearchAutosuggest from './SearchAutosuggest';
+import { getLocationSearchTargets } from '../../utils/client/searchUtils';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -19,9 +16,10 @@ import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const AutoSuggestWithSearchContext = withSearchContext(AutoSuggest);
-
-function FavouritesContainer({ onClickFavourite, isMobile = false }) {
+export default function FavouritesContainer({
+  onClickFavourite,
+  isMobile = false,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const favourites = useFavourites();
@@ -217,7 +215,7 @@ function FavouritesContainer({ onClickFavourite, isMobile = false }) {
         favourite={favourite}
         lang={lang}
         autosuggestComponent={
-          <AutoSuggestWithSearchContext
+          <SearchAutosuggest
             appElement="#app"
             sources={['History', 'Datasource']}
             targets={getLocationSearchTargets(config, true)}
@@ -259,5 +257,3 @@ FavouritesContainer.propTypes = {
   onClickFavourite: PropTypes.func.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default FavouritesContainer;

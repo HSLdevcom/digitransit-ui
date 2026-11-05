@@ -2,8 +2,6 @@ import { useEffect, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import isEqual from 'lodash/isEqual';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
@@ -11,10 +9,10 @@ import inside from 'point-in-polygon';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from './WithSearchContext';
+import StopRouteSearch, {
+  SearchAutosuggestPanel as LocationSearch,
+} from './SearchAutosuggest';
+import { getLocationSearchTargets } from '../../utils/client/searchUtils';
 import {
   getPathWithEndpointObjects,
   getStopRoutePath,
@@ -53,9 +51,6 @@ import {
   useItineraryLocationActions,
 } from '../hooks/ItineraryLocationContext';
 import TrafficNowLink from './trafficnow/TrafficNowLink';
-
-const StopRouteSearch = withSearchContext(DTAutoSuggest);
-const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
 export default function IndexPage() {
   const pendingOriginRef = useRef(null);

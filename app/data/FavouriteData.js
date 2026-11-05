@@ -225,7 +225,7 @@ class FavouriteData {
   /**
    * Initializes the store with the current config. Called once during app
    * bootstrap in client.js, before anything renders (mirrors
-   * SearchContext.init()). Safe to call more than once; only the first
+   * searchServices.init()). Safe to call more than once; only the first
    * call has an effect.
    */
   init(config) {

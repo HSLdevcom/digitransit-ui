@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .mobile-snackbar {
   width: calc(100% - 32px);
   left: 16px;
@@ -50,6 +52,10 @@
   line-height: 27px;
   letter-spacing: $letter-spacing;
   align-items: center;
+
+  &.hide {
+    display: none;
+  }
 
   .icon-container {
     display: flex;

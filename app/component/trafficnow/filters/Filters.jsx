@@ -11,7 +11,10 @@ import OperatorSelect from './OperatorSelect';
 
 const Separator = () => <div className="separator horizontal" />;
 
-const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
+export default function Filters({
+  onApplyClick = undefined,
+  onResetClick = () => {},
+}) {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
   const breakpoint = useBreakpoint();
   const intl = useIntl();
@@ -91,11 +94,9 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
       {buttons}
     </form>
   );
-};
+}
 
 Filters.propTypes = {
   onApplyClick: PropTypes.func,
   onResetClick: PropTypes.func,
 };
-
-export default Filters;

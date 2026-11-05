@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .departure-list .date-row {
   @include font-medium;
 

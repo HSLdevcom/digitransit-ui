@@ -1,8 +1,15 @@
-@import '~leaflet/dist/leaflet.css';
+@use 'sass:list';
+@use '../../../styles/abstracts' as *;
+
+// In the vendor layer so that Leaflet's more specific link colors still win.
+@layer vendor {
+  .leaflet-container a {
+    color: currentcolor;
+  }
+}
 
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
-$top-bar-height: 64px;
 
 div.map {
   max-height: 100%;
@@ -50,7 +57,7 @@ div.map {
       margin-right: 15px;
     }
 
-    z-index: index($zindex, map-container);
+    z-index: list.index($zindex, map-container);
 
     @media print {
       display: none;
@@ -91,7 +98,7 @@ div.map {
       flex-basis: 50vh;
       background: white;
       position: relative;
-      z-index: index($zindex, mobile-drawer);
+      z-index: list.index($zindex, mobile-drawer);
 
       &.fit-content {
         flex-basis: fit-content;
@@ -103,7 +110,7 @@ div.map {
         border-radius: 2px;
         background-color: #ddd;
         display: block;
-        z-index: index($zindex, mobile-drawer-drag-line);
+        z-index: list.index($zindex, mobile-drawer-drag-line);
         margin: auto;
         position: relative;
         top: -5px;
@@ -151,9 +158,9 @@ div.map {
     .icon-holder,
     .icon-holder:focus,
     .icon-holder:hover {
-      padding: 0.55em 0.2em 0 0 !important;
+      padding: 0.55em 0.2em 0 0;
       font-size: 16px;
-      z-index: index($zindex, map-buttons);
+      z-index: list.index($zindex, map-buttons);
       background: white;
       height: 2.5em;
       width: 2.5em;
@@ -235,7 +242,7 @@ div.leaflet-container {
   width: 100%;
   height: 100%;
   background: none;
-  z-index: index($zindex, map-container);
+  z-index: list.index($zindex, map-container);
 
   @include font-map-container;
 
@@ -320,7 +327,7 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 
   & > * {
-    z-index: index($zindex, map-buttons);
+    z-index: list.index($zindex, map-buttons);
   }
 }
 
@@ -343,7 +350,7 @@ div.leaflet-marker-icon.vehicle-icon {
   &:hover,
   &:active,
   &:focus {
-    z-index: index($zindex, map-buttons);
+    z-index: list.index($zindex, map-buttons);
     position: absolute;
     bottom: 20px;
     left: 15px;
@@ -377,7 +384,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
   &:hover {
     color: $theme-primary-color;
-    background: darken($color: #fff, $amount: 10);
+    background: #e6e6e6;
   }
 
   &:focus {
@@ -451,6 +458,7 @@ div.leaflet-marker-icon.vehicle-icon {
 }
 
 .vehicle-popup {
+  // Overrides the position and width Leaflet sets inline.
   left: -19px !important;
 
   .route-header {
@@ -475,10 +483,6 @@ div.leaflet-marker-icon.vehicle-icon {
   .leaflet-popup-content {
     margin: 0;
     width: 18rem !important;
-
-    &.leaflet-popup-scrolled {
-      overflow: inherit;
-    }
 
     .card-sub-header {
       display: flex;
@@ -809,10 +813,6 @@ div.origin-popup {
     .leaflet-popup-content {
       margin: 12px 8px 8px 8px;
 
-      svg.right-arrow {
-        height: 9px;
-      }
-
       .card-code {
         margin-right: 5px;
         padding: 2px;
@@ -885,11 +885,6 @@ div.origin-popup {
   stroke-opacity: 1;
   fill: #fff;
   fill-opacity: 1;
-}
-
-.map .icon.stop-marker {
-  width: auto;
-  height: auto;
 }
 
 /* BEWARE! This is an ugly hack.
@@ -1430,14 +1425,6 @@ div.origin-popup {
   }
 }
 
-div.map-click-prevent-overlay {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: global-z('map-click-prevent-overlay');
-}
-
 div.leaflet-control-scale.leaflet-control {
   // front page
   margin-right: 30px;
@@ -1490,13 +1477,6 @@ div.leaflet-control-scale-line {
   height: 4px;
   background: none;
   cursor: grab;
-}
-
-.smallspinner {
-  div.spinner-loader {
-    width: $spinner-size * 0.5;
-    height: $spinner-size * 0.5;
-  }
 }
 
 .leaflet-tooltip.geoJsonText {

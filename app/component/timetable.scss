@@ -1,10 +1,12 @@
+@use '../../styles/abstracts' as *;
+
 @media print {
   .desktop-title {
     display: none;
   }
 
   .back-button {
-    display: none !important;
+    display: none;
   }
 }
 

@@ -1,7 +1,7 @@
 import CookieSettingsButton from './CookieSettingsButton';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const MobileFooter = () => {
+export default function MobileFooter() {
   const { useCookiesPrompt, copyrightText } = useConfigContext();
   return useCookiesPrompt ? (
     <div className="mobile-footer">
@@ -16,6 +16,4 @@ const MobileFooter = () => {
       </div>
     </div>
   ) : null;
-};
-
-export default MobileFooter;
+}
