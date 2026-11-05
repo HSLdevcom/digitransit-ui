@@ -9,7 +9,6 @@ const coords = { latitude: 60.1, longitude: 24.9 };
 const createGeocoderConfig = (overrides = {}) => {
   const base = createTestConfig();
   return createTestConfig({
-    language: 'sv',
     searchParams: {},
     URL: { ...base.URL, PELIAS_REVERSE_GEOCODER: GEOCODER_URL },
     ...overrides,
@@ -35,6 +34,7 @@ describe('reverseGeocode', () => {
     await reverseGeocode(
       createGeocoderConfig({ searchParams: { 'boundary.country': 'FI' } }),
       coords,
+      'sv',
     );
 
     const calls = fetchMock.callHistory.calls(matcher);
@@ -54,7 +54,7 @@ describe('reverseGeocode', () => {
   it('omits boundary.country when it is not configured', async () => {
     fetchMock.get(matcher, { features: [] });
 
-    await reverseGeocode(createGeocoderConfig(), coords);
+    await reverseGeocode(createGeocoderConfig(), coords, 'sv');
 
     const url = new URL(fetchMock.callHistory.calls(matcher)[0].url);
     expect(url.searchParams.has('boundary.country')).toBe(false);
@@ -76,7 +76,7 @@ describe('reverseGeocode', () => {
     });
 
     await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
+      reverseGeocode(createGeocoderConfig(), coords, 'sv'),
     ).resolves.toEqual({
       address: 'Mannerheimintie 1',
       gid: 'openaddresses:address:1',
@@ -93,7 +93,7 @@ describe('reverseGeocode', () => {
       ],
     });
 
-    const address = await reverseGeocode(createGeocoderConfig(), coords);
+    const address = await reverseGeocode(createGeocoderConfig(), coords, 'sv');
 
     expect(address.city).toBe('Espoo');
   });
@@ -103,7 +103,7 @@ describe('reverseGeocode', () => {
       features: [{ properties: { name: 'A', gid: 'a', layer: 'address' } }],
     });
 
-    const address = await reverseGeocode(createGeocoderConfig(), coords);
+    const address = await reverseGeocode(createGeocoderConfig(), coords, 'sv');
 
     expect(address.city).toBeUndefined();
   });
@@ -115,7 +115,7 @@ describe('reverseGeocode', () => {
     fetchMock.get(matcher, response);
 
     await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
+      reverseGeocode(createGeocoderConfig(), coords, 'sv'),
     ).resolves.toEqual({});
   });
 
@@ -126,7 +126,7 @@ describe('reverseGeocode', () => {
     fetchMock.get(matcher, response);
 
     await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
+      reverseGeocode(createGeocoderConfig(), coords, 'sv'),
     ).rejects.toBeDefined();
   });
 });

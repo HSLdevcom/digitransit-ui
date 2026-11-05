@@ -22,7 +22,7 @@ function Search({ onMap = false, ...rest }) {
     colors: config.colors,
     modeSet: config.iconModeSet,
     getAutoSuggestIcons: config.getAutoSuggestIcons,
-    lang: config.language,
+    lang: intl.locale,
   };
   const sources = ['History', 'Datasource'];
   if (countLocations(favourites)) {

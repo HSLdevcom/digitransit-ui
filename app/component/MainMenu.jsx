@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { useRouter } from 'found';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
@@ -13,10 +13,10 @@ import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MainMenu({ closeMenu, homeUrl }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { router } = useRouter();
   const countries = getCountries();
-  const appBarLink =
-    config.appBarLink?.altLink?.[config.language] || config.appBarLink;
+  const appBarLink = config.appBarLink?.altLink?.[locale] || config.appBarLink;
 
   return (
     <div className="main-menu no-select" tabIndex={-1}>

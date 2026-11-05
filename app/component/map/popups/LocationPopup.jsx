@@ -35,7 +35,7 @@ export default function LocationPopup({
       'point.lat': lat,
       'point.lon': lon,
       'boundary.circle.radius': 0.1, // 100m
-      lang: config.language,
+      lang: intl.locale,
       size: 1,
       layers: 'address',
       zones: 1,

@@ -26,6 +26,7 @@ describe('PositionService', () => {
 
     service = createPositionService(
       { searchParams: {}, URL: {} },
+      'en',
       vi.fn(),
       () => ({ hasLocation: false }),
     );
@@ -60,6 +61,7 @@ describe('PositionService', () => {
     const dispatch = vi.fn();
     const service = createPositionService(
       { searchParams: {}, URL: {} },
+      'en',
       dispatch,
       () => ({ hasLocation: false }),
     );
@@ -96,6 +98,7 @@ describe('PositionService', () => {
       const dispatch = vi.fn();
       const service = createPositionService(
         { searchParams: {}, URL: {} },
+        'en',
         dispatch,
         () => ({ hasLocation: false }),
       );

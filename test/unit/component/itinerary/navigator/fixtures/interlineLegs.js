@@ -11,7 +11,6 @@ export const config = {
   colors: { primary: '#000000' },
   feedIds: [],
   zones: {},
-  language: 'en',
 };
 
 export const tram2 = {

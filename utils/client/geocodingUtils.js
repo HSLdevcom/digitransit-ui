@@ -1,15 +1,15 @@
 import { getJson } from '../shared/xhrPromise';
 
 /**
- * Reverse geocodes a position with Pelias.
+ * Reverse geocodes a position with Pelias, with names in the given language.
  * Resolves to the address fields of the first match, or {} when nothing is found.
  * Rejects when the request fails.
  */
-export function reverseGeocode(config, coords) {
+export function reverseGeocode(config, coords, language) {
   const searchParams = {
     'point.lat': coords.latitude,
     'point.lon': coords.longitude,
-    lang: config.language,
+    lang: language,
     size: 1,
     layers: 'address',
   };

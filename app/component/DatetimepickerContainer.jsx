@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import debounce from 'lodash/debounce';
 import Datetimepicker from '@digitransit-component/digitransit-component-datetimepicker';
@@ -12,6 +13,7 @@ export default function DatetimepickerContainer({
   embedWhenOpen = null,
 }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { match, router } = useRouter();
   const openPicker = !!match.location.query.setTime; // string to boolean
 
@@ -101,7 +103,7 @@ export default function DatetimepickerContainer({
       onArrivalClick={onArrivalClick}
       embedWhenClosed={embedWhenClosed}
       embedWhenOpen={embedWhenOpen}
-      lang={config.language}
+      lang={locale}
       color={config.colors.primary}
       timeZone={config.timeZone}
       serviceTimeRange={config.itinerary.serviceTimeRange}

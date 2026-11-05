@@ -1,11 +1,12 @@
 /* eslint-disable react/no-array-index-key */
 import Link from 'found/Link';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AboutPage() {
   const config = useConfigContext();
-  const about = config.aboutThisService[config.language];
+  const { locale } = useIntl();
+  const about = config.aboutThisService[locale];
 
   return (
     <div className="about-page fullscreen">

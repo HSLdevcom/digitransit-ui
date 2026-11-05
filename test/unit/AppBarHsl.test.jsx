@@ -13,10 +13,10 @@ describe('<AppBarHsl />', () => {
         allowLogin: false,
         URL: { ROOTLINK: 'http://www.foo.com' },
         user: {},
-        // Required by the real (unstubbed) @hsl-fi/site-header component -
-        // it indexes its own translations object by this value.
-        language: 'fi',
       },
+      // Required by the real (unstubbed) @hsl-fi/site-header component -
+      // it indexes its own translations object by this value.
+      locale: 'fi',
     });
     expect(container).not.toBeNull();
   });

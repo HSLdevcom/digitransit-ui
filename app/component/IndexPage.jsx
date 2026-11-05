@@ -74,7 +74,8 @@ export default function IndexPage() {
     query.fromMap === 'origin' || query.fromMap === 'destination'
       ? query.fromMap
       : undefined;
-  const { colors, language, iconModeSet } = config;
+  const { colors, iconModeSet } = config;
+  const { locale } = intl;
 
   useGeomoverSync({ locationState, startLocationWatch });
 
@@ -262,7 +263,7 @@ export default function IndexPage() {
         loading={favouriteStatus === STATUS_FETCHING_OR_UPDATING}
         modeSet={iconModeSet}
         urlPrefix={`/${PREFIX_NEARYOU}`}
-        language={language}
+        language={locale}
         title={config.nearYouTitle}
         alertsContext={alertsContext}
         origin={origin}
@@ -321,7 +322,7 @@ export default function IndexPage() {
     appElement: '#app',
     origin: visibleOrigin,
     destination: visibleDestination,
-    lang: language,
+    lang: locale,
     sources: locationSources,
     targets,
     refPoint,
@@ -349,7 +350,7 @@ export default function IndexPage() {
     selectHandler: onSelectStopRoute,
     getAutoSuggestIcons: config.getAutoSuggestIcons,
     value: '',
-    lang: language,
+    lang: locale,
     sources,
     targets: stopAndRouteSearchTargets,
     colors,
@@ -393,7 +394,7 @@ export default function IndexPage() {
             <>
               <FavouritesContainer
                 onClickFavourite={clickFavourite}
-                lang={language}
+                lang={locale}
               />
               <CtrlPanel.SeparatorLine usePaddingBottom20 />
             </>
@@ -430,7 +431,7 @@ export default function IndexPage() {
           <DatetimepickerContainer realtime />
           <FavouritesContainer
             onClickFavourite={clickFavourite}
-            lang={language}
+            lang={locale}
             isMobile
           />
           <CtrlPanel.SeparatorLine />

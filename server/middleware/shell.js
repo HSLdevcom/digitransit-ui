@@ -9,17 +9,6 @@ import {
   readStaticFile,
 } from '../html/assetManifest.js';
 
-export function resolveLocale(config, req, res) {
-  let locale = req.cookies.lang || config.defaultLanguage;
-  if (!config.availableLanguages.includes(locale)) {
-    locale = config.defaultLanguage;
-  }
-  if (req.cookies.lang !== locale) {
-    res.cookie('lang', locale);
-  }
-  return locale;
-}
-
 function getAssetContext() {
   return {
     ASSET_URL: process.env.ASSET_URL || '',
@@ -27,9 +16,9 @@ function getAssetContext() {
   };
 }
 
-function buildHead(config, req, locale) {
+function buildHead(config, req, language) {
   const metadata = getMetadata(
-    locale,
+    language,
     req.hostname,
     `https://${req.hostname}${req.originalUrl}`,
     config,
@@ -66,7 +55,7 @@ function buildHead(config, req, locale) {
       preconnects.push(config.staticMessagesUrl);
     }
 
-    html.push(getAnalyticsInitCode(config, req));
+    html.push(getAnalyticsInitCode(config, req, language));
     preloads.forEach(({ as, href, crossorigin }) =>
       html.push(
         `<link rel="preload" as="${as}" ${
@@ -143,12 +132,8 @@ function buildBody(config) {
 
 export default async function shell(req, res, next) {
   try {
-    const sharedConfig = getConfiguration(req);
-    const locale = resolveLocale(sharedConfig, req, res);
-    // getConfiguration() returns a cached object shared by all requests, so
-    // the request's language goes on a copy: a language stamped onto the
-    // shared object would leak into concurrent requests.
-    const config = { ...sharedConfig, language: locale };
+    const config = getConfiguration(req);
+    const { language } = res.locals;
 
     // Build the full HTML document as a string before writing anything to
     // `res`. If something above (or below) throws, `next(err)` still runs
@@ -157,8 +142,8 @@ export default async function shell(req, res, next) {
     // an error after the first write left headers already sent.
     const html = [
       '<!doctype html>\n',
-      `<html lang="${locale}">\n`,
-      buildHead(config, req, locale),
+      `<html lang="${language}">\n`,
+      buildHead(config, req, language),
       buildBody(config),
       '</html>\n',
     ];

@@ -168,7 +168,7 @@ export default function Map({
     return null;
   }
 
-  const mapBaseUrl = getLayerBaseUrl(config.URL.MAP, config.language);
+  const mapBaseUrl = getLayerBaseUrl(config.URL.MAP, intl.locale);
   const mapUrl = config.hasAPISubscriptionQueryParameter
     ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;

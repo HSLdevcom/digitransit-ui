@@ -121,18 +121,25 @@ describe('server app', () => {
   });
 
   describe('the page language', () => {
-    it("serializes the request's cookie language into window.config", async () => {
+    it("renders the request's cookie language as <html lang>, not into window.config", async () => {
       const response = await request(app).get('/').set('Cookie', 'lang=sv');
-      expect(response.text).toContain('"language":"sv"');
+      expect(response.text).toContain('<html lang="sv">');
+      expect(response.text).not.toContain('"language":');
+    });
+
+    it('negotiates Accept-Language when no language has been chosen', async () => {
+      const response = await request(app)
+        .get('/')
+        .set('Accept-Language', 'en-GB,en;q=0.9');
+      expect(response.text).toContain('<html lang="en">');
     });
   });
 
-  describe('legacy locale path redirects', () => {
-    it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
-      vi.stubEnv('CONFIG', 'hsl');
+  describe('language path redirects', () => {
+    it('redirects /fi/ to /', async () => {
       const response = await request(app).get('/fi/');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toBe('/?locale=fi');
+      expect(response.headers.location).toBe('/');
     });
   });
 });

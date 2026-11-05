@@ -7,6 +7,7 @@ import {
   useRef,
 } from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import {
   getGeolocationState,
   setGeolocationState,
@@ -176,6 +177,7 @@ const PositionActionsContext = createContext(null);
 
 export function PositionProvider({ children = null }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const [state, dispatch] = useReducer(
     positionReducer,
     undefined,
@@ -192,7 +194,12 @@ export function PositionProvider({ children = null }) {
 
   const service = useMemo(
     () =>
-      createPositionService(config, dispatch, () => stateRef.current.position),
+      createPositionService(
+        config,
+        locale,
+        dispatch,
+        () => stateRef.current.position,
+      ),
     [],
   );
   const actions = useMemo(

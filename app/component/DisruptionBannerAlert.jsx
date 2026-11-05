@@ -15,7 +15,7 @@ export default function DisruptionBannerAlert({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { language } = config;
+  const { locale } = intl;
 
   let header = alert.alertHeaderText;
   let message = alert.alertDescriptionText;
@@ -40,7 +40,7 @@ export default function DisruptionBannerAlert({
       </div>
       <div className="disruption-info-container">
         <div className="disruption-source-label">
-          {mapAlertSource(config, language, alert.feed)}
+          {mapAlertSource(config, locale, alert.feed)}
         </div>
         <div className="disruption-message-font">
           <TruncatedMessage

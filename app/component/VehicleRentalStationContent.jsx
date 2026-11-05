@@ -1,5 +1,5 @@
 import { createFragmentContainer, graphql } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import {
   vehicleRentalStationShape,
@@ -17,6 +17,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { router } = useRouter();
   // throw error when relay query fails
   if (error && !vehicleRentalStation) {
@@ -35,11 +36,10 @@ const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
     vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
-  const { vehicleRental, language } = config;
-  const returnInstructionsUrl = networkConfig.returnInstructions?.[language];
-  const href =
-    vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
-  const linkLabelId = vehicleRental.buyUrl?.[language]
+  const { vehicleRental } = config;
+  const returnInstructionsUrl = networkConfig.returnInstructions?.[locale];
+  const href = vehicleRental.buyUrl?.[locale] || networkConfig?.url?.[locale];
+  const linkLabelId = vehicleRental.buyUrl?.[locale]
     ? 'citybike-purchase-link'
     : 'citybike-start-using-info';
   return (
@@ -73,7 +73,7 @@ const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
           <br />
           <Disclaimer
             header={<FormattedMessage id="citybike-start-using" />}
-            text={vehicleRental.buyInstructions?.[language]}
+            text={vehicleRental.buyInstructions?.[locale]}
             href={href}
             linkLabel={<FormattedMessage id={linkLabelId} />}
           />
