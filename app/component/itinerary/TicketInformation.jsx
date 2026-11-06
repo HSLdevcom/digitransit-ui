@@ -43,7 +43,7 @@ export default function TicketInformation({
   const faresInfo = fares.map((fare, i) => {
     return (
       <div
-        key={`${fare.fareId}-${i}`} // eslint-disable-line react/no-array-index-key
+        key={fare.fareProducts?.[0]?.id || fare.routeGtfsId}
         className="ticket-container"
       >
         {i === 0 && (
