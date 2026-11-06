@@ -1,5 +1,18 @@
 # Testing
 
+## Browser automation for AI agents (Playwright MCP)
+
+`.mcp.json` registers a pinned `@playwright/mcp` server (run via `npx`, not a project dependency) that lets AI agents such as Copilot CLI browse the app. It is for interactive exploration, not a test runner. Agents should not use the repo's own `playwright` (1.16.2, used only by the E2E tests) for browsing.
+
+### Setup
+
+1. Install Google Chrome: `npx -p @playwright/mcp@0.0.84 playwright install chrome` (needs sudo on Linux) or from google.com/chrome.
+2. Start `copilot` from the repository root and accept the folder trust prompt (project MCP servers load only in trusted folders). Check with `/mcp`.
+   If the server doesn't show up, register it for your user: `copilot mcp add playwright -- npx @playwright/mcp@0.0.84 --browser chrome --headless`.
+3. Start the app with `yarn run dev` and let the agent open http://localhost:8080.
+
+Other agents: use their own MCP configuration with the same command and arguments. Bump the pinned version in `.mcp.json` by hand.
+
 ## E2E-tests
 
 E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop and mobile have individual tests.

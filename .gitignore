@@ -59,3 +59,6 @@ test/binaries
 tags
 run*.sh
 dump.rdb
+
+# Playwright MCP output
+.playwright-mcp/
