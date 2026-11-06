@@ -11,7 +11,11 @@ import CTAContainer from './components/CTAContainer';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 
-const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
+export default function CanceledTrips({
+  canceledRoutes = [],
+  mode,
+  isMobile = false,
+}) {
   const { colors } = useConfigContext();
   const { formatMessage } = useIntl();
   const [showAmount, setShowAmount] = useState(
@@ -93,7 +97,7 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
       <div className="canceled-trips__container">{content}</div>
     </>
   );
-};
+}
 
 CanceledTrips.propTypes = {
   canceledRoutes: PropTypes.arrayOf(
@@ -111,5 +115,3 @@ CanceledTrips.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default CanceledTrips;

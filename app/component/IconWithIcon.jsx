@@ -4,7 +4,7 @@ import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import IconBadge from './icon/IconBadge';
 
-const IconWithIcon = ({
+export default function IconWithIcon({
   badgeFill,
   badgeText,
   badgeTextFill,
@@ -17,7 +17,7 @@ const IconWithIcon = ({
   subIconShape,
   omitViewBox = false,
   backgroundShape,
-}) => {
+}) {
   const intl = useIntl();
   return (
     <span id={id} className={className}>
@@ -59,9 +59,7 @@ const IconWithIcon = ({
       )}
     </span>
   );
-};
-
-IconWithIcon.displayName = 'IconWithIcon';
+}
 
 IconWithIcon.propTypes = {
   badgeFill: PropTypes.string,
@@ -77,5 +75,3 @@ IconWithIcon.propTypes = {
   omitViewBox: PropTypes.bool,
   backgroundShape: PropTypes.string,
 };
-
-export default IconWithIcon;

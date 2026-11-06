@@ -1,15 +1,12 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import { useState, useEffect, useRef } from 'react';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
 import { matchShape } from '../../../utils/client/shapes';
 import { getRefPoint } from '../../../utils/client/apiUtils';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from '../WithSearchContext';
+import { SearchAutosuggestPanel as LocationSearch } from '../SearchAutosuggest';
+import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
 import {
   buildQueryString,
   buildURL,
@@ -24,8 +21,6 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
-
-const LocationSearch = withSearchContext(DTAutosuggestPanel, true);
 
 const sources = ['Favourite', 'History', 'Datasource'];
 
@@ -71,7 +66,7 @@ const translations = {
  *  optimized for widths 320px, 360px and  640px, and height 250px.
  *
  */
-const EmbeddedSearch = props => {
+export default function EmbeddedSearch(props) {
   const config = useConfigContext();
   const { query } = props.match.location;
   const { colors } = config;
@@ -312,7 +307,7 @@ const EmbeddedSearch = props => {
           <span className="sr-only">
             {i18next.t('search-fields-sr-instructions')}
           </span>
-          <LocationSearch {...locationSearchProps} />
+          <LocationSearch {...locationSearchProps} embeddedSearch />
           <div className="embedded-search-button-container">
             {logo && (
               <img
@@ -334,10 +329,8 @@ const EmbeddedSearch = props => {
       </div>
     </div>
   );
-};
+}
 
 EmbeddedSearch.propTypes = {
   match: matchShape.isRequired,
 };
-
-export default EmbeddedSearch;

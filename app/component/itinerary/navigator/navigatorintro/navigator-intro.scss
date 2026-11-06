@@ -1,3 +1,5 @@
+@use '../../../../../styles/abstracts' as *;
+
 .navigator-modal-content {
   .intro-body {
     display: flex;
@@ -62,7 +64,7 @@
       p {
         margin: unset;
         font-weight: 325;
-        color: #333;
+        color: $dark-gray;
         line-height: $line-height-normal;
       }
     }

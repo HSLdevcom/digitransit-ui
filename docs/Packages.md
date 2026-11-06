@@ -19,6 +19,18 @@ semi-external dependencies: changes to their public API should bump their
 version (see [Publishing](#publishing)) the same way a change to a real npm
 dependency would.
 
+### Search services contract
+
+The `autosuggest` and `autosuggest-panel` components retain the public
+`searchContext` prop, which accepts framework-independent search services,
+not a React context. The app names that object `searchServices` and passes
+it as `searchContext={searchServices}`, leaving package implementations
+and their public API unchanged.
+
+The search utility's positional argument order and the nested `context`
+passed to service callbacks are unchanged. The app's React `SearchProvider`
+and `useSearchContext` API remains separate from this service contract.
+
 ## How to Contribute
 
 - Most work happens inside a package directory, `packages/digitransit-<family>/<module>`

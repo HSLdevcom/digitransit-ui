@@ -52,12 +52,12 @@ export const EmptyDisruptions = () => {
   );
 };
 
-const DisruptionList = ({
+export default function DisruptionList({
   cancelations = [],
   disableScrolling = false,
   serviceAlerts = [],
   onClickLink,
-}) => {
+}) {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
   const currentTime = useCurrentTime();
@@ -195,7 +195,7 @@ const DisruptionList = ({
       </div>
     </div>
   );
-};
+}
 
 DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
@@ -203,5 +203,3 @@ DisruptionList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   onClickLink: PropTypes.func,
 };
-
-export default DisruptionList;

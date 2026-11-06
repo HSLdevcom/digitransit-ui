@@ -10,7 +10,7 @@ const isTripCanceled = trip =>
  * Pure presentational component that returns a list of trip rows.
  * Filters out trips missing the selected from/to stoptimes.
  */
-const ScheduleTripList = ({ trips, fromIdx, toIdx }) => {
+export default function ScheduleTripList({ trips, fromIdx, toIdx }) {
   if (trips.length === 0) {
     return null;
   }
@@ -38,7 +38,7 @@ const ScheduleTripList = ({ trips, fromIdx, toIdx }) => {
         />
       );
     });
-};
+}
 
 ScheduleTripList.propTypes = {
   trips: PropTypes.arrayOf(
@@ -57,5 +57,3 @@ ScheduleTripList.propTypes = {
   fromIdx: PropTypes.number.isRequired,
   toIdx: PropTypes.number.isRequired,
 };
-
-export default ScheduleTripList;

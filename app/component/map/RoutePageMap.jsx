@@ -252,7 +252,7 @@ export default createFragmentContainer(RoutePageMapWithVehicles, {
         lon
         name
         gtfsId
-        ...StopCardHeaderContainer_stop
+        ...StopCardHeader_stop
       }
       activeDates: trips {
         day: activeDates

@@ -66,5 +66,6 @@ Root-level commands covering all `digitransit-*` packages at once
 - [Z-Index Index](docs/ZIndex.md)
 - [Navigation](docs/Navigation.md)
 - [Themes](docs/Themes.md)
+- [Styles](docs/Styles.md)
 - [GeoJSON](docs/GeoJson.md)
 - [Packages](docs/Packages.md)

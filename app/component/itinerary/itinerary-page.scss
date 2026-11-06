@@ -1,4 +1,5 @@
-@import '~@hsl-fi/sass/animations/fade';
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/animations/fade';
 
 .desktop .summary {
   display: flex;
@@ -29,7 +30,7 @@
   }
 
   .info {
-    fill: $gray-blue;
+    fill: $info-icon-color;
   }
 }
 
@@ -38,7 +39,7 @@
 }
 
 .summary-list-container {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid $light-gray;
   width: 100%;
   margin-bottom: -1px;
   background-color: $white;
@@ -103,14 +104,6 @@
   }
 }
 
-.desktop .street-mode-selector-panel-container {
-  padding: 0 $padding-medium;
-}
-
-.mobile .street-mode-selector-panel-container {
-  padding: 0 $padding-small;
-}
-
 .mobile {
   background-color: white;
 
@@ -125,7 +118,7 @@
         box-shadow: none;
         font-size: 16px;
         top: 1.5em;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
 
         .icon-container {
           height: inherit;
@@ -142,7 +135,7 @@
 }
 
 .summary-navigation-container {
-  background-color: #fff;
+  background-color: $white;
   flex: 0 0 auto;
 }
 
@@ -172,7 +165,7 @@
   }
 
   &.bottom-btn {
-    border-top: 1px solid #ddd;
+    border-top: 1px solid $light-gray;
     font-size: $font-size-normal;
     height: 50px;
   }

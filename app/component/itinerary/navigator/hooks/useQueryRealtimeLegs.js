@@ -8,7 +8,7 @@ import { legQuery } from '../../queries/LegQuery';
  * @param {Object} relayEnvironment - Relay environment for GraphQL queries.
  * @returns {Function} A function to query and map real-time legs.
  */
-const useQueryRealtimeLegs = relayEnvironment => {
+export default function useQueryRealtimeLegs(relayEnvironment) {
   const queryAndMapRealtimeLegs = useCallback(
     async (legs, now) => {
       if (!legs.length) {
@@ -36,6 +36,4 @@ const useQueryRealtimeLegs = relayEnvironment => {
   );
 
   return queryAndMapRealtimeLegs;
-};
-
-export default useQueryRealtimeLegs;
+}

@@ -1,4 +1,6 @@
-@import '~@hsl-fi/sass/animations/fade';
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/animations/fade';
+@use '@hsl-fi/sass/mixins/screen';
 
 .desktop .itinerary-summary-row::before {
   content: '';
@@ -119,21 +121,17 @@
     }
   }
 
-  .itinerary-end-time-and-distance {
-    width: 100%;
-  }
-
   .citybike-duration-info-short {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
     margin-top: 4px;
     padding: 6px 10px 2px 4px;
-    background: $infobox-color-generic-blue;
+    background: $infobox-background-color;
     border-radius: 5px;
     font-weight: $font-weight-book;
     font-size: 13px;
-    color: #333;
+    color: $dark-gray;
     line-height: 16px;
     white-space: normal;
 
@@ -151,7 +149,7 @@
     padding-top: 8px;
     width: 100%;
     max-width: 100%;
-    color: #333;
+    color: $dark-gray;
 
     .itinerary-first-leg-start-time {
       font-size: 13px;
@@ -226,8 +224,9 @@
       &.fit-route-number {
         min-width: max-content;
 
-        .vcenter-children {
-          min-width: max-content !important; // forces the leg to fit the route number in it
+        .vcenter-children,
+        .route-number .vcenter-children {
+          min-width: max-content; // forces the leg to fit the route number in it
         }
 
         .route-number {
@@ -245,7 +244,7 @@
         width: 24px;
         position: relative;
         height: 1.5rem;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
         border-radius: 3px;
         background-color: #f9af1f;
 
@@ -283,7 +282,7 @@
         min-width: 24px;
         max-width: 24px;
         height: 1.5rem;
-        border: 1px solid #ddd;
+        border: 1px solid $light-gray;
         border-radius: 3px;
 
         .itinerary-icon {
@@ -426,7 +425,7 @@
             .icon {
               width: 20px;
               margin-left: 1px;
-              color: #fff;
+              color: $white;
             }
           }
 
@@ -448,7 +447,7 @@
                 margin-left: 2px;
                 padding-bottom: 2px;
 
-                @include min-width(tablet) {
+                @include screen.min-width(tablet) {
                   padding-bottom: 0;
                 }
               }
@@ -505,7 +504,7 @@
         .leg-duration-container {
           .leg-duration {
             font-size: 13px;
-            color: $black;
+            color: $dark-gray;
           }
 
           &.citybike {
@@ -631,7 +630,7 @@
           height: 0.67em;
           width: 0.67em;
           margin-bottom: 1px;
-          color: #333;
+          color: $dark-gray;
         }
       }
 
@@ -718,7 +717,7 @@
   }
 
   .summary-separator {
-    border-bottom: 1px solid #ddd;
+    border-bottom: 1px solid $light-gray;
     width: 100%;
     margin-top: 15px;
   }

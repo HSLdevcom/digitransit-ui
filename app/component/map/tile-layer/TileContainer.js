@@ -9,7 +9,7 @@ import { getStopIconStyles } from '../../../../utils/client/mapIconUtils';
 import { getVehicleMinZoomOnStopsNearYou } from '../../../../utils/shared/vehicleRentalUtils';
 import events from '../../../../utils/client/events';
 
-class TileContainer {
+export default class TileContainer {
   constructor(
     coords,
     done,
@@ -326,5 +326,3 @@ class TileContainer {
     return false;
   };
 }
-
-export default TileContainer;

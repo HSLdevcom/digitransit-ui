@@ -1,11 +1,4 @@
-@import '~@hsl-fi/sass/mixins/screen';
-
-$tab-color: $gray-blue;
-$tab-selected-color: $black;
-$tab-separator-color: $light-gray;
-$tab-min-width: 100px;
-$close-color: #79919d;
-$heading-color: #858585;
+@use '../../styles/abstracts' as *;
 
 .front-page.blurred {
   .flex-grow .leaflet-container {
@@ -17,7 +10,7 @@ $heading-color: #858585;
   // small, mid
   display: flex;
   flex-direction: column;
-  background-color: #fff;
+  background-color: $white;
   margin-top: 35px;
 }
 
@@ -75,12 +68,6 @@ $heading-color: #858585;
   color: $gray;
 }
 
-svg.icon.menu-icon {
-  position: relative;
-  top: 2px;
-  margin-right: 6px;
-}
-
 .front-page.bp-large {
   margin-top: 0;
   padding-top: 47px;
@@ -94,10 +81,6 @@ svg.icon.menu-icon {
     flex-grow: 1;
     flex-shrink: 0;
   }
-}
-
-.front-page.bp-large .toggle-positioning-container {
-  bottom: 40px;
 }
 
 .front-page.bp-large div.leaflet-bottom.leaflet-left div.leaflet-control-zoom {
