@@ -372,9 +372,12 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   });
 
   app.use('/api/user/notifications', userAuthenticated, function (req, res) {
-    const params = Object.keys(req.query)
-      .map(k => `${k}=${req.query[k]}`)
-      .join('&');
+    // keeps repeated params (e.g. several 'stop') and encodes values
+    const searchParams = new URLSearchParams();
+    Object.entries(req.query).forEach(([k, v]) => {
+      [].concat(v).forEach(value => searchParams.append(k, value));
+    });
+    const params = searchParams.toString();
 
     const url =
       req.method === 'POST'
