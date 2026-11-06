@@ -16,12 +16,7 @@ describe('dateSelectUtils', () => {
   beforeEach(() => {
     Settings.now = () => new Date('2024-01-15T10:00:00Z').getTime();
     Settings.defaultZone = 'UTC';
-  });
-
-  afterEach(() => {
     Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'Europe/Helsinki';
-    Settings.now = () => Date.now();
   });
 
   describe('formatDateLabel', () => {

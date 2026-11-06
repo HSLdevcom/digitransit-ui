@@ -22,12 +22,6 @@ describe('<DateSelectGrouped />', () => {
     Settings.defaultZone = 'UTC';
   });
 
-  afterEach(() => {
-    Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'Europe/Helsinki';
-    Settings.now = () => Date.now();
-  });
-
   it('should render the date selector heading and selected date', () => {
     const { container } = renderWithProviders(
       <DateSelectGrouped

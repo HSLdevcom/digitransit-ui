@@ -30,9 +30,10 @@ vi.mock('react-truncate-markup', () => ({
   default: ({ children }) => children,
 }));
 
-// set up timezone in luxon
-Settings.defaultZone = 'Europe/Helsinki';
-Settings.defaultLocale = 'fi';
+// set up timezone in luxon; restored after every test (see afterEach below)
+const luxonDefaults = { zone: 'Europe/Helsinki', locale: 'fi' };
+Settings.defaultZone = luxonDefaults.zone;
+Settings.defaultLocale = luxonDefaults.locale;
 
 Object.defineProperty(window.navigator, 'userAgent', {
   value: 'node.js',
@@ -43,10 +44,14 @@ Object.defineProperty(window.navigator, 'userAgent', {
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/middleware/shell.js` renders the app into. It's attached
-// for one test file at a time, as the files of a worker share one document.
-const appRoot = document.createElement('div');
-appRoot.id = 'app';
+// root element `server/middleware/shell.js` renders the app into. The test
+// files of a worker share one document, so the element is created once.
+let appRoot = document.getElementById('app');
+if (!appRoot) {
+  appRoot = document.createElement('div');
+  appRoot.id = 'app';
+  document.body.appendChild(appRoot);
+}
 
 const config = {
   useCookiesPrompt: false,
@@ -81,7 +86,6 @@ const allowedDeprecationWarnings = [
 ];
 
 beforeAll(() => {
-  document.body.appendChild(appRoot);
   ReactModal.setAppElement(appRoot);
   console.error = warning => {
     const message = String(warning);
@@ -96,7 +100,6 @@ beforeAll(() => {
 });
 
 afterAll(() => {
-  appRoot.remove();
   console.error = originalConsoleError;
   Link.render = originalLinkRender;
 });
@@ -105,9 +108,10 @@ afterAll(() => {
 // one environment (vitest.config.js `isolate: false`).
 afterEach(() => {
   cleanup();
-  // react-modal hides its app element (body in some tests) and only restores
-  // it after closeTimeoutMS; a leftover aria-hidden would make later
+  // react-modal hides its app element (#app, or body in some tests) and only
+  // restores it after closeTimeoutMS; a leftover aria-hidden would make later
   // getByRole queries fail.
+  appRoot.removeAttribute('aria-hidden');
   document.body.removeAttribute('aria-hidden');
   // The `restoreMocks` config option only restores spies right before the
   // *next* test starts, so a test-scoped spy (e.g. one replacing the
@@ -118,6 +122,9 @@ afterEach(() => {
   relayMock.reset();
   vi.unstubAllGlobals();
   vi.useRealTimers();
+  Settings.defaultZone = luxonDefaults.zone;
+  Settings.defaultLocale = luxonDefaults.locale;
+  Settings.now = () => Date.now();
   window.localStorage.clear();
   window.sessionStorage.clear();
 });

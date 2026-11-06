@@ -70,9 +70,16 @@ jsdom environment and one module registry instead of recreating them for every
 file, which makes the suite several times faster. The other projects keep
 Vitest's default isolation. A test must therefore leave nothing behind that a
 later file could see. After every test, `test/unit/helpers/vitest.setup.js`
-unmounts rendered components, restores spies, stubbed globals and real timers,
-and clears `localStorage`/`sessionStorage`. Beyond that:
+unmounts rendered components, restores spies, stubbed globals, real timers and
+the Luxon `Settings` (zone, locale, `now`) to the setup file's values, and clears
+`localStorage`/`sessionStorage`. Beyond that:
 
+- Set the Luxon locale/zone/`now` a test depends on in its own `beforeEach`, as
+  the default locale is `fi`. Don't "restore" them to other values afterwards.
+- Never mutate shared fixtures or helper objects such as `mockContext`; derive
+  a copy instead, e.g. `createTestConfig({ ... })`.
+- Create stateful objects, such as a `FavouriteData` store, for every test
+  instead of using the app-wide singleton.
 - Stub `window` properties with `vi.stubGlobal()` rather than assigning to them.
 - Undo other changes to shared objects, e.g. remove `fetch-mock` routes and call
   history after each test, and don't leave requests or timers running after a
@@ -188,11 +195,10 @@ beforeAll(() => {
 });
 ```
 
-The setup file attaches the `#app` element in its own `beforeAll` hook, so
-query it from a hook rather than at the top level of a test file. Resolving
-from the package avoids hardcoding a nested `node_modules` path and handles
-both nested and hoisted installations. This workaround was confirmed to pass
-the two navigator intro tests, but was replaced with the focused stub to avoid
-coupling shared setup to a dependency's internal dependency. Do not disable
-ARIA hiding merely to suppress the warning. The upstream fix is to supply the
-app element to the underlying modal before its portal mounts.
+The `#app` element already exists, as the setup file creates it once per worker.
+Resolving from the package avoids hardcoding a nested `node_modules` path and
+handles both nested and hoisted installations. This workaround was confirmed to
+pass the two navigator intro tests, but was replaced with the focused stub to
+avoid coupling shared setup to a dependency's internal dependency. Do not
+disable ARIA hiding merely to suppress the warning. The upstream fix is to
+supply the app element to the underlying modal before its portal mounts.
