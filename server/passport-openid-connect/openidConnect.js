@@ -46,7 +46,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   const NotificationHost =
     process.env.NOTIFICATION_HOST ||
-    'https://www.hsl.fi/api/user/notifications';
+    'https://test.hslfi.hsldev.com/api/user/notifications';
 
   const RedisHost = process.env.REDIS_HOST || 'localhost';
   const RedisPort = process.env.REDIS_PORT || 6379;
