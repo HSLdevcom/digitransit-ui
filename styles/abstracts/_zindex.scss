@@ -1,6 +1,7 @@
 @use 'sass:map';
 
-$zindex: base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer,
+$zindex:
+  base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer,
   mobile-drawer-drag-line, autosuggest-suggestion-container,
   before-scrollable-area, click-prevent-overlay, front;
 $leaflet-overlay: 800;

@@ -42,7 +42,7 @@ export default function ScheduleDropdown({
 
   const selectedOption =
     validatedValue != null
-      ? list.find(opt => opt.value === validatedValue) ?? null
+      ? (list.find(opt => opt.value === validatedValue) ?? null)
       : null;
 
   const classNamePrefix = getClassNamePrefix(alignRight, id);
