@@ -201,7 +201,7 @@
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
     "url": "^0.11.4",
-    "uuid": "8.3.2"
+    "uuid": "14.0.3"
   },
   "peerDependencies": {
     "@octokit/core": ">=3",
