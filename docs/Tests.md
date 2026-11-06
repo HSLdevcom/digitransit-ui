@@ -83,7 +83,9 @@ and clears `localStorage`/`sessionStorage`. Beyond that:
   later files through the modules imported while it was active. Instead, stub
   the export with `vi.spyOn()` on the module namespace in `beforeEach`. Modules
   that read the export when they run (render, call) see the stub, which is
-  restored after each test:
+  restored after each test; one that captures the export when it loads (e.g. by
+  wrapping it in `memo()`) doesn't. Only exports of modules that Vitest
+  transforms can be stubbed (Vitest throws for externalized ones):
 
   ```jsx
   import * as timeUtils from '../../../utils/client/timeUtils';
