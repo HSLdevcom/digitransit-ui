@@ -247,10 +247,10 @@
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-compat": "4.2.0",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-jsx-a11y": "6.8.0",
-    "eslint-plugin-prettier": "5.1.2",
-    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-prettier": "5.5.7",
+    "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "4.6.2",
     "favicons": "^7.3.1",
     "favicons-webpack-plugin": "^6.0.1",
@@ -279,7 +279,7 @@
     "rollup": "4.66.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
-    "sass": "^1.97.2",
+    "sass": "^1.107.0",
     "sass-loader": "17.1.0",
     "selenium-webdriver": "4.0.0-alpha.1",
     "semver": "^7.8.5",
@@ -298,7 +298,7 @@
     "webpack-dev-server": "^6.1.0"
   },
   "resolutions": {
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.6.2",
     "html-webpack-plugin": "5.6.8",
     "cheerio": "1.0.0-rc.10"
   }
