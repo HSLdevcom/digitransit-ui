@@ -320,6 +320,8 @@ is unrelated: it only serves tooling (eslint parser, Jest e2e).
 
 `nx.json`'s `build` target `inputs` include `^default`, so editing the shared
 build config invalidates the Nx build cache of every package depending on it.
+Lerna runs Nx, which isn't a direct dependency: its version is pinned in the root
+`resolutions` (see [Installation](Installation.md)).
 
 ## Deprecated
 
