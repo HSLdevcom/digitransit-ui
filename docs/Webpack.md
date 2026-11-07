@@ -164,9 +164,9 @@ below.
 - **`.mjs` under `node_modules`** — same treatment, for packages (e.g.
   `@radix-ui`) that ship a native ESM entry point instead.
 - **`digitransit-component`/`digitransit-store` sources** — forced
-  `type: 'javascript/auto'`. These packages' real ESM Rollup build
+  `type: 'javascript/auto'`. These packages' ESM build
   (`lib/index.js`, see `docs/Packages.md`) still default-imports
-  CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
+  CJS peer deps (e.g. `@hsl-fi/shimmer`) that only mark themselves via
   Babel's userland `__esModule` flag, not a real `"module"`/`exports`
   field. Strict ESM's default-import semantics don't recognize that flag
   and bind the whole `module.exports` instead of `.default`, crashing at
@@ -186,7 +186,9 @@ below.
   `flex: 1 0 0` to `1 0 0%`.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
-  else uses the default.
+  else uses the default. The workspace packages' `lib/index.css` (imported
+  by their `lib/index.js`) goes through the second rule; those packages
+  declare their CSS side-effectful in their own `package.json`.
 - All three `MiniCssExtractPlugin.loader` uses above (`.scss` and both
   `.css` rules) pass `publicPath: 'auto'`, so any asset `url()` emitted
   into these CSS files resolves relative to that CSS file's own location,
@@ -382,7 +384,7 @@ Polyfills are added at build time, driven by the browserslist above.
 `@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
 rule of `webpack.config.js`) rewrites that import into only the core-js
 modules the targets lack. The packages (built with
-`@digitransit-ui/rollup-config`) do not polyfill themselves. The polyfills are global, so they also cover
+`@digitransit-ui/vite-config`) do not polyfill themselves. The polyfills are global, so they also cover
 third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
 dependency). There is no runtime/user-agent-based polyfill service, and no

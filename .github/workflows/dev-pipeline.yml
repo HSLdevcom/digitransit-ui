@@ -50,10 +50,8 @@ jobs:
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      # Every digitransit-component-* package ships a root index.cjs dev/prod
-      # re-export shim (`require('./lib/index(.development).cjs')`), and
       # digitransit-search-util-query-utils's test.js imports its built lib/
-      # output directly - eslint's import/no-unresolved resolves those paths
+      # output directly - eslint's import/no-unresolved resolves that path
       # on disk, so the packages need to be built before linting.
       - name: Build packages
         run: yarn packages-build

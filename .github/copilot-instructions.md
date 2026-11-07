@@ -65,11 +65,11 @@ right one by *who consumes the code*, not just by convenience.
   - `digitransit-{component,search-util,store,util}/<package>/` — the published packages.
   - `private/` — unpublished: `schema/` (generated `schema.graphql` for relay-compiler and
     graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit; a devDependency
-    of query-utils) and `rollup-config/` (shared rollup/babel build config, re-exported by each
-    buildable package's `rollup.config.js`).
+    of query-utils) and `vite-config/` (shared Vite library build config: ESM `lib/index.js` plus
+    `lib/index.css`, re-exported by each buildable package's `vite.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`, except rollup in `build`/`watch`, which is called by path to save a Yarn
+    `yarn run -T <bin>`, except Vite in `build`/`watch`, which is called by path to save a Yarn
     process per watcher. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
