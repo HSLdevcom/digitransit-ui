@@ -44,7 +44,7 @@
     "packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",
     "packages-docs": "node scripts/packages/generate-readmes.js",
-    "packages-watch": "lerna run watch --parallel --stream",
+    "packages-watch": "lerna run watch --stream --concurrency 12",
     "packages-build": "lerna run build",
     "packages-test": "yarn packages-build && vitest run --project=!app --project=!server",
     "packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
@@ -271,7 +271,6 @@
     "mini-css-extract-plugin": "^2.10.2",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.5",
-    "nx": "23.1.1",
     "playwright": "1.16.2",
     "postcss": "^8.5.32",
     "prettier": "3.9.10",
@@ -300,6 +299,8 @@
   "resolutions": {
     "autoprefixer": "^10.6.2",
     "html-webpack-plugin": "5.6.8",
-    "cheerio": "1.0.0-rc.10"
+    "cheerio": "1.0.0-rc.10",
+    "nx": "23.2.0",
+    "@nx/devkit": "23.2.0"
   }
 }
