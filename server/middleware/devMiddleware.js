@@ -4,8 +4,8 @@
 // installs omit devDependencies.
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackConfig from '../webpack.config.js';
-import { readEntryAssets } from './html/assetManifest.js';
+import webpackConfig from '../../webpack.config.js';
+import { readEntryAssets } from './manifestMiddleware.js';
 
 /** An entrypoint's files by type, without hot updates (only the HMR client loads those). */
 function filesOf(compilation, entrypoint) {
@@ -20,7 +20,7 @@ function filesOf(compilation, entrypoint) {
 
 /**
  * Puts the current build's files on `res.locals.assets`, as
- * createManifestMiddleware() in server/html/assetManifest.js does in production.
+ * createManifestMiddleware() in manifestMiddleware.js does in production.
  */
 function setAssets(req, res, next) {
   const { compilation } = res.locals.webpack.devMiddleware.stats;

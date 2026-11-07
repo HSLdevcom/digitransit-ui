@@ -5,8 +5,8 @@ does and why. Reflects the config as it stands on **webpack 5**. Update
 this doc whenever the config changes structurally.
 
 Consumed via the `build` script (`webpack --progress --color`, run with
-`NODE_ENV=production`) and, during `yarn run dev`, by `server/devMiddleware.js`
-inside the Express server (see "Development middleware" below).
+`NODE_ENV=production`) and, during `yarn run dev`, by
+`server/middleware/devMiddleware.js` inside the Express server (see "Development middleware" below).
 Two env vars change its behavior: `NODE_ENV` (production vs. anything else)
 and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
 `server/configs/config.*.js`).
@@ -250,10 +250,10 @@ are production only:
 - **`WebpackAssetsManifest`** — writes `../manifest.json`: a
   name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
   key listing each entry's files grouped by extension, in load order
-  (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
-  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
-  which hashed JS/CSS files to preload/link and which runtime chunk to
-  inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
+  (`entrypoints.main.assets.{js,css}`).
+  `server/middleware/manifestMiddleware.js` reads it: the map for the sprite
+  lookup, the entrypoints for the theme CSS, which hashed JS/CSS files to
+  preload/link and which runtime chunk to inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
   changed it from a default export.
 
 Both dev and prod also always get:
@@ -351,7 +351,7 @@ Both dev and prod also always get:
 ## Development middleware
 
 There is no separate dev server. In development, `server/server.js` lazily
-imports `server/devMiddleware.js`, which compiles this config with
+imports `server/middleware/devMiddleware.js`, which compiles this config with
 `webpack-dev-middleware` inside the Express process and serves the output from
 memory. `server/app.js` mounts it before the static folders, so in-memory
 files win over stale ones in `_static/`.
@@ -359,9 +359,9 @@ files win over stale ones in `_static/`.
 - `serverSideRender: true` holds requests until a build is valid and puts its
   stats on `res.locals.webpack.devMiddleware`. `devMiddleware.js` turns them
   into `res.locals.assets` (the entries' files, minus hot-update files). In
-  production, `createManifestMiddleware()` in `server/html/assetManifest.js`
-  sets the same shape from `manifest.json`; `server/server.js` picks one, so
-  the shell has one code path.
+  production, `createManifestMiddleware()` in `manifestMiddleware.js` sets the
+  same shape from `manifest.json`; `server/server.js` picks one, so the shell
+  has one code path.
 - `hot` adds the HMR client and plugin itself. `apply: 'hmr'` updates CSS in
   place and reloads the page for other changes; the overlay shows errors only,
   so the CSS "conflicting order" warnings stay in the terminal and console.

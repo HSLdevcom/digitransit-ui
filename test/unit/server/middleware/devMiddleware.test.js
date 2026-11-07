@@ -1,4 +1,4 @@
-import createDevMiddleware from '../../../server/devMiddleware';
+import createDevMiddleware from '../../../../server/middleware/devMiddleware';
 
 // A build with a main entry (plus a hot update) and a theme entry.
 const { build } = vi.hoisted(() => {
@@ -34,7 +34,7 @@ vi.mock('webpack', () => ({
     },
   }),
 }));
-vi.mock('../../../webpack.config.js', () => ({ default: {} }));
+vi.mock('../../../../webpack.config.js', () => ({ default: {} }));
 vi.mock('webpack-dev-middleware', () => ({
   default: () => {
     const middleware = (req, res, next) => {

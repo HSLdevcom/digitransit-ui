@@ -1,6 +1,6 @@
 import { getConfiguration } from './configs/config.js';
 import createApp from './app.js';
-import { createManifestMiddleware } from './html/assetManifest.js';
+import { createManifestMiddleware } from './middleware/manifestMiddleware.js';
 import fetchTicketPrices from './services/ticketPrices.js';
 import collectGeoJsonZones from './services/geoJsonZones.js';
 import fetchCitybikeConfigurations from './services/citybikeSeasons.js';
@@ -8,7 +8,7 @@ import fetchCitybikeConfigurations from './services/citybikeSeasons.js';
 const state = {
   devMiddleware:
     process.env.NODE_ENV === 'development'
-      ? (await import('./devMiddleware.js')).default()
+      ? (await import('./middleware/devMiddleware.js')).default()
       : undefined,
   httpServer: undefined,
   redisClient: undefined,

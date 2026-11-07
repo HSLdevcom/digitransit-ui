@@ -35,13 +35,13 @@ right one by *who consumes the code*, not just by convenience.
     checked separately via `scripts/packages/sort-translations.js`.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
-  configured Express app, mounting `devMiddleware.js` (webpack-dev-middleware) in development, no
+  configured Express app, mounting the assets middleware (`middleware/devMiddleware.js` in development), no
   `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
   initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
   bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
-  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
-  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's asset
-  manifest; `devMiddleware.js` provides the same in dev), `passport-openid-connect/`, and
+  URLs), `manifestMiddleware.js` (puts the build's files from webpack's manifest on
+  `res.locals.assets`), `devMiddleware.js` (the same from webpack-dev-middleware in dev), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`serviceWorkerRemoval.js`), `passport-openid-connect/`, and
   `configs/` — `config.js` (server-side config resolution/merging by host header via `BASE_CONFIG`) plus one
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):

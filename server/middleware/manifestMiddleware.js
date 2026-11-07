@@ -1,6 +1,6 @@
 // Reads webpack's build-time asset manifest (manifest.json), so
 // server/middleware/shell.js can stay pure templating. In development,
-// server/devMiddleware.js provides the same shape from the current build.
+// server/middleware/devMiddleware.js provides the same shape from the current build.
 import fs from 'fs';
 import path from 'path';
 

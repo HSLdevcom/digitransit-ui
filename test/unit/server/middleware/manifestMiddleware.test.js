@@ -1,6 +1,6 @@
 import fs from 'fs';
 import path from 'path';
-import { createManifestMiddleware } from '../../../../server/html/assetManifest';
+import { createManifestMiddleware } from '../../../../server/middleware/manifestMiddleware';
 
 const manifest = {
   'hsl_theme.css': 'css/hsl_theme.abc.css',
@@ -14,7 +14,7 @@ const manifest = {
   },
 };
 
-describe('assetManifest', () => {
+describe('manifestMiddleware', () => {
   describe('createManifestMiddleware', () => {
     afterEach(() => {
       vi.restoreAllMocks();

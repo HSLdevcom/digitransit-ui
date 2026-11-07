@@ -1,8 +1,9 @@
 #!/usr/bin/env bash
 
 # Local development runner: runs Relay, the Express dev server (node --watch,
-# which also compiles the client bundle, see server/devMiddleware.js) and the
-# Digitransit package watchers in parallel until interrupted.
+# which also compiles the client bundle, see
+# server/middleware/devMiddleware.js) and the Digitransit package watchers in
+# parallel until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
 # cleanup to terminate the whole process tree for tools such as `node --watch`
