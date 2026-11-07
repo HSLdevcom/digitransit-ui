@@ -4,11 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { build, formats } from 'documentation';
 
-// Shared replacement for the 4 near-identical
-// packages/digitransit-{component,search-util,store,util}/scripts/generate-readmes
-// scripts. `documentation`'s named exports import cleanly under native ESM
-// (unlike the Rollup-UMD .cjs artifacts built for component/store packages),
-// so no CJS-interop workaround is needed here.
+// Generates every package's README.md from its JSDoc (see docs/Packages.md).
 const repoRoot = path.resolve(import.meta.dirname, '..', '..');
 
 function readPackageJson(packageJsonPath) {

@@ -111,10 +111,7 @@ export default {
         // ESM can't prove that flag through the wrapper and binds the raw
         // CJS exports instead of `.default`, crashing with React error #130
         // ("Element type is invalid"). `javascript/auto`'s lenient,
-        // runtime-checked interop avoids both problems. Third-party
-        // packages we don't control the build of, so unlike the
-        // `digitransit-component`/`digitransit-store` rule below (fixed via
-        // our own real ESM build), this has to stay regardless of that fix.
+        // runtime-checked interop avoids both problems.
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
         loader: 'babel-loader',
@@ -134,7 +131,7 @@ export default {
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
-                corejs: { version: '3.50' },
+                corejs: { version: '3.51' },
               },
             ],
             [
@@ -197,32 +194,14 @@ export default {
         },
       },
       {
-        // All 4 digitransit-* packages set "type": "module" (so
-        // their raw source/tests run as native ESM) - which webpack, following
-        // that package.json field, parses as strict `javascript/esm` rather
-        // than `auto`. This causes two distinct problems when bundled directly
-        // into the app (not through app/**'s lenient babel-loader rule):
-        //   1. Several packages default-import third-party CJS dependencies
-        //      (e.g. `@hsl-fi/modal`) that use Babel's userland `__esModule`-
-        //      marker convention instead of a real "exports"/"module" field.
-        //      Webpack's *lenient* `javascript/auto` interop recognizes that
-        //      marker and unwraps `.default` (matching what Babel itself
-        //      does, and what every `app/` file gets); its *strict* ESM
-        //      interop follows real Node semantics instead, where a CJS
-        //      default import is simply the whole `module.exports` - silently
-        //      handing components like `Modal` the entire exports object
-        //      instead of the component function, which blows up at render
-        //      time with "Element type is invalid".
-        //   2. Strict ESM also requires relative imports to be "fully
-        //      specified" (explicit file extension) - but these packages'
-        //      own `import/extensions` policy is "never" (matching app/**),
-        //      so an extensionless relative import (valid and required by
-        //      lint) would otherwise fail to resolve here.
-        // Force `javascript/auto` here so these packages get the same
-        // lenient interop as the rest of the app. `type: 'javascript/auto'`
-        // alone only changes CJS/ESM interop, not extension-resolution
-        // strictness, so `resolve.fullySpecified: false` is needed too
-        // (matching the `.mjs`/node_modules rule above) to fix problem 2.
+        // The workspace packages are `"type": "module"`, so webpack would parse
+        // them as strict ESM. Their built `lib/index.js` default-imports CJS
+        // packages that mark ESM interop with Babel's `__esModule` flag (e.g.
+        // `@hsl-fi/shimmer`): strict ESM binds the whole `module.exports`, so
+        // the component is an object and React throws "Element type is
+        // invalid". `javascript/auto` unwraps `.default` as in `app/`, and
+        // `fullySpecified: false` resolves extensionless subpath imports such
+        // as `lodash/omit`.
         test: /\.js$/,
         include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
