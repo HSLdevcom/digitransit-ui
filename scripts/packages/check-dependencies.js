@@ -37,7 +37,7 @@ const green = text => (colorsEnabled ? `\x1b[32m${text}\x1b[0m` : text);
 
 const readJson = file => JSON.parse(fs.readFileSync(file, 'utf8'));
 
-// Same candidate order as packages/private/rollup-config's build input.
+// src/ candidates in the same order as packages/private/vite-config's entry.
 function findEntryPoint(directory) {
   return ['src/index.js', 'src/index.jsx', 'index.js', 'index.jsx']
     .map(candidate => path.join(directory, candidate))
@@ -94,8 +94,8 @@ function collectJsSpecifiers(node, specifiers) {
   );
 }
 
-// Returns import specifiers, with SCSS ones normalized to JS conventions:
-// `~pkg/...` -> `pkg/...`, anything else -> relative.
+// Returns import specifiers. SCSS ones follow JS conventions: `./x` is
+// relative, anything else is a package.
 function importSpecifiers(file) {
   const source = fs.readFileSync(file, 'utf8');
   if (file.endsWith('.scss')) {
@@ -105,12 +105,7 @@ function importSpecifiers(file) {
     return [...withoutComments.matchAll(/@(?:import|use|forward)\s+([^;]+);/g)]
       .flatMap(([, list]) => [...list.matchAll(/['"]([^'"]+)['"]/g)])
       .map(([, specifier]) => specifier)
-      .filter(specifier => !specifier.startsWith('sass:'))
-      .map(specifier =>
-        specifier.startsWith('~')
-          ? specifier.slice(1)
-          : `./${specifier.replace(/^\.\//, '')}`,
-      );
+      .filter(specifier => !specifier.startsWith('sass:'));
   }
   const ast = parseSync(source, {
     filename: file,

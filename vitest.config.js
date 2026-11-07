@@ -2,7 +2,7 @@ import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
-import babel, { defineRolldownBabelPreset } from '@rolldown/plugin-babel';
+import relayPlugin from '@digitransit-ui/vite-config/relay';
 
 const require = createRequire(import.meta.url);
 
@@ -61,22 +61,6 @@ const hslFiCjsInteropPlugin = () => ({
     return hslFiCjsInteropModules[source];
   },
 });
-
-/**
- * Compiles Relay `graphql` tagged templates, which Oxc can't, with Babel's
- * relay plugin. Only files containing one go through Babel.
- *
- * @returns {Promise<import('vite').Plugin>}
- */
-const relayPlugin = () =>
-  babel({
-    presets: [
-      defineRolldownBabelPreset({
-        preset: { plugins: ['relay'] },
-        rolldown: { filter: { code: 'graphql`' } },
-      }),
-    ],
-  });
 
 // Run by the `server` project below instead of the `app` project.
 const serverTestFiles = [

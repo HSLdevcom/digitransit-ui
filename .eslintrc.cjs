@@ -26,6 +26,8 @@ module.exports = {
         caseSensitive: true,
         ignore: [
           '^uuid$',
+          '^vite$',
+          '^browserslist-to-esbuild$',
           '^@vitejs/plugin-react$',
           '^@rolldown/plugin-babel$',
         ],
@@ -121,6 +123,7 @@ module.exports = {
         'utils/server/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
+        'packages/private/vite-config/**/*.js',
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],

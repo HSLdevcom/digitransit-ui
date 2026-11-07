@@ -3,16 +3,12 @@
   "version": "2.0.6",
   "description": "digitransit-store future-route module",
   "type": "module",
-  "main": "lib/index.cjs",
-  "module": "lib/index.js",
+  "main": "lib/index.js",
   "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./lib/index.cjs",
-      "default": "./lib/index.cjs"
-    },
+    ".": "./lib/index.js",
     "./package.json": "./package.json"
   },
+  "sideEffects": false,
   "files": [
     "/lib",
     "LICENSE-AGPL.txt",
@@ -22,11 +18,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -w -c",
+    "watch": "node $PROJECT_CWD/node_modules/vite/bin/vite.js build --watch",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.js\"",
     "docs": "node ../../../scripts/packages/generate-readmes.js",
-    "build": "NODE_ENV=production node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -c"
+    "build": "node $PROJECT_CWD/node_modules/vite/bin/vite.js build"
   },
   "repository": {
     "type": "git",
@@ -37,7 +33,7 @@
     "FutureRoute"
   ],
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/vite-config": "workspace:^"
   },
   "peerDependencies": {
     "lodash": "^4.18.1"
