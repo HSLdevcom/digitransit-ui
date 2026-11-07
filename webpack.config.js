@@ -150,14 +150,6 @@ export default {
           plugins: [
             'relay',
             ['@babel/plugin-transform-runtime', { helpers: true }],
-            ...(isProduction
-              ? [
-                  [
-                    'transform-react-remove-prop-types',
-                    { mode: 'remove', removeImport: true },
-                  ],
-                ]
-              : []),
           ],
         },
       },

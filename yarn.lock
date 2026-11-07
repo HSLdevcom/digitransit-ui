@@ -8126,13 +8126,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"babel-plugin-transform-react-remove-prop-types@npm:0.4.24":
-  version: 0.4.24
-  resolution: "babel-plugin-transform-react-remove-prop-types@npm:0.4.24"
-  checksum: 10/4ce1755af02375f0764683f9703ef47607e33ee57cefd348f054208e06a52b1517e43180c1c448046338a149853f2c9d7f63f27d5b27c74db5df74fba117f040
-  languageName: node
-  linkType: hard
-
 "babel-preset-current-node-syntax@npm:^1.0.0":
   version: 1.2.0
   resolution: "babel-preset-current-node-syntax@npm:1.2.0"
@@ -10680,7 +10673,6 @@ __metadata:
     babel-loader: "npm:^10.1.1"
     babel-plugin-dynamic-import-node: "npm:2.3.3"
     babel-plugin-relay: "npm:16.2.0"
-    babel-plugin-transform-react-remove-prop-types: "npm:0.4.24"
     base64-arraybuffer: "npm:1.0.2"
     browserslist: "npm:4.29.5"
     browserslist-to-esbuild: "npm:2.1.1"
