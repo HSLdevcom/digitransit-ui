@@ -73,7 +73,8 @@ right one by *who consumes the code*, not just by convenience.
     buildable package's `rollup.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
+    `yarn run -T <bin>`, except rollup in `build`/`watch`, which is called by path to save a Yarn
+    process per watcher. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
 - `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),

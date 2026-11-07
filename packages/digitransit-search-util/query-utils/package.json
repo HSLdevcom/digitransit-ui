@@ -19,9 +19,9 @@
     "docs": "node ../../../scripts/packages/generate-readmes.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
-    "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c",
+    "watch": "yarn relay && NODE_ENV=development node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -w -c",
     "copy-schema": "mkdir -p lib/schema && cp ../../private/schema/schema.graphql lib/schema/schema.graphql",
-    "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c"
+    "build": "yarn relay && yarn copy-schema && NODE_ENV=production node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -c"
   },
   "relay": {
     "src": "./src",
