@@ -45,9 +45,10 @@ and output settings.
 
 ## Output
 
-- Unhashed filenames in dev (`js/[name].js`, predictable dev-server URLs);
-  content-hashed in prod (`js/[name].[contenthash].js`, long-term
-  caching). Uses `[contenthash]` (hash of a chunk's own final emitted
+- Entries and lazy chunks share one pattern: unhashed in dev
+  (`js/[name].js`), content-hashed in prod (`js/[name].[contenthash].js`,
+  long-term caching). Lazy chunks are named by their `webpackChunkName`, or
+  by their deterministic id when they have none. Uses `[contenthash]` (hash of a chunk's own final emitted
   output), not `[chunkhash]` (hash of a chunk's entire transitive module
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
@@ -173,8 +174,10 @@ below.
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). `quietDeps` hides
-  the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
+  `MiniCssExtractPlugin.loader` in both dev and prod, so no `<style>` tags are
+  injected: in dev the shell links `/proxy/css/main.css`, and webpack adds lazy
+  chunks' CSS as `<link>` elements. `quietDeps` hides the `@import`
+  deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
   invalidate the selector after it. `*.module.scss` files are CSS Modules with
@@ -224,11 +227,13 @@ no real source map) in development.
 
 ## Plugins
 
-Production gets (development gets none of these):
+`MiniCssExtractPlugin` is registered in both modes; the other plugins below
+are production only:
 
 - **`faviconPlugins`** — see Entries above.
-- **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
+- **`MiniCssExtractPlugin`** — extracts CSS to files (hashed in prod,
+  unhashed in dev; the dev-server overlay hides its warnings, which stay
+  in the terminal). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
   group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
   `@digitransit-*` packages into one shared chunk used by every route,

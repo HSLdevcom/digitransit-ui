@@ -10763,7 +10763,6 @@ __metadata:
     selenium-webdriver: "npm:4.0.0-alpha.1"
     semver: "npm:^7.8.5"
     serialize-javascript: "npm:7.1.4"
-    style-loader: "npm:^4.0.0"
     stylelint: "npm:15.11.0"
     stylelint-config-standard-scss: "npm:11.1.0"
     suncalc: "npm:1.8.0"
@@ -22747,15 +22746,6 @@ __metadata:
   dependencies:
     anynum: "npm:^1.0.1"
   checksum: 10/97918f9e6a30a9a79b4de616e09778e846f8cbce1230ed67c1b68db06e3baaf8c89e4c255ef6eafb2404b26f2bd59627e94647c2389388e5897e5707dbe98178
-  languageName: node
-  linkType: hard
-
-"style-loader@npm:^4.0.0":
-  version: 4.0.0
-  resolution: "style-loader@npm:4.0.0"
-  peerDependencies:
-    webpack: ^5.27.0
-  checksum: 10/93f25b7e70cfca9d1d8427170384262b59a5b0e84e7191a5a26636a77799caeed46d9a3e45ee7b9afa0f69176e3b98d5a6c5e81593ff1fd0946f1c5682fd2a68
   languageName: node
   linkType: hard
 

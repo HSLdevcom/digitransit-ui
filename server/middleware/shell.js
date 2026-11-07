@@ -88,6 +88,11 @@ function buildHead(config, req, locale) {
           `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
         ),
       );
+  } else {
+    // The dev entry starts with the theme, so main.css declares the layer order.
+    html.push(
+      '<link rel="stylesheet" type="text/css" href="/proxy/css/main.css"/>\n',
+    );
   }
 
   html.push(
