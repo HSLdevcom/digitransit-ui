@@ -337,7 +337,8 @@ has a `vite.config.js` re-exporting it, so they build with a plain
 The config builds `src/index.js(x)` into unminified ESM with source maps,
 keeps every `dependencies` and `peerDependencies` entry external, and targets
 the root `browserslist` (JS via `browserslist-to-esbuild`, CSS via Lightning
-CSS). JSX goes through `@vitejs/plugin-react` (Oxc), SVG imports through
+CSS). JSX goes through `@vitejs/plugin-react` (Oxc, always production JSX,
+whatever `NODE_ENV` is), SVG imports through
 `vite-plugin-svgr`, and Relay `graphql` templates through Babel's relay
 plugin (`@digitransit-ui/vite-config/relay`, also used by the root
 `vitest.config.js`).

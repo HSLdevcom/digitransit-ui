@@ -12,11 +12,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import {
-  themeEntries,
-  themePath,
-  faviconPlugins,
-} from './scripts/build/contextHelper.js';
+import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
@@ -84,25 +80,14 @@ const productionPlugins = [
 export default {
   mode,
   entry: {
-    main: [
-      './app/client/publicPath',
-      // Dev-only: first so that it declares the cascade layer order.
-      ...(isDevelopment
-        ? [
-            themePath(
-              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
-            ),
-          ]
-        : []),
-      './app/client/client',
-    ],
-    ...(isProduction ? themeEntries : {}),
+    main: ['./app/client/publicPath', './app/client/client'],
+    ...themeEntries,
   },
   output: {
     path: path.join(rootDir, '_static'),
     filename: jsFilename,
     chunkFilename: jsFilename,
-    publicPath: isDevelopment ? '/proxy/' : '/',
+    publicPath: '/',
     crossOriginLoading: 'anonymous',
     clean: { keep: isPrebuiltStaticFile },
   },
@@ -403,24 +388,6 @@ export default {
     // actual browser-compatible implementation, not an empty stub.
     fallback: {
       url: require.resolve('url/'),
-    },
-  },
-  devServer: {
-    compress: true,
-    host: '::1',
-    hot: false,
-    port: process.env.HOT_LOAD_PORT || 9000,
-    devMiddleware: {
-      publicPath: '/',
-    },
-    static: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    client: {
-      // CSS "conflicting order" warnings (see ignoreOrder above) stay in the
-      // terminal instead of covering the page.
-      overlay: { errors: true, warnings: false },
     },
   },
 };

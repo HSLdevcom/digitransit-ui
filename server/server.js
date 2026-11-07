@@ -1,10 +1,15 @@
 import { getConfiguration } from './configs/config.js';
 import createApp from './app.js';
+import { createManifestMiddleware } from './html/assetManifest.js';
 import fetchTicketPrices from './services/ticketPrices.js';
 import collectGeoJsonZones from './services/geoJsonZones.js';
 import fetchCitybikeConfigurations from './services/citybikeSeasons.js';
 
 const state = {
+  devMiddleware:
+    process.env.NODE_ENV === 'development'
+      ? (await import('./devMiddleware.js')).default()
+      : undefined,
   httpServer: undefined,
   redisClient: undefined,
 };
@@ -30,15 +35,26 @@ function gracefulShutdown(signal) {
       ? state.redisClient.quit(() => process.exit(0))
       : process.exit(0);
 
-  if (state.httpServer) {
-    state.httpServer.close(closeRedisAndExit);
-    // `close()` above only stops accepting new connections - it waits
-    // indefinitely for already-open keep-alive sockets to close on their
-    // own. Proactively close idle ones now so only genuinely in-flight
-    // requests hold up the shutdown.
-    state.httpServer.closeIdleConnections();
+  const closeHttpServer = () => {
+    if (state.httpServer) {
+      state.httpServer.close(closeRedisAndExit);
+      // `close()` above only stops accepting new connections - it waits
+      // indefinitely for already-open keep-alive sockets to close on their
+      // own. Proactively close idle ones now so only genuinely in-flight
+      // requests hold up the shutdown.
+      state.httpServer.closeIdleConnections();
+    } else {
+      closeRedisAndExit();
+    }
+  };
+
+  // Development: first end the hot-update streams (open requests the HTTP
+  // server would wait for), stop watching and write webpack's cache, e.g.
+  // before a `node --watch` restart.
+  if (state.devMiddleware) {
+    state.devMiddleware.close(closeHttpServer);
   } else {
-    closeRedisAndExit();
+    closeHttpServer();
   }
 }
 
@@ -49,7 +65,11 @@ process.on('SIGTERM', () => gracefulShutdown('SIGTERM'));
 process.on('SIGINT', () => gracefulShutdown('SIGINT'));
 
 const config = getConfiguration();
-const { app, redisClient } = createApp();
+const { app, redisClient } = createApp(
+  // Puts the client bundle's files on res.locals.assets: from the current build
+  // in development, from manifest.json in production.
+  state.devMiddleware ?? createManifestMiddleware(),
+);
 state.redisClient = redisClient;
 
 await Promise.all([

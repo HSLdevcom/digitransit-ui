@@ -25,11 +25,9 @@ generateHosts = false
 #### Fixed issues
 
 Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
-loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
-(`webpack.config.js`) and `server/server.js` used to proxy to it by the `localhost`
-hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
-`server/app.js` now targets the literal `[::1]` address instead, so this is
-no longer required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
+loopback address in `/etc/hosts`, because the dev server proxied to a separate webpack-dev-server on
+`::1`. Webpack now runs inside the Express server, so this is no longer required for
+`yarn run dev` to work. If you still hit other WSL networking issues, you may
 need to add the following to your `/etc/hosts`:
 ```
 ::1     ip6-localhost ip6-loopback localhost
@@ -63,8 +61,8 @@ or in some systems to build the binaries from code following
 - OSX / Linux: `yarn run dev`
 - open: http://localhost:8080
 
-`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`),
-webpack-dev-server, the SVG sprite watcher (`yarn sprites --watch`) and `yarn packages-watch` (`lerna run watch --stream --concurrency 12`)
+`yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`,
+which also compiles the client bundle, see [Webpack](Webpack.md#development-middleware)), the SVG sprite watcher (`yarn sprites --watch`) and `yarn packages-watch` (`lerna run watch --stream --concurrency 12`)
 in parallel. `packages-watch` builds every `digitransit-component`, `digitransit-store`
 and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
 `yarn setup`/`yarn packages-build` is not required beforehand.
@@ -74,8 +72,8 @@ least the number of packages with a `watch` script (currently 12); with fewer, t
 start, since a watcher never finishes. Nx is pinned to 23.2.0 in `resolutions`: from 23.3.0 on,
 Lerna's `--stream` is ignored and the output is replaced by Nx's task spinner.
 
-There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server and
-webpack-dev-server (no Relay/package watchers). Since it skips `packages-watch`, on a
+There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server,
+including webpack (no Relay/package watchers, no server restarts). Since it skips `packages-watch`, on a
 fresh clone you must run `yarn packages-build` yourself first, or webpack fails with
 `Module not found` errors for `@digitransit-component/*`/`@digitransit-search-util/*`/
 `@digitransit-store/*` packages. It also doesn't populate `_static`, so run `yarn static` and

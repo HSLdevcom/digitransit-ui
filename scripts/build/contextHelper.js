@@ -23,7 +23,7 @@ function getAllConfigs() {
     .map(theme => getNamedConfiguration(theme));
 }
 
-export function themePath(theme) {
+function themePath(theme) {
   const themeCss = `./styles/themes/${theme}/theme.scss`;
   return fs.existsSync(themeCss)
     ? themeCss

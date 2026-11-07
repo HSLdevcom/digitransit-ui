@@ -5,7 +5,8 @@ does and why. Reflects the config as it stands on **webpack 5**. Update
 this doc whenever the config changes structurally.
 
 Consumed via the `build` script (`webpack --progress --color`, run with
-`NODE_ENV=production`) and via `webpack-dev-server` during `yarn run dev`.
+`NODE_ENV=production`) and, during `yarn run dev`, by `server/devMiddleware.js`
+inside the Express server (see "Development middleware" below).
 Two env vars change its behavior: `NODE_ENV` (production vs. anything else)
 and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
 `server/configs/config.*.js`).
@@ -28,20 +29,20 @@ and output settings.
 
 - `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
   `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
-- In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
+- `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
-  otherwise every `server/configs/config.*.js` deployment does.
+  otherwise every `server/configs/config.*.js` deployment does. This is the
+  same in development, where `scripts/dev.sh` always sets `CONFIG`. The shell
+  links the theme before `main`'s CSS, so it declares the cascade layer order.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, the selected `CONFIG`'s `theme.scss` is added to `main`
-  instead, before `client`, so that it declares the cascade layer order.
 
 ## Output
 
@@ -53,8 +54,7 @@ and output settings.
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
   and matches the `[contenthash]` already used for CSS output below.
-- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
-  `/` only matters for webpack's own JS-runtime asset resolution (chunk/
+- `publicPath`: `/` in both modes. It only matters for webpack's own JS-runtime asset resolution (chunk/
   script loading, images imported from `.jsx`), which `app/client/
   publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
@@ -175,8 +175,9 @@ below.
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
   `MiniCssExtractPlugin.loader` in both dev and prod, so no `<style>` tags are
-  injected: in dev the shell links `/proxy/css/main.css`, and webpack adds lazy
-  chunks' CSS as `<link>` elements. `quietDeps` hides the `@import`
+  injected: the shell links the entry's CSS (from the manifest in production,
+  the build's stats in development), and webpack adds lazy chunks' CSS as
+  `<link>` elements. `quietDeps` hides the `@import`
   deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
@@ -232,7 +233,7 @@ are production only:
 
 - **`faviconPlugins`** — see Entries above.
 - **`MiniCssExtractPlugin`** — extracts CSS to files (hashed in prod,
-  unhashed in dev; the dev-server overlay hides its warnings, which stay
+  unhashed in dev; the dev overlay hides its warnings, which stay
   in the terminal). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
   group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
@@ -347,19 +348,26 @@ Both dev and prod also always get:
   real, reachable `url.parse()` in browser code, which needs an actual
   polyfill (the `url` package), not an empty stub.
 
-## `devServer`
+## Development middleware
 
-Only used by `webpack-dev-server` during `yarn run dev`. Notable:
-`publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
-false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
-permissive CORS header so the separately-running app server
-(`server/app.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/app.js` targets the
-literal `[::1]` address rather than the `localhost` hostname when
-proxying — this avoids depending on how the machine's resolver orders
-`localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
-otherwise make the proxy fail with `ECONNREFUSED` even though
-webpack-dev-server is up).
+There is no separate dev server. In development, `server/server.js` lazily
+imports `server/devMiddleware.js`, which compiles this config with
+`webpack-dev-middleware` inside the Express process and serves the output from
+memory. `server/app.js` mounts it before the static folders, so in-memory
+files win over stale ones in `_static/`.
+
+- `serverSideRender: true` holds requests until a build is valid and puts its
+  stats on `res.locals.webpack.devMiddleware`. `devMiddleware.js` turns them
+  into `res.locals.assets` (the entries' files, minus hot-update files). In
+  production, `createManifestMiddleware()` in `server/html/assetManifest.js`
+  sets the same shape from `manifest.json`; `server/server.js` picks one, so
+  the shell has one code path.
+- `hot` adds the HMR client and plugin itself. `apply: 'hmr'` updates CSS in
+  place and reloads the page for other changes; the overlay shows errors only,
+  so the CSS "conflicting order" warnings stay in the terminal and console.
+- `node --watch` restarts the server, and with it webpack, when the server's
+  import graph changes, including `webpack.config.js`. A restart rebuilds from
+  the filesystem cache in a few seconds.
 
 ## Browser support (`browserslist` in `package.json`)
 

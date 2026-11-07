@@ -70,6 +70,9 @@ export default function defineLibraryConfig() {
         },
       },
     ],
+    // Production JSX even when NODE_ENV=development is inherited (scripts/dev.sh
+    // exports it), so the output doesn't depend on the environment.
+    oxc: { jsx: { development: false } },
     css: {
       transformer: 'lightningcss',
       lightningcss: {

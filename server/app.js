@@ -4,7 +4,6 @@ import expressStaticGzip from 'express-static-gzip';
 import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import helmet from 'helmet';
-import proxy from 'express-http-proxy';
 import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
@@ -91,15 +90,6 @@ function setUpStaticFolders(app) {
   app.use(handleMissingAssetRequests);
 }
 
-function setUpMiddleware(app) {
-  app.use(express.raw());
-
-  if (process.env.NODE_ENV === 'development') {
-    const hotloadPort = process.env.HOT_LOAD_PORT || 9000;
-    app.use('/proxy/', proxy(`http://[::1]:${hotloadPort}/`));
-  }
-}
-
 function setUpRoutes(app) {
   app.use(['/', ...LEGACY_LOCALE_PATHS], legacyUrlMiddleware);
   app.use(shell);
@@ -129,16 +119,20 @@ export function onError(err, req, res, next) {
 // Builds the configured Express app, with no `.listen()` call - kept
 // separate from server.js's process bootstrap (boot-time data fetches,
 // `.listen()`, graceful shutdown) so the app itself is directly testable
-// with supertest.
-export default function createApp() {
+// with supertest. `assetsMiddleware` puts the client bundle's files on
+// res.locals.assets for the shell (see server.js). In development it also
+// serves the bundle from memory, so it runs before the static folders and
+// their 404 for missing /js/, /css/ and /assets/ files.
+export default function createApp(assetsMiddleware) {
   const app = express();
 
   // Registered first: both the OIDC routes (/login, /logout) and the
   // legacy-URL/shell middleware read req.cookies.
   app.use(cookieParser());
+  app.use(assetsMiddleware);
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);
-  setUpMiddleware(app);
+  app.use(express.raw());
   setUpRoutes(app);
   app.use(onError);
 

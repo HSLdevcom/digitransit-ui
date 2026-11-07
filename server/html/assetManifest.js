@@ -1,47 +1,42 @@
-// Reads webpack's build-time asset manifest (manifest.json) once at module
-// load, and exposes it through small functions rather than bare
-// module-level state, so server/middleware/shell.js can stay pure
-// templating.
+// Reads webpack's build-time asset manifest (manifest.json), so
+// server/middleware/shell.js can stay pure templating. In development,
+// server/devMiddleware.js provides the same shape from the current build.
 import fs from 'fs';
 import path from 'path';
 
 const appRoot = `${process.cwd()}/`;
 
-let assets;
-let mainAssets;
-let manifestScript;
-
-if (process.env.NODE_ENV !== 'development') {
-  assets = JSON.parse(
-    fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8'),
-  );
+/**
+ * Splits the main entry's files into the runtime chunk, which the shell
+ * inlines, and the files it links.
+ */
+export function readEntryAssets(manifest, readRuntime) {
   // `entrypoints.main.assets` groups the entry's files by extension, each
   // list in load order.
-  const { js = [], css = [] } = assets.entrypoints.main.assets;
+  const { js = [], css = [] } = manifest.entrypoints.main.assets;
 
   const manifestFiles = js.filter(asset => asset.startsWith('js/runtime'));
 
-  manifestScript = manifestFiles
-    .map(manifestFile =>
+  return {
+    manifest,
+    manifestScript: manifestFiles.map(readRuntime).join('\n'),
+    mainAssets: [...css, ...js.filter(asset => !manifestFiles.includes(asset))],
+  };
+}
+
+/**
+ * Creates the production middleware that puts the build's files on
+ * `res.locals.assets`. Reads manifest.json right away, so a deployment
+ * without a build fails at boot.
+ */
+export function createManifestMiddleware() {
+  const assets = readEntryAssets(
+    JSON.parse(fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8')),
+    manifestFile =>
       fs.readFileSync(path.join(appRoot, '_static', manifestFile)),
-    )
-    .join('\n');
-
-  mainAssets = [...css, ...js.filter(asset => !manifestFiles.includes(asset))];
-}
-
-export function getMainAssets() {
-  return mainAssets;
-}
-
-export function getManifestScript() {
-  return manifestScript;
-}
-
-export function getAssetPath(assetKey) {
-  return assets[assetKey];
-}
-
-export function readStaticFile(relativePath) {
-  return fs.readFileSync(path.join(appRoot, '_static', relativePath));
+  );
+  return (req, res, next) => {
+    res.locals.assets = assets;
+    next();
+  };
 }

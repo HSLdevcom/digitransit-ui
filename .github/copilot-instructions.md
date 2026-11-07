@@ -35,13 +35,13 @@ right one by *who consumes the code*, not just by convenience.
     checked separately via `scripts/packages/sort-translations.js`.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
-  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  configured Express app, mounting `devMiddleware.js` (webpack-dev-middleware) in development, no
   `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
   initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
   bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
   URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
-  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
-  manifest), `passport-openid-connect/`, and
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's asset
+  manifest; `devMiddleware.js` provides the same in dev), `passport-openid-connect/`, and
   `configs/` — `config.js` (server-side config resolution/merging by host header via `BASE_CONFIG`) plus one
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
@@ -84,8 +84,8 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
-  relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
+- `yarn run dev` — dev server at http://localhost:8080 (`node --watch` server, which compiles the
+  bundle via webpack-dev-middleware, + relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
   - `development` (default) — `dev-api.digitransit.fi`.

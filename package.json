@@ -19,7 +19,7 @@
     "build": "NODE_ENV=production sh -c 'yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color'",
     "start": "NODE_ENV=production node $NODE_OPTS server/server.js",
     "dev": "bash scripts/dev.sh",
-    "dev-nowatch": "RUN_ENV=development NODE_ENV=development sh -c 'node server/server.js & webpack-dev-server'",
+    "dev-nowatch": "RUN_ENV=development NODE_ENV=development node server/server.js",
     "test-accessibility": "./test/accessibility.sh",
     "test-unit": "yarn relay && yarn packages-build && vitest run",
     "test-unit:app": "yarn relay && yarn packages-build && vitest run --project app",
@@ -283,7 +283,7 @@
     "webpack-assets-manifest": "^6.5.5",
     "webpack-bundle-analyzer": "4.10.2",
     "webpack-cli": "7.2.3",
-    "webpack-dev-server": "^6.1.0"
+    "webpack-dev-middleware": "8.6.0"
   },
   "resolutions": {
     "html-webpack-plugin": "5.6.8",
