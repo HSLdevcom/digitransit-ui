@@ -139,6 +139,9 @@ right one by *who consumes the code*, not just by convenience.
   - Single test: `CONFIG=hsl yarn test:e2e -- FrontPage`.
   - Update snapshots: `CONFIG=hsl yarn test:update-snapshots` (see other
     `test:update-all-*-snapshots` scripts for bulk updates across configs).
+- Browser exploration: the Playwright MCP server in `.mcp.json` can drive the app at http://localhost:8080 while
+  `yarn run dev` runs. It is not a test runner (see `docs/Tests.md`). Don't use the repo's own outdated
+  `playwright` for browsing; use the MCP server.
 - Accessibility: `yarn test-accessibility` (`test/accessibility.sh`).
 - Add a concise set of core functionality tests for new features. App-breaking logic should be
   tested, but e.g. checking whether an individual UI element was rendered is not necessary unless
