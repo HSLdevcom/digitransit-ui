@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useSelect } from 'downshift';
-import styles from './select.scss';
+import styles from './select.module.scss';
 
 export default function Select({
   value,

@@ -8,7 +8,7 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 import i18n from './helpers/i18n';
 
 const TOGGLE_DEBOUNCE_MS = 200;

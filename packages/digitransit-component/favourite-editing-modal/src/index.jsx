@@ -10,7 +10,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import FavouriteListItem from './helpers/FavouriteListItem';
 import i18n from './helpers/i18n';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 
 /**
  * A dialog for reordering, editing and deleting favourite places, built on

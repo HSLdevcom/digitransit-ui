@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { DateTime, Settings } from 'luxon';
 import { useSelect } from 'downshift';
 import cx from 'classnames';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { isAndroid } from './mobileDetection';
 
 const AndroidSelect = ({

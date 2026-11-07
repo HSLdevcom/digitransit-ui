@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text } from '@hsl-fi/layout-primitives';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 export default function AllModesModal({
   modalOpen,

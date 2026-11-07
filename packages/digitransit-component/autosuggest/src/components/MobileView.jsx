@@ -6,8 +6,8 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import hooks from '@hsl-fi/hooks';
 import { useTranslation } from 'react-i18next';
 import { useCombobox } from 'downshift';
-import mobileStyles from './MobileSearch.scss';
-import mobileNoScrollStyles from './MobileNoScroll.scss';
+import mobileStyles from './MobileSearch.module.scss';
+import mobileNoScrollStyles from './MobileNoScroll.module.scss';
 import { Suggestions } from './Suggestions';
 import { Input } from './Input';
 import {

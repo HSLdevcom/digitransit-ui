@@ -4,7 +4,7 @@ import { FlexColumn, FlexRow, Text } from '@hsl-fi/layout-primitives';
 import { useSortable } from '@dnd-kit/react/sortable';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import i18n from './i18n';
 
 const getIconId = selectedIconId => {

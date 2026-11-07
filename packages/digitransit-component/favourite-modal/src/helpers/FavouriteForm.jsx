@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { TextInput } from '@hsl-fi/form';
 import { Button } from '@hsl-fi/layout-primitives';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import i18n from './i18n';
 import FavouriteIconTable, { toFavouriteIconId } from './FavouriteIconTable';
 
