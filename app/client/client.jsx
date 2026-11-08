@@ -93,8 +93,12 @@ async function init() {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
-  // Rendered by the server from the request's resolved language.
-  const language = document.documentElement.lang;
+  // Rendered by the server from the request's resolved language; checked in
+  // case something (e.g. browser translation) has rewritten it.
+  const htmlLang = document.documentElement.lang;
+  const language = config.availableLanguages.includes(htmlLang)
+    ? htmlLang
+    : config.defaultLanguage;
   const translations = await import(`../translations/${language}`);
   i18n.changeLanguage(language);
 

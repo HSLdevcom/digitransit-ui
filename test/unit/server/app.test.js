@@ -117,6 +117,7 @@ describe('server app', () => {
       expect(response.text).toContain('<!doctype html>');
       expect(response.text).toContain('window.config=');
       expect(response.text).toContain('<div id="app"');
+      expect(response.headers['cache-control']).toBe('private, no-cache');
     });
   });
 
@@ -127,11 +128,11 @@ describe('server app', () => {
       expect(response.text).not.toContain('"language":');
     });
 
-    it('negotiates Accept-Language when no language has been chosen', async () => {
+    it('ignores Accept-Language when no language has been chosen', async () => {
       const response = await request(app)
         .get('/')
         .set('Accept-Language', 'en-GB,en;q=0.9');
-      expect(response.text).toContain('<html lang="en">');
+      expect(response.text).toContain('<html lang="fi">');
     });
   });
 

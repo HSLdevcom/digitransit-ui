@@ -6,6 +6,8 @@ import axios from 'axios';
 import connectRedis from 'connect-redis';
 import { Strategy as LoginStrategy } from './Strategy.js';
 import { audit, hash, privateNoStore } from './authAudit.js';
+import { getConfiguration } from '../configs/config.js';
+import { resolveLanguage } from '../middleware/languageMiddleware.js';
 
 const RedisStore = connectRedis(session);
 
@@ -213,7 +215,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   );
 
   app.get('/logout', privateNoStore, function (req, res) {
-    const cookieLang = req.cookies.lang || 'fi';
+    const language = resolveLanguage(getConfiguration(req), req);
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const postLogoutRedirectUri = req.secure
       ? `https://${host}${logoutCallbackPath}`
@@ -221,7 +223,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     const params = {
       post_logout_redirect_uri: postLogoutRedirectUri,
       id_token_hint: req.user.token.id_token,
-      ui_locales: cookieLang,
+      ui_locales: language,
     };
     const logoutUrl = oic.client.endSessionUrl(params);
 

@@ -25,27 +25,32 @@ function isLanguagePathSegment(config, segment) {
 }
 
 /**
- * Resolves the request's language: an explicitly chosen (cookie) language,
- * else the best `Accept-Language` match, else `config.defaultLanguage`.
+ * Resolves the request's language: the chosen (cookie) language if it is
+ * available, else `config.defaultLanguage`.
  */
 export function resolveLanguage(config, req) {
-  const { availableLanguages, defaultLanguage } = config;
   const cookieLang = req.cookies[LANGUAGE_COOKIE];
-  if (availableLanguages.includes(cookieLang)) {
-    return cookieLang;
-  }
-  // The default goes first so that a missing or `*` header resolves to it.
-  return (
-    req.acceptsLanguages(defaultLanguage, ...availableLanguages) ||
-    defaultLanguage
-  );
+  return config.availableLanguages.includes(cookieLang)
+    ? cookieLang
+    : config.defaultLanguage;
+}
+
+/** Stores the chosen language for a year from the latest visit. */
+function setLanguageCookie(req, res, language) {
+  res.cookie(LANGUAGE_COOKIE, language, {
+    maxAge: ONE_YEAR_MS,
+    path: '/',
+    sameSite: 'lax',
+    httpOnly: true,
+    secure: req.secure,
+  });
 }
 
 /**
  * Stores a `/{lang}/...` language switch in a long-lived cookie (if the
  * language is available) and redirects to the same URL without the language
- * segment. Other requests get their resolved language in
- * `res.locals.language`.
+ * segment. Other requests refresh a valid cookie, clear an invalid one and get
+ * their resolved language in `res.locals.language`.
  */
 export default function languageMiddleware(req, res, next) {
   const config = getConfiguration(req);
@@ -53,11 +58,7 @@ export default function languageMiddleware(req, res, next) {
 
   if (isLanguagePathSegment(config, firstSegment)) {
     if (config.availableLanguages.includes(firstSegment)) {
-      res.cookie(LANGUAGE_COOKIE, firstSegment, {
-        maxAge: ONE_YEAR_MS,
-        path: '/',
-        sameSite: 'lax',
-      });
+      setLanguageCookie(req, res, firstSegment);
     }
     const queryIndex = req.originalUrl.indexOf('?');
     const search = queryIndex === -1 ? '' : req.originalUrl.slice(queryIndex);
@@ -66,8 +67,13 @@ export default function languageMiddleware(req, res, next) {
     return;
   }
 
+  const cookieLang = req.cookies[LANGUAGE_COOKIE];
+  if (config.availableLanguages.includes(cookieLang)) {
+    setLanguageCookie(req, res, cookieLang);
+  } else if (cookieLang !== undefined) {
+    res.clearCookie(LANGUAGE_COOKIE, { path: '/' });
+  }
   res.locals.language = resolveLanguage(config, req);
-  res.vary('Accept-Language');
   res.vary('Cookie');
   next();
 }

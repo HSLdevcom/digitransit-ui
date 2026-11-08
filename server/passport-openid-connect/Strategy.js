@@ -5,6 +5,8 @@ import util from 'util';
 import process from 'process';
 import { User } from './User.js';
 import { audit, hash } from './authAudit.js';
+import { getConfiguration } from '../configs/config.js';
+import { resolveLanguage } from '../middleware/languageMiddleware.js';
 
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
@@ -56,12 +58,12 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   if (opts.refresh) {
     return this.refresh(req);
   }
-  const cookieLang = req.cookies.lang || 'fi';
+  const language = resolveLanguage(getConfiguration(req), req);
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
     ssoValidTo && ssoValidTo > Math.floor(new Date().getTime() / 1000)
-      ? this.createAuthUrl(redirectUri, cookieLang, ssoToken)
-      : this.createAuthUrl(redirectUri, cookieLang);
+      ? this.createAuthUrl(redirectUri, language, ssoToken)
+      : this.createAuthUrl(redirectUri, language);
   if (debugLogging) {
     console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
   }

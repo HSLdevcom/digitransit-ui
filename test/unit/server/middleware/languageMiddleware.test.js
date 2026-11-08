@@ -38,6 +38,7 @@ describe('languageMiddleware', () => {
       expect(cookie).toMatch(/^lang=sv;/);
       expect(cookie).toContain('Max-Age=31536000');
       expect(cookie).toContain('SameSite=Lax');
+      expect(cookie).toContain('HttpOnly');
     });
 
     it("switches to a deployment's own language outside the legacy prefixes", async () => {
@@ -85,48 +86,36 @@ describe('languageMiddleware', () => {
   });
 
   describe('language resolution', () => {
-    it('prefers the chosen (cookie) language over Accept-Language', async () => {
-      const response = await request(app)
-        .get('/')
-        .set('Cookie', 'lang=sv')
-        .set('Accept-Language', 'en');
+    it('uses the chosen (cookie) language and refreshes its expiry', async () => {
+      const response = await request(app).get('/').set('Cookie', 'lang=sv');
 
       expect(response.text).toBe('sv');
-      expect(response.headers['set-cookie']).toBeUndefined();
+      const [cookie] = response.headers['set-cookie'];
+      expect(cookie).toMatch(/^lang=sv;/);
+      expect(cookie).toContain('Max-Age=31536000');
+      expect(cookie).toContain('HttpOnly');
     });
 
-    it('negotiates Accept-Language without a valid cookie', async () => {
-      const response = await request(app)
-        .get('/')
-        .set('Cookie', 'lang=xx')
-        .set('Accept-Language', 'de, en-GB;q=0.8, sv;q=0.5');
+    it('clears an unavailable cookie language and uses the default', async () => {
+      const response = await request(app).get('/').set('Cookie', 'lang=xx');
 
-      expect(response.text).toBe('en');
+      expect(response.text).toBe('fi');
+      const [cookie] = response.headers['set-cookie'];
+      expect(cookie).toMatch(/^lang=;/);
+      expect(cookie).toContain('Expires=Thu, 01 Jan 1970');
     });
 
-    it('falls back to the default language', async () => {
-      const response = await request(app).get('/').set('Accept-Language', 'de');
+    it('falls back to the default language, ignoring Accept-Language', async () => {
+      const response = await request(app).get('/').set('Accept-Language', 'en');
 
       expect(response.text).toBe('fi');
       expect(response.headers['set-cookie']).toBeUndefined();
     });
 
-    it('resolves a missing or wildcard header to the default, not the first available language', async () => {
-      testConfig.current = {
-        defaultLanguage: 'sv',
-        availableLanguages: ['fi', 'sv', 'en'],
-      };
-
-      expect((await request(app).get('/')).text).toBe('sv');
-      expect(
-        (await request(app).get('/').set('Accept-Language', '*')).text,
-      ).toBe('sv');
-    });
-
-    it('marks the response as varying by language inputs', async () => {
+    it('marks the response as varying by the language cookie', async () => {
       const response = await request(app).get('/');
 
-      expect(response.headers.vary).toBe('Accept-Language, Cookie');
+      expect(response.headers.vary).toBe('Cookie');
     });
   });
 });
