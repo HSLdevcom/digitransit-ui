@@ -68,9 +68,6 @@ in parallel. `packages-watch` (`scripts/packages/watch.js`) rebuilds every build
 from one process, and `dev.sh` builds them once beforehand, so a manual
 `yarn setup`/`yarn packages-build` is not required.
 
-Nx is pinned to 23.2.0 in `resolutions`: from 23.3.0 on, Lerna's `--stream` is ignored and the
-output is replaced by Nx's task spinner.
-
 There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server,
 including webpack (no Relay/package watchers, no server restarts). Since it skips `packages-watch`, on a
 fresh clone you must run `yarn packages-build` yourself first, or webpack fails with
