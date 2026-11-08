@@ -21,7 +21,6 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "node $PROJECT_CWD/node_modules/vite/bin/vite.js build --watch",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/packages/generate-readmes.js",

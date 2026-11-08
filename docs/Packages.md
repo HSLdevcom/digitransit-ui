@@ -290,11 +290,11 @@ in `package.json` as:
   through the root Vitest config and resolve it from the root
   `devDependencies`. Package scripts call such root tooling via
   `yarn run -T <bin>` (e.g. `yarn run -T vitest`), since Yarn won't run a
-  binary the workspace doesn't declare itself. The `build` and `watch` scripts
-  call Vite by path instead
-  (`node $PROJECT_CWD/node_modules/vite/bin/vite.js build`; Yarn sets
-  `PROJECT_CWD` to the repo root): `yarn run -T` adds a Yarn process to each
-  of the 12 long-running watchers, about 180 MB each.
+  binary the workspace doesn't declare itself. The `build` script calls Vite
+  by path instead (`node $PROJECT_CWD/node_modules/vite/bin/vite.js build`;
+  Yarn sets `PROJECT_CWD` to the repo root), which saves a Yarn process per
+  package. Packages have no `watch` script: `yarn packages-watch`
+  (`scripts/packages/watch.js`) watches all of them from one process.
 
 These rules (for `dependencies`/`peerDependencies`) are enforced by
 `yarn packages-dependencies-check`, part of `yarn lint`.

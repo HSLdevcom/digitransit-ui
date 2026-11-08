@@ -2,8 +2,8 @@
 
 # Local development runner: runs Relay, the Express dev server (node --watch,
 # which also compiles the client bundle, see
-# server/middleware/devMiddleware.js) and the Digitransit package watchers in
-# parallel until interrupted.
+# server/middleware/devMiddleware.js) and the Digitransit package watcher
+# (scripts/packages/watch.js) in parallel until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
 # cleanup to terminate the whole process tree for tools such as `node --watch`
@@ -102,25 +102,25 @@ yarn static
 
 yarn sprites
 
-# Build the digitransit-* packages once, synchronously, before
-# starting the server (which compiles the client bundle) and the package
-# watchers below. On a fresh clone (or after `lib/` is removed/out of date)
-# the packages' `lib/index.js` outputs don't exist yet; webpack's persistent
-# filesystem cache (see webpack.config.js) doesn't reliably invalidate when
-# those outputs later appear via packages-watch's `vite build --watch`, so it
-# can permanently cache a broken/missing module resolution. Building here
-# first ensures webpack always sees valid output on its first compile.
+# Build the digitransit-* packages once, synchronously, before starting the
+# server (which compiles the client bundle) and the package watcher below. On
+# a fresh clone (or after `lib/` is removed/out of date) the packages'
+# `lib/index.js` outputs don't exist yet; webpack's persistent filesystem cache
+# (see webpack.config.js) doesn't reliably invalidate when those outputs later
+# appear via the watcher, so it can permanently cache a broken/missing module
+# resolution. Building here first (cached by Nx, and running query-utils'
+# relay-compiler) ensures webpack always sees valid output on its first
+# compile.
 yarn packages-build
 
 yarn relay-watch &
 pids+=("$!")
 
 # digitransit-search-util-query-utils has its own relay-compiler config
-# (separate from the root app's) for the graphql`` tags in its src. Its
-# "watch" script only runs relay-compiler once before starting
-# `vite build --watch`, so without this it wouldn't regenerate
-# src/__generated__ (which the Vite watcher then rebuilds from) if one of
-# its queries is edited during a dev session.
+# (separate from the root app's) for the graphql`` tags in its src. The
+# package watcher doesn't run relay-compiler, so without this it wouldn't
+# regenerate src/__generated__ (which the watcher then rebuilds from) if one
+# of its queries is edited during a dev session.
 yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 

@@ -146,6 +146,18 @@ separate from the `sort-translations.js` script above. Flags any key missing fro
 locale. See the `packages-translations-check`/`-fix` scripts in
 [`package.json`](/package.json).
 
+## Using `packages/watch.js`
+
+Rebuilds every buildable package (those with a `@digitransit-ui/vite-config` devDependency)
+whenever its source changes, with one Vite watcher per package in a single Node process. It
+prints one line once all initial builds end and one line per rebuild; build errors are labelled
+with the package and don't stop watching. `yarn dev` (`scripts/dev.sh`) starts it; see the
+`packages-watch` script in [`package.json`](/package.json).
+
+```
+yarn packages-watch
+```
+
 ## Using `generate-schema.js`
 
 Regenerates `packages/private/schema/schema.graphql` (the GraphQL schema used by relay-compiler and

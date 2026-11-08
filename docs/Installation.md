@@ -62,15 +62,14 @@ or in some systems to build the binaries from code following
 - open: http://localhost:8080
 
 `yarn run dev` runs `scripts/dev.sh`, which starts Relay, the Express dev server (`node --watch`,
-which also compiles the client bundle, see [Webpack](Webpack.md#development-middleware)), the SVG sprite watcher (`yarn sprites --watch`) and `yarn packages-watch` (`lerna run watch --stream --concurrency 12`)
-in parallel. `packages-watch` builds every `digitransit-component`, `digitransit-store`
-and `digitransit-search-util` package once and then keeps watching/rebuilding them, so a manual
-`yarn setup`/`yarn packages-build` is not required beforehand.
+which also compiles the client bundle, see [Webpack](Webpack.md#development-middleware)), the SVG sprite watcher (`yarn sprites --watch`) and `yarn packages-watch`
+in parallel. `packages-watch` (`scripts/packages/watch.js`) rebuilds every buildable
+`digitransit-component`, `digitransit-store` and `digitransit-search-util` package on change, all
+from one process, and `dev.sh` builds them once beforehand, so a manual
+`yarn setup`/`yarn packages-build` is not required.
 
-Lerna ignores `--parallel` because `nx.json` has `targetDefaults`, so `--concurrency` must be at
-least the number of packages with a `watch` script (currently 12); with fewer, the rest never
-start, since a watcher never finishes. Nx is pinned to 23.2.0 in `resolutions`: from 23.3.0 on,
-Lerna's `--stream` is ignored and the output is replaced by Nx's task spinner.
+Nx is pinned to 23.2.0 in `resolutions`: from 23.3.0 on, Lerna's `--stream` is ignored and the
+output is replaced by Nx's task spinner.
 
 There's also a lighter-weight `yarn dev-nowatch`, which only runs the Express dev server,
 including webpack (no Relay/package watchers, no server restarts). Since it skips `packages-watch`, on a

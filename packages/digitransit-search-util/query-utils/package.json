@@ -24,7 +24,6 @@
     "docs": "node ../../../scripts/packages/generate-readmes.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
-    "watch": "yarn relay && node $PROJECT_CWD/node_modules/vite/bin/vite.js build --watch",
     "build": "yarn relay && node $PROJECT_CWD/node_modules/vite/bin/vite.js build"
   },
   "relay": {
