@@ -27,7 +27,13 @@ function fakeAssetsMiddleware(req, res, next) {
   res.locals.assets = {
     manifest: {
       entrypoints: {
-        default_theme: { assets: { css: ['css/default_theme.css'] } },
+        main: { assets: { js: ['js/main.js'] } },
+        default_theme: {
+          assets: {
+            css: ['css/default_theme.css'],
+            js: ['js/default_theme.js'],
+          },
+        },
       },
     },
     mainAssets: ['css/main.css', 'js/main.js'],
@@ -137,9 +143,23 @@ describe('server app', () => {
         '/css/default_theme.css',
         '/css/main.css',
       ]);
-      expect(response.text).toContain(
-        '<script src="/js/main.js" crossorigin defer></script>',
+      // Development loads the theme's script too, for hot updates.
+      const scripts = [...response.text.matchAll(/<script src="([^"]+)"/g)].map(
+        ([, src]) => src,
       );
+      expect(scripts).toEqual(['/js/default_theme.js', '/js/main.js']);
+    });
+
+    it("names the missing theme entry if the build doesn't include it", async () => {
+      const { app: appWithoutTheme } = createApp((req, res, next) =>
+        fakeAssetsMiddleware(req, res, () => {
+          res.locals.assets.manifest.entrypoints = {};
+          next();
+        }),
+      );
+      const response = await request(appWithoutTheme).get('/');
+      expect(response.status).toBe(500);
+      expect(response.text).toContain('No default_theme entry in the build');
     });
   });
 

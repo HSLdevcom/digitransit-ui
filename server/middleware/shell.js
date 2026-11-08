@@ -16,6 +16,17 @@ export function resolveLocale(config, req, res) {
   return locale;
 }
 
+/** The files of the config's theme entry, which every page needs. */
+function getThemeAssets(config, manifest) {
+  const themeEntry = manifest.entrypoints[`${config.CONFIG}_theme`];
+  if (!themeEntry) {
+    throw new Error(
+      `No ${config.CONFIG}_theme entry in the build. Build with a CONFIG that includes it.`,
+    );
+  }
+  return themeEntry.assets;
+}
+
 function buildHead(config, req, locale, { manifest, mainAssets }) {
   const metadata = getMetadata(
     locale,
@@ -35,8 +46,7 @@ function buildHead(config, req, locale, { manifest, mainAssets }) {
 
   // Write preload hints before doing anything else
   const ASSET_URL = process.env.ASSET_URL || '';
-  const [themeCssPath] =
-    manifest.entrypoints[`${config.CONFIG}_theme`].assets.css;
+  const [themeCssPath] = getThemeAssets(config, manifest).css;
   const preloads = [
     { as: 'style', href: config.URL.FONT },
     {
@@ -122,13 +132,22 @@ function buildBody(config, { manifest, mainAssets, manifestScript }) {
     html.push('\n</script>\n');
   }
   html.push(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
-  mainAssets
-    .filter(asset => !asset.endsWith('.css'))
-    .forEach(asset =>
-      html.push(
-        `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
-      ),
-    );
+  // In development the theme's script lets hot updates apply theme.scss edits;
+  // in production it does nothing. Its runtime is the shared, inlined one.
+  const themeScripts =
+    process.env.NODE_ENV === 'development'
+      ? getThemeAssets(config, manifest).js.filter(
+          asset => !manifest.entrypoints.main.assets.js.includes(asset),
+        )
+      : [];
+  [
+    ...themeScripts,
+    ...mainAssets.filter(asset => !asset.endsWith('.css')),
+  ].forEach(asset =>
+    html.push(
+      `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
+    ),
+  );
 
   html.push('</body>\n');
   return html.join('');

@@ -2,6 +2,7 @@
 // Development only: compiles the client bundle inside the server process and
 // serves it from memory. server.js imports this lazily, since production
 // installs omit devDependencies.
+import path from 'path';
 import webpack from 'webpack';
 import webpackDevMiddleware from 'webpack-dev-middleware';
 import webpackConfig from '../../webpack.config.js';
@@ -23,13 +24,18 @@ function filesOf(compilation, entrypoint) {
  * createManifestMiddleware() in manifestMiddleware.js does in production.
  */
 function setAssets(req, res, next) {
-  const { compilation } = res.locals.webpack.devMiddleware.stats;
+  const { stats, outputFileSystem } = res.locals.webpack.devMiddleware;
+  const { compilation } = stats;
   const entrypoints = {};
   compilation.entrypoints.forEach((entrypoint, name) => {
     entrypoints[name] = { assets: filesOf(compilation, entrypoint) };
   });
-  // Development has no runtime chunk (see `runtimeChunk` in webpack.config.js).
-  res.locals.assets = readEntryAssets({ entrypoints }, () => '');
+  res.locals.assets = readEntryAssets({ entrypoints }, file =>
+    outputFileSystem.readFileSync(
+      path.join(compilation.outputOptions.path, file),
+      'utf8',
+    ),
+  );
   next();
 }
 

@@ -311,19 +311,16 @@ Both dev and prod also always get:
   `@digitransit-*`/`@hsl-fi` packages into their own named chunks
   (`react`, `digitransit-components`) so they cache independently from
   application code and from each other.
-- **`runtimeChunk: isProduction ? 'single' : false`** — splits the
-  webpack runtime (module loader glue) into its own cacheable chunk in
-  production. `'single'` creates one shared runtime chunk for *all*
-  entries, rather than one per entry (`'multiple'`/`true`) — this app has
-  multiple entries (`main` plus one CSS-only `*_theme` entry per
-  deployment via `themeEntries`), so a single shared runtime avoids
-  duplicating that boilerplate across each of them. Note the runtime
-  chunk's own hash will still shift on almost any unrelated chunk/module
-  change (it embeds the chunk-id→hash manifest needed for lazy-chunk
-  loading) — the real caching benefit is that *other* chunks (`react`,
+- **`runtimeChunk: 'single'`** — one webpack runtime (module loader
+  glue) shared by all entries (`main` plus one `*_theme` entry per
+  deployment via `themeEntries`), which `server/middleware/shell.js`
+  inlines into the page. In development the shell also loads the theme
+  entry's script, so hot updates apply `theme.scss` edits; a second
+  runtime would break hot updates, since both would load update chunks
+  through the same global. The runtime's hash shifts on almost any change
+  (it embeds the chunk-id→hash map), but the other chunks (`react`,
   `digitransit-components`, route chunks, theme CSS/JS) stay stable when
-  unrelated code changes, not that the runtime chunk itself never
-  changes.
+  unrelated code changes.
 
 ## `node` / `resolve` / `cache`
 

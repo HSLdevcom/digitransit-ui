@@ -336,7 +336,9 @@ export default {
         },
       },
     },
-    runtimeChunk: isProduction ? 'single' : false,
+    // One runtime for all entries, inlined by server/middleware/shell.js. In
+    // development, a second runtime (the theme's) would break hot updates.
+    runtimeChunk: 'single',
   },
   performance: { hints: false },
   cache: {
