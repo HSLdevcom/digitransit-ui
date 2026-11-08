@@ -13,8 +13,9 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 The main app consumes `component`/`store` and query-utils via their built
 output — a single ESM file, `lib/index.js` (`"main"`/`exports`), plus
 `lib/index.css` for packages with styles — and the other `search-util`
-packages and `util` via raw source. There is no CommonJS build; Node's `require()` of ES modules covers
-CJS consumers. Treat these packages like
+packages and `util` via raw source. There is no CommonJS build. The output is for bundlers: Node can't
+load it directly, since it imports `index.css` and extensionless
+subpaths such as `lodash/sortBy`. Treat these packages like
 semi-external dependencies: changes to their public API should bump their
 version (see [Publishing](#publishing)) the same way a change to a real npm
 dependency would.

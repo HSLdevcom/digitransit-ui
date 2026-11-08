@@ -55,7 +55,9 @@ async function watchPackage(directory) {
     // Also silences the per-build progress and file size report.
     logLevel: 'warn',
     clearScreen: false,
-    build: { watch: {} },
+    // Vite empties outDir before every watch rebuild, so webpack could find
+    // lib/ missing mid-compile. Each build writes the same files anyway.
+    build: { watch: {}, emptyOutDir: false },
   });
   let firstBuild = true;
   const firstBuildEnd = new Promise(resolve => {
