@@ -94,8 +94,9 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   package-specific build tooling goes under `devDependencies` (shared tooling
   comes from the root). Buildable packages also declare the private
   `@digitransit-ui/vite-config` as a `devDependency`.
-- `vite.config.js` — a one-line re-export of the shared
-  [build config](#shared-build-config) (buildable packages only; not
+- `vite.config.js` — calls the shared
+  [build config](#shared-build-config) with the package's directory,
+  `defineLibraryConfig(import.meta.dirname)` (buildable packages only; not
   published, since `files` whitelists the published content).
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
@@ -330,9 +331,11 @@ without the declaration the bundler drops the CSS import.
 `packages/private/vite-config` (`@digitransit-ui/vite-config`, private) holds
 the [Vite library mode](https://vite.dev/guide/build#library-mode) config
 that builds every `component`/`store` package and query-utils. Each of them
-has a `vite.config.js` re-exporting it, so they build with a plain
-`vite build` from their own directory. A package can extend it locally with
-`mergeConfig`, as query-utils does to ship `lib/schema/schema.graphql`.
+has a `vite.config.js` that calls `defineLibraryConfig(import.meta.dirname)`,
+so `vite build` gives the same output from any directory (e.g.
+`vite build --config packages/<family>/<package>/vite.config.js`). A package
+can extend it locally with `mergeConfig`, as query-utils does to ship
+`lib/schema/schema.graphql`.
 
 The config builds `src/index.js(x)` into unminified ESM with source maps,
 keeps every `dependencies` and `peerDependencies` entry external, and targets

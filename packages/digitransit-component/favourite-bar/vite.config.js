@@ -1,1 +1,3 @@
-export { default } from '@digitransit-ui/vite-config';
+import defineLibraryConfig from '@digitransit-ui/vite-config';
+
+export default defineLibraryConfig(import.meta.dirname);

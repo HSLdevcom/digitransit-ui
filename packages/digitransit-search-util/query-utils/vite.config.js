@@ -9,21 +9,20 @@ const schema = path.join(
 );
 
 // Ships the GraphQL schema the queries were compiled against.
-export default () =>
-  mergeConfig(defineLibraryConfig(), {
-    plugins: [
-      {
-        name: 'query-utils:schema',
-        buildStart() {
-          this.addWatchFile(schema);
-        },
-        generateBundle() {
-          this.emitFile({
-            type: 'asset',
-            fileName: 'schema/schema.graphql',
-            source: fs.readFileSync(schema),
-          });
-        },
+export default mergeConfig(defineLibraryConfig(import.meta.dirname), {
+  plugins: [
+    {
+      name: 'query-utils:schema',
+      buildStart() {
+        this.addWatchFile(schema);
       },
-    ],
-  });
+      generateBundle() {
+        this.emitFile({
+          type: 'asset',
+          fileName: 'schema/schema.graphql',
+          source: fs.readFileSync(schema),
+        });
+      },
+    },
+  ],
+});

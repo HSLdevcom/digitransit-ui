@@ -10,13 +10,11 @@ import relay from './relay.js';
 const ENTRY_CANDIDATES = ['src/index.js', 'src/index.jsx'];
 
 /**
- * Builds the package in the current working directory as an ESM library:
+ * Returns the Vite config that builds a package as an ESM library:
  * `lib/index.js`, plus `lib/index.css` (imported by `lib/index.js`) if it
  * has styles. Every dependency and peer dependency stays external.
- * Run through the package's own `vite.config.js`, e.g. by `yarn build`.
  */
-export default function defineLibraryConfig() {
-  const packageDir = process.cwd();
+export default function defineLibraryConfig(packageDir) {
   const pkg = JSON.parse(
     fs.readFileSync(path.join(packageDir, 'package.json'), 'utf8'),
   );
@@ -103,6 +101,9 @@ export default function defineLibraryConfig() {
       sourcemap: true,
       target: browserslistToEsbuild(browsers),
       rolldownOptions: {
+        // Module comments in the output are relative to this, so the output
+        // is the same whichever directory the build runs from.
+        cwd: packageDir,
         external: id =>
           externals.some(dep => id === dep || id.startsWith(`${dep}/`)),
         output: hasCss ? { banner: "import './index.css';" } : {},
