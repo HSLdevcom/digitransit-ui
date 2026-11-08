@@ -66,13 +66,10 @@ function buildHead(config, req, language) {
     preconnects.forEach(href =>
       html.push(`<link rel="preconnect" crossorigin href="${href}">\n`),
     );
-    // mainAssets' CSS (e.g. the shared 'digitransit-components' chunk,
-    // which contains @hsl-fi/design-system-core's default color
-    // variables) must be linked *before* the theme CSS. Both define the
-    // same :root custom properties, so with equal specificity, whichever
-    // stylesheet is loaded (and thus applied) last wins the cascade. If
-    // the theme link came first, the shared chunk's defaults would load
-    // after and silently override every theme's brand colors.
+    // First stylesheet in the document: it declares the cascade layer order.
+    html.push(
+      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${themeCssPath}"/>\n`,
+    );
     mainAssets
       .filter(asset => asset.endsWith('.css'))
       .forEach(asset =>
@@ -80,9 +77,6 @@ function buildHead(config, req, language) {
           `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${asset}"/>\n`,
         ),
       );
-    html.push(
-      `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${themeCssPath}"/>\n`,
-    );
   }
 
   html.push(

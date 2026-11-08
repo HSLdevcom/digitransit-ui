@@ -1,10 +1,12 @@
+@use '../../styles/abstracts' as *;
+
 @media print {
   .desktop-title {
     display: none;
   }
 
   .back-button {
-    display: none !important;
+    display: none;
   }
 }
 
@@ -152,7 +154,7 @@
     }
 
     @media print {
-      border-bottom: 1px dotted $black;
+      border-bottom: 1px dotted $dark-gray;
       border-left: none;
       border-right: none;
       padding-left: 0;
@@ -218,7 +220,7 @@
   }
 
   .info {
-    fill: $gray-blue;
+    fill: $info-icon-color;
   }
 }
 

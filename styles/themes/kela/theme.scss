@@ -1,0 +1,9 @@
+@use '../default/theme';
+
+@layer theme {
+  :root {
+    --theme-secondary-color: #000b1a;
+    --theme-primary-dark-color: #002a67;
+    --color-accent-primary-900: #002a66;
+  }
+}

@@ -1,3 +1,5 @@
+@use '../../../../styles/abstracts' as *;
+
 .navi-start-container {
   padding: 0 10px;
   width: 100%;
@@ -71,7 +73,7 @@
   svg.mode {
     width: 32px;
     height: 32px;
-    color: $black;
+    color: $dark-gray;
   }
 }
 
@@ -238,8 +240,8 @@
 .navi-top-card {
   border-radius: var(--radius-m);
   min-height: 70px;
-  color: $black;
-  background-color: white !important;
+  color: $dark-gray;
+  background-color: white;
   display: flex;
   align-items: center;
   letter-spacing: -0.3px;
@@ -272,7 +274,7 @@
     .content {
       display: flex;
       flex-direction: row;
-      color: $black;
+      color: $dark-gray;
       justify-content: center;
 
       svg.mode {
@@ -320,7 +322,7 @@
 
         .extension-divider {
           height: 1px;
-          background: #ddd;
+          background: $light-gray;
           width: 100%;
           margin-top: var(--space-s);
           margin-bottom: var(--space-s);
@@ -414,7 +416,7 @@
               align-items: center;
 
               .address {
-                color: #888;
+                color: $muted-gray;
               }
 
               .platform-short {
@@ -575,8 +577,8 @@
                   min-height: 36px;
 
                   > svg > circle.indoor-step-marker {
-                    fill: #fff;
-                    stroke: #666;
+                    fill: $white;
+                    stroke: $gray;
                   }
                 }
               }
@@ -698,7 +700,7 @@
     font-size: $font-size-xsmall;
     font-weight: $font-weight-book;
     margin-top: 5px;
-    color: $black;
+    color: $dark-gray;
     line-height: 1.4;
 
     .icon-container {
@@ -722,7 +724,7 @@
     }
 
     &.info {
-      background-color: $infobox-color-generic-blue;
+      background-color: $infobox-background-color;
     }
 
     &.warning {
@@ -737,8 +739,8 @@
       padding: var(--space-s, 16px) var(--space-xs, 8px) var(--space-s, 16px)
         var(--space-s, 16px);
       background: #0074bf;
-      color: #fff;
-      border-radius: 999px; // var(--radius-radius-medium, 8px);
+      color: $white;
+      border-radius: 999px;
       margin-top: var(--space-s);
       width: 220px;
     }
@@ -818,7 +820,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    color: $black;
+    color: $dark-gray;
 
     .navi-daytime {
       font-size: $font-size-xsmall;

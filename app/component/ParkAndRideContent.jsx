@@ -1,9 +1,10 @@
 import PropTypes from 'prop-types';
+import { graphql, useFragment } from 'react-relay';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'luxon';
 import { useRouter } from 'found';
-import { parkShape, errorShape } from '../../utils/client/shapes';
+import { errorShape, fragmentRefShape } from '../../utils/client/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import Disclaimer from './Disclaimer';
@@ -41,14 +42,39 @@ function renderOpeningHours(s, dotted) {
   return translated;
 }
 
+const ParkAndRideContentFragment = graphql`
+  fragment ParkAndRideContent_vehicleParking on VehicleParking {
+    availability {
+      carSpaces
+    }
+    parkCapacity: capacity {
+      bicycleSpaces
+      carSpaces
+    }
+    openingHours {
+      osm
+    }
+    name
+    lat
+    lon
+    tags
+    realtime
+    wheelchairAccessibleCarPlaces
+  }
+`;
+
 export default function ParkAndRideContent({
-  vehicleParking,
+  vehicleParking: vehicleParkingRef,
   error,
   mode,
   showInfo = true,
   showDetails = true,
   backButton = true,
 }) {
+  const vehicleParking = useFragment(
+    ParkAndRideContentFragment,
+    vehicleParkingRef,
+  );
   // throw error when relay query fails
   if (error) {
     throw error.message;
@@ -217,7 +243,7 @@ export default function ParkAndRideContent({
 }
 
 ParkAndRideContent.propTypes = {
-  vehicleParking: parkShape,
+  vehicleParking: fragmentRefShape,
   error: errorShape,
   mode: PropTypes.oneOf(['CARPARK', 'BIKEPARK']),
   showInfo: PropTypes.bool,

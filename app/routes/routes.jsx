@@ -99,7 +99,7 @@ export default config => {
       <Route
         getComponent={() =>
           import(
-            /* webpackChunkName: "vehiclepark" */ '../component/ParkContainer'
+            /* webpackChunkName: "vehiclepark" */ '../component/ParkAndRideContent'
           )
             .then(getDefault)
             .catch(errorLoading)
@@ -108,7 +108,7 @@ export default config => {
         query={graphql`
           query routes_VehiclePark_Query($id: String!) {
             vehicleParking(id: $id) {
-              ...ParkContainer_vehicleParking
+              ...ParkAndRideContent_vehicleParking
             }
           }
         `}
@@ -130,7 +130,7 @@ export default config => {
         path="(.*)?"
         getComponent={() =>
           import(
-            /* webpackChunkName: "vehiclepark" */ '../component/VehicleParkMapContainer'
+            /* webpackChunkName: "vehiclepark" */ '../component/VehicleParkMap'
           ).then(getDefault)
         }
         // TODO remove prepareVariables after hsl.fi has updated its vehicle parking addresses
@@ -138,7 +138,7 @@ export default config => {
         query={graphql`
           query routes_VehicleParkMap_Query($id: String!) {
             vehicleParking(id: $id) {
-              ...VehicleParkMapContainer_vehiclePark
+              ...VehicleParkMap_vehiclePark
             }
           }
         `}

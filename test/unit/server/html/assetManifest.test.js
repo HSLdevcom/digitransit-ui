@@ -81,9 +81,8 @@ describe('assetManifest', () => {
               : `/* ${path.basename(file)} */`,
         },
       }));
-      const assetManifest = await import(
-        '../../../../server/html/assetManifest'
-      );
+      const assetManifest =
+        await import('../../../../server/html/assetManifest');
 
       expect(assetManifest.getMainAssets()).toEqual([
         'css/digitransit-components.c1.css',

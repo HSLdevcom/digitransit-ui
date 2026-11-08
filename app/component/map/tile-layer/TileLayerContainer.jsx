@@ -420,7 +420,6 @@ export default function TileLayerContainer(props) {
     <Popup
       key={`${selection.id}:location`}
       {...popupOptions}
-      maxHeight={220}
       maxWidth="auto"
       position={coords}
       className={`popup ${

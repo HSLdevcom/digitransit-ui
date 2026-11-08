@@ -132,12 +132,7 @@ const createTimeTableRows = (timetableMap, showRoutes) =>
       />
     ));
 
-export default function Timetable({
-  stop: stopRef,
-  startDate,
-  onDateChange,
-  date,
-}) {
+export default function Timetable({ stop: stopRef, startDate, date }) {
   const { match, router } = useRouter();
   const config = useConfigContext();
   const stop = useFragment(TimetableFragment, stopRef);
@@ -288,7 +283,6 @@ export default function Timetable({
               startDate={startDate}
               selectedDate={date}
               onDateChange={e => {
-                onDateChange(e);
                 const showRoutesNew = showRoutes.length
                   ? showRoutes.join(',')
                   : undefined;
@@ -475,6 +469,5 @@ Timetable.propTypes = {
     ),
   }).isRequired,
   startDate: PropTypes.string.isRequired,
-  onDateChange: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
 };

@@ -1,5 +1,5 @@
 import { act, screen } from '@testing-library/react';
-import { Component as DepartureListContainer } from '../../../app/component/DepartureListContainer';
+import DepartureListContainer from '../../../app/component/DepartureListContainer';
 import * as mqttClient from '../../../utils/client/mqttClient';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';

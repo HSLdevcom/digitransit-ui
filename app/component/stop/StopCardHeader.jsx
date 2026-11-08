@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useRouter } from 'found';
-import { stopShape, stationShape } from '../../../utils/client/shapes';
+import { graphql, useFragment } from 'react-relay';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import CardHeader from '../CardHeader';
 import { getJson } from '../../../utils/shared/xhrPromise';
 import { saveSearch } from '../../data/SearchHistory';
@@ -10,21 +11,47 @@ import FavouriteStopContainer from '../FavouriteStopContainer';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StopCardHeader({
-  stop,
+  stop: stopRef,
   distance,
   className,
   headingStyle,
   icons,
   isPopUp = false,
   breakpoint,
-  isTerminal = false,
 }) {
+  const stop = useFragment(
+    graphql`
+      fragment StopCardHeader_stop on Stop {
+        locationType
+        gtfsId
+        name
+        code
+        desc
+        zoneId
+        vehicleMode
+        alerts {
+          alertSeverityLevel
+          effectiveEndDate
+          effectiveStartDate
+        }
+        lat
+        lon
+        stops {
+          name
+          desc
+          zoneId
+        }
+      }
+    `,
+    stopRef,
+  );
   const config = useConfigContext();
   const { match } = useRouter();
   const headerConfig = config.stopCard?.header || {};
+  const isTerminal = stop.locationType === 'STATION';
 
   useEffect(() => {
-    if (!isIOS || !stop || isPopUp || !match.location.query?.save) {
+    if (!isIOS || isPopUp || !match.location.query?.save) {
       return;
     }
     const layer = isTerminal ? 'station' : 'stop';
@@ -72,10 +99,6 @@ export default function StopCardHeader({
       .catch(() => {});
   }, []);
 
-  if (!stop) {
-    return false;
-  }
-
   const getDescription = () => {
     let desc = '';
     if (headerConfig.showDescription && stop.desc) {
@@ -108,12 +131,11 @@ export default function StopCardHeader({
 }
 
 StopCardHeader.propTypes = {
-  stop: PropTypes.oneOfType([stopShape, stationShape]),
+  stop: fragmentRefShape.isRequired,
   distance: PropTypes.number,
   className: PropTypes.string,
   headingStyle: PropTypes.string,
   icons: PropTypes.arrayOf(PropTypes.node),
   isPopUp: PropTypes.bool,
   breakpoint: PropTypes.string,
-  isTerminal: PropTypes.bool,
 };
