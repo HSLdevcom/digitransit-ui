@@ -40,7 +40,8 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/rollup-config": "workspace:^",
+    "@digitransit-ui/test-utils": "workspace:^"
   },
   "peerDependencies": {
     "@hsl-fi/dialog": "^3.1.3",

@@ -136,7 +136,10 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['test/unit/**/*.test.{js,jsx}'],
+          include: [
+            'test/unit/**/*.test.{js,jsx}',
+            'packages/private/test-utils/**/*.test.{js,jsx}',
+          ],
           exclude: serverTestFiles,
         },
       },

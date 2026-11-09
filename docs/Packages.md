@@ -320,6 +320,17 @@ buildable package, changing it requires bumping all of them
 (`packages-version-check` enforces this). The root `babel.config.cjs`
 is unrelated: it only serves tooling (eslint parser).
 
+## Shared test helpers
+
+`packages/private/test-utils` (`@digitransit-ui/test-utils`, private, no build step)
+holds test helpers used by both the app tests and the package tests, currently
+`expectNoA11yViolations` (axe-core, see `docs/Tests.md`). A package whose tests
+import it declares it as a `workspace:^` `devDependency`, so changing the helper
+requires bumping those packages. The app resolves it through the workspace
+symlink in `node_modules/@digitransit-ui`, like the schema package. Its
+dependencies (`axe-core`, `@testing-library/react`) come from the root
+`devDependencies`.
+
 ## Build Caching
 
 `nx.json`'s `build` target `inputs` include `^default`, so editing the shared

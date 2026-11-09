@@ -1914,6 +1914,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-autosuggest-panel@workspace:packages/digitransit-component/autosuggest-panel"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/test-utils": "workspace:^"
   peerDependencies:
     "@digitransit-component/digitransit-component-autosuggest": "workspace:^"
     "@digitransit-component/digitransit-component-icon": "workspace:^"
@@ -1938,6 +1939,7 @@ __metadata:
     "@digitransit-search-util/digitransit-search-util-helpers": "workspace:^"
     "@digitransit-search-util/digitransit-search-util-uniq-by-label": "workspace:^"
     "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/test-utils": "workspace:^"
     "@hsl-fi/hooks": "npm:^1.2.4"
   peerDependencies:
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^"
@@ -1999,6 +2001,7 @@ __metadata:
   resolution: "@digitransit-component/digitransit-component-dialog-modal@workspace:packages/digitransit-component/dialog-modal"
   dependencies:
     "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/test-utils": "workspace:^"
   peerDependencies:
     "@hsl-fi/dialog": ^3.1.3
     prop-types: ^15.8.1
@@ -2227,6 +2230,12 @@ __metadata:
 "@digitransit-ui/schema@workspace:^, @digitransit-ui/schema@workspace:packages/private/schema":
   version: 0.0.0-use.local
   resolution: "@digitransit-ui/schema@workspace:packages/private/schema"
+  languageName: unknown
+  linkType: soft
+
+"@digitransit-ui/test-utils@workspace:^, @digitransit-ui/test-utils@workspace:packages/private/test-utils":
+  version: 0.0.0-use.local
+  resolution: "@digitransit-ui/test-utils@workspace:packages/private/test-utils"
   languageName: unknown
   linkType: soft
 
@@ -7993,7 +8002,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"axe-core@npm:^4.10.0":
+"axe-core@npm:4.14.0, axe-core@npm:^4.10.0":
   version: 4.14.0
   resolution: "axe-core@npm:4.14.0"
   checksum: 10/b41f9c5fb670b3e1812ba203b17570efa026071e6c722cd8384bacbe5f2be1578fc5d7544acf06df7758eb755c7d23629df922e86cc0655d656784157c0d8df5
@@ -10652,6 +10661,7 @@ __metadata:
     "@vitejs/plugin-react": "npm:4.7.0"
     async: "npm:^3.2.6"
     autoprefixer: "npm:^10.6.2"
+    axe-core: "npm:4.14.0"
     axios: "npm:1.21.0"
     babel-loader: "npm:^10.1.1"
     babel-plugin-dynamic-import-node: "npm:2.3.3"
