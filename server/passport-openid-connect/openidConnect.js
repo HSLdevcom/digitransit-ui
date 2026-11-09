@@ -11,8 +11,16 @@ import {
   getLanguageFromPath,
   getLanguagePrefix,
 } from '../../utils/shared/languageUtils.js';
-import { getLoginPath } from '../../utils/shared/path.js';
-import { isLocalPath } from '../../utils/shared/normalizePath.js';
+import {
+  getLoginPath,
+  PREFIX_BIKESTATIONS,
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_NEARYOU,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+} from '../../utils/shared/path.js';
+import { isLocalPath, pathSegments } from '../../utils/shared/normalizePath.js';
 
 const RedisStore = connectRedis(session);
 
@@ -41,6 +49,30 @@ export function safeLocalReturnTo(value, fallback) {
   }
 
   return returnTo;
+}
+
+/** Pages that log in automatically with a valid SSO token. */
+const SSO_LOGIN_PAGES = [
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_STOPS,
+  PREFIX_ROUTES,
+  PREFIX_TERMINALS,
+  PREFIX_BIKESTATIONS,
+  PREFIX_NEARYOU,
+];
+
+/**
+ * Whether automatic SSO login applies to a path: the front page or one of
+ * `SSO_LOGIN_PAGES`, in any language.
+ */
+export function isSsoLoginPage(config, indexPath, path) {
+  const segments = pathSegments(path);
+  if (config.availableLanguages.includes(segments[0])) {
+    segments.shift(); // the `/{language}` prefix
+  }
+  return (
+    segments.join('/') === indexPath || SSO_LOGIN_PAGES.includes(segments[0])
+  );
 }
 
 export default function setUpOIDC(app, port, indexPath, hostnames) {
@@ -98,23 +130,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
-    const paths = [
-      '/fi/',
-      '/en/',
-      '/sv/',
-      '/reitti/',
-      '/pysakit/',
-      '/linjat/',
-      '/terminaalit/',
-      '/pyoraasemat/',
-      '/lahellasi/',
-    ];
-    // Only allow sso login when user navigates to certain paths
     // Query parameter is string type
     if (
       req.query.sso !== 'false' &&
-      (req.path === `/${indexPath}` ||
-        paths.some(path => req.path.includes(path))) &&
+      isSsoLoginPage(getConfiguration(req), indexPath, req.path) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
