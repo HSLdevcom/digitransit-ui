@@ -139,7 +139,7 @@ export default {
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
-                corejs: { version: '3.50' },
+                corejs: { version: '3.51' },
               },
             ],
             [
