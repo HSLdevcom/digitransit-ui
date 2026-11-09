@@ -111,6 +111,55 @@ describe('server app', () => {
     });
   });
 
+  describe('language links for search engines', () => {
+    const linksOf = html =>
+      [...html.matchAll(/<link rel="(alternate|canonical)"[^>]*>/g)].map(
+        ([tag]) => tag,
+      );
+
+    it('links every language version, x-default and the canonical URL, without the query', async () => {
+      const response = await request(app)
+        .get('/en/reitti/a/b?time=1&arriveBy=true&utm_source=x&homescreen=1')
+        .set('Host', 'example.com');
+      expect(linksOf(response.text)).toEqual([
+        '<link rel="alternate" hreflang="fi" href="https://example.com/reitti/a/b" />',
+        '<link rel="alternate" hreflang="sv" href="https://example.com/sv/reitti/a/b" />',
+        '<link rel="alternate" hreflang="en" href="https://example.com/en/reitti/a/b" />',
+        '<link rel="alternate" hreflang="x-default" href="https://example.com/reitti/a/b" />',
+        '<link rel="canonical" href="https://example.com/en/reitti/a/b" />',
+      ]);
+    });
+
+    it('uses the root for the front page', async () => {
+      const response = await request(app).get('/sv').set('Host', 'example.com');
+      const links = linksOf(response.text);
+      expect(links).toContain(
+        '<link rel="alternate" hreflang="fi" href="https://example.com/" />',
+      );
+      expect(links).toContain(
+        '<link rel="canonical" href="https://example.com/sv/" />',
+      );
+    });
+
+    it('escapes the request URL in og:url', async () => {
+      const response = await request(app)
+        .get('/x?a=1&b=2')
+        .set('Host', 'example.com');
+      expect(response.text).toContain(
+        '<meta property="og:url" content="https://example.com/x?a=1&amp;b=2"',
+      );
+    });
+
+    it('keeps crafted paths on the site and inside the attribute', async () => {
+      const response = await request(app)
+        .get('//example.org/x"><y')
+        .set('Host', 'example.com');
+      expect(linksOf(response.text)).toContain(
+        '<link rel="canonical" href="https://example.com/example.org/x%22%3E%3Cy" />',
+      );
+    });
+  });
+
   describe('the page language', () => {
     it('renders the URL language as <html lang>, not into window.config', async () => {
       const response = await request(app).get('/sv/');

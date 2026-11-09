@@ -1,6 +1,9 @@
+import escapeHtml from 'lodash/escape.js';
 import serialize from 'serialize-javascript';
 import getMetadata from '../../utils/shared/metaUtils.js';
 import { getConfiguration } from '../configs/config.js';
+import { createLanguageHref } from '../../utils/shared/languageUtils.js';
+import { pathSegments } from '../../utils/shared/normalizePath.js';
 import { getAnalyticsInitCode } from '../../utils/shared/analyticsUtils.js';
 import {
   getMainAssets,
@@ -16,6 +19,33 @@ function getAssetContext() {
   };
 }
 
+/**
+ * Links to this page in every available language (`x-default` is the default
+ * language) and to its own canonical URL, for search engines.
+ */
+function buildLanguageLinks(config, req, language) {
+  const segments = pathSegments(req.path);
+  if (language !== config.defaultLanguage) {
+    segments.shift(); // the `/{language}` prefix
+  }
+  // No query: our parameters only vary the moment, view or tracking of a
+  // page (time, arriveBy, date, utm_*, homescreen, ...), not which page it is.
+  const location = { pathname: segments.join('/'), search: '' };
+
+  const url = lang =>
+    escapeHtml(
+      `https://${req.hostname}${createLanguageHref(config, lang, location)}`,
+    );
+
+  return [
+    ...config.availableLanguages.map(
+      lang => `<link rel="alternate" hreflang="${lang}" href="${url(lang)}" />`,
+    ),
+    `<link rel="alternate" hreflang="x-default" href="${url(config.defaultLanguage)}" />`,
+    `<link rel="canonical" href="${url(language)}" />`,
+  ].map(tag => `${tag}\n`);
+}
+
 function buildHead(config, req, language) {
   const metadata = getMetadata(
     language,
@@ -28,10 +58,11 @@ function buildHead(config, req, language) {
 
   metadata.forEach(m => {
     const attrs = Object.entries(m)
-      .map(([key, value]) => `${key}="${value}"`)
+      .map(([key, value]) => `${key}="${escapeHtml(value)}"`)
       .join(' ');
     html.push(`<meta ${attrs} data-react-helmet="true" />\n`);
   });
+  html.push(...buildLanguageLinks(config, req, language));
 
   // Write preload hints before doing anything else
   if (process.env.NODE_ENV !== 'development') {
