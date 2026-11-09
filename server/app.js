@@ -1,7 +1,6 @@
 import path from 'path';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import helmet from 'helmet';
 import proxy from 'express-http-proxy';
@@ -134,9 +133,6 @@ export function onError(err, req, res, next) {
 export default function createApp() {
   const app = express();
 
-  // Registered first: both the OIDC routes (/login, /logout) and the
-  // language middleware read req.cookies.
-  app.use(cookieParser());
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);
   setUpMiddleware(app);

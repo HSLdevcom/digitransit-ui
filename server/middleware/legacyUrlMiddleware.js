@@ -1,17 +1,14 @@
 import legacyParamParser from '../../utils/server/legacyParamParser.js';
-import normalizePath from '../../utils/server/normalizePath.js';
+import normalizePath from '../../utils/shared/normalizePath.js';
 import { getConfiguration } from '../configs/config.js';
-
-function formatQuery(query) {
-  const params = Object.keys(query)
-    .map(k => `${k}=${query[k]}`)
-    .join('&');
-
-  return params ? `?${params}` : '';
-}
+import { languagePrefix } from '../../utils/shared/languageUtils.js';
+import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
 
 export function validateParams(req, config) {
-  const { time: timeParam, ...query } = req.query;
+  // The raw query, so that repeated keys and encoding survive the redirect.
+  const query = getSearchParams(req.originalUrl);
+  const timeParam = query.get('time') ?? undefined;
+  query.delete('time');
   const timeNow = Date.now() / 1000; // Convert to seconds
   const isStale =
     config.queryMaxAgeDays &&
@@ -21,7 +18,7 @@ export function validateParams(req, config) {
     timeParam !== undefined && !Number.isFinite(Number(timeParam));
 
   return isStale || isInvalid
-    ? `${normalizePath(req.path)}${formatQuery(query)}`
+    ? addQueryParams(normalizePath(req.path), query)
     : undefined;
 }
 
@@ -35,7 +32,9 @@ export default function legacyUrlMiddleware(req, res, next) {
     (req.query.from || req.query.to || req.query.from_in || req.query.to_in)
   ) {
     legacyParamParser(req.query, config)
-      .then(url => res.redirect(url))
+      .then(url =>
+        res.redirect(`${languagePrefix(config, res.locals.language)}${url}`),
+      )
       .catch(next);
   } else {
     next();

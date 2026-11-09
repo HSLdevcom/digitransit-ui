@@ -7,7 +7,11 @@ import connectRedis from 'connect-redis';
 import { Strategy as LoginStrategy } from './Strategy.js';
 import { audit, hash, privateNoStore } from './authAudit.js';
 import { getConfiguration } from '../configs/config.js';
-import { resolveLanguage } from '../middleware/languageMiddleware.js';
+import {
+  languageFromPath,
+  languagePrefix,
+} from '../../utils/shared/languageUtils.js';
+import { addQueryParams } from '../../utils/shared/path.js';
 
 const RedisStore = connectRedis(session);
 
@@ -114,9 +118,6 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       ssoValidTo &&
       ssoValidTo > Math.floor(new Date().getTime() / 1000)
     ) {
-      const params = Object.keys(req.query)
-        .map(k => `${k}=${req.query[k]}`)
-        .join('&');
       if (debugLogging) {
         console.log(
           'redirecting to login with sso token ',
@@ -125,7 +126,8 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       }
       res.set('Cache-Control', 'private, no-store');
       res.vary('Cookie');
-      res.redirect(`/login?${params}&url=${req.path}`);
+      // Returns to the page (and so the language) the user came from.
+      res.redirect(addQueryParams('/login', { returnTo: req.originalUrl }));
     } else {
       next();
     }
@@ -215,7 +217,12 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   );
 
   app.get('/logout', privateNoStore, function (req, res) {
-    const language = resolveLanguage(getConfiguration(req), req);
+    // The page the user logs out from decides the IdP language and the
+    // language of the front page they return to.
+    const language = languageFromPath(
+      getConfiguration(req),
+      safeLocalReturnTo(req.query.returnTo, '/'),
+    );
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const postLogoutRedirectUri = req.secure
       ? `https://${host}${logoutCallbackPath}`
@@ -229,6 +236,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
     audit('logout', req);
     req.session.userId = req.user.data.sub;
+    req.session.logoutLanguage = language;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
     }
@@ -240,6 +248,11 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       console.log(`logout callback for userId ${req.session.userId}`);
     }
     const sessions = `sessions-${req.session.userId}`;
+    const config = getConfiguration(req);
+    const prefix = languagePrefix(
+      config,
+      req.session.logoutLanguage ?? config.defaultLanguage,
+    );
     req.logout({}, () => {
       RedisClient.smembers(sessions, function (err, sessionIds) {
         req.session.destroy(function () {
@@ -251,7 +264,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
             RedisClient.del(...sessionIds);
             RedisClient.del(sessions);
           }
-          res.redirect(`/${indexPath}`);
+          res.redirect(`${prefix}/${indexPath}`);
         });
       });
     });

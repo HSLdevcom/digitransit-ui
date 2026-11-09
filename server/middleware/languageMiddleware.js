@@ -1,7 +1,9 @@
 import { getConfiguration } from '../configs/config.js';
 import normalizePath, {
   pathSegments,
-} from '../../utils/server/normalizePath.js';
+} from '../../utils/shared/normalizePath.js';
+import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
+import { languageFromPath } from '../../utils/shared/languageUtils.js';
 
 /** Reittiopas-era link prefixes, stripped when `config.redirectReittiopasParams` is set. */
 const LEGACY_LANGUAGE_PATH_SEGMENTS = Object.freeze([
@@ -12,68 +14,37 @@ const LEGACY_LANGUAGE_PATH_SEGMENTS = Object.freeze([
   'slangi',
 ]);
 
-const LANGUAGE_COOKIE = 'lang';
-const ONE_YEAR_MS = 365 * 24 * 60 * 60 * 1000;
-
-/** A language selector link (`/{lang}/...`), or an old reittiopas-era one. */
-function isLanguagePathSegment(config, segment) {
-  return (
-    config.availableLanguages.includes(segment) ||
-    (config.redirectReittiopasParams &&
-      LEGACY_LANGUAGE_PATH_SEGMENTS.includes(segment))
-  );
-}
-
 /**
- * Resolves the request's language: the chosen (cookie) language if it is
- * available, else `config.defaultLanguage`.
- */
-export function resolveLanguage(config, req) {
-  const cookieLang = req.cookies[LANGUAGE_COOKIE];
-  return config.availableLanguages.includes(cookieLang)
-    ? cookieLang
-    : config.defaultLanguage;
-}
-
-/** Stores the chosen language for a year from the latest visit. */
-function setLanguageCookie(req, res, language) {
-  res.cookie(LANGUAGE_COOKIE, language, {
-    maxAge: ONE_YEAR_MS,
-    path: '/',
-    sameSite: 'lax',
-    httpOnly: true,
-    secure: req.secure,
-  });
-}
-
-/**
- * Stores a `/{lang}/...` language switch in a long-lived cookie (if the
- * language is available) and redirects to the same URL without the language
- * segment. Other requests refresh a valid cookie, clear an invalid one and get
- * their resolved language in `res.locals.language`.
+ * Serves non-default languages under a persistent `/{lang}/` prefix and the
+ * default language unprefixed. A `/{defaultLanguage}/...` path gets a
+ * permanent redirect to the same path without the prefix, and a legacy
+ * reittiopas prefix a temporary one. Sets the page language in
+ * `res.locals.language`.
  */
 export default function languageMiddleware(req, res, next) {
   const config = getConfiguration(req);
   const [firstSegment, ...rest] = pathSegments(req.path);
 
-  if (isLanguagePathSegment(config, firstSegment)) {
-    if (config.availableLanguages.includes(firstSegment)) {
-      setLanguageCookie(req, res, firstSegment);
-    }
-    const queryIndex = req.originalUrl.indexOf('?');
-    const search = queryIndex === -1 ? '' : req.originalUrl.slice(queryIndex);
-    res.setHeader('Cache-Control', 'no-store');
-    res.redirect(`${normalizePath(rest.join('/'))}${search}`);
+  const unprefixedUrl = () =>
+    addQueryParams(
+      normalizePath(rest.join('/')),
+      getSearchParams(req.originalUrl),
+    );
+
+  if (firstSegment === config.defaultLanguage) {
+    res.redirect(301, unprefixedUrl());
     return;
   }
 
-  const cookieLang = req.cookies[LANGUAGE_COOKIE];
-  if (config.availableLanguages.includes(cookieLang)) {
-    setLanguageCookie(req, res, cookieLang);
-  } else if (cookieLang !== undefined) {
-    res.clearCookie(LANGUAGE_COOKIE, { path: '/' });
+  const isLegacy =
+    config.redirectReittiopasParams &&
+    !config.availableLanguages.includes(firstSegment) &&
+    LEGACY_LANGUAGE_PATH_SEGMENTS.includes(firstSegment);
+  if (isLegacy) {
+    res.redirect(302, unprefixedUrl());
+    return;
   }
-  res.locals.language = resolveLanguage(config, req);
-  res.vary('Cookie');
+
+  res.locals.language = languageFromPath(config, req.path);
   next();
 }

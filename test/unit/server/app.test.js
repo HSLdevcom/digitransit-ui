@@ -14,16 +14,6 @@ import createApp, { onError } from '../../../server/app';
 // per request in dev mode, hence the placeholder fixture below.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
-// Stands in for the real OIDC setup (which needs Redis and an OIDC
-// provider): registers a route that, like the real /login and /logout,
-// reads req.cookies.
-vi.mock('../../../server/passport-openid-connect/openidConnect', () => ({
-  default: app => {
-    app.get('/login', (req, res) => res.send(req.cookies.lang));
-    return undefined;
-  },
-}));
-
 afterAll(() => {
   vi.unstubAllEnvs();
 });
@@ -122,42 +112,33 @@ describe('server app', () => {
   });
 
   describe('the page language', () => {
-    it("renders the request's cookie language as <html lang>, not into window.config", async () => {
-      const response = await request(app).get('/').set('Cookie', 'lang=sv');
+    it('renders the URL language as <html lang>, not into window.config', async () => {
+      const response = await request(app).get('/sv/');
+      expect(response.status).toBe(200);
       expect(response.text).toContain('<html lang="sv">');
       expect(response.text).not.toContain('"language":');
     });
 
-    it('ignores Accept-Language when no language has been chosen', async () => {
+    it('serves the default language without a prefix, ignoring cookies and Accept-Language', async () => {
       const response = await request(app)
         .get('/')
+        .set('Cookie', 'lang=sv')
         .set('Accept-Language', 'en-GB,en;q=0.9');
       expect(response.text).toContain('<html lang="fi">');
+      expect(response.headers['set-cookie']).toBeUndefined();
     });
-  });
 
-  describe('language path redirects', () => {
-    it('redirects /fi/ to /', async () => {
+    it('permanently redirects /fi/ to /', async () => {
       const response = await request(app).get('/fi/');
-      expect(response.status).toBe(302);
+      expect(response.status).toBe(301);
       expect(response.headers.location).toBe('/');
     });
-  });
-});
 
-describe('OIDC routes', () => {
-  afterEach(() => {
-    vi.stubEnv('OIDC_CLIENT_ID', undefined);
-  });
-
-  it('can read cookies, since cookie parsing is registered before them', async () => {
-    vi.stubEnv('OIDC_CLIENT_ID', 'test-client');
-    const { app } = createApp();
-
-    const response = await request(app).get('/login').set('Cookie', 'lang=sv');
-
-    expect(response.status).toBe(200);
-    expect(response.text).toBe('sv');
+    it('keeps the language prefix in legacy URL redirects', async () => {
+      const response = await request(app).get('/en/reitti?time=x&a=b');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toBe('/en/reitti?a=b');
+    });
   });
 });
 

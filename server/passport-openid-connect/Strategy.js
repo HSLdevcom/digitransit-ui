@@ -6,7 +6,7 @@ import process from 'process';
 import { User } from './User.js';
 import { audit, hash } from './authAudit.js';
 import { getConfiguration } from '../configs/config.js';
-import { resolveLanguage } from '../middleware/languageMiddleware.js';
+import { languageFromPath } from '../../utils/shared/languageUtils.js';
 
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
@@ -58,7 +58,11 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   if (opts.refresh) {
     return this.refresh(req);
   }
-  const language = resolveLanguage(getConfiguration(req), req);
+  // The page the user logs in from (and returns to) decides the IdP language.
+  const language = languageFromPath(
+    getConfiguration(req),
+    req.session.returnTo ?? '/',
+  );
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
     ssoValidTo && ssoValidTo > Math.floor(new Date().getTime() / 1000)

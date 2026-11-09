@@ -149,7 +149,7 @@ export default async function shell(req, res, next) {
     ];
 
     res.setHeader('content-type', 'text/html; charset=utf-8');
-    // Per-user (language cookie): never stored by shared caches.
+    // Per-user (cookieConsent decides the analytics scripts): never stored by shared caches.
     res.setHeader('Cache-Control', 'private, no-cache');
     return res.send(html.join(''));
   } catch (err) {
