@@ -34,7 +34,7 @@ describe('isSsoLoginPage', () => {
     ['/', '/en', '/sv/', '/de'].forEach(path =>
       expect(isSsoLoginPage(config, '', path)).toBe(true),
     );
-    ['/etusivu', '/en/etusivu', '/etusivu/'].forEach(path =>
+    ['/', '/en', '/sv/', '/etusivu', '/en/etusivu', '/etusivu/'].forEach(path =>
       expect(isSsoLoginPage(config, 'etusivu', path)).toBe(true),
     );
   });
@@ -46,7 +46,7 @@ describe('isSsoLoginPage', () => {
   });
 
   it('rejects other pages, with or without a language prefix', () => {
-    ['/liikenne', '/en/liikenne', '/', '/en', '/etusivu/x'].forEach(path =>
+    ['/liikenne', '/en/liikenne', '/etusivu/x', '/en/etusivu/x'].forEach(path =>
       expect(isSsoLoginPage(config, 'etusivu', path)).toBe(false),
     );
   });

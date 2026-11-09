@@ -62,8 +62,9 @@ const SSO_LOGIN_PAGES = [
 ];
 
 /**
- * Whether automatic SSO login applies to a path: the front page or one of
- * `SSO_LOGIN_PAGES`, in any language.
+ * Whether automatic SSO login applies to a path: the root (which the client
+ * redirects to `indexPath`), the front page or one of `SSO_LOGIN_PAGES`, in
+ * any language.
  */
 export function isSsoLoginPage(config, indexPath, path) {
   const segments = pathSegments(path);
@@ -71,7 +72,9 @@ export function isSsoLoginPage(config, indexPath, path) {
     segments.shift(); // the `/{language}` prefix
   }
   return (
-    segments.join('/') === indexPath || SSO_LOGIN_PAGES.includes(segments[0])
+    segments.length === 0 ||
+    segments.join('/') === indexPath ||
+    SSO_LOGIN_PAGES.includes(segments[0])
   );
 }
 
@@ -130,14 +133,14 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
-    // Query parameter is string type
+    // Cheap session checks first: most requests have no SSO token.
     if (
-      req.query.sso !== 'false' &&
-      isSsoLoginPage(getConfiguration(req), indexPath, req.path) &&
-      !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
-      ssoValidTo > Math.floor(new Date().getTime() / 1000)
+      ssoValidTo > Math.floor(new Date().getTime() / 1000) &&
+      !req.isAuthenticated() &&
+      req.query.sso !== 'false' && // query parameters are strings
+      isSsoLoginPage(getConfiguration(req), indexPath, req.path)
     ) {
       if (debugLogging) {
         console.log(
