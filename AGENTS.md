@@ -43,7 +43,7 @@ right one by *who consumes the code*, not just by convenience.
   `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
   initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
   bundle does all component rendering), `slashMiddleware.js` (redirects `//` and `\` to `/`),
-  `languageMiddleware.js` (resolves the page language, handles `/{lang}/` switches),
+  `languageMiddleware.js` (reads the page language from the `/{lang}/` prefix),
   `legacyUrlMiddleware.js` (redirects legacy reittiopas-era URLs),
   `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
   `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
@@ -217,7 +217,9 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 - Keep comments and explanations concise, describing the current state rather than how it was
   reached; prefer one-line comments. Comment only where necessary; document functions with concise JSDoc (`/** ... */`).
 - The page language is not in config: use `useIntl().locale` (`document.documentElement.lang`
-  before React starts).
+  before React starts). It comes from the URL path: see "Language in URLs" in `docs/Navigation.md`.
+- Use `match.location` for app logic and `router.createHref(match.location)` for the browser URL
+  (it includes the `/{lang}/` prefix); read `window.location` only outside the router.
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to
   `undefined`.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
