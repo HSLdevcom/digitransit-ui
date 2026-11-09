@@ -131,7 +131,7 @@
   },
   "dependencies": {
     "@azure/cosmos": "^4.10.1",
-    "@dnd-kit/react": "0.5.1",
+    "@dnd-kit/react": "0.5.3",
     "@hsl-fi/button": "^1.2.4",
     "@hsl-fi/design-system-core": "^2.7.1",
     "@hsl-fi/design-tokens": "^1.25.0",
@@ -276,10 +276,10 @@
     "postcss": "^8.5.32",
     "prettier": "3.9.10",
     "relay-compiler": "16.2.0",
-    "rollup": "4.66.0",
+    "rollup": "4.67.4",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
-    "sass": "^1.107.0",
+    "sass": "^1.107.1",
     "sass-loader": "17.1.0",
     "selenium-webdriver": "4.0.0-alpha.1",
     "semver": "^7.8.5",
@@ -294,7 +294,7 @@
     "webpack": "5.112.2",
     "webpack-assets-manifest": "^6.5.5",
     "webpack-bundle-analyzer": "4.10.2",
-    "webpack-cli": "7.2.3",
+    "webpack-cli": "7.3.1",
     "webpack-dev-server": "^6.1.0"
   },
   "resolutions": {
