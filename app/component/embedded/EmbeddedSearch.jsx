@@ -74,10 +74,12 @@ export default function EmbeddedSearch(props) {
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
+  // The page that embeds this search, for analytics.
   const url =
     window.location !== window.parent.location
       ? document.referrer
-      : document.location.href;
+      : // eslint-disable-next-line no-restricted-syntax
+        document.location.href;
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);

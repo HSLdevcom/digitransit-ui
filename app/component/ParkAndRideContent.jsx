@@ -82,11 +82,11 @@ export default function ParkAndRideContent({
   const { parkAndRide } = useConfigContext();
   const { locale } = useIntl();
   const breakpoint = useBreakpoint();
-  const { router } = useRouter();
+  const { router, match } = useRouter();
 
   const bikePark = mode
     ? mode === 'BIKEPARK'
-    : window.location.href.includes(PREFIX_BIKEPARK);
+    : match.location.pathname.startsWith(`/${PREFIX_BIKEPARK}`);
   if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     router.replace(`/${path}`);

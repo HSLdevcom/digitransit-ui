@@ -201,6 +201,8 @@ async function init() {
             {...getMetadata(
               language,
               window.location.host,
+              // Outside the <Router>: the initial og:url.
+              // eslint-disable-next-line no-restricted-syntax
               window.location.href,
               config,
             )}
