@@ -3,7 +3,12 @@
   "version": "4.5.25",
   "description": "digitransit-search-util query-utils module",
   "type": "module",
-  "main": "lib/index.cjs",
+  "main": "lib/index.js",
+  "exports": {
+    ".": "./lib/index.js",
+    "./package.json": "./package.json"
+  },
+  "sideEffects": false,
   "files": [
     "/lib",
     "LICENSE-AGPL.txt",
@@ -19,9 +24,7 @@
     "docs": "node ../../../scripts/packages/generate-readmes.js",
     "relay": "relay-compiler",
     "relay-watch": "relay-compiler --watch",
-    "watch": "yarn relay && NODE_ENV=development yarn run -T rollup -w -c",
-    "copy-schema": "mkdir -p lib/schema && cp ../../private/schema/schema.graphql lib/schema/schema.graphql",
-    "build": "yarn relay && yarn copy-schema && NODE_ENV=production yarn run -T rollup -c"
+    "build": "yarn relay && node $PROJECT_CWD/node_modules/vite/bin/vite.js build"
   },
   "relay": {
     "src": "./src",
@@ -44,8 +47,8 @@
     "react-relay": "^16.2.0"
   },
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^",
     "@digitransit-ui/schema": "workspace:^",
+    "@digitransit-ui/vite-config": "workspace:^",
     "babel-plugin-relay": "16.2.0",
     "relay-compiler": "16.2.0"
   },

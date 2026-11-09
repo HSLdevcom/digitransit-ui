@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { getIconName } from './utils';
 
 export default function NearYouButton({

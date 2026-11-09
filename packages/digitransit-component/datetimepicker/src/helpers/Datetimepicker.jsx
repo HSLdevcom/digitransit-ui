@@ -5,7 +5,7 @@ import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';

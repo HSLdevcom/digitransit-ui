@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { I18nextProvider } from 'react-i18next';
 import NearStopsAndRoutes from './helpers/NearStopsAndRoutes';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 import i18n from './helpers/i18n';
 
 const DEFAULT_CHILDREN = [];

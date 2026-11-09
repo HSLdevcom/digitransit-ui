@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
 
-# Local development runner: runs Relay, the Express dev server (node --watch),
-# webpack-dev-server and the Digitransit package watchers in parallel
-# until interrupted.
+# Local development runner: runs Relay, the Express dev server (node --watch,
+# which also compiles the client bundle, see
+# server/middleware/devMiddleware.js) and the Digitransit package watcher
+# (scripts/packages/watch.js) in parallel until interrupted.
 #
 # `set -m` gives each backgrounded job its own process group. This allows
 # cleanup to terminate the whole process tree for tools such as `node --watch`
-# (which runs the server in a child process) and webpack-dev-server instead of
-# only killing the direct process.
+# (which runs the server in a child process) instead of only killing the
+# direct process.
 #
 # If any one job exits early (crash), we want to notice and clean up the
 # rest rather than leaving a partially-broken dev session running. That
@@ -101,14 +102,14 @@ yarn static
 
 yarn sprites
 
-# Build the digitransit-* packages once, synchronously, before
-# starting webpack-dev-server and the package watchers below. On a fresh
-# clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
-# outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.js) doesn't reliably invalidate when those
-# outputs later appear via packages-watch's rollup watch, so it
-# can permanently cache a broken/missing module resolution. Building here
-# first ensures webpack-dev-server always sees valid output on its first
+# Build the digitransit-* packages once, synchronously, before starting the
+# server (which compiles the client bundle) and the package watcher below. On
+# a fresh clone (or after `lib/` is removed/out of date) the packages'
+# `lib/index.js` outputs don't exist yet; webpack's persistent filesystem cache
+# (see webpack.config.js) doesn't reliably invalidate when those outputs later
+# appear via the watcher, so it can permanently cache a broken/missing module
+# resolution. Building here first (cached by Nx, and running query-utils'
+# relay-compiler) ensures webpack always sees valid output on its first
 # compile.
 yarn packages-build
 
@@ -116,23 +117,19 @@ yarn relay-watch &
 pids+=("$!")
 
 # digitransit-search-util-query-utils has its own relay-compiler config
-# (separate from the root app's) for the graphql`` tags in its src. Its
-# "watch" script only runs relay-compiler once before starting rollup -w,
-# so without this it wouldn't regenerate lib/__generated__ if one of its
-# queries is edited during a dev session. Its "relay-watch" script
-# mkdir -p's lib/__generated__ before starting relay-compiler --watch, so
-# this also works on a fresh clone where lib/ doesn't exist yet.
+# (separate from the root app's) for the graphql`` tags in its src. The
+# package watcher doesn't run relay-compiler, so without this it wouldn't
+# regenerate src/__generated__ (which the watcher then rebuilds from) if one
+# of its queries is edited during a dev session.
 yarn workspace @digitransit-search-util/digitransit-search-util-query-utils relay-watch &
 pids+=("$!")
 
 # Node's built-in watch mode restarts the server whenever any module in its
 # loaded import graph changes (server/**, utils/{shared,server}/**, region
-# configs). --watch-preserve-output keeps Node from clearing the terminal on
+# configs, webpack.config.js); a restart recompiles the client bundle from
+# webpack's filesystem cache. --watch-preserve-output keeps Node from clearing the terminal on
 # every restart, which would wipe the other processes' interleaved output.
 node --watch --watch-preserve-output server/server.js &
-pids+=("$!")
-
-yarn webpack-dev-server &
 pids+=("$!")
 
 yarn sprites --watch &

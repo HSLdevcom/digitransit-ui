@@ -3,19 +3,17 @@
   "version": "11.0.6",
   "description": "digitransit-component autosuggest module",
   "type": "module",
-  "main": "index.cjs",
-  "module": "lib/index.js",
+  "main": "lib/index.js",
   "exports": {
-    ".": {
-      "import": "./lib/index.js",
-      "require": "./index.cjs",
-      "default": "./index.cjs"
-    },
+    ".": "./lib/index.js",
+    "./index.css": "./lib/index.css",
     "./package.json": "./package.json"
   },
+  "sideEffects": [
+    "**/*.css"
+  ],
   "files": [
     "/lib",
-    "index.cjs",
     "LICENSE-AGPL.txt",
     "LICENSE-EUPL.txt"
   ],
@@ -23,11 +21,10 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development yarn run -T rollup -w -c",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/packages/generate-readmes.js",
-    "build": "NODE_ENV=production yarn run -T rollup -c"
+    "build": "node $PROJECT_CWD/node_modules/vite/bin/vite.js build"
   },
   "repository": {
     "type": "git",
@@ -47,7 +44,7 @@
     "@hsl-fi/hooks": "^1.2.4"
   },
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^"
+    "@digitransit-ui/vite-config": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",

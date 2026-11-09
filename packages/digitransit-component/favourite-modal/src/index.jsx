@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import i18n from './helpers/i18n';
 import FavouriteForm from './helpers/FavouriteForm';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 
 const noop = () => {};
 

@@ -35,13 +35,13 @@ right one by *who consumes the code*, not just by convenience.
     checked separately via `scripts/packages/sort-translations.js`.
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
-  configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no
+  configured Express app, mounting the assets middleware (`middleware/devMiddleware.js` in development), no
   `.listen()`, so it's directly testable with supertest), `middleware/` — `shell.js` (renders the
   initial HTML shell — meta tags, config, asset preloads; no React runs server-side, the client
   bundle does all component rendering), `legacyUrlMiddleware.js` (redirects legacy reittiopas-era
-  URLs), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
-  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`assetManifest.js` reads webpack's build
-  manifest), `passport-openid-connect/`, and
+  URLs), `manifestMiddleware.js` (puts the build's files from webpack's manifest on
+  `res.locals.assets`), `devMiddleware.js` (the same from webpack-dev-middleware in dev), `services/` — boot-time integrations (`ticketPrices.js`, `geoJsonZones.js`,
+  `citybikeSeasons.js`), `html/` — HTML-shell helpers (`serviceWorkerRemoval.js`), `passport-openid-connect/`, and
   `configs/` — `config.js` (server-side config resolution/merging by host header via `BASE_CONFIG`) plus one
   `config.<region>.js` per deployment.
 - `utils/` — helper modules split by consumer (see "Server/client boundary" below):
@@ -65,11 +65,13 @@ right one by *who consumes the code*, not just by convenience.
   - `digitransit-{component,search-util,store,util}/<package>/` — the published packages.
   - `private/` — unpublished: `schema/` (generated `schema.graphql` for relay-compiler and
     graphql-eslint; regenerate with `scripts/generate-schema.js`, don't hand-edit; a devDependency
-    of query-utils) and `rollup-config/` (shared rollup/babel build config, re-exported by each
-    buildable package's `rollup.config.js`).
+    of query-utils) and `vite-config/` (shared Vite library build config: ESM `lib/index.js` plus
+    `lib/index.css`, called with the package's directory by each buildable package's
+    `vite.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
+    `yarn run -T <bin>`, except Vite in `build`, which is called by path to save a Yarn process
+    per package. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
 - `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),
@@ -83,8 +85,8 @@ right one by *who consumes the code*, not just by convenience.
 - Requires the Node version from `engines.node` and the Yarn version from `packageManager` in
   `package.json` (`corepack enable`). Also needs `watchman`.
 - `yarn install` — installs deps.
-- `yarn run dev` — dev server at http://localhost:8080 (webpack-dev-server + `node --watch` server +
-  relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
+- `yarn run dev` — dev server at http://localhost:8080 (`node --watch` server, which compiles the
+  bundle via webpack-dev-middleware, + relay-watch + component watch, run in parallel via one script). Runs against mock/no API keys.
 - `API_TYPE=development|production|local API_SUBSCRIPTION_TOKEN=<key> yarn run dev` — run the dev
   server against real APIs (map tiles, geocoding, etc.), handled inside `scripts/dev.sh`:
   - `development` (default) — `dev-api.digitransit.fi`.

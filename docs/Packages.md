@@ -5,16 +5,17 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 
 | Family                 | npm scope                 | Packages directory                   | Entry point                                                 | Build step                                  |
 | ----------------------- | -------------------------- | ------------------------------------- | ------------------------------------------------------------ | -------------------------------------------- |
-| `digitransit-component` | `@digitransit-component/*` | `packages/digitransit-component/*`    | `src/index.js`                                                | [Rollup](https://rollupjs.org) (compiles JSX) |
-| `digitransit-search-util` | `@digitransit-search-util/*` | `packages/digitransit-search-util/*` | `index.js` (except `digitransit-search-util-query-utils`, which has a build step and uses `src/index.js`) | none, except `query-utils` (relay-compiler)  |
-| `digitransit-store`     | `@digitransit-store/*`     | `packages/digitransit-store/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
+| `digitransit-component` | `@digitransit-component/*` | `packages/digitransit-component/*`    | `src/index.js`                                                | [Vite](https://vite.dev) (compiles JSX)        |
+| `digitransit-search-util` | `@digitransit-search-util/*` | `packages/digitransit-search-util/*` | `index.js` (except `digitransit-search-util-query-utils`, which has a build step and uses `src/index.js`) | none, except `query-utils` (relay-compiler + Vite) |
+| `digitransit-store`     | `@digitransit-store/*`     | `packages/digitransit-store/*`        | `src/index.js`                                                | Vite (no JSX)                                 |
 | `digitransit-util`      | `@digitransit-util/*`      | `packages/digitransit-util/*`         | `index.js`                                                    | none                                          |
 
-The main app consumes `component`/`store` via their built Rollup output —
-real ESM (`lib/index.js`, via each package's `"module"`/`exports` fields,
-preferred by webpack for `import`) with a UMD `lib/index.cjs` (`"main"`) as
-the `require`/Node fallback — and `search-util`/`util` via raw source, using
-webpack's native ESM support. Treat these packages like
+The main app consumes `component`/`store` and query-utils via their built
+output — a single ESM file, `lib/index.js` (`"main"`/`exports`), plus
+`lib/index.css` for packages with styles — and the other `search-util`
+packages and `util` via raw source. There is no CommonJS build. The output is for bundlers: Node can't
+load it directly, since it imports `index.css` and extensionless
+subpaths such as `lodash/sortBy`. Treat these packages like
 semi-external dependencies: changes to their public API should bump their
 version (see [Publishing](#publishing)) the same way a change to a real npm
 dependency would.
@@ -67,7 +68,7 @@ A `component`/`store` package looks like:
 ```
 packages/digitransit-<family>/<module>
 │   package.json
-│   rollup.config.js
+│   vite.config.js
 │   README.md
 │   test.js
 │   LICENSE-AGPL.txt
@@ -93,9 +94,10 @@ A `search-util`/`util` package is the same, but flat (no build step, no
   [Dependency classification](#dependency-classification)); only
   package-specific build tooling goes under `devDependencies` (shared tooling
   comes from the root). Buildable packages also declare the private
-  `@digitransit-ui/rollup-config` as a `devDependency`.
-- `rollup.config.js` — a one-line re-export of the shared
-  [build config](#shared-build-config) (`component`/`store` only; not
+  `@digitransit-ui/vite-config` as a `devDependency`.
+- `vite.config.js` — calls the shared
+  [build config](#shared-build-config) with the package's directory,
+  `defineLibraryConfig(import.meta.dirname)` (buildable packages only; not
   published, since `files` whitelists the published content).
 - `README.md` — generated, do not hand-edit (see below).
 - `LICENSE-*.txt` — copied from the repository root, do not hand-edit.
@@ -103,8 +105,8 @@ A `search-util`/`util` package is the same, but flat (no build step, no
 ## Creating a New Module
 
 There's no scaffolding script (the old per-family `create-new-module`
-scripts were removed — they generated stale, webpack-based tooling that no
-package has actually used since the migration to Rollup). Instead:
+scripts were removed — they generated stale, webpack-based tooling).
+Instead:
 
 1. Copy the nearest existing sibling package as a starting point, e.g.:
    ```sh
@@ -264,7 +266,11 @@ When adding an import to a package's `src/index.js`/`index.js`, classify it
 in `package.json` as:
 
 - **`dependencies`** — a real runtime dependency that this package should
-  pull in on its own (e.g. `lodash`, `downshift`).
+  pull in on its own (e.g. `lodash`, `downshift`). The build keeps it
+  external like a peer (it isn't bundled), so the consumer installs and
+  dedupes it. Import CommonJS dependencies by name
+  (`import { useScrollLock } from '@hsl-fi/hooks'`): a default import of a
+  CJS module without a `default` export is `undefined` in the app.
 - **`peerDependencies`** — anything the *host application* is expected to
   already provide a single shared instance of. This includes `react`,
   `react-dom`, and **every `@hsl-fi/*` package** — regardless of whether it's
@@ -284,37 +290,69 @@ in `package.json` as:
   `@testing-library/*`, `react-dom`, ...) is *not* repeated here: tests run
   through the root Vitest config and resolve it from the root
   `devDependencies`. Package scripts call such root tooling via
-  `yarn run -T <bin>` (e.g. `yarn run -T vitest`, `yarn run -T rollup`), since
-  Yarn won't run a binary the workspace doesn't declare itself.
+  `yarn run -T <bin>` (e.g. `yarn run -T vitest`), since Yarn won't run a
+  binary the workspace doesn't declare itself. The `build` script calls Vite
+  by path instead (`node $PROJECT_CWD/node_modules/vite/bin/vite.js build`;
+  Yarn sets `PROJECT_CWD` to the repo root), which saves a Yarn process per
+  package. Packages have no `watch` script: `yarn packages-watch`
+  (`scripts/packages/watch.js`) watches all of them from one process.
 
 These rules (for `dependencies`/`peerDependencies`) are enforced by
 `yarn packages-dependencies-check`, part of `yarn lint`.
 
 ## CSS Modules
 
-`component`/`store` packages using SCSS (e.g. `src/helpers/styles.scss`) get
-it compiled as a CSS Module by the shared `@digitransit-ui/rollup-config`, which
-runs once per package with `cwd` set to that package's own directory. Since
-many packages share the same relative file path (e.g.
-`src/helpers/styles.scss`), the config passes a per-package `hashPrefix`
-(the package's npm name) into `postcss-modules` so that two unrelated
-packages using the same local class name (e.g. `.combobox-icon`) never hash
-to the same scoped class name and leak styles into each other once bundled
-into the app — don't remove `hashPrefix`/`autoModules: false` from that
-config without preserving this.
+Package stylesheets are CSS Modules named `*.module.scss`, compiled with Sass
+and [Lightning CSS](https://lightningcss.dev), which also adds the vendor
+prefixes the root `browserslist` needs. Scoped class names look like
+`digitransit-component-control-panel_icon-container_7YhxCG`: the unscoped
+package name, the local name and a hash of the file's path under
+`packages/` (the build's Vite `root`), so packages sharing a relative path
+such as `src/helpers/styles.module.scss` never collide. Keep `[local]` in
+the pattern: the app matches some class names by substring (e.g.
+`[class*="mobile-modal"]`).
+
+Mark global selectors with the function form, `:global(.x)`; Lightning CSS
+doesn't support the `:global .x` mode switch. Import packages without `~`
+(`@import '@hsl-fi/sass/colors'`); the build only aliases `~` because
+`@hsl-fi/sass` uses it internally.
+
+### Shipping the CSS
+
+A package with styles emits `lib/index.css`, and its `lib/index.js` starts
+with `import './index.css'`. The consuming bundler resolves that import, so
+the CSS lands in its normal CSS output with no runtime `<style>` injection.
+Such packages declare `"sideEffects": ["**/*.css"]` and export
+`./index.css`; packages without styles declare `"sideEffects": false`. The
+build fails if a package's styles and its `sideEffects` don't match, since
+without the declaration the bundler drops the CSS import.
 
 ## Shared build config
 
-`packages/private/rollup-config` (`@digitransit-ui/rollup-config`, private) holds the
-Rollup config and the inline Babel options used to build every
-`component`/`store` package and query-utils. Each of them has a
-`rollup.config.js` re-exporting it, so they build with a plain `rollup -c` and can
-override it locally. The rollup/babel tooling itself is owned by the root
-`devDependencies` (see [Dependency classification](#dependency-classification)),
-so the config package declares none. Because it is a `devDependency` of every
-buildable package, changing it requires bumping all of them
-(`packages-version-check` enforces this). The root `babel.config.cjs`
-is unrelated: it only serves tooling (eslint parser, Jest e2e).
+`packages/private/vite-config` (`@digitransit-ui/vite-config`, private) holds
+the [Vite library mode](https://vite.dev/guide/build#library-mode) config
+that builds every `component`/`store` package and query-utils. Each of them
+has a `vite.config.js` that calls `defineLibraryConfig(import.meta.dirname)`,
+so `vite build` gives the same output from any directory (e.g.
+`vite build --config packages/<family>/<package>/vite.config.js`). A package
+can extend it locally with `mergeConfig`, as query-utils does to ship
+`lib/schema/schema.graphql`.
+
+The config builds `src/index.js(x)` into unminified ESM with source maps,
+keeps every `dependencies` and `peerDependencies` entry external, and targets
+the root `browserslist` (JS via `browserslist-to-esbuild`, CSS via Lightning
+CSS). JSX goes through `@vitejs/plugin-react` (Oxc, always production JSX,
+whatever `NODE_ENV` is), SVG imports through
+`vite-plugin-svgr`, and Relay `graphql` templates through Babel's relay
+plugin (`@digitransit-ui/vite-config/relay`, also used by the root
+`vitest.config.js`).
+
+The Vite tooling itself is owned by the root `devDependencies` (see
+[Dependency classification](#dependency-classification)), so the config
+package declares none. Because it is a `devDependency` of every buildable
+package, changing it requires bumping all of them (`packages-version-check`
+enforces this). The root `babel.config.cjs` is unrelated: it only serves
+tooling (eslint parser, Jest e2e).
 
 ## Build Caching
 

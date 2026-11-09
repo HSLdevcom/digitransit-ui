@@ -5,7 +5,7 @@ import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import cx from 'classnames';
 import { parseTypedTime, validateInput, getTs } from './utils';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
 

@@ -12,7 +12,7 @@ import isEmpty from 'lodash/isEmpty';
 import Select from './helpers/Select';
 import SortableViaPoint from './helpers/SortableViaPoint';
 import i18n from './helpers/i18n';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 
 export const getEmptyViaPointPlaceHolder = () => ({});
 

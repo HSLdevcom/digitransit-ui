@@ -13,10 +13,10 @@ app/**/__generated__
 utils/**/__generated__
 packages/*/*/**/__generated__
 
-# Rollup build output (see packages/private/rollup-config).
+# Package build output (see packages/private/vite-config).
 packages/*/*/lib
 
-# Nx's local task-graph/build cache (used by `lerna run build`/`watch` via
+# Nx's local task-graph/build cache (used by `lerna run build` via
 # nx.json's task pipeline) - always safe to delete, regenerated on demand.
 .nx
 

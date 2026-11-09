@@ -2,6 +2,7 @@ import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
 import svgr from 'vite-plugin-svgr';
+import relayPlugin from '@digitransit-ui/vite-config/relay';
 
 const require = createRequire(import.meta.url);
 
@@ -85,14 +86,8 @@ export default {
       {
         // The main app suite (test/unit/**, minus the server tests).
         plugins: [
-          react({
-            // babel.config.cjs only adds the `relay` plugin on top of
-            // preset-env/preset-react (compiles `graphql`` tagged templates)
-            // - everything else plugin-react already handles by default.
-            babel: {
-              plugins: ['relay'],
-            },
-          }),
+          react(),
+          relayPlugin(),
           // Stub global stylesheets instead of letting Vite compile Sass.
           // Vitest stubs `.module.scss` itself, with real class names.
           {
@@ -162,12 +157,8 @@ export default {
         },
       },
       {
-        // Sibling `@digitransit-component/*` imports resolve via
-        // node_modules to each package's built lib/index.cjs, a Rollup UMD
-        // bundle Vite doesn't auto-unwrap correctly (resolves to the whole
-        // exports object, not the default export). Alias every sibling
-        // specifier to that package's raw src/index.js instead, consistent
-        // with this project testing raw source rather than built output.
+        // Tests run against raw source, so sibling `@digitransit-component/*`
+        // imports are aliased to their src/index instead of the built lib/.
         resolve: {
           alias: [
             {
@@ -179,9 +170,7 @@ export default {
             },
           ],
         },
-        // @vitejs/plugin-react already handles JSX; the only thing missing
-        // versus Rollup's build is SVGR, needed for
-        // digitransit-component-icon's raw .svg imports.
+        // SVGR is needed for digitransit-component-icon's raw .svg imports.
         plugins: [
           svgr({
             include: '**/*.svg',
@@ -189,27 +178,6 @@ export default {
           }),
           react(),
           hslFiCjsInteropPlugin(),
-          // rollup.config.js's postcss plugin treats every .scss import as
-          // a CSS module. Vitest's built-in CSS handling (`css: false`
-          // below) only does that for `.module.<ext>` files, otherwise
-          // stubbing to a plain string - stub every .scss import as an
-          // object here instead (`order: 'post'` wins over Vitest's own
-          // post-transform).
-          {
-            name: 'digitransit-component:css-module-stub',
-            enforce: 'post',
-            transform: {
-              order: 'post',
-              handler(_code, id) {
-                if (!/\.s?css$/.test(id)) {
-                  return undefined;
-                }
-                return {
-                  code: 'export default new Proxy(Object.create(null), { get: (_, prop) => prop });',
-                };
-              },
-            },
-          },
         ],
         test: {
           name: 'digitransit-component',

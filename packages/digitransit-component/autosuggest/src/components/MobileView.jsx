@@ -3,11 +3,11 @@ import PropTypes from 'prop-types';
 import ReactModal from 'react-modal';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import hooks from '@hsl-fi/hooks';
+import { useScrollLock } from '@hsl-fi/hooks';
 import { useTranslation } from 'react-i18next';
 import { useCombobox } from 'downshift';
-import mobileStyles from './MobileSearch.scss';
-import mobileNoScrollStyles from './MobileNoScroll.scss';
+import mobileStyles from './MobileSearch.module.scss';
+import mobileNoScrollStyles from './MobileNoScroll.module.scss';
 import { Suggestions } from './Suggestions';
 import { Input } from './Input';
 import {
@@ -68,7 +68,7 @@ export default function MobileView({
   colors,
 }) {
   const [t] = useTranslation();
-  const { lock, unlock } = hooks.useScrollLock();
+  const { lock, unlock } = useScrollLock();
   const styles = showScroll ? mobileStyles : mobileNoScrollStyles;
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;

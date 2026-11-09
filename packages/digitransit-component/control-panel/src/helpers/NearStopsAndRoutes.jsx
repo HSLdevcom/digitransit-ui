@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import AllModesModal from './AllModesModal';
 import ModeButton from './ModeButton';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import useModesWithAlerts from './useModesWithAlerts';
 import { VALID_NEAR_YOU_MODES, getModeUrl } from './utils';
 

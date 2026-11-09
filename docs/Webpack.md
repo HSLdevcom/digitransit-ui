@@ -5,7 +5,8 @@ does and why. Reflects the config as it stands on **webpack 5**. Update
 this doc whenever the config changes structurally.
 
 Consumed via the `build` script (`webpack --progress --color`, run with
-`NODE_ENV=production`) and via `webpack-dev-server` during `yarn run dev`.
+`NODE_ENV=production`) and, during `yarn run dev`, by
+`server/middleware/devMiddleware.js` inside the Express server (see "Development middleware" below).
 Two env vars change its behavior: `NODE_ENV` (production vs. anything else)
 and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
 `server/configs/config.*.js`).
@@ -28,32 +29,32 @@ and output settings.
 
 - `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
   `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
-- In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
+- `scripts/build/contextHelper.js` adds one `<theme>_theme`
   entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
-  otherwise every `server/configs/config.*.js` deployment does.
+  otherwise every `server/configs/config.*.js` deployment does. This is the
+  same in development, where `scripts/dev.sh` always sets `CONFIG`. The shell
+  links the theme before `main`'s CSS, so it declares the cascade layer order.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, the selected `CONFIG`'s `theme.scss` is added to `main`
-  instead, before `client`, so that it declares the cascade layer order.
 
 ## Output
 
-- Unhashed filenames in dev (`js/[name].js`, predictable dev-server URLs);
-  content-hashed in prod (`js/[name].[contenthash].js`, long-term
-  caching). Uses `[contenthash]` (hash of a chunk's own final emitted
+- Entries and lazy chunks share one pattern: unhashed in dev
+  (`js/[name].js`), content-hashed in prod (`js/[name].[contenthash].js`,
+  long-term caching). Lazy chunks are named by their `webpackChunkName`, or
+  by their deterministic id when they have none. Uses `[contenthash]` (hash of a chunk's own final emitted
   output), not `[chunkhash]` (hash of a chunk's entire transitive module
   graph, which can shift even when that chunk's own content didn't) —
   this is webpack5's own documented best practice for long-term caching,
   and matches the `[contenthash]` already used for CSS output below.
-- `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
-  `/` only matters for webpack's own JS-runtime asset resolution (chunk/
+- `publicPath`: `/` in both modes. It only matters for webpack's own JS-runtime asset resolution (chunk/
   script loading, images imported from `.jsx`), which `app/client/
   publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
@@ -151,10 +152,9 @@ below.
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
   across files instead of inlining a copy per file; only `helpers` — every
-  target runs generators/async natively, so no regenerator). In production,
-  `transform-react-remove-prop-types` strips `propTypes` definitions and
-  their now-unused `prop-types` imports. Every `@babel/preset-env` block
-  (here and in the `node_modules` rules below) sets `bugfixes: true`.
+  target runs generators/async natively, so no regenerator). Every
+  `@babel/preset-env` block (here and in the `node_modules` rules below)
+  sets `bugfixes: true`.
 - **`@hsl-fi`/`@radix-ui`/`@floating-ui` under `node_modules`** — these
   ship untranspiled modern syntax (ES2018+/ESM), so they get the same
   `@babel/preset-env` pass normally reserved for `app/**` (all other
@@ -165,17 +165,20 @@ below.
 - **`.mjs` under `node_modules`** — same treatment, for packages (e.g.
   `@radix-ui`) that ship a native ESM entry point instead.
 - **`digitransit-component`/`digitransit-store` sources** — forced
-  `type: 'javascript/auto'`. These packages' real ESM Rollup build
+  `type: 'javascript/auto'`. These packages' ESM build
   (`lib/index.js`, see `docs/Packages.md`) still default-imports
-  CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
+  CJS peer deps (e.g. `@hsl-fi/shimmer`) that only mark themselves via
   Babel's userland `__esModule` flag, not a real `"module"`/`exports`
   field. Strict ESM's default-import semantics don't recognize that flag
   and bind the whole `module.exports` instead of `.default`, crashing at
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
 - **`.scss`** — `sass-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). `quietDeps` hides
-  the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
+  `MiniCssExtractPlugin.loader` in both dev and prod, so no `<style>` tags are
+  injected: the shell links the entry's CSS (from the manifest in production,
+  the build's stats in development), and webpack adds lazy chunks' CSS as
+  `<link>` elements. `quietDeps` hides the `@import`
+  deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
   `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
   which would land mid-bundle once CSS modules are concatenated and
   invalidate the selector after it. `*.module.scss` files are CSS Modules with
@@ -187,7 +190,9 @@ below.
   `flex: 1 0 0` to `1 0 0%`.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
-  else uses the default.
+  else uses the default. The workspace packages' `lib/index.css` (imported
+  by their `lib/index.js`) goes through the second rule; those packages
+  declare their CSS side-effectful in their own `package.json`.
 - All three `MiniCssExtractPlugin.loader` uses above (`.scss` and both
   `.css` rules) pass `publicPath: 'auto'`, so any asset `url()` emitted
   into these CSS files resolves relative to that CSS file's own location,
@@ -223,11 +228,13 @@ no real source map) in development.
 
 ## Plugins
 
-Production gets (development gets none of these):
+`MiniCssExtractPlugin` is registered in both modes; the other plugins below
+are production only:
 
 - **`faviconPlugins`** — see Entries above.
-- **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
-  dev uses `style-loader`). `ignoreOrder` is deliberately left `false`
+- **`MiniCssExtractPlugin`** — extracts CSS to files (hashed in prod,
+  unhashed in dev; the dev overlay hides its warnings, which stay
+  in the terminal). `ignoreOrder` is deliberately left `false`
   (the default) rather than suppressed: the `digitransitComponents` cache
   group (see `splitChunks` below) merges CSS from many `@hsl-fi`/
   `@digitransit-*` packages into one shared chunk used by every route,
@@ -243,10 +250,10 @@ Production gets (development gets none of these):
 - **`WebpackAssetsManifest`** — writes `../manifest.json`: a
   name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
   key listing each entry's files grouped by extension, in load order
-  (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
-  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
-  which hashed JS/CSS files to preload/link and which runtime chunk to
-  inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
+  (`entrypoints.main.assets.{js,css}`).
+  `server/middleware/manifestMiddleware.js` reads it: the map for the sprite
+  lookup, the entrypoints for the theme CSS, which hashed JS/CSS files to
+  preload/link and which runtime chunk to inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
   changed it from a default export.
 
 Both dev and prod also always get:
@@ -304,19 +311,16 @@ Both dev and prod also always get:
   `@digitransit-*`/`@hsl-fi` packages into their own named chunks
   (`react`, `digitransit-components`) so they cache independently from
   application code and from each other.
-- **`runtimeChunk: isProduction ? 'single' : false`** — splits the
-  webpack runtime (module loader glue) into its own cacheable chunk in
-  production. `'single'` creates one shared runtime chunk for *all*
-  entries, rather than one per entry (`'multiple'`/`true`) — this app has
-  multiple entries (`main` plus one CSS-only `*_theme` entry per
-  deployment via `themeEntries`), so a single shared runtime avoids
-  duplicating that boilerplate across each of them. Note the runtime
-  chunk's own hash will still shift on almost any unrelated chunk/module
-  change (it embeds the chunk-id→hash manifest needed for lazy-chunk
-  loading) — the real caching benefit is that *other* chunks (`react`,
+- **`runtimeChunk: 'single'`** — one webpack runtime (module loader
+  glue) shared by all entries (`main` plus one `*_theme` entry per
+  deployment via `themeEntries`), which `server/middleware/shell.js`
+  inlines into the page. In development the shell also loads the theme
+  entry's script, so hot updates apply `theme.scss` edits; a second
+  runtime would break hot updates, since both would load update chunks
+  through the same global. The runtime's hash shifts on almost any change
+  (it embeds the chunk-id→hash map), but the other chunks (`react`,
   `digitransit-components`, route chunks, theme CSS/JS) stay stable when
-  unrelated code changes, not that the runtime chunk itself never
-  changes.
+  unrelated code changes.
 
 ## `node` / `resolve` / `cache`
 
@@ -341,19 +345,26 @@ Both dev and prod also always get:
   real, reachable `url.parse()` in browser code, which needs an actual
   polyfill (the `url` package), not an empty stub.
 
-## `devServer`
+## Development middleware
 
-Only used by `webpack-dev-server` during `yarn run dev`. Notable:
-`publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
-false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
-permissive CORS header so the separately-running app server
-(`server/app.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/app.js` targets the
-literal `[::1]` address rather than the `localhost` hostname when
-proxying — this avoids depending on how the machine's resolver orders
-`localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
-otherwise make the proxy fail with `ECONNREFUSED` even though
-webpack-dev-server is up).
+There is no separate dev server. In development, `server/server.js` lazily
+imports `server/middleware/devMiddleware.js`, which compiles this config with
+`webpack-dev-middleware` inside the Express process and serves the output from
+memory. `server/app.js` mounts it before the static folders, so in-memory
+files win over stale ones in `_static/`.
+
+- `serverSideRender: true` holds requests until a build is valid and puts its
+  stats on `res.locals.webpack.devMiddleware`. `devMiddleware.js` turns them
+  into `res.locals.assets` (the entries' files, minus hot-update files). In
+  production, `createManifestMiddleware()` in `manifestMiddleware.js` sets the
+  same shape from `manifest.json`; `server/server.js` picks one, so the shell
+  has one code path.
+- `hot` adds the HMR client and plugin itself. `apply: 'hmr'` updates CSS in
+  place and reloads the page for other changes; the overlay shows errors only,
+  so the CSS "conflicting order" warnings stay in the terminal and console.
+- `node --watch` restarts the server, and with it webpack, when the server's
+  import graph changes, including `webpack.config.js`. A restart rebuilds from
+  the filesystem cache in a few seconds.
 
 ## Browser support (`browserslist` in `package.json`)
 
@@ -383,7 +394,7 @@ Polyfills are added at build time, driven by the browserslist above.
 `@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
 rule of `webpack.config.js`) rewrites that import into only the core-js
 modules the targets lack. The packages (built with
-`@digitransit-ui/rollup-config`) do not polyfill themselves. The polyfills are global, so they also cover
+`@digitransit-ui/vite-config`) do not polyfill themselves. The polyfills are global, so they also cover
 third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
 dependency). There is no runtime/user-agent-based polyfill service, and no

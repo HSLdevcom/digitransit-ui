@@ -9,7 +9,7 @@ import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
-import styles from './components/styles.scss';
+import styles from './components/styles.module.scss';
 import {
   getSuggestionValue,
   scrollItemIntoView,

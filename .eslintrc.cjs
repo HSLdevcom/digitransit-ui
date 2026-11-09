@@ -18,10 +18,20 @@ module.exports = {
     'import/no-named-default': 'off',
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
-    // uuid has only an exports map, which eslint-import-resolver-node does not support
+    // These have only an exports map, which eslint-import-resolver-node does not support
     'import/no-unresolved': [
       'error',
-      { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] },
+      {
+        commonjs: true,
+        caseSensitive: true,
+        ignore: [
+          '^uuid$',
+          '^vite$',
+          '^browserslist-to-esbuild$',
+          '^@vitejs/plugin-react$',
+          '^@rolldown/plugin-babel$',
+        ],
+      },
     ],
     'import/no-restricted-paths': [
       'error',
@@ -113,6 +123,7 @@ module.exports = {
         'utils/server/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
+        'packages/private/vite-config/**/*.js',
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],

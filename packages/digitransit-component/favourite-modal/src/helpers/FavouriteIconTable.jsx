@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 import i18n from './i18n';
 
 export const FAVOURITE_ICON_NAMES = [

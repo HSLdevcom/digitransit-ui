@@ -5,7 +5,7 @@ import cx from 'classnames';
 import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
-import styles from './helpers/styles.scss';
+import styles from './helpers/styles.module.scss';
 
 const extendedModes = {
   702: 'bus-express',

@@ -1,0 +1,14 @@
+{
+  "name": "@digitransit-ui/vite-config",
+  "version": "1.0.0",
+  "description": "Private shared Vite library build config for the packages",
+  "private": true,
+  "type": "module",
+  "main": "./vite.config.js",
+  "exports": {
+    ".": "./vite.config.js",
+    "./relay": "./relay.js",
+    "./package.json": "./package.json"
+  },
+  "license": "(AGPL-3.0 OR EUPL-1.2)"
+}

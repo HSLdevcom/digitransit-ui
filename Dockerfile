@@ -55,9 +55,9 @@ RUN \
 #
 # Once this finishes, nothing later needs Yarn/Lerna/Nx again (the final image
 # doesn't invoke any of them - see its CMD), so their toolchain/config files
-# are removed here too, alongside the build-only rollup/babel/relay-schema
+# are removed here too, alongside the build-only Vite/relay-schema
 # config (only read by `yarn run packages-build` above), the
-# `packages/private` workspaces (rollup config, schema), the dangling private-workspace
+# `packages/private` workspaces (Vite config, schema), the dangling private-workspace
 # links in node_modules, and `static`
 # (source assets consumed by CopyWebpackPlugin, see webpack.config.js, already
 # copied into `_static` by the build above).

@@ -12,11 +12,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import {
-  themeEntries,
-  themePath,
-  faviconPlugins,
-} from './scripts/build/contextHelper.js';
+import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
 import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
@@ -36,20 +32,30 @@ const isPrebuiltStaticFile = asset =>
   /^assets\/svg-sprite\.[^/]+\.svg$/.test(asset) ||
   fs.existsSync(path.join(rootDir, 'static', asset.replace(/\.(gz|br)$/, '')));
 
+// CSS is always extracted to files (also in dev, where the HTML shell links
+// them), and load order matches production.
+const cssExtractLoader = {
+  loader: MiniCssExtractPlugin.loader,
+  options: { publicPath: 'auto' },
+};
+
+const jsFilename = isDevelopment
+  ? 'js/[name].js'
+  : 'js/[name].[contenthash].js';
+
+const cssFilename = isDevelopment
+  ? 'css/[name].css'
+  : 'css/[name].[contenthash].css';
+
+const cssExtractPlugin = new MiniCssExtractPlugin({
+  filename: cssFilename,
+  chunkFilename: cssFilename,
+  // Keeps the "conflicting order" warnings visible as an open item.
+  ignoreOrder: false,
+});
+
 const productionPlugins = [
   ...faviconPlugins,
-  new MiniCssExtractPlugin({
-    filename: 'css/[name].[contenthash].css',
-    chunkFilename: 'css/[name].[contenthash].css',
-    // Explicitly `false` (webpack's own default) rather than omitted.
-    // These warnings are believed harmless (every file involved is CSS Modules
-    // output with locally-scoped, per-file-hashed class names - no shared/global
-    // selectors, no cross-file cascade dependency), but `ignoreOrder` is
-    // intentionally left `false` rather than suppressed with `true`, so
-    // the warnings stay visible as a reminder that this is an open,
-    // unresolved item rather than a fully-accepted non-issue.
-    ignoreOrder: false,
-  }),
   // main.css has ported third-party code, this is the CSS version of the
   // pointer Terser adds to JS bundles.
   new webpack.BannerPlugin({
@@ -74,25 +80,14 @@ const productionPlugins = [
 export default {
   mode,
   entry: {
-    main: [
-      './app/client/publicPath',
-      // Dev-only: first so that it declares the cascade layer order.
-      ...(isDevelopment
-        ? [
-            themePath(
-              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
-            ),
-          ]
-        : []),
-      './app/client/client',
-    ],
-    ...(isProduction ? themeEntries : {}),
+    main: ['./app/client/publicPath', './app/client/client'],
+    ...themeEntries,
   },
   output: {
     path: path.join(rootDir, '_static'),
-    filename: isDevelopment ? 'js/[name].js' : 'js/[name].[contenthash].js',
-    chunkFilename: 'js/[contenthash].js',
-    publicPath: isDevelopment ? '/proxy/' : '/',
+    filename: jsFilename,
+    chunkFilename: jsFilename,
+    publicPath: '/',
     crossOriginLoading: 'anonymous',
     clean: { keep: isPrebuiltStaticFile },
   },
@@ -116,10 +111,7 @@ export default {
         // ESM can't prove that flag through the wrapper and binds the raw
         // CJS exports instead of `.default`, crashing with React error #130
         // ("Element type is invalid"). `javascript/auto`'s lenient,
-        // runtime-checked interop avoids both problems. Third-party
-        // packages we don't control the build of, so unlike the
-        // `digitransit-component`/`digitransit-store` rule below (fixed via
-        // our own real ESM build), this has to stay regardless of that fix.
+        // runtime-checked interop avoids both problems.
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
         loader: 'babel-loader',
@@ -139,7 +131,7 @@ export default {
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
-                corejs: { version: '3.50' },
+                corejs: { version: '3.51' },
               },
             ],
             [
@@ -150,14 +142,6 @@ export default {
           plugins: [
             'relay',
             ['@babel/plugin-transform-runtime', { helpers: true }],
-            ...(isProduction
-              ? [
-                  [
-                    'transform-react-remove-prop-types',
-                    { mode: 'remove', removeImport: true },
-                  ],
-                ]
-              : []),
           ],
         },
       },
@@ -210,32 +194,14 @@ export default {
         },
       },
       {
-        // All 4 digitransit-* packages set "type": "module" (so
-        // their raw source/tests run as native ESM) - which webpack, following
-        // that package.json field, parses as strict `javascript/esm` rather
-        // than `auto`. This causes two distinct problems when bundled directly
-        // into the app (not through app/**'s lenient babel-loader rule):
-        //   1. Several packages default-import third-party CJS dependencies
-        //      (e.g. `@hsl-fi/modal`) that use Babel's userland `__esModule`-
-        //      marker convention instead of a real "exports"/"module" field.
-        //      Webpack's *lenient* `javascript/auto` interop recognizes that
-        //      marker and unwraps `.default` (matching what Babel itself
-        //      does, and what every `app/` file gets); its *strict* ESM
-        //      interop follows real Node semantics instead, where a CJS
-        //      default import is simply the whole `module.exports` - silently
-        //      handing components like `Modal` the entire exports object
-        //      instead of the component function, which blows up at render
-        //      time with "Element type is invalid".
-        //   2. Strict ESM also requires relative imports to be "fully
-        //      specified" (explicit file extension) - but these packages'
-        //      own `import/extensions` policy is "never" (matching app/**),
-        //      so an extensionless relative import (valid and required by
-        //      lint) would otherwise fail to resolve here.
-        // Force `javascript/auto` here so these packages get the same
-        // lenient interop as the rest of the app. `type: 'javascript/auto'`
-        // alone only changes CJS/ESM interop, not extension-resolution
-        // strictness, so `resolve.fullySpecified: false` is needed too
-        // (matching the `.mjs`/node_modules rule above) to fix problem 2.
+        // The workspace packages are `"type": "module"`, so webpack would parse
+        // them as strict ESM. Their built `lib/index.js` default-imports CJS
+        // packages that mark ESM interop with Babel's `__esModule` flag (e.g.
+        // `@hsl-fi/shimmer`): strict ESM binds the whole `module.exports`, so
+        // the component is an object and React throws "Element type is
+        // invalid". `javascript/auto` unwraps `.default` as in `app/`, and
+        // `fullySpecified: false` resolves extensionless subpath imports such
+        // as `lodash/omit`.
         test: /\.js$/,
         include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
@@ -244,12 +210,7 @@ export default {
       {
         test: /\.scss$/,
         use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+          cssExtractLoader,
           {
             loader: 'css-loader',
             // `import styles from './x.module.scss'`, as in the packages.
@@ -282,28 +243,12 @@ export default {
         test: /\.css$/,
         include: /node_modules\/@hsl-fi/,
         sideEffects: true,
-        use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
-          'css-loader',
-        ],
+        use: [cssExtractLoader, 'css-loader'],
       },
       {
         test: /\.css$/,
         exclude: /node_modules\/@hsl-fi/,
-        use: [
-          isDevelopment
-            ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
-          'css-loader',
-        ],
+        use: [cssExtractLoader, 'css-loader'],
       },
       {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
@@ -344,6 +289,7 @@ export default {
       process: require.resolve('process/browser'),
       Buffer: ['buffer', 'Buffer'],
     }),
+    cssExtractPlugin,
     ...(isDevelopment ? [] : productionPlugins),
   ],
   optimization: {
@@ -390,7 +336,9 @@ export default {
         },
       },
     },
-    runtimeChunk: isProduction ? 'single' : false,
+    // One runtime for all entries, inlined by server/middleware/shell.js. In
+    // development, a second runtime (the theme's) would break hot updates.
+    runtimeChunk: 'single',
   },
   performance: { hints: false },
   cache: {
@@ -421,22 +369,6 @@ export default {
     // actual browser-compatible implementation, not an empty stub.
     fallback: {
       url: require.resolve('url/'),
-    },
-  },
-  devServer: {
-    compress: true,
-    host: '::1',
-    hot: false,
-    port: process.env.HOT_LOAD_PORT || 9000,
-    devMiddleware: {
-      publicPath: '/',
-    },
-    static: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    client: {
-      overlay: true,
     },
   },
 };

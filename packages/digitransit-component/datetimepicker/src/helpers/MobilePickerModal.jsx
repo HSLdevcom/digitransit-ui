@@ -7,7 +7,7 @@ import Modal from 'react-modal';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
-import styles from './styles.scss';
+import styles from './styles.module.scss';
 
 Settings.defaultLocale = 'en';
 

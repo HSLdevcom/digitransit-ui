@@ -3,15 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import createApp, { onError } from '../../../server/app';
 
-// server/app.js's import chain reaches server/html/assetManifest.js, which
-// reads manifest.json from disk at *module load time* when
-// NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
-// imports, so forcing 'development' here makes them safe without a real
-// webpack build present (unstubbed in the afterAll hook below).
-// server/middleware/shell.js's dev-mode branch is also re-checked live on
-// every request though, so NODE_ENV stays 'development' for this suite's
-// test bodies too - it still reads the region's sprite file from _static/
-// per request in dev mode, hence the placeholder fixture below.
+// Runs the app as in development (unstubbed in the afterAll hook below): the
+// shell reads the region's sprite file from _static/ per request, hence the
+// placeholder fixture. The build's files come from a fake assets middleware.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 // Stands in for the real OIDC setup (which needs Redis and an OIDC
@@ -28,6 +22,26 @@ afterAll(() => {
   vi.unstubAllEnvs();
 });
 
+// Stands in for the assets middleware (see server/server.js).
+function fakeAssetsMiddleware(req, res, next) {
+  res.locals.assets = {
+    manifest: {
+      entrypoints: {
+        main: { assets: { js: ['js/main.js'] } },
+        default_theme: {
+          assets: {
+            css: ['css/default_theme.css'],
+            js: ['js/default_theme.js'],
+          },
+        },
+      },
+    },
+    mainAssets: ['css/main.css', 'js/main.js'],
+    manifestScript: '',
+  };
+  next();
+}
+
 describe('server app', () => {
   const staticDir = path.join(process.cwd(), '_static', 'assets');
   const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
@@ -39,9 +53,8 @@ describe('server app', () => {
   beforeAll(() => {
     fs.mkdirSync(staticDir, { recursive: true });
     fs.writeFileSync(spriteFixturePath, '<svg></svg>');
-
     vi.stubEnv('CONFIG', undefined);
-    ({ app } = createApp());
+    ({ app } = createApp(fakeAssetsMiddleware));
   });
 
   afterAll(() => {
@@ -118,6 +131,36 @@ describe('server app', () => {
       expect(response.text).toContain('window.config=');
       expect(response.text).toContain('<div id="app"');
     });
+
+    it('links the theme first, then the entry CSS and JS from the manifest', async () => {
+      const response = await request(app).get('/');
+      const stylesheets = [
+        ...response.text.matchAll(
+          /<link rel="stylesheet"[^>]* href="([^"]+)"/g,
+        ),
+      ].map(([, href]) => href);
+      expect(stylesheets.slice(0, 2)).toEqual([
+        '/css/default_theme.css',
+        '/css/main.css',
+      ]);
+      // Development loads the theme's script too, for hot updates.
+      const scripts = [...response.text.matchAll(/<script src="([^"]+)"/g)].map(
+        ([, src]) => src,
+      );
+      expect(scripts).toEqual(['/js/default_theme.js', '/js/main.js']);
+    });
+
+    it("names the missing theme entry if the build doesn't include it", async () => {
+      const { app: appWithoutTheme } = createApp((req, res, next) =>
+        fakeAssetsMiddleware(req, res, () => {
+          res.locals.assets.manifest.entrypoints = {};
+          next();
+        }),
+      );
+      const response = await request(appWithoutTheme).get('/');
+      expect(response.status).toBe(500);
+      expect(response.text).toContain('No default_theme entry in the build');
+    });
   });
 
   describe('the page language', () => {
@@ -144,7 +187,7 @@ describe('OIDC routes', () => {
 
   it('can read cookies, since cookie parsing is registered before them', async () => {
     vi.stubEnv('OIDC_CLIENT_ID', 'test-client');
-    const { app } = createApp();
+    const { app } = createApp(fakeAssetsMiddleware);
 
     const response = await request(app).get('/login').set('Cookie', 'lang=sv');
 
