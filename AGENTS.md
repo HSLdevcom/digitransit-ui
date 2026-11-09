@@ -3,6 +3,10 @@
 Digitransit-ui is a React (Relay/GraphQL) journey-planning web app used by multiple
 regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `CONFIG` env var.
 
+## Code review
+
+When reviewing changes, follow `REVIEW.md`.
+
 ## Directory structure
 
 Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
@@ -236,7 +240,3 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
   `app/` loader, which ignores the root `babel.config.cjs`) in sync with the installed core-js
   minor.
-
-## Code review
-
-When reviewing changes, follow `.github/instructions/code-review.instructions.md`.

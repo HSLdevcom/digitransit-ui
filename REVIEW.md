@@ -1,10 +1,6 @@
----
-applyTo: '**'
----
-
 # Code review
 
-Apply this file only when reviewing a change. Read the surrounding code, not just the diff.
+Read the surrounding code, not just the diff.
 
 ## Standard
 
