@@ -41,6 +41,45 @@ Using the continuous watch mode
 yarn run test-unit -- --watch
 ```
 
+### Accessibility tests
+
+Component tests can also check the rendered DOM with [axe-core](https://github.com/dequelabs/axe-core)
+through `expectNoA11yViolations` from the private `@digitransit-ui/test-utils`
+package (`packages/private/test-utils`). It runs the
+WCAG 2.x A/AA rules on `document.body` (so portals such as modals are
+included) and fails on any violation:
+
+```jsx
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
+
+it('has no accessibility violations', async () => {
+  renderWithProviders(<MyComponent />);
+  await expectNoA11yViolations();
+});
+```
+
+Fix the markup where possible. For a known issue that cannot be fixed yet, pass
+an allow entry. The `reason` is required, `selector` limits the entry to nodes
+inside matching elements, and an entry that matches nothing fails the test so
+the list cannot go stale:
+
+```js
+await expectNoA11yViolations(document.body, {
+  allow: [{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }],
+});
+```
+
+jsdom has no layout, CSS or canvas, so the helper disables rules that need them
+(`color-contrast`, `label-content-name-mismatch`) and page-level rules
+(`region`, `landmark-one-main`, `page-has-heading-one`, `document-title`,
+`html-has-lang`). Contrast, focus order and full-page structure still need
+manual checks or a browser-based test. Static JSX checks come from
+`eslint-plugin-jsx-a11y` in `yarn lint`.
+
+Components from `packages/digitransit-component` are resolved from their built
+`lib/` in app tests, so run `yarn packages-build` after changing them (as
+`yarn test-unit` does).
+
 ### Troubleshooting: HSL modal app element warning
 
 Opening `@hsl-fi/modal` can fail with:

@@ -1,6 +1,7 @@
 import { fireEvent, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 import MapLayersDialogContent from '../../../app/component/map/MapLayersDialogContent';
@@ -331,5 +332,13 @@ describe('<MapLayersDialogContent />', () => {
     expect(getStoredMapLayers().geoJson['https://localhost/morejson']).toBe(
       true,
     );
+  });
+
+  it('has no accessibility violations', async () => {
+    renderMapLayersDialogContent({
+      setOpen: () => {},
+      mapLayers: { stop: {}, terminal: {} },
+    });
+    await expectNoA11yViolations();
   });
 });
