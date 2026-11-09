@@ -90,9 +90,23 @@ export const buildURL = (pathSegments = []) => {
   return url;
 };
 
-export function getLoginPath(location) {
-  const returnTo = `${location.pathname}${location.search || ''}`;
-  return `/login?returnTo=${encodeURIComponent(returnTo)}`;
+/**
+ * The login URL that returns to `returnTo` afterwards.
+ * @param {string} returnTo browser URL path, e.g. `router.createHref(match.location)`
+ * @returns {string}
+ */
+export function getLoginPath(returnTo) {
+  return addQueryParams('/login', { returnTo });
+}
+
+/**
+ * The logout URL. `returnTo` decides the language of the identity provider and
+ * of the front page shown afterwards.
+ * @param {string} returnTo browser URL path, e.g. `router.createHref(match.location)`
+ * @returns {string}
+ */
+export function getLogoutPath(returnTo) {
+  return addQueryParams('/logout', { returnTo });
 }
 
 export const createReturnPath = (

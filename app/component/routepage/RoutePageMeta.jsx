@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet';
+import { useRouter } from 'found';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { fragmentRefShape } from '../../../utils/client/shapes';
@@ -7,6 +8,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function RoutePageMeta({ route: routeRef }) {
   const config = useConfigContext();
+  const { router, match } = useRouter();
   const route = useFragment(
     graphql`
       fragment RoutePageMeta_route on Route {
@@ -42,6 +44,7 @@ export default function RoutePageMeta({ route: routeRef }) {
       title,
     },
     config,
+    { pathname: router.createHref({ pathname: match.location.pathname }) },
   );
 
   return <Helmet {...props} />;

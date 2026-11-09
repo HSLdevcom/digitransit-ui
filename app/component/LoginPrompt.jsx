@@ -12,7 +12,7 @@ export default function LoginPrompt({
   descriptionId = 'login-content',
 }) {
   const intl = useIntl();
-  const { match } = useRouter();
+  const { router, match } = useRouter();
 
   const login = intl.formatMessage({
     id: 'login',
@@ -34,7 +34,7 @@ export default function LoginPrompt({
       action: 'login',
       name: null,
     });
-    window.location.assign(getLoginPath(match.location));
+    window.location.assign(getLoginPath(router.createHref(match.location)));
   };
 
   const handleSecondaryClick = () => {

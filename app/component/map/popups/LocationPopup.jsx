@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
+import { useRouter } from 'found';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
@@ -21,6 +22,7 @@ export default function LocationPopup({
 }) {
   const config = useConfigContext();
   const intl = useIntl();
+  const { match } = useRouter();
   // loading and location are updated together from a Promise callback, which
   // React 16 doesn't batch outside of event handlers. Keeping them in a
   // single state object avoids rendering with loading=false before location
@@ -49,13 +51,13 @@ export default function LocationPopup({
       data => {
         let pointName;
         if (data.features != null && data.features.length > 0) {
-          const match = data.features[0].properties;
+          const { properties } = data.features[0];
           setState(prevState => ({
             loading: false,
             location: {
               ...prevState.location,
-              address: getLabel(match),
-              zoneId: getZoneId(config, match.zones, data.zones),
+              address: getLabel(properties),
+              zoneId: getZoneId(config, properties.zones, data.zones),
             },
           }));
           pointName = 'FreeAddress';
@@ -74,7 +76,7 @@ export default function LocationPopup({
           pointName = 'NoAddress';
         }
         const pathPrefixMatch =
-          window.location.pathname.match(/^\/([a-z]{2,})\//);
+          match.location.pathname.match(/^\/([a-z]{2,})\//);
         const context =
           pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
             ? pathPrefixMatch[1]

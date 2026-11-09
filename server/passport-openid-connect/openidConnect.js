@@ -8,10 +8,10 @@ import { Strategy as LoginStrategy } from './Strategy.js';
 import { audit, hash, privateNoStore } from './authAudit.js';
 import { getConfiguration } from '../configs/config.js';
 import {
-  languageFromPath,
-  languagePrefix,
+  getLanguageFromPath,
+  getLanguagePrefix,
 } from '../../utils/shared/languageUtils.js';
-import { addQueryParams } from '../../utils/shared/path.js';
+import { getLoginPath } from '../../utils/shared/path.js';
 import { isLocalPath } from '../../utils/shared/normalizePath.js';
 
 const RedisStore = connectRedis(session);
@@ -129,7 +129,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       res.set('Cache-Control', 'private, no-store');
       res.vary('Cookie');
       // Returns to the page (and so the language) the user came from.
-      res.redirect(addQueryParams('/login', { returnTo: req.originalUrl }));
+      res.redirect(getLoginPath(req.originalUrl));
     } else {
       next();
     }
@@ -221,7 +221,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   app.get('/logout', privateNoStore, function (req, res) {
     // The page the user logs out from decides the IdP language and the
     // language of the front page they return to.
-    const language = languageFromPath(
+    const language = getLanguageFromPath(
       getConfiguration(req),
       safeLocalReturnTo(req.query.returnTo, '/'),
     );
@@ -251,7 +251,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     }
     const sessions = `sessions-${req.session.userId}`;
     const config = getConfiguration(req);
-    const prefix = languagePrefix(
+    const prefix = getLanguagePrefix(
       config,
       req.session.logoutLanguage ?? config.defaultLanguage,
     );

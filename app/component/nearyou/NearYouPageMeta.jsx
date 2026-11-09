@@ -1,13 +1,13 @@
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
-import { useMatch } from 'found';
+import { useRouter } from 'found';
 import { generateMetaData } from '../../../utils/client/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function NearYouPageMeta() {
   const config = useConfigContext();
   const intl = useIntl();
-  const match = useMatch();
+  const { router, match } = useRouter();
   const { mode, place, origin } = match.params;
   const title = intl.formatMessage({
     id: 'stops-near-you.title',
@@ -24,9 +24,11 @@ export default function NearYouPageMeta() {
     },
     config,
     {
-      pathname: `/${encodeURIComponent(mode)}/${encodeURIComponent(
-        place,
-      )}/${encodeURIComponent(origin)}/`,
+      pathname: router.createHref({
+        pathname: `/${encodeURIComponent(mode)}/${encodeURIComponent(
+          place,
+        )}/${encodeURIComponent(origin)}/`,
+      }),
     },
   );
   return <Helmet {...props} />;

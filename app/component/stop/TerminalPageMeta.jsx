@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet';
+import { useRouter } from 'found';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { stationShape } from '../../../utils/client/shapes';
@@ -8,6 +9,7 @@ import { generateMetaData } from '../../../utils/client/metaUtils';
 
 export default function TerminalPageMeta({ station: stationRef }) {
   const config = useConfigContext();
+  const { router, match } = useRouter();
   const station = useFragment(
     graphql`
       fragment TerminalPageMeta_station on Stop {
@@ -43,6 +45,7 @@ export default function TerminalPageMeta({ station: stationRef }) {
       title,
     },
     config,
+    { pathname: router.createHref({ pathname: match.location.pathname }) },
   );
   return <Helmet {...props} />;
 }

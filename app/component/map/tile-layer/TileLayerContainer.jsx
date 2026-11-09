@@ -53,8 +53,11 @@ const POPUP_OPTIONS = {
 
 /**
  * Send an analytics event on opening popup
+ * @param {object[]} selectableTargets
+ * @param {object} config
+ * @param {string} pathname router location pathname, without the language prefix
  */
-export function sendSelectionAnalytics(selectableTargets, config) {
+export function sendSelectionAnalytics(selectableTargets, config, pathname) {
   if (!selectableTargets || selectableTargets.length === 0) {
     // event for clicking somewhere else on the map will be handled in LocationPopup
     return;
@@ -74,7 +77,7 @@ export function sendSelectionAnalytics(selectableTargets, config) {
   } else {
     name = 'multiple';
   }
-  const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
+  const pathPrefixMatch = pathname.match(/^\/([a-z]{2,})\//);
   const prefix = pathPrefixMatch?.[1];
   const context = prefix && prefix !== config.indexPath ? prefix : 'index';
   addAnalyticsEvent({
@@ -233,7 +236,7 @@ export default function TileLayerContainer(props) {
   const currentTime = useCurrentTime();
   const config = useConfigContext();
   const { locale } = useIntl();
-  const { router } = useRouter();
+  const { router, match } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const leaflet = useLeaflet();
   const [selection, setSelection] = useState(null);
@@ -250,6 +253,7 @@ export default function TileLayerContainer(props) {
     config,
     locale,
     router,
+    match,
     relayEnvironment,
     leaflet,
     selection,
@@ -330,6 +334,7 @@ export default function TileLayerContainer(props) {
       sendSelectionAnalytics(
         latest.current.selection?.selectableTargets,
         latest.current.config,
+        latest.current.match.location.pathname,
       ),
     [],
   );

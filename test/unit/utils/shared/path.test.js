@@ -1,5 +1,7 @@
 import {
   addQueryParams,
+  getLoginPath,
+  getLogoutPath,
   getSearchParams,
   pathJoin,
 } from '../../../../utils/shared/path';
@@ -74,6 +76,15 @@ describe('path', () => {
     it('returns the URL unchanged when there are no params', () => {
       expect(addQueryParams('/x', {})).toBe('/x');
       expect(addQueryParams('/x', new URLSearchParams())).toBe('/x');
+    });
+  });
+
+  describe('getLoginPath() and getLogoutPath()', () => {
+    it('encode the return path, language prefix and query included', () => {
+      expect(getLoginPath('/en/reitti?a=1&b=2')).toBe(
+        '/login?returnTo=%2Fen%2Freitti%3Fa%3D1%26b%3D2',
+      );
+      expect(getLogoutPath('/sv/')).toBe('/logout?returnTo=%2Fsv%2F');
     });
   });
 });

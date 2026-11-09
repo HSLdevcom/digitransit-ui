@@ -1,7 +1,7 @@
 import legacyParamParser from '../../utils/server/legacyParamParser.js';
 import normalizePath from '../../utils/shared/normalizePath.js';
 import { getConfiguration } from '../configs/config.js';
-import { languagePrefix } from '../../utils/shared/languageUtils.js';
+import { getLanguagePrefix } from '../../utils/shared/languageUtils.js';
 import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
 
 export function validateParams(req, config) {
@@ -33,7 +33,7 @@ export default function legacyUrlMiddleware(req, res, next) {
   ) {
     legacyParamParser(req.query, config)
       .then(url =>
-        res.redirect(`${languagePrefix(config, res.locals.language)}${url}`),
+        res.redirect(`${getLanguagePrefix(config, res.locals.language)}${url}`),
       )
       .catch(next);
   } else {

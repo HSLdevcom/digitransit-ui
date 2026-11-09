@@ -52,18 +52,18 @@ export const jsonToBlob = json =>
  *
  * @param {*} config The configuration for the software installation.
  * @param {{ host: string, pathname: string, protocol: string}} location The current location properties.
- * @param {{ title: string, description: string, ignorePathname: boolean }} params Optional parameters.
+ * @param {{ title: string, description: string }} params Optional parameters.
  */
 export const generateManifestUrl = (
   config,
   { host, pathname, protocol },
-  { title, description, ignorePathname } = {},
+  { title, description } = {},
 ) =>
   URL.createObjectURL(
     jsonToBlob(
       generateManifest(
         config,
-        { host, pathname: ignorePathname ? '/' : pathname, protocol },
+        { host, pathname, protocol },
         { title, description },
       ),
     ),

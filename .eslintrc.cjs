@@ -1,3 +1,7 @@
+// Extended below instead of replaced, so Airbnb's entries keep applying.
+const airbnbRestrictedSyntax = require('eslint-config-airbnb-base/rules/style')
+  .rules['no-restricted-syntax'];
+
 module.exports = {
   parser: '@babel/eslint-parser',
   extends: [
@@ -125,6 +129,22 @@ module.exports = {
       rules: {
         'no-console': 'off',
         'compat/compat': 'off',
+      },
+    },
+    {
+      // Client code reads the router location: match.location for app logic,
+      // router.createHref for a real URL.
+      files: ['app/**/*.{js,jsx}', 'utils/client/**/*.js'],
+      rules: {
+        'no-restricted-syntax': [
+          ...airbnbRestrictedSyntax,
+          {
+            selector:
+              "MemberExpression[object.object.name='window'][object.property.name='location'][property.name='pathname']",
+            message:
+              'Use match.location.pathname for app logic, or router.createHref for the browser URL.',
+          },
+        ],
       },
     },
     {

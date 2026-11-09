@@ -14,6 +14,8 @@ import {
   getFavouriteStopsAndStations,
 } from '../data/FavouriteData';
 import { useConfigContext } from '../hooks/ConfigContext';
+import { getLoginPath, getLogoutPath } from '../../utils/shared/path';
+import { createLanguageHref } from '../../utils/shared/languageUtils';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
 const clearStorages = clearFavourites => {
@@ -29,7 +31,7 @@ export default function AppBarHsl({ favourites = [] }) {
   const { clearFavourites } = useFavouriteActions();
   const { user } = config;
   const { locale } = useIntl();
-  const { match } = useRouter();
+  const { router, match } = useRouter();
   const { location } = match;
 
   const notificationParams = new URLSearchParams({ language: locale });
@@ -159,20 +161,14 @@ export default function AppBarHsl({ favourites = [] }) {
   }, []);
 
   const languages = {
-    fi: {
-      href: `/fi${location.pathname}${location.search}`,
-    },
-    sv: {
-      href: `/sv${location.pathname}${location.search}`,
-    },
-    en: {
-      href: `/en${location.pathname}${location.search}`,
-    },
+    fi: { href: createLanguageHref(config, 'fi', location) },
+    sv: { href: createLanguageHref(config, 'sv', location) },
+    en: { href: createLanguageHref(config, 'en', location) },
   };
 
   const { given_name, family_name } = user;
 
-  const returnTo = `${location.pathname}${location.search || ''}`;
+  const returnTo = router.createHref(location);
   const travelersAccountLink = config.URL.TRAVELERS_ACCOUNT
     ? { href: config.URL.TRAVELERS_ACCOUNT }
     : undefined;
@@ -185,9 +181,9 @@ export default function AppBarHsl({ favourites = [] }) {
         lang={locale}
         loading={false}
         authenticated={!!user.sub}
-        loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
+        loginLink={{ href: getLoginPath(returnTo) }}
         logoutLink={{
-          href: '/logout',
+          href: getLogoutPath(returnTo),
           onClick: () => clearStorages(clearFavourites),
         }}
         name={{ givenName: given_name, familyName: family_name }}

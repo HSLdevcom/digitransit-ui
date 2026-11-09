@@ -3,6 +3,7 @@ import { graphql } from 'react-relay';
 import Route from 'found/Route';
 import Redirect from 'found/Redirect';
 import queryMiddleware from 'farce/queryMiddleware';
+import createBasenameMiddleware from 'farce/createBasenameMiddleware';
 import createRender from 'found/createRender';
 import Error404 from '../component/404';
 import TopLevel from '../component/TopLevel';
@@ -30,7 +31,15 @@ import {
 import getStopRoutes from './stopRoutes';
 import routeRoutes from './routeRoutes';
 
-export const historyMiddlewares = [queryMiddleware];
+/**
+ * History middlewares for the router. The language prefix is the basename, so
+ * route paths, links and `match.location` never contain it.
+ * @param {string} basename `getLanguagePrefix` of the page language
+ */
+export const createHistoryMiddlewares = basename => [
+  queryMiddleware,
+  createBasenameMiddleware({ basename }),
+];
 
 export const render = createRender({});
 

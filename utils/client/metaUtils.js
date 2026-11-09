@@ -6,7 +6,7 @@ import { generateManifestUrl } from './manifestUtils';
  *
  * @param {{ title: string, description: string}} props The title and description to apply to the meta data.
  * @param {*} config The configuration for the software installation.
- * @param {{ pathname: string }} location The current location.
+ * @param {{ pathname: string }} location The browser path, language prefix included (`router.createHref`).
  */
 export default function generateMetaData(
   { title, description },
@@ -45,7 +45,7 @@ export default function generateMetaData(
             config,
             {
               host: window.location.host,
-              pathname: pathname || window.location.pathname,
+              pathname,
               protocol: window.location.protocol,
             },
             {

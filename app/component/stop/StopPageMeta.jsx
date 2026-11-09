@@ -1,4 +1,5 @@
 import { Helmet } from 'react-helmet';
+import { useRouter } from 'found';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { stopShape } from '../../../utils/client/shapes';
@@ -7,6 +8,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StopPageMeta({ stop: stopRef }) {
   const config = useConfigContext();
+  const { router, match } = useRouter();
   const stop = useFragment(
     graphql`
       fragment StopPageMeta_stop on Stop {
@@ -43,6 +45,7 @@ export default function StopPageMeta({ stop: stopRef }) {
       title,
     },
     config,
+    { pathname: router.createHref({ pathname: match.location.pathname }) },
   );
   return <Helmet {...props} />;
 }

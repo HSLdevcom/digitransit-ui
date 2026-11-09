@@ -2,9 +2,11 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import { useConfigContext } from '../hooks/ConfigContext';
+import { createLanguageHref } from '../../utils/shared/languageUtils';
 
 const Language = ({ lang }) => {
   const intl = useIntl();
+  const config = useConfigContext();
   const match = useMatch();
   const highlight = lang === intl.locale;
 
@@ -19,7 +21,7 @@ const Language = ({ lang }) => {
       id={`lang-${lang}`}
       aria-label={aria}
       key={lang}
-      href={`/${lang}${match.location.pathname}${match.location.search}`}
+      href={createLanguageHref(config, lang, match.location)}
       className={`${(highlight && 'selected') || ''} noborder lang`}
     >
       {lang}

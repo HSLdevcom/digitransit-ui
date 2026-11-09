@@ -21,6 +21,7 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { getLanguagePrefix } from '../../../utils/shared/languageUtils';
 
 const sources = ['Favourite', 'History', 'Datasource'];
 
@@ -234,7 +235,7 @@ export default function EmbeddedSearch(props) {
       destination.type === 'CurrentLocation';
     const targetUrl = isComplete
       ? buildURL([
-          lang,
+          getLanguagePrefix(config, lang),
           getPathWithEndpointObjects(
             origin,
             destination,
@@ -243,7 +244,7 @@ export default function EmbeddedSearch(props) {
           urlEnd,
         ])
       : buildURL([
-          lang,
+          getLanguagePrefix(config, lang),
           getIndexPath(
             locationToOTP(origin),
             locationToOTP(destination),

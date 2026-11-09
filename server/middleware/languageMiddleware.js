@@ -3,7 +3,7 @@ import normalizePath, {
   pathSegments,
 } from '../../utils/shared/normalizePath.js';
 import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
-import { languageFromPath } from '../../utils/shared/languageUtils.js';
+import { getLanguageFromPath } from '../../utils/shared/languageUtils.js';
 
 /** Reittiopas-era link prefixes, stripped when `config.redirectReittiopasParams` is set. */
 const LEGACY_LANGUAGE_PATH_SEGMENTS = Object.freeze([
@@ -45,6 +45,6 @@ export default function languageMiddleware(req, res, next) {
     return;
   }
 
-  res.locals.language = languageFromPath(config, req.path);
+  res.locals.language = getLanguageFromPath(config, req.path);
   next();
 }

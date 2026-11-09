@@ -1,4 +1,4 @@
-import { pathSegments } from './normalizePath.js';
+import normalizePath, { pathSegments } from './normalizePath.js';
 
 /**
  * Resolves a path's language: an available language as the first segment,
@@ -7,7 +7,7 @@ import { pathSegments } from './normalizePath.js';
  * @param {string} path
  * @return {string}
  */
-export function languageFromPath(config, path) {
+export function getLanguageFromPath(config, path) {
   const [firstSegment] = pathSegments(path);
   return config.availableLanguages.includes(firstSegment)
     ? firstSegment
@@ -21,6 +21,19 @@ export function languageFromPath(config, path) {
  * @param {string} language
  * @return {string}
  */
-export function languagePrefix(config, language) {
+export function getLanguagePrefix(config, language) {
   return language === config.defaultLanguage ? '' : `/${language}`;
+}
+
+/**
+ * A link to the current page in another language.
+ * @param {object} config
+ * @param {string} language
+ * @param {{ pathname: string, search: string }} location router location, without the language prefix
+ * @return {string}
+ */
+export function createLanguageHref(config, language, location) {
+  return `${getLanguagePrefix(config, language)}${normalizePath(
+    location.pathname,
+  )}${location.search}`;
 }
