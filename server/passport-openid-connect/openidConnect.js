@@ -12,6 +12,7 @@ import {
   languagePrefix,
 } from '../../utils/shared/languageUtils.js';
 import { addQueryParams } from '../../utils/shared/path.js';
+import { isLocalPath } from '../../utils/shared/normalizePath.js';
 
 const RedisStore = connectRedis(session);
 
@@ -25,16 +26,17 @@ function getFirstQueryValue(value) {
   return Array.isArray(value) ? value[0] : value;
 }
 
-function safeLocalReturnTo(value, fallback) {
+/**
+ * `value` if it is a local path (or the first one of a repeated param), else `fallback`.
+ */
+export function safeLocalReturnTo(value, fallback) {
   const returnTo = getFirstQueryValue(value);
 
   if (!returnTo || typeof returnTo !== 'string') {
     return fallback;
   }
 
-  // Only allow local application paths.
-  // Reject absolute URLs and protocol-relative URLs.
-  if (!returnTo.startsWith('/') || returnTo.startsWith('//')) {
+  if (!isLocalPath(returnTo)) {
     return fallback;
   }
 
