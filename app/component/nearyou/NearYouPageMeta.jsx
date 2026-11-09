@@ -8,7 +8,6 @@ export default function NearYouPageMeta() {
   const config = useConfigContext();
   const intl = useIntl();
   const { router, match } = useRouter();
-  const { mode, place, origin } = match.params;
   const title = intl.formatMessage({
     id: 'stops-near-you.title',
     defaultMessage: 'Lähipysäkkien aikataulut',
@@ -23,13 +22,7 @@ export default function NearYouPageMeta() {
       title,
     },
     config,
-    {
-      pathname: router.createHref({
-        pathname: `/${encodeURIComponent(mode)}/${encodeURIComponent(
-          place,
-        )}/${encodeURIComponent(origin)}/`,
-      }),
-    },
+    { pathname: router.createHref({ pathname: match.location.pathname }) },
   );
   return <Helmet {...props} />;
 }
