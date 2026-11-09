@@ -8,6 +8,10 @@ import { favouriteShape } from '../../utils/client/shapes';
 import { clearFutureRoutes } from '../../utils/client/storeUtils';
 import { clearOldSearches } from '../data/SearchHistory';
 import { getJson } from '../../utils/shared/xhrPromise';
+import {
+  getFavouriteRouteGtfsIds,
+  getFavouriteStopsAndStations,
+} from '../data/FavouriteData';
 import { useConfigContext } from '../hooks/ConfigContext';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
@@ -26,10 +30,16 @@ export default function AppBarHsl({ favourites = [] }) {
   const { match } = useRouter();
   const { location } = match;
 
-  const notificationApiUrls = {
-    get: `${notificationAPI}?language=${language}`,
-    post: `${notificationAPI}?language=${language}`,
-  };
+  const notificationParams = new URLSearchParams({ language });
+  getFavouriteRouteGtfsIds(favourites).forEach(id =>
+    notificationParams.append('route', id),
+  );
+  getFavouriteStopsAndStations(favourites).forEach(({ gtfsId }) =>
+    notificationParams.append('stop', gtfsId),
+  );
+  // the effect below runs once, so it reads the latest url via ref
+  const notificationUrl = useRef();
+  notificationUrl.current = `${notificationAPI}?${notificationParams}`;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
@@ -51,7 +61,7 @@ export default function AppBarHsl({ favourites = [] }) {
     }
 
     const markAsRead = () => {
-      fetch(notificationApiUrls.post, {
+      fetch(notificationUrl.current, {
         method: 'POST',
         headers: { 'content-type': 'application/json' },
       })
@@ -63,7 +73,7 @@ export default function AppBarHsl({ favourites = [] }) {
 
     const fetchNotifications = () => {
       setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
-      getJson(notificationApiUrls.get)
+      getJson(notificationUrl.current)
         .then(data => {
           setUserNotifications({
             unreadCount: data?.unreadCount || 0,
