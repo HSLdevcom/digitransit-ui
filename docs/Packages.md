@@ -318,7 +318,7 @@ override it locally. The rollup/babel tooling itself is owned by the root
 so the config package declares none. Because it is a `devDependency` of every
 buildable package, changing it requires bumping all of them
 (`packages-version-check` enforces this). The root `babel.config.cjs`
-is unrelated: it only serves tooling (eslint parser, Jest e2e).
+is unrelated: it only serves tooling (eslint parser).
 
 ## Build Caching
 

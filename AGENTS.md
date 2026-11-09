@@ -59,8 +59,8 @@ right one by *who consumes the code*, not just by convenience.
   - `client/` — client-bundle-only, e.g. `localStorage.js`,
     plus its own `__generated__/` for Relay fragments used by utils.
 - `test/` — `unit/` (Vitest, mirrors the `app/`/`server/`/`utils/` layout, e.g.
-  `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`) and `e2e/` (Jest +
-  Playwright visual tests).
+  `test/unit/utils/{shared,server,client}/`, `test/unit/server/configs/`). The CI Docker smoke
+  test is `.github/workflows/scripts/docker_smoke_test.sh`.
 - `scripts/` — dev helper scripts (`dev.sh`, `sort-translations.js`, `build/contextHelper.js`,
   `generate-schema.js`, `theme/` theme-scaffolding scripts, `packages/` (readme
   generation, version checks, translation sort/check); see `scripts/README.md`).
@@ -138,13 +138,6 @@ right one by *who consumes the code*, not just by convenience.
   - Run a single test file or test: `yarn test-unit:app <path-substring>` or
     `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
   - Watch mode: `yarn run test-unit -- --watch`.
-- E2E/visual tests (Jest + Playwright, config under `test/e2e/jest.config.cjs`), require a prior
-  `yarn build`:
-  - `CONFIG=hsl yarn test:e2e` (desktop), `MOBILE=TRUE CONFIG=hsl yarn test:e2e` (mobile).
-  - Single test: `CONFIG=hsl yarn test:e2e -- FrontPage`.
-  - Update snapshots: `CONFIG=hsl yarn test:update-snapshots` (see other
-    `test:update-all-*-snapshots` scripts for bulk updates across configs).
-- Accessibility: `yarn test-accessibility` (`test/accessibility.sh`).
 - Add a concise set of core functionality tests for new features. App-breaking logic should be
   tested, but e.g. checking whether an individual UI element was rendered is not necessary unless
   conditionally rendered to keep the set of tests focused and concise.

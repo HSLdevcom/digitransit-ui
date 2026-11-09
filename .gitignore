@@ -60,7 +60,6 @@ lerna-publish-summary.json
 
 # various files
 test/credentials.json
-test/binaries
 *.swp
 *~
 tags
