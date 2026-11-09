@@ -1,5 +1,4 @@
 import legacyParamParser from '../../utils/server/legacyParamParser.js';
-import normalizePath from '../../utils/shared/normalizePath.js';
 import { getConfiguration } from '../configs/config.js';
 import { getLanguagePrefix } from '../../utils/shared/languageUtils.js';
 import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
@@ -17,9 +16,7 @@ export function validateParams(req, config) {
   const isInvalid =
     timeParam !== undefined && !Number.isFinite(Number(timeParam));
 
-  return isStale || isInvalid
-    ? addQueryParams(normalizePath(req.path), query)
-    : undefined;
+  return isStale || isInvalid ? addQueryParams(req.path, query) : undefined;
 }
 
 export default function legacyUrlMiddleware(req, res, next) {

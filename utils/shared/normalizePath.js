@@ -1,5 +1,5 @@
 /** Browsers treat both `/` and `\` as path separators. */
-const PATH_SEPARATORS = /[\\/]+/;
+export const PATH_SEPARATORS = /[\\/]+/;
 
 /** Splits a path into its non-empty segments, treating `\` as `/` like browsers do. */
 export function pathSegments(path) {

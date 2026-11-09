@@ -86,12 +86,4 @@ describe('languageMiddleware', () => {
 
     expect(response.body).toMatchObject({ language: 'fi', url: '/ru/x' });
   });
-
-  it('never redirects to a protocol-relative URL', async () => {
-    const response = await request(app).get('/fi/%5Cexample.com');
-    expect(response.headers.location).toBe('/%5Cexample.com');
-
-    const doubleSlash = await request(app).get('/fi//example.com');
-    expect(doubleSlash.headers.location).toBe('/example.com');
-  });
 });

@@ -1,7 +1,5 @@
 import { getConfiguration } from '../configs/config.js';
-import normalizePath, {
-  pathSegments,
-} from '../../utils/shared/normalizePath.js';
+import { pathSegments } from '../../utils/shared/normalizePath.js';
 import { addQueryParams, getSearchParams } from '../../utils/shared/path.js';
 import { getLanguageFromPath } from '../../utils/shared/languageUtils.js';
 
@@ -26,10 +24,7 @@ export default function languageMiddleware(req, res, next) {
   const [firstSegment, ...rest] = pathSegments(req.path);
 
   const unprefixedUrl = () =>
-    addQueryParams(
-      normalizePath(rest.join('/')),
-      getSearchParams(req.originalUrl),
-    );
+    addQueryParams(`/${rest.join('/')}`, getSearchParams(req.originalUrl));
 
   if (firstSegment === config.defaultLanguage) {
     res.redirect(301, unprefixedUrl());

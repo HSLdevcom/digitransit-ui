@@ -55,10 +55,15 @@ describe('server app', () => {
     });
   });
 
-  describe('repeated slashes in redirect path', () => {
+  describe('repeated slashes', () => {
+    it('permanently redirects to single slashes, keeping the query', async () => {
+      const response = await request(app).get('//sv//reitti?a=b');
+      expect(response.status).toBe(301);
+      expect(response.headers.location).toBe('/sv/reitti?a=b');
+    });
+
     it('does not redirect to a protocol-relative URL', async () => {
-      const response = await request(app).get('//example.com/x?time=abc');
-      expect(response.status).toBe(302);
+      const response = await request(app).get('//example.com/x');
       expect(response.headers.location).toBe('/example.com/x');
     });
   });
@@ -150,12 +155,12 @@ describe('server app', () => {
       );
     });
 
-    it('keeps crafted paths on the site and inside the attribute', async () => {
+    it('keeps crafted paths inside the attribute', async () => {
       const response = await request(app)
-        .get('//example.org/x"><y')
+        .get('/x"><y')
         .set('Host', 'example.com');
       expect(linksOf(response.text)).toContain(
-        '<link rel="canonical" href="https://example.com/example.org/x%22%3E%3Cy" />',
+        '<link rel="canonical" href="https://example.com/x%22%3E%3Cy" />',
       );
     });
   });

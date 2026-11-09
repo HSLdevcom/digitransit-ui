@@ -6,6 +6,7 @@ import helmet from 'helmet';
 import proxy from 'express-http-proxy';
 import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
+import slashMiddleware from './middleware/slashMiddleware.js';
 import languageMiddleware from './middleware/languageMiddleware.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
@@ -133,6 +134,8 @@ export function onError(err, req, res, next) {
 export default function createApp() {
   const app = express();
 
+  // First, so that every later middleware sees single `/` separators only.
+  app.use(slashMiddleware);
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);
   setUpMiddleware(app);

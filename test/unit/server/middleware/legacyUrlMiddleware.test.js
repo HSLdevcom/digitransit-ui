@@ -46,12 +46,4 @@ describe('legacyUrlMiddleware', () => {
       expect(validateParams(request('/en/x?time=test'), config)).toBe('/en/x');
     });
   });
-
-  describe('protocol-relative paths', () => {
-    it('never produces a redirect starting with "//"', () => {
-      expect(validateParams(request('//example.com/x?time=abc'), config)).toBe(
-        '/example.com/x',
-      );
-    });
-  });
 });
