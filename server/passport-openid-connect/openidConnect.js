@@ -20,7 +20,8 @@ import {
   PREFIX_STOPS,
   PREFIX_TERMINALS,
 } from '../../utils/shared/path.js';
-import { isLocalPath, pathSegments } from '../../utils/shared/normalizePath.js';
+import { pathSegments } from '../../utils/shared/normalizePath.js';
+import { parseLocalUrl, safeLocalReturnTo } from './localUrl.js';
 
 const RedisStore = connectRedis(session);
 
@@ -29,27 +30,6 @@ const clearAllUserSessions = false; // set true if logout should erase all user'
 const debugLogging = process.env.DEBUGLOGGING;
 
 axios.defaults.timeout = 12000;
-
-function getFirstQueryValue(value) {
-  return Array.isArray(value) ? value[0] : value;
-}
-
-/**
- * `value` if it is a local path (or the first one of a repeated param), else `fallback`.
- */
-export function safeLocalReturnTo(value, fallback) {
-  const returnTo = getFirstQueryValue(value);
-
-  if (!returnTo || typeof returnTo !== 'string') {
-    return fallback;
-  }
-
-  if (!isLocalPath(returnTo)) {
-    return fallback;
-  }
-
-  return returnTo;
-}
 
 /** Pages that log in automatically with a valid SSO token. */
 const SSO_LOGIN_PAGES = [
@@ -213,7 +193,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     const fallbackReturnTo = `/${indexPath}`;
 
     if (returnTo) {
-      req.session.returnTo = safeLocalReturnTo(returnTo, fallbackReturnTo);
+      req.session.returnTo = safeLocalReturnTo(req, returnTo, fallbackReturnTo);
     }
 
     req.session.save(err => {
@@ -245,7 +225,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     // language of the front page they return to.
     const language = getLanguageFromPath(
       getConfiguration(req),
-      safeLocalReturnTo(req.query.returnTo, '/'),
+      parseLocalUrl(req, req.query.returnTo)?.pathname ?? '/',
     );
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const postLogoutRedirectUri = req.secure
