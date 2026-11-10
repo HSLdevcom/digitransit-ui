@@ -29,6 +29,15 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
   const highlightedGtfsId = selectedFilters.entity?.gtfsId;
+  const cancellationCount = routes.reduce(
+    (sum, { cancellationCount: count }) => sum + count,
+    0,
+  );
+  const cancellations = intl.formatMessage(
+    { id: 'traffic-now_canceled-trips--simple' },
+    { amount: cancellationCount },
+  );
+  const buttonLabel = `${intl.formatMessage({ id: mode })}: ${cancellations}, ${intl.formatMessage({ id: 'disruption-view-details' })}`;
 
   return (
     <Card
@@ -49,7 +58,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
             </>
           )}
         </span>
-        <ArrowLinkButton />
+        <ArrowLinkButton aria-label={buttonLabel} />
       </header>
       <div className="badges">
         <RouteBadgeGroup
