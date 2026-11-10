@@ -82,9 +82,9 @@ const normalizeItems = items => {
 // through this module, which keeps the cache and the storage in sync.
 let cache = null;
 
-const persist = storage => {
-  cache = storage;
-  setOldSearchesStorage(storage);
+const persist = items => {
+  cache = { version: STORE_VERSION, items: orderBy(items, 'count', 'desc') };
+  setOldSearchesStorage(cache);
 };
 
 /**
@@ -105,9 +105,10 @@ const loadStorage = () => {
   const stored = getOldSearchesStorage();
   const isCurrent = stored.version != null && stored.version >= STORE_VERSION;
   const items = isCurrent ? normalizeItems(stored.items) : [];
-  cache = { version: STORE_VERSION, items };
   if (!isCurrent || items.length !== stored.items.length) {
-    persist(cache);
+    persist(items);
+  } else {
+    cache = { version: STORE_VERSION, items };
   }
   return cache;
 };
@@ -146,10 +147,7 @@ export const saveSearch = search => {
     updatedItems = [...items, { count: 1, lastUpdated: timestamp, ...search }];
   }
 
-  persist({
-    version: STORE_VERSION,
-    items: orderBy(normalizeItems(updatedItems), 'count', 'desc'),
-  });
+  persist(normalizeItems(updatedItems));
 };
 
 export const removeSearch = search => {
@@ -160,18 +158,12 @@ export const removeSearch = search => {
     item => !isEqual(key, getItemKey(item.item.properties)),
   );
   if (remaining.length !== items.length) {
-    persist({
-      version: STORE_VERSION,
-      items: orderBy(remaining, 'count', 'desc'),
-    });
+    persist(remaining);
   }
 };
 
 export const clearOldSearches = () => {
-  persist({
-    version: STORE_VERSION,
-    items: [],
-  });
+  persist([]);
 };
 
 // Callers may modify the results, so they get copies of the cached items.
