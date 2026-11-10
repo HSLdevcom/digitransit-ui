@@ -31,3 +31,24 @@ export const AXE_OPTIONS = {
   // jsdom cannot fetch stylesheets.
   preload: false,
 };
+
+// A component rendered on its own, such as a list row, has no parent list.
+// aria-required-parent also checks tabs, options and rows, so the scan
+// ignores only its list item nodes instead of disabling it.
+
+/** Options for the automatic scan after each test: AXE_OPTIONS without `listitem`. */
+export const SCAN_OPTIONS = {
+  ...AXE_OPTIONS,
+  rules: { ...AXE_OPTIONS.rules, listitem: { enabled: false } },
+};
+
+/**
+ * Whether the automatic scan ignores a violation node: a list item without
+ * its parent list.
+ *
+ * @param {import('axe-core').Result} violation
+ * @param {import('axe-core').NodeResult} node
+ */
+export const isOrphanListItem = (violation, node) =>
+  violation.id === 'aria-required-parent' &&
+  node.element.getAttribute('role') === 'listitem';

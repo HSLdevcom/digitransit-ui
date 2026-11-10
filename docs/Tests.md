@@ -56,17 +56,26 @@ yarn run test-unit -- --watch
 
 ### Accessibility tests
 
-Component tests can also check the rendered DOM with [axe-core](https://github.com/dequelabs/axe-core)
-through the `toHaveNoA11yViolations()` matcher. It comes from the private
+Every test in the app and component package suites is checked with
+[axe-core](https://github.com/dequelabs/axe-core): after each test, an automatic
+scan runs the WCAG 2.x A/AA and axe best-practice rules on `document.body`
+and fails the test on any violation. The checks come from the private
 `@digitransit-ui/test-utils` package (`packages/private/test-utils`), whose
-setup file is registered for the app and component package tests in
-`vitest.config.js`. The matcher runs the WCAG 2.x A/AA and axe best-practice
-rules on the given element and fails on any violation. Pass `document.body` to
-include portals such as modals:
+setup file is registered for both suites in `vitest.config.js`.
+
+A component rendered on its own, such as a list row, has no parent list, so
+the scan ignores list items without their list (the `listitem` rule and the
+list item nodes of `aria-required-parent`). It also skips tests that have
+already failed and tests that ran `toHaveNoA11yViolations()`.
+
+The `toHaveNoA11yViolations()` matcher runs the full rule set on an element.
+Use it for components that render their own lists, and for states a test moves
+on from, such as an open menu, since the scan only sees the DOM at the end of
+the test. Pass `document.body` to include portals such as modals:
 
 ```jsx
 it('has no accessibility violations', async () => {
-  renderWithProviders(<MyComponent />);
+  renderWithProviders(<StopList stops={stops} />);
   await expect(document.body).toHaveNoA11yViolations();
 });
 ```
@@ -82,6 +91,18 @@ cannot go stale:
 ```js
 await expect(document.body).toHaveNoA11yViolations({
   allow: [{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }],
+});
+```
+
+For the automatic scan, `allowA11y()` takes the same entries, in a test or a
+`beforeEach`. `skipA11yScan(reason)` skips the scan for a test whose DOM
+can't be scanned:
+
+```js
+import { allowA11y, skipA11yScan } from '@digitransit-ui/test-utils';
+
+beforeEach(() => {
+  allowA11y([{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }]);
 });
 ```
 

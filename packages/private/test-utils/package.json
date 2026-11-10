@@ -5,6 +5,7 @@
   "private": true,
   "type": "module",
   "exports": {
+    ".": "./index.js",
     "./setup": "./setup.js",
     "./package.json": "./package.json"
   },

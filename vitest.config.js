@@ -221,7 +221,7 @@ export default {
           name: 'digitransit-component',
           root: import.meta.dirname,
           environment: 'jsdom',
-          // Registers toHaveNoA11yViolations().
+          // Registers toHaveNoA11yViolations() and the a11y scan after each test.
           setupFiles: ['@digitransit-ui/test-utils/setup'],
           // Matches this repo's other stylesheet stubbing; also Vitest's
           // own default, kept explicit for clarity.

@@ -5,13 +5,13 @@ import { AXE_OPTIONS } from './rules';
 
 // axe.run throws if another run is in progress, so runs are queued.
 let queue = Promise.resolve();
-const runAxe = root => {
+const runAxe = (root, options) => {
   const run = queue.then(async () => {
     let results;
     // Inside act so state updates scheduled meanwhile (e.g. react-modal's
     // animation frames) don't warn.
     await act(async () => {
-      results = await axe.run(root, AXE_OPTIONS);
+      results = await axe.run(root, options);
     });
     return results;
   });
@@ -33,11 +33,23 @@ const describeUnused = ({ rule, selector }) =>
  *
  * @param {Element} root
  * @param {Array<{ rule: string, selector?: string, reason: string }>} allow
+ * @param {{ options?: import('axe-core').RunOptions, ignore?: (violation: import('axe-core').Result, node: import('axe-core').NodeResult) => boolean }} [settings]
+ *   axe options, and violation nodes to drop before `allow` applies.
  * @returns {Promise<string[]>}
  */
-export async function checkA11y(root, allow) {
+export async function checkA11y(
+  root,
+  allow,
+  { options = AXE_OPTIONS, ignore = () => false } = {},
+) {
   validateAllow(allow);
-  const { violations } = await runAxe(root);
-  const { failures, unused } = applyAllow(violations, allow);
+  const { violations } = await runAxe(root, options);
+  const relevant = violations
+    .map(violation => ({
+      ...violation,
+      nodes: violation.nodes.filter(node => !ignore(violation, node)),
+    }))
+    .filter(({ nodes }) => nodes.length);
+  const { failures, unused } = applyAllow(relevant, allow);
   return [...failures.map(describeFailure), ...unused.map(describeUnused)];
 }

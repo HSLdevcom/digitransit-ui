@@ -1,5 +1,10 @@
-import { expect, onTestFinished } from 'vitest';
+import { afterEach, expect, onTestFinished } from 'vitest';
 import { checkA11y } from './a11y';
+import { isOrphanListItem, SCAN_OPTIONS } from './rules';
+import { takeScanSettings } from './scan';
+
+// Tests that ran the full check, so the automatic scan skips them.
+const checkedTests = new WeakSet();
 
 expect.extend({
   /**
@@ -21,6 +26,7 @@ expect.extend({
     if (!(received instanceof Element)) {
       throw new TypeError('toHaveNoA11yViolations() expects an element');
     }
+    checkedTests.add(this.task);
 
     // Vitest does not track unawaited custom matchers. An unawaited check
     // could scan the DOM after cleanup and pass, so it fails the test.
@@ -42,4 +48,24 @@ expect.extend({
       settled = true;
     }
   },
+});
+
+// Scans the DOM each test leaves behind. Registered after the imports above,
+// so with Vitest's default stack hook order it runs before RTL's cleanup.
+afterEach(async ({ task }) => {
+  const { allow, skipped } = takeScanSettings();
+  if (skipped || checkedTests.has(task) || task.result?.state === 'fail') {
+    return;
+  }
+  const problems = await checkA11y(document.body, allow, {
+    options: SCAN_OPTIONS,
+    ignore: isOrphanListItem,
+  });
+  if (problems.length) {
+    throw new Error(
+      `Accessibility scan failed:\n  ${problems.join(
+        '\n  ',
+      )}\nFix the markup, or use allowA11y() or skipA11yScan() from @digitransit-ui/test-utils.`,
+    );
+  }
 });

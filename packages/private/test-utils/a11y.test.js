@@ -1,4 +1,5 @@
-import { describe, it, expect, afterEach } from 'vitest';
+import { describe, it, expect, afterEach, onTestFinished } from 'vitest';
+import { allowA11y, skipA11yScan } from '@digitransit-ui/test-utils';
 
 describe('toHaveNoA11yViolations', () => {
   afterEach(() => {
@@ -101,5 +102,53 @@ describe('toHaveNoA11yViolations', () => {
   it.fails('must be awaited', () => {
     document.body.innerHTML = '<button type="button">Go</button>';
     expect(document.body).toHaveNoA11yViolations();
+  });
+});
+
+describe('automatic scan', () => {
+  // Cleared after the scan, which runs in afterEach.
+  const render = html => {
+    document.body.innerHTML = html;
+    onTestFinished(() => {
+      document.body.innerHTML = '';
+    });
+  };
+
+  it.fails('fails a test that leaves violations behind', () => {
+    render('<button type="button"></button>');
+  });
+
+  it('ignores list items without their list', () => {
+    render('<li>Item</li><div role="listitem">Item</div>');
+  });
+
+  it.fails('checks the parents of other roles', () => {
+    render('<div role="tab">Tab</div>');
+  });
+
+  it('skips violations matched by allowA11y', () => {
+    render('<button type="button"></button>');
+    allowA11y([{ rule: 'button-name', reason: 'known issue' }]);
+  });
+
+  it.fails('fails on allowA11y entries that match nothing', () => {
+    render('<button type="button">Go</button>');
+    allowA11y([{ rule: 'button-name', reason: 'fixed already' }]);
+  });
+
+  it('skips tests that call skipA11yScan', () => {
+    render('<button type="button"></button>');
+    skipA11yScan('markup under test');
+  });
+
+  it('requires a reason for skipA11yScan', () => {
+    expect(() => skipA11yScan()).toThrow(/needs a reason/);
+  });
+
+  it('skips tests that ran the full check', async () => {
+    render('<button type="button"></button>');
+    await expect(document.body).toHaveNoA11yViolations({
+      allow: [{ rule: 'button-name', reason: 'known issue' }],
+    });
   });
 });
