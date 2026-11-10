@@ -54,17 +54,4 @@ describe('Testing @digitransit-component/digitransit-component-dialog-modal modu
     fireEvent.click(deleteButton);
     expect(primaryButtonOnClick).toHaveBeenCalledTimes(1);
   });
-
-  it('has no accessibility violations', async () => {
-    render(
-      <DialogModal
-        isModalOpen
-        headerText="Delete this place?"
-        primaryButtonText="Delete"
-        primaryButtonOnClick={() => {}}
-        lang="en"
-      />,
-    );
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

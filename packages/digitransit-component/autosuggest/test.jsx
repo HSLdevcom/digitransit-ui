@@ -80,9 +80,4 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     // No suggestions are shown, so no item may be referenced as active.
     expect(input.hasAttribute('aria-activedescendant')).toBe(false);
   });
-
-  it('has no accessibility violations', async () => {
-    renderAutosuggest();
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

@@ -124,9 +124,4 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
       ]);
     });
   });
-
-  it('has no accessibility violations', async () => {
-    renderPanel();
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

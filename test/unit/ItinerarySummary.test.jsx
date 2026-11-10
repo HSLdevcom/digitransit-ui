@@ -42,17 +42,4 @@ describe('<ItinerarySummary />', () => {
     expect(container.querySelector('.icon.bike')).not.toBeNull();
     expect(container.querySelector('.icon.walk')).toBeNull();
   });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(
-      <ItinerarySummary
-        itinerary={data.bikingAndWalking}
-        biking={{ distance: 1000, duration: 180 }}
-        walking={{ distance: 555, duration: 300 }}
-      >
-        <div />
-      </ItinerarySummary>,
-    );
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

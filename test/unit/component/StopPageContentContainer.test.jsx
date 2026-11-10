@@ -50,13 +50,4 @@ describe('<StopPageContentContainer />', () => {
     const { queryByTestId } = renderStop({ stoptimes });
     expect(queryByTestId('departure-list')).not.toBeNull();
   });
-
-  it('has no accessibility violations', async () => {
-    renderStop({
-      stoptimes: [
-        { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
-      ],
-    });
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

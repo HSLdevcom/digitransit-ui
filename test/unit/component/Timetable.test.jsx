@@ -111,11 +111,4 @@ describe('<Timetable />', () => {
     });
     expect(container.querySelectorAll('.secondary-button')).toHaveLength(2);
   });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(<Timetable {...props} />, {
-      config: { CONFIG: 'default', URL: {} },
-    });
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

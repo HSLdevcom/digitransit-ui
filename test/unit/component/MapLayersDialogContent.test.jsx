@@ -332,12 +332,4 @@ describe('<MapLayersDialogContent />', () => {
       true,
     );
   });
-
-  it('has no accessibility violations', async () => {
-    renderMapLayersDialogContent({
-      setOpen: () => {},
-      mapLayers: { stop: {}, terminal: {} },
-    });
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

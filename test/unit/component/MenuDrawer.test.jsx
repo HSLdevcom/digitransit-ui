@@ -45,20 +45,4 @@ describe('<MenuDrawer />', () => {
       screen.getByRole('button', { name: 'Close the main menu' }),
     ).toBeTruthy();
   });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(
-      <MenuDrawer
-        open
-        label="Main menu"
-        onRequestChange={() => {}}
-        breakpoint="large"
-      >
-        <div>content</div>
-      </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
-    );
-
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

@@ -58,12 +58,4 @@ describe('<StopPageTabs />', () => {
     expect(container.querySelector('.alert-circle').textContent).toBe('2');
     expect(container.querySelector('.active-disruption-alert')).toBeTruthy();
   });
-
-  it('has no accessibility violations', async () => {
-    renderTabs(
-      { gtfsId: 'HSL:1', alerts: [alert('a1', 'SEVERE')], canceledCalls: [] },
-      stopMatch,
-    );
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

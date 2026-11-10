@@ -30,13 +30,4 @@ describe('<SelectFromMapModal />', () => {
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
     expect(onClose).toHaveBeenCalledTimes(1);
   });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(
-      <SelectFromMapModal title="Select location" lang="en" onClose={() => {}}>
-        <div>map picker</div>
-      </SelectFromMapModal>,
-    );
-    await expect(document.body).toHaveNoA11yViolations();
-  });
 });

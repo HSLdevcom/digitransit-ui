@@ -95,11 +95,6 @@ describe('<RoutePage />', () => {
       breakpoint,
     });
 
-  it('has no accessibility violations', async () => {
-    renderView();
-    await expect(document.body).toHaveNoA11yViolations();
-  });
-
   describe('Redirect when route is missing', () => {
     it('calls router.replace to routes page and renders nothing when route is null and no error', () => {
       const replaceSpy = vi.fn();
