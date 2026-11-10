@@ -55,6 +55,9 @@ lerna-publish-summary.json
 .claude/*
 !.claude/settings.json
 
+# Playwright MCP output
+.playwright-mcp/
+
 # various files
 test/credentials.json
 *.swp
@@ -62,6 +65,3 @@ test/credentials.json
 tags
 run*.sh
 dump.rdb
-
-# Playwright MCP output
-.playwright-mcp/
