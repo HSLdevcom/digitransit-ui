@@ -1,10 +1,7 @@
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import {
-  vehicleRentalStationShape,
-  errorShape,
-} from '../../utils/client/shapes';
+import { fragmentRefShape, errorShape } from '../../utils/client/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
@@ -14,10 +11,37 @@ import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
 import { TransportMode } from '../../utils/shared/constants';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
+const VehicleRentalStationContentFragment = graphql`
+  fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
+    lat
+    lon
+    name
+    availableVehicles {
+      total
+    }
+    availableSpaces {
+      total
+    }
+    capacity
+    rentalNetwork {
+      networkId
+    }
+    stationId
+    operative
+  }
+`;
+
+export default function VehicleRentalStationContent({
+  vehicleRentalStation: vehicleRentalStationRef,
+  error,
+}) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { router } = useRouter();
+  const vehicleRentalStation = useFragment(
+    VehicleRentalStationContentFragment,
+    vehicleRentalStationRef,
+  );
   // throw error when relay query fails
   if (error && !vehicleRentalStation) {
     throw error.message;
@@ -81,39 +105,9 @@ const VehicleRentalStationContent = ({ vehicleRentalStation, error }) => {
       )}
     </div>
   );
-};
+}
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: vehicleRentalStationShape.isRequired,
+  vehicleRentalStation: fragmentRefShape.isRequired,
   error: errorShape,
-};
-
-const containerComponent = createFragmentContainer(
-  VehicleRentalStationContent,
-  {
-    vehicleRentalStation: graphql`
-      fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
-        lat
-        lon
-        name
-        availableVehicles {
-          total
-        }
-        availableSpaces {
-          total
-        }
-        capacity
-        rentalNetwork {
-          networkId
-        }
-        stationId
-        operative
-      }
-    `,
-  },
-);
-
-export {
-  containerComponent as default,
-  VehicleRentalStationContent as Component,
 };
