@@ -754,7 +754,11 @@ export default {
       enabled: isDevRunEnv(),
       transit: isDevRunEnv(),
       direct: isDevRunEnv(),
-      agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
+      agencies: [
+        'KirkkonummiE:612',
+        'KirkkonummiP:612',
+        'kalasatama_flex:fedaa37f-67c7-4be6-a98c-158b1ecc2e5b',
+      ],
     },
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
