@@ -21,13 +21,13 @@ export const STORE_PERIOD = 60 * 60 * 24 * 60; // 60 days
 /**
  * The maximum number of items kept in the stored history.
  */
-export const STORE_MAX_ITEMS = 100;
+export const STORE_MAX_ITEMS = 120;
 
 /**
  * The number of most recent items that are never dropped by the item limit,
  * so that a new search is not lost to items with a higher count.
  */
-export const STORE_KEEP_LATEST = 10;
+export const STORE_KEEP_LATEST = 20;
 
 const getItemKey = properties => {
   if (properties.layer?.startsWith('route-') && properties.gtfsId) {
