@@ -1,7 +1,6 @@
 import { fireEvent, waitFor } from '@testing-library/react';
 import fetchMock from 'fetch-mock';
 
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 import MapLayersDialogContent from '../../../app/component/map/MapLayersDialogContent';
@@ -339,6 +338,6 @@ describe('<MapLayersDialogContent />', () => {
       setOpen: () => {},
       mapLayers: { stop: {}, terminal: {} },
     });
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

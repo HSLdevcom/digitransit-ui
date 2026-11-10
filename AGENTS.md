@@ -142,9 +142,9 @@ right one by *who consumes the code*, not just by convenience.
 - Browser exploration: the Playwright MCP server in `.mcp.json` can drive the app at http://localhost:8080 while
   `yarn run dev` runs. It is not a test runner (see `docs/Tests.md`).
 - Accessibility: new or changed components with significant markup get an
-  `it('has no accessibility violations')` using `expectNoA11yViolations` from
-  `@digitransit-ui/test-utils` (axe-core in jsdom, see `docs/Tests.md`). Allowlist known issues with
-  a required `reason` rather than skipping the check.
+  `it('has no accessibility violations')` with `await expect(document.body).toHaveNoA11yViolations()`
+  (axe-core in jsdom, from `@digitransit-ui/test-utils`, see `docs/Tests.md`). Allowlist known
+  issues with a required `reason` rather than skipping the check.
 - Add a concise set of core functionality tests for new features. App-breaking logic should be
   tested, but e.g. checking whether an individual UI element was rendered is not necessary unless
   conditionally rendered to keep the set of tests focused and concise.

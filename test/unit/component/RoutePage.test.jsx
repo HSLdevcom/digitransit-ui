@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -98,7 +97,7 @@ describe('<RoutePage />', () => {
 
   it('has no accessibility violations', async () => {
     renderView();
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 
   describe('Redirect when route is missing', () => {

@@ -1,7 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import DTAutosuggestPanel from './src/index';
 
 // searchContext's sources/targets being empty means "search all sources",
@@ -128,6 +127,6 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
 
   it('has no accessibility violations', async () => {
     renderPanel();
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

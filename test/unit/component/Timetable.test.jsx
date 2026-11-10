@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import Timetable from '../../../app/component/stop/Timetable';
 import { renderWithProviders } from '../helpers/mock-providers';
 import * as timetables from '../../../utils/server/timetableConfigUtils';
@@ -117,6 +116,6 @@ describe('<Timetable />', () => {
     renderWithProviders(<Timetable {...props} />, {
       config: { CONFIG: 'default', URL: {} },
     });
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

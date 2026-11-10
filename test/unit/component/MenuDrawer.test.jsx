@@ -1,7 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
 import Modal from 'react-modal';
 
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import MenuDrawer from '../../../app/component/MenuDrawer';
 
@@ -60,6 +59,6 @@ describe('<MenuDrawer />', () => {
       { config: { CONFIG: 'default', language: 'en' } },
     );
 
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

@@ -1,5 +1,4 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import SelectFromMapModal from '../../../app/component/SelectFromMapModal';
 
@@ -38,6 +37,6 @@ describe('<SelectFromMapModal />', () => {
         <div>map picker</div>
       </SelectFromMapModal>,
     );
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

@@ -324,12 +324,12 @@ is unrelated: it only serves tooling (eslint parser).
 
 `packages/private/test-utils` (`@digitransit-ui/test-utils`, private, no build step)
 holds test helpers used by both the app tests and the package tests, currently
-`expectNoA11yViolations` (axe-core, see `docs/Tests.md`). A package whose tests
-import it declares it as a `workspace:^` `devDependency`, so changing the helper
-requires bumping those packages. The app resolves it through the workspace
-symlink in `node_modules/@digitransit-ui`, like the schema package. Its
-dependencies (`axe-core`, `@testing-library/react`) come from the root
-`devDependencies`.
+the `toHaveNoA11yViolations()` matcher (axe-core, see `docs/Tests.md`). Its
+setup file is registered in the root `vitest.config.js`, so tests use the
+matcher without importing anything, and packages don't declare a dependency on
+it. It resolves through the workspace symlink in `node_modules/@digitransit-ui`,
+like the schema package. Its dependencies (`axe-core`, `@testing-library/react`,
+`vitest`) come from the root `devDependencies`.
 
 ## Build Caching
 

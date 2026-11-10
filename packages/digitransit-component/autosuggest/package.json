@@ -47,8 +47,7 @@
     "@hsl-fi/hooks": "^1.2.4"
   },
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^",
-    "@digitransit-ui/test-utils": "workspace:^"
+    "@digitransit-ui/rollup-config": "workspace:^"
   },
   "peerDependencies": {
     "@digitransit-component/digitransit-component-dialog-modal": "workspace:^",

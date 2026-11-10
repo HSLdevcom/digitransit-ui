@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
@@ -58,6 +57,6 @@ describe('<StopPageContentContainer />', () => {
         { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
       ],
     });
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

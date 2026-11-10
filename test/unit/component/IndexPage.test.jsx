@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react';
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { ItineraryLocationProvider } from '../../../app/hooks/ItineraryLocationContext';
 import { FavouriteProvider } from '../../../app/hooks/FavouriteContext';
 import { MessageProvider } from '../../../app/hooks/MessageContext';
@@ -32,7 +31,7 @@ describe('<IndexPage />', () => {
     async breakpoint => {
       renderIndexPage(breakpoint);
       expect(screen.getAllByRole('combobox').length).toBeGreaterThan(0);
-      await expectNoA11yViolations();
+      await expect(document.body).toHaveNoA11yViolations();
     },
   );
 });

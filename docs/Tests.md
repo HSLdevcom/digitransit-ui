@@ -57,19 +57,21 @@ yarn run test-unit -- --watch
 ### Accessibility tests
 
 Component tests can also check the rendered DOM with [axe-core](https://github.com/dequelabs/axe-core)
-through `expectNoA11yViolations` from the private `@digitransit-ui/test-utils`
-package (`packages/private/test-utils`). It runs the
-WCAG 2.x A/AA and axe best-practice rules on `document.body` (so portals such
-as modals are included) and fails on any violation:
+through the `toHaveNoA11yViolations()` matcher. It comes from the private
+`@digitransit-ui/test-utils` package (`packages/private/test-utils`), whose
+setup file is registered for the app and component package tests in
+`vitest.config.js`. The matcher runs the WCAG 2.x A/AA and axe best-practice
+rules on the given element and fails on any violation. Pass `document.body` to
+include portals such as modals:
 
 ```jsx
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
-
 it('has no accessibility violations', async () => {
   renderWithProviders(<MyComponent />);
-  await expectNoA11yViolations();
+  await expect(document.body).toHaveNoA11yViolations();
 });
 ```
+
+The matcher must be awaited; a test that doesn't await it fails.
 
 Fix the markup where possible. For a known issue that cannot be fixed yet, pass
 an allow entry. The `rule` must be an axe rule id and the `reason` is required.
@@ -78,7 +80,7 @@ shadow roots), and an entry that matches nothing fails the test so the list
 cannot go stale:
 
 ```js
-await expectNoA11yViolations(document.body, {
+await expect(document.body).toHaveNoA11yViolations({
   allow: [{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }],
 });
 ```

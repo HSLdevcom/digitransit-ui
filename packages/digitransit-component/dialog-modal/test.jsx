@@ -1,6 +1,5 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import DialogModal from './src/index';
 
 // Under Mocha, @hsl-fi/dialog was ESM-only and couldn't be require()'d, so
@@ -66,6 +65,6 @@ describe('Testing @digitransit-component/digitransit-component-dialog-modal modu
         lang="en"
       />,
     );
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

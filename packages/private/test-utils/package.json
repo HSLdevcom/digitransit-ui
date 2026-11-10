@@ -4,9 +4,8 @@
   "description": "Private shared test helpers (e.g. axe accessibility checks) for the app and package tests",
   "private": true,
   "type": "module",
-  "main": "./index.js",
   "exports": {
-    ".": "./index.js",
+    "./setup": "./setup.js",
     "./package.json": "./package.json"
   },
   "license": "(AGPL-3.0 OR EUPL-1.2)"

@@ -1,27 +1,33 @@
 import { describe, it, expect, afterEach } from 'vitest';
-import { expectNoA11yViolations } from './a11y';
 
-describe('expectNoA11yViolations', () => {
+describe('toHaveNoA11yViolations', () => {
   afterEach(() => {
     document.body.innerHTML = '';
   });
 
   it('passes accessible markup', async () => {
     document.body.innerHTML = '<button type="button">Go</button>';
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 
   it('reports violations with the rule and the offending node', async () => {
     document.body.innerHTML = '<button type="button"></button>';
-    await expect(expectNoA11yViolations()).rejects.toThrow(
-      /button-name.*\n\s+.*<button/,
-    );
+    await expect(
+      expect(document.body).toHaveNoA11yViolations(),
+    ).rejects.toThrow(/button-name.*\n\s+.*<button/);
+  });
+
+  it('runs best-practice rules', async () => {
+    document.body.innerHTML = '<div role="dialog">x</div>';
+    await expect(
+      expect(document.body).toHaveNoA11yViolations(),
+    ).rejects.toThrow(/aria-dialog-name/);
   });
 
   it('skips violations matched by an allow entry', async () => {
     document.body.innerHTML =
       '<div id="legacy"><button type="button"></button></div>';
-    await expectNoA11yViolations(document.body, {
+    await expect(document.body).toHaveNoA11yViolations({
       allow: [
         { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
       ],
@@ -31,7 +37,7 @@ describe('expectNoA11yViolations', () => {
   it('does not let a selector-scoped entry hide other nodes', async () => {
     document.body.innerHTML = '<button id="other" type="button"></button>';
     await expect(
-      expectNoA11yViolations(document.body, {
+      expect(document.body).toHaveNoA11yViolations({
         allow: [
           { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
         ],
@@ -45,7 +51,7 @@ describe('expectNoA11yViolations', () => {
       .getElementById('host')
       .attachShadow({ mode: 'open' });
     shadow.innerHTML = '<button type="button"></button>';
-    await expectNoA11yViolations(document.body, {
+    await expect(document.body).toHaveNoA11yViolations({
       allow: [
         { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
       ],
@@ -54,21 +60,16 @@ describe('expectNoA11yViolations', () => {
 
   it('queues overlapping runs', async () => {
     document.body.innerHTML = '<button type="button">Go</button>';
-    await Promise.all([expectNoA11yViolations(), expectNoA11yViolations()]);
-  });
-
-  it('rejects unknown rule ids', async () => {
-    await expect(
-      expectNoA11yViolations(document.body, {
-        allow: [{ rule: 'buton-name', reason: 'typo' }],
-      }),
-    ).rejects.toThrow(/Unknown axe rule in a11y allow entry: buton-name/);
+    await Promise.all([
+      expect(document.body).toHaveNoA11yViolations(),
+      expect(document.body).toHaveNoA11yViolations(),
+    ]);
   });
 
   it('fails on allow entries that match nothing', async () => {
     document.body.innerHTML = '<button type="button">Go</button>';
     await expect(
-      expectNoA11yViolations(document.body, {
+      expect(document.body).toHaveNoA11yViolations({
         allow: [{ rule: 'button-name', reason: 'fixed already' }],
       }),
     ).rejects.toThrow(/Unused a11y allow entry: button-name/);
@@ -76,9 +77,29 @@ describe('expectNoA11yViolations', () => {
 
   it('requires a reason for every allow entry', async () => {
     await expect(
-      expectNoA11yViolations(document.body, {
+      expect(document.body).toHaveNoA11yViolations({
         allow: [{ rule: 'button-name' }],
       }),
     ).rejects.toThrow(/needs a rule and a reason/);
+  });
+
+  it('rejects unknown rule ids', async () => {
+    await expect(
+      expect(document.body).toHaveNoA11yViolations({
+        allow: [{ rule: 'buton-name', reason: 'typo' }],
+      }),
+    ).rejects.toThrow(/Unknown axe rule in a11y allow entry: buton-name/);
+  });
+
+  it('does not support .not', async () => {
+    await expect(
+      expect(document.body).not.toHaveNoA11yViolations(),
+    ).rejects.toThrow(/not supported/);
+  });
+
+  // The matcher fails the test when it is not awaited.
+  it.fails('must be awaited', () => {
+    document.body.innerHTML = '<button type="button">Go</button>';
+    expect(document.body).toHaveNoA11yViolations();
   });
 });

@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import data from './test-data/dcw31';
 import { renderWithProviders } from './helpers/mock-providers';
 import ItinerarySummary from '../../app/component/itinerary/ItinerarySummary';
@@ -54,6 +53,6 @@ describe('<ItinerarySummary />', () => {
         <div />
       </ItinerarySummary>,
     );
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

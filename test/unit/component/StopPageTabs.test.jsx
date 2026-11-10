@@ -1,5 +1,4 @@
 import { screen } from '@testing-library/react';
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockMatch } from '../helpers/mock-router';
 import StopPageTabs from '../../../app/component/stop/StopPageTabs';
@@ -65,6 +64,6 @@ describe('<StopPageTabs />', () => {
       { gtfsId: 'HSL:1', alerts: [alert('a1', 'SEVERE')], canceledCalls: [] },
       stopMatch,
     );
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });
