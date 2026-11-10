@@ -106,7 +106,12 @@ export default function Disruption({
         id: 'disruption-view-details',
         defaultMessage: 'View details',
       });
-  const ariaLabel = hasCancelations ? alertDescriptionText : alertHeaderText;
+  const ariaLabel = [
+    hasCancelations ? alertDescriptionText : alertHeaderText,
+    buttonLabel,
+  ]
+    .filter(Boolean)
+    .join(', ');
   return (
     <div className="alert-row-container" role="listitem">
       <div className="alert-row">
@@ -115,7 +120,7 @@ export default function Disruption({
           <button
             type="button"
             className="alert-row-action"
-            aria-label={`${ariaLabel} ${buttonLabel}`}
+            aria-label={ariaLabel}
             onClick={toggleDetails}
           >
             <span className="alert-row-arrow">

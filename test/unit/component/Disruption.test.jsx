@@ -66,7 +66,9 @@ describe('<Disruption />', () => {
       toggleDetails,
       entities: [routeEntity()],
     });
-    fireEvent.click(screen.getByRole('button', { name: /^Alert / }));
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Alert, View details' }),
+    );
     expect(toggleDetails).toHaveBeenCalledTimes(1);
   });
 
