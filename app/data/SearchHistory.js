@@ -114,8 +114,8 @@ const loadStorage = () => {
 };
 
 /**
- * Returns the stored history. It is read from localStorage once, and expired,
- * duplicate and surplus items are removed at that point.
+ * Returns the stored history. It is read from localStorage once per session.
+ * Expired, duplicate and surplus items are removed at that point.
  */
 export const getStorageObject = () => cache || loadStorage();
 
@@ -147,7 +147,7 @@ export const saveSearch = search => {
     updatedItems = [...items, { count: 1, lastUpdated: timestamp, ...search }];
   }
 
-  persist(normalizeItems(updatedItems));
+  persist(updatedItems);
 };
 
 export const removeSearch = search => {

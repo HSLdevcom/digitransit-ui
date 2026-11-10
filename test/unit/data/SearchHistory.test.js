@@ -275,6 +275,28 @@ describe('SearchHistory', () => {
       expect(getOldSearchesStorage().items).toHaveLength(1);
     });
 
+    it('should apply the cap when the history is next loaded', () => {
+      const now = DateTime.local(2018, 2, 18);
+      MockDate.set(now);
+      const items = Array.from({ length: STORE_MAX_ITEMS }, (_, i) => ({
+        count: 3,
+        type: 'endpoint',
+        lastUpdated: now.minus({ days: 1, seconds: i }).toUnixInteger(),
+        item: {
+          properties: { label: `p${i}`, layer: 'address', name: `p${i}` },
+        },
+      }));
+      setOldSearchesStorage({ version: STORE_VERSION, items });
+
+      oldSearchesData.saveSearch(entry('new'));
+      expect(getOldSearchesStorage().items).toHaveLength(STORE_MAX_ITEMS + 1);
+
+      oldSearchesData.resetSearchHistoryCache();
+      expect(names()).toHaveLength(STORE_MAX_ITEMS);
+      expect(names()).toContain('new');
+      expect(getOldSearchesStorage().items).toHaveLength(STORE_MAX_ITEMS);
+    });
+
     it('should return copies that callers can modify', () => {
       setOldSearchesStorage({ version: STORE_VERSION, items: [entry('a')] });
       delete oldSearchesData.getOldSearches()[0].properties.name;
