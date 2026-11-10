@@ -1,22 +1,30 @@
 import axe from 'axe-core';
 import { act } from '@testing-library/react';
 
-// Rules jsdom cannot evaluate (no layout/CSS/canvas) or that only apply to
-// whole pages, while tests render isolated components.
+// Rules that cannot work on components rendered in jsdom. Rules for <html>
+// and <title> need no entry: they never apply when scanning document.body.
 const DISABLED_RULES = [
+  // Need canvas and layout, so jsdom only ever reports them as incomplete.
   'color-contrast',
   'label-content-name-mismatch',
+  // Needs layout, so it always passes.
+  'target-size',
+  // Rendered components are not inside page landmarks.
   'region',
-  'landmark-one-main',
-  'page-has-heading-one',
-  'document-title',
-  'html-has-lang',
 ];
 
 const AXE_OPTIONS = {
   runOnly: {
     type: 'tag',
-    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
+    values: [
+      'wcag2a',
+      'wcag2aa',
+      'wcag21a',
+      'wcag21aa',
+      'wcag22a',
+      'wcag22aa',
+      'best-practice',
+    ],
   },
   rules: Object.fromEntries(DISABLED_RULES.map(id => [id, { enabled: false }])),
   // Only violations are read; element refs allow scoping allow entries.

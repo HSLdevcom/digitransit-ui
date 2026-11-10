@@ -59,8 +59,8 @@ yarn run test-unit -- --watch
 Component tests can also check the rendered DOM with [axe-core](https://github.com/dequelabs/axe-core)
 through `expectNoA11yViolations` from the private `@digitransit-ui/test-utils`
 package (`packages/private/test-utils`). It runs the
-WCAG 2.x A/AA rules on `document.body` (so portals such as modals are
-included) and fails on any violation:
+WCAG 2.x A/AA and axe best-practice rules on `document.body` (so portals such
+as modals are included) and fails on any violation:
 
 ```jsx
 import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
@@ -83,11 +83,11 @@ await expectNoA11yViolations(document.body, {
 });
 ```
 
-jsdom has no layout, CSS or canvas, so the helper disables rules that need them
-(`color-contrast`, `label-content-name-mismatch`) and page-level rules
-(`region`, `landmark-one-main`, `page-has-heading-one`, `document-title`,
-`html-has-lang`). Contrast, focus order and full-page structure still need
-manual checks or a browser-based test. Static JSX checks come from
+jsdom has no layout or canvas, so the helper disables the rules that need them
+(`color-contrast`, `label-content-name-mismatch`, `target-size`), as well as
+`region`, because rendered components are not inside page landmarks. Contrast,
+target size, focus order and full-page structure still need manual checks or a
+browser-based test. Static JSX checks come from
 `eslint-plugin-jsx-a11y` in `yarn lint`.
 
 Components from `packages/digitransit-component` are resolved from their built
