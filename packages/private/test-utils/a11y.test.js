@@ -1,4 +1,6 @@
 import { describe, it, expect, afterEach, onTestFinished } from 'vitest';
+import { createElement } from 'react';
+import { render as renderReact } from '@testing-library/react';
 import { allowA11y, skipA11yScan } from '@digitransit-ui/test-utils';
 
 describe('toHaveNoA11yViolations', () => {
@@ -144,6 +146,19 @@ describe('automatic scan', () => {
   it('requires a reason for skipA11yScan', () => {
     expect(() => skipA11yScan()).toThrow(/needs a reason/);
   });
+
+  it.fails('scans before RTL cleanup', () => {
+    renderReact(createElement('button', { type: 'button' }));
+  });
+
+  it.fails(
+    'fails on allowA11y entries in a test that runs the full check',
+    async () => {
+      render('<button type="button">Go</button>');
+      allowA11y([{ rule: 'button-name', reason: 'known issue' }]);
+      await expect(document.body).toHaveNoA11yViolations();
+    },
+  );
 
   it('skips tests that ran the full check', async () => {
     render('<button type="button"></button>');

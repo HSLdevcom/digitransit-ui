@@ -1,4 +1,7 @@
 import { afterEach, expect, onTestFinished } from 'vitest';
+// Imported before the scan hook is registered, so RTL's auto-cleanup hook is
+// registered first and, in Vitest's default stack order, runs after the scan.
+import '@testing-library/react';
 import { checkA11y } from './a11y';
 import { isOrphanListItem, SCAN_OPTIONS } from './rules';
 import { takeScanSettings } from './scan';
@@ -50,11 +53,18 @@ expect.extend({
   },
 });
 
-// Scans the DOM each test leaves behind. Registered after the imports above,
-// so with Vitest's default stack hook order it runs before RTL's cleanup.
+// Scans the DOM each test leaves behind.
 afterEach(async ({ task }) => {
   const { allow, skipped } = takeScanSettings();
-  if (skipped || checkedTests.has(task) || task.result?.state === 'fail') {
+  if (skipped || task.result?.state === 'fail') {
+    return;
+  }
+  if (checkedTests.has(task)) {
+    if (allow.length) {
+      throw new Error(
+        'allowA11y() entries are unused in a test that runs toHaveNoA11yViolations(); pass them as its allow option',
+      );
+    }
     return;
   }
   const problems = await checkA11y(document.body, allow, {
