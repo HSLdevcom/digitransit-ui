@@ -254,7 +254,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
           config.URL.STOP_TIMETABLES[feedId],
           stop,
           date,
-          config.language,
+          intl.locale,
         )
       : null;
   const virtualMonitorUrl =

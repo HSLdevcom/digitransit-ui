@@ -17,7 +17,9 @@ export default function CallAgencyDisclaimer({
     ? () => {
         window.open(href, '_blank', 'noopener,noreferrer');
       }
-    : () => openDeepLink(href, window.location.href);
+    : // Falls back to reloading this page (the absolute browser URL).
+      // eslint-disable-next-line no-restricted-syntax
+      () => openDeepLink(href, window.location.href);
 
   return (
     <div className="call-agency-disclaimer-container">

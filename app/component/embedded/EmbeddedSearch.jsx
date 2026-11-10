@@ -21,6 +21,7 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
 import { locationToOTP } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { getLanguagePrefix } from '../../../utils/shared/languageUtils';
 
 const sources = ['Favourite', 'History', 'Datasource'];
 
@@ -73,10 +74,12 @@ export default function EmbeddedSearch(props) {
   const bikeOnly = query?.bikeOnly;
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
+  // The page that embeds this search, for analytics.
   const url =
     window.location !== window.parent.location
       ? document.referrer
-      : document.location.href;
+      : // eslint-disable-next-line no-restricted-syntax
+        document.location.href;
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);
@@ -234,7 +237,7 @@ export default function EmbeddedSearch(props) {
       destination.type === 'CurrentLocation';
     const targetUrl = isComplete
       ? buildURL([
-          lang,
+          getLanguagePrefix(config, lang),
           getPathWithEndpointObjects(
             origin,
             destination,
@@ -243,7 +246,7 @@ export default function EmbeddedSearch(props) {
           urlEnd,
         ])
       : buildURL([
-          lang,
+          getLanguagePrefix(config, lang),
           getIndexPath(
             locationToOTP(origin),
             locationToOTP(destination),

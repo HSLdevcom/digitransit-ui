@@ -18,7 +18,7 @@ export default function CallAgencyLeg({ leg, ...props }) {
   const notification =
     config.showRouteDescNotification &&
     route.desc?.length &&
-    config.flex.infoLanguage === config.language // No translations available in the data at the moment
+    config.flex.infoLanguage === intl.locale // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
       : {
           content: intl.formatMessage({ id: 'call-agency-disclaimer' }),

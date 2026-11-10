@@ -11,23 +11,23 @@ const AdditionalDescription = () => {
   const intl = useIntl();
   const {
     URL: { HOLIDAYS_AND_EXCEPTIONS, MAJOR_CHANGES },
-    language,
   } = useConfigContext();
+  const { locale } = intl;
 
   const links = [
     {
       key: 'link1',
-      href: HOLIDAYS_AND_EXCEPTIONS[language],
+      href: HOLIDAYS_AND_EXCEPTIONS[locale],
       message: {
         id: 'traffic-now_description_see-also--link1',
         defaultMessage: 'holidays and exceptions',
       },
     },
-    ...(MAJOR_CHANGES && MAJOR_CHANGES[language]
+    ...(MAJOR_CHANGES && MAJOR_CHANGES[locale]
       ? [
           {
             key: 'link2',
-            href: MAJOR_CHANGES[language],
+            href: MAJOR_CHANGES[locale],
             message: {
               id: 'traffic-now_description_see-also--link2',
               defaultMessage: 'major changes',
@@ -60,14 +60,13 @@ export default function TrafficNowHeader() {
     CONFIG,
     trafficNowHeaderGraphic,
     trafficNowRootPath,
-    language,
     URL: { ROOTLINK },
   } = useConfigContext();
-  const { formatMessage } = useIntl();
+  const { formatMessage, locale } = useIntl();
 
   const logo = getAssetUrl(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
-  const localizedRootPath = trafficNowRootPath && trafficNowRootPath[language];
+  const localizedRootPath = trafficNowRootPath && trafficNowRootPath[locale];
   const breadcrumbHref = localizedRootPath
     ? `${ROOTLINK}${localizedRootPath}`
     : undefined;

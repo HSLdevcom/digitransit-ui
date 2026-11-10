@@ -125,10 +125,10 @@ export default function FilterTimeTableModal({
   ];
 
   return (
-    <Modal lang={config.language} onOpenChange={closeModal} open>
+    <Modal lang={intl.locale} onOpenChange={closeModal} open>
       <ModalContent
         title={intl.formatMessage({ id: 'show-routes' })}
-        lang={config.language}
+        lang={intl.locale}
       >
         <div className="routes-container">
           <CheckboxGroup

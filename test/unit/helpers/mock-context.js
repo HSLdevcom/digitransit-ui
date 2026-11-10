@@ -7,7 +7,7 @@ import config from '../../../server/configs/config.default';
  * their propType requirements.
  */
 export const mockContext = {
-  config: { ...config, language: config.defaultLanguage || 'en' },
+  config: { ...config },
   match: mockMatch,
   router: mockRouter,
 };

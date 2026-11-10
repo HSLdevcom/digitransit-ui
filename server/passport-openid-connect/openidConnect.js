@@ -6,6 +6,22 @@ import axios from 'axios';
 import connectRedis from 'connect-redis';
 import { Strategy as LoginStrategy } from './Strategy.js';
 import { audit, hash, privateNoStore } from './authAudit.js';
+import { getConfiguration } from '../configs/config.js';
+import {
+  getLanguageFromPath,
+  getLanguagePrefix,
+} from '../../utils/shared/languageUtils.js';
+import {
+  getLoginPath,
+  PREFIX_BIKESTATIONS,
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_NEARYOU,
+  PREFIX_ROUTES,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
+} from '../../utils/shared/path.js';
+import { pathSegments } from '../../utils/shared/normalizePath.js';
+import { parseLocalUrl, safeLocalReturnTo } from './localUrl.js';
 
 const RedisStore = connectRedis(session);
 
@@ -15,24 +31,31 @@ const debugLogging = process.env.DEBUGLOGGING;
 
 axios.defaults.timeout = 12000;
 
-function getFirstQueryValue(value) {
-  return Array.isArray(value) ? value[0] : value;
-}
+/** Pages that log in automatically with a valid SSO token. */
+const SSO_LOGIN_PAGES = [
+  PREFIX_ITINERARY_SUMMARY,
+  PREFIX_STOPS,
+  PREFIX_ROUTES,
+  PREFIX_TERMINALS,
+  PREFIX_BIKESTATIONS,
+  PREFIX_NEARYOU,
+];
 
-function safeLocalReturnTo(value, fallback) {
-  const returnTo = getFirstQueryValue(value);
-
-  if (!returnTo || typeof returnTo !== 'string') {
-    return fallback;
+/**
+ * Whether automatic SSO login applies to a path: the root (which the client
+ * redirects to `indexPath`), the front page or one of `SSO_LOGIN_PAGES`, in
+ * any language.
+ */
+export function isSsoLoginPage(config, indexPath, path) {
+  const segments = pathSegments(path);
+  if (config.availableLanguages.includes(segments[0])) {
+    segments.shift(); // the `/{language}` prefix
   }
-
-  // Only allow local application paths.
-  // Reject absolute URLs and protocol-relative URLs.
-  if (!returnTo.startsWith('/') || returnTo.startsWith('//')) {
-    return fallback;
-  }
-
-  return returnTo;
+  return (
+    segments.length === 0 ||
+    segments.join('/') === indexPath ||
+    SSO_LOGIN_PAGES.includes(segments[0])
+  );
 }
 
 export default function setUpOIDC(app, port, indexPath, hostnames) {
@@ -90,31 +113,15 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
 
   const redirectToLogin = function (req, res, next) {
     const { ssoValidTo, ssoToken } = req.session;
-    const paths = [
-      '/fi/',
-      '/en/',
-      '/sv/',
-      '/reitti/',
-      '/pysakit/',
-      '/linjat/',
-      '/terminaalit/',
-      '/pyoraasemat/',
-      '/lahellasi/',
-    ];
-    // Only allow sso login when user navigates to certain paths
-    // Query parameter is string type
+    // Cheap session checks first: most requests have no SSO token.
     if (
-      req.query.sso !== 'false' &&
-      (req.path === `/${indexPath}` ||
-        paths.some(path => req.path.includes(path))) &&
-      !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
-      ssoValidTo > Math.floor(new Date().getTime() / 1000)
+      ssoValidTo > Math.floor(new Date().getTime() / 1000) &&
+      !req.isAuthenticated() &&
+      req.query.sso !== 'false' && // query parameters are strings
+      isSsoLoginPage(getConfiguration(req), indexPath, req.path)
     ) {
-      const params = Object.keys(req.query)
-        .map(k => `${k}=${req.query[k]}`)
-        .join('&');
       if (debugLogging) {
         console.log(
           'redirecting to login with sso token ',
@@ -123,7 +130,8 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       }
       res.set('Cache-Control', 'private, no-store');
       res.vary('Cookie');
-      res.redirect(`/login?${params}&url=${req.path}`);
+      // Returns to the page (and so the language) the user came from.
+      res.redirect(getLoginPath(req.originalUrl));
     } else {
       next();
     }
@@ -185,7 +193,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     const fallbackReturnTo = `/${indexPath}`;
 
     if (returnTo) {
-      req.session.returnTo = safeLocalReturnTo(returnTo, fallbackReturnTo);
+      req.session.returnTo = safeLocalReturnTo(req, returnTo, fallbackReturnTo);
     }
 
     req.session.save(err => {
@@ -213,7 +221,12 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   );
 
   app.get('/logout', privateNoStore, function (req, res) {
-    const cookieLang = req.cookies.lang || 'fi';
+    // The page the user logs out from decides the IdP language and the
+    // language of the front page they return to.
+    const language = getLanguageFromPath(
+      getConfiguration(req),
+      parseLocalUrl(req, req.query.returnTo)?.pathname ?? '/',
+    );
     const host = req.headers['x-forwarded-host'] || req.headers.host;
     const postLogoutRedirectUri = req.secure
       ? `https://${host}${logoutCallbackPath}`
@@ -221,12 +234,13 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     const params = {
       post_logout_redirect_uri: postLogoutRedirectUri,
       id_token_hint: req.user.token.id_token,
-      ui_locales: cookieLang,
+      ui_locales: language,
     };
     const logoutUrl = oic.client.endSessionUrl(params);
 
     audit('logout', req);
     req.session.userId = req.user.data.sub;
+    req.session.logoutLanguage = language;
     if (debugLogging) {
       console.log(`logout for user ${req.user.data.name} to ${logoutUrl}`);
     }
@@ -238,6 +252,11 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       console.log(`logout callback for userId ${req.session.userId}`);
     }
     const sessions = `sessions-${req.session.userId}`;
+    const config = getConfiguration(req);
+    const prefix = getLanguagePrefix(
+      config,
+      req.session.logoutLanguage ?? config.defaultLanguage,
+    );
     req.logout({}, () => {
       RedisClient.smembers(sessions, function (err, sessionIds) {
         req.session.destroy(function () {
@@ -249,7 +268,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
             RedisClient.del(...sessionIds);
             RedisClient.del(sessions);
           }
-          res.redirect(`/${indexPath}`);
+          res.redirect(`${prefix}/${indexPath}`);
         });
       });
     });

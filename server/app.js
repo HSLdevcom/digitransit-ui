@@ -1,16 +1,16 @@
 import path from 'path';
 import express from 'express';
 import expressStaticGzip from 'express-static-gzip';
-import cookieParser from 'cookie-parser';
 import logger from 'morgan';
 import helmet from 'helmet';
 import proxy from 'express-http-proxy';
 import { getConfiguration } from './configs/config.js';
 import setUpOIDC from './passport-openid-connect/openidConnect.js';
+import slashMiddleware from './middleware/slashMiddleware.js';
+import languageMiddleware from './middleware/languageMiddleware.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
 import { SERVICE_WORKER_REMOVAL_SCRIPT } from './html/serviceWorkerRemoval.js';
-import { LEGACY_LOCALE_PATHS } from '../utils/shared/constants.js';
 
 function setUpOpenId(app) {
   const config = getConfiguration();
@@ -101,7 +101,8 @@ function setUpMiddleware(app) {
 }
 
 function setUpRoutes(app) {
-  app.use(['/', ...LEGACY_LOCALE_PATHS], legacyUrlMiddleware);
+  app.use(languageMiddleware);
+  app.use(legacyUrlMiddleware);
   app.use(shell);
 
   // Make sure req has the correct hostname extracted from the proxy info
@@ -133,9 +134,8 @@ export function onError(err, req, res, next) {
 export default function createApp() {
   const app = express();
 
-  // Registered first: both the OIDC routes (/login, /logout) and the
-  // legacy-URL/shell middleware read req.cookies.
-  app.use(cookieParser());
+  // First, so that every later middleware sees single `/` separators only.
+  app.use(slashMiddleware);
   const redisClient = process.env.OIDC_CLIENT_ID ? setUpOpenId(app) : undefined;
   setUpStaticFolders(app);
   setUpMiddleware(app);

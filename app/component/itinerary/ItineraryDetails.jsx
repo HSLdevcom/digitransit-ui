@@ -102,8 +102,8 @@ export default function ItineraryDetails({
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
   const { match } = useRouter();
   const config = useConfigContext();
-  const { language } = config;
   const intl = useIntl();
+  const { locale } = intl;
   if (!itinerary?.legs[0]) {
     return null;
   }
@@ -192,7 +192,7 @@ export default function ItineraryDetails({
     itinerary.legs.forEach(leg => {
       if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
         found[leg.mode] = true;
-        const disclaimer = config.modeDisclaimers[leg.mode][language];
+        const disclaimer = config.modeDisclaimers[leg.mode][locale];
         disclaimers.push(
           <FareDisclaimer
             key={leg.mode}
@@ -205,7 +205,7 @@ export default function ItineraryDetails({
     });
 
     // Show call agency ticket disclaimer for external agencies
-    const callAgencyInfo = config.callAgencyInfo?.[language];
+    const callAgencyInfo = config.callAgencyInfo?.[locale];
     if (
       callAgencyInfo &&
       itinerary.legs.some(
@@ -233,7 +233,7 @@ export default function ItineraryDetails({
             agencyName:
               typeof config.primaryAgencyName === 'string'
                 ? config.primaryAgencyName
-                : config.primaryAgencyName?.[language],
+                : config.primaryAgencyName?.[locale],
           }}
         />,
       );
@@ -257,10 +257,10 @@ export default function ItineraryDetails({
             ? { content: route.desc, link: route.url }
             : {
                 content:
-                  config.replacementBusNotification?.content?.[language]?.join(
+                  config.replacementBusNotification?.content?.[locale]?.join(
                     ' ',
                   ),
-                link: config.replacementBusNotification?.link?.[language],
+                link: config.replacementBusNotification?.link?.[locale],
               };
 
         const key = `replacementBusNotification-${
@@ -346,7 +346,7 @@ export default function ItineraryDetails({
                 fares={fares}
                 zones={getZones(itinerary.legs)}
                 legs={itinerary.legs}
-                ticketLink={localizedUrl(config.ticketLink, language)}
+                ticketLink={localizedUrl(config.ticketLink, locale)}
               />
             )),
 
@@ -394,7 +394,7 @@ export default function ItineraryDetails({
                 config={config}
                 itinerary={itinerary}
                 carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[language]}
+                emissionsInfolink={config.URL.EMISSIONS_INFO?.[locale]}
               />
             )}
             {shouldShowDisclaimer && (

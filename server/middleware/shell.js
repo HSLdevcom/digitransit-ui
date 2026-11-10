@@ -1,6 +1,9 @@
+import escapeHtml from 'lodash/escape.js';
 import serialize from 'serialize-javascript';
 import getMetadata from '../../utils/shared/metaUtils.js';
 import { getConfiguration } from '../configs/config.js';
+import { createLanguageHref } from '../../utils/shared/languageUtils.js';
+import { pathSegments } from '../../utils/shared/normalizePath.js';
 import { getAnalyticsInitCode } from '../../utils/shared/analyticsUtils.js';
 import {
   getMainAssets,
@@ -9,17 +12,6 @@ import {
   readStaticFile,
 } from '../html/assetManifest.js';
 
-export function resolveLocale(config, req, res) {
-  let locale = req.cookies.lang || config.defaultLanguage;
-  if (!config.availableLanguages.includes(locale)) {
-    locale = config.defaultLanguage;
-  }
-  if (req.cookies.lang !== locale) {
-    res.cookie('lang', locale);
-  }
-  return locale;
-}
-
 function getAssetContext() {
   return {
     ASSET_URL: process.env.ASSET_URL || '',
@@ -27,9 +19,36 @@ function getAssetContext() {
   };
 }
 
-function buildHead(config, req, locale) {
+/**
+ * Links to this page in every available language (`x-default` is the default
+ * language) and to its own canonical URL, for search engines.
+ */
+function buildLanguageLinks(config, req, language) {
+  const segments = pathSegments(req.path);
+  if (language !== config.defaultLanguage) {
+    segments.shift(); // the `/{language}` prefix
+  }
+  // No query: our parameters only vary the moment, view or tracking of a
+  // page (time, arriveBy, date, utm_*, homescreen, ...), not which page it is.
+  const location = { pathname: segments.join('/'), search: '' };
+
+  const url = lang =>
+    escapeHtml(
+      `https://${req.hostname}${createLanguageHref(config, lang, location)}`,
+    );
+
+  return [
+    ...config.availableLanguages.map(
+      lang => `<link rel="alternate" hreflang="${lang}" href="${url(lang)}" />`,
+    ),
+    `<link rel="alternate" hreflang="x-default" href="${url(config.defaultLanguage)}" />`,
+    `<link rel="canonical" href="${url(language)}" />`,
+  ].map(tag => `${tag}\n`);
+}
+
+function buildHead(config, req, language) {
   const metadata = getMetadata(
-    locale,
+    language,
     req.hostname,
     `https://${req.hostname}${req.originalUrl}`,
     config,
@@ -39,10 +58,11 @@ function buildHead(config, req, locale) {
 
   metadata.forEach(m => {
     const attrs = Object.entries(m)
-      .map(([key, value]) => `${key}="${value}"`)
+      .map(([key, value]) => `${key}="${escapeHtml(value)}"`)
       .join(' ');
     html.push(`<meta ${attrs} data-react-helmet="true" />\n`);
   });
+  html.push(...buildLanguageLinks(config, req, language));
 
   // Write preload hints before doing anything else
   if (process.env.NODE_ENV !== 'development') {
@@ -66,7 +86,7 @@ function buildHead(config, req, locale) {
       preconnects.push(config.staticMessagesUrl);
     }
 
-    html.push(getAnalyticsInitCode(config, req));
+    html.push(getAnalyticsInitCode(config, req, language));
     preloads.forEach(({ as, href, crossorigin }) =>
       html.push(
         `<link rel="preload" as="${as}" ${
@@ -143,12 +163,8 @@ function buildBody(config) {
 
 export default async function shell(req, res, next) {
   try {
-    const sharedConfig = getConfiguration(req);
-    const locale = resolveLocale(sharedConfig, req, res);
-    // getConfiguration() returns a cached object shared by all requests, so
-    // the request's language goes on a copy: a language stamped onto the
-    // shared object would leak into concurrent requests.
-    const config = { ...sharedConfig, language: locale };
+    const config = getConfiguration(req);
+    const { language } = res.locals;
 
     // Build the full HTML document as a string before writing anything to
     // `res`. If something above (or below) throws, `next(err)` still runs
@@ -157,13 +173,15 @@ export default async function shell(req, res, next) {
     // an error after the first write left headers already sent.
     const html = [
       '<!doctype html>\n',
-      `<html lang="${locale}">\n`,
-      buildHead(config, req, locale),
+      `<html lang="${language}">\n`,
+      buildHead(config, req, language),
       buildBody(config),
       '</html>\n',
     ];
 
     res.setHeader('content-type', 'text/html; charset=utf-8');
+    // Per-user (cookieConsent decides the analytics scripts): never stored by shared caches.
+    res.setHeader('Cache-Control', 'private, no-cache');
     return res.send(html.join(''));
   } catch (err) {
     return next(err);

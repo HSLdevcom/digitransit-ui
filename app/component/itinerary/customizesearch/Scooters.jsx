@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import NetworkSelector from './NetworkSelector';
 import Disclaimer from '../../Disclaimer';
 import {
@@ -12,6 +12,7 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function Scooters({ updateSettings }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const [showEScooterDisclaimer, setShowEScooterDisclaimer] = useState(
     !getReadMessageIds().includes('e_scooter_settings_disclaimer'),
   );
@@ -33,7 +34,7 @@ export default function Scooters({ updateSettings }) {
           values={{
             paymentInfo: <FormattedMessage id="payment-info-e-scooter" />,
           }}
-          href={config.vehicleRental.scooterInfoLink?.[config.language].url}
+          href={config.vehicleRental.scooterInfoLink?.[locale].url}
           linkLabelId="read-more"
           closable
           onClose={handleEScooterDisclaimerClose}

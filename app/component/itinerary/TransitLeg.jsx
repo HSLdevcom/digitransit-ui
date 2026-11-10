@@ -91,7 +91,7 @@ export default function TransitLeg({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { language } = config;
+  const { locale } = intl;
 
   const [showIntermediateStops, setShowIntermediateStops] = useState(() => {
     if (interliningLegs.length >= 1) {
@@ -260,7 +260,7 @@ export default function TransitLeg({
       !config.hideUnknownFares &&
       shouldShowFareInfo(config)
     ) {
-      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[language];
+      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[locale];
       if (modeDisclaimer) {
         return (
           <div className="disclaimer-container unknown-fare-disclaimer__leg description-container">
@@ -412,12 +412,12 @@ export default function TransitLeg({
         })}
       >
         {notification.header && (
-          <h3 className="info-header">{notification.header[language]}</h3>
+          <h3 className="info-header">{notification.header[locale]}</h3>
         )}
         <div
           className={cx('info-content', { 'no-header': !notification.header })}
         >
-          {notification.content[language].join(' ')}
+          {notification.content[locale].join(' ')}
         </div>
       </div>
     </>
@@ -425,7 +425,7 @@ export default function TransitLeg({
 
   const createNotificationWithLink = notification => (
     <a
-      href={`https://www.${notification.link?.[language]}`}
+      href={`https://www.${notification.link?.[locale]}`}
       className="disruption-link"
       target="_blank"
       rel="noreferrer"

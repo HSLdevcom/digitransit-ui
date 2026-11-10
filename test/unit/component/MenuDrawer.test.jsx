@@ -13,7 +13,7 @@ describe('<MenuDrawer />', () => {
       <MenuDrawer open onRequestChange={onRequestChange} breakpoint="large">
         <div>content</div>
       </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
+      { config: { CONFIG: 'default' } },
     );
 
     expect(screen.getByText('content')).toBeTruthy();
@@ -31,7 +31,7 @@ describe('<MenuDrawer />', () => {
       >
         <div>content</div>
       </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
+      { config: { CONFIG: 'default' } },
     );
 
     expect(

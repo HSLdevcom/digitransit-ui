@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { memo } from 'react';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { useRouter } from 'found';
@@ -15,13 +16,9 @@ function parkFilter(parks, mode) {
 function StopRouteSearch({ mode, ...rest }) {
   const transportMode = `route-${mode}`;
   const { router } = useRouter();
-  const {
-    getAutoSuggestIcons,
-    colors,
-    iconModeSet,
-    language,
-    stopSearchFilter,
-  } = useConfigContext();
+  const { getAutoSuggestIcons, colors, iconModeSet, stopSearchFilter } =
+    useConfigContext();
+  const { locale } = useIntl();
 
   let filter = stopSearchFilter
     ? (results, transportmode, type) =>
@@ -64,7 +61,7 @@ function StopRouteSearch({ mode, ...rest }) {
         getAutoSuggestIcons={getAutoSuggestIcons}
         colors={colors}
         modeSet={iconModeSet}
-        lang={language}
+        lang={locale}
         {...rest}
       />
     </div>

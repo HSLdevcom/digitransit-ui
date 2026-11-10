@@ -52,13 +52,14 @@ class SearchServices {
    * has an effect.
    *
    * @param {Object} config The resolved app config.
+   * @param {string} language The page language, for search results.
    */
-  init(config) {
+  init(config, language) {
     if (this.initialized) {
       return;
     }
     this.initialized = true;
-    this.context = { config };
+    this.context = { config, language };
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
     this.minimalRegexp = config.search
       ? config.search.minimalRegexp

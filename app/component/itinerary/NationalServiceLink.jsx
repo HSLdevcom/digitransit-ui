@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
-import { useConfigContext } from '../../hooks/ConfigContext';
+import { FormattedMessage, useIntl } from 'react-intl';
 
 export default function NationalServiceLink({ nationalServiceLink }) {
-  const config = useConfigContext();
-  const link = nationalServiceLink?.[config.language];
+  const { locale } = useIntl();
+  const link = nationalServiceLink?.[locale];
 
   if (!link) {
     return null;

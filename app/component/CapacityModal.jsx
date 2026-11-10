@@ -20,11 +20,11 @@ export default function CapacityModal({ onClose }) {
   const config = useConfigContext();
 
   return (
-    <Modal lang={config.language} open onOpenChange={onClose}>
+    <Modal lang={intl.locale} open onOpenChange={onClose}>
       <ModalContent
         title={intl.formatMessage({ id: 'capacity-modal.heading' })}
         description={intl.formatMessage({ id: 'capacity-modal.subheading' })}
-        lang={config.language}
+        lang={intl.locale}
       >
         <FlexColumn gap="s" style={{ marginTop: 'var(--space-fixed-xs)' }}>
           <Text variant="label">

@@ -153,7 +153,6 @@
     "buffer": "^5.7.1",
     "classnames": "2.5.1",
     "connect-redis": "5.0.0",
-    "cookie-parser": "1.4.7",
     "core-js": "3.51.0",
     "debug": "4.4.3",
     "downshift": "^9.4.0",

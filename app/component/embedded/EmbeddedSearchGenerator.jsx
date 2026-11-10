@@ -21,7 +21,8 @@ export default function EmbeddedSearchGenerator() {
   const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
-  const { colors, language: lang } = config;
+  const { colors } = config;
+  const { locale } = intl;
   const MIN_WIDTH = 360;
   const MAX_WIDTH = 640;
 
@@ -69,7 +70,7 @@ export default function EmbeddedSearchGenerator() {
     icon: 'mapMarker',
     autoFocus: true,
     refPoint,
-    lang,
+    lang: locale,
     sources,
     targets: getLocationSearchTargets(config, false),
     isMobile: breakpoint !== 'large',
@@ -172,8 +173,8 @@ export default function EmbeddedSearchGenerator() {
           breakpoint !== 'large' ? 'mobile' : ''
         }`}
       >
-        <h1 id="embed-form-heading">{config.embeddedSearch.title[lang]}</h1>
-        <p>{config.embeddedSearch.infoText[lang]}</p>
+        <h1 id="embed-form-heading">{config.embeddedSearch.title[locale]}</h1>
+        <p>{config.embeddedSearch.infoText[locale]}</p>
         <form onSubmit={event => event.preventDefault()} action="">
           <h2>
             <FormattedMessage
@@ -449,11 +450,11 @@ export default function EmbeddedSearchGenerator() {
         {config.embeddedSearch?.cookieLink && (
           <p>
             <a
-              href={config.embeddedSearch.cookieLink[lang].url}
+              href={config.embeddedSearch.cookieLink[locale].url}
               target="_blank"
               rel="noreferrer"
             >
-              {config.embeddedSearch.cookieLink[lang].text}
+              {config.embeddedSearch.cookieLink[locale].text}
             </a>
           </p>
         )}

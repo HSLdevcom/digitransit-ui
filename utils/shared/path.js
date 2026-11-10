@@ -49,6 +49,35 @@ export const buildQueryString = params => {
     .join('&');
 };
 
+/**
+ * Parses the query of a URL string, e.g. `req.originalUrl`. Unlike Express's
+ * `req.query`, repeated keys stay separate and values stay strings.
+ * @param {string} url
+ * @returns {URLSearchParams}
+ */
+export function getSearchParams(url) {
+  const queryStart = url.indexOf('?');
+  return new URLSearchParams(queryStart === -1 ? '' : url.slice(queryStart));
+}
+
+/**
+ * Appends encoded query params to a URL string, using `?` or `&` as needed.
+ * @param {string} url
+ * @param {URLSearchParams|Object.<string, *>} params null/undefined object values are skipped
+ * @returns {string}
+ */
+export function addQueryParams(url, params) {
+  const query = new URLSearchParams(
+    params instanceof URLSearchParams
+      ? params
+      : Object.entries(params).filter(([, value]) => value != null),
+  ).toString();
+  if (!query) {
+    return url;
+  }
+  return `${url}${url.includes('?') ? '&' : '?'}${query}`;
+}
+
 export const buildURL = (pathSegments = []) => {
   const urlOrigin =
     typeof window !== 'undefined'
@@ -61,9 +90,23 @@ export const buildURL = (pathSegments = []) => {
   return url;
 };
 
-export function getLoginPath(location) {
-  const returnTo = `${location.pathname}${location.search || ''}`;
-  return `/login?returnTo=${encodeURIComponent(returnTo)}`;
+/**
+ * The login URL that returns to `returnTo` afterwards.
+ * @param {string} returnTo browser URL path, e.g. `router.createHref(match.location)`
+ * @returns {string}
+ */
+export function getLoginPath(returnTo) {
+  return addQueryParams('/login', { returnTo });
+}
+
+/**
+ * The logout URL. `returnTo` decides the language of the identity provider and
+ * of the front page shown afterwards.
+ * @param {string} returnTo browser URL path, e.g. `router.createHref(match.location)`
+ * @returns {string}
+ */
+export function getLogoutPath(returnTo) {
+  return addQueryParams('/logout', { returnTo });
 }
 
 export const createReturnPath = (

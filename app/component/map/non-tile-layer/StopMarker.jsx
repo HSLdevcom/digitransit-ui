@@ -153,11 +153,11 @@ export default function StopMarker({
   stopStatus,
 }) {
   const config = useConfigContext();
-  const { router } = useRouter();
+  const { router, match } = useRouter();
 
   const redirectToStopPage = () => {
     const analyticsEvent = getStopMarkerAnalytics(
-      window.location.pathname,
+      match.location.pathname,
       config.indexPath,
       mode,
     );

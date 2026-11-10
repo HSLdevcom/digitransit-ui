@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
@@ -13,6 +14,8 @@ import {
   getFavouriteStopsAndStations,
 } from '../data/FavouriteData';
 import { useConfigContext } from '../hooks/ConfigContext';
+import { getLoginPath, getLogoutPath } from '../../utils/shared/path';
+import { createLanguageHref } from '../../utils/shared/languageUtils';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
 const clearStorages = clearFavourites => {
@@ -26,12 +29,13 @@ const notificationAPI = '/api/user/notifications';
 export default function AppBarHsl({ favourites = [] }) {
   const config = useConfigContext();
   const { clearFavourites } = useFavouriteActions();
-  const { user, language } = config;
-  const { match } = useRouter();
+  const { user } = config;
+  const { locale } = useIntl();
+  const { router, match } = useRouter();
   const { location } = match;
 
-  const notificationParams = new URLSearchParams({ language });
-  const notificationQuery = { language };
+  const notificationParams = new URLSearchParams({ language: locale });
+  const notificationQuery = { language: locale };
   const routeIds = getFavouriteRouteGtfsIds(favourites);
   const stopIds = getFavouriteStopsAndStations(favourites).map(
     ({ gtfsId }) => gtfsId,
@@ -124,7 +128,7 @@ export default function AppBarHsl({ favourites = [] }) {
       getJson(
         `${
           config.URL.HSL_FI_SUGGESTIONS
-        }?language=${language}&take=5&query=${encodeURIComponent(searchQuery)}`,
+        }?language=${locale}&take=5&query=${encodeURIComponent(searchQuery)}`,
       )
         .then(data => {
           const hits = (data?.hits || []).map(h => ({
@@ -157,35 +161,29 @@ export default function AppBarHsl({ favourites = [] }) {
   }, []);
 
   const languages = {
-    fi: {
-      href: `/fi${location.pathname}${location.search}`,
-    },
-    sv: {
-      href: `/sv${location.pathname}${location.search}`,
-    },
-    en: {
-      href: `/en${location.pathname}${location.search}`,
-    },
+    fi: { href: createLanguageHref(config, 'fi', location) },
+    sv: { href: createLanguageHref(config, 'sv', location) },
+    en: { href: createLanguageHref(config, 'en', location) },
   };
 
   const { given_name, family_name } = user;
 
-  const returnTo = `${location.pathname}${location.search || ''}`;
+  const returnTo = router.createHref(location);
   const travelersAccountLink = config.URL.TRAVELERS_ACCOUNT
     ? { href: config.URL.TRAVELERS_ACCOUNT }
     : undefined;
   const myStopsAndRoutesLink = config.favouriteLink
-    ? { href: config.favouriteLink[language] || config.favouriteLink.fi }
+    ? { href: config.favouriteLink[locale] || config.favouriteLink.fi }
     : undefined;
   const userMenu =
     config.allowLogin && (user.sub || user.notLogged) ? (
       <UserMenu
-        lang={language}
+        lang={locale}
         loading={false}
         authenticated={!!user.sub}
-        loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
+        loginLink={{ href: getLoginPath(returnTo) }}
         logoutLink={{
-          href: '/logout',
+          href: getLogoutPath(returnTo),
           onClick: () => clearStorages(clearFavourites),
         }}
         name={{ givenName: given_name, familyName: family_name }}
@@ -197,14 +195,14 @@ export default function AppBarHsl({ favourites = [] }) {
 
   const search = config.URL.HSL_FI_SUGGESTIONS ? (
     <QuickSearch
-      searchPageLink={{ href: `${config.URL.ROOTLINK}/${language}/haku` }}
+      searchPageLink={{ href: `${config.URL.ROOTLINK}/${locale}/haku` }}
       loading={searchLoading}
       error={searchError}
       query={searchQuery}
       onQueryChange={e => setSearchQuery(e.target.value)}
       hitsCount={searchHitsCount}
       hits={searchHits}
-      lang={language}
+      lang={locale}
     />
   ) : null;
 
@@ -227,7 +225,7 @@ export default function AppBarHsl({ favourites = [] }) {
             id="CookieConsent"
             src="https://policy.app.cookieinformation.com/uc.js"
             data-gcm-version="2.0"
-            data-culture={language.toUpperCase()}
+            data-culture={locale.toUpperCase()}
             type="text/javascript"
           />
         </Helmet>
@@ -236,7 +234,7 @@ export default function AppBarHsl({ favourites = [] }) {
         <SiteHeader
           baseUrl={config.URL.ROOTLINK}
           staticAssetsUrl={config.URL.STATIC_ASSETS}
-          lang={language}
+          lang={locale}
           userMenu={userMenu}
           langMenu={languages}
           search={search}

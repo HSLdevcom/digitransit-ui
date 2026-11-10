@@ -5,6 +5,9 @@ import util from 'util';
 import process from 'process';
 import { User } from './User.js';
 import { audit, hash } from './authAudit.js';
+import { getConfiguration } from '../configs/config.js';
+import { getLanguageFromPath } from '../../utils/shared/languageUtils.js';
+import { parseLocalUrl } from './localUrl.js';
 
 const debugLogging = process.env.DEBUGLOGGING;
 const callbackPath = '/oid_callback';
@@ -56,12 +59,16 @@ OICStrategy.prototype.authenticate = function auth(req, opts) {
   if (opts.refresh) {
     return this.refresh(req);
   }
-  const cookieLang = req.cookies.lang || 'fi';
+  // The page the user logs in from (and returns to) decides the IdP language.
+  const language = getLanguageFromPath(
+    getConfiguration(req),
+    parseLocalUrl(req, req.session.returnTo)?.pathname ?? '/',
+  );
   const { ssoValidTo, ssoToken } = req.session;
   const authurl =
     ssoValidTo && ssoValidTo > Math.floor(new Date().getTime() / 1000)
-      ? this.createAuthUrl(redirectUri, cookieLang, ssoToken)
-      : this.createAuthUrl(redirectUri, cookieLang);
+      ? this.createAuthUrl(redirectUri, language, ssoToken)
+      : this.createAuthUrl(redirectUri, language);
   if (debugLogging) {
     console.log(`ssoToken: ${ssoToken} authUrl: ${authurl}`);
   }

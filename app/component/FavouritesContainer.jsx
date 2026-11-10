@@ -41,7 +41,7 @@ export default function FavouritesContainer({
     };
   }, []);
 
-  const lang = config.language;
+  const { locale } = intl;
 
   const enabled =
     config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
@@ -202,7 +202,7 @@ export default function FavouritesContainer({
         }
         onAddHome={() => (enabled ? addHome() : setLoginModalOpen(true))}
         onAddWork={() => (enabled ? addWork() : setLoginModalOpen(true))}
-        lang={lang}
+        lang={locale}
         isLoading={isLoading}
         colors={config.colors}
       />
@@ -213,7 +213,7 @@ export default function FavouritesContainer({
         saveFavourite={saveSelectedFavourite}
         cancelSelected={cancelSelected}
         favourite={favourite}
-        lang={lang}
+        lang={locale}
         autosuggestComponent={
           <SearchAutosuggest
             appElement="#app"
@@ -225,7 +225,7 @@ export default function FavouritesContainer({
             value={favourite?.address || ''}
             selectHandler={setLocationProperties}
             getAutoSuggestIcons={config.getAutoSuggestIcons}
-            lang={lang}
+            lang={locale}
             isMobile={isMobile}
             required
             colors={config.colors}
@@ -241,7 +241,7 @@ export default function FavouritesContainer({
         handleClose={() => closeModal(false)}
         deleteFavourite={deleteSelectedFavourite}
         onEditSelected={editSelectedFavourite}
-        lang={lang}
+        lang={locale}
         isLoading={isLoading}
       />
 

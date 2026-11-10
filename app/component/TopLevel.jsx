@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import { Fragment, useEffect, useRef } from 'react';
+import { useRouter } from 'found';
 import some from 'lodash/some';
 import { matchShape } from '../../utils/client/shapes';
 import {
@@ -34,6 +35,7 @@ export default function TopLevel({
 }) {
   const origin = useOrigin();
   const config = useConfigContext();
+  const { router } = useRouter();
   const prevMatchRef = useRef(match);
 
   useEffect(() => {
@@ -51,7 +53,8 @@ export default function TopLevel({
       handleUserAnalytics(config);
       addAnalyticsEvent({
         event: 'Pageview',
-        url: newLocation,
+        // The browser path, language prefix included.
+        url: router.createHref({ pathname: newLocation }),
       });
     }
 

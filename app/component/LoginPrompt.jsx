@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { useConfigContext } from '../hooks/ConfigContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getLoginPath } from '../../utils/shared/path';
 
@@ -13,8 +12,7 @@ export default function LoginPrompt({
   descriptionId = 'login-content',
 }) {
   const intl = useIntl();
-  const config = useConfigContext();
-  const { match } = useRouter();
+  const { router, match } = useRouter();
 
   const login = intl.formatMessage({
     id: 'login',
@@ -36,7 +34,7 @@ export default function LoginPrompt({
       action: 'login',
       name: null,
     });
-    window.location.assign(getLoginPath(match.location));
+    window.location.assign(getLoginPath(router.createHref(match.location)));
   };
 
   const handleSecondaryClick = () => {
@@ -49,15 +47,11 @@ export default function LoginPrompt({
   };
 
   return (
-    <Modal
-      lang={config.language}
-      onOpenChange={handleSecondaryClick}
-      open={open}
-    >
+    <Modal lang={intl.locale} onOpenChange={handleSecondaryClick} open={open}>
       <ModalContent
         title={title}
         description={description}
-        lang={config.language}
+        lang={intl.locale}
         buttons={[
           {
             children: login,

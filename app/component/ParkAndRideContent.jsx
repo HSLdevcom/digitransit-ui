@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { graphql, useFragment } from 'react-relay';
 import cx from 'classnames';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { Info } from 'luxon';
 import { useRouter } from 'found';
 import { errorShape, fragmentRefShape } from '../../utils/client/shapes';
@@ -79,13 +79,14 @@ export default function ParkAndRideContent({
   if (error) {
     throw error.message;
   }
-  const { parkAndRide, language } = useConfigContext();
+  const { parkAndRide } = useConfigContext();
+  const { locale } = useIntl();
   const breakpoint = useBreakpoint();
-  const { router } = useRouter();
+  const { router, match } = useRouter();
 
   const bikePark = mode
     ? mode === 'BIKEPARK'
-    : window.location.href.includes(PREFIX_BIKEPARK);
+    : match.location.pathname.startsWith(`/${PREFIX_BIKEPARK}`);
   if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     router.replace(`/${path}`);
@@ -232,7 +233,7 @@ export default function ParkAndRideContent({
           <Disclaimer
             headerId={`${prePostFix}-disclaimer-header`}
             textId={`${prePostFix}-disclaimer`}
-            href={parkAndRide?.url?.[language]}
+            href={parkAndRide?.url?.[locale]}
             linkLabelId="park-disclaimer-link"
           />
         </>

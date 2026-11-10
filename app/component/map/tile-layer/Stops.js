@@ -374,6 +374,8 @@ export default class Stops {
                     this.tile.coords.z >= this.config.terminalStopsMinZoom) &&
                   shouldRenderTerminalIcon(
                     feature.properties.type,
+                    // Outside React; the language prefix doesn't affect .includes().
+                    // eslint-disable-next-line no-restricted-syntax
                     window.location.pathname,
                     this.tile?.vehicles,
                   )

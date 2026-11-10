@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../hooks/ConfigContext';
 import { useSearchContext } from '../hooks/SearchContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';
 
 export default function SearchSelectionBoundary({ children = null }) {
   const intl = useIntl();
-  const config = useConfigContext();
   const { fromMap, closeMapSelection, confirmMapSelection } =
     useSearchContext();
 
@@ -29,7 +27,7 @@ export default function SearchSelectionBoundary({ children = null }) {
   return (
     <SelectFromMapModal
       title={intl.formatMessage({ id: titleId })}
-      lang={config.language}
+      lang={intl.locale}
       onClose={closeMapSelection}
     >
       <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />

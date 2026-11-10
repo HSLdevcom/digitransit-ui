@@ -20,10 +20,11 @@ import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
-import routes, { historyMiddlewares, render } from '../routes/routes';
+import routes, { createHistoryMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import { BreakpointProvider } from '../hooks/BreakpointContext';
 import getMetadata from '../../utils/shared/metaUtils';
+import { getLanguagePrefix } from '../../utils/shared/languageUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
@@ -93,7 +94,13 @@ async function init() {
     ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
     : '';
 
-  const { language } = config;
+  // Rendered by the server from the request's resolved language; checked in
+  // case something (e.g. browser translation) has rewritten it.
+  const htmlLang = document.documentElement.lang;
+  const language = config.availableLanguages.includes(htmlLang)
+    ? htmlLang
+    : config.defaultLanguage;
+  const basename = getLanguagePrefix(config, language);
   const translations = await import(`../translations/${language}`);
   i18n.changeLanguage(language);
 
@@ -133,7 +140,7 @@ async function init() {
 
   const Router = await createFarceRouter({
     historyProtocol,
-    historyMiddlewares,
+    historyMiddlewares: createHistoryMiddlewares(basename),
     routeConfig,
     resolver,
     render,
@@ -145,18 +152,18 @@ async function init() {
     Settings.defaultZone = config.timeZone;
   }
 
-  const path = window.location.pathname;
-
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
   addAnalyticsEvent({
     event: 'Pageview',
-    url: path,
+    // The router isn't running yet, so the browser is the only source.
+    // eslint-disable-next-line no-restricted-syntax
+    url: window.location.pathname,
   });
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchServices.init(config);
+  searchServices.init(config, language);
   if (config.allowLogin) {
     getUser()
       .then(user => {
@@ -194,6 +201,8 @@ async function init() {
             {...getMetadata(
               language,
               window.location.host,
+              // Outside the <Router>: the initial og:url.
+              // eslint-disable-next-line no-restricted-syntax
               window.location.href,
               config,
             )}
