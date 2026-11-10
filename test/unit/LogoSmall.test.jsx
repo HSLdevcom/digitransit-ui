@@ -12,7 +12,7 @@ describe('<LogoSmall />', () => {
 
   it('should always show text logo when textLogo is true and no logo', () => {
     const { container } = renderWithProviders(<LogoSmall />, {
-      config: { CONFIG: 'default', URL: {}, textLogo: true },
+      config: { CONFIG: 'default', URL: {}, textLogo: true, title: 'foo' },
     });
     expect(container.querySelector('span.title')).not.toBeNull();
     expect(container.querySelector('div.logo')).toBeNull();
