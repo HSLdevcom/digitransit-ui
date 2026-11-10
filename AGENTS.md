@@ -3,6 +3,10 @@
 Digitransit-ui is a React (Relay/GraphQL) journey-planning web app used by multiple
 regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `CONFIG` env var.
 
+## Code review
+
+When reviewing changes, follow `REVIEW.md`.
+
 ## Directory structure
 
 Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
@@ -69,7 +73,8 @@ right one by *who consumes the code*, not just by convenience.
     buildable package's `rollup.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
+    `yarn run -T <bin>`, except rollup in `build`/`watch`, which is called by path to save a Yarn
+    process per watcher. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
 - `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),
@@ -239,7 +244,3 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
   don't add runtime/UA-based polyfill services. Keep `corejs.version` in `webpack.config.js` (the
   `app/` loader, which ignores the root `babel.config.cjs`) in sync with the installed core-js
   minor.
-
-## Code review
-
-When reviewing changes, follow `.github/instructions/code-review.instructions.md`.

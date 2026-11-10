@@ -51,6 +51,13 @@ lerna-publish-summary.json
 .github/copilot/*
 !.github/copilot/settings.json
 
+# Claude - only keep the shared settings
+.claude/*
+!.claude/settings.json
+
+# Playwright MCP output
+.playwright-mcp/
+
 # various files
 test/credentials.json
 test/binaries

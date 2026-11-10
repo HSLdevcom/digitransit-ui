@@ -214,11 +214,15 @@ function ItineraryPageContent(props) {
   }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
   const searchGeneration = useRef(0);
+  const activePlanRequests = useRef(new Set());
 
   const [mainState, setMainState] = useState({
     ...emptyState,
     loading: LOADSTATE.UNSET,
   });
+  // latest committed state for use after awaits, where closure values are stale
+  const mainStateRef = useRef(mainState);
+  mainStateRef.current = mainState;
   const [combinedMainState, setCombinedMainState] = useState(emptyPlan);
   const [relaxMainState, setRelaxMainState] = useState(emptyPlan);
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
@@ -416,6 +420,41 @@ function ItineraryPageContent(props) {
       });
   }
 
+  // Resolves with the query result, or null if cancelled via cancelPlanRequests
+  function fetchPlan(planParams) {
+    return new Promise((resolve, reject) => {
+      const request = {};
+      const finish = () => activePlanRequests.current.delete(request);
+      request.cancel = () => {
+        finish();
+        // unsubscribing aborts the underlying fetch
+        request.subscription?.unsubscribe();
+        resolve(null);
+      };
+      activePlanRequests.current.add(request);
+      fetchQuery(relayEnvironment, planConnection, planParams, {
+        force: true,
+      }).subscribe({
+        start: subscription => {
+          request.subscription = subscription;
+        },
+        next: data => resolve(data),
+        error: error => {
+          finish();
+          reject(error);
+        },
+        complete: () => {
+          finish();
+          resolve(null);
+        },
+      });
+    });
+  }
+
+  function cancelPlanRequests() {
+    [...activePlanRequests.current].forEach(request => request.cancel());
+  }
+
   async function iterateQuery(planParams, reps) {
     const generation = searchGeneration.current;
     let plan;
@@ -423,17 +462,15 @@ function ItineraryPageContent(props) {
     const arriveBy = !!planParams.datetime.latestArrival;
     const startTime = Date.now();
     for (let i = 0; i < trials; i++) {
+      // Cancelling covers only requests in flight, so don't start a new one
+      // when the search was superseded between iterations.
+      if (generation !== searchGeneration.current) {
+        return null;
+      }
       let result;
       try {
         // eslint-disable-next-line no-await-in-loop
-        result = await fetchQuery(
-          relayEnvironment,
-          planConnection,
-          planParams,
-          {
-            force: true,
-          },
-        ).toPromise();
+        result = await fetchPlan(planParams);
       } catch (error) {
         if (generation !== searchGeneration.current) {
           return null;
@@ -738,14 +775,14 @@ function ItineraryPageContent(props) {
     const edges = getSortedEdges(
       removeDuplicateEdges(plan.edges, [
         ...origPlan.edges,
-        ...mainState.earlierEdges,
-        ...mainState.laterEdges,
+        ...mainStateRef.current.earlierEdges,
+        ...mainStateRef.current.laterEdges,
       ]),
       arriveBy,
     );
     if (edges.length === 0 && plan.edges.length > 0) {
       setMainState({
-        ...mainState,
+        ...mainStateRef.current,
         loadingMore: undefined,
         [cursorName]: plan.pageInfo[cursorName],
       });
@@ -790,7 +827,7 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
@@ -804,13 +841,17 @@ function ItineraryPageContent(props) {
       const newState = arriveBy
         ? { topNote: 'no-more-route-msg' }
         : { bottomNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
 
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       endCursor: plan.pageInfo.endCursor,
     };
@@ -819,17 +860,17 @@ function ItineraryPageContent(props) {
     // set a separator line there and clicks below the list move feedback button down
     if (arriveBy) {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
       shiftFeedback(edges.length);
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     } else {
       // user clicked button below itinerary list
@@ -837,9 +878,9 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     }
     if (arriveBy) {
@@ -884,7 +925,7 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
@@ -898,12 +939,16 @@ function ItineraryPageContent(props) {
       const newState = arriveBy
         ? { bottomNote: 'no-more-route-msg' }
         : { topNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       startCursor: plan.pageInfo.startCursor,
     };
@@ -913,16 +958,16 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     } else {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
 
@@ -930,7 +975,7 @@ function ItineraryPageContent(props) {
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     }
     if (!arriveBy) {
@@ -1209,6 +1254,7 @@ function ItineraryPageContent(props) {
     }
     return () => {
       searchGeneration.current += 1;
+      cancelPlanRequests();
     };
   }, [
     settingsState.settingsChanged,
