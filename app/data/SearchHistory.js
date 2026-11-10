@@ -103,7 +103,7 @@ window.addEventListener('storage', event => {
 
 const loadStorage = () => {
   let storage = getOldSearchesStorage();
-  if (!storage || storage.version == null || storage.version < STORE_VERSION) {
+  if (storage.version == null || storage.version < STORE_VERSION) {
     storage = {
       version: STORE_VERSION,
       items: [],
