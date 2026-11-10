@@ -1,6 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import Modal from 'react-modal';
 
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import MenuDrawer from '../../../app/component/MenuDrawer';
 
@@ -37,5 +38,16 @@ describe('<MenuDrawer />', () => {
     expect(
       screen.getByRole('button', { name: 'Close the main menu' }),
     ).toBeTruthy();
+  });
+
+  it('has no accessibility violations', async () => {
+    renderWithProviders(
+      <MenuDrawer open onRequestChange={() => {}} breakpoint="large">
+        <div>content</div>
+      </MenuDrawer>,
+      { config: { CONFIG: 'default', language: 'en' } },
+    );
+
+    await expectNoA11yViolations();
   });
 });

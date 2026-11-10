@@ -1,0 +1,58 @@
+import { describe, it, expect, afterEach } from 'vitest';
+import { expectNoA11yViolations } from './a11y';
+
+describe('expectNoA11yViolations', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
+  it('passes accessible markup', async () => {
+    document.body.innerHTML = '<button type="button">Go</button>';
+    await expectNoA11yViolations();
+  });
+
+  it('reports violations with the rule and the offending node', async () => {
+    document.body.innerHTML = '<button type="button"></button>';
+    await expect(expectNoA11yViolations()).rejects.toThrow(
+      /button-name.*\n\s+.*<button/,
+    );
+  });
+
+  it('skips violations matched by an allow entry', async () => {
+    document.body.innerHTML =
+      '<div id="legacy"><button type="button"></button></div>';
+    await expectNoA11yViolations(document.body, {
+      allow: [
+        { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
+      ],
+    });
+  });
+
+  it('does not let a selector-scoped entry hide other nodes', async () => {
+    document.body.innerHTML = '<button id="other" type="button"></button>';
+    await expect(
+      expectNoA11yViolations(document.body, {
+        allow: [
+          { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
+        ],
+      }),
+    ).rejects.toThrow(/button-name/);
+  });
+
+  it('fails on allow entries that match nothing', async () => {
+    document.body.innerHTML = '<button type="button">Go</button>';
+    await expect(
+      expectNoA11yViolations(document.body, {
+        allow: [{ rule: 'button-name', reason: 'fixed already' }],
+      }),
+    ).rejects.toThrow(/Unused a11y allow entry: button-name/);
+  });
+
+  it('requires a reason for every allow entry', async () => {
+    await expect(
+      expectNoA11yViolations(document.body, {
+        allow: [{ rule: 'button-name' }],
+      }),
+    ).rejects.toThrow(/needs a rule and a reason/);
+  });
+});
