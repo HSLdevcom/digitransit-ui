@@ -102,19 +102,13 @@ window.addEventListener('storage', event => {
 });
 
 const loadStorage = () => {
-  let storage = getOldSearchesStorage();
-  if (storage.version == null || storage.version < STORE_VERSION) {
-    storage = {
-      version: STORE_VERSION,
-      items: [],
-    };
-    persist(storage);
+  const stored = getOldSearchesStorage();
+  const isCurrent = stored.version != null && stored.version >= STORE_VERSION;
+  const items = isCurrent ? normalizeItems(stored.items) : [];
+  cache = { version: STORE_VERSION, items };
+  if (!isCurrent || items.length !== stored.items.length) {
+    persist(cache);
   }
-  const items = normalizeItems(storage.items);
-  if (items.length !== storage.items.length) {
-    persist({ ...storage, items });
-  }
-  cache = { ...storage, items };
   return cache;
 };
 
