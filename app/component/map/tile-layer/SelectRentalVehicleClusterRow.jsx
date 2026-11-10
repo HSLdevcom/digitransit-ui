@@ -29,7 +29,7 @@ export default function SelectVehicleRentalClusterRow({
         <Icon img={img} color={color} />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name}</h5>
+        <h4 className="choose-row-header">{name}</h4>
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasVehicleRentalCode(id) && (
