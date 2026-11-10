@@ -291,7 +291,7 @@ export default function Datetimepicker({
                 {t('departure', translationSettings)}
                 <input
                   id={`${htmlId}-departure`}
-                  name="departureOrArrival"
+                  name={`${htmlId}-departureOrArrival`}
                   type="radio"
                   value="departure"
                   className={styles['radio-textbutton']}
@@ -313,7 +313,7 @@ export default function Datetimepicker({
                 {t('arrival', translationSettings)}
                 <input
                   id={`${htmlId}-arrival`}
-                  name="departureOrArrival"
+                  name={`${htmlId}-departureOrArrival`}
                   type="radio"
                   value="arrival"
                   className={styles['radio-textbutton']}
