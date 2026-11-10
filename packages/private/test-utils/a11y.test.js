@@ -39,6 +39,32 @@ describe('expectNoA11yViolations', () => {
     ).rejects.toThrow(/button-name/);
   });
 
+  it('scopes allow entries across shadow roots', async () => {
+    document.body.innerHTML = '<div id="legacy"><span id="host"></span></div>';
+    const shadow = document
+      .getElementById('host')
+      .attachShadow({ mode: 'open' });
+    shadow.innerHTML = '<button type="button"></button>';
+    await expectNoA11yViolations(document.body, {
+      allow: [
+        { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
+      ],
+    });
+  });
+
+  it('queues overlapping runs', async () => {
+    document.body.innerHTML = '<button type="button">Go</button>';
+    await Promise.all([expectNoA11yViolations(), expectNoA11yViolations()]);
+  });
+
+  it('rejects unknown rule ids', async () => {
+    await expect(
+      expectNoA11yViolations(document.body, {
+        allow: [{ rule: 'buton-name', reason: 'typo' }],
+      }),
+    ).rejects.toThrow(/Unknown axe rule in a11y allow entry: buton-name/);
+  });
+
   it('fails on allow entries that match nothing', async () => {
     document.body.innerHTML = '<button type="button">Go</button>';
     await expect(

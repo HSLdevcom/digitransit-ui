@@ -72,9 +72,10 @@ it('has no accessibility violations', async () => {
 ```
 
 Fix the markup where possible. For a known issue that cannot be fixed yet, pass
-an allow entry. The `reason` is required, `selector` limits the entry to nodes
-inside matching elements, and an entry that matches nothing fails the test so
-the list cannot go stale:
+an allow entry. The `rule` must be an axe rule id and the `reason` is required.
+`selector` limits the entry to nodes inside matching elements (also across
+shadow roots), and an entry that matches nothing fails the test so the list
+cannot go stale:
 
 ```js
 await expectNoA11yViolations(document.body, {
