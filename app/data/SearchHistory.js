@@ -174,19 +174,10 @@ export const clearOldSearches = () => {
   });
 };
 
-export const getOldSearchItems = () => getStorageObject().items;
-
 // Callers may modify the results, so they get copies of the cached items.
 export const getOldSearches = type =>
   cloneDeep(
-    getOldSearchItems()
-      .filter(item => (type ? item.type === type : true))
+    getStorageObject()
+      .items.filter(item => (type ? item.type === type : true))
       .map(item => item.item),
   );
-
-export const saveOldSearchItems = items => {
-  persist({
-    version: STORE_VERSION,
-    items: orderBy(items, 'count', 'desc'),
-  });
-};
