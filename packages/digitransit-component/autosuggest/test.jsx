@@ -77,6 +77,8 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     // Let the mocked geocoding search resolve and its resulting dispatch
     // land before the test ends and unmounts the component.
     await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    // No suggestions are shown, so no item may be referenced as active.
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
   });
 
   it('has no accessibility violations', async () => {
