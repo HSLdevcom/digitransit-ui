@@ -139,6 +139,8 @@ right one by *who consumes the code*, not just by convenience.
   - Run a single test file or test: `yarn test-unit:app <path-substring>` or
     `yarn test-unit:app -t "<describe/it name pattern>"` (`test-unit:server` for server tests).
   - Watch mode: `yarn run test-unit -- --watch`.
+- Browser exploration: the Playwright MCP server in `.mcp.json` can drive the app at http://localhost:8080 while
+  `yarn run dev` runs. It is not a test runner (see `docs/Tests.md`).
 - Accessibility: new or changed components with significant markup get an
   `it('has no accessibility violations')` using `expectNoA11yViolations` from
   `@digitransit-ui/test-utils` (axe-core in jsdom, see `docs/Tests.md`). Allowlist known issues with
