@@ -109,28 +109,22 @@ export default function Disruption({
   const ariaLabel = hasCancelations ? alertDescriptionText : alertHeaderText;
   return (
     <div className="alert-row-container" role="listitem">
-      <div
-        className="alert-row"
-        role="button"
-        aria-label={`${ariaLabel} ${buttonLabel}`}
-        onClick={toggleDetails}
-        tabIndex={0}
-        onKeyDown={e => {
-          if (e.key === ' ' || e.key === 'Enter') {
-            if (toggleDetails) {
-              toggleDetails();
-            }
-            e.stopPropagation();
-          }
-        }}
-      >
+      <div className="alert-row">
         {toggleDetails && (
-          <div className="alert-row-arrow">
-            <Icon
-              img="icon_arrow-collapse--right"
-              color={config.colors.primary}
-            />
-          </div>
+          // Stretched over the row; the entity links are layered above it.
+          <button
+            type="button"
+            className="alert-row-action"
+            aria-label={`${ariaLabel} ${buttonLabel}`}
+            onClick={toggleDetails}
+          >
+            <span className="alert-row-arrow">
+              <Icon
+                img="icon_arrow-collapse--right"
+                color={config.colors.primary}
+              />
+            </span>
+          </button>
         )}
         <div className="alert-row-top">
           <DisruptionBadge
