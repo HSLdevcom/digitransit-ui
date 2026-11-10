@@ -95,13 +95,11 @@ export const resetSearchHistoryCache = () => {
 };
 
 // Another tab changed the history; drop the stale copy so it isn't overwritten.
-if (typeof window !== 'undefined' && window.addEventListener) {
-  window.addEventListener('storage', event => {
-    if (event.key === null || event.key === 'saved-searches') {
-      resetSearchHistoryCache();
-    }
-  });
-}
+window.addEventListener('storage', event => {
+  if (event.key === null || event.key === 'saved-searches') {
+    resetSearchHistoryCache();
+  }
+});
 
 const loadStorage = () => {
   let storage = getOldSearchesStorage();
