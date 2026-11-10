@@ -3,28 +3,10 @@
 
 # Main app webpack build output (see webpack.config.js)
 _static
-npm-debug.log
-filesizes.html
-stats.json
 manifest.json
 
 # Installed dependencies (yarn/npm)
 node_modules
-
-# various files
-test/credentials.json
-test/binaries
-*.swp
-.idea
-.vscode/*
-!.vscode/launch.json
-!.vscode/tasks.json
-*.iml
-*~
-selenium-debug.log
-tags
-sessions/
-run*.sh
 
 # Relay-compiler generated GraphQL artifacts (main app and query-utils)
 app/**/__generated__
@@ -33,15 +15,13 @@ packages/*/*/**/__generated__
 
 # Rollup build output (see packages/private/rollup-config).
 packages/*/*/lib
-yarn-error.log
-dump.rdb
 
 # Nx's local task-graph/build cache (used by `lerna run build`/`watch` via
 # nx.json's task pipeline) - always safe to delete, regenerated on demand.
 .nx
 
-# Lerna's debug log, written when a lerna command errors out.
-lerna-debug.log
+# Tool debug logs (lerna, yarn, etc.)
+*.log
 
 # JSON summary written by `lerna publish --summary-file` (used by the
 # publish-npm CI job); only produced when actually publishing.
@@ -57,3 +37,32 @@ lerna-publish-summary.json
 !.yarn/versions
 .pnp.*
 .npmrc
+
+# IntelliJ
+.idea
+*.iml
+
+# VS Code - only keep the shared configs
+.vscode/*
+!.vscode/launch.json
+!.vscode/tasks.json
+
+# Copilot - only keep the shared settings
+.github/copilot/*
+!.github/copilot/settings.json
+
+# Claude - only keep the shared settings
+.claude/*
+!.claude/settings.json
+
+# Playwright MCP output
+.playwright-mcp/
+
+# various files
+test/credentials.json
+test/binaries
+*.swp
+*~
+tags
+run*.sh
+dump.rdb

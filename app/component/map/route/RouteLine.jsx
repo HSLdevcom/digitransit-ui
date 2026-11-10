@@ -214,7 +214,7 @@ export default createFragmentContainer(RouteLine, {
           effectiveStartDate
           effectiveEndDate
         }
-        ...StopCardHeaderContainer_stop
+        ...StopCardHeader_stop
       }
     }
   `,

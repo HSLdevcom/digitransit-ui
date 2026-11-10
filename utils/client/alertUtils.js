@@ -175,26 +175,17 @@ export const getCancelationsForRoute = (
  * Falsy alerts are left out.
  *
  * @param {Object.<string,*>} object should contain alerts key.
+ * @param {boolean} includeChildStops also include alerts of the object's child stops (on stations or patterns).
  */
-export const getAlertsForObject = object => {
-  if (!object || !Array.isArray(object.alerts)) {
-    return [];
+export const getAlertsForObject = (object, includeChildStops = false) => {
+  const alerts = object?.alerts?.filter(Boolean) ?? [];
+  if (!includeChildStops) {
+    return alerts;
   }
-
-  return object.alerts.filter(alert => !!alert);
-};
-
-/**
- * Retrieves Service Alerts from the given station and its stops
- * or an empty array.
- *
- * @param {string} station the stop object to retrieve alerts from.
- */
-export const getServiceAlertsForStation = station => {
-  const stopAlerts = station.stops
-    ? station.stops.flatMap(stop => getAlertsForObject(stop))
-    : [];
-  return [...getAlertsForObject(station), ...stopAlerts];
+  return [
+    ...alerts,
+    ...(object?.stops?.flatMap(stop => getAlertsForObject(stop)) ?? []),
+  ];
 };
 
 export const getUniqueAlerts = alerts => {

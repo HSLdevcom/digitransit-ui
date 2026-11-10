@@ -32,7 +32,7 @@ export default function CardHeader({
   const headerTitle = stop.name ? stop.name : name;
   // Station query does not return zoneId, so dig it up from child stops
   const zoneId =
-    isTerminal && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
+    isTerminal && stop.stops?.length ? stop.stops[0].zoneId : stop.zoneId;
   return (
     <Fragment>
       <div className={cx('card-header', className)}>

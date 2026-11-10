@@ -3,6 +3,10 @@
 Digitransit-ui is a React (Relay/GraphQL) journey-planning web app used by multiple
 regional deployments (HSL, Tampere, Matka/national, etc.), configured via the `CONFIG` env var.
 
+## Code review
+
+When reviewing changes, follow `REVIEW.md`.
+
 ## Directory structure
 
 Directories reflect a server/client/shared split (see "Server/client boundary" below) — pick the
@@ -69,7 +73,8 @@ right one by *who consumes the code*, not just by convenience.
     buildable package's `rollup.config.js`).
   - Peer ranges are caret ranges of the root's version (e.g. `react` `^18.3.1`). Shared
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
-    `yarn run -T <bin>`. See "Dependency Classification" in `docs/Packages.md`.
+    `yarn run -T <bin>`, except rollup in `build`/`watch`, which is called by path to save a Yarn
+    process per watcher. See "Dependency Classification" in `docs/Packages.md`.
   - Never bump package versions manually; the `packages-version-bump` script is run after
     a PR is approved but before merging by the author.
 - `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),
@@ -162,29 +167,17 @@ fetch data and manage state with hooks.
 
 ## Server/client boundary
 
-The repo is `"type": "module"`. Only a few entry points are loaded by Node **directly**, with no
-bundler/transpiler in between: `server/**`, `webpack.config.js`, `scripts/**`, `config/*.{js,cjs}`.
-Everything else (`app/**`, `utils/client/**`, `utils/shared/**`) is bundled by webpack
-(client) or run through Vite/Vitest's own transform (tests), both extension-agnostic.
+Server code (`server/**`, `utils/server/**`) runs directly in Node (native ESM, no bundler); `app/**`
+and `utils/client/**` are bundled by webpack for the browser.
 
-- `server/**` never imports from `app/**` — only from `utils/shared/`, `utils/server/`, and
-  itself. It renders the initial HTML shell (no React runs server-side) and serializes the merged
-  config onto `window.config`; the client bundle never re-reads `server/configs/*` directly.
-- `utils/shared/**` holds code genuinely imported by both sides (e.g. `gtfs.js`,
-  `citybikeSeasonUtils.js`, `analyticsUtils.js`). `envUtils.js` is split per-consumer instead:
-  `utils/server/envUtils.js` and `utils/client/envUtils.js` both contain a `isDevRunEnv` function.
-- `utils/server/**` and `utils/client/**` are single-consumer-only; don't add server-only helpers
-  to `utils/client/` or vice versa.
-- This boundary is enforced by ESLint's `import/no-restricted-paths` (`.eslintrc.cjs`): `server/**`
-  + `utils/server/**` cannot import `app/**`/`utils/client/**`, the reverse is also forbidden, and
-  `utils/shared/**` cannot import either `utils/client/**` or `utils/server/**` (it may only depend
-  on other `utils/shared/**` code or external packages).
-- `server/**`/`utils/shared/**`/`utils/server/**` relative imports **must** keep an explicit file
-  extension — enforced by the `import/extensions: 'always'` override in `.eslintrc.cjs`.
-  Everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages) extensions are
-  forbidden (`'never'`). The 4 `digitransit-*` packages additionally need
-  `resolve.fullySpecified: false` + `type: 'javascript/auto'` in `webpack.config.js` to follow the
-  same extensionless policy.
+- `server/**` and `utils/server/**` never import `app/**` or `utils/client/**` (and vice versa).
+  The server renders only the HTML shell and serializes the merged config onto `window.config`.
+- `utils/shared/**` is imported by both sides, so it must be isomorphic and may only import other
+  `utils/shared/**` code or external packages.
+- `utils/server/**` and `utils/client/**` are single-consumer; keep helpers in the right one.
+- Relative imports in `server/**`, `utils/shared/**` and `utils/server/**` must include the file
+  extension; everywhere else (`app/**`, `utils/client/**`, tests, `digitransit-*` packages) they
+  must not.
 
 ## Styles (see `docs/Styles.md`, `docs/Themes.md`)
 
@@ -226,6 +219,8 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX. For the
   extension-required-vs-forbidden import policy, see "Server/client boundary" above;
   `import/extensions` is not autofixable by `eslint --fix`.
+- Always inline default exports (`export default function Foo() {}`), not a separate
+  `export default Foo;` at the end of the file.
 - Avoid `Component.defaultProps` in function components (deprecated by React, and unsupported for
   function components in newer React versions). Declare defaults via destructuring in the
   function signature instead, e.g. `function Foo({ isMobile = false, children = null })`. This

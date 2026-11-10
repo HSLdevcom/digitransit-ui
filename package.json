@@ -44,7 +44,7 @@
     "packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",
     "packages-docs": "node scripts/packages/generate-readmes.js",
-    "packages-watch": "lerna run watch --parallel --stream",
+    "packages-watch": "lerna run watch --stream --concurrency 12",
     "packages-build": "lerna run build",
     "packages-test": "yarn packages-build && vitest run --project=!app --project=!server",
     "packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
@@ -162,7 +162,7 @@
     "express-session": "1.19.0",
     "express-static-gzip": "2.0.8",
     "farce": "0.4.5",
-    "fast-xml-parser": "4.5.2",
+    "fast-xml-parser": "5.11.2",
     "found": "1.3.0",
     "found-relay": "1.0.2",
     "helmet": "4.1.0",
@@ -201,7 +201,7 @@
     "supercluster": "^7.1.5",
     "universal-cookie": "7.2.2",
     "url": "^0.11.4",
-    "uuid": "8.3.2"
+    "uuid": "14.0.3"
   },
   "peerDependencies": {
     "@octokit/core": ">=3",
@@ -247,10 +247,10 @@
     "eslint-config-airbnb": "19.0.4",
     "eslint-config-prettier": "9.1.0",
     "eslint-plugin-compat": "4.2.0",
-    "eslint-plugin-import": "2.29.1",
-    "eslint-plugin-jsx-a11y": "6.8.0",
-    "eslint-plugin-prettier": "5.1.2",
-    "eslint-plugin-react": "7.33.2",
+    "eslint-plugin-import": "2.32.0",
+    "eslint-plugin-jsx-a11y": "6.10.2",
+    "eslint-plugin-prettier": "5.5.7",
+    "eslint-plugin-react": "7.37.5",
     "eslint-plugin-react-hooks": "4.6.2",
     "favicons": "^7.3.1",
     "favicons-webpack-plugin": "^6.0.1",
@@ -271,15 +271,14 @@
     "mini-css-extract-plugin": "^2.10.2",
     "mock-local-storage": "1.1.24",
     "mockdate": "3.0.5",
-    "nx": "23.1.1",
     "playwright": "1.16.2",
     "postcss": "^8.5.32",
-    "prettier": "3.1.1",
+    "prettier": "3.9.10",
     "relay-compiler": "16.2.0",
     "rollup": "4.66.0",
     "rollup-plugin-peer-deps-external": "2.2.4",
     "rollup-plugin-postcss": "4.0.2",
-    "sass": "^1.97.2",
+    "sass": "^1.107.0",
     "sass-loader": "17.1.0",
     "selenium-webdriver": "4.0.0-alpha.1",
     "semver": "^7.8.5",
@@ -298,8 +297,10 @@
     "webpack-dev-server": "^6.1.0"
   },
   "resolutions": {
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.6.2",
     "html-webpack-plugin": "5.6.8",
-    "cheerio": "1.0.0-rc.10"
+    "cheerio": "1.0.0-rc.10",
+    "nx": "23.2.0",
+    "@nx/devkit": "23.2.0"
   }
 }
