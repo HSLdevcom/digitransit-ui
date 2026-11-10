@@ -355,8 +355,8 @@ export default {
         minify: CssMinimizerPlugin.lightningCssMinify,
         minimizerOptions: {
           // Keep `min-width`/`max-width` media queries instead of range
-          // syntax (`width>=…`): browsers older than the targets (and the
-          // e2e suite's Chromium) would otherwise get the mobile layout.
+          // syntax (`width>=…`): browsers older than the targets would
+          // otherwise get the mobile layout.
           include: Features.MediaRangeSyntax,
           targets: browserslistToTargets(
             browserslist(undefined, { path: rootDir }),

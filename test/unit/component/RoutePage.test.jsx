@@ -1,3 +1,4 @@
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -94,6 +95,11 @@ describe('<RoutePage />', () => {
       router: match.router || baseMatch.router,
       breakpoint,
     });
+
+  it('has no accessibility violations', async () => {
+    renderView();
+    await expectNoA11yViolations();
+  });
 
   describe('Redirect when route is missing', () => {
     it('calls router.replace to routes page and renders nothing when route is null and no error', () => {

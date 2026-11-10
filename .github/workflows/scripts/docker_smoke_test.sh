@@ -1,4 +1,5 @@
-#/bin/bash
+#!/usr/bin/env bash
+
 set -e
 
 IMAGE=hsldevcom/digitransit-ui:$1
