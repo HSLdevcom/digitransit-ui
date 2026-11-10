@@ -284,8 +284,12 @@ in `package.json` as:
   `@testing-library/*`, `react-dom`, ...) is *not* repeated here: tests run
   through the root Vitest config and resolve it from the root
   `devDependencies`. Package scripts call such root tooling via
-  `yarn run -T <bin>` (e.g. `yarn run -T vitest`, `yarn run -T rollup`), since
-  Yarn won't run a binary the workspace doesn't declare itself.
+  `yarn run -T <bin>` (e.g. `yarn run -T vitest`), since Yarn won't run a
+  binary the workspace doesn't declare itself. The `build` and `watch` scripts
+  call rollup by path instead
+  (`node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup`; Yarn sets
+  `PROJECT_CWD` to the repo root): `yarn run -T` adds a Yarn process to each
+  of the 12 long-running watchers, about 180 MB each.
 
 These rules (for `dependencies`/`peerDependencies`) are enforced by
 `yarn packages-dependencies-check`, part of `yarn lint`.
@@ -314,12 +318,25 @@ override it locally. The rollup/babel tooling itself is owned by the root
 so the config package declares none. Because it is a `devDependency` of every
 buildable package, changing it requires bumping all of them
 (`packages-version-check` enforces this). The root `babel.config.cjs`
-is unrelated: it only serves tooling (eslint parser, Jest e2e).
+is unrelated: it only serves tooling (eslint parser).
+
+## Shared test helpers
+
+`packages/private/test-utils` (`@digitransit-ui/test-utils`, private, no build step)
+holds test helpers used by both the app tests and the package tests, currently
+`expectNoA11yViolations` (axe-core, see `docs/Tests.md`). A package whose tests
+import it declares it as a `workspace:^` `devDependency`, so changing the helper
+requires bumping those packages. The app resolves it through the workspace
+symlink in `node_modules/@digitransit-ui`, like the schema package. Its
+dependencies (`axe-core`, `@testing-library/react`) come from the root
+`devDependencies`.
 
 ## Build Caching
 
 `nx.json`'s `build` target `inputs` include `^default`, so editing the shared
 build config invalidates the Nx build cache of every package depending on it.
+Lerna runs Nx, which isn't a direct dependency: its version is pinned in the root
+`resolutions` (see [Installation](Installation.md)).
 
 ## Deprecated
 

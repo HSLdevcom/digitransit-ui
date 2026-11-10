@@ -1,4 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import SelectFromMapModal from '../../../app/component/SelectFromMapModal';
 
@@ -29,5 +30,14 @@ describe('<SelectFromMapModal />', () => {
 
     fireEvent.click(screen.getByRole('button', { name: /close/i }));
     expect(onClose).toHaveBeenCalledTimes(1);
+  });
+
+  it('has no accessibility violations', async () => {
+    renderWithProviders(
+      <SelectFromMapModal title="Select location" lang="en" onClose={() => {}}>
+        <div>map picker</div>
+      </SelectFromMapModal>,
+    );
+    await expectNoA11yViolations();
   });
 });

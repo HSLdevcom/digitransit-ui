@@ -34,7 +34,7 @@ Digitransit-ui is tested to work on the latest and the second latest major versi
 
 - Continuous Integration: [https://github.com/HSLdevcom/digitransit-ui/actions](https://github.com/HSLdevcom/digitransit-ui/actions)
 
-Visual tests are run with jest and playwright.
+Unit and component tests (including axe accessibility checks) are run with Vitest.
 
 More information about [testing](docs/Tests.md).
 

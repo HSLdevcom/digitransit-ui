@@ -63,4 +63,28 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     expect(calls.onNowClick).toHaveLength(1);
     expect(calls.onNowClick[0]).toBeTypeOf('number');
   });
+
+  it('keeps the departure/arrival choice of each picker separate when several pickers are on a page', () => {
+    const { container } = render(
+      <>
+        <Datetimepicker
+          onDepartureClick={() => {}}
+          onArrivalClick={() => {}}
+          lang="en"
+          initialTimestamp={FIXED_TIMESTAMP}
+        />
+        <Datetimepicker
+          onDepartureClick={() => {}}
+          onArrivalClick={() => {}}
+          lang="en"
+          initialTimestamp={FIXED_TIMESTAMP}
+          initialArriveBy
+        />
+      </>,
+    );
+    const radios = [...container.querySelectorAll('input[type="radio"]')];
+    expect(radios).toHaveLength(4);
+    expect(radios.map(r => r.checked)).toEqual([true, false, false, true]);
+    expect(new Set(radios.map(r => r.name)).size).toBe(2);
+  });
 });

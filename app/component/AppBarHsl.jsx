@@ -31,15 +31,24 @@ export default function AppBarHsl({ favourites = [] }) {
   const { location } = match;
 
   const notificationParams = new URLSearchParams({ language });
-  getFavouriteRouteGtfsIds(favourites).forEach(id =>
-    notificationParams.append('route', id),
+  const notificationQuery = { language };
+  const routeIds = getFavouriteRouteGtfsIds(favourites);
+  const stopIds = getFavouriteStopsAndStations(favourites).map(
+    ({ gtfsId }) => gtfsId,
   );
-  getFavouriteStopsAndStations(favourites).forEach(({ gtfsId }) =>
-    notificationParams.append('stop', gtfsId),
-  );
-  // the effect below runs once, so it reads the latest url via ref
+  routeIds.forEach(id => notificationParams.append('route', id));
+  stopIds.forEach(id => notificationParams.append('stop', id));
+  if (routeIds.length) {
+    notificationQuery.route = routeIds;
+  }
+  if (stopIds.length) {
+    notificationQuery.stop = stopIds;
+  }
+  // the effect below runs once, so it reads the latest values via refs
   const notificationUrl = useRef();
   notificationUrl.current = `${notificationAPI}?${notificationParams}`;
+  const notificationQueryRef = useRef();
+  notificationQueryRef.current = notificationQuery;
 
   const [searchQuery, setSearchQuery] = useState('');
   const [searchLoading, setSearchLoading] = useState(false);
@@ -73,7 +82,8 @@ export default function AppBarHsl({ favourites = [] }) {
 
     const fetchNotifications = () => {
       setUserNotifications(prev => ({ ...prev, loading: true, error: null }));
-      getJson(notificationUrl.current)
+      // getJson encodes the url, so params are passed separately to avoid double encoding
+      getJson(notificationAPI, notificationQueryRef.current)
         .then(data => {
           setUserNotifications({
             unreadCount: data?.unreadCount || 0,

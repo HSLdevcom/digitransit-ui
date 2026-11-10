@@ -711,11 +711,7 @@ function DTAutosuggest({
               styles[id],
               inputClassName && styles[`${inputClassName}-input-icon`],
             ])}
-            aria-label={ariaRequiredText
-              .concat(' ')
-              .concat(SearchBarId)
-              .concat(' ')
-              .concat(t('search-autosuggest-label', { lng }))}
+            aria-hidden="true"
           >
             <Icon img={`${icon}`} />
           </div>
@@ -727,6 +723,8 @@ function DTAutosuggest({
             .concat(ariaRequiredText)
             .concat(' ')
             .concat(SearchBarId)
+            .concat(' ')
+            .concat(t('search-autosuggest-label', { lng }))
             .concat(' ')
             .concat(ariaLabelText)}
           id={id}

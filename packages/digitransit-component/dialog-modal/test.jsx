@@ -1,5 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
+import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import DialogModal from './src/index';
 
 // Under Mocha, @hsl-fi/dialog was ESM-only and couldn't be require()'d, so
@@ -53,5 +54,18 @@ describe('Testing @digitransit-component/digitransit-component-dialog-modal modu
     const [deleteButton] = screen.getAllByRole('button', { name: 'Delete' });
     fireEvent.click(deleteButton);
     expect(primaryButtonOnClick).toHaveBeenCalledTimes(1);
+  });
+
+  it('has no accessibility violations', async () => {
+    render(
+      <DialogModal
+        isModalOpen
+        headerText="Delete this place?"
+        primaryButtonText="Delete"
+        primaryButtonOnClick={() => {}}
+        lang="en"
+      />,
+    );
+    await expectNoA11yViolations();
   });
 });

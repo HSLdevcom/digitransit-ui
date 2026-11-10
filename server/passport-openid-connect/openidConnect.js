@@ -387,7 +387,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     axios({
       headers: {
         'content-type': 'application/json',
-        'x-hslid-token': req.user.token.access_token,
+        Authorization: `Bearer ${req.user.token.access_token}`,
       },
       method: req.method,
       url,
