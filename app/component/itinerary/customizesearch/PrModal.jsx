@@ -7,8 +7,10 @@ import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
+import useDsLang from '../../../hooks/useDsLang';
 
 export default function PrModal({ closeModal }) {
+  const dsLang = useDsLang();
   const config = useConfigContext();
   const { language } = config;
   const intl = useIntl();
@@ -16,10 +18,10 @@ export default function PrModal({ closeModal }) {
   const breakpoint = useBreakpoint();
 
   return (
-    <Modal lang={language} onOpenChange={closeModal} open>
+    <Modal lang={dsLang} onOpenChange={closeModal} open>
       <ModalContent
         title={formatMessage({ id: 'personalization-modal-header' })}
-        lang={language}
+        lang={dsLang}
       >
         <div
           className={cx('pr-info-modal', {

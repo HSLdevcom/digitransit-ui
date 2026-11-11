@@ -4,12 +4,12 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useFavouriteActions } from '../../../hooks/FavouriteContext';
+import useDsLang from '../../../hooks/useDsLang';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
+  const dsLang = useDsLang();
   const intl = useIntl();
-  const config = useConfigContext();
   const { savePersonalizationPreferences } = useFavouriteActions();
   const [action, setAction] = useState();
 
@@ -31,11 +31,11 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   };
 
   return (
-    <Modal lang={config.language} onOpenChange={onClose} open={open}>
+    <Modal lang={dsLang} onOpenChange={onClose} open={open}>
       <ModalContent
         title={title}
         description={<Text variant="text-s">{description}</Text>}
-        lang={config.language}
+        lang={dsLang}
         buttons={[
           {
             children: ok,

@@ -4,6 +4,7 @@ const translations = {
     translation: {
       cancel: 'Abbrechen',
       'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
+      close: 'Schließen',
       'edit-place': 'Ort bearbeiten',
       'input-placeholder': 'Einen Namen für Ort setzen (optional)',
       save: 'Speichern',
@@ -15,6 +16,7 @@ const translations = {
       cancel: 'Cancel',
       'cannot-save-place': 'Cannot save a place without address or icon',
       'choose-icon': "Select the place's icon",
+      close: 'Close',
       'edit-place': 'Edit place',
       home: 'home',
       'input-placeholder': 'Give the name a place (optional)',
@@ -34,6 +36,7 @@ const translations = {
       'cannot-save-place':
         'Paikkaa ilman osoitetta tai ikonia ei voida tallentaa',
       'choose-icon': 'Valitse paikan kuvake',
+      close: 'Sulje',
       'edit-place': 'Muokkaa paikkaa',
       home: 'koti',
       'input-placeholder': 'Anna paikalle nimi (vapaaehtoinen)',
@@ -47,11 +50,17 @@ const translations = {
       work: 'työ',
     },
   },
+  it: {
+    translation: {
+      close: 'Chiudi',
+    },
+  },
   pl: {
     translation: {
       cancel: 'Anuluj',
       'cannot-save-place': 'Nie można zapisać miejsca bez nazwy lub ikony',
       'choose-icon': 'Wybierz ikonę miejsca',
+      close: 'Zamknij',
       'edit-place': 'Edytuj miejsce',
       home: 'dom',
       'input-placeholder': 'Nadaj nazwę miejscu (opcjonalne)',
@@ -71,6 +80,7 @@ const translations = {
       'cannot-save-place':
         'Det går inte att spara en plats utan adress eller ikon',
       'choose-icon': 'Välj platsens ikon',
+      close: 'Stäng',
       'edit-place': 'Redigera plats',
       home: 'hem',
       'input-placeholder': 'Ange platsens namn (frivilligt)',

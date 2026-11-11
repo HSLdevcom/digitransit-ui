@@ -186,6 +186,18 @@ spelling. That mismatch is never auto-fixed (there's no way to guess the
 correct key or translation), so `--fix` still exits non-zero if any remain;
 resolve those by hand in the package's `translations.js`.
 
+### Design system strings
+
+`@hsl-fi/*` components only ship `fi`, `sv` and `en` texts; for other
+languages their `lang` prop takes a locale object (`{ code, messages }`).
+Packages whose DS components render built-in texts have a `dsLang.js` helper
+next to `i18n.js`: `getDsLang(lang)` returns built-in languages as is and a
+cached locale object built from the package's own translations otherwise.
+`DS_MESSAGE_KEYS` lists the translation keys it needs, and each package test
+fails if a non-built-in locale lacks one, so a missing text never silently
+falls back to Finnish. The app does the same with `app/hooks/useDsLang.js`
+(tested in `test/unit/hooks/useDsLang.test.js`).
+
 ## Documentation (README generation)
 
 Every package's `README.md` is generated from its JSDoc by

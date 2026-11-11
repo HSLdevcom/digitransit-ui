@@ -74,11 +74,17 @@ const translations = {
       tram_short: 'Raitiovaunu',
     },
   },
+  it: {
+    translation: {
+      close: 'Chiudi',
+    },
+  },
   pl: {
     translation: {
       airplane: 'Lot',
       bus: 'Autobus',
       citybike: 'Rower miejski',
+      close: 'Zamknij',
       favorite: 'Przystanki w pobliżu',
       ferry: 'Prom',
       rail: 'Kolej',

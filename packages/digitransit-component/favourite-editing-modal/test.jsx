@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within, fireEvent } from '@testing-library/react';
 import FavouriteEditingModal from './src/index';
+import translations from './src/helpers/translations';
+import getDsLang, { DS_MESSAGE_KEYS } from './src/helpers/dsLang';
 
 const favourites = [
   {
@@ -119,5 +121,30 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
 
     expect(deleteFavourite).not.toHaveBeenCalled();
     expect(screen.getByRole('heading', { name: 'Edit places' })).toBeTruthy();
+  });
+});
+
+describe('design system localization', () => {
+  const customLangs = Object.keys(translations).filter(
+    lang => !['fi', 'sv', 'en'].includes(lang),
+  );
+  const dsKeys = Object.values(DS_MESSAGE_KEYS).flatMap(Object.values);
+
+  it.each(customLangs)('%s has all design system messages', lang => {
+    const missing = dsKeys.filter(
+      key => translations[lang].translation[key] === undefined,
+    );
+    expect(missing).toEqual([]);
+  });
+
+  it('passes built-in languages and returns locale objects for others', () => {
+    expect(getDsLang('sv')).toBe('sv');
+    expect(getDsLang('de')).toEqual({
+      code: 'de',
+      messages: expect.objectContaining({
+        CloseButton: { close: translations.de.translation.close },
+      }),
+    });
+    expect(getDsLang('de')).toBe(getDsLang('de'));
   });
 });

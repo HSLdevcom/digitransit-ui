@@ -15,6 +15,7 @@ import {
   getDepartureHeadsigns,
   getDepartureStoptimes,
 } from '../../../utils/client/patternUtils';
+import useDsLang from '../../hooks/useDsLang';
 
 export default function FilterTimeTableModal({
   stop,
@@ -22,6 +23,7 @@ export default function FilterTimeTableModal({
   showFilterModal,
   showRoutesList,
 }) {
+  const dsLang = useDsLang();
   const intl = useIntl();
   const config = useConfigContext();
 
@@ -125,10 +127,10 @@ export default function FilterTimeTableModal({
   ];
 
   return (
-    <Modal lang={config.language} onOpenChange={closeModal} open>
+    <Modal lang={dsLang} onOpenChange={closeModal} open>
       <ModalContent
         title={intl.formatMessage({ id: 'show-routes' })}
-        lang={config.language}
+        lang={dsLang}
       >
         <div className="routes-container">
           <CheckboxGroup

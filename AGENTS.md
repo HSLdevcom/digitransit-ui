@@ -36,7 +36,9 @@ right one by *who consumes the code*, not just by convenience.
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
-    checked separately via `scripts/packages/sort-translations.js`.
+    checked separately via `scripts/packages/sort-translations.js`. Pass `lang` to `@hsl-fi/*`
+    components via `useDsLang()` (app) or the package's `getDsLang()`, which turn non-fi/sv/en
+    languages into DS locale objects; see `docs/Packages.md` "Design system strings".
 - `server/` — Express server, native-ESM, never bundled: `server.js` (entrypoint: boot-time data
   fetches via `services/`, `.listen()`, graceful shutdown), `app.js` (`createApp()` — builds the
   configured Express app, including the dev-mode `/proxy/` passthrough to webpack-dev-server, no

@@ -3,6 +3,7 @@ const translations = {
   de: {
     translation: {
       cancel: 'Abbrechen',
+      close: 'Schließen',
       delete: 'Löschen',
       'delete-place-header': 'Wollen Sie den Favoriten löschen?',
       'delete-place-name': 'Lösche Favorit: {{favourite.name}}',
@@ -13,6 +14,7 @@ const translations = {
   en: {
     translation: {
       cancel: 'Cancel',
+      close: 'Close',
       delete: 'Delete',
       'delete-place-header': 'Do you want to delete the place?',
       'delete-place-name': 'Delete place: {{favourite.name}}',
@@ -25,6 +27,7 @@ const translations = {
   fi: {
     translation: {
       cancel: 'Peruuta',
+      close: 'Sulje',
       delete: 'Poista',
       'delete-place-header': 'Haluatko poistaa paikan?',
       'delete-place-name': 'Poista paikka: {{favourite.name}}',
@@ -34,9 +37,15 @@ const translations = {
       up: 'Siirrä suosikkisijaintia ylöpäin',
     },
   },
+  it: {
+    translation: {
+      close: 'Chiudi',
+    },
+  },
   pl: {
     translation: {
       cancel: 'Anuluj',
+      close: 'Zamknij',
       delete: 'Usuń',
       'delete-place-header': 'Czy na pewno chcesz usunąć to miejsce?',
       'delete-place-name': 'Usuń miejsce: {{favourite.name}}',
@@ -49,6 +58,7 @@ const translations = {
   sv: {
     translation: {
       cancel: 'Avbryt',
+      close: 'Stäng',
       delete: 'Ta bort',
       'delete-place-header': 'Vill du ta bort platsen?',
       'delete-place-name': 'Ta bort platsen: {{favourite.name}}',
