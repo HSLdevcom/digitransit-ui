@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import SuggestionItem, {
   getStopBadge,
   STOP_STATUS_BADGE_IMGS,
@@ -87,8 +88,9 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         content={['Paikka', 'Mäyränmäki', 'Kuopio']}
       />,
     );
-    expect(container.querySelector('use').getAttribute('href')).toContain(
-      'icon-icon_city',
+    const cityIcon = render(<Icon img="city" />).container;
+    expect(container.querySelector('svg path').getAttribute('d')).toBe(
+      cityIcon.querySelector('svg path').getAttribute('d'),
     );
   });
 
