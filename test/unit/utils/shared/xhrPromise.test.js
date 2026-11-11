@@ -1,4 +1,4 @@
-import { getJson } from '../../../../utils/shared/xhrPromise';
+import { getJson, HttpError } from '../../../../utils/shared/xhrPromise';
 
 describe('xhrPromise', () => {
   describe('getJson', () => {
@@ -14,12 +14,32 @@ describe('xhrPromise', () => {
     it('resolves to the parsed response body', async () => {
       vi.stubGlobal(
         'fetch',
-        vi.fn().mockResolvedValue({ json: async () => ({ ok: true }) }),
+        vi.fn().mockResolvedValue({ ok: true, json: async () => ({ a: 1 }) }),
       );
 
       await expect(getJson('https://example.com/data')).resolves.toEqual({
-        ok: true,
+        a: 1,
       });
+      expect(vi.getTimerCount()).toBe(0);
+    });
+
+    it('rejects with an HttpError on an error status', async () => {
+      const json = vi.fn(async () => ({ error: 'bad request' }));
+      vi.stubGlobal(
+        'fetch',
+        vi.fn().mockResolvedValue({
+          ok: false,
+          status: 400,
+          statusText: 'Bad Request',
+          json,
+        }),
+      );
+
+      const error = await getJson('https://example.com/data').catch(e => e);
+
+      expect(error).toBeInstanceOf(HttpError);
+      expect(error.status).toBe(400);
+      expect(json).not.toHaveBeenCalled();
       expect(vi.getTimerCount()).toBe(0);
     });
 

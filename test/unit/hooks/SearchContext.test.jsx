@@ -102,6 +102,7 @@ function mockGeolocation() {
   vi.stubGlobal(
     'fetch',
     vi.fn().mockResolvedValue({
+      ok: true,
       json: () => ({
         features: [
           {

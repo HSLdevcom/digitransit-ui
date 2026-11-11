@@ -35,15 +35,18 @@ export default function ParkOrBikeStationHeader({
         config.searchParams['boundary.country'];
     }
 
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(data => {
-      if (data.features != null && data.features.length > 0) {
-        const match = data.features[0].properties;
-        const id = getZoneId(config, match.zones, data.zones);
-        if (id) {
-          setZoneId(id.toString().toLowerCase());
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
+      .then(data => {
+        if (data.features != null && data.features.length > 0) {
+          const match = data.features[0].properties;
+          const id = getZoneId(config, match.zones, data.zones);
+          if (id) {
+            setZoneId(id.toString().toLowerCase());
+          }
         }
-      }
-    });
+      })
+      // The zone is optional, the header works without it.
+      .catch(() => {});
   }, []);
 
   const { name, stationId } = parkOrStation;
