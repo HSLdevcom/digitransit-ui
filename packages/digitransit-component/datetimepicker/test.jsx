@@ -70,12 +70,18 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
         <Datetimepicker
           onDepartureClick={() => {}}
           onArrivalClick={() => {}}
+          onTimeChange={() => {}}
+          onDateChange={() => {}}
+          onNowClick={() => {}}
           lang="en"
           initialTimestamp={FIXED_TIMESTAMP}
         />
         <Datetimepicker
           onDepartureClick={() => {}}
           onArrivalClick={() => {}}
+          onTimeChange={() => {}}
+          onDateChange={() => {}}
+          onNowClick={() => {}}
           lang="en"
           initialTimestamp={FIXED_TIMESTAMP}
           initialArriveBy
