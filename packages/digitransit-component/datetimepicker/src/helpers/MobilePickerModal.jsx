@@ -26,7 +26,7 @@ Settings.defaultLocale = 'en';
  * @param {function} props.getDateDisplay Called to get the display string for a given date
  * @returns {JSX.Element}
  */
-function MobilePickerModal({
+export default function MobilePickerModal({
   departureOrArrival,
   onNowClick,
   lang,
@@ -108,7 +108,7 @@ function MobilePickerModal({
             {t('departure', translationSettings)}
             <input
               id={`${htmlId}-modal-departure`}
-              name="departureOrArrival"
+              name={`${htmlId}-departureOrArrival`}
               type="radio"
               value="departure"
               className={styles['radio-textbutton']}
@@ -132,7 +132,7 @@ function MobilePickerModal({
             {t('arrival', translationSettings)}
             <input
               id={`${htmlId}-modal-arrival`}
-              name="departureOrArrival"
+              name={`${htmlId}-departureOrArrival`}
               type="radio"
               value="arrival"
               className={styles['radio-textbutton']}
@@ -214,5 +214,3 @@ MobilePickerModal.propTypes = {
   dateSelectItemCount: PropTypes.number.isRequired,
   getDateDisplay: PropTypes.func.isRequired,
 };
-
-export default MobilePickerModal;

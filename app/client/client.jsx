@@ -33,7 +33,7 @@ import { getCountries } from '../../utils/client/localStorage';
 import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
-import searchContext from '../data/SearchContext';
+import searchServices from '../data/SearchServices';
 import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
@@ -44,6 +44,8 @@ import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
+// Last import: the app's styles override those of the components above.
+import '../../styles/main.scss';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -154,7 +156,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(config);
+  searchServices.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {

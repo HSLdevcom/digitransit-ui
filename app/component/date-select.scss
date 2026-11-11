@@ -1,6 +1,8 @@
+@use '../../styles/abstracts' as *;
+
 .combobox-container {
-  background-color: #fff;
-  border: solid #888 1px;
+  background-color: $white;
+  border: solid $muted-gray 1px;
   display: flex;
 
   // must follow the display declaration above to override it
@@ -20,10 +22,6 @@
 
   &:focus-within {
     border-color: $theme-primary-color;
-  }
-
-  &.route-schedule-date {
-    margin-right: 1em;
   }
 
   .icon-container {
@@ -51,7 +49,7 @@
     border-right: 1px solid $gray;
 
     .combobox-selected-value {
-      color: $black;
+      color: $dark-gray;
       font-size: $font-size-small;
       font-weight: $font-weight-medium;
       text-align: left;
@@ -70,14 +68,14 @@
 
     & select {
       cursor: pointer;
-      border-bottom: none !important;
+      border-bottom: none;
       transition: all 0.2s ease-out;
       height: 1.27em;
       line-height: 1.3em;
 
       &:hover {
         color: $theme-secondary-color;
-        border-bottom: none !important;
+        border-bottom: none;
       }
     }
 
@@ -108,8 +106,8 @@
   }
 
   margin-right: 1em;
-  background-color: #fff;
-  border: solid #888 1px;
+  background-color: $white;
+  border: solid $muted-gray 1px;
   display: flex;
 
   // must follow the display declaration above to override it
@@ -142,7 +140,7 @@
         padding: 0 3px 0 0;
 
         .left-column {
-          color: #333;
+          color: $dark-gray;
           font-size: 0.92rem;
           font-weight: $font-weight-medium;
           text-align: left;
@@ -159,7 +157,7 @@
           .combobox-label {
             font-size: 0.87rem;
             white-space: nowrap;
-            color: #666;
+            color: $gray;
             letter-spacing: -0.48px;
             font-weight: $font-weight-book;
           }
@@ -171,14 +169,14 @@
 
           & select {
             cursor: pointer;
-            border-bottom: none !important;
+            border-bottom: none;
             transition: all 0.2s ease-out;
             height: 1.27em;
             line-height: 1.3em;
 
             &:hover {
               color: $theme-secondary-color;
-              border-bottom: none !important;
+              border-bottom: none;
             }
           }
 
@@ -201,39 +199,11 @@
       position: relative;
     }
   }
-
-  .route-schedule-select {
-    .route-schedule__control {
-      min-height: auto;
-
-      .route-schedule__placeholder {
-        color: $black;
-        font-size: $font-size-small;
-      }
-    }
-
-    .route-schedule__option {
-      display: flex;
-      justify-content: space-between;
-
-      svg {
-        position: relative;
-      }
-    }
-  }
 }
 
 .combobox-label {
   font-size: $font-size-xsmall;
   white-space: nowrap;
-  color: #666;
+  color: $gray;
   letter-spacing: -0.48px;
-}
-
-.mobile {
-  .combobox-container {
-    &.route-schedule-date {
-      margin-right: 0.75em;
-    }
-  }
 }

@@ -99,7 +99,10 @@ export default {
     locale: 'fi_FI',
   },
 
-  colors: matkaConfig.colors,
+  colors: {
+    primary: '#003580',
+    bus: '#003580',
+  },
 
   redirectReittiopasParams: true,
   map: { minZoom: 5 },

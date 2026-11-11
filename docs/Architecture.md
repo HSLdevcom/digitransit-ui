@@ -10,6 +10,8 @@ Digitransit-ui is a React based web application. The following bullet points des
 
 ## Additions to Airbnb style guide
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
+ - Prefer named default function and class declarations (`export default function Component()`) over separate trailing default exports. Keep separate exports when needed for wrappers, singleton instances, or other values.
+ - Omit redundant React `displayName` assignments when the function name already provides the same label. Keep names needed for anonymous wrappers and intentional aliases.
 
 ## Components
   - Components are function components that fetch data and manage state with hooks
@@ -44,6 +46,19 @@ named functions in `app/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
 
+Search services are exposed through the framework-agnostic singleton in
+`app/data/SearchServices.js`, initialized before rendering and connected to
+`PositionProvider` for current position access. Autosuggest adapters import
+the singleton directly and pass it through the existing `searchContext` package prop;
+it is not part of the React search context value. Each `SearchAutosuggest` or
+`SearchAutosuggestPanel` adapter mounts its own `SearchProvider` from
+`app/hooks/SearchContext.jsx`. The provider owns pending geolocation;
+`useSearchContext` exposes selection handling and instance-local map controls.
+`SearchSelectionBoundary` replaces the input with the map picker while
+keeping its provider mounted. Do not mount a global search provider:
+different search instances have independent callbacks and embedded behavior.
+Journey endpoints remain in `ItineraryLocationContext`.
+
 Responsive layout state is owned by `BreakpointProvider` in
 `app/hooks/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
 Functional consumers use `useBreakpoint()` from that module. Breakpoints are
@@ -61,8 +76,8 @@ Links:
 * https://graphql.org/
 
 # CSS (or styles in general)
-  - Modular CSS
-    - how to implement is still a good question
+See [Styles](Styles.md) for the current setup. The direction:
+  - CSS Modules for new components
     - Prefer flexbox based layouts if it simplifies the layouting process
     - Containers read responsive layout state through `useBreakpoint()`; the client provider observes viewport width changes through a throttled resize listener
 

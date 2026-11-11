@@ -41,7 +41,10 @@ function resolveHeadsign(pattern) {
   return pattern.stops[pattern.stops.length - 1].name;
 }
 
-function RoutePage({ route: routeRef = null, error = undefined }) {
+export default function RoutePage({
+  route: routeRef = null,
+  error = undefined,
+}) {
   const TABS = [PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION];
   const intl = useIntl();
   const config = useConfigContext();
@@ -161,5 +164,3 @@ RoutePage.propTypes = {
   route: fragmentRefShape,
   error: errorShape,
 };
-
-export default RoutePage;

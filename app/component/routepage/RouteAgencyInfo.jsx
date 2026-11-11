@@ -4,7 +4,7 @@ import { fragmentRefShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-function RouteAgencyInfo({ route: routeRef }) {
+export default function RouteAgencyInfo({ route: routeRef }) {
   const config = useConfigContext();
   const route = useFragment(
     graphql`
@@ -35,5 +35,3 @@ function RouteAgencyInfo({ route: routeRef }) {
 RouteAgencyInfo.propTypes = {
   route: fragmentRefShape.isRequired,
 };
-
-export default RouteAgencyInfo;

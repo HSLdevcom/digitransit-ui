@@ -42,7 +42,7 @@ const getMode = (stop, citybike, parkType, scooter) => {
   return 'stop';
 };
 
-function StopPageMap({
+export default function StopPageMap({
   stop,
   stopName,
   stopStatus = null,
@@ -224,5 +224,3 @@ StopPageMap.propTypes = {
   stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
   stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
-
-export default StopPageMap;

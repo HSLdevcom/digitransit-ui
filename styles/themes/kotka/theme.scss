@@ -1,0 +1,11 @@
+@use '../waltti/theme';
+
+@layer theme {
+  :root {
+    --theme-secondary-color: #000199;
+    --top-bar-color: #82bd53;
+    --top-navigation-icon-color: #333;
+    --theme-primary-dark-color: #0001e6;
+    --color-accent-primary-900: #0001cc;
+  }
+}

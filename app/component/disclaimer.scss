@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .disclaimer-container {
   background-color: $disclaimer-background-color;
   font-weight: $font-weight-book;

@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-autosuggest",
-  "version": "11.0.3",
+  "version": "11.0.9",
   "description": "digitransit-component autosuggest module",
   "type": "module",
   "main": "index.cjs",
@@ -23,11 +23,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development yarn run -T rollup -w -c",
+    "watch": "NODE_ENV=development node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -w -c",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/packages/generate-readmes.js",
-    "build": "NODE_ENV=production yarn run -T rollup -c"
+    "build": "NODE_ENV=production node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -c"
   },
   "repository": {
     "type": "git",
@@ -57,10 +57,10 @@
     "classnames": "^2.5.1",
     "downshift": "^9.4.0",
     "i18next": "^22.5.1",
-    "luxon": "^3.6.1",
+    "luxon": "^3.7.2",
     "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-i18next": "^12.3.1",
-    "react-modal": "^3.11.2"
+    "react-modal": "^3.16.3"
   }
 }

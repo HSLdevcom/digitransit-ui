@@ -104,7 +104,7 @@ export default function LocationPopup({
   const { loading, location } = state;
   if (loading) {
     return (
-      <div className="card smallspinner" style={{ height: '4rem' }}>
+      <div className="card" style={{ height: '4rem' }}>
         <Loading />
       </div>
     );

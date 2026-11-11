@@ -12,7 +12,7 @@ import {
 import ItineraryMapAction from '../../ItineraryMapAction';
 import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
 
-function NaviIndoorStepInfo({
+export default function NaviIndoorStepInfo({
   focusAction,
   type,
   verticalDirection,
@@ -54,5 +54,3 @@ NaviIndoorStepInfo.propTypes = {
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
   toLevelName: PropTypes.string,
 };
-
-export default NaviIndoorStepInfo;

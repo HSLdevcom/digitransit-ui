@@ -65,6 +65,14 @@ describe('server app', () => {
     });
   });
 
+  describe('repeated slashes in redirect path', () => {
+    it('does not redirect to a protocol-relative URL', async () => {
+      const response = await request(app).get('//example.com/x?time=abc');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toBe('/example.com/x');
+    });
+  });
+
   describe('/sw.js', () => {
     it('serves an uncached script that unregisters the old service worker', async () => {
       const response = await request(app).get('/sw.js');

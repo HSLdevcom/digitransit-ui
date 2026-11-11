@@ -1,4 +1,3 @@
-import ReactModal from 'react-modal';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from './helpers/mock-providers';
 import AppBar from '../../app/component/AppBar';
@@ -6,7 +5,12 @@ import { mockContext } from './helpers/mock-context';
 
 describe('<AppBar />', () => {
   beforeAll(() => {
-    ReactModal.setAppElement(document.body);
+    vi.stubGlobal('requestAnimationFrame', cb => setTimeout(cb, 0));
+    vi.stubGlobal('cancelAnimationFrame', id => clearTimeout(id));
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
   });
 
   it('should show logo', () => {

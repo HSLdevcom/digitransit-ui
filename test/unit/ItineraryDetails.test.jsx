@@ -27,23 +27,29 @@ const itinerary = {
   })),
 };
 
+const props = {
+  itinerary,
+  focusToPoint: () => {},
+  focusToLeg: () => {},
+  openSettings: () => {},
+  showCanceledLegsBanner: false,
+  plan: {
+    date: 19700101,
+  },
+  isMobile: false,
+  currentTime: 0,
+  lang: 'fi',
+  tabIndex: 0,
+};
+
 describe('<ItineraryDetails />', () => {
   it('should render the container div', () => {
-    const props = {
-      itinerary,
-      focusToPoint: () => {},
-      focusToLeg: () => {},
-      openSettings: () => {},
-      showCanceledLegsBanner: false,
-      plan: {
-        date: 19700101,
-      },
-      isMobile: false,
-      currentTime: 0,
-      lang: 'fi',
-      tabIndex: 0,
-    };
     const { container } = renderWithProviders(<ItineraryDetails {...props} />);
     expect(container.querySelector('.itinerary-tab')).not.toBeNull();
+  });
+
+  it('has no accessibility violations', async () => {
+    renderWithProviders(<ItineraryDetails {...props} />);
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

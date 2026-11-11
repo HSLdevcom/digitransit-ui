@@ -328,6 +328,7 @@ export default function MapWithTracking({
       {showControls && config.map.showLayerSelector && (
         <MenuDrawer
           open={settingsOpen}
+          label={intl.formatMessage({ id: 'select-map-layers-header' })}
           onRequestChange={toggleSettingsOpen}
           className="offcanvas-layers"
           breakpoint={breakpoint}

@@ -1,8 +1,8 @@
 /* eslint-disable react/prop-types */
 import { act, fireEvent, render, screen } from '@testing-library/react';
+import * as relay from 'react-relay';
 import ItineraryPage from '../../../../app/component/itinerary/ItineraryPage';
 import TestProviders from '../../helpers/mock-providers';
-import { relayMock } from '../../helpers/mock-relay';
 import { createTestConfig } from '../../helpers/mock-context';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import * as planParamUtil from '../../../../utils/client/planParamUtil';
@@ -93,13 +93,6 @@ describe('ItineraryPage lifecycle', () => {
 
   beforeEach(() => {
     requests = [];
-    relayMock.fetch(
-      null,
-      variables =>
-        new Promise((resolve, reject) => {
-          requests.push({ variables, resolve, reject });
-        }),
-    );
     vi.spyOn(planParamUtil, 'planQueryNeeded').mockImplementation(
       (_config, _match, type, relaxed) =>
         !relaxed && [PLANTYPE.TRANSIT, PLANTYPE.WALK].includes(type),
@@ -134,6 +127,30 @@ describe('ItineraryPage lifecycle', () => {
     );
     vi.spyOn(ItineraryListContainerModule, 'default', 'get').mockReturnValue(
       ItineraryListContainerStub,
+    );
+    vi.spyOn(relay, 'fetchQuery').mockImplementation(
+      (_environment, _query, variables) => ({
+        subscribe: sink => {
+          const request = { variables, cancelled: false };
+          request.resolve = data => {
+            if (!request.cancelled) {
+              sink.next(data);
+              sink.complete();
+            }
+          };
+          request.reject = error => {
+            if (!request.cancelled) {
+              sink.error(error);
+            }
+          };
+          requests.push(request);
+          sink.start({
+            unsubscribe: () => {
+              request.cancelled = true;
+            },
+          });
+        },
+      }),
     );
   });
 
@@ -214,6 +231,32 @@ describe('ItineraryPage lifecycle', () => {
     expect(screen.getByTestId('itineraries').textContent).toBe(
       `Hamina-${PLANTYPE.TRANSIT}`,
     );
+  });
+
+  it('cancels pending requests of the old search when the search changes', async () => {
+    const { rerender } = render(page('Savukoski'));
+    rerender(page('Hamina'));
+
+    const isOld = request =>
+      request.variables.destination.startsWith('Savukoski');
+    expect(requests.filter(isOld)).toHaveLength(2);
+    expect(requests.filter(isOld).every(r => r.cancelled)).toBe(true);
+    expect(requests.filter(r => !isOld(r)).some(r => r.cancelled)).toBe(false);
+  });
+
+  it('does not cancel requests that have already finished', async () => {
+    const { rerender } = render(page('Savukoski'));
+    await finishSearch('Savukoski');
+    rerender(page('Hamina'));
+
+    expect(requests.some(r => r.cancelled)).toBe(false);
+  });
+
+  it('cancels pending requests on unmount', () => {
+    const { unmount } = render(page('Savukoski'));
+    unmount();
+
+    expect(requests.every(r => r.cancelled)).toBe(true);
   });
 
   it('does not continue query iterations after unmounting', async () => {

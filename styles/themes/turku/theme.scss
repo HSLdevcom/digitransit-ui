@@ -1,0 +1,16 @@
+@use '../waltti/theme';
+
+@layer theme {
+  :root {
+    --action-color: var(--theme-secondary-color);
+    --info-icon-color: #7f929c;
+    --theme-secondary-color: #a07415;
+    --standalone-btn-hover-color: #c9ccce;
+    --standalone-btn-active-color: #c9ccce;
+    --slider-warning-color: #ea4c58;
+    --slider-ok-color: #45cbcb;
+    --top-navigation-icon-color: #333;
+    --theme-primary-dark-color: #de9e18;
+    --color-accent-primary-900: #ba881f;
+  }
+}

@@ -225,7 +225,7 @@ function getLayerOptions(props, leaflet) {
   return options;
 }
 
-function TileLayerContainer(props) {
+export default function TileLayerContainer(props) {
   const { locationPopup, onSelectLocation, mapLayers, highlightedStops } =
     props;
   const { vehicles } = useRealTimeInformation();
@@ -417,7 +417,6 @@ function TileLayerContainer(props) {
     <Popup
       key={`${selection.id}:location`}
       {...popupOptions}
-      maxHeight={220}
       maxWidth="auto"
       position={coords}
       className={`popup ${
@@ -448,5 +447,3 @@ TileLayerContainer.propTypes = {
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
 };
-
-export default TileLayerContainer;

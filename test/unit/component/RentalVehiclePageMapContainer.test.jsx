@@ -1,5 +1,5 @@
 import { screen } from '@testing-library/react';
-import { Component as RentalVehiclePageMapContainer } from '../../../app/component/RentalVehiclePageMapContainer';
+import RentalVehiclePageMapContainer from '../../../app/component/RentalVehiclePageMapContainer';
 import * as StopPageMapModule from '../../../app/component/map/StopPageMap';
 import { renderWithProviders } from '../helpers/mock-providers';
 

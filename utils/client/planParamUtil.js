@@ -484,7 +484,6 @@ export function getPlanParams(
       egress = access;
       direct = config.taxiZone.direct ? ['WALK', 'TAXI'] : null;
       transitOnly = false;
-      via = null;
       break;
     default: // direct modes
       direct = [planType];

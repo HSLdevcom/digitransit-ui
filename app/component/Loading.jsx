@@ -17,6 +17,4 @@ export default function Loading({ children }) {
   );
 }
 
-Loading.displayName = 'Loading';
-
 Loading.propTypes = { children: PropTypes.node };

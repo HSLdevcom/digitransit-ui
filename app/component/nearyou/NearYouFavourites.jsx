@@ -29,15 +29,15 @@ function NearYouFavourites({
           $vehicleRentalStationIds: [String!]!
         ) {
           stops: stops(ids: $stopIds) {
-            ...NearYouFavouritesContainer_stops
+            ...NearYouFavouritesFragment_stops
           }
           stations: stations(ids: $stationIds) {
-            ...NearYouFavouritesContainer_stations
+            ...NearYouFavouritesFragment_stations
           }
           vehicleStations: vehicleRentalStations(
             ids: $vehicleRentalStationIds
           ) {
-            ...NearYouFavouritesContainer_vehicleStations
+            ...NearYouFavouritesFragment_vehicleStations
           }
         }
       `}
@@ -75,12 +75,12 @@ NearYouFavourites.propTypes = {
   currentTime: PropTypes.number.isRequired,
 };
 
-const NearYouFavouritesRelayConnector = props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <NearYouFavourites {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-);
-
-export default NearYouFavouritesRelayConnector;
+export default function NearYouFavouritesRelayConnector(props) {
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <NearYouFavourites {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  );
+}

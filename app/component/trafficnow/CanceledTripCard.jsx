@@ -15,7 +15,7 @@ import { patternShape, routeShape } from '../../../utils/client/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
 
-const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
+export default function CanceledTripCard({ mode, routes, isMobile = false }) {
   const { router } = useRouter();
   const intl = useIntl();
   const { trafficNowMaxRoutesPerCard } = useConfigContext();
@@ -29,6 +29,15 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
   const highlightedGtfsId = selectedFilters.entity?.gtfsId;
+  const cancellationCount = routes.reduce(
+    (sum, { cancellationCount: count }) => sum + count,
+    0,
+  );
+  const cancellations = intl.formatMessage(
+    { id: 'traffic-now_canceled-trips--simple' },
+    { amount: cancellationCount },
+  );
+  const buttonLabel = `${intl.formatMessage({ id: mode })}: ${cancellations}, ${intl.formatMessage({ id: 'disruption-view-details' })}`;
 
   return (
     <Card
@@ -49,7 +58,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
             </>
           )}
         </span>
-        <ArrowLinkButton />
+        <ArrowLinkButton aria-label={buttonLabel} />
       </header>
       <div className="badges">
         <RouteBadgeGroup
@@ -100,7 +109,7 @@ const CanceledTripCard = ({ mode, routes, isMobile = false }) => {
       )}
     </Card>
   );
-};
+}
 
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
@@ -118,5 +127,3 @@ CanceledTripCard.propTypes = {
     }),
   ).isRequired,
 };
-
-export default CanceledTripCard;

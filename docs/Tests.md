@@ -1,24 +1,17 @@
 # Testing
 
-## E2E-tests
+## Browser automation for AI agents (Playwright MCP)
 
-E2E-tests are run with hsl, tampere and matka configs on github actions. Desktop and mobile have individual tests.
+`.mcp.json` registers a pinned `@playwright/mcp` server (run via `npx`, not a project dependency) that lets AI agents such as Copilot CLI browse the app. It is for interactive exploration, not a test runner.
 
-- First build the UI: `yarn build`
+### Setup
 
-### Running tests
+1. Install Google Chrome: `npx -p @playwright/mcp@0.0.84 playwright install chrome` (needs sudo on Linux) or from google.com/chrome.
+2. Start `copilot` from the repository root and accept the folder trust prompt (project MCP servers load only in trusted folders). Check with `/mcp`.
+   If the server doesn't show up, register it for your user: `copilot mcp add playwright -- npx @playwright/mcp@0.0.84 --browser chrome --headless`.
+3. Start the app with `yarn run dev` and let the agent open http://localhost:8080.
 
-- Running tests for desktop: `CONFIG=hsl yarn test:e2e`
-- Running tests for mobile: `MOBILE=TRUE CONFIG=hsl yarn test:e2e`
-- Running single visual test, for example tests for FrontPage: `CONFIG=hsl yarn test:e2e -- FrontPage`
-
-### Updating snapshots
-
-- Updating desktop snapshots for single config: `CONFIG=hsl yarn test:update-snapshots`
-- Update desktop snapshots for all configs: `yarn test:update-all-desktop-snapshots`
-- Updating mobile snapshots for single config: `MOBILE=TRUE CONFIG=hsl yarn test:update-snapshots`
-- Update mobile snapshots for all configs: `yarn test:update-all-mobile-snapshots`
-- Update all snapshots for all config and for both desktop and mobile: `yarn test:update-all-snapshots`
+Other agents: use their own MCP configuration with the same command and arguments. Bump the pinned version in `.mcp.json` by hand.
 
 ## Unit tests
 
@@ -137,6 +130,69 @@ state behind. This runs all files in one worker in a reproducible random order:
 ```sh
 yarn test-unit:app --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
 ```
+
+### Accessibility tests
+
+Every test in the app and component package suites is checked with
+[axe-core](https://github.com/dequelabs/axe-core): after each test, an automatic
+scan runs the WCAG 2.x A/AA and axe best-practice rules on `document.body`
+and fails the test on any violation. The checks come from the private
+`@digitransit-ui/test-utils` package (`packages/private/test-utils`), whose
+setup file is registered for both suites in `vitest.config.js`.
+
+A component rendered on its own, such as a list row, has no parent list, so
+the scan ignores list items without their list (the `listitem` rule and the
+list item nodes of `aria-required-parent`). It also skips tests that have
+already failed and tests that ran `toHaveNoA11yViolations()`.
+
+The `toHaveNoA11yViolations()` matcher runs the full rule set on an element.
+Use it for components that render their own lists, and for states a test moves
+on from, such as an open menu, since the scan only sees the DOM at the end of
+the test. Pass `document.body` to include portals such as modals:
+
+```jsx
+it('has no accessibility violations', async () => {
+  renderWithProviders(<StopList stops={stops} />);
+  await expect(document.body).toHaveNoA11yViolations();
+});
+```
+
+The matcher must be awaited; a test that doesn't await it fails.
+
+Fix the markup where possible. For a known issue that cannot be fixed yet, pass
+an allow entry. The `rule` must be an axe rule id and the `reason` is required.
+`selector` limits the entry to nodes inside matching elements (also across
+shadow roots), and an entry that matches nothing fails the test so the list
+cannot go stale:
+
+```js
+await expect(document.body).toHaveNoA11yViolations({
+  allow: [{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }],
+});
+```
+
+For the automatic scan, `allowA11y()` takes the same entries, in a test or a
+`beforeEach`. `skipA11yScan(reason)` skips the scan for a test whose DOM
+can't be scanned:
+
+```js
+import { allowA11y, skipA11yScan } from '@digitransit-ui/test-utils';
+
+beforeEach(() => {
+  allowA11y([{ rule: 'button-name', selector: '.legacy', reason: 'See #1234' }]);
+});
+```
+
+jsdom has no layout or canvas, so the helper disables the rules that need them
+(`color-contrast`, `label-content-name-mismatch`, `target-size`), as well as
+`region`, because rendered components are not inside page landmarks. Contrast,
+target size, focus order and full-page structure still need manual checks or a
+browser-based test. Static JSX checks come from
+`eslint-plugin-jsx-a11y` in `yarn lint`.
+
+Components from `packages/digitransit-component` are resolved from their built
+`lib/` in app tests, so run `yarn packages-build` after changing them (as
+`yarn test-unit` does).
 
 ### Troubleshooting: HSL modal app element warning
 

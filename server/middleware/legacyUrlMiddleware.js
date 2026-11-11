@@ -2,6 +2,16 @@ import legacyParamParser from '../../utils/shared/legacyParamParser.js';
 import { LEGACY_LOCALES } from '../../utils/shared/constants.js';
 import { getConfiguration } from '../configs/config.js';
 
+const PATH_SEPARATORS = /[\\/]+/;
+
+/**
+ * Collapses repeated `/` and `\` (browsers treat `\` as `/`) so the result
+ * can't be a protocol-relative URL.
+ */
+function normalizePath(path) {
+  return `/${path.split(PATH_SEPARATORS).filter(Boolean).join('/')}`;
+}
+
 function formatQuery(query) {
   const params = Object.keys(query)
     .map(k => `${k}=${query[k]}`)
@@ -10,39 +20,19 @@ function formatQuery(query) {
   return params ? `?${params}` : '';
 }
 
-function formatUrl(req) {
-  return `${req.path}${formatQuery(req.query)}`;
-}
-
-function removeUrlParam(req, param) {
-  if (req.query[param]) {
-    delete req.query[param];
-  }
-
-  return formatUrl(req);
-}
-
 export function validateParams(req, config) {
-  let url;
+  const { time: timeParam, ...query } = req.query;
+  const timeNow = Date.now() / 1000; // Convert to seconds
+  const isStale =
+    config.queryMaxAgeDays &&
+    timeParam &&
+    timeNow - timeParam > config.queryMaxAgeDays * 24 * 3600;
+  const isInvalid =
+    timeParam !== undefined && !Number.isFinite(Number(timeParam));
 
-  if (config.queryMaxAgeDays && req.query.time) {
-    const now = Date.now() / 1000; // Convert to seconds
-    if (now - req.query.time > config.queryMaxAgeDays * 24 * 3600) {
-      url = removeUrlParam(req, 'time');
-    }
-  }
-
-  const numericParams = ['time'];
-  Object.keys(req.query).forEach(key => {
-    if (
-      numericParams.indexOf(key) > -1 &&
-      !Number.isFinite(Number(req.query[key]))
-    ) {
-      url = removeUrlParam(req, key);
-    }
-  });
-
-  return url;
+  return isStale || isInvalid
+    ? `${normalizePath(req.path)}${formatQuery(query)}`
+    : undefined;
 }
 
 const fixLocaleParam = (req, lang) => {
@@ -52,8 +42,11 @@ const fixLocaleParam = (req, lang) => {
 };
 
 export const dropPathLanguageAndFixLocaleParam = (req, lang) => {
-  const newPath = req.path.replace(`/${lang}`, '/').replace('//', '/');
-  return newPath + fixLocaleParam(req, lang);
+  const segments = req.path.split(PATH_SEPARATORS).filter(Boolean);
+  if (segments[0] === lang) {
+    segments.shift();
+  }
+  return normalizePath(segments.join('/')) + fixLocaleParam(req, lang);
 };
 
 const dropPathLanguageAndRedirect = (req, res, lang) => {
@@ -62,7 +55,7 @@ const dropPathLanguageAndRedirect = (req, res, lang) => {
 };
 
 const fixLocaleParamAndRedirect = (req, res, lang) => {
-  const fixedUrl = req.path + fixLocaleParam(req, lang);
+  const fixedUrl = normalizePath(req.path) + fixLocaleParam(req, lang);
   res.redirect(fixedUrl);
 };
 

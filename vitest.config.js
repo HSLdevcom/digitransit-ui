@@ -93,14 +93,13 @@ export default {
               plugins: ['relay'],
             },
           }),
-          // App code only ever side-effect-imports stylesheets (no CSS
-          // Modules), so stub them to an empty module instead of letting
-          // Vite try to compile Sass.
+          // Stub global stylesheets instead of letting Vite compile Sass.
+          // Vitest stubs `.module.scss` itself, with real class names.
           {
             name: 'digitransit-ui:style-import-stub',
             enforce: 'pre',
             transform(_code, id) {
-              if (!/\.s?css$/.test(id)) {
+              if (!/\.s?css$/.test(id) || /\.module\.s?css$/.test(id)) {
                 return undefined;
               }
               return { code: 'export default {};' };
@@ -125,7 +124,10 @@ export default {
           // Restores vi.spyOn() stubs, including those on this repo's own ESM
           // exports, before each test.
           restoreMocks: true,
-          setupFiles: ['./test/unit/helpers/vitest.setup.js'],
+          setupFiles: [
+            './test/unit/helpers/vitest.setup.js',
+            '@digitransit-ui/test-utils/setup',
+          ],
           // @hsl-fi/*, @radix-ui/* (under @hsl-fi/dialog|form|notifications|
           // overlays|site-header), and @floating-ui/* (under
           // @radix-ui/react-popper) are normally externalized (resolved via
@@ -142,7 +144,10 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['test/unit/**/*.test.{js,jsx}'],
+          include: [
+            'test/unit/**/*.test.{js,jsx}',
+            'packages/private/test-utils/**/*.test.{js,jsx}',
+          ],
           exclude: serverTestFiles,
         },
       },
@@ -221,6 +226,8 @@ export default {
           name: 'digitransit-component',
           root: import.meta.dirname,
           environment: 'jsdom',
+          // Registers toHaveNoA11yViolations() and the a11y scan after each test.
+          setupFiles: ['@digitransit-ui/test-utils/setup'],
           // Matches this repo's other stylesheet stubbing; also Vitest's
           // own default, kept explicit for clarity.
           css: false,

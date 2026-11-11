@@ -192,7 +192,7 @@ const iconMap = {
  *    className="foo" // Extra class name on the svg, optional
  * />
  */
-const Icon = ({ className, color, img, height, width, rotate }) => {
+export default function Icon({ className, color, img, height, width, rotate }) {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,
@@ -202,7 +202,7 @@ const Icon = ({ className, color, img, height, width, rotate }) => {
   const Component = iconMap[img] || BusStopDigitransit;
 
   return <Component className={className} style={style} />;
-};
+}
 
 Icon.propTypes = {
   img: PropTypes.string.isRequired,
@@ -212,5 +212,3 @@ Icon.propTypes = {
   height: PropTypes.number,
   rotate: PropTypes.number,
 };
-
-export default Icon;

@@ -1,5 +1,5 @@
 import { renderWithProviders } from './helpers/mock-providers';
-import AppBarHsl from '../../app/component/AppBarHsl';
+import AppBarHsl, { Component } from '../../app/component/AppBarHsl';
 
 describe('<AppBarHsl />', () => {
   beforeEach(() => {
@@ -7,6 +7,10 @@ describe('<AppBarHsl />', () => {
     // resolves, so the test stays off the network and no response arrives
     // after it has ended.
     vi.spyOn(window, 'fetch').mockReturnValue(new Promise(() => {}));
+  });
+
+  it('preserves the Component export alias', () => {
+    expect(Component).toBe(AppBarHsl);
   });
 
   it('should render without errors', () => {

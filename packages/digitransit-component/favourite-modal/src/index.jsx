@@ -34,7 +34,7 @@ const noop = () => {};
  *   }
  * />
  */
-function FavouriteModal({
+export default function FavouriteModal({
   isModalOpen,
   handleClose,
   saveFavourite,
@@ -125,5 +125,3 @@ FavouriteModal.propTypes = {
    * @type {string} */
   lang: PropTypes.string,
 };
-
-export default FavouriteModal;
