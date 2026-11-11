@@ -86,7 +86,8 @@ export default {
   entry: {
     main: [
       './app/client/publicPath',
-      // Dev-only: first so that it declares the cascade layer order.
+      // Dev-only: first, so main.css starts with the theme that declares the
+      // cascade layer order (production links the theme CSS separately).
       ...(isDevelopment
         ? [
             themePath(
