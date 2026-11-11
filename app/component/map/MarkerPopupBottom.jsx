@@ -5,7 +5,7 @@ import { locationShape } from '../../../utils/client/shapes';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function MarkerPopupBottom({
+export default function MarkerPopupBottom({
   location,
   onSelectLocation,
   locationPopup = 'all', // show add via point by default
@@ -67,12 +67,8 @@ function MarkerPopupBottom({
   );
 }
 
-MarkerPopupBottom.displayName = 'MarkerPopupBottom';
-
 MarkerPopupBottom.propTypes = {
   location: locationShape.isRequired,
   onSelectLocation: PropTypes.func.isRequired,
   locationPopup: PropTypes.string,
 };
-
-export default MarkerPopupBottom;

@@ -62,7 +62,11 @@ const TAB_ANALYTICS_ACTIONS = {
   [PREFIX_DISRUPTION]: 'OpenDisruptionsTab',
 };
 
-function RouteControlPanel({ route, breakpoint, tripStartTime = undefined }) {
+export default function RouteControlPanel({
+  route,
+  breakpoint,
+  tripStartTime = undefined,
+}) {
   const config = useConfigContext();
   const realTimeClient = useRealTimeActions();
   const intl = useIntl();
@@ -260,6 +264,9 @@ function RouteControlPanel({ route, breakpoint, tripStartTime = undefined }) {
 
   const changeTab = tab => {
     setFocusedTab(tab);
+    if (tab === activeTab) {
+      return;
+    }
     const path = routePagePath(route.gtfsId, tab, patternId);
     router.replace(path);
     addAnalyticsEvent({
@@ -447,5 +454,3 @@ RouteControlPanel.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   tripStartTime: PropTypes.string,
 };
-
-export default RouteControlPanel;

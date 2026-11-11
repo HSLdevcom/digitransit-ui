@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { Text } from '@hsl-fi/layout-primitives';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
@@ -15,6 +16,7 @@ export default function DisruptionCard({
   isMobile = false,
   mode = undefined,
 }) {
+  const intl = useIntl();
   const {
     id,
     alertSeverityLevel,
@@ -53,7 +55,15 @@ export default function DisruptionCard({
             </>
           )}
         </span>
-        <ArrowLinkButton size="m" />
+        <ArrowLinkButton
+          size="m"
+          aria-label={[
+            alertHeaderText,
+            intl.formatMessage({ id: 'disruption-view-details' }),
+          ]
+            .filter(Boolean)
+            .join(', ')}
+        />
       </header>
       {entities && <RouteBadges entities={entities} mode={mode} compact />}
       <Text variant="cta-small" color="default" as="h2">

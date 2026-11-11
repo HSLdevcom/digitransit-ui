@@ -66,7 +66,7 @@ function getRelativeLuminance(hex) {
   return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
 }
 
-// $black from SCSS theme — used as fallback for inaccessible colors
+// $dark-gray from SCSS theme — used as fallback for inaccessible colors
 const ACCESSIBLE_COLOR_FALLBACK = '#333';
 
 /**

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
@@ -12,14 +12,39 @@ import {
 import { PREFIX_RENTALVEHICLES } from '../../utils/shared/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
-import { rentalVehicleShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-function RentalVehicleContent({ rentalVehicle, error = undefined }) {
+const RentalVehicleContentFragment = graphql`
+  fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
+    lat
+    lon
+    name
+    vehicleId
+    rentalUris {
+      android
+      ios
+      web
+    }
+    rentalNetwork {
+      networkId
+      url
+    }
+  }
+`;
+
+export default function RentalVehicleContent({
+  rentalVehicle: rentalVehicleRef,
+  error = undefined,
+}) {
   const breakpoint = useBreakpoint();
   const [isClient, setClient] = useState(false);
   const config = useConfigContext();
   const { match, router } = useRouter();
+  const rentalVehicle = useFragment(
+    RentalVehicleContentFragment,
+    rentalVehicleRef,
+  );
 
   useEffect(() => {
     setClient(true);
@@ -108,30 +133,8 @@ function RentalVehicleContent({ rentalVehicle, error = undefined }) {
 }
 
 RentalVehicleContent.propTypes = {
-  rentalVehicle: rentalVehicleShape,
+  rentalVehicle: fragmentRefShape,
   error: PropTypes.shape({
     message: PropTypes.string,
   }),
 };
-
-const containerComponent = createFragmentContainer(RentalVehicleContent, {
-  rentalVehicle: graphql`
-    fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
-      lat
-      lon
-      name
-      vehicleId
-      rentalUris {
-        android
-        ios
-        web
-      }
-      rentalNetwork {
-        networkId
-        url
-      }
-    }
-  `,
-});
-
-export default containerComponent;

@@ -6,7 +6,7 @@ import {
 import { rentalVehicleShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-const RentalVehicle = ({ rentalVehicle }) => {
+export default function RentalVehicle({ rentalVehicle }) {
   const config = useConfigContext();
   const vehicleIcon = getRentalNetworkIcon(
     getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config),
@@ -16,9 +16,8 @@ const RentalVehicle = ({ rentalVehicle }) => {
       <Icon img={vehicleIcon} />
     </div>
   );
-};
+}
 
 RentalVehicle.propTypes = {
   rentalVehicle: rentalVehicleShape.isRequired,
 };
-export default RentalVehicle;

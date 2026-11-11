@@ -34,7 +34,7 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
  *   disableTyping={false} // can be omitted if not true
  *   datePicker={true} // can be omitted if not true
  */
-function DesktopDatetimepicker({
+export default function DesktopDatetimepicker({
   value,
   onChange,
   getDisplay,
@@ -291,5 +291,3 @@ DesktopDatetimepicker.propTypes = {
   datePicker: PropTypes.bool,
   translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
 };
-
-export default DesktopDatetimepicker;

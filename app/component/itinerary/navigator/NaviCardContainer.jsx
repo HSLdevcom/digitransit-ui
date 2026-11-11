@@ -42,7 +42,7 @@ const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
   return legType;
 };
 
-function NaviCardContainer({
+export default function NaviCardContainer({
   focusToLeg,
   focusToPoint,
   time,
@@ -289,5 +289,3 @@ NaviCardContainer.propTypes = {
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
 };
-
-export default NaviCardContainer;

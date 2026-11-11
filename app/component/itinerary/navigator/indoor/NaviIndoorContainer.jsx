@@ -9,7 +9,7 @@ import { getStepFocusAction } from '../../../../../utils/client/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];
 
-function NaviIndoorContainer({
+export default function NaviIndoorContainer({
   focusToPoint,
   indoorSteps = EMPTY_INDOOR_STEPS,
 }) {
@@ -70,5 +70,3 @@ NaviIndoorContainer.propTypes = {
     }),
   ),
 };
-
-export default NaviIndoorContainer;

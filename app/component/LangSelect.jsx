@@ -30,7 +30,7 @@ const Language = ({ lang }) => {
 
 Language.propTypes = { lang: PropTypes.string.isRequired };
 
-const LanguageSelect = () => {
+export default function LanguageSelect() {
   const { availableLanguages } = useConfigContext();
   return (
     <div key="lang-select" id="lang-select">
@@ -39,6 +39,4 @@ const LanguageSelect = () => {
       ))}
     </div>
   );
-};
-
-export default LanguageSelect;
+}

@@ -1,6 +1,9 @@
 // Styles for the RoutePatternSelect dropdown component and the mobile bottom
 // sheet variant (.pattern-select-sheet / .pattern-select-sheet-backdrop).
 
+@use 'sass:list';
+@use '../../../styles/abstracts' as *;
+
 .route-pattern-select {
   margin: 0 0 1px;
 
@@ -35,7 +38,7 @@
     width: 100%;
     min-height: 44px;
     background: $white;
-    color: $black;
+    color: $dark-gray;
     border: 1px solid $control-border-color;
     border-radius: var(--space-xs);
     position: relative;
@@ -87,7 +90,7 @@
         var(--mode-color-raw, #{$theme-primary-color}) 10%,
         white
       );
-      color: $black;
+      color: $dark-gray;
     }
   }
 
@@ -134,7 +137,7 @@
       var(--mode-color-raw, #{$theme-primary-color}) 10%,
       white
     );
-    color: $black;
+    color: $dark-gray;
     flex-shrink: 0;
     letter-spacing: $letter-spacing;
     overflow: hidden;
@@ -148,25 +151,11 @@
     font-size: $font-size-xsmall;
   }
 
-  // Hidden <input> used only to open the native keyboard — font-size must be
-  // ≥ 16px to prevent automatic zoom on iOS.
-  .select-route-pattern-input {
-    height: 0;
-    margin: 0;
-    padding: 0;
-    font-size: 16px;
-
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-
   // ─── Route pattern suggestions dropdown ────────────────────────────────────────────────
 
   .suggestions-container {
     background: $white;
-    z-index: index($zindex, 'autosuggest-suggestion-container');
+    z-index: list.index($zindex, 'autosuggest-suggestion-container');
     position: absolute;
 
     // top: container min-height (44px) + borders (2px) + visual gap (6px)
@@ -356,7 +345,7 @@
   }
 
   .similar-route-name {
-    color: $black;
+    color: $dark-gray;
     font-weight: $font-weight-medium;
     font-size: 15px;
 
@@ -389,7 +378,7 @@
     align-self: stretch;
     position: relative;
     background: $white;
-    color: $black;
+    color: $dark-gray;
 
     .icon-container {
       width: 24px;
@@ -433,7 +422,7 @@
       text-overflow: ellipsis;
       white-space: nowrap;
       letter-spacing: $letter-spacing;
-      font-weight: $font-weight-semibold;
+      font-weight: $font-weight-medium;
     }
 
     .route-pattern-connector {
@@ -521,7 +510,7 @@
   position: fixed;
   inset: 0;
   background: rgba(0, 0, 0, 0.5);
-  z-index: index($zindex, 'click-prevent-overlay');
+  z-index: list.index($zindex, 'click-prevent-overlay');
 }
 
 .pattern-select-sheet {
@@ -532,7 +521,7 @@
   background: $white;
   border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.15);
-  z-index: index($zindex, 'front');
+  z-index: list.index($zindex, 'front');
   max-height: 75vh;
   overflow-y: auto;
   animation: slideUpFromBottom 0.25s ease-out;

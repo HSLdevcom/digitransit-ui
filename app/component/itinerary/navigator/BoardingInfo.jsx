@@ -5,7 +5,7 @@ import RouteNumberContainer from '../../RouteNumberContainer';
 import { routeShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 
-const BoardingInfo = ({
+export default function BoardingInfo({
   route,
   mode,
   headsign = '',
@@ -13,7 +13,7 @@ const BoardingInfo = ({
   withExpandIcon = false,
   compact = false,
   appendClass,
-}) => {
+}) {
   return (
     <div
       className={cx({
@@ -54,7 +54,7 @@ const BoardingInfo = ({
       )}
     </div>
   );
-};
+}
 
 BoardingInfo.propTypes = {
   route: routeShape.isRequired,
@@ -66,5 +66,3 @@ BoardingInfo.propTypes = {
   compact: PropTypes.bool,
   appendClass: PropTypes.string,
 };
-
-export default BoardingInfo;

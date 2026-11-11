@@ -4,14 +4,14 @@ import uniqueId from 'lodash/uniqueId';
 import { useIntl } from 'react-intl';
 import { Checkbox as DsCheckbox } from '@hsl-fi/form';
 
-const Checkbox = ({
+export default function Checkbox({
   large,
   checked = false,
   disabled,
   onChange,
   labelId,
   defaultMessage,
-}) => {
+}) {
   const intl = useIntl();
   const id = useMemo(() => uniqueId('checkbox-'), []);
   const label = labelId
@@ -29,7 +29,7 @@ const Checkbox = ({
       title={label}
     />
   );
-};
+}
 
 Checkbox.propTypes = {
   checked: PropTypes.bool,
@@ -39,5 +39,3 @@ Checkbox.propTypes = {
   labelId: PropTypes.string,
   large: PropTypes.bool,
 };
-
-export default Checkbox;

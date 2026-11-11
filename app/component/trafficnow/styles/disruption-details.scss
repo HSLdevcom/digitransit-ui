@@ -2,6 +2,9 @@
 // TrafficNow Disruption Details
 // ============================================================================
 
+@use '../../../../styles/abstracts' as *;
+@use 'tokens';
+
 .traffic-now {
   &__body {
     .disruption-details {
@@ -76,14 +79,6 @@
       &__link {
         margin-top: var(--space-s);
         color: $link-color;
-      }
-
-      &__empty {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: var(--space-xxl);
-        color: $placeholder-color;
       }
     }
   }

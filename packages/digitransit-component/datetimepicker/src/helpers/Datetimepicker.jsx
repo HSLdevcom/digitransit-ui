@@ -46,7 +46,7 @@ Settings.defaultLocale = 'en';
  *   serviceTimeRange={15}
  * />
  */
-function Datetimepicker({
+export default function Datetimepicker({
   timestamp = null,
   onTimeChange,
   onDateChange,
@@ -291,7 +291,7 @@ function Datetimepicker({
                 {t('departure', translationSettings)}
                 <input
                   id={`${htmlId}-departure`}
-                  name="departureOrArrival"
+                  name={`${htmlId}-departureOrArrival`}
                   type="radio"
                   value="departure"
                   className={styles['radio-textbutton']}
@@ -313,7 +313,7 @@ function Datetimepicker({
                 {t('arrival', translationSettings)}
                 <input
                   id={`${htmlId}-arrival`}
-                  name="departureOrArrival"
+                  name={`${htmlId}-departureOrArrival`}
                   type="radio"
                   value="arrival"
                   className={styles['radio-textbutton']}
@@ -513,5 +513,3 @@ Datetimepicker.propTypes = {
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
 };
-
-export default Datetimepicker;

@@ -44,7 +44,14 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
+export default function ViaLeg({
+  leg,
+  arrival,
+  index,
+  children,
+  focusAction,
+  focusToLeg,
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(
@@ -160,5 +167,3 @@ ViaLeg.propTypes = {
   focusToLeg: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
-
-export default ViaLeg;

@@ -81,7 +81,7 @@ AndroidSelect.propTypes = {
 /**
  * Component to display a date input on mobile
  */
-function MobileDatepicker({
+export default function MobileDatepicker({
   value,
   getDisplay,
   onChange,
@@ -148,5 +148,3 @@ MobileDatepicker.propTypes = {
   icon: PropTypes.node,
   timeZone: PropTypes.string,
 };
-
-export default MobileDatepicker;

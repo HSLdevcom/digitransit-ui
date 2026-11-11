@@ -10,9 +10,6 @@ import {
 } from '../../../../utils/shared/constants';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
-// validateParams returns an url if it is modified and it removes invalid
-// parameteres from req.query => two ways to check if it did what it should
-
 describe('legacyUrlMiddleware', () => {
   describe('validateParams', () => {
     const req = {
@@ -35,10 +32,15 @@ describe('legacyUrlMiddleware', () => {
     it('should remove invalid time parameter', () => {
       req.query.time = 'test';
       const url = validateParams(req, config);
-      expect(req.query.time).toBeUndefined();
       expect(url).toBe(
         `/${PREFIX_ITINERARY_SUMMARY}?minTransferTime=60&modes=BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE&transferPenalty=0&walkBoardCost=540&walkReluctance=1.5&walkSpeed=1.5`,
       );
+    });
+
+    it('should remove a too old time parameter', () => {
+      const oldReq = { path: '/x', query: { time: '1', a: 'b' } };
+      const url = validateParams(oldReq, { queryMaxAgeDays: 14 });
+      expect(url).toBe('/x?a=b');
     });
 
     it('should not leave a trailing "?" when removing the only query parameter', () => {
@@ -91,6 +93,34 @@ describe('legacyUrlMiddleware', () => {
       req.query = {};
       const relativeUrl = dropPathLanguageAndFixLocaleParam(req, 'slangi');
       expect(relativeUrl).toBe('/?locale=fi');
+    });
+  });
+
+  describe('protocol-relative paths', () => {
+    it('never produces a redirect starting with "//"', () => {
+      const bad = { path: '//example.com/x', query: { time: 'abc' } };
+      expect(validateParams(bad, config)).toBe('/example.com/x');
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/en//example.com', query: {} },
+          'en',
+        ),
+      ).toBe('/example.com?locale=en');
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/en/\\example.com', query: {} },
+          'en',
+        ),
+      ).toBe('/example.com?locale=en');
+    });
+
+    it('only drops the language when it is a whole path segment', () => {
+      expect(
+        dropPathLanguageAndFixLocaleParam(
+          { path: '/english/x', query: {} },
+          'en',
+        ),
+      ).toBe('/english/x?locale=en');
     });
   });
 

@@ -1,6 +1,12 @@
-import { generateMetaData } from '../../../../utils/client/metaUtils';
+import defaultGenerateMetaData, {
+  generateMetaData,
+} from '../../../../utils/client/metaUtils';
 
 describe('metaUtils', () => {
+  it('exports the same metadata function through default and named imports', () => {
+    expect(defaultGenerateMetaData).toBe(generateMetaData);
+  });
+
   describe('generateMetadata', () => {
     it('should return a title and an array of meta tags when config and location are missing', () => {
       const title = 'Foo';
