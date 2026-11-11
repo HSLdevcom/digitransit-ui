@@ -1,89 +1,55 @@
 import axe from 'axe-core';
 import { act } from '@testing-library/react';
+import { applyAllow, validateAllow } from './allow';
+import { AXE_OPTIONS } from './rules';
 
-// Rules jsdom cannot evaluate (no layout/CSS/canvas) or that only apply to
-// whole pages, while tests render isolated components.
-const DISABLED_RULES = [
-  'color-contrast',
-  'label-content-name-mismatch',
-  'region',
-  'landmark-one-main',
-  'page-has-heading-one',
-  'document-title',
-  'html-has-lang',
-];
-
-const AXE_OPTIONS = {
-  runOnly: {
-    type: 'tag',
-    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'],
-  },
-  rules: Object.fromEntries(DISABLED_RULES.map(id => [id, { enabled: false }])),
+// axe.run throws if another run is in progress, so runs are queued.
+let queue = Promise.resolve();
+const runAxe = (root, options) => {
+  const run = queue.then(async () => {
+    let results;
+    // Inside act so state updates scheduled meanwhile (e.g. react-modal's
+    // animation frames) don't warn.
+    await act(async () => {
+      results = await axe.run(root, options);
+    });
+    return results;
+  });
+  queue = run.catch(() => {});
+  return run;
 };
 
-const describeNode = node => `${node.target.join(' ')}: ${node.html}`;
+const describeFailure = ({ violation, node }) =>
+  `${violation.impact} ${violation.id}: ${violation.help} (${
+    violation.helpUrl
+  })\n    ${node.target.join(' ')}: ${node.html}`;
+
+const describeUnused = ({ rule, selector }) =>
+  `Unused a11y allow entry: ${rule}${selector ? ` (${selector})` : ''}`;
 
 /**
- * Asserts that the rendered DOM has no axe-core violations.
+ * Runs axe-core on `root` and lists the problems: violations no allow entry
+ * covers, and allow entries that covered nothing.
  *
- * Known issues are listed in `allow` as `{ rule, selector?, reason }`.
- * Every entry needs a `reason`, and an entry that matches nothing fails the
- * test so the list cannot go stale. `selector` limits the entry to nodes
- * inside an element matching that CSS selector.
- *
- * @param {Element} [root] scanned subtree, defaults to the whole body so that
- * portals are included.
- * @param {{ allow?: Array<{ rule: string, selector?: string, reason: string }> }} [options]
+ * @param {Element} root
+ * @param {Array<{ rule: string, selector?: string, reason: string }>} allow
+ * @param {{ options?: import('axe-core').RunOptions, ignore?: (violation: import('axe-core').Result, node: import('axe-core').NodeResult) => boolean }} [settings]
+ *   axe options, and violation nodes to drop before `allow` applies.
+ * @returns {Promise<string[]>}
  */
-export async function expectNoA11yViolations(
-  root = document.body,
-  { allow = [] } = {},
+export async function checkA11y(
+  root,
+  allow,
+  { options = AXE_OPTIONS, ignore = () => false } = {},
 ) {
-  allow.forEach(({ rule, reason }) => {
-    if (!rule || !reason) {
-      throw new Error('Each a11y allow entry needs a rule and a reason');
-    }
-  });
-
-  // axe is async; run it inside act so state updates scheduled meanwhile
-  // (e.g. react-modal's animation frames) don't warn.
-  let violations;
-  await act(async () => {
-    ({ violations } = await axe.run(root, AXE_OPTIONS));
-  });
-
-  const used = new Set();
-  const isAllowed = (violation, node) =>
-    allow.some((entry, i) => {
-      const matches =
-        entry.rule === violation.id &&
-        (!entry.selector ||
-          !!document.querySelector(node.target[0])?.closest(entry.selector));
-      if (matches) {
-        used.add(i);
-      }
-      return matches;
-    });
-
-  const failures = violations.flatMap(violation =>
-    violation.nodes
-      .filter(node => !isAllowed(violation, node))
-      .map(
-        node =>
-          `${violation.impact} ${violation.id}: ${violation.help} (${
-            violation.helpUrl
-          })\n    ${describeNode(node)}`,
-      ),
-  );
-  const stale = allow
-    .filter((_, i) => !used.has(i))
-    .map(({ rule, selector }) => `${rule}${selector ? ` (${selector})` : ''}`);
-
-  const problems = [
-    ...failures,
-    ...stale.map(s => `Unused a11y allow entry: ${s}`),
-  ];
-  if (problems.length > 0) {
-    throw new Error(`Accessibility check failed:\n  ${problems.join('\n  ')}`);
-  }
+  validateAllow(allow);
+  const { violations } = await runAxe(root, options);
+  const relevant = violations
+    .map(violation => ({
+      ...violation,
+      nodes: violation.nodes.filter(node => !ignore(violation, node)),
+    }))
+    .filter(({ nodes }) => nodes.length);
+  const { failures, unused } = applyAllow(relevant, allow);
+  return [...failures.map(describeFailure), ...unused.map(describeUnused)];
 }

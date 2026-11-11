@@ -21,7 +21,7 @@ export default function SelectParkAndRideRow({
         <Icon img={img} />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name}</h5>
+        <h4 className="choose-row-header">{name}</h4>
       </span>
       <span className="choose-row-right-column">
         <Icon img="icon_arrow-collapse--right" />

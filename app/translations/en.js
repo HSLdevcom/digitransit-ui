@@ -381,6 +381,7 @@ export default {
       'To save and utilize places, routes and stops, you must log in using your HSL account.',
     'login-header': 'Log in First',
     logout: 'Log out',
+    'main-menu': 'Main menu',
     'main-menu-label-close': 'Close the main menu',
     'main-menu-label-open': 'Open the main menu',
     'map-layer-citybike': 'Citybike stations',

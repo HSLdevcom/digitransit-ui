@@ -1,7 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
 import Modal from 'react-modal';
 
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import MenuDrawer from '../../../app/component/MenuDrawer';
 
@@ -11,12 +10,18 @@ describe('<MenuDrawer />', () => {
   it('should request closing from the close button', () => {
     const onRequestChange = vi.fn();
     renderWithProviders(
-      <MenuDrawer open onRequestChange={onRequestChange} breakpoint="large">
+      <MenuDrawer
+        open
+        label="Main menu"
+        onRequestChange={onRequestChange}
+        breakpoint="large"
+      >
         <div>content</div>
       </MenuDrawer>,
       { config: { CONFIG: 'default', language: 'en' } },
     );
 
+    expect(screen.getByRole('dialog', { name: 'Main menu' })).toBeTruthy();
     expect(screen.getByText('content')).toBeTruthy();
     fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     expect(onRequestChange).toHaveBeenCalledTimes(1);
@@ -26,6 +31,7 @@ describe('<MenuDrawer />', () => {
     renderWithProviders(
       <MenuDrawer
         open
+        label="Main menu"
         onRequestChange={() => {}}
         breakpoint="large"
         closeLabel="Close the main menu"
@@ -38,16 +44,5 @@ describe('<MenuDrawer />', () => {
     expect(
       screen.getByRole('button', { name: 'Close the main menu' }),
     ).toBeTruthy();
-  });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(
-      <MenuDrawer open onRequestChange={() => {}} breakpoint="large">
-        <div>content</div>
-      </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
-    );
-
-    await expectNoA11yViolations();
   });
 });

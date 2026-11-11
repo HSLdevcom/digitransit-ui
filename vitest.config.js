@@ -119,7 +119,10 @@ export default {
           // because a handful of tests use vi.spyOn to stub this repo's own
           // ESM exports, which sinon can't do.
           restoreMocks: true,
-          setupFiles: ['./test/unit/helpers/vitest.setup.js'],
+          setupFiles: [
+            './test/unit/helpers/vitest.setup.js',
+            '@digitransit-ui/test-utils/setup',
+          ],
           // @hsl-fi/*, @radix-ui/* (under @hsl-fi/dialog|form|notifications|
           // overlays|site-header), and @floating-ui/* (under
           // @radix-ui/react-popper) are normally externalized (resolved via
@@ -218,6 +221,8 @@ export default {
           name: 'digitransit-component',
           root: import.meta.dirname,
           environment: 'jsdom',
+          // Registers toHaveNoA11yViolations() and the a11y scan after each test.
+          setupFiles: ['@digitransit-ui/test-utils/setup'],
           // Matches this repo's other stylesheet stubbing; also Vitest's
           // own default, kept explicit for clarity.
           css: false,
