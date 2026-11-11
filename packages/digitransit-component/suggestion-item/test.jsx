@@ -72,6 +72,26 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
     expect(screen.getByText('Coming Friday')).toBeTruthy();
   });
 
+  it('uses the city icon for a "populated area" category regardless of layer', () => {
+    const item = {
+      type: 'Place',
+      properties: {
+        layer: 'venue',
+        category: ['transport', 'populated area'],
+        label: 'Mäyränmäki, Kuopio',
+      },
+    };
+    const { container } = render(
+      <SuggestionItem
+        item={item}
+        content={['Paikka', 'Mäyränmäki', 'Kuopio']}
+      />,
+    );
+    expect(container.querySelector('use').getAttribute('href')).toContain(
+      'icon-icon_city',
+    );
+  });
+
   describe('stop status badge', () => {
     const makeStopItem = gtfs => ({
       type: 'Stop',
