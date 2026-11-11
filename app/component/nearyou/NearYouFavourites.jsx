@@ -29,15 +29,15 @@ function NearYouFavourites({
           $vehicleRentalStationIds: [String!]!
         ) {
           stops: stops(ids: $stopIds) {
-            ...NearYouFavouritesContainer_stops
+            ...NearYouFavouritesFragment_stops
           }
           stations: stations(ids: $stationIds) {
-            ...NearYouFavouritesContainer_stations
+            ...NearYouFavouritesFragment_stations
           }
           vehicleStations: vehicleRentalStations(
             ids: $vehicleRentalStationIds
           ) {
-            ...NearYouFavouritesContainer_vehicleStations
+            ...NearYouFavouritesFragment_vehicleStations
           }
         }
       `}

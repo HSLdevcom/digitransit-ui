@@ -1,1 +1,1 @@
-export { expectNoA11yViolations } from './a11y';
+export { allowA11y, skipA11yScan } from './scan';

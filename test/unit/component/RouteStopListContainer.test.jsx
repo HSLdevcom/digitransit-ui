@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import RouteStopListContainer from '../../../app/component/routepage/RouteStopListContainer';
 
@@ -117,6 +116,6 @@ describe('<RouteStopListContainer />', () => {
       vehicles,
       breakpoint,
     });
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

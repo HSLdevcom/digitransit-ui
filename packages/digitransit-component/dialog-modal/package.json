@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-dialog-modal",
-  "version": "7.0.6",
+  "version": "7.0.7",
   "description": "digitransit-component dialog-modal module",
   "type": "module",
   "main": "index.cjs",
@@ -40,8 +40,7 @@
   "author": "Digitransit Authors",
   "license": "(AGPL-3.0 OR EUPL-1.2)",
   "devDependencies": {
-    "@digitransit-ui/rollup-config": "workspace:^",
-    "@digitransit-ui/test-utils": "workspace:^"
+    "@digitransit-ui/rollup-config": "workspace:^"
   },
   "peerDependencies": {
     "@hsl-fi/dialog": "^3.1.3",

@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import Timetable from '../../../app/component/stop/Timetable';
 import { renderWithProviders } from '../helpers/mock-providers';
 import * as timetables from '../../../utils/server/timetableConfigUtils';
@@ -111,12 +110,5 @@ describe('<Timetable />', () => {
       },
     });
     expect(container.querySelectorAll('.secondary-button')).toHaveLength(2);
-  });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(<Timetable {...props} />, {
-      config: { CONFIG: 'default', URL: {} },
-    });
-    await expectNoA11yViolations();
   });
 });

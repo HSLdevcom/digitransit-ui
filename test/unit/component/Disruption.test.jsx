@@ -1,3 +1,4 @@
+import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import Disruption from '../../../app/component/Disruption';
@@ -56,15 +57,42 @@ describe('<Disruption />', () => {
     expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
   });
 
-  it('should render toggle button when toggleDetails is provided', () => {
-    const container = renderDisruption({
+  it('should open the details from the row button', () => {
+    const toggleDetails = vi.fn();
+    renderDisruption({
       alertHeaderText: 'Alert',
       alertSeverityLevel: 'WARNING',
       id: 'alert-1',
-      toggleDetails: vi.fn(),
+      toggleDetails,
       entities: [routeEntity()],
     });
-    expect(container.querySelectorAll('.alert-row-arrow')).toHaveLength(1);
+    fireEvent.click(
+      screen.getByRole('button', { name: 'Alert, View details' }),
+    );
+    expect(toggleDetails).toHaveBeenCalledTimes(1);
+  });
+
+  it('should not render a button without toggleDetails', () => {
+    renderDisruption({
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      id: 'alert-1',
+      entities: [routeEntity()],
+    });
+    expect(screen.queryByRole('button')).toBeNull();
+  });
+
+  it('should keep entity links separate from the row button', () => {
+    const toggleDetails = vi.fn();
+    renderDisruption({
+      alertHeaderText: 'Alert',
+      alertSeverityLevel: 'WARNING',
+      id: 'alert-1',
+      toggleDetails,
+      entities: [routeEntity()],
+    });
+    fireEvent.click(screen.getByRole('link', { name: '97N' }));
+    expect(toggleDetails).not.toHaveBeenCalled();
   });
 
   it('should render link to the timetablepage for cancelations', () => {

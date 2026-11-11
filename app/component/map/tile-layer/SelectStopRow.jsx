@@ -90,7 +90,7 @@ export default function SelectStopRow({
         />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name}</h5>
+        <h4 className="choose-row-header">{name}</h4>
         <div
           className={`choose-row-info-row ${platform ? 'small-margin' : ''}`}
         >

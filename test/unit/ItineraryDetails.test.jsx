@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from './helpers/mock-providers';
 
 import ItineraryDetails from '../../app/component/itinerary/ItineraryDetails';
@@ -51,6 +50,6 @@ describe('<ItineraryDetails />', () => {
 
   it('has no accessibility violations', async () => {
     renderWithProviders(<ItineraryDetails {...props} />);
-    await expectNoA11yViolations();
+    await expect(document.body).toHaveNoA11yViolations();
   });
 });

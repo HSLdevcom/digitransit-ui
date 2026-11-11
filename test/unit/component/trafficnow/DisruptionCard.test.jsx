@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import { FilterContextProvider } from '../../../../app/component/trafficnow/filters/FiltersContext';
@@ -126,6 +126,17 @@ describe('<DisruptionCard />', () => {
       });
       fireEvent.click(container.querySelector('.disruption-card'));
       expect(onClickSpy.mock.calls[0][0]).toBe('alert-42');
+    });
+
+    it('opens the alert from its named arrow button', () => {
+      const onClickSpy = vi.fn();
+      renderCard({ alert: makeAlert({ id: 'alert-42' }), onClick: onClickSpy });
+      fireEvent.click(
+        screen.getByRole('button', {
+          name: 'Service disruption, View details',
+        }),
+      );
+      expect(onClickSpy).toHaveBeenCalledWith('alert-42');
     });
   });
 

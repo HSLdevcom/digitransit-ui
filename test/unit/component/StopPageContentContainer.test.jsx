@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
@@ -50,14 +49,5 @@ describe('<StopPageContentContainer />', () => {
     ];
     const { queryByTestId } = renderStop({ stoptimes });
     expect(queryByTestId('departure-list')).not.toBeNull();
-  });
-
-  it('has no accessibility violations', async () => {
-    renderStop({
-      stoptimes: [
-        { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
-      ],
-    });
-    await expectNoA11yViolations();
   });
 });

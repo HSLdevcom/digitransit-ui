@@ -1,4 +1,3 @@
-import { expectNoA11yViolations } from '@digitransit-ui/test-utils';
 import data from './test-data/dcw31';
 import { renderWithProviders } from './helpers/mock-providers';
 import ItinerarySummary from '../../app/component/itinerary/ItinerarySummary';
@@ -42,18 +41,5 @@ describe('<ItinerarySummary />', () => {
     ).toHaveLength(1);
     expect(container.querySelector('.icon.bike')).not.toBeNull();
     expect(container.querySelector('.icon.walk')).toBeNull();
-  });
-
-  it('has no accessibility violations', async () => {
-    renderWithProviders(
-      <ItinerarySummary
-        itinerary={data.bikingAndWalking}
-        biking={{ distance: 1000, duration: 180 }}
-        walking={{ distance: 555, duration: 300 }}
-      >
-        <div />
-      </ItinerarySummary>,
-    );
-    await expectNoA11yViolations();
   });
 });

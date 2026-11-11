@@ -62,6 +62,7 @@ describe('<Disruptions />', () => {
               {
                 __typename: AlertEntityType.Route,
                 gtfsId: 'feed:101',
+                shortName: '101',
               },
             ],
           },
@@ -253,6 +254,7 @@ describe('<Disruptions />', () => {
               {
                 __typename: AlertEntityType.Stop,
                 gtfsId: 'feed:bar',
+                name: 'Bar',
               },
             ],
           },

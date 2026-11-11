@@ -38,15 +38,15 @@ export default function MapWrapper({
             $vehicleRentalStationIds: [String!]!
           ) {
             stops: stops(ids: $stopIds) {
-              ...NearYouFavouritesMapContainer_stops
+              ...NearYouFavouritesMapFragment_stops
             }
             stations: stations(ids: $stationIds) {
-              ...NearYouFavouritesMapContainer_stations
+              ...NearYouFavouritesMapFragment_stations
             }
             vehicleStations: vehicleRentalStations(
               ids: $vehicleRentalStationIds
             ) {
-              ...NearYouFavouritesMapContainer_vehicleStations
+              ...NearYouFavouritesMapFragment_vehicleStations
             }
           }
         `}

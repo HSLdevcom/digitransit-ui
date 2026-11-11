@@ -664,6 +664,16 @@ function DTAutosuggest({
     }
   }, [state.renderMobile, isOpen]);
 
+  // Downshift keeps highlightedIndex when the suggestions change, and the
+  // menu is hidden on mobile, so the highlighted item may not be shown.
+  const activeItemHidden =
+    isMobile || highlightedIndex >= state.suggestions.length;
+  const getComboboxInputProps = props =>
+    getInputProps({
+      ...props,
+      ...(activeItemHidden && { 'aria-activedescendant': undefined }),
+    });
+
   return (
     <>
       {isMobile && (
@@ -729,7 +739,7 @@ function DTAutosuggest({
             .concat(ariaLabelText)}
           id={id}
           lng={lng}
-          getInputProps={getInputProps}
+          getInputProps={getComboboxInputProps}
           getLabelProps={getLabelProps}
           selectItem={selectItem}
           value={state.value}
