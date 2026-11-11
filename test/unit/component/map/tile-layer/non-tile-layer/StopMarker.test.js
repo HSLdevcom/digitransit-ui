@@ -134,6 +134,18 @@ describe('StopMarker', () => {
       expect(svg).to.not.contain('color=');
     });
 
+    it('should omit appendClass when it is undefined', () => {
+      const svg = buildStopIconSvg({
+        radius: 10,
+        inner: 5,
+        stroke: 2,
+        colorOverride: undefined,
+        platformCode: undefined,
+      });
+      expect(svg).to.contain('class="stop"');
+      expect(svg).to.not.contain('undefined');
+    });
+
     it('should render a color attribute when a color override is given', () => {
       const svg = buildStopIconSvg({
         radius: 10,

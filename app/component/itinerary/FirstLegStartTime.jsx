@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legTimeStr } from '../../../utils/client/legUtils';
 import {
@@ -11,12 +10,12 @@ import Icon from '../Icon';
 import BoardingInformation from './BoardingInformation';
 import { legShape } from '../../../utils/client/shapes';
 
-const FirstLegStartTime = ({
+export default function FirstLegStartTime({
   firstDeparture,
   hasCallAgencyLeg,
   breakpoint,
   stopNames,
-}) => {
+}) {
   const intl = useIntl();
   const small = breakpoint !== 'large';
 
@@ -68,7 +67,7 @@ const FirstLegStartTime = ({
       <FormattedMessage id="itinerary-summary-row.no-transit-legs" />
     </div>
   );
-};
+}
 
 FirstLegStartTime.propTypes = {
   firstDeparture: legShape,
@@ -76,5 +75,3 @@ FirstLegStartTime.propTypes = {
   breakpoint: PropTypes.string.isRequired,
   stopNames: PropTypes.arrayOf(PropTypes.string).isRequired,
 };
-
-export default FirstLegStartTime;

@@ -1,4 +1,7 @@
-import { isStoredItineraryRelevant } from '../../../../app/component/itinerary/ItineraryPageUtils';
+import {
+  isStoredItineraryRelevant,
+  removeDuplicateEdges,
+} from '../../../../app/component/itinerary/ItineraryPageUtils';
 
 describe('itineraryPageUtils', () => {
   describe('isStoredItineraryRelevant', () => {
@@ -137,6 +140,41 @@ describe('itineraryPageUtils', () => {
           mockMatch,
         ),
       ).toBe(false);
+    });
+  });
+
+  describe('removeDuplicateEdges', () => {
+    const edge = (start, end, tripId) => ({
+      node: {
+        start,
+        end,
+        legs: [
+          {
+            mode: 'BUS',
+            from: { lat: 1, lon: 2, stop: { gtfsId: 'a' } },
+            to: { lat: 3, lon: 4, stop: { gtfsId: 'b' } },
+            trip: { gtfsId: tripId },
+          },
+        ],
+      },
+    });
+
+    it('should remove edges identical to already shown ones', () => {
+      const shown = [edge('t1', 't2', 'trip1')];
+      const result = removeDuplicateEdges(
+        [edge('t1', 't2', 'trip1'), edge('t3', 't4', 'trip2')],
+        shown,
+      );
+      expect(result).to.have.lengthOf(1);
+      expect(result[0].node.start).to.equal('t3');
+    });
+
+    it('should keep the same trip on a different day', () => {
+      const result = removeDuplicateEdges(
+        [edge('t5', 't6', 'trip1')],
+        [edge('t1', 't2', 'trip1')],
+      );
+      expect(result).to.have.lengthOf(1);
     });
   });
 });

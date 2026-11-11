@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Modal from '@hsl-fi/modal';
 import { useRouter } from 'found';
@@ -10,7 +10,7 @@ import {
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MapRoutingButton({ stop }) {
   const intl = useIntl();

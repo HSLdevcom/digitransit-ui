@@ -26,10 +26,10 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`app/client/publicPath` + `app/client/client`), plus
-  `app/client/loadDevTheme` in development only (see below).
+- `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
+  `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
-  entry per regional theme's `sass/themes/<theme>/main.scss`, plus a
+  entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
@@ -40,35 +40,8 @@ and output settings.
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
   Windows tiles are turned off (`favicons.icons`), since nothing references
   them and the startup images alone were ~35 MB per config.
-- In development, `webpack.ContextReplacementPlugin` narrows the dynamic
-  `import` for `sass/themes` down to just the selected `CONFIG`'s
-  `main.scss`, so the dev server doesn't build every theme.
-- `app/client/loadDevTheme.js` holds a dynamic, fire-and-forget
-  `import(`../../sass/themes/${window.config.CONFIG}/main.scss`)` that used
-  to live inline in `app/client.js` as a `require(...)` behind an
-  `if (process.env.NODE_ENV === 'development')` runtime check written as an
-  imported/computed constant rather than the literal expression. That was
-  moved into its own file, only added to `entry.main` when `isDevelopment`,
-  because webpack resolves a dynamic import's "context module" (every
-  file the template string could possibly match) while building the module
-  graph — a step that runs before any dead-code elimination and can't see
-  across module boundaries. Guarding it with an *imported*
-  boolean constant didn't stop webpack from still resolving (and bundling)
-  every theme's SCSS into production; only literally excluding the file
-  from `entry` in production does, and only a literal `process.env.NODE_ENV`
-  comparison written inline (any operator/value — `=== 'development'`,
-  `!== 'production'`, etc.) gets folded/dropped by
-  `DefinePlugin`/dead-code-elimination in the first place — an
-  imported/computed value can't be statically folded. See PR #5929 for the
-  full story. The original `require(...)` became `import(...)` once `app/`
-  files were parsed as strict ESM (`"type": "module"`), which has no
-  `require` global. It reads `window.config.CONFIG` (the
-  server-injected, already-resolved config object `app/client.js` uses for
-  everything else) rather than `process.env.CONFIG`: the browser bundle
-  never sees real build-time env var *values* (only the `ProvidePlugin`
-  shim below, whose `process.env` is an empty object) unless a var is
-  explicitly wired through `DefinePlugin`/`EnvironmentPlugin`, which this
-  project doesn't do for `CONFIG`.
+- In development, the selected `CONFIG`'s `theme.scss` is added to `main`
+  instead, before `client`, so that it declares the cascade layer order.
 
 ## Output
 
@@ -85,7 +58,7 @@ and output settings.
   publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
   references baked into compiled CSS (background images, e.g. the
-  `.scss`-defined spinner/dotted-line assets) — those are static text,
+  `.scss`-defined dotted-line assets) — those are static text,
   resolved by the browser directly against the CSS file's own URL, with no
   JS involved. `MiniCssExtractPlugin.loader`'s own `publicPath: 'auto'`
   option (set on every `.scss`/`.css` rule below) is what fixes *that*
@@ -97,6 +70,12 @@ and output settings.
   (`dev.reittiopas.fi`).
 - `crossOriginLoading: 'anonymous'` — needed for real stack traces on
   cross-origin script chunks (used with source maps).
+- `clean` empties stale build output (old hashed chunks, favicon folders)
+  on every build. Its `keep` callback (`isPrebuiltStaticFile`) spares what
+  webpack doesn't emit: anything with a counterpart in `static/` (as
+  copied by `copyStatic.js`, including its `.gz`/`.br` siblings) and the
+  `assets/svg-sprite.*.svg` sheets `buildSprites.js` generates as entry
+  inputs.
 
 Webpack isn't the only writer of `_static/`: `scripts/build/copyStatic.js`
 (run by the `static` script, which both `prebuild` and `scripts/dev.sh`
@@ -160,17 +139,22 @@ below.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.cjs` are only for tooling like tests). Also sets
+  `.babelrc`/`babel.config.cjs` are only for tooling: the eslint parser).
+  Also sets
   `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
   otherwise treat every `app/` file as strict ESM and demand an explicit
   extension on every relative import, but the client bundle keeps the
   project's long-standing extensionless import style.
   `@babel/preset-env` has no explicit `targets` — it inherits the
   `browserslist` key in `package.json`, the single source of truth for
-  supported browsers shared with `postcss.config.cjs`/autoprefixer. Also:
+  supported browsers shared with the Lightning CSS minimizer. Also:
   `@babel/preset-react`, Relay's babel plugin, and
   `@babel/plugin-transform-runtime` (dedupes/shares Babel helper functions
-  across files instead of inlining a copy per file).
+  across files instead of inlining a copy per file; only `helpers` — every
+  target runs generators/async natively, so no regenerator). In production,
+  `transform-react-remove-prop-types` strips `propTypes` definitions and
+  their now-unused `prop-types` imports. Every `@babel/preset-env` block
+  (here and in the `node_modules` rules below) sets `bugfixes: true`.
 - **`@hsl-fi`/`@radix-ui`/`@floating-ui` under `node_modules`** — these
   ship untranspiled modern syntax (ES2018+/ESM), so they get the same
   `@babel/preset-env` pass normally reserved for `app/**` (all other
@@ -182,18 +166,25 @@ below.
   `@radix-ui`) that ship a native ESM entry point instead.
 - **`digitransit-component`/`digitransit-store` sources** — forced
   `type: 'javascript/auto'`. These packages' real ESM Rollup build
-  (`lib/index.js`, see `docs/WorkspacePackages.md`) still default-imports
+  (`lib/index.js`, see `docs/Packages.md`) still default-imports
   CJS peer deps (e.g. `@hsl-fi/modal`) that only mark themselves via
   Babel's userland `__esModule` flag, not a real `"module"`/`exports`
   field. Strict ESM's default-import semantics don't recognize that flag
   and bind the whole `module.exports` instead of `.default`, crashing at
   render ("Element type is invalid"); `javascript/auto`'s lenient interop
   unwraps it correctly, same as the rest of the app.
-- **`.scss`** — `sass-loader` → `postcss-loader` → `css-loader` →
-  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). Includes
-  Foundation Sites' Sass path via `loadPaths` (Dart Sass's modern name for
-  `includePaths`) and silences deprecation warnings for constructs still
-  in use (`@import`, global built-ins, color functions, `if()`).
+- **`.scss`** — `sass-loader` → `css-loader` →
+  `style-loader` (dev) / `MiniCssExtractPlugin.loader` (prod). `quietDeps` hides
+  the `@import` deprecation warnings from `@hsl-fi/sass`, which still uses `@import` internally.
+  `charset: false` stops Sass from prefixing non-ASCII output with a BOM,
+  which would land mid-bundle once CSS modules are concatenated and
+  invalidate the selector after it. `*.module.scss` files are CSS Modules with
+  a default export and class names as written, matching the packages.
+- There is no PostCSS step: vendor prefixing happens in the Lightning CSS
+  minimizer (see "Optimization"), from the same `browserslist` targets.
+  `postcss-flexbugs-fixes` was dropped with it: it only worked around
+  IE10/11 flexbox bugs, and rewrote authored values such as
+  `flex: 1 0 0` to `1 0 0%`.
 - **`.css`** — split into two rules only so `@hsl-fi` package CSS can be
   marked `sideEffects: true` (so it isn't tree-shaken away); everything
   else uses the default.
@@ -232,8 +223,7 @@ no real source map) in development.
 
 ## Plugins
 
-Development only gets `ContextReplacementPlugin` (see Entries above).
-Production gets:
+Production gets (development gets none of these):
 
 - **`faviconPlugins`** — see Entries above.
 - **`MiniCssExtractPlugin`** — extracts CSS to hashed files (prod only;
@@ -250,17 +240,14 @@ Production gets:
 - **`CompressionPlugin`** (×2) — pre-generates `.gz` and `.br` (Brotli)
   copies of JS/CSS/HTML/SVG/ICO assets so the server can serve
   precompressed files instead of compressing on the fly.
-- **`EntrypointStatsPlugin`** (defined at the top of this file) — small
-  local stand-in for the unmaintained `stats-webpack-plugin`. Writes
-  `../stats.json` with `entrypoints.<name>.assets` as a plain array of
-  filename strings (the old plugin's shape), because
-  `server/html/assetManifest.js` reads this file to know which hashed
-  asset filenames belong to the `main` entrypoint, and expects that shape
-  rather than webpack5's native `{ name, size }` asset objects.
-- **`WebpackAssetsManifest`** — writes `../manifest.json`, a
-  name→hashed-filename map, read the same way. Imported via its named
-  export (`{ WebpackAssetsManifest }`); v6 changed it from a default
-  export.
+- **`WebpackAssetsManifest`** — writes `../manifest.json`: a
+  name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
+  key listing each entry's files grouped by extension, in load order
+  (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
+  reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
+  which hashed JS/CSS files to preload/link and which runtime chunk to
+  inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
+  changed it from a default export.
 
 Both dev and prod also always get:
 
@@ -287,17 +274,24 @@ Both dev and prod also always get:
   actual client bundle, matching the existing `url` polyfill
   (`resolve.fallback` below). Note `process/browser`'s `process.env` is
   always an empty object — this plugin only prevents crashes, it doesn't
-  expose real build-time env var values to the browser (see "Entries &
-  per-deployment theming" above for how theme selection avoids needing
-  that).
+  expose real build-time env var values to the browser.
 
 ## Optimization
 
-- **`TerserJsPlugin`** (`{ parallel: true }`) / **`CssMinimizerPlugin`** —
-  JS/CSS minimizers, set explicitly because a custom `minimizer` array
-  replaces webpack's default (JS-only) one, so CSS minimization needs
-  adding back manually. `CssMinimizerPlugin` replaced the unmaintained
-  `optimize-css-assets-webpack-plugin`.
+- **`TerserJsPlugin`** / **`CssMinimizerPlugin`** — JS/CSS minimizers, set
+  explicitly because a custom `minimizer` array replaces webpack's default
+  (JS-only) one, so CSS minimization needs adding back manually.
+  - JS uses Terser (the plugin's default). Faster minifiers were measured:
+    esbuild's output was 5–23% larger (brotli); SWC's was on par but only
+    saved ~2 s per build, not worth an extra native dependency.
+  - CSS uses the `lightningCssMinify` adapter (`lightningcss`), with
+    targets from `browserslist` via `browserslistToTargets`, so it both
+    adds the vendor prefixes the targets need and drops the ones they
+    don't (replacing the former `postcss-loader` + autoprefixer step).
+    `include: Features.MediaRangeSyntax` keeps `min-width`/`max-width`
+    media queries rather than converting them to range syntax
+    (`width>=…`, Chrome 104+): browsers older than the targets would
+    otherwise never match them and get the mobile layout everywhere.
 - **`moduleIds`/`chunkIds`**: `'named'` in dev (readable IDs for
   debugging), `'deterministic'` in prod (webpack5's own default). These
   used to be hardcoded `'named'` everywhere, which baked full literal
@@ -327,13 +321,19 @@ Both dev and prod also always get:
 
 - **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
   build cache (replaces webpack4's memory-only `cache: true`).
+  `buildDependencies.config` lists `webpack.config.js`,
+  `scripts/build/contextHelper.js` and `package.json` (whose
+  `browserslist` drives the Babel and Lightning CSS targets), so editing
+  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
+  that decides which theme entries and favicons get built.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over
   `main` (CJS) — picks up tree-shakeable ESM builds when available.
 - **`resolve.alias`** forces `lodash`/`lodash.merge` (including transitive
   imports from dependencies) to `lodash-es`, since the plain CommonJS
-  `lodash` build can't be tree-shaken the same way.
+  `lodash` build can't be tree-shaken the same way. `lodash-es` is therefore
+  a root `dependency` even though no source file imports it directly.
 - **`resolve.fallback: { url: require.resolve('url/') }`** — webpack5 no
   longer auto-polyfills Node core modules. `mqtt`'s own `package.json`
   `browser` field already stubs `net`/`tls` to `false`, but it also calls
@@ -358,8 +358,8 @@ webpack-dev-server is up).
 
 ```json
 "browserslist": [
-  "defaults and fully supports es6-module",
-  "> 0.2% in FI and fully supports es6-module"
+  "> 0.1% and defaults and fully supports es6-module",
+  "> 0.1% in FI and fully supports es6-module"
 ]
 ```
 
@@ -368,10 +368,12 @@ The second query adds browsers with real usage share in Finland that
 transpiling and polyfills.
 
 `defaults` is browserslist's maintained default set (> 0.5% global usage,
-last 2 versions, not dead); `fully supports es6-module` drops browsers
-without native ES modules, which also excludes IE and pre-`async`/`await`
-browsers. Refresh the data periodically with `npx
-update-browserslist-db@latest` (builds warn once it is ~6 months old).
+last 2 versions, not dead); `> 0.1%` removes the rarely used browsers that
+`last 2 versions` adds, such as KaiOS, which lack `@layer` and would lose all
+layered CSS. `fully supports es6-module` drops browsers without native ES
+modules, which also excludes IE and pre-`async`/`await` browsers. Refresh
+the data periodically with `npx update-browserslist-db@latest` (builds warn
+once it is ~6 months old).
 
 ## Polyfills
 
@@ -379,24 +381,12 @@ Polyfills are added at build time, driven by the browserslist above.
 `app/client/client.jsx` starts with `import 'core-js/stable'`, and
 `@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
 rule of `webpack.config.js`) rewrites that import into only the core-js
-modules the targets lack. The workspace packages (built with
-`config/babel.config.cjs`) do not polyfill themselves. The polyfills are global, so they also cover
+modules the targets lack. The packages (built with
+`@digitransit-ui/rollup-config`) do not polyfill themselves. The polyfills are global, so they also cover
 third-party `node_modules` code that Babel does not process. Keep
 `corejs.version` in sync with the installed core-js minor (a direct
 dependency). There is no runtime/user-agent-based polyfill service, and no
 Intl polyfill: all targets have native `Intl`.
-
-## `postcss.config.cjs`
-
-Small file outside this config, consumed by its `postcss-loader` step:
-runs `autoprefixer` + `postcss-flexbugs-fixes` in production only. Still
-necessary, not dead weight — `autoprefixer` still adds real vendor
-prefixes today (e.g. `-webkit-user-select`, `-webkit-backdrop-filter`)
-even against the current, fairly modern browserslist target; some CSS
-features still need `-webkit-` fallbacks on the latest Safari regardless.
-`postcss-flexbugs-fixes` isn't browserslist-driven at all — it applies a
-fixed set of structural rewrites for known flexbox interop bugs
-unconditionally.
 
 ## Notes on things that look suspicious but aren't
 

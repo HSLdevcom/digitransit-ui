@@ -12,45 +12,6 @@ function toDeg(rad) {
   return rad * (180 / Math.PI);
 }
 
-export function getBearing(lat1, lng1, lat2, lng2) {
-  const lonScale = Math.cos(toRad((lat1 + lat2) / 2));
-  const dy = lat2 - lat1;
-  const dx = (lng2 - lng1) * lonScale;
-  return (toDeg(Math.atan2(dx, dy)) + 360) % 360;
-}
-
-// const RADIUS = 6371000;
-
-// export function distance(latlon1, latlon2) {
-//   const rad = Math.PI / 180;
-//   const lat1 = latlon1.lat * rad;
-//   const lat2 = latlon2.lat * rad;
-//   const sinDLat = Math.sin((latlon2.lat - latlon1.lat) * rad / 2);
-//   const sinDLon = Math.sin((latlon2.lon - latlon1.lon) * rad / 2);
-//   const a =
-//     sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
-//   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-//   return RADIUS * c;
-// }
-
-export function getDistanceToNearestStop(lat, lon, stops) {
-  const myPos = { lat, lon };
-  let minDist = Number.MAX_VALUE;
-  let minStop = null;
-
-  stops.forEach(stop => {
-    const stopPos = { lat: stop.lat, lon: stop.lon };
-    const dist = distance(myPos, stopPos);
-
-    if (dist < minDist) {
-      minDist = dist;
-      minStop = stop;
-    }
-  });
-
-  return { stop: minStop, distance: minDist };
-}
-
 export function displayImperialDistance(meters) {
   const feet = meters * 3.2808399;
 
@@ -148,35 +109,6 @@ export function boundWithMinimumArea(points, maxZoom = 18) {
     [minlat - missingHeight / 2, minlon - missingWidth / 2],
     [maxlat + missingHeight / 2, maxlon + missingWidth / 2],
   ];
-}
-
-// Simpler version of boundWithMinimumArea that uses lonlat array
-// No checks for null values and assumes box is large enough
-export function boundWithMinimumAreaSimple(points) {
-  const lons = [];
-  const lats = [];
-  points.forEach(coordinatePair => {
-    lons.push(coordinatePair[0]);
-    lats.push(coordinatePair[1]);
-  });
-  const minlat = Math.min(...lats);
-  const minlon = Math.min(...lons);
-  const maxlat = Math.max(...lats);
-  const maxlon = Math.max(...lons);
-  return [
-    [minlat, minlon],
-    [maxlat, maxlon],
-  ];
-}
-
-// Checks if lat and lon are inside of [[minlat, minlon], [maxlat, maxlon]] bounding box
-export function isInBoundingBox(boundingBox, lat, lon) {
-  return (
-    boundingBox[0][0] <= lat &&
-    boundingBox[0][1] <= lon &&
-    boundingBox[1][0] >= lat &&
-    boundingBox[1][1] >= lon
-  );
 }
 
 function getLengthOf(geometry) {
@@ -340,7 +272,7 @@ export function kkj2ToWgs84(coords) {
     }
     const Nwgs = a_2 / Math.sqrt(1.0 - e2 * Math.sin(wgsLat) ** 2.0);
     const h =
-      Math.abs(la0) < Math.pi / 4.0
+      Math.abs(la0) < Math.PI / 4.0
         ? X2Y2 / Math.cos(wgsLat) - Nwgs
         : Z2 / Math.sin(wgsLat) - Nwgs * (1.0 - e2);
     const nla = Math.atan(Z2 / (X2Y2 * (1.0 - (Nwgs * e2) / (Nwgs + h))));

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import PrModal from './PrModal';
@@ -10,7 +10,7 @@ import Icon from '../../Icon';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { isPersonalizationEnabled } from '../../../../utils/client/modeUtils';
 import { settingsShape } from '../../../../utils/client/shapes';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { usePersonalizationPreferences } from '../../../hooks/FavouriteContext';
 
 export default function Personalization({ settings, updateSettings }) {

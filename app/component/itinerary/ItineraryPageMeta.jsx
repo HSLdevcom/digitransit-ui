@@ -1,13 +1,12 @@
-import React from 'react';
 import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
 
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { generateMetaData } from '../../../utils/client/metaUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function ItineraryPageMeta() {
+export default function ItineraryPageMeta() {
   const config = useConfigContext();
   const intl = useIntl();
   const match = useMatch();
@@ -42,5 +41,3 @@ function ItineraryPageMeta() {
   );
   return <Helmet {...props} />;
 }
-
-export default ItineraryPageMeta;

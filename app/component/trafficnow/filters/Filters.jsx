@@ -1,10 +1,9 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import ValidityPeriodFilter from './ValidityPeriodFilter';
 import { useFilterContext } from './FiltersContext';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import VehicleModesFilter from './VehicleModesFilter';
 import EntitySearch from './EntitySearch';
 import ToggleableFilters from './ToggleableFilters';
@@ -12,7 +11,10 @@ import OperatorSelect from './OperatorSelect';
 
 const Separator = () => <div className="separator horizontal" />;
 
-const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
+export default function Filters({
+  onApplyClick = undefined,
+  onResetClick = () => {},
+}) {
   const { selectedFilters, resetFilters, DEFAULT_FILTERS } = useFilterContext();
   const breakpoint = useBreakpoint();
   const intl = useIntl();
@@ -92,11 +94,9 @@ const Filters = ({ onApplyClick = undefined, onResetClick = () => {} }) => {
       {buttons}
     </form>
   );
-};
+}
 
 Filters.propTypes = {
   onApplyClick: PropTypes.func,
   onResetClick: PropTypes.func,
 };
-
-export default Filters;

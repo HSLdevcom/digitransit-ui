@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Spinner } from '@hsl-fi/loading-indicators';
@@ -17,7 +16,5 @@ export default function Loading({ children }) {
     </div>
   );
 }
-
-Loading.displayName = 'Loading';
 
 Loading.propTypes = { children: PropTypes.node };

@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import {
@@ -9,7 +8,7 @@ import {
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { usePosition } from '../../hooks/PositionContext';
 
 /**
@@ -26,7 +25,7 @@ function getErrorCardProps(summaryMessageIds) {
   );
 }
 
-function NoItinerariesNote({
+export default function NoItinerariesNote({
   from,
   to,
   walking = false,
@@ -89,5 +88,3 @@ NoItinerariesNote.propTypes = {
   error: errorShape,
   routingErrors: PropTypes.arrayOf(RoutingerrorShape),
 };
-
-export default NoItinerariesNote;

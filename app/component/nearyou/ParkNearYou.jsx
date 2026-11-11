@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import { graphql, createRefetchContainer } from 'react-relay';
@@ -76,7 +76,7 @@ const containerComponent = createRefetchContainer(
   {
     park: graphql`
       fragment ParkNearYou_park on VehicleParking {
-        ...ParkContainer_vehicleParking
+        ...ParkAndRideContent_vehicleParking
         vehicleParkingId
         name
         lat

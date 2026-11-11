@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useContext, useState, useRef } from 'react';
+import { useEffect, useContext, useState, useRef } from 'react';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
@@ -19,8 +19,8 @@ import MapRoutingButton from '../MapRoutingButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
-import { useConfigContext } from '../../client/ConfigContext';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useConfigContext } from '../../hooks/ConfigContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
 
 const getMode = (stop, citybike, parkType, scooter) => {
@@ -42,7 +42,7 @@ const getMode = (stop, citybike, parkType, scooter) => {
   return 'stop';
 };
 
-function StopPageMap({
+export default function StopPageMap({
   stop,
   stopName,
   stopStatus = null,
@@ -224,5 +224,3 @@ StopPageMap.propTypes = {
   stopStatus: PropTypes.oneOf(Object.values(STOP_STATUS)),
   stopAlertEffects: PropTypes.arrayOf(PropTypes.string),
 };
-
-export default StopPageMap;

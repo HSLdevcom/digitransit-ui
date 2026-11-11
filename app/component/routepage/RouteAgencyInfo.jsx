@@ -1,11 +1,10 @@
-import React from 'react';
 import { graphql, useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { routeShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function RouteAgencyInfo({ route: routeRef }) {
+export default function RouteAgencyInfo({ route: routeRef }) {
   const config = useConfigContext();
   const route = useFragment(
     graphql`
@@ -34,7 +33,5 @@ function RouteAgencyInfo({ route: routeRef }) {
 }
 
 RouteAgencyInfo.propTypes = {
-  route: routeShape.isRequired,
+  route: fragmentRefShape.isRequired,
 };
-
-export default RouteAgencyInfo;

@@ -1,8 +1,15 @@
-@import '~leaflet/dist/leaflet.css';
+@use 'sass:list';
+@use '../../../styles/abstracts' as *;
+
+// In the vendor layer so that Leaflet's more specific link colors still win.
+@layer vendor {
+  .leaflet-container a {
+    color: currentcolor;
+  }
+}
 
 $small-map-height: 10rem;
 $stop-thin-opacity: 0.2;
-$top-bar-height: 64px;
 
 div.map {
   max-height: 100%;
@@ -12,7 +19,7 @@ div.map {
     height: 22px;
     opacity: 0.7;
     border-radius: 11px;
-    background-color: #fff;
+    background-color: $white;
     margin: 10px;
     position: relative;
     top: -5px;
@@ -39,7 +46,7 @@ div.map {
     line-height: normal;
     letter-spacing: -0.7px;
     text-align: right;
-    color: #666;
+    color: $gray;
     vertical-align: -3px;
   }
 }
@@ -50,7 +57,11 @@ div.map {
       margin-right: 15px;
     }
 
-    z-index: index($zindex, map-container);
+    z-index: list.index($zindex, map-container);
+
+    @media print {
+      display: none;
+    }
   }
 
   .drawer-container {
@@ -62,11 +73,23 @@ div.map {
     position: absolute;
     width: 100%;
 
+    // print the whole content instead of the visible part of the bottom sheet
+    @media print {
+      display: block;
+      overflow: visible;
+      height: auto;
+      position: static;
+    }
+
     .drawer-padding {
       flex-grow: 1;
       flex-shrink: 0;
       flex-basis: 90%;
       width: 0;
+
+      @media print {
+        display: none;
+      }
     }
 
     .drawer-content {
@@ -75,7 +98,7 @@ div.map {
       flex-basis: 50vh;
       background: white;
       position: relative;
-      z-index: index($zindex, mobile-drawer);
+      z-index: list.index($zindex, mobile-drawer);
 
       &.fit-content {
         flex-basis: fit-content;
@@ -85,12 +108,16 @@ div.map {
         width: 48px;
         height: 4px;
         border-radius: 2px;
-        background-color: #ddd;
+        background-color: $light-gray;
         display: block;
-        z-index: index($zindex, mobile-drawer-drag-line);
+        z-index: list.index($zindex, mobile-drawer-drag-line);
         margin: auto;
         position: relative;
         top: -5px;
+
+        @media print {
+          display: none;
+        }
       }
 
       .content-container {
@@ -131,9 +158,9 @@ div.map {
     .icon-holder,
     .icon-holder:focus,
     .icon-holder:hover {
-      padding: 0.55em 0.2em 0 0 !important;
+      padding: 0.55em 0.2em 0 0;
       font-size: 16px;
-      z-index: index($zindex, map-buttons);
+      z-index: list.index($zindex, map-buttons);
       background: white;
       height: 2.5em;
       width: 2.5em;
@@ -175,7 +202,7 @@ div.leaflet-bottom.leaflet-right div.leaflet-control-zoom {
   width: 36px;
   height: 73px;
   border-radius: 5px;
-  background-color: #fff;
+  background-color: $white;
   margin-right: 30px;
   margin-bottom: 24px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
@@ -215,7 +242,7 @@ div.leaflet-container {
   width: 100%;
   height: 100%;
   background: none;
-  z-index: index($zindex, map-container);
+  z-index: list.index($zindex, map-container);
 
   @include font-map-container;
 
@@ -230,7 +257,6 @@ div.leaflet-container {
 
 div.current-location-marker > span > svg.icon {
   font-size: 40px;
-  color: $current-location-color;
 }
 
 div.leaflet-marker-icon.from,
@@ -256,21 +282,21 @@ div.leaflet-marker-icon.map-cluster-number-marker {
 
 div.leaflet-marker-icon.map-indoor-step-marker {
   > svg > circle.indoor-step-marker {
-    fill: #fff;
-    stroke: #666;
+    fill: $white;
+    stroke: $gray;
     transition: all 0.3s ease;
     transform-origin: center;
   }
 
   > svg > circle.indoor-step-marker:hover {
     transform: scale(1.3);
-    fill: #666;
-    stroke: #fff;
+    fill: $gray;
+    stroke: $white;
   }
 }
 
 div.leaflet-marker-icon.via {
-  color: $black;
+  color: $dark-gray;
 }
 
 div.leaflet-marker-icon.vehicle-icon {
@@ -300,7 +326,7 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 
   & > * {
-    z-index: index($zindex, map-buttons);
+    z-index: list.index($zindex, map-buttons);
   }
 }
 
@@ -323,7 +349,7 @@ div.leaflet-marker-icon.vehicle-icon {
   &:hover,
   &:active,
   &:focus {
-    z-index: index($zindex, map-buttons);
+    z-index: list.index($zindex, map-buttons);
     position: absolute;
     bottom: 20px;
     left: 15px;
@@ -349,7 +375,7 @@ div.leaflet-marker-icon.vehicle-icon {
   right: 15px;
   top: 25px;
   z-index: 3;
-  background: #fff;
+  background: $white;
   color: $theme-primary-color;
   font-weight: $font-weight-medium;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
@@ -357,11 +383,11 @@ div.leaflet-marker-icon.vehicle-icon {
 
   &:hover {
     color: $theme-primary-color;
-    background: darken($color: #fff, $amount: 10);
+    background: #e6e6e6;
   }
 
   &:focus {
-    background: #fff;
+    background: $white;
     outline: 1px solid black;
     color: $theme-primary-color;
   }
@@ -387,7 +413,7 @@ div.leaflet-marker-icon.vehicle-icon {
   position: absolute;
   left: 50%;
   top: 50%;
-  background: #fff;
+  background: $white;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
   border-radius: 5px;
   width: 100%;
@@ -402,11 +428,11 @@ div.leaflet-marker-icon.vehicle-icon {
     display: flex;
     align-items: center;
     letter-spacing: -0.3px;
-    color: #333;
+    color: $dark-gray;
   }
 
   .map-routing-modal-button-container {
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     box-sizing: border-box;
     border-radius: 8px;
     width: 295px;
@@ -416,7 +442,7 @@ div.leaflet-marker-icon.vehicle-icon {
     .map-routing-modal-button {
       width: 100%;
       height: 50px;
-      background: #fff;
+      background: $white;
       font-weight: $font-weight-medium;
       color: $theme-primary-color;
       padding-left: 20px;
@@ -424,13 +450,14 @@ div.leaflet-marker-icon.vehicle-icon {
     }
 
     .map-routing-modal-button:nth-of-type(2) {
-      border-top: 1px solid #ddd;
-      border-bottom: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
+      border-bottom: 1px solid $light-gray;
     }
   }
 }
 
 .vehicle-popup {
+  // Overrides the position and width Leaflet sets inline.
   left: -19px !important;
 
   .route-header {
@@ -456,10 +483,6 @@ div.leaflet-marker-icon.vehicle-icon {
     margin: 0;
     width: 18rem !important;
 
-    &.leaflet-popup-scrolled {
-      overflow: inherit;
-    }
-
     .card-sub-header {
       display: flex;
     }
@@ -474,8 +497,8 @@ div.leaflet-marker-icon.vehicle-icon {
 
     hr {
       height: 1px;
-      color: #ddd;
-      background: #ddd;
+      color: $light-gray;
+      background: $light-gray;
       font-size: 0;
       border: 0;
     }
@@ -502,7 +525,7 @@ div.leaflet-marker-icon.vehicle-icon {
     border-bottom-left-radius: 3px;
     border-bottom-right-radius: 3px;
     background: $background-color;
-    border-top: solid 1px #ddd;
+    border-top: solid 1px $light-gray;
 
     div,
     a,
@@ -600,8 +623,8 @@ div.leaflet-marker-icon.vehicle-icon {
 
     hr {
       height: 1px;
-      color: #ddd;
-      background: #ddd;
+      color: $light-gray;
+      background: $light-gray;
       font-size: 0;
       border: 0;
     }
@@ -631,14 +654,14 @@ div.leaflet-marker-icon.vehicle-icon {
     margin: 0 10px 10px;
     border-radius: 5px;
     background: $white;
-    border: solid 1px #ddd;
+    border: solid 1px $light-gray;
 
     &.indoor-step-popup-container {
       line-height: 0;
       margin: 0;
       padding: 10px 0 10px;
       border: none;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid $light-gray;
       border-radius: 0;
       flex-direction: column;
 
@@ -690,12 +713,12 @@ div.leaflet-marker-icon.vehicle-icon {
             }
 
             > svg > circle.indoor-step-marker {
-              fill: #fff;
-              stroke: #666;
+              fill: $white;
+              stroke: $gray;
 
               &.selected {
-                fill: #666;
-                stroke: #fff;
+                fill: $gray;
+                stroke: $white;
                 r: 8;
               }
             }
@@ -789,10 +812,6 @@ div.origin-popup {
     .leaflet-popup-content {
       margin: 12px 8px 8px 8px;
 
-      svg.right-arrow {
-        height: 9px;
-      }
-
       .card-code {
         margin-right: 5px;
         padding: 2px;
@@ -806,7 +825,7 @@ div.origin-popup {
     height: 1.5em;
     width: 200px;
     text-transform: none;
-    color: $black;
+    color: $dark-gray;
     font-size: $font-size-small;
     overflow: hidden;
   }
@@ -846,7 +865,7 @@ div.origin-popup {
 }
 
 .map .stop-halo {
-  fill: #fff;
+  fill: $white;
   fill-opacity: 1;
 }
 
@@ -863,13 +882,8 @@ div.origin-popup {
 .map .stop {
   stroke: currentcolor;
   stroke-opacity: 1;
-  fill: #fff;
+  fill: $white;
   fill-opacity: 1;
-}
-
-.map .icon.stop-marker {
-  width: auto;
-  height: auto;
 }
 
 /* BEWARE! This is an ugly hack.
@@ -894,7 +908,7 @@ div.origin-popup {
 }
 
 .map .stop-small {
-  stroke: #fff;
+  stroke: $white;
   stroke-opacity: 1;
   fill: currentcolor;
   fill-opacity: 1;
@@ -1199,13 +1213,13 @@ div.origin-popup {
       height: 0;
       position: absolute;
       border-left: 0 solid transparent;
-      border-right: 15px solid #fff;
-      border-top: 0 solid #fff;
+      border-right: 15px solid $white;
+      border-top: 0 solid $white;
       border-bottom: 15px solid transparent;
       left: -12px;
       bottom: -11px;
       transform: skewX(-60deg);
-      box-shadow: #333;
+      box-shadow: $dark-gray;
     }
   }
 
@@ -1235,8 +1249,8 @@ div.origin-popup {
       height: 0;
       position: absolute;
       border-left: 0 solid transparent;
-      border-right: 15px solid #fff;
-      border-top: 0 solid #fff;
+      border-right: 15px solid $white;
+      border-top: 0 solid $white;
       border-bottom: 15px solid transparent;
       left: 95px;
       bottom: -11px;
@@ -1267,10 +1281,10 @@ div.origin-popup {
       width: 0;
       height: 0;
       position: absolute;
-      border-left: 0 solid #fff;
+      border-left: 0 solid $white;
       border-right: 15px solid transparent;
       border-top: 0 solid transparent;
-      border-bottom: 15px solid #fff;
+      border-bottom: 15px solid $white;
       right: -10px;
       top: -11px;
       transform: skewX(-60deg);
@@ -1300,10 +1314,10 @@ div.origin-popup {
       width: 0;
       height: 0;
       position: absolute;
-      border-left: 0 solid #fff;
+      border-left: 0 solid $white;
       border-right: 15px solid transparent;
       border-top: 0 solid transparent;
-      border-bottom: 15px solid #fff;
+      border-bottom: 15px solid $white;
       right: 95px;
       top: -11px;
       transform: skewX(-140deg);
@@ -1338,7 +1352,7 @@ div.origin-popup {
 }
 
 .map .leg-halo {
-  stroke: #fff;
+  stroke: $white;
   stroke-opacity: 1;
 
   &.opaque {
@@ -1358,7 +1372,7 @@ div.origin-popup {
   stroke-opacity: 1;
 
   &.opaque {
-    stroke: #fff;
+    stroke: $white;
     stroke-opacity: 0.4;
   }
 
@@ -1387,7 +1401,7 @@ div.origin-popup {
 }
 
 .map-line.walk-inside.leg {
-  color: #fff;
+  color: $white;
   stroke: round;
   stroke-dasharray: 0.1 11;
 }
@@ -1408,14 +1422,6 @@ div.origin-popup {
       stroke-width: 14%;
     }
   }
-}
-
-div.map-click-prevent-overlay {
-  position: absolute;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  z-index: global-z('map-click-prevent-overlay');
 }
 
 div.leaflet-control-scale.leaflet-control {
@@ -1464,19 +1470,12 @@ div.leaflet-control-scale-line {
 .leaflet-control-scale::after {
   content: '';
   display: block;
-  border-bottom: 1px solid #888;
-  border-left: 1px solid #888;
-  border-right: 1px solid #888;
+  border-bottom: 1px solid $muted-gray;
+  border-left: 1px solid $muted-gray;
+  border-right: 1px solid $muted-gray;
   height: 4px;
   background: none;
   cursor: grab;
-}
-
-.smallspinner {
-  div.spinner-loader {
-    width: $spinner-size * 0.5;
-    height: $spinner-size * 0.5;
-  }
 }
 
 .leaflet-tooltip.geoJsonText {
@@ -1514,13 +1513,13 @@ div.leaflet-control-scale-line {
   line-height: normal;
   letter-spacing: -0.6px;
   text-align: center;
-  color: #fff;
+  color: $white;
   max-width: 300px;
 
   &:hover {
     border-color: var(--hover-color);
     background-color: var(--hover-color);
-    color: #fff;
+    color: $white;
   }
 
   &.select-from-map-confirm-button[disabled]:hover {

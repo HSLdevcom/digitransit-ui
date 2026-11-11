@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import TripMarkerPopup from '../route/TripMarkerPopup';
 import SelectVehicleRow from './SelectVehicleRow';
@@ -57,7 +57,7 @@ const fuzzyQuery = graphql`
   }
 `;
 
-function SelectVehicleContainer({ rowView = false, vehicle }) {
+export default function SelectVehicleContainer({ rowView = false, vehicle }) {
   const { environment } = useContext(ReactRelayContext);
   if (!vehicle) {
     return null;
@@ -108,11 +108,7 @@ function SelectVehicleContainer({ rowView = false, vehicle }) {
   );
 }
 
-SelectVehicleContainer.displayName = 'SelectVehicleContainer';
-
 SelectVehicleContainer.propTypes = {
   rowView: PropTypes.bool,
   vehicle: vehicleShape.isRequired,
 };
-
-export default SelectVehicleContainer;

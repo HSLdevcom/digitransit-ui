@@ -68,12 +68,6 @@ export const geoJsonFeatureShape = PropTypes.shape({
   properties: PropTypes.object,
 });
 
-export const popupColorShape = PropTypes.shape({
-  accessiblePrimary: PropTypes.string,
-  hover: PropTypes.string,
-  primary: PropTypes.string,
-});
-
 export const parkShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   lat: PropTypes.number,
@@ -371,35 +365,6 @@ export const routerShape = PropTypes.shape({
   addNavigationListener: PropTypes.func.isRequired,
 });
 
-const StatusPropType = PropTypes.oneOf([
-  'no-location',
-  'searching-location',
-  'prompt',
-  'found-location',
-  'found-address',
-  'geolocation-denied',
-  'geolocation-timeout',
-  'geolocation-watch-timeout',
-  'geolocation-not-supported',
-  'reverse-geocoding-ready',
-  'reverse-geocoding-in-progress',
-]);
-
-export const locationStateShape = PropTypes.shape({
-  type: PropTypes.string.isRequired,
-  lat: PropTypes.number,
-  lon: PropTypes.number,
-  address: PropTypes.string,
-  gid: PropTypes.string,
-  name: PropTypes.string,
-  layer: PropTypes.string,
-  status: StatusPropType,
-  hasLocation: PropTypes.bool,
-  isLocationingInProgress: PropTypes.bool,
-  isReverseGeocodingInProgress: PropTypes.bool,
-  locationingFailed: PropTypes.bool,
-});
-
 const MapLayerOptionShape = PropTypes.shape({
   isLocked: PropTypes.bool,
   isSelected: PropTypes.bool,
@@ -472,16 +437,6 @@ export const planShape = PropTypes.shape({
   searchDateTime: PropTypes.string,
 });
 
-export const plannerMessageShape = PropTypes.oneOf(
-  Object.values(PlannerMessageType),
-);
-
-export const refShape = PropTypes.oneOfType([
-  PropTypes.func,
-  // eslint-disable-next-line
-  PropTypes.shape({ current: PropTypes.any }),
-]);
-
 export const relayShape = PropTypes.shape({
   refetchConnection: PropTypes.func,
   refetch: PropTypes.func,
@@ -489,6 +444,13 @@ export const relayShape = PropTypes.shape({
   loadMore: PropTypes.func,
   // eslint-disable-next-line
   environment: PropTypes.object,
+});
+
+// Opaque Relay fragment reference passed to useFragment
+export const fragmentRefShape = PropTypes.shape({
+  __id: PropTypes.string,
+  __fragments: PropTypes.shape({}),
+  __fragmentOwner: PropTypes.shape({}),
 });
 
 const ROUTER_ERROR_CODES = Object.values(PlannerMessageType);

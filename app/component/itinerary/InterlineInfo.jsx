@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../../utils/client/timeUtils';
 import {
@@ -9,7 +8,7 @@ import {
 import Icon from '../Icon';
 import { legShape } from '../../../utils/client/shapes';
 
-const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
+export default function InterlineInfo({ legs, leg, usingOwnCarWholeTrip }) {
   const intl = useIntl();
   let totalWait = 0;
   const allLegs = [leg, ...legs];
@@ -82,11 +81,10 @@ const InterlineInfo = ({ legs, leg, usingOwnCarWholeTrip }) => {
       )}
     </div>
   );
-};
+}
 
 InterlineInfo.propTypes = {
   leg: legShape.isRequired,
   legs: PropTypes.arrayOf(legShape).isRequired,
   usingOwnCarWholeTrip: PropTypes.bool.isRequired,
 };
-export default InterlineInfo;

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { planShape } from '../../../utils/client/shapes';
@@ -14,7 +13,7 @@ import {
 } from '../../../utils/client/legUtils';
 import { streetHash } from '../../../utils/shared/path';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetModeSelectorButton({
   icon,

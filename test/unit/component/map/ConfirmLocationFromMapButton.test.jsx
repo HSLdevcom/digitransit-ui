@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import { DomEvent } from 'leaflet';
 import { renderWithProviders } from '../../helpers/mock-providers';

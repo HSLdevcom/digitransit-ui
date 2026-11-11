@@ -1,16 +1,26 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { alertShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/client/shapes';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-function DisruptionInfoButton({
+export default function DisruptionInfoButton({
   openDisruptionInfo = () => {},
-  viewer = { alerts: [] },
+  viewer: viewerRef,
 }) {
   const { disruption } = useConfigContext();
+  const viewer = useFragment(
+    graphql`
+      fragment DisruptionInfoButton_viewer on QueryType
+      @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
+        alerts(feeds: $feedIds) {
+          id
+        }
+      }
+    `,
+    viewerRef,
+  );
   if (disruption?.showInfoButton) {
     return (
       <button
@@ -34,16 +44,5 @@ function DisruptionInfoButton({
 
 DisruptionInfoButton.propTypes = {
   openDisruptionInfo: PropTypes.func.isRequired,
-  viewer: PropTypes.shape({ alerts: PropTypes.arrayOf(alertShape) }),
+  viewer: fragmentRefShape,
 };
-
-export default createFragmentContainer(DisruptionInfoButton, {
-  viewer: graphql`
-    fragment DisruptionInfoButton_viewer on QueryType
-    @argumentDefinitions(feedIds: { type: "[String!]", defaultValue: [] }) {
-      alerts(feeds: $feedIds) {
-        id
-      }
-    }
-  `,
-});

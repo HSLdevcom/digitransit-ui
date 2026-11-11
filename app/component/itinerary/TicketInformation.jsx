@@ -1,8 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
-import { v4 as uuid } from 'uuid';
 import { fareShape, legShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from '../Icon';
@@ -10,7 +8,7 @@ import {
   getAlternativeFares,
   formatFare,
 } from '../../../utils/client/fareUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];
 const EMPTY_ZONES = [];
@@ -44,7 +42,10 @@ export default function TicketInformation({
 
   const faresInfo = fares.map((fare, i) => {
     return (
-      <div key={uuid()} className="ticket-container">
+      <div
+        key={fare.fareProducts?.[0]?.id || fare.routeGtfsId}
+        className="ticket-container"
+      >
         {i === 0 && (
           <div className="ticket-title">
             {`${intl.formatMessage({
@@ -115,5 +116,3 @@ TicketInformation.propTypes = {
   zones: PropTypes.arrayOf(PropTypes.string),
   ticketLink: PropTypes.string,
 };
-
-TicketInformation.displayName = 'TicketInformation';

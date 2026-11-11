@@ -1,6 +1,5 @@
-import React from 'react';
 import { screen } from '@testing-library/react';
-import { Component as RentalVehiclePageMapContainer } from '../../../app/component/RentalVehiclePageMapContainer';
+import RentalVehiclePageMapContainer from '../../../app/component/RentalVehiclePageMapContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 // The map itself isn't under test, only the name passed to it

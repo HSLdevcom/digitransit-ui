@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 
 import ScheduleConstantOperation from '../../../../app/component/routepage/schedule/ScheduleConstantOperation';
@@ -21,13 +20,6 @@ describe('<ScheduleConstantOperation />', () => {
     },
     breakpoint: 'large',
   };
-
-  it('should render RouteControlPanel', () => {
-    const { container } = renderWithProviders(
-      <ScheduleConstantOperation {...defaultProps} />,
-    );
-    expect(container.querySelector('.constant-operation-panel')).not.toBeNull();
-  });
 
   it('should display constant operation text', () => {
     const { container } = renderWithProviders(

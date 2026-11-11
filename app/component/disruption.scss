@@ -1,3 +1,5 @@
+@use '../../styles/abstracts' as *;
+
 .disruption-info .icon.info {
   padding-left: 2vh;
   width: 2em;
@@ -28,8 +30,12 @@
   }
 
   @media print {
-    display: block !important;
-    overflow: auto !important;
+    overflow: auto;
+
+    &,
+    &.bp-large {
+      display: block;
+    }
   }
 }
 
@@ -139,12 +145,24 @@
     background-color: $white;
     padding: var(--space-m);
     position: relative;
+    isolation: isolate; // keeps the links' z-index inside the row
     border-radius: 8px;
     margin-bottom: 16px;
     border: 1px solid $light-gray;
 
+    .alert-row-action {
+      position: absolute;
+      inset: 0;
+      padding: 0;
+      border: 0;
+      border-radius: inherit;
+      background: none;
+      cursor: pointer;
+    }
+
     .alert-row-arrow {
       position: absolute;
+      top: var(--space-m);
       right: 24px;
     }
 
@@ -227,6 +245,9 @@
       }
 
       .mode-badge {
+        // Above .alert-row-action, which covers the row.
+        position: relative;
+        z-index: 1;
         max-height: 32px;
         background-color: color-mix(in srgb, currentcolor, white 90%);
         border-radius: 4px;

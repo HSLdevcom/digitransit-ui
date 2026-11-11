@@ -1,4 +1,3 @@
-import React from 'react';
 import data from './test-data/dcw31';
 import { renderWithProviders } from './helpers/mock-providers';
 import ItinerarySummary from '../../app/component/itinerary/ItinerarySummary';

@@ -1,5 +1,3 @@
-import React from 'react';
-
 import { mockMatch } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';

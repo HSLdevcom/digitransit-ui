@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
 
 import Availability from './Availability';
 
-const VehicleRentalAvailability = ({
+export default function VehicleRentalAvailability({
   disabled = false,
   vehiclesAvailable,
   totalSpaces,
@@ -12,7 +12,7 @@ const VehicleRentalAvailability = ({
   fewerAvailableCount,
   type = 'citybike',
   useSpacesAvailable,
-}) => {
+}) {
   const total = Number.isNaN(totalSpaces) ? 0 : totalSpaces;
   const available = Number.isNaN(vehiclesAvailable) ? 0 : vehiclesAvailable;
   if (disabled) {
@@ -48,14 +48,14 @@ const VehicleRentalAvailability = ({
             />
             {'\u00a0'}
             <span className="available-bikes">{available}</span>
-            {useSpacesAvailable && <React.Fragment>/{total}</React.Fragment>}
+            {useSpacesAvailable && <Fragment>/{total}</Fragment>}
           </p>
         ),
         showStatusBar: useSpacesAvailable,
       }}
     />
   );
-};
+}
 
 VehicleRentalAvailability.displayName = 'CityBikeAvailability';
 
@@ -68,5 +68,3 @@ VehicleRentalAvailability.propTypes = {
   type: PropTypes.string,
   useSpacesAvailable: PropTypes.bool.isRequired,
 };
-
-export default VehicleRentalAvailability;

@@ -1,6 +1,6 @@
 import { graphql } from 'react-relay';
 
-export const ScheduleFirstDeparturesFragment = graphql`
+export default graphql`
   fragment ScheduleFirstDeparturesFragment on Pattern
   @argumentDefinitions(
     showTenWeeks: { type: "Boolean!", defaultValue: false }

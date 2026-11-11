@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useFragment } from 'react-relay';
 import { useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -11,7 +10,7 @@ import ItineraryNotification from './ItineraryNotification';
 import { transitEdges } from './ItineraryPageUtils';
 import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges';
 
-function ItineraryListContainer({
+export default function ItineraryListContainer({
   planEdges: planEdgesRef,
   activeIndex,
   focusToHeader,
@@ -128,5 +127,3 @@ ItineraryListContainer.propTypes = {
   topNote: PropTypes.string,
   bottomNote: PropTypes.string,
 };
-
-export default ItineraryListContainer;

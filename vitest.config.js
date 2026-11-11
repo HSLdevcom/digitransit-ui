@@ -1,6 +1,7 @@
 import path from 'path';
 import { createRequire } from 'module';
 import react from '@vitejs/plugin-react';
+import svgr from 'vite-plugin-svgr';
 
 const require = createRequire(import.meta.url);
 
@@ -74,7 +75,7 @@ const nodeProject = name => ({
     // Caches transformed modules under node_modules/.vitest-cache to speed
     // up reruns; rides along with CI's whole-node_modules cache.
     fsModuleCache: true,
-    include: [`${name}/packages/*/test.js`],
+    include: [`packages/${name}/*/test.js`],
   },
 });
 
@@ -92,14 +93,13 @@ export default {
               plugins: ['relay'],
             },
           }),
-          // App code only ever side-effect-imports stylesheets (no CSS
-          // Modules), so stub them to an empty module instead of letting
-          // Vite try to compile Sass.
+          // Stub global stylesheets instead of letting Vite compile Sass.
+          // Vitest stubs `.module.scss` itself, with real class names.
           {
             name: 'digitransit-ui:style-import-stub',
             enforce: 'pre',
             transform(_code, id) {
-              if (!/\.s?css$/.test(id)) {
+              if (!/\.s?css$/.test(id) || /\.module\.s?css$/.test(id)) {
                 return undefined;
               }
               return { code: 'export default {};' };
@@ -115,17 +115,14 @@ export default {
           // Files that still `import { expect } from 'chai'` are unaffected
           // (a local import shadows a global).
           globals: true,
-          // Shares one jsdom environment/module registry per worker instead
-          // of recreating it per test file - jsdom env creation is the
-          // biggest chunk of this project's test time. Safe here because
-          // vitest.setup.js's afterEach already resets shared state (RTL
-          // cleanup, localStorage/sessionStorage, mocks via restoreMocks).
-          isolate: false,
           // Auto-restores vi.fn()/vi.spyOn() mocks between tests. Needed
           // because a handful of tests use vi.spyOn to stub this repo's own
           // ESM exports, which sinon can't do.
           restoreMocks: true,
-          setupFiles: ['./test/unit/helpers/vitest.setup.js'],
+          setupFiles: [
+            './test/unit/helpers/vitest.setup.js',
+            '@digitransit-ui/test-utils/setup',
+          ],
           // @hsl-fi/*, @radix-ui/* (under @hsl-fi/dialog|form|notifications|
           // overlays|site-header), and @floating-ui/* (under
           // @radix-ui/react-popper) are normally externalized (resolved via
@@ -142,7 +139,10 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['test/unit/**/*.test.{js,jsx}'],
+          include: [
+            'test/unit/**/*.test.{js,jsx}',
+            'packages/private/test-utils/**/*.test.{js,jsx}',
+          ],
           exclude: serverTestFiles,
         },
       },
@@ -177,26 +177,23 @@ export default {
         resolve: {
           alias: [
             {
-              find: /^@digitransit-component\/(digitransit-component-.+)$/,
+              find: /^@digitransit-component\/digitransit-component-(.+)$/,
               replacement: path.join(
                 import.meta.dirname,
-                'digitransit-component/packages/$1/src/index',
+                'packages/digitransit-component/$1/src/index',
               ),
             },
           ],
         },
         // @vitejs/plugin-react already handles JSX; the only thing missing
-        // versus Rollup's build is inline-react-svg, needed for
+        // versus Rollup's build is SVGR, needed for
         // digitransit-component-icon's raw .svg imports.
         plugins: [
-          react({
-            // Custom babel plugins opt out of plugin-react's automatic JSX
-            // handling, so its JSX preset needs listing explicitly too.
-            babel: {
-              presets: ['@babel/preset-react'],
-              plugins: ['inline-react-svg'],
-            },
+          svgr({
+            include: '**/*.svg',
+            svgrOptions: { svgo: false, ref: false, titleProp: false },
           }),
+          react(),
           hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
           // a CSS module. Vitest's built-in CSS handling (`css: false`
@@ -224,6 +221,8 @@ export default {
           name: 'digitransit-component',
           root: import.meta.dirname,
           environment: 'jsdom',
+          // Registers toHaveNoA11yViolations() and the a11y scan after each test.
+          setupFiles: ['@digitransit-ui/test-utils/setup'],
           // Matches this repo's other stylesheet stubbing; also Vitest's
           // own default, kept explicit for clarity.
           css: false,
@@ -254,7 +253,7 @@ export default {
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
-          include: ['digitransit-component/packages/*/test.{js,jsx}'],
+          include: ['packages/digitransit-component/*/test.{js,jsx}'],
         },
       },
       nodeProject('digitransit-search-util'),

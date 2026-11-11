@@ -1,6 +1,6 @@
 import L from 'leaflet';
 import PropTypes from 'prop-types';
-import React, { useRef } from 'react';
+import { useRef, Fragment } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
 import { geoJsonFeatureShape } from '../../../utils/client/shapes';
@@ -8,14 +8,14 @@ import {
   isMultiPointTypeGeometry,
   isPointTypeGeometry,
 } from '../../../utils/shared/geo-utils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 /**
  * Extracts svg-formatted icon data from the given features' properties.
  *
  * @param {*[]} features the geojson features.
  */
-const getIcons = features => {
+export const getIcons = features => {
   if (!Array.isArray(features) || features.length === 0) {
     return {};
   }
@@ -46,7 +46,7 @@ const getIcons = features => {
  * @param {*} latlng the coordinates for the current feature.
  * @param {*} icons the custom icons collection, if available.
  */
-const getMarker = (feature, latlng, icons = {}) => {
+export const getMarker = (feature, latlng, icons = {}) => {
   const properties = feature.properties || {};
   const interactive = !!properties.popupContent;
   let marker;
@@ -96,7 +96,12 @@ const haloArray = [
   21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
 ];
 
-function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
+export default function GeoJSON({
+  bounds,
+  data,
+  geoJsonZoomLevel = 0,
+  ...rest
+}) {
   const config = useConfigContext();
   const { colors, geoJsonSvgSize, language } = config;
   // cache dynamic icons to allow references by id without data duplication
@@ -180,7 +185,7 @@ function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
   }
 
   return (
-    <React.Fragment>
+    <Fragment>
       {data.features.map((feature, index) => (
         <PointFeatureMarker
           feature={feature}
@@ -193,7 +198,7 @@ function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
           {...rest}
         />
       ))}
-    </React.Fragment>
+    </Fragment>
   );
 }
 
@@ -204,5 +209,3 @@ GeoJSON.propTypes = {
   }).isRequired,
   geoJsonZoomLevel: PropTypes.number,
 };
-
-export { GeoJSON as default, getIcons, getMarker };

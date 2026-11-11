@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Icon, MapLocation } from '@hsl-fi/icons';
 import { Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
-function OperatorBadge({ feed }) {
+export default function OperatorBadge({ feed }) {
   const { sourceForAlertsAndDisruptions } = useConfigContext();
   const { locale } = useIntl();
   const area = sourceForAlertsAndDisruptions?.[feed]
@@ -25,5 +24,3 @@ function OperatorBadge({ feed }) {
 OperatorBadge.propTypes = {
   feed: PropTypes.string,
 };
-
-export default OperatorBadge;

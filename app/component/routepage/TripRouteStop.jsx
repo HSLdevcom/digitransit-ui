@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import cx from 'classnames';
 import isEmpty from 'lodash/isEmpty';
@@ -23,11 +22,11 @@ import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
 } from '../../../utils/client/stopStatusUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_VEHICLES = [];
 
-const TripRouteStop = ({
+export default function TripRouteStop({
   className,
   color,
   currentTime,
@@ -46,7 +45,7 @@ const TripRouteStop = ({
   pattern,
   route,
   selectedVehicle,
-}) => {
+}) {
   const config = useConfigContext();
 
   const getVehiclePatternLink = vehicle => {
@@ -79,7 +78,6 @@ const TripRouteStop = ({
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
       nextStopName: vehicleState === 'arriving' ? stop?.name : nextStop?.name,
-      key: vehicle.id,
       mode,
       pattern,
       route,
@@ -204,7 +202,7 @@ const TripRouteStop = ({
       </div>
     </div>
   );
-};
+}
 
 TripRouteStop.propTypes = {
   vehicles: PropTypes.arrayOf(vehicleShape),
@@ -247,7 +245,3 @@ TripRouteStop.propTypes = {
   first: PropTypes.bool,
   last: PropTypes.bool,
 };
-
-TripRouteStop.displayName = 'TripRouteStop';
-
-export default TripRouteStop;

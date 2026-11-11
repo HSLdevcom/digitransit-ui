@@ -1,6 +1,8 @@
+@use '../../styles/abstracts' as *;
+
 .alert-banner-link {
   text-decoration: none;
-  color: #333;
+  color: $dark-gray;
 
   &.warning,
   &.severe {
@@ -15,7 +17,7 @@
     margin-bottom: 10px;
     margin-top: 16px;
     align-items: center;
-    border: 1px solid #ddd;
+    border: 1px solid $light-gray;
     border-radius: 5px;
     height: 48px;
 

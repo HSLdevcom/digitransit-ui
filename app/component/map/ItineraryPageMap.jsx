@@ -1,9 +1,8 @@
 /* eslint-disable react/no-array-index-key */
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   itineraryShape,
   locationShape,
@@ -25,7 +24,7 @@ import {
 
 const POINT_FOCUS_ZOOM = 17; // default
 
-const ItineraryPageMap = ({
+export default function ItineraryPageMap({
   planEdges,
   active,
   showActiveOnly = false,
@@ -41,7 +40,7 @@ const ItineraryPageMap = ({
   isLocationPopupEnabled = false,
   realtimeTransfers = false,
   ...rest
-}) => {
+}) {
   const { match, router } = useRouter();
   const config = useConfigContext();
   const origin = useOrigin();
@@ -165,7 +164,7 @@ const ItineraryPageMap = ({
       )}
     </MapWithTracking>
   );
-};
+}
 
 ItineraryPageMap.propTypes = {
   planEdges: PropTypes.arrayOf(planEdgeShape).isRequired,
@@ -189,5 +188,3 @@ ItineraryPageMap.propTypes = {
   isLocationPopupEnabled: PropTypes.bool,
   realtimeTransfers: PropTypes.bool,
 };
-
-export default ItineraryPageMap;

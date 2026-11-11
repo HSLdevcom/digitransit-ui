@@ -1,5 +1,4 @@
-import React from 'react';
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
 import NaviMessage from '../../../../../app/component/itinerary/navigator/NaviMessage';
@@ -66,7 +65,7 @@ describe('<NaviMessage />', () => {
       </NaviMessage>,
       { config: baseConfig },
     );
-    fireEvent.click(container.querySelector('.info-close'));
+    fireEvent.click(screen.getByRole('button', { name: 'Close' }));
     const item = container.querySelector('.info-stack-item');
     fireEvent.animationEnd(item);
     expect(handleRemove).toHaveBeenCalledWith(0);

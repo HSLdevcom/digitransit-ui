@@ -43,25 +43,3 @@ export function getJson(url, params) {
     },
   );
 }
-
-// Return Promise for a json post request
-export function postJson(url, params, payload) {
-  return fetchJsonWithTimeout(
-    encodeURI(url) +
-      (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
-    {
-      method: 'POST',
-      body: payload,
-
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    },
-  );
-}
-
-// Return Promise for array of json get requests
-export function getJsons(urls) {
-  return Promise.all(urls.map(url => getJson(url)));
-}

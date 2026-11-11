@@ -1,4 +1,3 @@
-import React from 'react';
 import TileLayerContainer from './TileLayerContainer';
 import VehicleRentalStations from './VehicleRentalStations';
 import Stops from './Stops';
@@ -6,7 +5,7 @@ import ParkAndRideForCars from './ParkAndRideForCars';
 import ParkAndRideForBikes from './ParkAndRideForBikes';
 import RentalVehicles from './RentalVehicles';
 import AreaStops from './AreaStops';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { mapLayerShape } from '../../../../utils/client/shapes';
 
 export default function VectorTileLayerContainer({ mapLayers, ...rest }) {

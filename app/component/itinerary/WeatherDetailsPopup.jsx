@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text, FlexColumn, FlexRow } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 
 export default function WeatherDetailsPopup({ weatherData, onClose }) {

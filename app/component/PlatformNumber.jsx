@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -8,7 +7,7 @@ import {
   getTrackOrPierOrPlatformTextShort,
 } from '../../utils/client/localeUtils';
 
-function PlatformNumber({
+export default function PlatformNumber({
   number,
   short = true,
   mode,
@@ -68,7 +67,3 @@ PlatformNumber.propTypes = {
   withText: PropTypes.bool,
   plain: PropTypes.bool,
 };
-
-PlatformNumber.displayName = 'PlatformNumber';
-
-export default PlatformNumber;

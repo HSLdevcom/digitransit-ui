@@ -1,15 +1,12 @@
 /* eslint-disable react/no-unstable-nested-components */
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useRouter } from 'found';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
-import {
-  DesktopOrMobile,
-  useBreakpoint,
-} from '../../../utils/client/withBreakpoint';
+import { DesktopOrMobile, useBreakpoint } from '../../hooks/BreakpointContext';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYouContainer from './StopNearYouContainer';
@@ -41,7 +38,7 @@ import {
   useFavouriteStatus,
   useHasOtpLocationFavourites,
 } from '../../hooks/FavouriteContext';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import { usePosition, usePositionActions } from '../../hooks/PositionContext';
 

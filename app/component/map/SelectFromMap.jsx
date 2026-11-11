@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import get from 'lodash/get';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
@@ -9,10 +9,10 @@ import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 import { getJson } from '../../../utils/shared/xhrPromise';
 import { useMapLayers } from '../../hooks/MapLayerContext';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
 import ConfirmLocationFromMapButton from './ConfirmLocationFromMapButton';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const DESKTOP_BREAKPOINT = 'large';
 
@@ -37,7 +37,7 @@ const markLocation = (markerType, position) => {
   return null;
 };
 
-function SelectFromMap({ language, type, onConfirm }) {
+export default function SelectFromMap({ language, type, onConfirm }) {
   const config = useConfigContext();
   const breakpoint = useBreakpoint();
   const { mapLayers } = useMapLayers({
@@ -306,5 +306,3 @@ SelectFromMap.propTypes = {
   type: PropTypes.string.isRequired,
   onConfirm: PropTypes.func.isRequired,
 };
-
-export default SelectFromMap;

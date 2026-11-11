@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
-import React, {
+import cx from 'classnames';
+import {
   useRef,
   useLayoutEffect,
   useState,
@@ -15,13 +16,23 @@ import {
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_BIKESTATIONS,
+  PREFIX_BIKEPARK,
+  PREFIX_CARPARK,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
 } from '../../utils/shared/path';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
+  PREFIX_STOPS,
+  PREFIX_TERMINALS,
 ];
+
+// short content: sheet height fits the content instead of the default minimum
+const fitContentPages = [PREFIX_BIKESTATIONS, PREFIX_BIKEPARK, PREFIX_CARPARK];
 
 const BOTTOM_SHEET_OFFSET = 20;
 const topBarHeight = 64;
@@ -66,20 +77,7 @@ Math.easeInOutQuad = function easeInOutQuad(a, b, c, d) {
 };
 
 const MobileView = forwardRef(
-  (
-    {
-      header,
-      map,
-      content,
-      settingsDrawer,
-      searchBox,
-      enableBottomScroll = true,
-    },
-    ref,
-  ) => {
-    if (settingsDrawer) {
-      return <div className="mobile">{settingsDrawer}</div>;
-    }
+  ({ header, map, content, searchBox, enableBottomScroll = true }, ref) => {
     const contentRef = useRef();
     const scrollRef = useRef();
     const match = useMatch();
@@ -131,12 +129,14 @@ const MobileView = forwardRef(
       }
     }, [header]);
 
-    // always set bottom sheet when component mounts
+    // set bottom sheet when the map (and thus the drawer) appears, e.g. when
+    // navigating from a mapless page without remounting this component
+    const hasMap = !!map;
     useLayoutEffect(() => {
-      if (map) {
+      if (hasMap) {
         changeBottomPadding(getMiddlePosition());
       }
-    }, []);
+    }, [hasMap]);
 
     // set bottom sheet for most views at content change
     useLayoutEffect(() => {
@@ -167,9 +167,10 @@ const MobileView = forwardRef(
             >
               <div className="drawer-padding" />
               <div
-                className={`drawer-content ${
-                  !enableBottomScroll && 'fit-content'
-                }`}
+                className={cx('drawer-content', {
+                  'fit-content':
+                    !enableBottomScroll || fitContentPages.includes(pagePrefix),
+                })}
                 ref={contentRef}
               >
                 {enableBottomScroll && <div className="drag-line" />}
@@ -199,7 +200,6 @@ MobileView.propTypes = {
   header: PropTypes.node,
   map: PropTypes.node,
   content: PropTypes.node,
-  settingsDrawer: PropTypes.node,
   searchBox: PropTypes.node,
   enableBottomScroll: PropTypes.bool,
 };

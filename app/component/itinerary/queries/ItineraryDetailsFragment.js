@@ -286,6 +286,7 @@ export const ItineraryDetailsFragment = graphql`
       }
       realTime
       realtimeState
+      serviceDate
       transitLeg
       rentedBike
       start {

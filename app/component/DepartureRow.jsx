@@ -2,7 +2,6 @@
 import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import {
   alertSeverityCompare,
@@ -19,7 +18,7 @@ import { epochToTime } from '../../utils/client/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const getMostSevereAlert = route => {
   const alerts = [...getAlertsForObject(route)];

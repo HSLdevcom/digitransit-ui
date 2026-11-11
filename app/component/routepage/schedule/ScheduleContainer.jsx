@@ -1,25 +1,23 @@
-import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React, { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { routeShape, patternShape } from '../../../../utils/client/shapes';
-import { SchedulePatternFragment } from './queries/SchedulePatternFragment';
-import { ScheduleRouteFragment } from './queries/ScheduleRouteFragment';
-import { ScheduleFirstDeparturesFragment } from './queries/ScheduleFirstDeparturesFragment';
+import { fragmentRefShape } from '../../../../utils/client/shapes';
+import SchedulePatternFragment from './queries/SchedulePatternFragment';
+import ScheduleRouteFragment from './queries/ScheduleRouteFragment';
+import ScheduleFirstDeparturesFragment from './queries/ScheduleFirstDeparturesFragment';
 import ScheduleHeader from './ScheduleHeader';
 import ScheduleTripList from './ScheduleTripList';
 import ScheduleConstantOperation from './ScheduleConstantOperation';
 import SecondaryButton from '../../SecondaryButton';
 import { DATE_FORMAT } from '../../../../utils/shared/constants';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
-import RouteControlPanel from '../RouteControlPanel';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
@@ -54,11 +52,11 @@ const printRouteTimetable = e => {
  * It handles data fetching and state management for the schedule,
  * and renders the header, trip list, date selector, and action buttons.
  */
-const ScheduleContainer = ({
+export default function ScheduleContainer({
   pattern: patternRef,
   route: routeRef,
   firstDepartures: firstDeparturesRef,
-}) => {
+}) {
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
   const route = useFragment(ScheduleRouteFragment, routeRef);
@@ -228,7 +226,6 @@ const ScheduleContainer = ({
       >
         <ScheduleConstantOperation
           constantOperationInfo={constantOperationInfo}
-          route={route}
           breakpoint={breakpoint}
         />
       </div>
@@ -249,13 +246,6 @@ const ScheduleContainer = ({
           mobile: breakpoint !== 'large',
         })}
       >
-        {route.patterns && (
-          <RouteControlPanel
-            route={route}
-            breakpoint={breakpoint}
-            noInitialServiceDay
-          />
-        )}
         <div className="route-schedule-grouped-date-select">
           <DateSelectGrouped
             dateFormat={DATE_FORMAT}
@@ -313,17 +303,12 @@ const ScheduleContainer = ({
       </div>
     </div>
   );
-};
+}
 
 ScheduleContainer.propTypes = {
-  pattern: patternShape.isRequired,
-  route: routeShape.isRequired,
-  // firstDepartures is a Relay fragment with dynamic structure
-  // eslint-disable-next-line react/forbid-prop-types
-  firstDepartures: PropTypes.object.isRequired,
+  pattern: fragmentRefShape.isRequired,
+  route: fragmentRefShape.isRequired,
+  firstDepartures: fragmentRefShape.isRequired,
 };
 
-ScheduleContainer.displayName = 'ScheduleContainer';
-
 export { ScheduleContainer as Component };
-export default ScheduleContainer;

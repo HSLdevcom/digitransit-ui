@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
-import React, { useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
 import VehicleIcon from '../VehicleIcon';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 
-function TripLinkWithScroll({
+export default function TripLinkWithScroll({
   mode,
   pattern,
   route,
@@ -123,5 +123,3 @@ TripLinkWithScroll.propTypes = {
   tripId: PropTypes.string,
   vehicleState: PropTypes.string,
 };
-
-export default TripLinkWithScroll;

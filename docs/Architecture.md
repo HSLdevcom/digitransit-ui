@@ -10,6 +10,8 @@ Digitransit-ui is a React based web application. The following bullet points des
 
 ## Additions to Airbnb style guide
  - Use object property spread instead of `Object.assign` when creating new objects: *not* `Object.assign({}, {state}, {a: 1, b: 2})`, but *instead* `{...state, a: 1, b: 2}`
+ - Prefer named default function and class declarations (`export default function Component()`) over separate trailing default exports. Keep separate exports when needed for wrappers, singleton instances, or other values.
+ - Omit redundant React `displayName` assignments when the function name already provides the same label. Keep names needed for anonymous wrappers and intentional aliases.
 
 ## Components
   - Components are function components that fetch data and manage state with hooks
@@ -23,6 +25,10 @@ React components can access data in two different ways:
 Basically, division between alternatives is:
 - GraphQL is used to fetch data from server
 - Non-GraphQL requests may use a focused data helper or React context
+
+Configuration is exposed by `ConfigProvider` and `useConfigContext` in
+`app/hooks/ConfigContext.jsx`. The provider wraps the other app providers in
+`app/client/client.jsx` so they can also access configuration.
 
 Realtime vehicle information is owned by `RealTimeInformationProvider` in
 `app/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
@@ -40,6 +46,27 @@ named functions in `app/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
 
+Search services are exposed through the framework-agnostic singleton in
+`app/data/SearchServices.js`, initialized before rendering and connected to
+`PositionProvider` for current position access. Autosuggest adapters import
+the singleton directly and pass it through the existing `searchContext` package prop;
+it is not part of the React search context value. Each `SearchAutosuggest` or
+`SearchAutosuggestPanel` adapter mounts its own `SearchProvider` from
+`app/hooks/SearchContext.jsx`. The provider owns pending geolocation;
+`useSearchContext` exposes selection handling and instance-local map controls.
+`SearchSelectionBoundary` replaces the input with the map picker while
+keeping its provider mounted. Do not mount a global search provider:
+different search instances have independent callbacks and embedded behavior.
+Journey endpoints remain in `ItineraryLocationContext`.
+
+Responsive layout state is owned by `BreakpointProvider` in
+`app/hooks/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
+Functional consumers use `useBreakpoint()` from that module. Breakpoints are
+`small` below 400px, `medium` from 400px to below 900px, and `large` from 900px.
+`DesktopOrMobile` calls only the selected render callback (`large` uses
+`desktop`; both other values use `mobile`). The raw `BreakpointContext.Provider` accepts
+an explicit value, for example in tests; it does not observe viewport changes.
+
 ![Architecture](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/architecture.png)
 
 Links:
@@ -49,10 +76,10 @@ Links:
 * https://graphql.org/
 
 # CSS (or styles in general)
-  - Modular CSS
-    - how to implement is still a good question
+See [Styles](Styles.md) for the current setup. The direction:
+  - CSS Modules for new components
     - Prefer flexbox based layouts if it simplifies the layouting process
-    - We should provide information about layout (mobile/tablet/desktop) in the context by using matchMedia or browser sniffing in order for the containers to be able to render different contents depending on the device
+    - Containers read responsive layout state through `useBreakpoint()`; the client provider observes viewport width changes through a throttled resize listener
 
  - How to get there
     - Still a uncertain process

@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { DomEvent } from 'leaflet';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
 
-const ConfirmLocationFromMapButton = ({
+export default function ConfirmLocationFromMapButton({
   address,
   isEnabled = false,
   title,
@@ -12,7 +12,7 @@ const ConfirmLocationFromMapButton = ({
   onConfirm,
   color,
   hoverColor,
-}) => {
+}) {
   const redirect = () => {
     if (address) {
       onConfirm(type, otpToLocation(address));
@@ -52,7 +52,7 @@ const ConfirmLocationFromMapButton = ({
       </button>
     </div>
   );
-};
+}
 
 ConfirmLocationFromMapButton.propTypes = {
   address: PropTypes.string,
@@ -63,5 +63,3 @@ ConfirmLocationFromMapButton.propTypes = {
   color: PropTypes.string.isRequired,
   hoverColor: PropTypes.string.isRequired,
 };
-
-export default ConfirmLocationFromMapButton;

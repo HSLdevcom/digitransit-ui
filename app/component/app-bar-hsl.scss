@@ -16,6 +16,10 @@
 // even though the height is derived based on the content and
 // all the items look identical
 .hsl-header-container {
+  @media print {
+    display: none;
+  }
+
   [class*='_topBar_'] {
     box-sizing: border-box;
     height: 40px;

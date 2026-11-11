@@ -1,8 +1,7 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import getAssetUrl from '../../../assets/assetUrl';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NoDisruptions() {
   const { notFoundGraphic, colors } = useConfigContext();

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import capitalize from 'lodash/capitalize';
@@ -74,5 +73,3 @@ StopScheduleStatus.propTypes = {
   alertEffects: PropTypes.arrayOf(PropTypes.string),
   className: PropTypes.string,
 };
-
-StopScheduleStatus.displayName = 'StopScheduleStatus';

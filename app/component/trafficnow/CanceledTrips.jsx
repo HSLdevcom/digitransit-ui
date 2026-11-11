@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Card from '../Card';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
@@ -11,7 +11,11 @@ import CTAContainer from './components/CTAContainer';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 
-const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
+export default function CanceledTrips({
+  canceledRoutes = [],
+  mode,
+  isMobile = false,
+}) {
   const { colors } = useConfigContext();
   const { formatMessage } = useIntl();
   const [showAmount, setShowAmount] = useState(
@@ -35,9 +39,9 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
           );
 
           return isMobile ? (
-            <React.Fragment key={routeSummary.route.shortName}>
+            <Fragment key={routeSummary.route.shortName}>
               {cancellationContainer}
-            </React.Fragment>
+            </Fragment>
           ) : (
             <Card
               key={routeSummary.route.shortName}
@@ -93,7 +97,7 @@ const CanceledTrips = ({ canceledRoutes = [], mode, isMobile = false }) => {
       <div className="canceled-trips__container">{content}</div>
     </>
   );
-};
+}
 
 CanceledTrips.propTypes = {
   canceledRoutes: PropTypes.arrayOf(
@@ -111,5 +115,3 @@ CanceledTrips.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default CanceledTrips;

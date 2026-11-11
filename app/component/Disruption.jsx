@@ -1,4 +1,4 @@
-import React, { Fragment, useMemo } from 'react';
+import { Fragment, useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
@@ -6,7 +6,7 @@ import { DateTime } from 'luxon';
 import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import {
   PREFIX_DISRUPTION,
   routePagePath,
@@ -55,9 +55,6 @@ export default function Disruption({
   const { match } = useRouter();
   const intl = useIntl();
   const hasCancelations = canceledDepartures.length > 0;
-  if (!alertDescriptionText && !alertHeaderText) {
-    return null;
-  }
 
   // group entities by type and mode, used to display badges
   const groupedEntities = useMemo(
@@ -78,6 +75,10 @@ export default function Disruption({
       }, {}),
     [entities],
   );
+
+  if (!alertDescriptionText && !alertHeaderText) {
+    return null;
+  }
 
   // if startDate not defined, assume the alert is active
   const active =
@@ -105,31 +106,30 @@ export default function Disruption({
         id: 'disruption-view-details',
         defaultMessage: 'View details',
       });
-  const ariaLabel = hasCancelations ? alertDescriptionText : alertHeaderText;
+  const ariaLabel = [
+    hasCancelations ? alertDescriptionText : alertHeaderText,
+    buttonLabel,
+  ]
+    .filter(Boolean)
+    .join(', ');
   return (
     <div className="alert-row-container" role="listitem">
-      <div
-        className="alert-row"
-        role="button"
-        aria-label={`${ariaLabel} ${buttonLabel}`}
-        onClick={toggleDetails}
-        tabIndex={0}
-        onKeyDown={e => {
-          if (e.key === ' ' || e.key === 'Enter') {
-            if (toggleDetails) {
-              toggleDetails();
-            }
-            e.stopPropagation();
-          }
-        }}
-      >
+      <div className="alert-row">
         {toggleDetails && (
-          <div className="alert-row-arrow">
-            <Icon
-              img="icon_arrow-collapse--right"
-              color={config.colors.primary}
-            />
-          </div>
+          // Stretched over the row; the entity links are layered above it.
+          <button
+            type="button"
+            className="alert-row-action"
+            aria-label={ariaLabel}
+            onClick={toggleDetails}
+          >
+            <span className="alert-row-arrow">
+              <Icon
+                img="icon_arrow-collapse--right"
+                color={config.colors.primary}
+              />
+            </span>
+          </button>
         )}
         <div className="alert-row-top">
           <DisruptionBadge

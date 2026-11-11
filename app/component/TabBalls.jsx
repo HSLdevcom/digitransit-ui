@@ -1,4 +1,4 @@
-import React, { useRef, useLayoutEffect } from 'react';
+import { useRef, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 
@@ -21,13 +21,13 @@ function setDecreasingAttributes(tabBalls) {
   return newTabBalls;
 }
 
-const TabBalls = ({
+export default function TabBalls({
   tabIndex,
   tabsLength,
   onSwipe,
   reactSwipeEl,
   ariaRole,
-}) => {
+}) {
   const intl = useIntl();
   const tabRefs = useRef([]);
   const lastKeyboardNav = useRef(false);
@@ -142,7 +142,7 @@ const TabBalls = ({
       />
     );
   });
-};
+}
 
 TabBalls.propTypes = {
   tabIndex: PropTypes.number.isRequired,
@@ -150,5 +150,3 @@ TabBalls.propTypes = {
   onSwipe: PropTypes.func.isRequired,
   ariaRole: PropTypes.string.isRequired,
 };
-
-export default TabBalls;

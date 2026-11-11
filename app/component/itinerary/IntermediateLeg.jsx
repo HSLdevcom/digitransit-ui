@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { legTimeShape } from '../../../utils/client/shapes';
 import { legTimeStr } from '../../../utils/client/legUtils';
@@ -8,9 +7,9 @@ import ZoneIcon from '../ZoneIcon';
 import { stopPagePath } from '../../../utils/shared/path';
 import Icon from '../Icon';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function IntermediateLeg({
+export default function IntermediateLeg({
   placesCount = 0,
   color,
   mode,
@@ -196,5 +195,3 @@ IntermediateLeg.propTypes = {
   gtfsId: PropTypes.string,
   isCanceled: PropTypes.bool,
 };
-
-export default IntermediateLeg;

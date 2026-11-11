@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../../Icon';
 import IconBackground from '../../../icon/IconBackground';
 
-const NavigatorIntroFeature = ({
+export default function NavigatorIntroFeature({
   icon,
   iconColor = 'black',
   iconBackgroundColor = 'transparent',
   header,
   body,
-}) => {
+}) {
   return (
     <div className="feature" role="group">
       {icon && (
@@ -33,7 +32,7 @@ const NavigatorIntroFeature = ({
       </div>
     </div>
   );
-};
+}
 
 NavigatorIntroFeature.propTypes = {
   header: PropTypes.string.isRequired,
@@ -42,5 +41,3 @@ NavigatorIntroFeature.propTypes = {
   iconColor: PropTypes.string,
   iconBackgroundColor: PropTypes.string,
 };
-
-export default NavigatorIntroFeature;

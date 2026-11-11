@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { DateTime } from 'luxon';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
@@ -24,30 +24,24 @@ import ScrollableWrapper from '../ScrollableWrapper';
 import { replaceQueryParams } from '../../../utils/client/queryUtils';
 import { PREFIX_STOPS } from '../../../utils/shared/path';
 import { TimetableFragment } from './queries/TimetableFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { getDepartureStoptimes } from '../../../utils/client/patternUtils';
 
 const mapStopTimes = stoptimesObject =>
   stoptimesObject
     .map(stoptime =>
-      stoptime.stoptimes
-        .filter(
-          st =>
-            st.pickupType !== 'NONE' ||
-            st.stop.gtfsId !==
-              stoptime.pattern.stops[stoptime.pattern.stops.length - 1].gtfsId,
-        )
-        .map(st => ({
-          id: stoptime.pattern.code,
-          name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
-          scheduledDeparture: st.scheduledDeparture,
-          serviceDay: st.serviceDay,
-          headsign: stoptime.pattern.headsign,
-          longName: stoptime.pattern.route.longName,
-          isCanceled: st.realtimeState === RealtimeStateType.Canceled,
-          mode: stoptime.pattern.route.mode,
-          gtfsId: st.stop.gtfsId,
-        })),
+      getDepartureStoptimes(stoptime).map(st => ({
+        id: stoptime.pattern.code,
+        name: stoptime.pattern.route.shortName || stoptime.pattern.headsign,
+        scheduledDeparture: st.scheduledDeparture,
+        serviceDay: st.serviceDay,
+        headsign: st.headsign || stoptime.pattern.headsign,
+        longName: stoptime.pattern.route.longName,
+        isCanceled: st.realtimeState === RealtimeStateType.Canceled,
+        mode: stoptime.pattern.route.mode,
+        gtfsId: st.stop.gtfsId,
+      })),
     )
     .reduce((acc, val) => acc.concat(val), []);
 
@@ -138,12 +132,7 @@ const createTimeTableRows = (timetableMap, showRoutes) =>
       />
     ));
 
-export default function Timetable({
-  stop: stopRef,
-  startDate,
-  onDateChange,
-  date,
-}) {
+export default function Timetable({ stop: stopRef, startDate, date }) {
   const { match, router } = useRouter();
   const config = useConfigContext();
   const stop = useFragment(TimetableFragment, stopRef);
@@ -294,7 +283,6 @@ export default function Timetable({
               startDate={startDate}
               selectedDate={date}
               onDateChange={e => {
-                onDateChange(e);
                 const showRoutesNew = showRoutes.length
                   ? showRoutes.join(',')
                   : undefined;
@@ -481,6 +469,5 @@ Timetable.propTypes = {
     ),
   }).isRequired,
   startDate: PropTypes.string.isRequired,
-  onDateChange: PropTypes.func.isRequired,
   date: PropTypes.string.isRequired,
 };

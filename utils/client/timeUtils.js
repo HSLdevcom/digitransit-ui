@@ -1,6 +1,5 @@
 import { DateTime } from 'luxon';
 
-export const TIME_PATTERN = 'HH:mm';
 export const DATE_PATTERN = 'ccc d.L.';
 
 /**
@@ -133,65 +132,6 @@ export function getFutureText(itineraryStart, intl) {
     });
   }
   return getFormattedTimeDate(startTime, 'ccc d.L.', intl.locale);
-}
-
-/**
- * The default number of days to include to the service time range from the past.
- */
-export const RANGE_PAST = 7;
-
-/**
- *
- * @param {number} [itineraryFutureDays]
- * @param {object} [serviceTimeRange]
- * @param {number} [now] seconds since 1970 UTC
- * @returns
- */
-export const validateServiceTimeRange = (
-  itineraryFutureDays,
-  serviceTimeRange,
-  now,
-) => {
-  const nowDate = now ? DateTime.fromSeconds(now) : DateTime.now();
-  const rangeFuture = !itineraryFutureDays ? 30 : itineraryFutureDays;
-  const startSeconds = nowDate
-    .minus({
-      days: RANGE_PAST,
-    })
-    .toSeconds();
-  const endSeconds = nowDate
-    .plus({
-      days: rangeFuture,
-    })
-    .toSeconds();
-  const nowSeconds = nowDate.toSeconds();
-
-  if (!serviceTimeRange) {
-    // empty param returns a default range
-    return {
-      start: startSeconds,
-      end: endSeconds,
-    };
-  }
-
-  // always include today!
-  let start = Math.min(
-    Math.max(serviceTimeRange.start, startSeconds),
-    nowSeconds,
-  );
-  // make sure whole day is included, for comparing timestamps
-  start = DateTime.fromSeconds(start).startOf('day').toSeconds();
-
-  let end = Math.max(Math.min(serviceTimeRange.end, endSeconds), nowSeconds);
-  end = DateTime.fromSeconds(end).endOf('day').toSeconds();
-  return { start, end };
-};
-
-/**
- * @returns {number} current time as seconds since 1970 UTC
- */
-export function getCurrentSecs() {
-  return DateTime.now().toSeconds();
 }
 
 /**

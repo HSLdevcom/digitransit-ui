@@ -1,10 +1,10 @@
-import React, { useCallback } from 'react';
+import { useCallback } from 'react';
 import cx from 'classnames';
 import { useSelect, useTagGroup } from 'downshift';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { Icon, CloseS, ArrowUpS, ArrowDownS, CloseFilled } from '@hsl-fi/icons';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useFilterContext } from './FiltersContext';
 
 function OperatorSelectDropdown({ availableOperators = [], itemToString }) {
@@ -171,7 +171,7 @@ OperatorSelectDropdown.propTypes = {
   itemToString: PropTypes.func.isRequired,
 };
 
-function OperatorSelect() {
+export default function OperatorSelect() {
   const { feedIds = [], sourceForAlertsAndDisruptions = {} } =
     useConfigContext();
   const { locale } = useIntl();
@@ -197,5 +197,3 @@ function OperatorSelect() {
     )
   );
 }
-
-export default OperatorSelect;

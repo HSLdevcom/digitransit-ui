@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
@@ -14,7 +13,7 @@ import {
 } from '../../../../utils/client/mapIconUtils';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../utils/shared/path';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import {
   STOP_STATUS,
   STOP_STATUS_BADGE_IMGS,

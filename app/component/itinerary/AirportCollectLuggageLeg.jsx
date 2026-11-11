@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { legShape } from '../../../utils/client/shapes';
@@ -8,10 +7,15 @@ import Icon from '../Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
 import { stopPagePath } from '../../../utils/shared/path';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function AirportCollectLuggageLeg({ index, leg, focusAction, children }) {
+export default function AirportCollectLuggageLeg({
+  index,
+  leg,
+  focusAction,
+  children,
+}) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
   const { name } = leg.to;
@@ -63,5 +67,3 @@ AirportCollectLuggageLeg.propTypes = {
   focusAction: PropTypes.func.isRequired,
   children: PropTypes.node,
 };
-
-export default AirportCollectLuggageLeg;

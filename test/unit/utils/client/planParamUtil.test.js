@@ -25,7 +25,6 @@ const config = {
       defaultValue: false,
     },
   },
-  modePolygons: {},
   vehicleRental: {
     networks: {
       smoove: {

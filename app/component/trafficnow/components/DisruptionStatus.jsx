@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import { getFormattedTimeDate } from '../../../../utils/client/timeUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const DATE_FORMAT = 'd.L.yyyy';
 

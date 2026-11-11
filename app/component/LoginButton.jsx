@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import Icon from './Icon';
 
-const LoginButton = ({ loginUrl }) => {
+export default function LoginButton({ loginUrl }) {
   const loginClick = event => {
     event.preventDefault();
     window.location.href = loginUrl;
@@ -15,10 +14,8 @@ const LoginButton = ({ loginUrl }) => {
       </button>
     </div>
   );
-};
+}
 
 LoginButton.propTypes = {
   loginUrl: PropTypes.string.isRequired,
 };
-
-export default LoginButton;

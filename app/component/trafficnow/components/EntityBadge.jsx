@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import { entityShape } from '../../../../utils/client/shapes';
 
-function EntityBadge({
+export default function EntityBadge({
   entity,
   mode,
   ariaLabel,
@@ -62,5 +61,3 @@ EntityBadge.propTypes = {
   isPattern: PropTypes.bool,
   highlighted: PropTypes.bool,
 };
-
-export default EntityBadge;

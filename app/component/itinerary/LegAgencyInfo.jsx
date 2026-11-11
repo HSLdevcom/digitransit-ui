@@ -1,12 +1,11 @@
-import React from 'react';
 import { useFragment } from 'react-relay';
 import get from 'lodash/get';
 import { legShape } from '../../../utils/client/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function LegAgencyInfo({ leg: legRef }) {
+export default function LegAgencyInfo({ leg: legRef }) {
   const config = useConfigContext();
   const leg = useFragment(LegAgencyInfoFragment, legRef);
   const agencyName = get(leg, 'agency.name');
@@ -23,5 +22,3 @@ function LegAgencyInfo({ leg: legRef }) {
 }
 
 LegAgencyInfo.propTypes = { leg: legShape.isRequired };
-
-export default LegAgencyInfo;

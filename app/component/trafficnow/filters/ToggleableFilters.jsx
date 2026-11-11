@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Toggle } from '@hsl-fi/form';
 import { useFilterContext } from './FiltersContext';
@@ -17,7 +16,7 @@ const TOGGLEABLE_FILTERS = [
   },
 ];
 
-const ToggleableFilters = () => {
+export default function ToggleableFilters() {
   const { selectedFilters, setFilter, removeFilter } = useFilterContext();
   const favourites = useFavourites();
 
@@ -46,6 +45,4 @@ const ToggleableFilters = () => {
       ))}
     </fieldset>
   );
-};
-
-export default ToggleableFilters;
+}

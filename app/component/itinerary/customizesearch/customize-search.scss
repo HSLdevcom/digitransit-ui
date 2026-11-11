@@ -1,3 +1,5 @@
+@use '../../../../styles/abstracts' as *;
+
 .offcanvas {
   width: 400px;
   height: 100%;
@@ -89,8 +91,8 @@
   height: auto;
   display: flex;
   flex-direction: column;
-  background: #fff;
-  color: $black;
+  background: $white;
+  color: $dark-gray;
   position: relative;
   font-size: $font-size-normal;
 
@@ -100,6 +102,12 @@
 
   .settings-header {
     padding-top: 12px;
+  }
+
+  .close-settings {
+    position: absolute;
+    right: 1em;
+    top: 1em;
   }
 
   .close-offcanvas {
@@ -115,7 +123,7 @@
   .mode-label-upper {
     font-size: $font-size-normal;
     font-weight: $font-weight-medium;
-    color: $black;
+    color: $dark-gray;
   }
 
   .mode-label-upper {
@@ -213,9 +221,9 @@
       }
 
       span {
-        font-size: var(--Font-Size-Routes-Extra-small, 12px);
-        line-height: var(--Line-Height-Routes-XS, 14px);
-        letter-spacing: var(--letter-spacing-03, -0.3px);
+        font-size: 12px;
+        line-height: 14px;
+        letter-spacing: -0.3px;
         font-weight: $font-weight-medium;
         color: $theme-primary-color;
       }
@@ -232,19 +240,18 @@
 
   .restore-settings {
     display: flex;
-    padding: var(--fixed-space-s, 16px) 0 var(--fixed-space-s, 16px)
-      var(--fixed-space-m, 24px);
+    padding: var(--space-fixed-s) 0 var(--space-fixed-s) var(--space-fixed-m);
     align-items: center;
-    gap: var(--fixed-space-xs, 8px);
+    gap: var(--space-fixed-xs);
     align-self: stretch;
     border-radius: var(--radius-pill, 999px);
-    background: #fff;
+    background: $white;
     box-shadow: 0 4px 4px 0 rgba(0, 52, 86, 0.25);
     position: fixed;
     bottom: 0;
     z-index: 10;
     width: 368px;
-    margin-bottom: var(--fixed-space-s, 16px);
+    margin-bottom: var(--space-fixed-s);
     line-height: normal;
     max-height: 70px;
 
@@ -333,15 +340,6 @@
       display: flex;
       flex-direction: column;
       gap: 4px;
-
-      // Foundation's global `a:focus, a:hover { color: $anchor-color-hover }`
-      // (specificity 0,1,1) outranks the hsl-fi ArrowLink/TextLink's own base
-      // class (0,1,0) on focus, since the component only styles
-      // `:focus-visible` for the outline and leaves the text color to its
-      // base class. Restore the intended link color on keyboard focus here.
-      a:focus {
-        color: var(--color-text-link);
-      }
     }
   }
 
@@ -352,7 +350,7 @@
     gap: 16px;
     margin-top: 8px;
     padding: 16px 32px 16px 24px;
-    background-color: $infobox-color-generic-blue;
+    background-color: $infobox-background-color;
     border: solid 1px #d9eaf5;
     border-radius: 16px;
 
@@ -367,19 +365,10 @@
       flex-direction: column;
       gap: 4px;
 
-      // Foundation's global `a:focus, a:hover { color: $anchor-color-hover }`
-      // (specificity 0,1,1) outranks the hsl-fi ButtonLink's own base class
-      // (0,1,0) on focus, since the component only styles `:focus-visible`
-      // for the outline and leaves color/background to its base class.
-      // Restore the intended white button text on keyboard focus here.
-      a:focus {
-        color: var(--color-text-invert);
-      }
-
       .beta-label {
         font-size: $font-size-xxsmall;
         font-weight: $font-weight-medium;
-        color: $black;
+        color: $dark-gray;
         flex-direction: row;
         width: 58px;
         height: 24px;

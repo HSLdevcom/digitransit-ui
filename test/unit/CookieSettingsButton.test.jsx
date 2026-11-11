@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent } from '@testing-library/react';
 import CookieSettingsButton from '../../app/component/CookieSettingsButton';
 import { renderWithProviders } from './helpers/mock-providers';

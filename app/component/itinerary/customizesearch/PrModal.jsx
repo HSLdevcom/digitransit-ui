@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { ButtonLink, Spacer, Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../client/ConfigContext';
-import { useBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { useConfigContext } from '../../../hooks/ConfigContext';
+import { useBreakpoint } from '../../../hooks/BreakpointContext';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();

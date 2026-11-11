@@ -2,6 +2,8 @@ import path from 'path';
 import fs from 'fs';
 import { createRequire } from 'module';
 import webpack from 'webpack';
+import browserslist from 'browserslist';
+import { browserslistToTargets, Features } from 'lightningcss';
 import MiniCssExtractPlugin from 'mini-css-extract-plugin';
 import TerserJsPlugin from 'terser-webpack-plugin';
 import CssMinimizerPlugin from 'css-minimizer-webpack-plugin';
@@ -10,7 +12,12 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import { themeEntries, faviconPlugins } from './scripts/build/contextHelper.js';
+import {
+  themeEntries,
+  themePath,
+  faviconPlugins,
+} from './scripts/build/contextHelper.js';
+import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
 const rootDir = import.meta.dirname;
@@ -19,39 +26,15 @@ const mode = process.env.NODE_ENV;
 const isProduction = mode === 'production';
 const isDevelopment = !isProduction;
 
-const themeExpression = /sass[/\\]themes$/;
-const selectedTheme = new RegExp(
-  `^./(${process.env.CONFIG || 'default'})/main.scss$`,
-);
+const themeFile = /styles[/\\]themes[/\\](\w+)[/\\]theme\.scss$/;
 
-// Small stand-in for the unmaintained `stats-webpack-plugin`: writes the
-// same trimmed-down stats shape that server/middleware/shell.js's (via
-// server/html/assetManifest.js) asset lookup reads to know which built
-// JS/CSS files belong to the `main` entrypoint. It expects
-// `entrypoints.<name>.assets` to be an array of plain filename strings
-// (the shape `stats-webpack-plugin` used to produce), not webpack5's
-// native `{ name, size }` asset objects, so that shape is preserved here.
-class EntrypointStatsPlugin {
-  constructor(destination) {
-    this.destination = destination;
-  }
-
-  apply(compiler) {
-    compiler.hooks.done.tap('EntrypointStatsPlugin', stats => {
-      const { entrypoints } = stats.toJson({ all: false, entrypoints: true });
-      const json = {
-        entrypoints: Object.fromEntries(
-          Object.entries(entrypoints).map(([name, entrypoint]) => [
-            name,
-            { ...entrypoint, assets: entrypoint.assets.map(a => a.name) },
-          ]),
-        ),
-      };
-      const outputPath = path.join(compiler.outputPath, this.destination);
-      fs.writeFileSync(outputPath, JSON.stringify(json));
-    });
-  }
-}
+// Files in `_static` that webpack doesn't emit, so `output.clean` keeps
+// them: `static/` as copied by scripts/build/copyStatic.js (plus its
+// `.gz`/`.br` siblings), and the sprite sheets scripts/build/buildSprites.js
+// writes as entry inputs.
+const isPrebuiltStaticFile = asset =>
+  /^assets\/svg-sprite\.[^/]+\.svg$/.test(asset) ||
+  fs.existsSync(path.join(rootDir, 'static', asset.replace(/\.(gz|br)$/, '')));
 
 const productionPlugins = [
   ...faviconPlugins,
@@ -67,6 +50,12 @@ const productionPlugins = [
     // unresolved item rather than a fully-accepted non-issue.
     ignoreOrder: false,
   }),
+  // main.css has ported third-party code, this is the CSS version of the
+  // pointer Terser adds to JS bundles.
+  new webpack.BannerPlugin({
+    banner: 'For license information please see ../third-party-licenses.txt',
+    test: /^css\/main\./,
+  }),
   new CompressionPlugin({
     filename: '[path][base].gz',
     test: /\.(js|css|html|svg|ico)$/,
@@ -79,8 +68,7 @@ const productionPlugins = [
     minRatio: 0.95,
     algorithm: 'brotliCompress',
   }),
-  new EntrypointStatsPlugin('../stats.json'),
-  new WebpackAssetsManifest({ output: '../manifest.json' }),
+  new WebpackAssetsManifest({ output: '../manifest.json', entrypoints: true }),
 ];
 
 export default {
@@ -88,9 +76,14 @@ export default {
   entry: {
     main: [
       './app/client/publicPath',
-      // Dev-only: loads the active theme's SCSS via a dynamic require.
-      // Production themes are handled statically via `themeEntries` below.
-      ...(isDevelopment ? ['./app/client/loadDevTheme'] : []),
+      // Dev-only: first so that it declares the cascade layer order.
+      ...(isDevelopment
+        ? [
+            themePath(
+              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
+            ),
+          ]
+        : []),
       './app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
@@ -101,6 +94,7 @@ export default {
     chunkFilename: 'js/[contenthash].js',
     publicPath: isDevelopment ? '/proxy/' : '/',
     crossOriginLoading: 'anonymous',
+    clean: { keep: isPrebuiltStaticFile },
   },
   module: {
     rules: [
@@ -138,30 +132,32 @@ export default {
                 // No explicit `targets` here: this intentionally inherits
                 // the `browserslist` key from package.json, which is the
                 // single source of truth for supported browsers across
-                // both this config and other tooling (postcss/autoprefixer).
+                // both this config and the Lightning CSS minimizer below.
                 modules: false,
+                bugfixes: true,
                 // Expands `import 'core-js/stable'` in app/client/client.jsx
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
-                corejs: { version: '3.50' },
+                corejs: { version: '3.51' },
               },
             ],
             [
               '@babel/preset-react',
-              { development: isDevelopment, useBuiltIns: true },
+              { development: isDevelopment, runtime: 'automatic' },
             ],
           ],
           plugins: [
             'relay',
-            [
-              '@babel/plugin-transform-runtime',
-              {
-                helpers: true,
-                regenerator: true,
-                useESModules: true,
-              },
-            ],
+            ['@babel/plugin-transform-runtime', { helpers: true }],
+            ...(isProduction
+              ? [
+                  [
+                    'transform-react-remove-prop-types',
+                    { mode: 'remove', removeImport: true },
+                  ],
+                ]
+              : []),
           ],
         },
       },
@@ -182,6 +178,7 @@ export default {
               '@babel/preset-env',
               {
                 modules: false,
+                bugfixes: true,
               },
             ],
           ],
@@ -205,6 +202,7 @@ export default {
                 '@babel/preset-env',
                 {
                   modules: false,
+                  bugfixes: true,
                 },
               ],
             ],
@@ -212,7 +210,7 @@ export default {
         },
       },
       {
-        // All 4 digitransit-* workspace packages set "type": "module" (so
+        // All 4 digitransit-* packages set "type": "module" (so
         // their raw source/tests run as native ESM) - which webpack, following
         // that package.json field, parses as strict `javascript/esm` rather
         // than `auto`. This causes two distinct problems when bundled directly
@@ -239,12 +237,7 @@ export default {
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
         test: /\.js$/,
-        include: [
-          path.resolve(rootDir, 'digitransit-component'),
-          path.resolve(rootDir, 'digitransit-search-util'),
-          path.resolve(rootDir, 'digitransit-store'),
-          path.resolve(rootDir, 'digitransit-util'),
-        ],
+        include: [path.resolve(rootDir, 'packages')],
         type: 'javascript/auto',
         resolve: { fullySpecified: false },
       },
@@ -257,24 +250,29 @@ export default {
                 loader: MiniCssExtractPlugin.loader,
                 options: { publicPath: 'auto' },
               },
-          'css-loader',
-          'postcss-loader',
+          {
+            loader: 'css-loader',
+            // `import styles from './x.module.scss'`, as in the packages.
+            options: {
+              modules: {
+                auto: true,
+                namedExport: false,
+                exportLocalsConvention: 'as-is',
+              },
+            },
+          },
           {
             loader: 'sass-loader',
             options: {
-              sassOptions: {
-                // Modern Dart Sass JS API option name (was `includePaths`
-                // under the legacy API sass-loader used to default to).
-                loadPaths: [
-                  path.join(rootDir, 'node_modules/foundation-sites/scss'),
-                ],
-                quietDeps: true,
-                silenceDeprecations: [
-                  'import',
-                  'global-builtin',
-                  'color-functions',
-                  'if-function',
-                ],
+              sassOptions: ({ resourcePath }) => {
+                const [, theme] = resourcePath.match(themeFile) || [];
+                return {
+                  // No BOM/@charset: Sass adds one to non-ASCII output, and a
+                  // BOM mid-bundle invalidates the selector that follows it.
+                  charset: false,
+                  quietDeps: true,
+                  ...(theme ? { functions: sassConfigFunctions(theme) } : {}),
+                };
               },
             },
           },
@@ -292,7 +290,6 @@ export default {
                 options: { publicPath: 'auto' },
               },
           'css-loader',
-          'postcss-loader',
         ],
       },
       {
@@ -306,7 +303,6 @@ export default {
                 options: { publicPath: 'auto' },
               },
           'css-loader',
-          'postcss-loader',
         ],
       },
       {
@@ -348,16 +344,25 @@ export default {
       process: require.resolve('process/browser'),
       Buffer: ['buffer', 'Buffer'],
     }),
-    ...(isDevelopment
-      ? [new webpack.ContextReplacementPlugin(themeExpression, selectedTheme)]
-      : productionPlugins),
+    ...(isDevelopment ? [] : productionPlugins),
   ],
   optimization: {
     minimizer: [
       new TerserJsPlugin({
         parallel: true,
       }),
-      new CssMinimizerPlugin(),
+      new CssMinimizerPlugin({
+        minify: CssMinimizerPlugin.lightningCssMinify,
+        minimizerOptions: {
+          // Keep `min-width`/`max-width` media queries instead of range
+          // syntax (`width>=…`): browsers older than the targets would
+          // otherwise get the mobile layout.
+          include: Features.MediaRangeSyntax,
+          targets: browserslistToTargets(
+            browserslist(undefined, { path: rootDir }),
+          ),
+        },
+      }),
     ],
     // 'named' module/chunk IDs give readable debugging output, but they
     // bake full literal `node_modules/...` file paths into the bundle -
@@ -376,7 +381,7 @@ export default {
         },
         digitransitComponents: {
           name: 'digitransit-components',
-          // The 4 `digitransit-*` workspace packages are Yarn-workspace
+          // The 4 `digitransit-*` packages are Yarn-workspace
           // symlinks, so webpack resolves them to their real path outside
           // `node_modules` entirely - hence the second, bare alternative
           // below (no `node_modules[\\/]` prefix), unlike the `@hsl-fi`
@@ -390,6 +395,17 @@ export default {
   performance: { hints: false },
   cache: {
     type: 'filesystem',
+    // `CONFIG` decides which theme entries and favicons get built.
+    version: process.env.CONFIG || 'all',
+    // Invalidate the cache when the build config itself changes, including
+    // package.json's `browserslist` (Babel and Lightning CSS targets).
+    buildDependencies: {
+      config: [
+        import.meta.filename,
+        path.join(rootDir, 'scripts/build/contextHelper.js'),
+        path.join(rootDir, 'package.json'),
+      ],
+    },
   },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],

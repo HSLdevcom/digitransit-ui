@@ -1,29 +1,40 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Component } from 'react';
 
 import { FormattedMessage } from 'react-intl';
 import Icon from './Icon';
 import NetworkError from './NetworkError';
 import isRelayNetworkError from '../../utils/client/relayUtils';
 
-export default class ErrorBoundary extends React.Component {
-  static propTypes = { children: PropTypes.node };
+export default class ErrorBoundary extends Component {
+  static propTypes = {
+    children: PropTypes.node,
+    // Rendered instead of the error page. With a fallback the boundary never
+    // retries or reloads the window, so use it for non-essential content.
+    // Pass an empty fragment to render nothing; a null fallback is ignored.
+    fallback: PropTypes.node,
+  };
 
   state = { error: null, hasRetried: false };
 
+  static getDerivedStateFromError(error) {
+    return { error };
+  }
+
   resetState = () => this.setState({ error: null, hasRetried: true });
 
-  componentDidCatch(error) {
-    if (this.state.hasRetried) {
+  componentDidCatch() {
+    if (!this.props.fallback && this.state.hasRetried) {
       // Did retry, didn't help
       window.location.reload();
-      return;
     }
-    this.setState({ error });
   }
 
   render() {
     if (this.state.error) {
+      if (this.props.fallback) {
+        return this.props.fallback;
+      }
       if (isRelayNetworkError(this.state.error)) {
         return <NetworkError retry={this.resetState} />;
       }

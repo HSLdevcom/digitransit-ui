@@ -1,4 +1,3 @@
-import React from 'react';
 // react-relay's CJS build (unlike this repo's own Babel-ESM output) has no
 // `__esModule` marker, so `import * as X` gets a one-off *copied* namespace
 // object from Babel's interop helper instead of the live module.exports —
@@ -15,7 +14,7 @@ import TrafficNow from '../../../../app/component/trafficnow/TrafficNow';
 import AlertsQuery from '../../../../app/component/trafficnow/queries/AlertsQuery';
 import CanceledTripsOverviewQuery from '../../../../app/component/trafficnow/queries/CanceledTripsOverviewQuery';
 import CanceledTripsForModeQuery from '../../../../app/component/trafficnow/queries/CanceledTripsForModeQuery';
-import * as withBreakpoint from '../../../../utils/client/withBreakpoint';
+import * as breakpointContext from '../../../../app/hooks/BreakpointContext';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
@@ -69,7 +68,7 @@ function stubRelayQueries({ alertsFixture = EMPTY_ALERTS_FIXTURE } = {}) {
 
 describe('<TrafficNow />', () => {
   const renderTrafficNow = ({ breakpoint, mode, alertId, alertsFixture }) => {
-    vi.spyOn(withBreakpoint, 'useBreakpoint').mockReturnValue(breakpoint);
+    vi.spyOn(breakpointContext, 'useBreakpoint').mockReturnValue(breakpoint);
     stubRelayQueries({ alertsFixture });
     // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
     // utils/client/scroll.js) on mount and whenever mode/alertId change.

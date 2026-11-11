@@ -1,4 +1,4 @@
-import React, {
+import {
   createContext,
   useCallback,
   useContext,
@@ -15,7 +15,7 @@ import {
   failedFavouriteMessage,
   favouriteTypes,
 } from '../../utils/client/messageUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from './ConfigContext';
 
 const FavouriteContext = createContext({
   favourites: [],

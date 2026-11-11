@@ -1,5 +1,5 @@
 /* eslint-disable no-param-reassign */
-export const configureCountry = (config, selectedCountries) => {
+export default function configureCountry(config, selectedCountries) {
   if (config.mainMenu.countrySelection?.length > 0) {
     const keys = Object.keys(selectedCountries);
     let boundaries = config.additionalSearchParams.default['boundary.country'];
@@ -29,6 +29,6 @@ export const configureCountry = (config, selectedCountries) => {
     };
     config.feedIds = feedIds;
   }
-};
+}
 
-export default configureCountry;
+export { configureCountry };

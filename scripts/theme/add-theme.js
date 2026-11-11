@@ -1,5 +1,7 @@
 /* eslint-disable */
 
+/* TODO: old and untested. Fix the next time it's needed: template.waltti.js uses require, and the themeMap anchor below no longer exists. */
+
 /* initialize a skeleton for a new theme */
 /* For example: npm run add-theme juupajoki 0x80CCAA */
 import fs from 'fs';
@@ -8,7 +10,7 @@ import path from 'path';
 const rootDir = import.meta.dirname;
 
 const theme = process.argv[2];
-const color = process.argv[3] || '$livi-blue';
+const color = process.argv[3] || '#000f94';
 const logoPath = process.argv[4];
 
 if (!theme || theme === '?') {
@@ -16,37 +18,24 @@ if (!theme || theme === '?') {
   process.exit(0);
 }
 
-const sassDir = 'sass/themes/' + theme;
+const sassDir = 'styles/themes/' + theme;
 const name = theme.charAt(0).toUpperCase() + theme.slice(1); // with uppecase initial
 if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
 }
 
-fs.writeFileSync(sassDir + '/main.scss',
-`@import 'theme';
-@import '../../main';
-`
-);
-
 let themeContent =
-`@import '../../base/waltti';
+`@use 'sass:color';
+@use '../waltti/theme';
 
-/* main theme colors */
-$theme-primary-color: ${color};
-$theme-secondary-color: darken($theme-primary-color, 20%);
-$highlight-color: $theme-primary-color;
-$action-color: $theme-primary-color;
-$bus-color: $theme-primary-color;
-$viewpoint-marker-color: $theme-primary-color;
-$current-location-color: $theme-primary-color;
-
-$standalone-btn-color: $theme-primary-color;
-$link-color: $theme-primary-color;
-
-/* Component palette */
-$desktop-title-color: $theme-primary-color;
-$desktop-title-arrow-icon-color: $theme-secondary-color;
-$top-bar-color: $theme-primary-color;
+@layer theme {
+  :root {
+    --theme-secondary-color: #{color.adjust(${color}, $lightness: -20%)};
+    --theme-primary-dark-color: #{color.adjust(${color}, $lightness: -5%)};
+    --bus-color: var(--theme-primary-color);
+    --color-accent-primary-900: #{color.adjust(${color}, $lightness: -10%)};
+  }
+}
 `;
 
 let textLogo;
@@ -66,7 +55,7 @@ if (logoPath) {
 }
 
 // theme is ready, write it
-fs.writeFileSync(sassDir + '/_theme.scss', themeContent);
+fs.writeFileSync(sassDir + '/theme.scss', themeContent);
 
 // generate app configuration
 const regexColor = new RegExp('__color__', 'g');

@@ -1,6 +1,9 @@
 // Styles for the schedule view: date selectors, trip list, action bar,
 // and print-specific overrides.
 
+@use '../../../styles/abstracts' as *;
+@use '@hsl-fi/sass/mixins/screen';
+
 // ─── Timetable tabpanel (flex column root for the schedule view) ─────────────
 
 .route-timetable-panel,
@@ -8,6 +11,28 @@
   display: flex;
   flex-direction: column;
   flex: 1 0;
+
+  @media print {
+    display: block;
+  }
+}
+
+.route-tab-loading {
+  position: relative;
+  min-height: 200px;
+}
+
+// tall enough for the bottom sheet to stay where it is when switching tabs
+.mobile .route-timetable-panel,
+.mobile .route-disruption-panel,
+.mobile .route-tab-loading {
+  min-height: calc(100vh - 64px);
+}
+
+// the placeholder is taller than the visible sheet, so keep the spinner near the top
+.mobile .route-tab-loading .loading-spinner-container {
+  align-items: flex-start;
+  padding-top: 64px;
 }
 
 // ─── Schedule container (scroll root) ───────────────────────────────────────
@@ -39,6 +64,7 @@
 
   @media print {
     max-height: none;
+    overflow: visible;
   }
 }
 
@@ -54,9 +80,12 @@
   }
 
   @media print {
-    // Foundation collapses display:flex in print — force visibility
-    display: block !important;
-    overflow: auto !important;
+    overflow: auto;
+
+    &,
+    &.bp-large {
+      display: block;
+    }
   }
 
   .route-schedule-header {
@@ -111,42 +140,6 @@
   }
 }
 
-// ─── Stop select ─────────────────────────────────────────────────────────────
-
-.route-schedule-stop-select {
-  position: relative;
-
-  select {
-    position: relative;
-    background-color: $white;
-    font-size: 9pt;
-    color: $black;
-    height: 30px;
-    line-height: 24px;
-    font-weight: $font-weight-medium;
-    appearance: none;
-    letter-spacing: -0.03em;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    text-align: right;
-  }
-
-  svg {
-    position: absolute;
-    top: 7px;
-    right: 0;
-    height: 10px;
-    width: 10px;
-    fill: $theme-primary-color;
-    pointer-events: none;
-  }
-
-  @media print {
-    display: none;
-  }
-}
-
 // ─── Dropdowns row ───────────────────────────────────────────────────────────
 
 .route-schedule-dropdowns {
@@ -156,51 +149,6 @@
 
   @media print {
     display: none;
-  }
-}
-
-// ─── Date select ─────────────────────────────────────────────────────────────
-
-.route-schedule-date {
-  @include font-book;
-
-  @media print {
-    display: none;
-  }
-
-  min-height: $route-schedule-date-height;
-  margin: 0;
-
-  .icon {
-    margin-right: 7px;
-    width: 15px;
-    height: 15px;
-    color: $theme-primary-color;
-  }
-
-  select {
-    font-size: 9pt;
-    line-height: 18px;
-    height: 19px;
-    background-color: $white;
-    color: $theme-primary-color;
-
-    // !important required to override Foundation's .select border-bottom rule
-    border-bottom: none !important;
-    font-weight: $font-weight-medium;
-    padding: 0;
-    background-image: none;
-    width: 7em;
-    text-align: left;
-    appearance: none;
-
-    &:hover {
-      background: none;
-    }
-
-    option {
-      padding: 4px;
-    }
   }
 }
 
@@ -254,7 +202,7 @@
 .after-scrollable-area {
   display: none;
 
-  @include min-width(tablet) {
+  @include screen.min-width(tablet) {
     display: block;
   }
 
@@ -348,8 +296,21 @@
     font-weight: $font-weight-medium;
 
     .printable-stop-header_from {
+      flex: 1 1 0;
+      min-width: 0;
       margin-right: 1em;
-      width: 8.4em;
+    }
+
+    // keeps the destination right-aligned above the arrival times
+    .printable-stop-header_to {
+      flex: 0 1 auto;
+      max-width: 45%;
+      text-align: right;
+    }
+
+    .printable-stop-header_icon-from,
+    .printable-stop-header_icon-to {
+      flex: 0 0 auto;
     }
 
     .printable-stop-header_icon-from {

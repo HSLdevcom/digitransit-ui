@@ -1,11 +1,10 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { useMatch } from 'found';
 import { generateMetaData } from '../../../utils/client/metaUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function NearYouPageMeta() {
+export default function NearYouPageMeta() {
   const config = useConfigContext();
   const intl = useIntl();
   const match = useMatch();
@@ -32,5 +31,3 @@ function NearYouPageMeta() {
   );
   return <Helmet {...props} />;
 }
-
-export default NearYouPageMeta;

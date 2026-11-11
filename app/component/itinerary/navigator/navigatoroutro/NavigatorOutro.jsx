@@ -1,10 +1,10 @@
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../../utils/shared/analyticsUtils';
 
-const NavigatorOutro = ({ onClose, destination, logo }) => {
+export default function NavigatorOutro({ onClose, destination, logo }) {
   const intl = useIntl();
   const [place, address] = destination?.split(/, (.+)/) || [];
 
@@ -44,12 +44,10 @@ const NavigatorOutro = ({ onClose, destination, logo }) => {
       </div>
     </>
   );
-};
+}
 
 NavigatorOutro.propTypes = {
   onClose: PropTypes.func.isRequired,
   destination: PropTypes.string.isRequired,
   logo: PropTypes.string,
 };
-
-export default NavigatorOutro;

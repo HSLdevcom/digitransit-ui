@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useIntl } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
 import MarkerPopupBottom from '../MarkerPopupBottom';
@@ -11,7 +11,7 @@ import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
 import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function LocationPopup({
   lat,
@@ -104,7 +104,7 @@ export default function LocationPopup({
   const { loading, location } = state;
   if (loading) {
     return (
-      <div className="card smallspinner" style={{ height: '4rem' }}>
+      <div className="card" style={{ height: '4rem' }}>
         <Loading />
       </div>
     );

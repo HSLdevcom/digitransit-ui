@@ -1,13 +1,16 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import Icon from '@digitransit-component/digitransit-component-icon';
 
 /**
  * Presents a single departure/arrival row with optional cancel styling.
  */
-function ScheduleTripRow({ departureTime, arrivalTime, isCanceled = false }) {
+export default function ScheduleTripRow({
+  departureTime,
+  arrivalTime,
+  isCanceled = false,
+}) {
   return (
     <div className="trip-column" role="listitem" tabIndex={0}>
       <div
@@ -35,7 +38,3 @@ ScheduleTripRow.propTypes = {
   arrivalTime: PropTypes.string.isRequired,
   isCanceled: PropTypes.bool,
 };
-
-ScheduleTripRow.displayName = 'ScheduleTripRow';
-
-export default ScheduleTripRow;

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import cx from 'classnames';
 import Polyline from 'react-leaflet/es/Polyline';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 // https://github.com/Leaflet/Leaflet/issues/2662
 // updating className does not work currently :(

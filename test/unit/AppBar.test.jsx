@@ -1,5 +1,3 @@
-import React from 'react';
-import ReactModal from 'react-modal';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from './helpers/mock-providers';
 import AppBar from '../../app/component/AppBar';
@@ -7,7 +5,6 @@ import { mockContext } from './helpers/mock-context';
 
 describe('<AppBar />', () => {
   beforeAll(() => {
-    ReactModal.setAppElement(document.body);
     global.requestAnimationFrame = cb => setTimeout(cb, 0);
     global.cancelAnimationFrame = id => clearTimeout(id);
   });

@@ -1,14 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { classList } from '@hsl-fi/utilities';
 import { AlertTriangleFilled } from '@hsl-fi/icons';
 import { CrisisPriority } from '@hsl-fi/content-delivery-api-types';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { getJson } from '../../utils/shared/xhrPromise';
 import './crisis-banner-hsl.scss';
 
-const CrisisBannerHsl = ({ initialBanners = null }) => {
+export default function CrisisBannerHsl({ initialBanners = null }) {
   const config = useConfigContext();
   const { locale } = useIntl();
   const [banners, setBanners] = useState(() => {
@@ -61,7 +61,7 @@ const CrisisBannerHsl = ({ initialBanners = null }) => {
       ))}
     </div>
   );
-};
+}
 
 CrisisBannerHsl.propTypes = {
   initialBanners: PropTypes.arrayOf(
@@ -71,5 +71,3 @@ CrisisBannerHsl.propTypes = {
     }),
   ),
 };
-
-export default CrisisBannerHsl;

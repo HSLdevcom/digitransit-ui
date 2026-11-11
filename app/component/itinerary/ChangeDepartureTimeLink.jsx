@@ -1,9 +1,8 @@
-import React from 'react';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { useMatch } from 'found';
 
-const ChangeDepartureTimeLink = () => {
+export default function ChangeDepartureTimeLink() {
   const match = useMatch();
   return (
     <div>
@@ -15,6 +14,4 @@ const ChangeDepartureTimeLink = () => {
       </a>
     </div>
   );
-};
-
-export default ChangeDepartureTimeLink;
+}

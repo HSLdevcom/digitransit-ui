@@ -1,4 +1,3 @@
-import React from 'react';
 import { vehicleRentalStationShape } from '../../utils/client/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';
@@ -9,9 +8,9 @@ import {
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
 } from '../../utils/shared/vehicleRentalUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-const VehicleRentalStation = ({ vehicleRentalStation }) => {
+export default function VehicleRentalStation({ vehicleRentalStation }) {
   const config = useConfigContext();
   const vehicleCapacity = getVehicleCapacity(
     config,
@@ -52,9 +51,8 @@ const VehicleRentalStation = ({ vehicleRentalStation }) => {
       />
     </div>
   );
-};
+}
 
 VehicleRentalStation.propTypes = {
   vehicleRentalStation: vehicleRentalStationShape.isRequired,
 };
-export default VehicleRentalStation;

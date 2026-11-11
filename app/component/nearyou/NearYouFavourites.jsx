@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
 import { locationShape, relayShape } from '../../../utils/client/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Loading from '../Loading';
 import NoFavourites from './NoFavourites';
 
@@ -13,11 +12,11 @@ function NearYouFavourites({
   vehicleRentalStationIds,
   relayEnvironment,
   searchPosition,
-  breakpoint,
   noFavourites = false,
   isParentTabActive = false,
   currentTime,
 }) {
+  const breakpoint = useBreakpoint();
   if (noFavourites) {
     return <NoFavourites breakpoint={breakpoint} />;
   }
@@ -30,15 +29,15 @@ function NearYouFavourites({
           $vehicleRentalStationIds: [String!]!
         ) {
           stops: stops(ids: $stopIds) {
-            ...NearYouFavouritesContainer_stops
+            ...NearYouFavouritesFragment_stops
           }
           stations: stations(ids: $stationIds) {
-            ...NearYouFavouritesContainer_stations
+            ...NearYouFavouritesFragment_stations
           }
           vehicleStations: vehicleRentalStations(
             ids: $vehicleRentalStationIds
           ) {
-            ...NearYouFavouritesContainer_vehicleStations
+            ...NearYouFavouritesFragment_vehicleStations
           }
         }
       `}
@@ -71,18 +70,17 @@ NearYouFavourites.propTypes = {
   vehicleRentalStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   relayEnvironment: relayShape.isRequired,
   searchPosition: locationShape.isRequired,
-  breakpoint: PropTypes.string,
   noFavourites: PropTypes.bool,
   isParentTabActive: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
 };
 
-const NearYouFavouritesWithBreakpoint = withBreakpoint(props => (
-  <ReactRelayContext.Consumer>
-    {({ environment }) => (
-      <NearYouFavourites {...props} relayEnvironment={environment} />
-    )}
-  </ReactRelayContext.Consumer>
-));
-
-export default NearYouFavouritesWithBreakpoint;
+export default function NearYouFavouritesRelayConnector(props) {
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => (
+        <NearYouFavourites {...props} relayEnvironment={environment} />
+      )}
+    </ReactRelayContext.Consumer>
+  );
+}

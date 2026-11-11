@@ -1,4 +1,3 @@
-import React from 'react';
 import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
@@ -11,7 +10,7 @@ import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 
-const ParkingAreaMarker = ({ position, type, liipiId }) => {
+export default function ParkingAreaMarker({ position, type, liipiId }) {
   const { router } = useRouter();
   const getIcon = zoom => {
     const iconSize = Math.max(getCaseRadius(zoom) * 3, 18);
@@ -40,12 +39,10 @@ const ParkingAreaMarker = ({ position, type, liipiId }) => {
       onClick={redirectToLiipiPage}
     />
   );
-};
+}
 
 ParkingAreaMarker.propTypes = {
   position: locationShape.isRequired,
   type: PropTypes.oneOf(['bike', 'car']).isRequired,
   liipiId: PropTypes.string.isRequired,
 };
-
-export default ParkingAreaMarker;

@@ -1,8 +1,17 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
 import { RentalNetworkType } from '../../../utils/shared/vehicleRentalUtils';
+
+// the nearest scooter query never resolves, so no state update happens after a test ends
+vi.mock('react-relay', async importOriginal => {
+  const actual = await importOriginal();
+  return {
+    ...actual,
+    ...actual.default,
+    fetchQuery: () => ({ toPromise: () => new Promise(() => {}) }),
+  };
+});
 
 const baseConfig = createTestConfig({
   defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },

@@ -1,11 +1,10 @@
 /* eslint-disable react/no-array-index-key */
 import PropTypes from 'prop-types';
-import React from 'react';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from '../SwipeableTabs';
 import { planEdgeShape } from '../../../utils/client/shapes';
 
-function ItineraryTabs({
+export default function ItineraryTabs({
   planEdges,
   tabIndex,
   isMobile,
@@ -59,5 +58,3 @@ ItineraryTabs.propTypes = {
   feedback: PropTypes.objectOf(PropTypes.bool),
   giveFeedback: PropTypes.func,
 };
-
-export default ItineraryTabs;

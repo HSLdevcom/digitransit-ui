@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import ThemedIcon from '../ThemedIcon';
 import { resolveNoDeparturesBadge } from '../../../utils/client/stopStatusUtils';
 import { alertShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 
 function getModeStopIcon(mode) {

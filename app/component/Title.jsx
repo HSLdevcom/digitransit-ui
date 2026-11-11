@@ -1,9 +1,6 @@
-import React from 'react';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-const Title = () => {
+export default function Title() {
   const { title } = useConfigContext();
   return <span>{title}</span>;
-};
-
-export default Title;
+}

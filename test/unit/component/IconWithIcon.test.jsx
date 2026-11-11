@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import IconWithIcon from '../../../app/component/IconWithIcon';
 

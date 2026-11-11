@@ -1,4 +1,3 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { uniq } from 'lodash';
 import groupBy from 'lodash/groupBy';
@@ -7,7 +6,6 @@ import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
-  getServiceAlertsForStation,
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
@@ -22,7 +20,7 @@ import {
 } from '../../../utils/shared/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export const isRelevantEntity = (entity, stopIds, routeIds) =>
   // eslint-disable-next-line no-underscore-dangle
@@ -56,12 +54,15 @@ export const filterAlertEntities = (stop, alerts) => {
     .filter(alert => alert.entities.length > 0);
 };
 
+// Relay may garbage-collect canceledCalls records while the stop record lives
+// on, so the field can be undefined or contain nulls until it is refetched.
 export const filterCanceledCalls = (canceledCalls, relevantStopIds) =>
-  canceledCalls.filter(
-    ({ stopCall, tripOnServiceDate }) =>
-      relevantStopIds.includes(stopCall.stopLocation.gtfsId) &&
+  (canceledCalls || []).filter(
+    call =>
+      call &&
+      relevantStopIds.includes(call.stopCall.stopLocation.gtfsId) &&
       !relevantStopIds.includes(
-        tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
+        call.tripOnServiceDate.trip.pattern.stops.at(-1).gtfsId,
       ),
   );
 
@@ -89,12 +90,13 @@ const getCancelations = (stop, intl, config) => {
               time: { departure },
             },
           },
-        }) => ({
-          scheduledDeparture:
-            (DateTime.fromISO(departure) -
-              DateTime.fromISO(departure).startOf('day')) /
-            1000,
-        }),
+        }) => {
+          // wall-clock seconds since midnight, correct also on DST change days
+          const dt = DateTime.fromISO(departure);
+          return {
+            scheduledDeparture: dt.hour * 3600 + dt.minute * 60 + dt.second,
+          };
+        },
       )
       .sort((a, b) => a.scheduledDeparture - b.scheduledDeparture);
     const { trip, serviceDate } = canceledCalls[0].tripOnServiceDate;
@@ -138,16 +140,12 @@ const getCancelations = (stop, intl, config) => {
  * @returns {Array.<Object>}
  */
 export const getAlerts = stop => {
-  const isStation = stop.locationType === 'STATION';
   return getUniqueAlerts(
-    filterAlertEntities(
-      stop,
-      isStation ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
-    ),
+    filterAlertEntities(stop, getAlertsForObject(stop, true)),
   );
 };
 
-function Disruptions({ stop: stopRef, station: stationRef }) {
+export default function Disruptions({ stop: stopRef, station: stationRef }) {
   const ref = stopRef ?? stationRef;
   const config = useConfigContext();
   const stop = useFragment(DisruptionsFragment, ref);
@@ -160,5 +158,3 @@ function Disruptions({ stop: stopRef, station: stationRef }) {
 }
 
 Disruptions.propTypes = { stop: stopShape, station: stationShape };
-
-export default Disruptions;

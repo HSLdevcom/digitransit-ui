@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import Icon from '../../Icon';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
-function NaviMessage({
+export default function NaviMessage({
   severity,
   children,
   index,
@@ -13,6 +14,7 @@ function NaviMessage({
   cardAnimation,
 }) {
   const config = useConfigContext();
+  const intl = useIntl();
   const [removingIndex, setRemovingIndex] = useState(null);
 
   const handleRemoveClick = () => {
@@ -57,6 +59,7 @@ function NaviMessage({
         <button
           type="button"
           className="info-close"
+          aria-label={intl.formatMessage({ id: 'close' })}
           onClick={() => handleRemoveClick()}
         >
           <Icon
@@ -78,5 +81,3 @@ NaviMessage.propTypes = {
   hideClose: PropTypes.bool,
   cardAnimation: PropTypes.string.isRequired,
 };
-
-export default NaviMessage;

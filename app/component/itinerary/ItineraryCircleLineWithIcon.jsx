@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
@@ -8,7 +7,7 @@ import {
   IndoorLegType,
 } from '../../../utils/shared/constants';
 
-function ItineraryCircleLineWithIcon({
+export default function ItineraryCircleLineWithIcon({
   index,
   modeClassName,
   viaType = null,
@@ -169,5 +168,3 @@ ItineraryCircleLineWithIcon.propTypes = {
   hasPreviousTransitLeg: PropTypes.bool,
   indoorStepsLength: PropTypes.number,
 };
-
-export default ItineraryCircleLineWithIcon;

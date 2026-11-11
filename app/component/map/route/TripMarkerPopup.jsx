@@ -1,6 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
@@ -9,8 +8,31 @@ import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
 import PopupHeader from './PopupHeader';
 
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { fragmentRefShape } from '../../../../utils/client/shapes';
 
-function TripMarkerPopup({ trip, message }) {
+export default function TripMarkerPopup({ trip: tripRef, message }) {
+  const trip = useFragment(
+    graphql`
+      fragment TripMarkerPopup_trip on Trip {
+        gtfsId
+        pattern {
+          code
+          headsign
+          stops {
+            name
+          }
+        }
+        route {
+          gtfsId
+          mode
+          shortName
+          color
+          type
+        }
+      }
+    `,
+    tripRef,
+  );
   const patternPath = routePagePath(
     trip.route.gtfsId,
     PREFIX_STOPS,
@@ -57,44 +79,9 @@ function TripMarkerPopup({ trip, message }) {
 }
 
 TripMarkerPopup.propTypes = {
-  trip: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    pattern: PropTypes.shape({
-      code: PropTypes.string.isRequired,
-    }),
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      mode: PropTypes.string.isRequired,
-      shortName: PropTypes.string,
-      color: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
+  trip: fragmentRefShape.isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     tripStartTime: PropTypes.string,
   }).isRequired,
 };
-
-const containerComponent = createFragmentContainer(TripMarkerPopup, {
-  trip: graphql`
-    fragment TripMarkerPopup_trip on Trip {
-      gtfsId
-      pattern {
-        code
-        headsign
-        stops {
-          name
-        }
-      }
-      route {
-        gtfsId
-        mode
-        shortName
-        color
-        type
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, TripMarkerPopup as Component };

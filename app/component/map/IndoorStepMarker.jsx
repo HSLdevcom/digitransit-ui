@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 /* eslint-disable react/no-array-index-key */
 
@@ -67,7 +67,7 @@ export default function IndoorStepMarker({
         <div className="bottom indoor-step-popup-container">
           <div className="indoor-step-popup-icons">
             {indoorSteps.map((obj, i, filteredObjs) => (
-              <React.Fragment
+              <Fragment
                 key={`verticaltransportationuseicon_lat_${position.lat}_lon_${position.lon}_index_${i}`}
               >
                 <Icon
@@ -85,13 +85,13 @@ export default function IndoorStepMarker({
                     className="arrow-popup-icon"
                   />
                 ) : null}
-              </React.Fragment>
+              </Fragment>
             ))}
           </div>
           <div className="indoor-step-popup-line-container">
             <div className="indoor-step-popup-line-circle-container">
               {indoorSteps.map((obj, i) => (
-                <React.Fragment
+                <Fragment
                   key={`indoorstepmarker_lat_${position.lat}_lon_${position.lon}_index_${i}`}
                 >
                   <div
@@ -112,7 +112,7 @@ export default function IndoorStepMarker({
                       />
                     </svg>
                   </div>
-                </React.Fragment>
+                </Fragment>
               ))}
             </div>
             <div className="indoor-step-popup-line indoor-dotted-line-horizontal" />

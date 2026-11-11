@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -18,14 +17,14 @@ import Loading from '../Loading';
 import { streetHash } from '../../../utils/shared/path';
 import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-const spinnerPosition = {
+export const spinnerPosition = {
   top: 'top',
   bottom: 'bottom',
 };
 
-function ItineraryList({
+export default function ItineraryList({
   planEdges: planEdgesRef,
   activeIndex,
   focusToHeader,
@@ -171,7 +170,7 @@ function ItineraryList({
     );
   }
   return (
-    <div className="summary-list-container" role="list">
+    <div className="summary-list-container">
       {showRelaxedPlanNotifier && (
         <div
           className={cx(
@@ -226,6 +225,7 @@ function ItineraryList({
         className={cx('summary-list-items', {
           'summary-list-items-loading-top': loadingMore === spinnerPosition.top,
         })}
+        role="list"
       >
         {summaries}
       </div>
@@ -257,5 +257,3 @@ ItineraryList.propTypes = {
   feedback: PropTypes.objectOf(PropTypes.bool),
   giveFeedback: PropTypes.func,
 };
-
-export { ItineraryList as default, spinnerPosition };

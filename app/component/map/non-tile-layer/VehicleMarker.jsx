@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
 import { TransportMode } from '../../../../utils/shared/constants';
@@ -26,7 +25,7 @@ import {
 } from '../../../../utils/shared/path';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
 import IconBadge from '../../icon/IconBadge';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 // Small icon for zoom levels <= 15
 const smallIconSvg = `
@@ -113,8 +112,6 @@ export default function VehicleMarker({
     />
   );
 }
-
-VehicleMarker.displayName = 'VehicleMarker';
 
 VehicleMarker.propTypes = {
   showBikeAvailability: PropTypes.bool,

@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import StopScheduleStatus from '../../../app/component/stop/StopScheduleStatus';
 import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';

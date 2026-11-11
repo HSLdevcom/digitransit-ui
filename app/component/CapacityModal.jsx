@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { FlexColumn, FlexRow, Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 
 const CAPACITY_LEGEND = [

@@ -5,7 +5,6 @@ import defaultConfig from './config.default.js';
 import configMerger from '../../utils/server/configMerger.js';
 import { buildStaticMetaData } from '../../utils/server/metaUtils.js';
 import { LightenDarkenColor } from '../../utils/shared/colorUtils.js';
-import { boundWithMinimumAreaSimple } from '../../utils/shared/geo-utils.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so getNamedConfiguration's dynamic per-region require
@@ -124,14 +123,6 @@ export function getNamedConfiguration(configName) {
       config.colors.hover = LightenDarkenColor(config.colors.primary, -20);
     }
 
-    Object.keys(config.modePolygons).forEach(mode => {
-      const boundingBoxes = [];
-      config.modePolygons[mode].forEach(polygon => {
-        boundingBoxes.push(boundWithMinimumAreaSimple(polygon));
-      });
-      config.modeBoundingBoxes = config.modeBoundingBoxes || {};
-      config.modeBoundingBoxes[mode] = boundingBoxes;
-    });
     Object.keys(config.realTimePatch).forEach(realTimeKey => {
       config.realTime[realTimeKey] = {
         ...(config.realTime[realTimeKey] || {}),

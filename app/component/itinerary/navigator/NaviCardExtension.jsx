@@ -1,4 +1,3 @@
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -28,9 +27,9 @@ import {
   NaviCardType,
 } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
-const NaviCardExtension = ({
+export default function NaviCardExtension({
   focusToPoint,
   legType = '',
   previousLeg,
@@ -40,7 +39,7 @@ const NaviCardExtension = ({
   platformUpdated = false,
   currentCard = NaviCardType.Default,
   setCurrentCard,
-}) => {
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
@@ -238,7 +237,7 @@ const NaviCardExtension = ({
       {stopInformation(true)}
     </div>
   );
-};
+}
 NaviCardExtension.propTypes = {
   focusToPoint: PropTypes.func.isRequired,
   previousLeg: legShape,
@@ -250,5 +249,3 @@ NaviCardExtension.propTypes = {
   currentCard: PropTypes.oneOf(Object.values(NaviCardType)),
   setCurrentCard: PropTypes.func.isRequired,
 };
-
-export default NaviCardExtension;

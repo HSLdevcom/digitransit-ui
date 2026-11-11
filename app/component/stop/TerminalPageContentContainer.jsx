@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { createRefetchContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import DepartureListContainer from '../DepartureListContainer';
@@ -11,7 +11,7 @@ import {
 import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 import { useCurrentTime } from '../../hooks/TimeContext';
 

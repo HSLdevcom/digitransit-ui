@@ -1,11 +1,5 @@
 import PropTypes from 'prop-types';
-import React, {
-  useCallback,
-  useContext,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import L from 'leaflet';
 import SphericalMercator from '@mapbox/sphericalmercator';
@@ -21,7 +15,7 @@ import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { getClientBreakpoint } from '../../../hooks/BreakpointContext';
 import {
   stopPagePath,
   PREFIX_BIKESTATIONS,
@@ -31,7 +25,7 @@ import {
 } from '../../../../utils/shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { useCurrentTime } from '../../../hooks/TimeContext';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const DEFAULT_OBJECTS_TO_HIDE = { vehicleRentalStations: [] };
 
@@ -231,7 +225,7 @@ function getLayerOptions(props, leaflet) {
   return options;
 }
 
-function TileLayerContainer(props) {
+export default function TileLayerContainer(props) {
   const { locationPopup, onSelectLocation, mapLayers, highlightedStops } =
     props;
   const { vehicles } = useRealTimeInformation();
@@ -423,7 +417,6 @@ function TileLayerContainer(props) {
     <Popup
       key={`${selection.id}:location`}
       {...popupOptions}
-      maxHeight={220}
       maxWidth="auto"
       position={coords}
       className={`popup ${
@@ -454,5 +447,3 @@ TileLayerContainer.propTypes = {
   stopsToShow: PropTypes.arrayOf(PropTypes.string),
   objectsToHide: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)),
 };
-
-export default TileLayerContainer;

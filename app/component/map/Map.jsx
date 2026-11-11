@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import LeafletMap from 'react-leaflet/es/Map';
 import TileLayer from 'react-leaflet/es/TileLayer';
@@ -18,7 +18,7 @@ import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import events from '../../../utils/client/events';
 import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
 import GeoJSON from './GeoJSON';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { mapLayerShape } from '../../../utils/client/shapes';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
@@ -233,7 +233,10 @@ export default function Map({
           className={`z${ownZoom}`}
           keyboard={false}
           ref={el => {
-            map.current = el;
+            // inline ref is detached and reattached on each render; zoomend can fire in between
+            if (el) {
+              map.current = el;
+            }
             if (leafletMapRef) {
               leafletMapRef(el);
             }

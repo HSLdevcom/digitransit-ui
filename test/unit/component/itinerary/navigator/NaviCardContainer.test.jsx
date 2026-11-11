@@ -1,4 +1,3 @@
-import React from 'react';
 import { act } from '@testing-library/react';
 import * as found from 'found';
 import { renderWithProviders } from '../../../helpers/mock-providers';

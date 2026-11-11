@@ -1,13 +1,13 @@
-import React, { useMemo, useState, useEffect, useRef } from 'react';
+import { useMemo, useState, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { Text } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { TransportMode } from '../../../utils/shared/constants';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Icon from '../Icon';
 import CanceledTripCard from './CanceledTripCard';
 import DisruptionCard from './DisruptionCard';

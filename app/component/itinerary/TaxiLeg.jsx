@@ -1,15 +1,18 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape } from '../../../utils/client/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import {
+  legTimeStr,
+  legDestination,
+  getValidatedLegName,
+} from '../../../utils/client/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -53,7 +56,9 @@ export default function TaxiLeg(props) {
     </span>
   );
 
-  const [name, place] = splitStringToAddressAndPlace(props.leg.from.name);
+  const [name, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(props.leg.from.name, intl, true),
+  );
   const address =
     props.leg.from.viaLocationType && props.leg.viaAddress
       ? props.leg.viaAddress

@@ -7,6 +7,7 @@ module.exports = {
     'plugin:prettier/recommended',
   ],
   rules: {
+    'react-hooks/rules-of-hooks': 'error',
     curly: ['error', 'all'],
     'lines-between-class-members': 'warn',
     'no-else-return': 'warn',
@@ -17,6 +18,11 @@ module.exports = {
     'import/no-named-default': 'off',
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
+    // uuid has only an exports map, which eslint-import-resolver-node does not support
+    'import/no-unresolved': [
+      'error',
+      { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] },
+    ],
     'import/no-restricted-paths': [
       'error',
       {
@@ -54,6 +60,8 @@ module.exports = {
     'react/jsx-filename-extension': ['error', { extensions: ['.jsx'] }],
     'react/jsx-fragments': 'off',
     'react/jsx-key': 'error',
+    'react/react-in-jsx-scope': 'off',
+    'react/jsx-uses-react': 'off',
     'react/jsx-props-no-spreading': 'off',
     'react/forbid-prop-types': ['warn', { forbid: ['any', 'array', 'object'] }],
     'react/require-default-props': 'off',
@@ -92,7 +100,7 @@ module.exports = {
   env: {
     browser: true,
   },
-  plugins: ['react', 'compat', 'prettier', 'jsx-a11y'],
+  plugins: ['react', 'react-hooks', 'compat', 'prettier', 'jsx-a11y'],
   overrides: [
     {
       // These files/directories are loaded by Node directly as native ESM
@@ -105,7 +113,6 @@ module.exports = {
         'utils/server/**/*.js',
         'webpack.config.js',
         'scripts/**/*.js',
-        'config/*.{js,cjs}',
       ],
       rules: {
         'import/extensions': ['error', 'always', { ignorePackages: true }],
@@ -158,7 +165,7 @@ module.exports = {
         '@graphql-eslint/unique-operation-name': 'off',
       },
       parserOptions: {
-        schema: './schema/schema.graphql',
+        schema: './packages/private/schema/schema.graphql',
       },
     },
   ],

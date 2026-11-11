@@ -3,7 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import PropTypes from 'prop-types';
-import React, {
+import {
   cloneElement,
   useEffect,
   useContext,
@@ -14,7 +14,7 @@ import React, {
 import { FormattedMessage } from 'react-intl';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../../utils/client/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';
@@ -51,10 +51,14 @@ import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import {
   useFavouriteActions,
+  useFavouriteStatus,
   useFavourites,
   usePersonalizationPreferences,
 } from '../../hooks/FavouriteContext';
-import { getFavouriteRouteGtfsIds } from '../../data/FavouriteData';
+import {
+  STATUS_FETCHING_OR_UPDATING,
+  getFavouriteRouteGtfsIds,
+} from '../../data/FavouriteData';
 import DesktopView from '../DesktopView';
 import Loading from '../Loading';
 import MobileView from '../MobileView';
@@ -84,6 +88,7 @@ import {
   mergeTaxiZonePlan,
   parseCarTransitPlan,
   quitIteration,
+  removeDuplicateEdges,
   reportError,
   filterScooterEdges,
   setCurrentTimeToURL,
@@ -105,7 +110,7 @@ import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolo
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
 import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { usePositionActions } from '../../hooks/PositionContext';
 
@@ -209,11 +214,15 @@ function ItineraryPageContent(props) {
   }, [personalizationPreferences]);
   const recommendedItinerary = useRef(-1);
   const searchGeneration = useRef(0);
+  const activePlanRequests = useRef(new Set());
 
   const [mainState, setMainState] = useState({
     ...emptyState,
     loading: LOADSTATE.UNSET,
   });
+  // latest committed state for use after awaits, where closure values are stale
+  const mainStateRef = useRef(mainState);
+  mainStateRef.current = mainState;
   const [combinedMainState, setCombinedMainState] = useState(emptyPlan);
   const [relaxMainState, setRelaxMainState] = useState(emptyPlan);
   const [relaxScooterState, setRelaxScooterState] = useState(emptyPlan);
@@ -264,6 +273,20 @@ function ItineraryPageContent(props) {
   const detailView = altTransitHash.includes(hash) ? secondHash : hash;
   const settings = getSettings(config);
   const personalization = isPersonalizationEnabled(config, settings);
+
+  // Itineraries are rated with the personalization weights, so the first
+  // rating waits until the initial favourites load has finished. Later
+  // favourite updates (e.g. saving feedback) must not re-trigger rating.
+  const favouriteStatus = useFavouriteStatus();
+  const [favouritesReady, setFavouritesReady] = useState(
+    favouriteStatus !== STATUS_FETCHING_OR_UPDATING,
+  );
+  useEffect(() => {
+    if (favouriteStatus !== STATUS_FETCHING_OR_UPDATING) {
+      setFavouritesReady(true);
+    }
+  }, [favouriteStatus]);
+  const ratingReady = !personalization || favouritesReady;
 
   function altLoading() {
     return Object.values(altStates).some(
@@ -397,6 +420,41 @@ function ItineraryPageContent(props) {
       });
   }
 
+  // Resolves with the query result, or null if cancelled via cancelPlanRequests
+  function fetchPlan(planParams) {
+    return new Promise((resolve, reject) => {
+      const request = {};
+      const finish = () => activePlanRequests.current.delete(request);
+      request.cancel = () => {
+        finish();
+        // unsubscribing aborts the underlying fetch
+        request.subscription?.unsubscribe();
+        resolve(null);
+      };
+      activePlanRequests.current.add(request);
+      fetchQuery(relayEnvironment, planConnection, planParams, {
+        force: true,
+      }).subscribe({
+        start: subscription => {
+          request.subscription = subscription;
+        },
+        next: data => resolve(data),
+        error: error => {
+          finish();
+          reject(error);
+        },
+        complete: () => {
+          finish();
+          resolve(null);
+        },
+      });
+    });
+  }
+
+  function cancelPlanRequests() {
+    [...activePlanRequests.current].forEach(request => request.cancel());
+  }
+
   async function iterateQuery(planParams, reps) {
     const generation = searchGeneration.current;
     let plan;
@@ -404,17 +462,15 @@ function ItineraryPageContent(props) {
     const arriveBy = !!planParams.datetime.latestArrival;
     const startTime = Date.now();
     for (let i = 0; i < trials; i++) {
+      // Cancelling covers only requests in flight, so don't start a new one
+      // when the search was superseded between iterations.
+      if (generation !== searchGeneration.current) {
+        return null;
+      }
       let result;
       try {
         // eslint-disable-next-line no-await-in-loop
-        result = await fetchQuery(
-          relayEnvironment,
-          planConnection,
-          planParams,
-          {
-            force: true,
-          },
-        ).toPromise();
+        result = await fetchPlan(planParams);
       } catch (error) {
         if (generation !== searchGeneration.current) {
           return null;
@@ -713,6 +769,28 @@ function ItineraryPageContent(props) {
     }
   }
 
+  // Returns sorted edges of a fetched plan that are not already shown.
+  // If the page had only duplicates, advances the cursor and returns null.
+  const getNewEdges = (plan, origPlan, arriveBy, cursorName) => {
+    const edges = getSortedEdges(
+      removeDuplicateEdges(plan.edges, [
+        ...origPlan.edges,
+        ...mainStateRef.current.earlierEdges,
+        ...mainStateRef.current.laterEdges,
+      ]),
+      arriveBy,
+    );
+    if (edges.length === 0 && plan.edges.length > 0) {
+      setMainState({
+        ...mainStateRef.current,
+        loadingMore: undefined,
+        [cursorName]: plan.pageInfo[cursorName],
+      });
+      return null;
+    }
+    return edges;
+  };
+
   const onLater = async () => {
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
@@ -749,24 +827,31 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'endCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { topNote: 'no-more-route-msg' }
         : { bottomNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
 
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       endCursor: plan.pageInfo.endCursor,
     };
@@ -775,17 +860,17 @@ function ItineraryPageContent(props) {
     // set a separator line there and clicks below the list move feedback button down
     if (arriveBy) {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
       shiftFeedback(edges.length);
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     } else {
       // user clicked button below itinerary list
@@ -793,9 +878,9 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     }
     if (arriveBy) {
@@ -840,23 +925,30 @@ function ItineraryPageContent(props) {
     try {
       plan = await iterateQuery(planParams, 1);
     } catch (error) {
-      setMainState({ ...mainState, loadingMore: undefined });
+      setMainState({ ...mainStateRef.current, loadingMore: undefined });
       return;
     }
     if (plan === null) {
       return;
     }
-    const edges = getSortedEdges(plan.edges, arriveBy);
+    const edges = getNewEdges(plan, origPlan, arriveBy, 'startCursor');
+    if (!edges) {
+      return;
+    }
     if (edges.length === 0) {
       const newState = arriveBy
         ? { bottomNote: 'no-more-route-msg' }
         : { topNote: 'no-more-route-msg' };
-      setMainState({ ...mainState, ...newState, loadingMore: undefined });
+      setMainState({
+        ...mainStateRef.current,
+        ...newState,
+        loadingMore: undefined,
+      });
       return;
     }
     ariaRef.current = 'itinerary-page.itineraries-loaded';
     const newState = {
-      ...mainState,
+      ...mainStateRef.current,
       loadingMore: undefined,
       startCursor: plan.pageInfo.startCursor,
     };
@@ -866,16 +958,16 @@ function ItineraryPageContent(props) {
         ...newState,
         separator1:
           origPlan.edges.length +
-          mainState.earlierEdges.length +
-          mainState.laterEdges.length,
-        laterEdges: [...mainState.laterEdges, ...edges],
+          mainStateRef.current.earlierEdges.length +
+          mainStateRef.current.laterEdges.length,
+        laterEdges: [...mainStateRef.current.laterEdges, ...edges],
       });
     } else {
       // user clicked button above itinerary list
-      const separators = mainState.separator1
+      const separators = mainStateRef.current.separator1
         ? {
             separator2: edges.length,
-            separator1: mainState.separator1 + edges.length,
+            separator1: mainStateRef.current.separator1 + edges.length,
           }
         : { separator1: edges.length };
 
@@ -883,7 +975,7 @@ function ItineraryPageContent(props) {
       setMainState({
         ...newState,
         ...separators,
-        earlierEdges: [...edges, ...mainState.earlierEdges],
+        earlierEdges: [...edges, ...mainStateRef.current.earlierEdges],
       });
     }
     if (!arriveBy) {
@@ -1162,6 +1254,7 @@ function ItineraryPageContent(props) {
     }
     return () => {
       searchGeneration.current += 1;
+      cancelPlanRequests();
     };
   }, [
     settingsState.settingsChanged,
@@ -1268,7 +1361,8 @@ function ItineraryPageContent(props) {
       scooterState.loading === LOADSTATE.DONE &&
       externalFlexState.loading === LOADSTATE.DONE &&
       internalFlexState.loading === LOADSTATE.DONE &&
-      taxiZoneState.loading === LOADSTATE.DONE
+      taxiZoneState.loading === LOADSTATE.DONE &&
+      ratingReady
     ) {
       let plan = mergeScooterTransitPlan(
         scooterState.plan,
@@ -1322,6 +1416,7 @@ function ItineraryPageContent(props) {
     externalFlexState.plan,
     internalFlexState.plan,
     taxiZoneState.plan,
+    ratingReady,
   ]);
 
   // merge the relaxed scooter plan and the relaxed flex plan into one
@@ -1879,11 +1974,12 @@ function ItineraryPageContent(props) {
     );
   }
 
-  return (
+  return settingsDrawer ? (
+    <div className="mobile">{settingsDrawer}</div>
+  ) : (
     <MobileView
       header={header}
       content={content}
-      settingsDrawer={settingsDrawer}
       map={map}
       ref={mobileRef}
       enableBottomScroll={!naviMode}

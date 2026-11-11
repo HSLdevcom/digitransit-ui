@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
@@ -9,7 +9,7 @@ import MessageBar from './MessageBar';
 import LogoSmall from './LogoSmall';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AppBar({
   showLogo = false,

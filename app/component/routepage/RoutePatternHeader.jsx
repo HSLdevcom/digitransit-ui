@@ -1,10 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import Icon from '../Icon';
 
-function RoutePatternHeader({
+export default function RoutePatternHeader({
   origin,
   destination,
   iconColor = null,
@@ -82,5 +81,3 @@ RoutePatternHeader.propTypes = {
   canSwap: PropTypes.bool,
   onSwap: PropTypes.func,
 };
-
-export default RoutePatternHeader;

@@ -1,6 +1,6 @@
 import 'core-js/stable';
-import React from 'react';
-import ReactDOM from 'react-dom';
+import { Fragment } from 'react';
+import { createRoot } from 'react-dom/client';
 import BrowserProtocol from 'farce/BrowserProtocol';
 import createFarceRouter from 'found/createFarceRouter';
 import makeRouteConfig from 'found/makeRouteConfig';
@@ -22,9 +22,7 @@ import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
 import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
-import legacyParamParser from '../../utils/shared/legacyParamParser';
-import { LEGACY_LOCALE_PATHS } from '../../utils/shared/constants';
-import { ClientProvider as ClientBreakpointProvider } from '../../utils/client/withBreakpoint';
+import { BreakpointProvider } from '../hooks/BreakpointContext';
 import getMetadata from '../../utils/shared/metaUtils';
 import {
   initAnalyticsClientSide,
@@ -35,8 +33,8 @@ import { getCountries } from '../../utils/client/localStorage';
 import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
-import searchContext from '../data/SearchContext';
-import { ConfigProvider } from './ConfigContext';
+import searchServices from '../data/SearchServices';
+import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
 import { PositionProvider } from '../hooks/PositionContext';
@@ -46,6 +44,8 @@ import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
 import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
 import { getSettings } from '../../utils/client/planParamUtil';
+// Last import: the app's styles override those of the components above.
+import '../../styles/main.scss';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -54,7 +54,7 @@ const { config } = window;
 const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
-    [ClientBreakpointProvider],
+    [BreakpointProvider],
     [
       IntlProvider,
       {
@@ -76,22 +76,6 @@ const AppProviders = props => {
     (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
     props.children,
   );
-};
-
-const getParams = query => {
-  if (!query) {
-    return {};
-  }
-
-  return query
-    .substring(1)
-    .split('&')
-    .map(v => v.split('='))
-    .reduce((params, [key, value]) => {
-      const newParam = {};
-      newParam[key] = decodeURIComponent(value);
-      return { ...params, ...newParam };
-    }, {});
 };
 
 async function init() {
@@ -135,7 +119,8 @@ async function init() {
 
   const environment = new Environment({
     network,
-    store: new Store(new RecordSource()),
+    // Default buffer of 10 evicts stop page data during normal browsing
+    store: new Store(new RecordSource(), { gcReleaseBufferSize: 100 }),
   });
 
   setRelayEnvironment(environment);
@@ -162,17 +147,6 @@ async function init() {
 
   const path = window.location.pathname;
 
-  if (config.redirectReittiopasParams) {
-    const query = getParams(window.location.search);
-
-    if (query.from || query.to || query.from_in || query.to_in) {
-      legacyParamParser(query, config).then(redirectUrl =>
-        window.location.replace(redirectUrl),
-      );
-    } else if (LEGACY_LOCALE_PATHS.includes(path)) {
-      window.location.replace('/');
-    }
-  }
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
   addAnalyticsEvent({
@@ -182,7 +156,7 @@ async function init() {
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
-  searchContext.init(config);
+  searchServices.init(config);
   if (config.allowLogin) {
     getUser()
       .then(user => {
@@ -215,7 +189,7 @@ async function init() {
       environment={environment}
     >
       <ErrorBoundary>
-        <React.Fragment>
+        <Fragment>
           <Helmet
             {...getMetadata(
               language,
@@ -225,13 +199,13 @@ async function init() {
             )}
           />
           <Router resolver={resolver} />
-        </React.Fragment>
+        </Fragment>
       </ErrorBoundary>
     </AppProviders>
   );
 
   const rootNode = document.getElementById('app');
-  ReactDOM.render(content, rootNode);
+  createRoot(rootNode).render(content);
 
   // Listen for Web App Install Banner events
   window.addEventListener('beforeinstallprompt', e => {

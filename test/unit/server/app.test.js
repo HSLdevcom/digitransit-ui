@@ -4,7 +4,7 @@ import path from 'path';
 import createApp, { onError } from '../../../server/app';
 
 // server/app.js's import chain reaches server/html/assetManifest.js, which
-// reads manifest.json/stats.json from disk at *module load time* when
+// reads manifest.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
 // webpack build present (unstubbed in the afterAll hook below).
@@ -62,6 +62,14 @@ describe('server app', () => {
     it('short-circuits /js/**, /css/** and /assets/** with a 404 instead of serving the shell', async () => {
       const response = await request(app).get('/js/main.js');
       expect(response.status).toBe(404);
+    });
+  });
+
+  describe('repeated slashes in redirect path', () => {
+    it('does not redirect to a protocol-relative URL', async () => {
+      const response = await request(app).get('//example.com/x?time=abc');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toBe('/example.com/x');
     });
   });
 

@@ -1,6 +1,5 @@
-import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import { Component as NearYouFavouritesContainer } from '../../../../app/component/nearyou/NearYouFavouritesContainer';
+import NearYouFavouritesContainer from '../../../../app/component/nearyou/NearYouFavouritesContainer';
 
 const searchPosition = { lat: 60.17, lon: 24.94 };
 

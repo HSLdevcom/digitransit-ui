@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
@@ -20,13 +19,13 @@ const Title = ({ msgId }) => (
 Title.propTypes = {
   msgId: PropTypes.string.isRequired,
 };
-const ErrorCard = ({
+export default function ErrorCard({
   msgId,
   titleId,
   iconImg = ICON_CAUTION,
   iconType = ICON_TYPE_CAUTION,
   children = EMPTY_CHILDREN,
-}) => {
+}) {
   const background = iconImg.replace('icon_', '');
 
   return (
@@ -55,7 +54,7 @@ const ErrorCard = ({
       </div>
     </div>
   );
-};
+}
 
 ErrorCard.propTypes = {
   msgId: PropTypes.string,
@@ -64,5 +63,3 @@ ErrorCard.propTypes = {
   iconType: PropTypes.string,
   children: childrenShape,
 };
-
-export default ErrorCard;

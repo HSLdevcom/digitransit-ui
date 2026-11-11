@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legShape } from '../../../../utils/client/shapes';
@@ -13,7 +12,7 @@ import {
   shouldShowFareInfo,
 } from '../../../../utils/client/fareUtils';
 import localizedUrl from '../../../../utils/client/urlUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NaviBottom({ setNavigation, arrival, time, legs }) {
   const intl = useIntl();

@@ -1,11 +1,10 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
 import { useMatch } from 'found';
 import Icon from './Icon';
 
-const NetworkError = ({ retry }) => {
+export default function NetworkError({ retry }) {
   const match = useMatch();
   return (
     <div className="page-not-found">
@@ -23,8 +22,6 @@ const NetworkError = ({ retry }) => {
       </p>
     </div>
   );
-};
+}
 
 NetworkError.propTypes = { retry: PropTypes.func.isRequired };
-
-export default NetworkError;

@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import { useMatch } from 'found';
 import { relayShape, mapLayerOptionsShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import NearYouMapContainer from './NearYouMapContainer';
 import NearYouFavouritesMapContainer from './NearYouFavouritesMapContainer';
@@ -39,15 +38,15 @@ export default function MapWrapper({
             $vehicleRentalStationIds: [String!]!
           ) {
             stops: stops(ids: $stopIds) {
-              ...NearYouFavouritesMapContainer_stops
+              ...NearYouFavouritesMapFragment_stops
             }
             stations: stations(ids: $stationIds) {
-              ...NearYouFavouritesMapContainer_stations
+              ...NearYouFavouritesMapFragment_stations
             }
             vehicleStations: vehicleRentalStations(
               ids: $vehicleRentalStationIds
             ) {
-              ...NearYouFavouritesMapContainer_vehicleStations
+              ...NearYouFavouritesMapFragment_vehicleStations
             }
           }
         `}

@@ -1,17 +1,16 @@
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import NavigatorIntroFeature from './NavigatorIntroFeature';
 import Icon from '../../../Icon';
-import { useConfigContext } from '../../../../client/ConfigContext';
+import { useConfigContext } from '../../../../hooks/ConfigContext';
 
-const NavigatorIntro = ({
+export default function NavigatorIntro({
   logo,
   onPrimaryClick,
   onClose,
   onOpenGeolocationInfo,
-}) => {
+}) {
   const intl = useIntl();
   const config = useConfigContext();
 
@@ -72,7 +71,7 @@ const NavigatorIntro = ({
       </div>
     </>
   );
-};
+}
 
 NavigatorIntro.propTypes = {
   logo: PropTypes.string,
@@ -80,5 +79,3 @@ NavigatorIntro.propTypes = {
   onPrimaryClick: PropTypes.func,
   onOpenGeolocationInfo: PropTypes.func.isRequired,
 };
-
-export default NavigatorIntro;

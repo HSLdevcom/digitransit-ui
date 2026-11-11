@@ -1,11 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 
 import Icon from './Icon';
 import { AlertSeverityLevelType } from '../../utils/shared/constants';
 
-const ServiceAlertIcon = ({ className, severityLevel, color }) => {
+export default function ServiceAlertIcon({ className, severityLevel, color }) {
   if (!severityLevel) {
     return null;
   }
@@ -15,9 +14,7 @@ const ServiceAlertIcon = ({ className, severityLevel, color }) => {
   ) : (
     <Icon className={cx('caution', className)} img="icon_caution" />
   );
-};
-
-ServiceAlertIcon.displayName = 'ServiceAlertIcon';
+}
 
 ServiceAlertIcon.propTypes = {
   className: PropTypes.string,
@@ -29,5 +26,3 @@ ServiceAlertIcon.propTypes = {
   ]),
   color: PropTypes.string,
 };
-
-export default ServiceAlertIcon;

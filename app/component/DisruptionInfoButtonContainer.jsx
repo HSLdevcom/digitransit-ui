@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { useContext } from 'react';
+import { useContext } from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-function DisruptionInfoButtonContainer({ onClick = () => {} }) {
+export default function DisruptionInfoButtonContainer({ onClick = () => {} }) {
   const { feedIds } = useConfigContext();
   const { environment } = useContext(ReactRelayContext);
   const openDisruptionInfo = () => {
@@ -44,5 +44,3 @@ function DisruptionInfoButtonContainer({ onClick = () => {} }) {
 DisruptionInfoButtonContainer.propTypes = {
   onClick: PropTypes.func,
 };
-
-export default DisruptionInfoButtonContainer;

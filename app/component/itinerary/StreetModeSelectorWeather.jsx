@@ -1,7 +1,7 @@
 /* eslint-disable react/forbid-prop-types */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import WeatherDetailsPopup from './WeatherDetailsPopup';

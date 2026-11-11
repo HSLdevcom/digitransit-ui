@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { memo, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
@@ -12,8 +12,8 @@ import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import MapLayersDialogContent from './MapLayersDialogContent';
 import MenuDrawer from '../MenuDrawer';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { usePosition, usePositionActions } from '../../hooks/PositionContext';
 
 const onlyUpdateCoordChanges = (prevProps, nextProps) =>
@@ -328,6 +328,7 @@ export default function MapWithTracking({
       {showControls && config.map.showLayerSelector && (
         <MenuDrawer
           open={settingsOpen}
+          label={intl.formatMessage({ id: 'select-map-layers-header' })}
           onRequestChange={toggleSettingsOpen}
           className="offcanvas-layers"
           breakpoint={breakpoint}
@@ -337,16 +338,6 @@ export default function MapWithTracking({
             mapLayerOptions={mapLayerOptions}
             mapLayers={mergedMapLayers}
           />
-          <button
-            type="button"
-            className="desktop-button"
-            onClick={toggleSettingsOpen}
-          >
-            {intl.formatMessage({
-              id: 'close',
-              defaultMessage: 'Close',
-            })}
-          </button>
         </MenuDrawer>
       )}
     </>

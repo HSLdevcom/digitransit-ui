@@ -1,5 +1,4 @@
 import { FormattedMessage } from 'react-intl';
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
@@ -9,12 +8,14 @@ import {
 } from '../../../utils/shared/vehicleRentalUtils';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 import { rentalVehicleShape } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 
-function ScooterLinkContainer({ rentalVehicle, mobileReturn = false }) {
+export default function ScooterLinkContainer({
+  rentalVehicle,
+  mobileReturn = false,
+}) {
   const config = useConfigContext();
   const { language } = config;
 
@@ -87,5 +88,3 @@ ScooterLinkContainer.propTypes = {
   rentalVehicle: rentalVehicleShape.isRequired,
   mobileReturn: PropTypes.bool,
 };
-
-export default withBreakpoint(ScooterLinkContainer);

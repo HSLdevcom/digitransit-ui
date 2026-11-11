@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
@@ -10,7 +9,7 @@ import {
   modeToTranslationId,
 } from '../../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../../utils/shared/colorUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TransportModes({ updateSettings }) {
   const config = useConfigContext();

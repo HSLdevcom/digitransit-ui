@@ -1,17 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { fetchQuery } from 'react-relay';
+import { fetchQuery, useRelayEnvironment } from 'react-relay';
 import uniqBy from 'lodash/uniqBy';
 import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useMatch } from 'found';
-import {
-  locationShape,
-  relayShape,
-  stopShape,
-} from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { locationShape, stopShape } from '../../../utils/client/shapes';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
@@ -112,12 +108,11 @@ const nonTransit = ['CITYBIKE', 'BIKEPARK', 'CARPARK'];
 
 const EMPTY_ARRAY = [];
 
-function NearYouMap({
+export default function NearYouMap({
   breakpoint,
   stops = EMPTY_ARRAY,
   loading = false,
   favouriteIds,
-  relay,
   position,
   showWalkRoute = false,
   prioritizedStops = EMPTY_ARRAY,
@@ -134,6 +129,7 @@ function NearYouMap({
   const match = useMatch();
   const { mode } = match.params;
   const config = useConfigContext();
+  const environment = useRelayEnvironment();
   let streetRoutingLimit;
 
   switch (mode) {
@@ -153,7 +149,6 @@ function NearYouMap({
       break;
   }
 
-  const { environment } = relay;
   const isTransitMode = !nonTransit.includes(mode);
 
   const fetchPlan = node => {
@@ -402,9 +397,6 @@ NearYouMap.propTypes = {
   favouriteIds: PropTypes.object.isRequired,
   position: locationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,
-  relay: relayShape.isRequired,
   loading: PropTypes.bool,
   showWalkRoute: PropTypes.bool,
 };
-
-export default NearYouMap;

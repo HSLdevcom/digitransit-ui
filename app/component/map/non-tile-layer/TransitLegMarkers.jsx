@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useReducer } from 'react';
+import { useEffect, useReducer } from 'react';
 import { useIntl } from 'react-intl';
-import { withLeaflet } from 'react-leaflet/es/context';
+import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { legShape } from '../../../../utils/client/shapes';
 import { isLocalCallAgency, legTime } from '../../../../utils/client/legUtils';
@@ -9,7 +9,7 @@ import { getMiddleOf } from '../../../../utils/shared/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
 import { durationToString } from '../../../../utils/client/timeUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const offsetNormal = { x: 22.5, y: 0 };
 const offsetArrow = { x: 55, y: 15 };
@@ -118,11 +118,11 @@ export const getSpeechBubbleStyle = (position, pixelPositions) => {
   return { style: 'bottomRight', position: proposedPosition };
 };
 
-function TransitLegMarkers({
+export default function TransitLegMarkers({
   transitLegs,
-  leaflet,
   realtimeTransfers = false,
 }) {
+  const leaflet = useLeaflet();
   const config = useConfigContext();
   const intl = useIntl();
   // Used only to force a re-render on zoomend, mirroring the previous
@@ -316,14 +316,5 @@ function TransitLegMarkers({
 
 TransitLegMarkers.propTypes = {
   transitLegs: PropTypes.arrayOf(legShape).isRequired,
-  leaflet: PropTypes.shape({
-    map: PropTypes.shape({
-      latLngToLayerPoint: PropTypes.func.isRequired,
-      on: PropTypes.func.isRequired,
-      off: PropTypes.func.isRequired,
-    }).isRequired,
-  }).isRequired,
   realtimeTransfers: PropTypes.bool,
 };
-
-export default withLeaflet(TransitLegMarkers);

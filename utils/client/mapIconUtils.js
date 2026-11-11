@@ -1,5 +1,4 @@
 import memoize from 'lodash/memoize';
-import ReactDOM from 'react-dom';
 import ReactDOMServer from 'react-dom/server';
 import glfun from './glfun';
 import { transitIconName } from './modeUtils';
@@ -281,32 +280,6 @@ function drawIconImage(image, tile, geom, width, height) {
     image,
     geom.x / tile.ratio - width / 2,
     geom.y / tile.ratio - height / 2,
-  );
-}
-
-function calculateIconBadgePosition(
-  coord,
-  tile,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  return coord / tile.ratio - imageSize / 2 - badgeSize / 2 + 2 * scaleratio;
-}
-
-function drawIconImageBadge(
-  image,
-  tile,
-  geom,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  drawImageSafely(
-    tile,
-    image,
-    calculateIconBadgePosition(geom.x, tile, imageSize, badgeSize, scaleratio),
-    calculateIconBadgePosition(geom.y, tile, imageSize, badgeSize, scaleratio),
   );
 }
 
@@ -856,47 +829,12 @@ export function drawParkAndRideIcon(
   }
 }
 
-export function drawAvailabilityBadge(
-  availability,
-  tile,
-  geom,
-  imageSize,
-  badgeSize,
-  scaleratio,
-) {
-  if (
-    availability !== 'good' &&
-    availability !== 'poor' &&
-    availability !== 'no'
-  ) {
-    throw Error("Supported badges are 'good', 'poor', and 'no'");
-  }
-
-  getImageFromSpriteCache(
-    `icon_${availability}-availability`,
-    badgeSize,
-    badgeSize,
-  ).then(image => {
-    drawIconImageBadge(image, tile, geom, imageSize, badgeSize, scaleratio);
-  });
-}
-
-export function drawIcon(icon, tile, geom, imageSize) {
-  return getImageFromSpriteCache(icon, imageSize, imageSize).then(image => {
-    drawIconImage(image, tile, geom, imageSize, imageSize);
-  });
-}
-
 export function renderAsString(children) {
   if (ReactDOMServer?.renderToString) {
     return ReactDOMServer.renderToString(children);
   }
 
-  const div = document.createElement('div');
-  ReactDOM.render(children, div);
-  const html = div.firstElementChild?.outerHTML || div.innerHTML;
-  ReactDOM.unmountComponentAtNode(div);
-  return html;
+  return ReactDOMServer.renderToStaticMarkup(children);
 }
 
 export function getIndexedIconFields(zoom, index) {

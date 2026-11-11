@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React from 'react';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 import SettingsToggle from './SettingsToggle';
 import { findNearestOption } from '../../../../utils/client/planParamUtil';
 import { settingsShape } from '../../../../utils/client/shapes';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const roundToOneDecimal = number => {
   const rounded = Math.round(number * 10) / 10;

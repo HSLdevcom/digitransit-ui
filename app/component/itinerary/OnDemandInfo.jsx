@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -7,13 +6,13 @@ import {
   pickupBookingInfoShape,
   routeShape,
 } from '../../../utils/client/shapes';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 
-function OnDemandInfo({
+export default function OnDemandInfo({
   routeNumber,
   route,
   pickupBookingInfo,
@@ -207,5 +206,3 @@ OnDemandInfo.propTypes = {
   route: routeShape.isRequired,
   mobile: PropTypes.bool.isRequired,
 };
-
-export default OnDemandInfo;

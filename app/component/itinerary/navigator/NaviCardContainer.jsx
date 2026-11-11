@@ -1,6 +1,6 @@
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import {
@@ -21,7 +21,7 @@ import {
   LEGTYPE,
 } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useRealTimeActions } from '../../../hooks/RealTimeInformationContext';
 
 const HIDE_TOPCARD_DURATION = 2000; // milliseconds
@@ -42,7 +42,7 @@ const getLegType = (leg, firstLeg, time, interlineWithPreviousLeg) => {
   return legType;
 };
 
-function NaviCardContainer({
+export default function NaviCardContainer({
   focusToLeg,
   focusToPoint,
   time,
@@ -289,5 +289,3 @@ NaviCardContainer.propTypes = {
   // eslint-disable-next-line
   settings: PropTypes.object.isRequired,
 };
-
-export default NaviCardContainer;

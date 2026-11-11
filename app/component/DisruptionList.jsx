@@ -1,5 +1,4 @@
 /* eslint-disable jsx-a11y/no-noninteractive-tabindex */
-import React from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -17,9 +16,9 @@ import {
 import { alertShape } from '../../utils/client/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
 import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../utils/shared/path';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { isToday } from '../../utils/client/timeUtils';
 
 export const EmptyDisruptions = () => {
@@ -53,12 +52,12 @@ export const EmptyDisruptions = () => {
   );
 };
 
-const DisruptionList = ({
+export default function DisruptionList({
   cancelations = [],
   disableScrolling = false,
   serviceAlerts = [],
   onClickLink,
-}) => {
+}) {
   const { match, router } = useRouter();
   const breakpoint = useBreakpoint();
   const currentTime = useCurrentTime();
@@ -196,7 +195,7 @@ const DisruptionList = ({
       </div>
     </div>
   );
-};
+}
 
 DisruptionList.propTypes = {
   cancelations: PropTypes.arrayOf(alertShape),
@@ -204,5 +203,3 @@ DisruptionList.propTypes = {
   serviceAlerts: PropTypes.arrayOf(alertShape),
   onClickLink: PropTypes.func,
 };
-
-export default DisruptionList;

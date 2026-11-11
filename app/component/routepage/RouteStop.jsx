@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
@@ -28,7 +27,7 @@ import {
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
 } from '../../../utils/client/stopStatusUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function getDepartureTime(stoptime) {
   return (
@@ -39,7 +38,7 @@ function getDepartureTime(stoptime) {
   );
 }
 
-const RouteStop = ({
+export default function RouteStop({
   className,
   color,
   currentTime,
@@ -55,7 +54,7 @@ const RouteStop = ({
   hideDepartures = false,
   loop = false,
   singleLoop = false,
-}) => {
+}) {
   const config = useConfigContext();
   const intl = useIntl();
   const stopStatus = getStopStatusFromStopData({
@@ -356,7 +355,7 @@ const RouteStop = ({
       </div>
     </li>
   );
-};
+}
 
 RouteStop.propTypes = {
   color: PropTypes.string,
@@ -396,5 +395,3 @@ RouteStop.propTypes = {
   loop: PropTypes.bool,
   singleLoop: PropTypes.bool,
 };
-
-export default RouteStop;

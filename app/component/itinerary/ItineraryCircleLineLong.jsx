@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { legShape } from '../../../utils/client/shapes';
 import { ViaLocationType } from '../../../utils/shared/constants';
 
-const ItineraryCircleLineLong = ({
+export default function ItineraryCircleLineLong({
   index,
   color,
   renderBottomMarker = false,
@@ -14,7 +13,7 @@ const ItineraryCircleLineLong = ({
   boardingLeg,
   viaType = null,
   isStop = false,
-}) => {
+}) {
   const isFirstChild = () => {
     return index === 0;
   };
@@ -157,7 +156,7 @@ const ItineraryCircleLineLong = ({
       {renderBottomMarker && bottomMarker}
     </div>
   );
-};
+}
 
 ItineraryCircleLineLong.propTypes = {
   index: PropTypes.number.isRequired,
@@ -168,5 +167,3 @@ ItineraryCircleLineLong.propTypes = {
   viaType: PropTypes.string,
   isStop: PropTypes.bool,
 };
-
-export default ItineraryCircleLineLong;

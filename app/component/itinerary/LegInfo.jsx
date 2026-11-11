@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import cx from 'classnames';
 import Link from 'found/Link';
 import PropTypes from 'prop-types';
@@ -17,7 +17,7 @@ import {
 } from '../../../utils/client/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import OnDemandInfo from './OnDemandInfo';
 import RouteNumberContainer from '../RouteNumberContainer';
 

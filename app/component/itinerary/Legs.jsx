@@ -1,7 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { useRouter } from 'found';
 import {
   fareShape,
@@ -35,7 +34,7 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
 import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 

@@ -1,3 +1,5 @@
+@use '../../../../styles/abstracts' as *;
+
 .settings-dropdown-wrapper {
   .inverted {
     transform: rotate(180deg);
@@ -37,8 +39,8 @@
       }
 
       &.selected {
-        border: 1px solid #888;
-        background-color: #fff;
+        border: 1px solid $muted-gray;
+        background-color: $white;
 
         .selected-checkmark {
           color: $theme-primary-color;

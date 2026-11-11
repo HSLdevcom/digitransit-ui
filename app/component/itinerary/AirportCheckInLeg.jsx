@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { legShape, legTimeShape } from '../../../utils/client/shapes';
@@ -8,7 +7,7 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { stopPagePath } from '../../../utils/shared/path';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function AirportCheckInLeg({

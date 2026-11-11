@@ -6,7 +6,7 @@ import isString from 'lodash/isString';
  * see: https://werxltd.com/wp/2010/05/13/javascript-implementation-of-javas-string-hashcode-method/
  * @param {string} str the string to hash.
  */
-const hashCode = str => {
+export default function hashCode(str) {
   if (!str || str.length === 0 || !isString(str)) {
     return 0;
   }
@@ -18,6 +18,4 @@ const hashCode = str => {
     hash |= 0; // eslint-disable-line no-bitwise
   }
   return hash;
-};
-
-export default hashCode;
+}

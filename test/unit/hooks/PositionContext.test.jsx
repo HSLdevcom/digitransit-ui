@@ -1,4 +1,3 @@
-import React from 'react';
 import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import {
@@ -7,7 +6,7 @@ import {
   usePosition,
   usePositionActions,
 } from '../../../app/hooks/PositionContext';
-import searchContext from '../../../app/data/SearchContext';
+import searchServices from '../../../app/data/SearchServices';
 
 function PositionConsumer() {
   const position = usePosition();
@@ -25,18 +24,18 @@ function PositionConsumer() {
 }
 
 describe('PositionContext', () => {
-  it('owns position state and bridges its latest value to SearchContext', () => {
+  it('owns position state and bridges its latest value to SearchServices', () => {
     renderWithProviders(<PositionConsumer />);
 
     expect(screen.getByTestId('position').textContent).toBe('no-location:0:0');
-    expect(searchContext.getPositions().status).toBe('no-location');
+    expect(searchServices.getPositions().status).toBe('no-location');
 
     fireEvent.click(screen.getByRole('button', { name: 'deny location' }));
 
     expect(screen.getByTestId('position').textContent).toBe(
       'geolocation-denied:0:0',
     );
-    expect(searchContext.getPositions().status).toBe('geolocation-denied');
+    expect(searchServices.getPositions().status).toBe('geolocation-denied');
   });
 
   it('derives location flags and smooths nearby coordinates in the reducer', () => {

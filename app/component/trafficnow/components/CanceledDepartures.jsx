@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
@@ -12,12 +12,12 @@ import EntityBadge from './EntityBadge';
 
 const DEPARTURE_LIMIT = 10;
 
-const CanceledDepartures = ({
+export default function CanceledDepartures({
   patterns: patternRefs,
   inline = false,
   departureLimit = DEPARTURE_LIMIT,
   mode,
-}) => {
+}) {
   const patterns = useFragment(CanceledDeparturesFragment, patternRefs);
   const { formatMessage } = useIntl();
   const [expandedDates, setExpandedDates] = useState([]);
@@ -44,7 +44,7 @@ const CanceledDepartures = ({
   return (
     <div className={cx('badges__departure-group', { inline })}>
       {patternsWithVisibleDeparturesByDate.map(pattern => (
-        <React.Fragment key={pattern.code}>
+        <Fragment key={pattern.code}>
           {(patterns.length > 1 || inline) && (
             <EntityBadge entity={pattern} isPattern mode={mode} />
           )}
@@ -111,11 +111,11 @@ const CanceledDepartures = ({
               </Text>
             </span>
           )}
-        </React.Fragment>
+        </Fragment>
       ))}
     </div>
   );
-};
+}
 
 CanceledDepartures.propTypes = {
   patterns: PropTypes.arrayOf(PropTypes.shape({})),
@@ -123,5 +123,3 @@ CanceledDepartures.propTypes = {
   inline: PropTypes.bool,
   mode: PropTypes.string,
 };
-
-export default CanceledDepartures;

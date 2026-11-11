@@ -1,4 +1,3 @@
-import React from 'react';
 import { DateTime } from 'luxon';
 
 import { renderWithProviders } from '../helpers/mock-providers';
@@ -6,7 +5,9 @@ import {
   AlertSeverityLevelType,
   AlertEntityType,
 } from '../../../utils/shared/constants';
-import Disruptions from '../../../app/component/stop/Disruptions';
+import Disruptions, {
+  filterCanceledCalls,
+} from '../../../app/component/stop/Disruptions';
 
 const renderDisruptions = props =>
   renderWithProviders(<Disruptions {...props} />).container;
@@ -61,6 +62,7 @@ describe('<Disruptions />', () => {
               {
                 __typename: AlertEntityType.Route,
                 gtfsId: 'feed:101',
+                shortName: '101',
               },
             ],
           },
@@ -252,6 +254,7 @@ describe('<Disruptions />', () => {
               {
                 __typename: AlertEntityType.Stop,
                 gtfsId: 'feed:bar',
+                name: 'Bar',
               },
             ],
           },
@@ -262,5 +265,9 @@ describe('<Disruptions />', () => {
     };
     const container = renderDisruptions(props);
     expect(container.querySelectorAll('.alert-row')).toHaveLength(1);
+  });
+
+  it('should treat missing canceled calls as empty', () => {
+    expect(filterCanceledCalls(undefined, ['feed:bar'])).toEqual([]);
   });
 });

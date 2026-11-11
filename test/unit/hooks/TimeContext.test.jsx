@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
 import {
   TimeProvider,
   useCurrentTime,
-  withCurrentTime,
   TWICE_PER_MINUTE,
 } from '../../../app/hooks/TimeContext';
 
@@ -87,7 +86,7 @@ describe('TimeContext', () => {
       );
     });
 
-    it('refreshes the current time every 30 seconds', () => {
+    it('propagates current-time updates to consumers every 30 seconds', () => {
       const start = Date.parse('2024-05-01T12:00:00Z');
       vi.useFakeTimers();
       vi.setSystemTime(start);
@@ -108,6 +107,23 @@ describe('TimeContext', () => {
       expect(result.container.firstChild.dataset.currentTime).toBe(
         String(initialTime + TWICE_PER_MINUTE / 1000),
       );
+    });
+
+    it('clears the refresh interval on unmount', () => {
+      vi.useFakeTimers();
+      const clearIntervalSpy = vi.spyOn(window, 'clearInterval');
+      const result = render(
+        <TimeProvider>
+          <TimeConsumer />
+        </TimeProvider>,
+      );
+      unmount = result.unmount;
+
+      unmount();
+      unmount = null;
+
+      expect(clearIntervalSpy).toHaveBeenCalledTimes(1);
+      clearIntervalSpy.mockRestore();
     });
 
     it('does not update the time before the interval elapses', () => {
@@ -148,27 +164,6 @@ describe('TimeContext', () => {
       });
 
       consoleErrorSpy.mockRestore();
-    });
-  });
-
-  describe('withCurrentTime', () => {
-    it('injects currentTime as a prop', () => {
-      const now = Date.parse('2024-05-01T12:00:00Z');
-      vi.useFakeTimers();
-      vi.setSystemTime(now);
-      const Inner = props => (
-        <div data-current-time={props.currentTime} /> // eslint-disable-line react/prop-types
-      );
-      const Wrapped = withCurrentTime(Inner);
-      const result = render(
-        <TimeProvider>
-          <Wrapped foo="bar" />
-        </TimeProvider>,
-      );
-      unmount = result.unmount;
-      expect(result.container.firstChild.dataset.currentTime).toBe(
-        String(Math.floor(now / 1000)),
-      );
     });
   });
 });

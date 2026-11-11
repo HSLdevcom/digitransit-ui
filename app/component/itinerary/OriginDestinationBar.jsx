@@ -1,13 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, useRef } from 'react';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import { useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from '../WithSearchContext';
+import { SearchAutosuggestPanel } from '../SearchAutosuggest';
+import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
 import {
   setIntermediatePlaces,
   updateItinerarySearch,
@@ -18,7 +15,7 @@ import {
 } from '../../../utils/shared/otpStrings';
 import { parseLocation, sameLocations } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import { usePosition } from '../../hooks/PositionContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { countLocations } from '../../data/FavouriteData';
@@ -29,10 +26,7 @@ import {
   useItineraryLocationActions,
 } from '../../hooks/ItineraryLocationContext';
 
-const DTAutosuggestPanelWithSearchContext =
-  withSearchContext(DTAutosuggestPanel);
-
-function OriginDestinationBar({ isMobile = false }) {
+export default function OriginDestinationBar({ isMobile = false }) {
   const config = useConfigContext();
   const { match, router } = useRouter();
   const mountedRef = useRef(false);
@@ -152,7 +146,7 @@ function OriginDestinationBar({ isMobile = false }) {
         'bp-large': !isMobile,
       })}
     >
-      <DTAutosuggestPanelWithSearchContext
+      <SearchAutosuggestPanel
         appElement="#app"
         origin={origin}
         destination={destination}
@@ -184,5 +178,3 @@ function OriginDestinationBar({ isMobile = false }) {
 OriginDestinationBar.propTypes = {
   isMobile: PropTypes.bool,
 };
-
-export default OriginDestinationBar;

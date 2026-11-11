@@ -1,5 +1,5 @@
-// Reads webpack's build-time asset manifest (manifest.json/stats.json) once
-// at module load, and exposes it through small functions rather than bare
+// Reads webpack's build-time asset manifest (manifest.json) once at module
+// load, and exposes it through small functions rather than bare
 // module-level state, so server/middleware/shell.js can stay pure
 // templating.
 import fs from 'fs';
@@ -15,16 +15,11 @@ if (process.env.NODE_ENV !== 'development') {
   assets = JSON.parse(
     fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8'),
   );
-  const stats = JSON.parse(
-    fs.readFileSync(path.join(appRoot, 'stats.json'), 'utf8'),
-  );
-  const entryAssets = stats.entrypoints.main.assets.filter(
-    asset => !asset.endsWith('.map'),
-  );
+  // `entrypoints.main.assets` groups the entry's files by extension, each
+  // list in load order.
+  const { js = [], css = [] } = assets.entrypoints.main.assets;
 
-  const manifestFiles = entryAssets.filter(asset =>
-    asset.startsWith('js/runtime'),
-  );
+  const manifestFiles = js.filter(asset => asset.startsWith('js/runtime'));
 
   manifestScript = manifestFiles
     .map(manifestFile =>
@@ -32,7 +27,7 @@ if (process.env.NODE_ENV !== 'development') {
     )
     .join('\n');
 
-  mainAssets = entryAssets.filter(asset => !manifestFiles.includes(asset));
+  mainAssets = [...css, ...js.filter(asset => !manifestFiles.includes(asset))];
 }
 
 export function getMainAssets() {

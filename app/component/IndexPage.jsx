@@ -1,9 +1,7 @@
-import React, { useEffect, useRef } from 'react';
+import { useEffect, useRef } from 'react';
 import { useIntl, FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import isEqual from 'lodash/isEqual';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import { getModesWithAlerts } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { createUrl } from '@digitransit-store/digitransit-store-future-route';
@@ -11,10 +9,10 @@ import inside from 'point-in-polygon';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
-import {
-  withSearchContext,
-  getLocationSearchTargets,
-} from './WithSearchContext';
+import StopRouteSearch, {
+  SearchAutosuggestPanel as LocationSearch,
+} from './SearchAutosuggest';
+import { getLocationSearchTargets } from '../../utils/client/searchUtils';
 import {
   getPathWithEndpointObjects,
   getStopRoutePath,
@@ -25,7 +23,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../../utils/shared/path';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../../utils/client/scroll';
 import { getRefPoint } from '../../utils/client/apiUtils';
@@ -33,7 +31,7 @@ import { filterObject } from '../../utils/client/filterUtils';
 import {
   getTransportModes,
   getNearYouModes,
-  useCitybikes,
+  hasCitybikes,
 } from '../../utils/client/modeUtils';
 import {
   countLocations,
@@ -44,7 +42,7 @@ import {
   useFavouriteStatus,
   useHasOtpLocationFavourites,
 } from '../hooks/FavouriteContext';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import { usePosition, usePositionActions } from '../hooks/PositionContext';
 import { useCurrentTime } from '../hooks/TimeContext';
 import {
@@ -53,9 +51,6 @@ import {
   useItineraryLocationActions,
 } from '../hooks/ItineraryLocationContext';
 import TrafficNowLink from './trafficnow/TrafficNowLink';
-
-const StopRouteSearch = withSearchContext(DTAutoSuggest);
-const LocationSearch = withSearchContext(DTAutosuggestPanel);
 
 export default function IndexPage() {
   const pendingOriginRef = useRef(null);
@@ -303,7 +298,7 @@ export default function IndexPage() {
   }
 
   if (!config.targetsFromOTP) {
-    if (useCitybikes(config.vehicleRental?.networks, config)) {
+    if (hasCitybikes(config.vehicleRental?.networks, config)) {
       stopAndRouteSearchTargets.push('VehicleRentalStations');
     }
     if (config.includeParkAndRideSuggestions) {

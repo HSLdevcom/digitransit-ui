@@ -1,11 +1,11 @@
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React, { useEffect, Suspense, useState } from 'react';
+import { useEffect, Suspense, useState } from 'react';
 import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import scrollTop from '../../../utils/client/scroll';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
@@ -21,7 +21,7 @@ import FiltersModal from './filters/FiltersModal';
 // defines the scroll position at which a drop shadow is applied to the header button on mobile
 const HEADER_HEIGHT = 320;
 
-const TrafficNow = ({ dateTime }) => {
+export default function TrafficNow({ dateTime }) {
   const {
     match: {
       params: { mode, alertId },
@@ -136,9 +136,7 @@ const TrafficNow = ({ dateTime }) => {
       <TrafficNowFooter />
     </div>
   );
-};
-
-export default TrafficNow;
+}
 
 TrafficNow.propTypes = {
   dateTime: PropTypes.string.isRequired,

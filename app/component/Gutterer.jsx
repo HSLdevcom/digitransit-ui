@@ -1,11 +1,10 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { stylesShape } from '../../utils/client/shapes';
 
 const EMPTY_STYLE = {};
 
-const Gutterer = ({
+export default function Gutterer({
   children,
   className,
   containerStyles = EMPTY_STYLE,
@@ -13,7 +12,7 @@ const Gutterer = ({
   rightGutterStyles = EMPTY_STYLE,
   contentStyles = EMPTY_STYLE,
   maxWidth,
-}) => {
+}) {
   const contentStylesWithMaxWidth = {
     ...contentStyles,
     maxWidth,
@@ -30,7 +29,7 @@ const Gutterer = ({
       <div className="right-gutter" style={rightGutterStyles} />
     </div>
   );
-};
+}
 
 Gutterer.propTypes = {
   children: PropTypes.node.isRequired,
@@ -41,5 +40,3 @@ Gutterer.propTypes = {
   rightGutterStyles: stylesShape,
   contentStyles: stylesShape,
 };
-
-export default Gutterer;

@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from './Icon';
-import withBreakpoint from '../../utils/client/withBreakpoint';
-import { useConfigContext } from '../client/ConfigContext';
+import { useBreakpoint } from '../hooks/BreakpointContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 /**
  * A generic snackbar notification.
  * The caller is responsible for managing the `show` state transitions and
  * for providing a `liveRegionMessage` for screen-reader announcements.
  */
-const Snackbar = ({
+export default function Snackbar({
   show,
   messageId,
   defaultMessage,
@@ -20,8 +19,8 @@ const Snackbar = ({
   onClose,
   iconImg = 'icon_checkmark-circled',
   className,
-  breakpoint,
-}) => {
+}) {
+  const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
   const content = (
@@ -85,7 +84,7 @@ const Snackbar = ({
   return typeof document !== 'undefined'
     ? ReactDOM.createPortal(content, document.body)
     : content;
-};
+}
 
 Snackbar.propTypes = {
   /** null = hidden, true = slide in, false = slide out */
@@ -96,7 +95,4 @@ Snackbar.propTypes = {
   onClose: PropTypes.func.isRequired,
   iconImg: PropTypes.string,
   className: PropTypes.string,
-  breakpoint: PropTypes.string.isRequired,
 };
-
-export default withBreakpoint(Snackbar);

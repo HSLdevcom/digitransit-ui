@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
@@ -31,7 +30,7 @@ import {
 import { streetHash } from '../../../utils/shared/path';
 import { itineraryShape, relayShape } from '../../../utils/client/shapes';
 import { getFutureText } from '../../../utils/client/timeUtils';
-import { BreakpointConsumer } from '../../../utils/client/withBreakpoint';
+import { BreakpointConsumer } from '../../hooks/BreakpointContext';
 import { getSettings } from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
@@ -46,7 +45,7 @@ import StartNavi from './StartNavi';
 import TicketInformation from './TicketInformation';
 import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 function getExtraProps(itinerary, intl) {
   const compressedItinerary = {
@@ -82,7 +81,7 @@ function getExtraProps(itinerary, intl) {
   };
 }
 
-function ItineraryDetails({
+export default function ItineraryDetails({
   itinerary: itineraryRef,
   focusToPoint,
   focusToLeg,
@@ -101,13 +100,13 @@ function ItineraryDetails({
   giveFeedback,
 }) {
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
-  if (!itinerary?.legs[0]) {
-    return null;
-  }
   const { match } = useRouter();
   const config = useConfigContext();
   const { language } = config;
   const intl = useIntl();
+  if (!itinerary?.legs[0]) {
+    return null;
+  }
 
   const shouldShowDisclaimer =
     config.showDisclaimer &&
@@ -443,5 +442,3 @@ ItineraryDetails.propTypes = {
   feedback: PropTypes.bool,
   giveFeedback: PropTypes.func,
 };
-
-export default ItineraryDetails;

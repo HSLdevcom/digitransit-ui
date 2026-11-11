@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
@@ -12,9 +11,9 @@ import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../../../utils/shared/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-function CarParkLeg({
+export default function CarParkLeg({
   leg,
   index,
   focusAction,
@@ -139,5 +138,3 @@ CarParkLeg.propTypes = {
   carPark: parkShape.isRequired,
   noWalk: PropTypes.bool,
 };
-
-export default CarParkLeg;

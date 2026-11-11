@@ -1,10 +1,9 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { Marker, Tooltip } from 'react-leaflet';
 import { locationShape } from '../../../utils/client/shapes';
 
-const LocationMarkerWithPermanentTooltip = props => {
+export default function LocationMarkerWithPermanentTooltip(props) {
   if (props.position && props.text) {
     const address = props.text.split(', ');
     return (
@@ -29,11 +28,9 @@ const LocationMarkerWithPermanentTooltip = props => {
     );
   }
   return null;
-};
+}
 
 LocationMarkerWithPermanentTooltip.propTypes = {
   position: locationShape.isRequired,
   text: PropTypes.string.isRequired,
 };
-
-export default LocationMarkerWithPermanentTooltip;

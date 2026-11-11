@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import {
   Icon as HslFiIconWrapper,
@@ -12,7 +11,7 @@ import {
   TrainStop,
   TramStop,
 } from '@hsl-fi/icons';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 import SvgIcon from './Icon';
 
 /**
@@ -52,7 +51,14 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-function ThemedIcon({ name, size, customColor, className, style, ...rest }) {
+export default function ThemedIcon({
+  name,
+  size,
+  customColor,
+  className,
+  style,
+  ...rest
+}) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
@@ -105,5 +111,3 @@ ThemedIcon.propTypes = {
     PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   ),
 };
-
-export default ThemedIcon;

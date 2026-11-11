@@ -1,18 +1,17 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import { tripShape, routeShape } from '../../utils/client/shapes';
 import { getTripOrRouteText } from '../../utils/client/legUtils';
 import RouteNumber from './RouteNumber';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-const RouteNumberContainer = ({
+export default function RouteNumberContainer({
   interliningWithRoute,
   trip,
   route,
   mode,
   hideText = false,
   ...props
-}) => {
+}) {
   const config = useConfigContext();
   return (
     route && (
@@ -28,7 +27,7 @@ const RouteNumberContainer = ({
       />
     )
   );
-};
+}
 
 RouteNumberContainer.propTypes = {
   trip: tripShape,
@@ -37,5 +36,3 @@ RouteNumberContainer.propTypes = {
   mode: PropTypes.string,
   hideText: PropTypes.bool,
 };
-
-export default RouteNumberContainer;

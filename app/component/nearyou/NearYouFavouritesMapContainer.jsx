@@ -1,26 +1,29 @@
 import PropTypes from 'prop-types';
-import React from 'react';
-import { graphql, createFragmentContainer } from 'react-relay';
+import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import NearYouMap from '../map/NearYouMap';
-import {
-  vehicleRentalStationShape,
-  stopShape,
-  stationShape,
-  locationShape,
-} from '../../../utils/client/shapes';
+import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
+import NearYouFavouritesMapFragment from './queries/NearYouFavouritesMapFragment';
 
 const EMPTY_ARRAY = [];
 
-function NearYouFavouritesMapContainer({
-  stops = EMPTY_ARRAY,
-  stations = EMPTY_ARRAY,
-  vehicleStations = EMPTY_ARRAY,
+export default function NearYouFavouritesMapContainer({
+  stops: stopsRef,
+  stations: stationsRef,
+  vehicleStations: vehicleStationsRef,
   position,
   ...rest
 }) {
-  // Default params only cover undefined; Relay's plural fragment containers
-  // can pass null when there's no data, so guard against that too.
+  const stops = useFragment(NearYouFavouritesMapFragment.stops, stopsRef);
+  const stations = useFragment(
+    NearYouFavouritesMapFragment.stations,
+    stationsRef,
+  );
+  const vehicleStations = useFragment(
+    NearYouFavouritesMapFragment.vehicleStations,
+    vehicleStationsRef,
+  );
+  // guard against useFragment returning null
   const favs = [
     ...(stops || EMPTY_ARRAY),
     ...(stations || EMPTY_ARRAY),
@@ -50,70 +53,8 @@ function NearYouFavouritesMapContainer({
 }
 
 NearYouFavouritesMapContainer.propTypes = {
-  stops: PropTypes.arrayOf(stopShape),
-  stations: PropTypes.arrayOf(stationShape),
-  vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
+  stops: PropTypes.arrayOf(fragmentRefShape),
+  stations: PropTypes.arrayOf(fragmentRefShape),
+  vehicleStations: PropTypes.arrayOf(fragmentRefShape),
   position: locationShape.isRequired,
-};
-
-const containerComponent = createFragmentContainer(
-  NearYouFavouritesMapContainer,
-  {
-    stops: graphql`
-      fragment NearYouFavouritesMapContainer_stops on Stop
-      @relay(plural: true) {
-        gtfsId
-        lat
-        lon
-        patterns {
-          route {
-            gtfsId
-            shortName
-            mode
-            type
-          }
-          code
-          patternGeometry {
-            points
-          }
-        }
-      }
-    `,
-    stations: graphql`
-      fragment NearYouFavouritesMapContainer_stations on Stop
-      @relay(plural: true) {
-        gtfsId
-        lat
-        lon
-        stops {
-          patterns {
-            route {
-              gtfsId
-              shortName
-              mode
-              type
-            }
-            code
-            patternGeometry {
-              points
-            }
-          }
-        }
-      }
-    `,
-    vehicleStations: graphql`
-      fragment NearYouFavouritesMapContainer_vehicleStations on VehicleRentalStation
-      @relay(plural: true) {
-        name
-        lat
-        lon
-        stationId
-      }
-    `,
-  },
-);
-
-export {
-  containerComponent as default,
-  NearYouFavouritesMapContainer as Component,
 };

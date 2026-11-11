@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { RouterContext } from 'found';
 import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
@@ -10,7 +10,7 @@ import {
   configShape,
   vehicleShape,
 } from '../../../utils/client/shapes';
-import { ConfigProvider } from '../../../app/client/ConfigContext';
+import { ConfigProvider } from '../../../app/hooks/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
 import { PositionProvider } from '../../../app/hooks/PositionContext';
 import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
@@ -20,7 +20,7 @@ import {
 } from '../../../app/hooks/RealTimeInformationContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
-import { BreakpointContext } from '../../../utils/client/withBreakpoint';
+import { BreakpointContext } from '../../../app/hooks/BreakpointContext';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();

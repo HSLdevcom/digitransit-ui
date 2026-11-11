@@ -1,9 +1,8 @@
 import { Button } from '@hsl-fi/layout-primitives';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 
-const NaviGeolocationInfo = ({ logo, onClose }) => {
+export default function NaviGeolocationInfo({ logo, onClose }) {
   const intl = useIntl();
   return (
     <div className="geolocation-body">
@@ -15,11 +14,9 @@ const NaviGeolocationInfo = ({ logo, onClose }) => {
       </Button>
     </div>
   );
-};
+}
 
 NaviGeolocationInfo.propTypes = {
   logo: PropTypes.string,
   onClose: PropTypes.func.isRequired,
 };
-
-export default NaviGeolocationInfo;

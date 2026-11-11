@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../../utils/client/shapes';
 import Favourite from './Favourite';
@@ -12,7 +12,7 @@ import {
 import { useMessageActions } from '../hooks/MessageContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { failedFavouriteMessage } from '../../utils/client/messageUtils';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function FavouriteStopContainer({
   stop,

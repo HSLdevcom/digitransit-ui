@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
@@ -9,10 +8,17 @@ import {
   hasVehicleRentalCode,
 } from '../../../../utils/shared/vehicleRentalUtils';
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {
+export default function SelectVehicleRentalRow({
+  name,
+  network,
+  id,
+  desc,
+  prefix,
+  icon,
+}) {
   const config = useConfigContext();
   const iconName =
     icon ||
@@ -36,7 +42,7 @@ function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {
         <Icon img={iconName} color={color} />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name}</h5>
+        <h4 className="choose-row-header">{name}</h4>
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasVehicleRentalCode(id) && (
@@ -53,8 +59,6 @@ function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {
   );
 }
 
-SelectVehicleRentalRow.displayName = 'SelectVehicleRentalRow';
-
 SelectVehicleRentalRow.propTypes = {
   name: PropTypes.string,
   network: PropTypes.string.isRequired,
@@ -63,5 +67,3 @@ SelectVehicleRentalRow.propTypes = {
   prefix: PropTypes.string.isRequired,
   icon: PropTypes.string,
 };
-
-export default SelectVehicleRentalRow;

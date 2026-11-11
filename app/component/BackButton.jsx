@@ -1,9 +1,8 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function BackButton({ title, fallback }) {
   const config = useConfigContext();

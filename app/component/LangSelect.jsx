@@ -1,8 +1,7 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 const Language = ({ lang }) => {
   const { language } = useConfigContext();
@@ -31,7 +30,7 @@ const Language = ({ lang }) => {
 
 Language.propTypes = { lang: PropTypes.string.isRequired };
 
-const LanguageSelect = () => {
+export default function LanguageSelect() {
   const { availableLanguages } = useConfigContext();
   return (
     <div key="lang-select" id="lang-select">
@@ -40,6 +39,4 @@ const LanguageSelect = () => {
       ))}
     </div>
   );
-};
-
-export default LanguageSelect;
+}

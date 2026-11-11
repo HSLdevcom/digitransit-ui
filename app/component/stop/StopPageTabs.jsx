@@ -1,17 +1,17 @@
 import cx from 'classnames';
-import React, { useState, useRef } from 'react';
+import PropTypes from 'prop-types';
+import { useState, useRef } from 'react';
+import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
-import { stopShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import {
   getAlertsForObject,
-  getServiceAlertsForStation,
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
-import withBreakpoint from '../../../utils/client/withBreakpoint';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { unixTime } from '../../../utils/client/timeUtils';
 import {
@@ -20,6 +20,7 @@ import {
   stopPagePath,
 } from '../../../utils/shared/path';
 import { filterCanceledCalls } from './Disruptions';
+import { StopPageTabsFragment } from './queries/StopPageTabsFragment';
 
 const Tab = {
   RightNow: 1,
@@ -39,10 +40,6 @@ const getActiveTab = pathname => {
 
 function StopPageTabs({ stop }) {
   const { router, match } = useRouter();
-  const { location } = match;
-  if (!stop || location.query.alertId) {
-    return null;
-  }
   const activeTab = getActiveTab(match.location.pathname);
   const { search } = match.location;
 
@@ -54,14 +51,7 @@ function StopPageTabs({ stop }) {
 
   const isTerminal = match.params.terminalId != null;
   const currentTime = unixTime();
-  const maxAlertSeverity = getActiveAlertSeverityLevel(
-    isTerminal ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
-    currentTime,
-  );
-
-  const alerts = isTerminal
-    ? getServiceAlertsForStation(stop)
-    : getAlertsForObject(stop);
+  const alerts = getAlertsForObject(stop, true);
 
   const canceledCalls = filterCanceledCalls(
     stop.canceledCalls,
@@ -73,6 +63,8 @@ function StopPageTabs({ stop }) {
     ({ tripOnServiceDate }) =>
       tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
   );
+
+  const maxAlertSeverity = getActiveAlertSeverityLevel(alerts, currentTime);
 
   const alertsCount =
     getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
@@ -204,8 +196,27 @@ function StopPageTabs({ stop }) {
   );
 }
 
-StopPageTabs.propTypes = { stop: stopShape };
+StopPageTabs.propTypes = {
+  stop: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    alerts: PropTypes.arrayOf(PropTypes.shape({})),
+    stops: PropTypes.arrayOf(PropTypes.shape({})),
+    canceledCalls: PropTypes.arrayOf(PropTypes.shape({})),
+  }).isRequired,
+};
 
-const componentWithBreakpoint = withBreakpoint(StopPageTabs);
+export default function StopPageTabsContainer({ children, stop: stopRef }) {
+  const { match } = useRouter();
+  const stop = useFragment(StopPageTabsFragment, stopRef);
+  return (
+    <div className="stop-page-content-wrapper">
+      {stop && !match.location.query.alertId && <StopPageTabs stop={stop} />}
+      {children}
+    </div>
+  );
+}
 
-export { componentWithBreakpoint as default, StopPageTabs as Component };
+StopPageTabsContainer.propTypes = {
+  children: PropTypes.node,
+  stop: fragmentRefShape,
+};

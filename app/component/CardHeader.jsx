@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
+import { Fragment } from 'react';
 import cx from 'classnames';
 import { stopShape } from '../../utils/client/shapes';
 import AddressRow from './AddressRow';
@@ -9,7 +9,7 @@ import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../../utils/client/legUtils';
 import { splitGtfsId } from '../../utils/shared/gtfs';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function CardHeader({
   className = '',
@@ -32,7 +32,7 @@ export default function CardHeader({
   const headerTitle = stop.name ? stop.name : name;
   // Station query does not return zoneId, so dig it up from child stops
   const zoneId =
-    isTerminal && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
+    isTerminal && stop.stops?.length ? stop.stops[0].zoneId : stop.zoneId;
   return (
     <Fragment>
       <div className={cx('card-header', className)}>
@@ -81,8 +81,6 @@ export default function CardHeader({
     </Fragment>
   );
 }
-
-CardHeader.displayName = 'CardHeader';
 
 CardHeader.propTypes = {
   className: PropTypes.string,

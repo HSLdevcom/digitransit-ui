@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import { CloseButton } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
 import StreetModeSelector from './StreetModeSelector';
 import TransportModes from './TransportModes';
@@ -15,8 +16,8 @@ import TaxiOptions from './TaxiOptions';
 import RestoreDefaultSettings from './RestoreDefaultSettings';
 import {
   showModeSettings,
-  useCitybikes,
-  useScooters,
+  hasCitybikes,
+  hasScooters,
 } from '../../../../utils/client/modeUtils';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import {
@@ -24,7 +25,7 @@ import {
   setCustomizedSettings,
 } from '../../../../utils/client/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function CustomizeSearch({ onToggleClick, mobile = false }) {
   const config = useConfigContext();
@@ -39,34 +40,43 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
     setSettings(getSettings(config));
   };
 
-  const backIcon = mobile ? (
-    <Icon img="icon_arrow-collapse--left" />
-  ) : (
-    <Icon className="close-icon" img="icon_close" />
-  );
+  const closeSettings = () => {
+    // Move focus back to the button that opened settings window
+    const openSettingsButton = document.querySelector(
+      '.open-advanced-settings-window-button',
+    );
+    if (openSettingsButton) {
+      openSettingsButton.focus();
+    }
+    onToggleClick();
+  };
+  const closeLabel = intl.formatMessage({ id: 'close-settings' });
+
   return (
     <div className="customize-search">
       <div className="settings-section">
         <div className="settings-header">
-          <button
-            aria-label={intl.formatMessage({ id: 'close-settings' })}
-            type="button"
-            className="close-offcanvas"
-            onClick={() => {
-              // Move focus back to the button that opened settings window
-              const openSettingsButton = document.querySelector(
-                '.open-advanced-settings-window-button',
-              );
-              if (openSettingsButton) {
-                openSettingsButton.focus();
-              }
-              onToggleClick();
-            }}
-            // eslint-disable-next-line jsx-a11y/no-autofocus
-            autoFocus
-          >
-            {backIcon}
-          </button>
+          {mobile ? (
+            <button
+              aria-label={closeLabel}
+              type="button"
+              className="close-offcanvas"
+              onClick={closeSettings}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            >
+              <Icon img="icon_arrow-collapse--left" />
+            </button>
+          ) : (
+            <CloseButton
+              lang={intl.locale}
+              aria-label={closeLabel}
+              className="close-settings"
+              onClick={closeSettings}
+              // eslint-disable-next-line jsx-a11y/no-autofocus
+              autoFocus
+            />
+          )}
           <h1>{intl.formatMessage({ id: 'settings' })}</h1>
         </div>
         <div
@@ -102,7 +112,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
             updateSettings={updateSettings}
           />
         </div>
-        {useCitybikes(config.vehicleRental?.networks, config) && (
+        {hasCitybikes(config.vehicleRental?.networks, config) && (
           <div className="settings-section">
             <CityBikes updateSettings={updateSettings} />
           </div>
@@ -119,7 +129,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
             updateSettings={updateSettings}
           />
         </div>
-        {useScooters(config) && (
+        {hasScooters(config) && (
           <div className="settings-section">
             <Scooters updateSettings={updateSettings} />
           </div>

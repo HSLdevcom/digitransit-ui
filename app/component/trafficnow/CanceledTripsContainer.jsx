@@ -1,4 +1,3 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import CanceledTrips from './CanceledTrips';
@@ -7,9 +6,9 @@ import { sortRoutes } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-const CanceledTripsContainer = ({ mode, isMobile, dateTime }) => {
+export default function CanceledTripsContainer({ mode, isMobile, dateTime }) {
   const { canceledTripsSummary } = useLazyLoadQuery(CanceledTripsForModeQuery, {
     mode: mode.toUpperCase(),
     runningTimeRanges: [{ start: dateTime, end: null }],
@@ -35,11 +34,9 @@ const CanceledTripsContainer = ({ mode, isMobile, dateTime }) => {
       isMobile={isMobile}
     />
   );
-};
+}
 CanceledTripsContainer.propTypes = {
   mode: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
   dateTime: PropTypes.string.isRequired,
 };
-
-export default CanceledTripsContainer;

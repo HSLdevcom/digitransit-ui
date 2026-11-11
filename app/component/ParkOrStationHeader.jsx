@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import StopCode from './StopCode';
-import { useBreakpoint } from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
 import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
@@ -10,14 +10,14 @@ import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
 import { splitGtfsId } from '../../utils/shared/gtfs';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-const ParkOrBikeStationHeader = ({
+export default function ParkOrBikeStationHeader({
   parkOrStation,
   parkType,
   backButton = true,
   withSeparator = true,
-}) => {
+}) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const [zoneId, setZoneId] = useState(undefined);
@@ -76,7 +76,7 @@ const ParkOrBikeStationHeader = ({
       )}
     </div>
   );
-};
+}
 
 ParkOrBikeStationHeader.propTypes = {
   backButton: PropTypes.bool,
@@ -89,5 +89,3 @@ ParkOrBikeStationHeader.propTypes = {
   parkType: PropTypes.string,
   withSeparator: PropTypes.bool,
 };
-
-export default ParkOrBikeStationHeader;

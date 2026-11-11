@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
   getReadMessageIds,
   setReadMessageId,
 } from '../../../utils/client/localStorage';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   getRentalNetworkConfig,
   getRentalNetworkId,
 } from '../../../utils/shared/vehicleRentalUtils';
 import Disclaimer from '../Disclaimer';
 
-const CityBikeInfo = () => {
+export default function CityBikeInfo() {
   const config = useConfigContext();
   const { vehicleRental, language } = config;
   const [showCityBikeTeaser, setShowCityBikeTeaser] = useState(
@@ -49,9 +49,7 @@ const CityBikeInfo = () => {
         closable
         onClose={handleClose}
       />
-      <div style={{ height: '8px' }} />
+      <div style={{ height: '22px' }} />
     </>
   );
-};
-
-export default CityBikeInfo;
+}

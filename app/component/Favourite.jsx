@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import LoginPrompt from './LoginPrompt';
 import Icon from './Icon';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function Favourite({
   addFavourite,

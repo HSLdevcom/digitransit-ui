@@ -1,4 +1,3 @@
-import React from 'react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import StopNearYou from '../../../../app/component/nearyou/StopNearYou';
 import { createTestConfig } from '../../helpers/mock-context';

@@ -1,28 +1,47 @@
-import PropTypes from 'prop-types';
-import React from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import {
-  vehicleRentalStationShape,
-  errorShape,
-} from '../../utils/client/shapes';
+import { fragmentRefShape, errorShape } from '../../utils/client/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
-import withBreakpoint from '../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../hooks/BreakpointContext';
 import { getRentalNetworkConfig } from '../../utils/shared/vehicleRentalUtils';
 import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
 import { TransportMode } from '../../utils/shared/constants';
-import { useConfigContext } from '../client/ConfigContext';
+import { useConfigContext } from '../hooks/ConfigContext';
 
-const VehicleRentalStationContent = ({
-  vehicleRentalStation,
-  breakpoint,
+const VehicleRentalStationContentFragment = graphql`
+  fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
+    lat
+    lon
+    name
+    availableVehicles {
+      total
+    }
+    availableSpaces {
+      total
+    }
+    capacity
+    rentalNetwork {
+      networkId
+    }
+    stationId
+    operative
+  }
+`;
+
+export default function VehicleRentalStationContent({
+  vehicleRentalStation: vehicleRentalStationRef,
   error,
-}) => {
+}) {
+  const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { router } = useRouter();
+  const vehicleRentalStation = useFragment(
+    VehicleRentalStationContentFragment,
+    vehicleRentalStationRef,
+  );
   // throw error when relay query fails
   if (error && !vehicleRentalStation) {
     throw error.message;
@@ -86,36 +105,9 @@ const VehicleRentalStationContent = ({
       )}
     </div>
   );
-};
+}
 
 VehicleRentalStationContent.propTypes = {
-  vehicleRentalStation: vehicleRentalStationShape.isRequired,
-  breakpoint: PropTypes.string.isRequired,
+  vehicleRentalStation: fragmentRefShape.isRequired,
   error: errorShape,
 };
-
-const VRCWithBreakpoint = withBreakpoint(VehicleRentalStationContent);
-
-const containerComponent = createFragmentContainer(VRCWithBreakpoint, {
-  vehicleRentalStation: graphql`
-    fragment VehicleRentalStationContent_vehicleRentalStation on VehicleRentalStation {
-      lat
-      lon
-      name
-      availableVehicles {
-        total
-      }
-      availableSpaces {
-        total
-      }
-      capacity
-      rentalNetwork {
-        networkId
-      }
-      stationId
-      operative
-    }
-  `,
-});
-
-export { containerComponent as default, VRCWithBreakpoint as Component };

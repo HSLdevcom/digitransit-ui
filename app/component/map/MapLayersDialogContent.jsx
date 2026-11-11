@@ -1,13 +1,12 @@
 import PropTypes from 'prop-types';
-import React, { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { Fragment } from 'react';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { Button, Text } from '@hsl-fi/layout-primitives';
 
 import {
   mapLayerOptionsShape,
   mapLayerShape,
 } from '../../../utils/client/shapes';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import Icon from '../Icon';
 import Checkbox from '../Checkbox';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
@@ -15,7 +14,7 @@ import {
   showRentalVehiclesOfType,
 } from '../../../utils/client/modeUtils';
 import { TransportMode } from '../../../utils/shared/constants';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 
@@ -28,7 +27,12 @@ const sendLayerChangeAnalytic = (name, enable) => {
   });
 };
 
-function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
+export default function MapLayersDialogContent({
+  mapLayers,
+  mapLayerOptions,
+  setOpen,
+}) {
+  const intl = useIntl();
   const config = useConfigContext();
   const { updateMapLayers } = useMapLayers();
   const geoJson = useGeoJsonObjects(config.geoJson);
@@ -46,18 +50,9 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
 
   return (
     <Fragment>
-      <button
-        className="panel-close"
-        onClick={setOpen}
-        onKeyDown={e => isKeyboardSelectionEvent(e) && setOpen()}
-        type="button"
-      >
-        <Icon img="icon_close" />
-      </button>
-
-      <span className="map-layer-header">
+      <Text variant="heading-s" as="h2" className="map-layer-header">
         <FormattedMessage id="select-map-layers-header" />
-      </span>
+      </Text>
 
       <div className="checkbox-grouping" />
 
@@ -239,6 +234,12 @@ function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
           ))}
         </div>
       )}
+
+      <div className="map-layers-close">
+        <Button variant="primary" size="l" expand onClick={setOpen}>
+          {intl.formatMessage({ id: 'close', defaultMessage: 'Close' })}
+        </Button>
+      </div>
     </Fragment>
   );
 }
@@ -248,5 +249,3 @@ MapLayersDialogContent.propTypes = {
   mapLayerOptions: mapLayerOptionsShape,
   setOpen: PropTypes.func.isRequired,
 };
-
-export default MapLayersDialogContent;

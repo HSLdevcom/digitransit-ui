@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
 import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
@@ -7,7 +7,7 @@ import RouteBadgeGroup from './RouteBadgeGroup';
 import DisruptionBadge from '../DisruptionBadge';
 import { patternShape, routeShape } from '../../../../utils/client/shapes';
 
-const CancellationContainer = ({ routeSummary, mode }) => {
+export default function CancellationContainer({ routeSummary, mode }) {
   const {
     route: { shortName, gtfsId },
     patterns,
@@ -36,20 +36,20 @@ const CancellationContainer = ({ routeSummary, mode }) => {
       <div className="cancellation-container--row">
         <div className="cancellation-container__patterns--column">
           {patterns.map(({ pattern }) => (
-            <React.Fragment key={`${shortName}-${pattern.code}`}>
+            <Fragment key={`${shortName}-${pattern.code}`}>
               <PatternWithCancellations
                 routeId={gtfsId}
                 mode={mode}
                 pattern={pattern}
                 summarize={false}
               />
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
       </div>
     </div>
   );
-};
+}
 
 CancellationContainer.propTypes = {
   routeSummary: PropTypes.shape({
@@ -62,5 +62,3 @@ CancellationContainer.propTypes = {
   }).isRequired,
   mode: PropTypes.string.isRequired,
 };
-
-export default CancellationContainer;

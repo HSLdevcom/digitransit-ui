@@ -1,7 +1,5 @@
 import { DateTime } from 'luxon';
 import {
-  validateServiceTimeRange,
-  RANGE_PAST,
   convertTo24HourFormat,
   getStartTime,
   isTomorrow,
@@ -12,68 +10,7 @@ import { createTestIntl } from '../../helpers/mock-providers';
 
 const now = DateTime.now();
 
-const test = validated => {
-  expect(validated).toBeInstanceOf(Object);
-  expect(validated).toHaveProperty('start');
-  expect(validated).toHaveProperty('end');
-  expect(validated.start).toBeLessThanOrEqual(now.toUnixInteger());
-  expect(validated.end).toBeGreaterThanOrEqual(now.toUnixInteger());
-};
-
 describe('timeUtils', () => {
-  describe('validateServiceTimeRange', () => {
-    it('should return valid default time range from undefined input', () => {
-      const range = null;
-      const futureDays = null; // DT-3175
-      test(validateServiceTimeRange(futureDays, range, now.toUnixInteger()));
-    });
-
-    it('should fix invalid time range', () => {
-      const range = {
-        start: now.toUnixInteger() + 3600, // future
-        end: now.toUnixInteger() - 3600, // past
-      };
-      const futureDays = null; // DT-3175
-      test(validateServiceTimeRange(futureDays, range, now.toUnixInteger()));
-    });
-
-    it('should not change the days of a proper time range', () => {
-      const range = {
-        start: now.toUnixInteger() - 3600 * 24, // yesterday
-        end: now.toUnixInteger() + 3600 * 24 * 7, // next week
-      };
-      const futureDays = null; // DT-3175
-      const validated = validateServiceTimeRange(
-        futureDays,
-        range,
-        now.toUnixInteger(),
-      );
-      test(validated);
-      expect(DateTime.fromSeconds(validated.start).ordinal).toBe(
-        DateTime.fromSeconds(range.start).ordinal,
-      );
-      expect(DateTime.fromSeconds(validated.end).ordinal).toBe(
-        DateTime.fromSeconds(range.end).ordinal,
-      );
-    });
-
-    it('should not return too long a range', () => {
-      const range = {
-        start: now.toUnixInteger() - 3600 * 24 * 365 * 2, // 2 years in the past
-        end: now.toUnixInteger() + 3600 * 24 * 365 * 2,
-      };
-      const RANGE_FUTURE = 30; // DT-3175
-      const validated = validateServiceTimeRange(
-        RANGE_FUTURE,
-        range,
-        now.toUnixInteger(),
-      );
-      test(validated);
-      expect(
-        (validated.end - validated.start) / 1000 / 86400,
-      ).toBeLessThanOrEqual(RANGE_FUTURE + RANGE_PAST + 1); // +1 for today
-    });
-  });
   describe('convertTo24HourFormat', () => {
     it('should just add : to times under 2400', () => {
       expect(convertTo24HourFormat('2355')).toBe('23:55');

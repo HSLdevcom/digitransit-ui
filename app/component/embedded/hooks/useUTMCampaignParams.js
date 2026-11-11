@@ -1,9 +1,9 @@
 import { useMemo } from 'react';
 import toPairs from 'lodash/toPairs';
-import { getClientBreakpoint } from '../../../../utils/client/withBreakpoint';
+import { getClientBreakpoint } from '../../../hooks/BreakpointContext';
 import useWindowSize from '../../../hooks/useWindowSize';
 
-const useUTMCampaignParams = (props = {}) => {
+export default function useUTMCampaignParams(props = {}) {
   const {
     mode = 'all',
     hasOrigin = false,
@@ -34,6 +34,4 @@ const useUTMCampaignParams = (props = {}) => {
       utm_content: content,
     };
   }, [size, mode]);
-};
-
-export default useUTMCampaignParams;
+}

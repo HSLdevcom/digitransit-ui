@@ -1,4 +1,3 @@
-import React from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
@@ -19,7 +18,7 @@ import {
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function getBoardingParams(intl, leg, time, config) {
   if (!leg?.transitLeg) {

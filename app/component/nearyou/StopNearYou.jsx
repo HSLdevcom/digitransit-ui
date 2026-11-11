@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
@@ -13,14 +13,16 @@ import NearYouHeader from './NearYouHeader';
 import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
+export default function StopNearYou({
+  stop,
+  currentTime,
+  relay,
+  isParentTabActive,
+}) {
   const config = useConfigContext();
   const intl = useIntl();
-  if (!stop.stoptimesWithoutPatterns) {
-    return null;
-  }
   const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { gtfsId, vehicleMode } = stop;
@@ -33,6 +35,9 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
       timeRef.current = currentTime;
     }
   }, [currentTime, isParentTabActive]);
+  if (!stop.stoptimesWithoutPatterns) {
+    return null;
+  }
 
   const isStation = stop.locationType === 'STATION';
   const linkAddress = stopPagePath(isStation, gtfsId);
@@ -110,7 +115,7 @@ const StopNearYou = ({ stop, currentTime, relay, isParentTabActive }) => {
       )}
     </span>
   );
-};
+}
 
 StopNearYou.propTypes = {
   stop: stopShape.isRequired,
@@ -118,5 +123,3 @@ StopNearYou.propTypes = {
   relay: relayShape.isRequired,
   isParentTabActive: PropTypes.bool.isRequired,
 };
-
-export default StopNearYou;

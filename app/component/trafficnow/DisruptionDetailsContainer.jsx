@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { ButtonLink, Text } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 import Card from '../Card';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
@@ -13,7 +13,10 @@ import AlertsQuery from './queries/AlertsQuery';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import CTAContainer from './components/CTAContainer';
 
-const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
+export default function DisruptionDetailsContainer({
+  alertId,
+  isMobile = false,
+}) {
   const config = useConfigContext();
   const { formatMessage } = useIntl();
   const { router } = useRouter();
@@ -137,11 +140,9 @@ const DisruptionDetailsContainer = ({ alertId, isMobile = false }) => {
       </div>
     </>
   );
-};
+}
 
 DisruptionDetailsContainer.propTypes = {
   alertId: PropTypes.string.isRequired,
   isMobile: PropTypes.bool,
 };
-
-export default DisruptionDetailsContainer;

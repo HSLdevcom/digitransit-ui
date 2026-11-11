@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React from 'react';
+import { Fragment } from 'react';
 import {
   IndoorStepType,
   VerticalDirection,
@@ -9,7 +9,7 @@ import { getStepFocusAction } from '../../../../../utils/client/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];
 
-function NaviIndoorContainer({
+export default function NaviIndoorContainer({
   focusToPoint,
   indoorSteps = EMPTY_INDOOR_STEPS,
 }) {
@@ -18,7 +18,7 @@ function NaviIndoorContainer({
       <div className="navi-indoor-step-line-container">
         <div className="navi-indoor-step-line-circle-container">
           {indoorSteps.map((step, i) => (
-            <React.Fragment
+            <Fragment
               // eslint-disable-next-line react/no-array-index-key
               key={`naviindoorsteplinecircle_lat_${step.lat}_lon_${step.lon}_i_${i}`}
             >
@@ -34,7 +34,7 @@ function NaviIndoorContainer({
                   />
                 </svg>
               </div>
-            </React.Fragment>
+            </Fragment>
           ))}
         </div>
         <div className="navi-indoor-step-line indoor-dotted-line" />
@@ -70,5 +70,3 @@ NaviIndoorContainer.propTypes = {
     }),
   ),
 };
-
-export default NaviIndoorContainer;

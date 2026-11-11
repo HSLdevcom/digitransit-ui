@@ -130,12 +130,7 @@ export function getBounds(edges, from, to, viaPoints) {
   );
 }
 
-/**
- * Compare two itinerary lists. If identical, return true
- *
- * @param {*} edges1
- * @param {*} edges2
- */
+// Leg fields that identify a leg when comparing itineraries.
 const legProperties = [
   'mode',
   'from.lat',
@@ -147,6 +142,32 @@ const legProperties = [
   'trip.gtfsId',
 ];
 
+/**
+ * Whether two itineraries consist of equivalent legs, compared by
+ * legProperties. Timing is not considered.
+ */
+function hasSameLegs(a, b) {
+  const legsA = a.node.legs;
+  const legsB = b.node.legs;
+  return (
+    legsA.length === legsB.length &&
+    legsA.every((leg, i) =>
+      isEqual(pick(leg, legProperties), pick(legsB[i], legProperties)),
+    )
+  );
+}
+
+/**
+ * Compare two itinerary lists as a whole: same length, and the itineraries at
+ * each index have equivalent legs. Order-sensitive and ignores start/end times.
+ * Returns true if the lists are equivalent.
+ *
+ * Use this to tell whether two plans are the same result. To drop individual
+ * itineraries that are already shown, use removeDuplicateEdges instead.
+ *
+ * @param {Array} itins
+ * @param {Array} itins2
+ */
 export function isEqualItineraries(itins, itins2) {
   if (!itins && !itins2) {
     return true;
@@ -154,22 +175,28 @@ export function isEqualItineraries(itins, itins2) {
   if (!itins || !itins2 || itins.length !== itins2.length) {
     return false;
   }
-  for (let i = 0; i < itins.length; i++) {
-    if (itins[i].node.legs.length !== itins2[i].node.legs.length) {
-      return false;
-    }
-    for (let j = 0; j < itins[i].node.legs.length; j++) {
-      if (
-        !isEqual(
-          pick(itins[i].node.legs[j], legProperties),
-          pick(itins2[i].node.legs[j], legProperties),
-        )
-      ) {
-        return false;
-      }
-    }
-  }
-  return true;
+  return itins.every((itin, i) => hasSameLegs(itin, itins2[i]));
+}
+
+/**
+ * Remove edges that duplicate any already shown edge. Unlike
+ * isEqualItineraries, this works per itinerary regardless of list position
+ * and also requires matching start and end times, so the same route at a
+ * different departure is kept.
+ *
+ * @param {Array} edges - newly fetched edges
+ * @param {Array} shownEdges - edges already in the list
+ */
+export function removeDuplicateEdges(edges, shownEdges) {
+  return edges.filter(
+    edge =>
+      !shownEdges.some(
+        shown =>
+          edge.node.start === shown.node.start &&
+          edge.node.end === shown.node.end &&
+          hasSameLegs(edge, shown),
+      ),
+  );
 }
 
 export function filterItinerariesByFeedId(plan, config) {

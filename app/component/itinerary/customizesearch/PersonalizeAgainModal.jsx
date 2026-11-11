@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useFavouriteActions } from '../../../hooks/FavouriteContext';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {

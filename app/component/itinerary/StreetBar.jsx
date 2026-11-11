@@ -1,6 +1,5 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import React from 'react';
 import { legShape } from '../../../utils/client/shapes';
 import RouteNumber from '../RouteNumber';
 import {
@@ -11,7 +10,7 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
 } from '../../../utils/shared/vehicleRentalUtils';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetBar({
   leg,

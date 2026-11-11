@@ -1,4 +1,4 @@
-import React from 'react';
+import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
@@ -10,7 +10,7 @@ import EntityBadge from './EntityBadge';
 const STOP_SIGN_ICON_SCALE = 0.5;
 const NORMAL_ICON_SCALE = 1;
 
-const RouteBadgeGroup = ({
+export default function RouteBadgeGroup({
   mode,
   routes,
   isStop = false,
@@ -19,7 +19,7 @@ const RouteBadgeGroup = ({
   renderSuffix = null,
   headsignGroupClassName = undefined,
   stopPropagation = false,
-}) => {
+}) {
   const { router } = useRouter();
   const favourites = useFavourites();
 
@@ -52,7 +52,7 @@ const RouteBadgeGroup = ({
 
           if (!renderRouteSuffix) {
             return (
-              <React.Fragment key={routeKey}>
+              <Fragment key={routeKey}>
                 <EntityBadge
                   entity={route}
                   isFavourite={isFavourite}
@@ -60,7 +60,7 @@ const RouteBadgeGroup = ({
                   mode={mode}
                   highlighted={highlightedGtfsId === route.gtfsId}
                 />
-              </React.Fragment>
+              </Fragment>
             );
           }
 
@@ -81,7 +81,7 @@ const RouteBadgeGroup = ({
       </div>
     </div>
   );
-};
+}
 
 RouteBadgeGroup.propTypes = {
   mode: PropTypes.string.isRequired,
@@ -100,5 +100,3 @@ RouteBadgeGroup.propTypes = {
   headsignGroupClassName: PropTypes.string,
   stopPropagation: PropTypes.bool,
 };
-
-export default RouteBadgeGroup;

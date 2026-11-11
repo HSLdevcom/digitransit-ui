@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
 import { useSelect } from 'downshift';
@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import { routePagePath } from '../../../utils/shared/path';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { patternShape, routeShape } from '../../../utils/client/shapes';
-import { useBreakpoint } from '../../../utils/client/withBreakpoint';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 
 export function patternOptionText(pattern) {
   if (!pattern) {
@@ -240,7 +240,7 @@ MobilePatternOption.propTypes = {
 };
 
 export default function RoutePatternSelect({
-  currentPattern = undefined,
+  currentPattern,
   optionArray,
   onSelectChange,
   className,
@@ -274,19 +274,10 @@ export default function RoutePatternSelect({
     };
   }, [mobileModalOpen]);
 
-  if (!currentPattern) {
-    return null;
-  }
-
   // Flatten option groups into a single ordered list (used by downshift for item indices)
   const flatOptions = optionArray.flatMap(group => group.options);
   const optionCount =
     flatOptions.length > 1 ? flatOptions.length - 1 : flatOptions.length; // Exclude currently selected pattern from count but not if it's the only option
-
-  // No alternatives to show — hide the selector entirely
-  if (optionCount <= 0) {
-    return null;
-  }
 
   // Lookup table: option identifier → flat index (for highlight tracking)
   const optionIndexTable = Object.fromEntries(
@@ -512,7 +503,7 @@ export default function RoutePatternSelect({
 }
 
 RoutePatternSelect.propTypes = {
-  currentPattern: patternShape,
+  currentPattern: patternShape.isRequired,
   optionArray: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string,

@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import React from 'react';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
@@ -13,7 +12,7 @@ import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 import getStopStatus, {
   combineStopStatuses,
 } from '../../../../utils/client/stopStatusUtils';
-import { useConfigContext } from '../../../client/ConfigContext';
+import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function isNull(val) {
   return val === 'null' || val === undefined || val === null;
@@ -27,7 +26,7 @@ const parseEffects = str =>
         .filter(Boolean)
     : [];
 
-function SelectStopRow({
+export default function SelectStopRow({
   code = undefined,
   type,
   desc = undefined,
@@ -91,7 +90,7 @@ function SelectStopRow({
         />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{name}</h5>
+        <h4 className="choose-row-header">{name}</h4>
         <div
           className={`choose-row-info-row ${platform ? 'small-margin' : ''}`}
         >
@@ -125,8 +124,6 @@ function SelectStopRow({
   );
 }
 
-SelectStopRow.displayName = 'SelectStopRow';
-
 SelectStopRow.propTypes = {
   gtfsId: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
@@ -149,5 +146,3 @@ SelectStopRow.propTypes = {
     mostSevereAlertsEffects: PropTypes.string,
   }),
 };
-
-export default SelectStopRow;

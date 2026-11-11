@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import PropTypes from 'prop-types';
-import React, { useCallback, useState, useRef, useEffect } from 'react';
+import { useCallback, useState, useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
@@ -9,7 +9,7 @@ import { userShape } from '../../utils/client/shapes';
 
 const EMPTY_USER = {};
 
-const UserMenu = ({ menuItems, user = EMPTY_USER }) => {
+export default function UserMenu({ menuItems, user = EMPTY_USER }) {
   const intl = useIntl();
   const [menuOpen, setMenuOpen] = useState(false);
   const useMenuRef = useRef(null);
@@ -83,7 +83,7 @@ const UserMenu = ({ menuItems, user = EMPTY_USER }) => {
       </div>
     </div>
   );
-};
+}
 
 UserMenu.propTypes = {
   menuItems: PropTypes.arrayOf(
@@ -96,5 +96,3 @@ UserMenu.propTypes = {
   ).isRequired,
   user: userShape,
 };
-
-export default UserMenu;

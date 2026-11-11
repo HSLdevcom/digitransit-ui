@@ -18,12 +18,12 @@ const GEOLOCATED_LEGS = false;
  * @param {Object} params.origin - Origin point for geolocation adjustments.
  * @returns {Function} A function to process and update legs.
  */
-const useProcessLegs = (
+export default function useProcessLegs(
   simulateTransferProblem,
   position,
   vehicles,
   origin,
-) => {
+) {
   const simCounter = useRef(0);
 
   const processLegs = useCallback(
@@ -76,6 +76,4 @@ const useProcessLegs = (
   );
 
   return processLegs;
-};
-
-export default useProcessLegs;
+}

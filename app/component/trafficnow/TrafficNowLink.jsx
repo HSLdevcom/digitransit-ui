@@ -1,12 +1,11 @@
-import React from 'react';
 import { useIntl } from 'react-intl';
 import { Link } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
 import { TRAFFICNOW } from '../../../utils/shared/path';
 import Icon from '../Icon';
-import { useConfigContext } from '../../client/ConfigContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-const TrafficNowLink = () => {
+export default function TrafficNowLink() {
   const config = useConfigContext();
   const { formatMessage } = useIntl();
   const themeColor = config.colors.primary;
@@ -40,6 +39,4 @@ const TrafficNowLink = () => {
       </span>
     </Link>
   );
-};
-
-export default TrafficNowLink;
+}
