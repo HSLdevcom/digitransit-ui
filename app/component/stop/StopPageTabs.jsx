@@ -217,6 +217,6 @@ export default function StopPageTabsContainer({ children, stop: stopRef }) {
 }
 
 StopPageTabsContainer.propTypes = {
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
   stop: fragmentRefShape,
 };
