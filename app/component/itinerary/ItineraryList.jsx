@@ -170,7 +170,7 @@ export default function ItineraryList({
     );
   }
   return (
-    <div className="summary-list-container" role="list">
+    <div className="summary-list-container">
       {showRelaxedPlanNotifier && (
         <div
           className={cx(
@@ -225,6 +225,7 @@ export default function ItineraryList({
         className={cx('summary-list-items', {
           'summary-list-items-loading-top': loadingMore === spinnerPosition.top,
         })}
+        role="list"
       >
         {summaries}
       </div>

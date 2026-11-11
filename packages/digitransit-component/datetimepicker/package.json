@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-component/digitransit-component-datetimepicker",
-  "version": "9.1.5",
+  "version": "9.1.10",
   "description": "digitransit-component datetimepicker module",
   "type": "module",
   "main": "index.cjs",
@@ -23,11 +23,11 @@
     "access": "public"
   },
   "scripts": {
-    "watch": "NODE_ENV=development yarn run -T rollup -w -c",
+    "watch": "NODE_ENV=development node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -w -c",
     "clean": "rm -rf ./lib ./node_modules",
     "test": "yarn run -T vitest run --config ../../../vitest.config.js \"$(pwd)/test.jsx\"",
     "docs": "node ../../../scripts/packages/generate-readmes.js",
-    "build": "NODE_ENV=production yarn run -T rollup -c"
+    "build": "NODE_ENV=production node $PROJECT_CWD/node_modules/rollup/dist/bin/rollup -c"
   },
   "repository": {
     "type": "git",

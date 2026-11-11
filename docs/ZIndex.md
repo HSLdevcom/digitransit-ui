@@ -19,6 +19,7 @@ Name (`$global-zindex` key) | Selector(s) | Z-Index | Comment
 `map-overlay-shadow` | `#stop-page-action-bar` | 400 | Shadow that should sit just above the map surface.
 `map-click-prevent-overlay` | `.map-click-prevent-overlay` | 801 | Overlay to prevent interaction with the map.
 `desktop-settings-drawer` | `.desktop .map-content .offcanvas` | 900 | Desktop settings drawer, kept above the map overlays/buttons.
+`dropdown-menu` | `div[role='listbox'][data-side]` | 950 | Design system `Select` menu, portaled to `document.body`. Without this it renders behind the mobile drawer (`.drawer-content`) it is opened from.
 `mobile-top-bar` | `.mobile.top-bar` | 1000 | Mobile top bar.
 `top-bar` | `.top-bar`, `.popup-dark-overlay` | 1008 | Desktop top bar/AppBar. `.popup-dark-overlay` intentionally shares this value so full-page dark overlays sit at the same level as the header.
 `mobile-menu-background` | `.menu-background` | 1200 | Mobile main menu drawer background dimmer.

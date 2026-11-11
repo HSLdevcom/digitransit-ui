@@ -18,6 +18,11 @@ module.exports = {
     'import/no-named-default': 'off',
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
+    // uuid has only an exports map, which eslint-import-resolver-node does not support
+    'import/no-unresolved': [
+      'error',
+      { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] },
+    ],
     'import/no-restricted-paths': [
       'error',
       {

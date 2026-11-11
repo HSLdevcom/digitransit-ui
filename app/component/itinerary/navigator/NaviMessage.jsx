@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
@@ -13,6 +14,7 @@ export default function NaviMessage({
   cardAnimation,
 }) {
   const config = useConfigContext();
+  const intl = useIntl();
   const [removingIndex, setRemovingIndex] = useState(null);
 
   const handleRemoveClick = () => {
@@ -57,6 +59,7 @@ export default function NaviMessage({
         <button
           type="button"
           className="info-close"
+          aria-label={intl.formatMessage({ id: 'close' })}
           onClick={() => handleRemoveClick()}
         >
           <Icon

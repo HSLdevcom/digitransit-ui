@@ -264,6 +264,9 @@ export default function RouteControlPanel({
 
   const changeTab = tab => {
     setFocusedTab(tab);
+    if (tab === activeTab) {
+      return;
+    }
     const path = routePagePath(route.gtfsId, tab, patternId);
     router.replace(path);
     addAnalyticsEvent({

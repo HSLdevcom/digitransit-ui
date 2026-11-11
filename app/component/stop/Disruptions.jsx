@@ -6,7 +6,6 @@ import { DateTime } from 'luxon';
 import DisruptionList from '../DisruptionList';
 import {
   getAlertsForObject,
-  getServiceAlertsForStation,
   getUniqueAlerts,
 } from '../../../utils/client/alertUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
@@ -141,12 +140,8 @@ const getCancelations = (stop, intl, config) => {
  * @returns {Array.<Object>}
  */
 export const getAlerts = stop => {
-  const isStation = stop.locationType === 'STATION';
   return getUniqueAlerts(
-    filterAlertEntities(
-      stop,
-      isStation ? getServiceAlertsForStation(stop) : getAlertsForObject(stop),
-    ),
+    filterAlertEntities(stop, getAlertsForObject(stop, true)),
   );
 };
 
