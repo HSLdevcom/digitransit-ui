@@ -110,7 +110,7 @@
     "rules": [
       {
         "message": "You have unresolved conflict markers",
-        "regex": "/^[<>|=]{4,}/m"
+        "regex": "/^(<{7} |\\|{7} |={7}$|>{7} )/m"
       },
       {
         "filter": "\\.js$",
