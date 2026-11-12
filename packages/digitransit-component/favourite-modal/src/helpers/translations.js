@@ -3,12 +3,21 @@ const translations = {
   de: {
     translation: {
       cancel: 'Abbrechen',
+      'cannot-save-place':
+        'Ein Ort ohne Adresse oder Symbol kann nicht gespeichert werden',
       'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
       close: 'Schließen',
       'edit-place': 'Ort bearbeiten',
+      home: 'Zuhause',
       'input-placeholder': 'Einen Namen für Ort setzen (optional)',
+      place: 'ein Ort',
+      'required-text': 'Pflichtfeld',
       save: 'Speichern',
       'save-place': 'Favorit speichern',
+      school: 'Schule',
+      shopping: 'Einkaufen',
+      sport: 'Sport',
+      work: 'Arbeit',
     },
   },
   en: {
@@ -52,7 +61,22 @@ const translations = {
   },
   it: {
     translation: {
+      cancel: 'Annulla',
+      'cannot-save-place':
+        'Impossibile salvare un luogo senza indirizzo o icona',
+      'choose-icon': 'Seleziona l’icona del luogo',
       close: 'Chiudi',
+      'edit-place': 'Modifica luogo',
+      home: 'casa',
+      'input-placeholder': 'Dai un nome al luogo (facoltativo)',
+      place: 'un luogo',
+      'required-text': 'campo obbligatorio',
+      save: 'Salva',
+      'save-place': 'Salva luogo',
+      school: 'scuola',
+      shopping: 'shopping',
+      sport: 'sport',
+      work: 'lavoro',
     },
   },
   pl: {
