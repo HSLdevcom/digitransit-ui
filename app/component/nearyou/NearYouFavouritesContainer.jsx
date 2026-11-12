@@ -1,28 +1,30 @@
 import PropTypes from 'prop-types';
-import { graphql, createFragmentContainer } from 'react-relay';
+import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
-import {
-  stopShape,
-  stationShape,
-  vehicleRentalStationShape,
-  locationShape,
-} from '../../../utils/client/shapes';
+import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
 import StopNearYouContainer from './StopNearYouContainer';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import NoFavourites from './NoFavourites';
+import NearYouFavouritesFragment from './queries/NearYouFavouritesFragment';
 
-function NearYouFavouritesContainer({
-  stops,
-  stations,
-  vehicleStations,
+export default function NearYouFavouritesContainer({
+  stops: stopsRef,
+  stations: stationsRef,
+  vehicleStations: vehicleStationsRef,
   searchPosition,
   isParentTabActive,
   currentTime,
   breakpoint,
 }) {
+  const stops = useFragment(NearYouFavouritesFragment.stops, stopsRef);
+  const stations = useFragment(NearYouFavouritesFragment.stations, stationsRef);
+  const vehicleStations = useFragment(
+    NearYouFavouritesFragment.vehicleStations,
+    vehicleStationsRef,
+  );
   const stopList = [];
   stopList.push(
-    ...stops
+    ...(stops || [])
       .filter(s => s)
       .map(stop => {
         return {
@@ -33,7 +35,7 @@ function NearYouFavouritesContainer({
       }),
   );
   stopList.push(
-    ...stations
+    ...(stations || [])
       .filter(s => s)
       .map(stop => {
         return {
@@ -44,7 +46,7 @@ function NearYouFavouritesContainer({
       }),
   );
   stopList.push(
-    ...vehicleStations
+    ...(vehicleStations || [])
       .filter(s => s)
       .map(stop => {
         return {
@@ -89,57 +91,11 @@ function NearYouFavouritesContainer({
 }
 
 NearYouFavouritesContainer.propTypes = {
-  stops: PropTypes.arrayOf(stopShape),
-  stations: PropTypes.arrayOf(stationShape),
-  vehicleStations: PropTypes.arrayOf(vehicleRentalStationShape),
+  stops: PropTypes.arrayOf(fragmentRefShape),
+  stations: PropTypes.arrayOf(fragmentRefShape),
+  vehicleStations: PropTypes.arrayOf(fragmentRefShape),
   searchPosition: locationShape,
   isParentTabActive: PropTypes.bool,
   currentTime: PropTypes.number.isRequired,
   breakpoint: PropTypes.string,
 };
-
-const refetchContainer = createFragmentContainer(NearYouFavouritesContainer, {
-  stops: graphql`
-    fragment NearYouFavouritesContainer_stops on Stop @relay(plural: true) {
-      ...StopNearYouContainer_stop
-      gtfsId
-      lat
-      lon
-    }
-  `,
-  stations: graphql`
-    fragment NearYouFavouritesContainer_stations on Stop @relay(plural: true) {
-      ...StopNearYouContainer_stop
-      gtfsId
-      lat
-      lon
-      stops {
-        gtfsId
-        desc
-      }
-    }
-  `,
-  vehicleStations: graphql`
-    fragment NearYouFavouritesContainer_vehicleStations on VehicleRentalStation
-    @relay(plural: true) {
-      ...VehicleRentalStationNearYou_station
-      stationId
-      name
-      availableVehicles {
-        total
-      }
-      availableSpaces {
-        total
-      }
-      capacity
-      rentalNetwork {
-        networkId
-      }
-      lat
-      lon
-      operative
-    }
-  `,
-});
-
-export { refetchContainer as default, NearYouFavouritesContainer as Component };

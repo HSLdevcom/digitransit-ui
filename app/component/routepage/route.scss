@@ -1,53 +1,22 @@
 // Route page — layout, warning/notification banners, and miscellaneous rules.
-// Feature-specific styles are split into dedicated files imported from _main.scss:
+// Feature-specific styles are split into dedicated files imported from main.scss:
 //   route-header.scss        – .route-header and its children
 //   route-stop-list.scss     – .route-stop-list, stop rows, location-details
 //   route-pattern-select.scss – .route-pattern-select, .pattern-select-sheet
 //   route-control-panel.scss – .route-tabs, .route-page-control-panel-container
 //   route-schedule.scss      – schedule container, date select, action bar
 
-@import '~@hsl-fi/sass/mixins/screen';
+@use '../../../styles/abstracts' as *;
 
 // Shared sizing constants — used within this file and by child files.
-$route-schedule-date-height: 36px;
 $margin-left-right-large: 60px;
 
 // Fixed 21.3px: matches the original design-spec content gutter
-$margin-left-right: 21.3px;
 
 // ─── Error states ─────────────────────────────────────────────────────────────
 
 .error div p {
   color: $gray;
-}
-
-// ─── Call-agency warning banner ──────────────────────────────────────────────
-
-.route-warning-message {
-  background-color: rgba(254, 209, 0, 0.3);
-
-  .upper {
-    @include font-medium;
-
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    font-size: $font-size-small;
-    line-height: 1.1rem;
-    padding-right: 1.5em;
-
-    span:nth-child(1) {
-      display: flex;
-      flex-direction: row;
-      align-items: center;
-      font-size: 1.8em;
-      padding-right: $padding-small;
-    }
-  }
-
-  .call-button {
-    margin-bottom: 0;
-  }
 }
 
 // ─── Page containers ──────────────────────────────────────────────────────────
@@ -65,10 +34,6 @@ $margin-left-right: 21.3px;
   &.bp-large {
     margin: 0 57px 0 $margin-left-right-large;
     box-shadow: none;
-  }
-
-  .trip-page-alert-container {
-    display: flex;
   }
 }
 
@@ -182,19 +147,11 @@ $margin-left-right: 21.3px;
 
       a {
         font-weight: $font-weight-medium;
-        color: $black;
+        color: $dark-gray;
         display: block;
         max-width: 100%;
         overflow: hidden;
         text-overflow: ellipsis;
-      }
-
-      .icon.external-link-icon-outer {
-        color: $white;
-      }
-
-      .icon.external-link-icon {
-        color: $link-color;
       }
     }
   }

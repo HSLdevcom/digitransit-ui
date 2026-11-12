@@ -2,6 +2,9 @@
 // TrafficNow Shared Components
 // ============================================================================
 
+@use '../../../../styles/abstracts' as *;
+@use 'tokens';
+
 // Validity status component
 .disruption-status {
   display: inline-flex;
@@ -33,8 +36,8 @@
     border-radius: var(--radius-s);
     padding: var(--space-xs) var(--space-xs);
     text-decoration: none;
-    height: $badge-height;
-    min-width: $badge-height;
+    height: tokens.$badge-height;
+    min-width: tokens.$badge-height;
     justify-content: center;
 
     &.highlight {
@@ -86,7 +89,7 @@
     display: flex;
     align-items: center;
     gap: var(--space-s);
-    color: $black;
+    color: $dark-gray;
     flex: 1;
 
     .icon-container {
@@ -200,11 +203,6 @@
         display: contents;
       }
     }
-  }
-
-  &__departure-date {
-    padding: var(--space-xxs) var(--space-xs);
-    justify-content: center;
   }
 
   &__departure-time {

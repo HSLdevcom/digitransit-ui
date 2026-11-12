@@ -1,6 +1,8 @@
 // Styles for the route page header: route number, name, favourite action,
 // notification trigger, and trip destination headsign.
 
+@use '../../../styles/abstracts' as *;
+
 .route-header {
   display: flex;
   align-items: center;
@@ -101,7 +103,7 @@
     padding: 0;
     font-size: $font-size-small;
     line-height: 1;
-    color: $black;
+    color: $dark-gray;
     white-space: nowrap;
 
     &:hover span {
@@ -137,7 +139,7 @@
       font-size: 15px;
       line-height: 18px;
       letter-spacing: -0.03em;
-      color: $black;
+      color: $dark-gray;
     }
   }
 }

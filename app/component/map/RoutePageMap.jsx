@@ -1,9 +1,13 @@
 /* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
-import { patternShape, errorShape } from '../../../utils/client/shapes';
+import {
+  patternShape,
+  errorShape,
+  fragmentRefShape,
+} from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -29,6 +33,46 @@ const mapLayerOptions = getMapLayerOptions({
   ],
   selectedMapLayers: ['vehicles'],
 });
+
+const RoutePageMapFragment = {
+  pattern: graphql`
+    fragment RoutePageMap_pattern on Pattern {
+      code
+      directionId
+      headsign
+      route {
+        type
+        mode
+        shortName
+      }
+      geometry {
+        lat
+        lon
+      }
+      stops {
+        lat
+        lon
+        name
+        gtfsId
+        ...StopCardHeader_stop
+      }
+      activeDates: trips {
+        day: activeDates
+      }
+      ...RouteLineFragment
+    }
+  `,
+  trip: graphql`
+    fragment RoutePageMap_trip on Trip {
+      stoptimesForDate {
+        scheduledDeparture
+      }
+      isReplacement
+      gtfsId
+      directionId
+    }
+  `,
+};
 
 function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
   const breakpoint = useBreakpoint();
@@ -194,9 +238,11 @@ RoutePageMap.propTypes = {
   error: errorShape,
 };
 
-function RoutePageMapWithVehicles(props) {
+export default function RoutePageMapWithVehicles(props) {
   const { vehicles } = useRealTimeInformation();
-  const { trip } = props;
+  const { trip: tripRef, pattern: patternRef } = props;
+  const trip = useFragment(RoutePageMapFragment.trip, tripRef);
+  const pattern = useFragment(RoutePageMapFragment.pattern, patternRef);
   let selectedVehicle;
 
   if (trip) {
@@ -214,6 +260,8 @@ function RoutePageMapWithVehicles(props) {
   return (
     <RoutePageMap
       {...props}
+      trip={trip}
+      pattern={pattern}
       lat={selectedVehicle?.lat}
       lon={selectedVehicle?.long}
     />
@@ -221,53 +269,6 @@ function RoutePageMapWithVehicles(props) {
 }
 
 RoutePageMapWithVehicles.propTypes = {
-  trip: PropTypes.shape({
-    gtfsId: PropTypes.string.isRequired,
-    directionId: PropTypes.string,
-    stoptimesForDate: PropTypes.arrayOf(
-      PropTypes.shape({
-        scheduledDeparture: PropTypes.number.isRequired,
-      }),
-    ).isRequired,
-  }),
+  trip: fragmentRefShape,
+  pattern: fragmentRefShape,
 };
-
-export default createFragmentContainer(RoutePageMapWithVehicles, {
-  pattern: graphql`
-    fragment RoutePageMap_pattern on Pattern {
-      code
-      directionId
-      headsign
-      route {
-        type
-        mode
-        shortName
-      }
-      geometry {
-        lat
-        lon
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        ...StopCardHeaderContainer_stop
-      }
-      activeDates: trips {
-        day: activeDates
-      }
-      ...RouteLine_pattern
-    }
-  `,
-  trip: graphql`
-    fragment RoutePageMap_trip on Trip {
-      stoptimesForDate {
-        scheduledDeparture
-      }
-      isReplacement
-      gtfsId
-      directionId
-    }
-  `,
-});

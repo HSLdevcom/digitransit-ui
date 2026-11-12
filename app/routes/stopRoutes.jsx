@@ -15,6 +15,7 @@ import {
   errorLoading,
   getComponentOrNullRenderer,
   createStickyRenderer,
+  createStickyRendererFactory,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
 import {
@@ -46,7 +47,7 @@ const queries = {
     pageHeader: graphql`
       query stopRoutes_StopPageHeaderContainer_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...StopPageHeaderContainer_stop
+          ...StopCardHeader_stop
         }
       }
     `,
@@ -58,7 +59,7 @@ const queries = {
         $timeRange: Int!
       ) {
         stop(id: $stopId) {
-          ...StopPageMapContainer_stop
+          ...StopPageMapFragment
             @arguments(
               startOfDay: $startOfDay
               startTime: $startTime
@@ -81,8 +82,9 @@ const queries = {
         $cancelationEndDate: OffsetDateTime!
       ) {
         stop(id: $stopId) {
-          ...StopPageTabContainer_stop
+          ...StopPageTabsFragment
             @arguments(
+              isTerminal: false
               cancelationStartDate: $cancelationStartDate
               cancelationEndDate: $cancelationEndDate
             )
@@ -102,7 +104,7 @@ const queries = {
         $date: String!
       ) {
         stop(id: $stopId) {
-          ...StopTimetablePage_stop @arguments(date: $date)
+          ...StopTimetablePageFragment @arguments(date: $date)
         }
       }
     `,
@@ -125,8 +127,8 @@ const queries = {
   station: {
     pageHeader: graphql`
       query stopRoutes_TerminalPageHeaderContainer_Query($terminalId: String!) {
-        station(id: $terminalId) {
-          ...TerminalPageHeaderContainer_station
+        stop: station(id: $terminalId) {
+          ...StopCardHeader_stop
         }
       }
     `,
@@ -137,8 +139,8 @@ const queries = {
         $startTime: Long!
         $timeRange: Int!
       ) {
-        station(id: $terminalId) {
-          ...TerminalPageMapContainer_station
+        stop: station(id: $terminalId) {
+          ...StopPageMapFragment
             @arguments(
               startOfDay: $startOfDay
               startTime: $startTime
@@ -160,9 +162,10 @@ const queries = {
         $cancelationStartDate: OffsetDateTime!
         $cancelationEndDate: OffsetDateTime!
       ) {
-        station(id: $terminalId) {
-          ...TerminalPageTabContainer_station
+        stop: station(id: $terminalId) {
+          ...StopPageTabsFragment
             @arguments(
+              isTerminal: true
               cancelationStartDate: $cancelationStartDate
               cancelationEndDate: $cancelationEndDate
             )
@@ -181,8 +184,8 @@ const queries = {
         $terminalId: String!
         $date: String!
       ) {
-        station(id: $terminalId) {
-          ...TerminalTimetablePage_station @arguments(date: $date)
+        stop: station(id: $terminalId) {
+          ...StopTimetablePageFragment @arguments(date: $date)
         }
       }
     `,
@@ -207,6 +210,10 @@ const queries = {
 export default function getStopRoutes(isTerminal = false) {
   const renderTabContainer = createStickyRenderer();
   const renderMap = createStickyRenderer();
+  // Keeps the timetable visible while a new ?date= is being fetched.
+  const renderTimetable = createStickyRendererFactory(match =>
+    JSON.stringify(match.params),
+  )(getComponentOrLoadingRenderer);
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -233,13 +240,9 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               path="(.*)?"
               getComponent={() => {
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageHeaderContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageHeaderContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageHeader'
+                ).then(getDefault);
               }}
               query={queryMap.pageHeader}
               render={getComponentOrNullRenderer}
@@ -248,13 +251,9 @@ export default function getStopRoutes(isTerminal = false) {
           content: (
             <Route
               getComponent={() => {
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageTabContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageTabContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageTabs'
+                ).then(getDefault);
               }}
               query={queryMap.pageTab}
               prepareVariables={prepareDatesForStopTabs}
@@ -291,17 +290,11 @@ export default function getStopRoutes(isTerminal = false) {
               <Route
                 path={PREFIX_TIMETABLE}
                 getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ '../component/stop/TerminalTimetablePage'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ '../component/stop/StopTimetablePage'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
+                  return import(
+                    /* webpackChunkName: "stop" */ '../component/stop/StopTimetablePage'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading);
                 }}
                 query={queryMap.pageTimetable}
                 prepareVariables={(params, { location }) => {
@@ -311,7 +304,7 @@ export default function getStopRoutes(isTerminal = false) {
                     date: date || DateTime.now().toFormat(DATE_FORMAT),
                   };
                 }}
-                render={getComponentOrLoadingRenderer}
+                render={renderTimetable}
               />
               <Route
                 path={PREFIX_DISRUPTION}
@@ -332,14 +325,9 @@ export default function getStopRoutes(isTerminal = false) {
             <Route
               path="(.*)?"
               getComponent={() => {
-                // eslint-disable-next-line no-nested-ternary
-                return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalPageMapContainer'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageMapContainer'
-                    ).then(getDefault);
+                return import(
+                  /* webpackChunkName: "stop" */ '../component/stop/StopPageMapContainer'
+                ).then(getDefault);
               }}
               query={queryMap.pageMap}
               prepareVariables={prepareMapVariables}

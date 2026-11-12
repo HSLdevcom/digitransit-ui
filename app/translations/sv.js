@@ -377,6 +377,7 @@ export default {
       'För att kunna spara och utnyttja platser, linjer och hållplatser ska du logga in med ditt HRT-konto!',
     'login-header': 'Logga in först',
     logout: 'Logga ut',
+    'main-menu': 'Huvudmeny',
     'main-menu-label-close': 'Stäng huvudmenyn',
     'main-menu-label-open': 'Öppna huvudmenyn',
     'map-layer-citybike': 'Stadscykelstation',

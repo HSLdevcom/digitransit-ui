@@ -2,9 +2,9 @@ import cx from 'classnames';
 import { DateTime } from 'luxon';
 import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { stopTimeShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/client/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
@@ -144,8 +144,76 @@ const getRealtimeClientConfig = (departures, config) => {
   return null;
 };
 
-function DepartureListContainer({
-  stoptimes,
+const DepartureListContainerFragment = graphql`
+  fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
+    realtimeState
+    realtimeDeparture
+    scheduledDeparture
+    realtimeArrival
+    scheduledArrival
+    realtime
+    serviceDay
+    pickupType
+    dropoffType
+    headsign
+    stopPositionInPattern
+    stop {
+      gtfsId
+      id
+      code
+      platformCode
+    }
+    trip {
+      gtfsId
+      directionId
+      tripHeadsign
+      stops {
+        id
+      }
+      pattern {
+        route {
+          gtfsId
+          shortName
+          longName
+          mode
+          type
+          color
+          agency {
+            name
+          }
+          alerts {
+            alertSeverityLevel
+            effectiveEndDate
+            effectiveStartDate
+          }
+        }
+        code
+        stops {
+          gtfsId
+          code
+        }
+      }
+      stoptimes {
+        scheduledDeparture
+        stop {
+          gtfsId
+          platformCode
+        }
+      }
+      stoptimesForDate {
+        serviceDay
+        scheduledDeparture
+        stop {
+          gtfsId
+          platformCode
+        }
+      }
+    }
+  }
+`;
+
+export default function DepartureListContainer({
+  stoptimes: stoptimesRef,
   currentTime,
   mode = 'BUS',
   limit,
@@ -158,6 +226,7 @@ function DepartureListContainer({
   const realTime = useRealTimeActions();
   const pageLoadedAlertRef = useRef(null);
   const isMounted = useRef(false);
+  const stoptimes = useFragment(DepartureListContainerFragment, stoptimesRef);
   const vehiclesEnabled = config.showVehiclesOnStopPage && showVehicles;
 
   useEffect(() => {
@@ -381,7 +450,7 @@ function DepartureListContainer({
 }
 
 DepartureListContainer.propTypes = {
-  stoptimes: PropTypes.arrayOf(stopTimeShape).isRequired,
+  stoptimes: PropTypes.arrayOf(fragmentRefShape).isRequired,
   mode: PropTypes.string,
   currentTime: PropTypes.number.isRequired,
   limit: PropTypes.number,
@@ -389,75 +458,3 @@ DepartureListContainer.propTypes = {
   isTerminal: PropTypes.bool,
   showVehicles: PropTypes.bool,
 };
-
-const containerComponent = createFragmentContainer(DepartureListContainer, {
-  stoptimes: graphql`
-    fragment DepartureListContainer_stoptimes on Stoptime @relay(plural: true) {
-      realtimeState
-      realtimeDeparture
-      scheduledDeparture
-      realtimeArrival
-      scheduledArrival
-      realtime
-      serviceDay
-      pickupType
-      dropoffType
-      headsign
-      stopPositionInPattern
-      stop {
-        gtfsId
-        id
-        code
-        platformCode
-      }
-      trip {
-        gtfsId
-        directionId
-        tripHeadsign
-        stops {
-          id
-        }
-        pattern {
-          route {
-            gtfsId
-            shortName
-            longName
-            mode
-            type
-            color
-            agency {
-              name
-            }
-            alerts {
-              alertSeverityLevel
-              effectiveEndDate
-              effectiveStartDate
-            }
-          }
-          code
-          stops {
-            gtfsId
-            code
-          }
-        }
-        stoptimes {
-          scheduledDeparture
-          stop {
-            gtfsId
-            platformCode
-          }
-        }
-        stoptimesForDate {
-          serviceDay
-          scheduledDeparture
-          stop {
-            gtfsId
-            platformCode
-          }
-        }
-      }
-    }
-  `,
-});
-
-export { containerComponent as default, DepartureListContainer as Component };

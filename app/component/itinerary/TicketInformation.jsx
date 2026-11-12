@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { v4 as uuid } from 'uuid';
 import { fareShape, legShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from '../Icon';
@@ -43,7 +42,10 @@ export default function TicketInformation({
 
   const faresInfo = fares.map((fare, i) => {
     return (
-      <div key={uuid()} className="ticket-container">
+      <div
+        key={fare.fareProducts?.[0]?.id || fare.routeGtfsId}
+        className="ticket-container"
+      >
         {i === 0 && (
           <div className="ticket-title">
             {`${intl.formatMessage({

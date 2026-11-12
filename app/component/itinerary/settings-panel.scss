@@ -1,3 +1,5 @@
+@use '../../../styles/abstracts' as *;
+
 .offcanvas-layers {
   height: 100%;
   display: flex;
@@ -26,7 +28,7 @@
     opacity: 1;
 
     svg path {
-      fill: #888;
+      fill: $muted-gray;
     }
   }
 

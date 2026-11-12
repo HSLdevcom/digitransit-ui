@@ -371,6 +371,7 @@ export default {
       'Paikkojen, linjojen ja pysäkkien tallentaminen ja hyödyntäminen edellyttää kirjautumista HSL-tunnuksella!',
     'login-header': 'Kirjaudu ensin',
     logout: 'Kirjaudu ulos',
+    'main-menu': 'Päävalikko',
     'main-menu-label-close': 'Sulje päävalikko',
     'main-menu-label-open': 'Avaa päävalikko',
     'map-layer-citybike': 'Kaupunkipyöräasemat',

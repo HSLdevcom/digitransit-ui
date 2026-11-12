@@ -34,7 +34,7 @@ Digitransit-ui is tested to work on the latest and the second latest major versi
 
 - Continuous Integration: [https://github.com/HSLdevcom/digitransit-ui/actions](https://github.com/HSLdevcom/digitransit-ui/actions)
 
-Visual tests are run with jest and playwright.
+Unit and component tests (including axe accessibility checks) are run with Vitest.
 
 More information about [testing](docs/Tests.md).
 
@@ -66,5 +66,6 @@ Root-level commands covering all `digitransit-*` packages at once
 - [Z-Index Index](docs/ZIndex.md)
 - [Navigation](docs/Navigation.md)
 - [Themes](docs/Themes.md)
+- [Styles](docs/Styles.md)
 - [GeoJSON](docs/GeoJson.md)
 - [Packages](docs/Packages.md)

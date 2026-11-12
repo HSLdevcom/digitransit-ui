@@ -108,7 +108,7 @@ export default function MobilePickerModal({
             {t('departure', translationSettings)}
             <input
               id={`${htmlId}-modal-departure`}
-              name="departureOrArrival"
+              name={`${htmlId}-departureOrArrival`}
               type="radio"
               value="departure"
               className={styles['radio-textbutton']}
@@ -132,7 +132,7 @@ export default function MobilePickerModal({
             {t('arrival', translationSettings)}
             <input
               id={`${htmlId}-modal-arrival`}
-              name="departureOrArrival"
+              name={`${htmlId}-departureOrArrival`}
               type="radio"
               value="arrival"
               className={styles['radio-textbutton']}
