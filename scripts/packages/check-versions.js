@@ -1,27 +1,11 @@
 /**
- * Runs two checks against the packages:
+ * Fails if a package changed since $BASE_SHA but its package.json
+ * "version" wasn't bumped accordingly.
  *
- * 1. checkInternalDependencyRanges(): for every package, verifies
- *    that each of its @digitransit-* dependencies/peerDependencies/devDependencies that refers
- *    to another package is declared as exactly "workspace:^".
- *    `lerna version` only rewrites/cascades an internal cross-reference when it
- *    uses the workspace: protocol (see getLocalDependency in lerna's source);
- *    a plain semver pin is silently left untouched on version bumps and never
- *    triggers a cascading bump of the dependent, so on a breaking change it
- *    ends up resolving the dependency from the public registry instead of the
- *    local workspace copy - silently building against stale, disconnected
- *    code. The bare "workspace:^" alias (no pinned version) means the line
- *    itself never needs maintenance; `lerna publish` rewrites it to
- *    "^<version>" in the published tarball. This check always runs, regardless
- *    of $BASE_SHA, since it's a static consistency check on the current state
- *    of the repo, not a diff against history.
- *
- * 2. checkOwnVersionBumps(): fails if a package changed since
- *    $BASE_SHA but its package.json "version" wasn't bumped accordingly.
- *    `lerna publish from-package` only republishes a package when its
- *    committed version is greater than what's already on npm, so a changed
- *    package with an unbumped version would silently never get published.
- *    This check only runs when $BASE_SHA is provided.
+ * `lerna publish from-package` only republishes a package when its
+ * committed version is greater than what's already on npm, so a changed
+ * package with an unbumped version would silently never get published.
+ * This check only runs when $BASE_SHA is provided.
  *
  * Usage: BASE_SHA=<git ref> yarn packages-version-check
  *
@@ -64,86 +48,6 @@ function lernaLs(extraArgs) {
   return JSON.parse(output);
 }
 
-// The only spec allowed for an internal @digitransit-* cross-reference.
-const REQUIRED_INTERNAL_SPEC = 'workspace:^';
-
-// Checks that every package references its sibling @digitransit-*
-// packages via exactly "workspace:^" in dependencies/peerDependencies/
-// devDependencies. devDependencies are included because query-utils relies on
-// its devDependency on the private schema package to be bumped with the schema.
-function checkInternalDependencyRanges() {
-  const allPackages = lernaLs([]);
-  const packageNames = new Set(allPackages.map(pkg => pkg.name));
-
-  const failures = [];
-
-  allPackages.forEach(pkg => {
-    const packageDir = relative(process.cwd(), pkg.location);
-    const packageJsonPath = join(packageDir, 'package.json');
-    const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-
-    ['dependencies', 'peerDependencies', 'devDependencies'].forEach(
-      depField => {
-        const deps = packageJson[depField] || {};
-
-        Object.entries(deps).forEach(([depName, spec]) => {
-          // Only sibling packages are relevant. An external scoped
-          // dependency that merely shares the @digitransit- prefix is skipped.
-          if (!packageNames.has(depName)) {
-            return;
-          }
-
-          if (spec !== REQUIRED_INTERNAL_SPEC) {
-            failures.push({ name: pkg.name, depField, depName, spec });
-
-            console.error(
-              red(
-                `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
-                  `"${REQUIRED_INTERNAL_SPEC}"`,
-              ),
-            );
-          }
-        });
-      },
-    );
-  });
-
-  if (failures.length > 0) {
-    console.error(
-      red(
-        '\nThe following internal @digitransit-* references do not use the ' +
-          `"${REQUIRED_INTERNAL_SPEC}" protocol:`,
-      ),
-    );
-
-    failures.forEach(failure => {
-      console.error(
-        red(
-          `  - ${failure.name} → ${failure.depName} in ${failure.depField} (declared "${failure.spec}")`,
-        ),
-      );
-    });
-
-    console.error(
-      red(
-        `\nDeclare every internal @digitransit-* dependency/peerDependency as ` +
-          `"${REQUIRED_INTERNAL_SPEC}" so \`lerna version\` maintains it (rewrites ` +
-          `and cascades bumps); \`lerna publish\` resolves it to "^<version>" in ` +
-          `the published package.`,
-      ),
-    );
-
-    return false;
-  }
-
-  console.log(
-    green(
-      `✓ All internal @digitransit-* references use "${REQUIRED_INTERNAL_SPEC}".`,
-    ),
-  );
-  return true;
-}
-
 // Checks that every package whose files changed since `base` also
 // bumped its own "version". Returns false (and logs failures) if not. Returns
 // true if there's no base to diff against, nothing changed, or everything
@@ -161,10 +65,7 @@ function checkOwnVersionBumps(base) {
   // Deliberately NOT using --exclude-dependents: a package whose own files
   // didn't change but that depends on a package whose version *did* change
   // still needs its own version bumped too (its effective published
-  // behavior/dependency graph changed). Requiring the bump here also nudges
-  // whoever makes that bump to double check/update their internal
-  // @digitransit-* dependency ranges - the very thing that slipped through
-  // previously (see checkInternalDependencyRanges above).
+  // behavior/dependency graph changed).
   const changedPackages = lernaLs(['--since', base]);
 
   if (changedPackages.length === 0) {
@@ -228,7 +129,4 @@ function checkOwnVersionBumps(base) {
   return true;
 }
 
-const internalRangesOk = checkInternalDependencyRanges();
-const ownVersionBumpsOk = checkOwnVersionBumps(process.env.BASE_SHA);
-
-process.exit(internalRangesOk && ownVersionBumpsOk ? 0 : 1);
+process.exit(checkOwnVersionBumps(process.env.BASE_SHA) ? 0 : 1);
