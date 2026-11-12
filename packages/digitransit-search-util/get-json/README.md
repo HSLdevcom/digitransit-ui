@@ -4,7 +4,9 @@
 
 ## getJson
 
-Return Promise for a url json get request
+Return Promise for a url json get request. The promise rejects on network
+errors, timeouts (10 s) and HTTP 4xx/5xx responses (the error carries
+`response.status`).
 
 ### Parameters
 
