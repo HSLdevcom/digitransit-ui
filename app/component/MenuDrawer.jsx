@@ -6,6 +6,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MenuDrawer({
   open,
+  label,
   children,
   onRequestChange,
   breakpoint,
@@ -27,6 +28,7 @@ export default function MenuDrawer({
   return (
     <Modal
       isOpen={open}
+      contentLabel={label}
       closeTimeoutMS={450}
       className={classNames}
       overlayClassName={overlayClassNames}
@@ -46,6 +48,7 @@ export default function MenuDrawer({
 
 MenuDrawer.propTypes = {
   open: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   onRequestChange: PropTypes.func.isRequired,
   breakpoint: PropTypes.string.isRequired,

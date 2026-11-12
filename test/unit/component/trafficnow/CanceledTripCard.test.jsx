@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import * as found from 'found';
 import { createTestConfig } from '../../helpers/mock-context';
 import { renderWithProviders } from '../../helpers/mock-providers';
@@ -108,6 +108,20 @@ describe('<CanceledTripCard />', () => {
         '.badges__headsign-group > .badge-container:not(.more-routes) a, .badges__headsign-group > .badges__headsign-group--route > .badge-container:not(.more-routes) a',
       ),
     ).map(a => a.getAttribute('href'));
+
+  it('names the arrow button by the mode and cancellation count', () => {
+    renderCanceledTripCard({
+      routes: [
+        makeRouteSummary(),
+        makeRouteSummary({ shortName: '22', gtfsId: 'HSL:22', id: 'route-22' }),
+      ],
+    });
+    expect(
+      screen.getByRole('button', {
+        name: 'Bus: 4 cancellations, View details',
+      }),
+    ).toBeTruthy();
+  });
 
   describe('RouteBadgeGroup props', () => {
     it('maps canceled route summaries to route badges', () => {

@@ -1,3 +1,4 @@
+import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import ItineraryList from '../../../../../app/component/itinerary/ItineraryList';
 
@@ -40,6 +41,8 @@ describe('<ItineraryList />', () => {
     };
     const { container } = renderWithProviders(<ItineraryList {...props} />);
     expect(container.querySelector('.summary-list-container')).not.toBeNull();
+    // The not-found message is outside the list.
+    expect(screen.getByRole('list').textContent).toBe('');
   });
 
   it('should render without crashing', () => {

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
 import { getClosestPoint } from '../../../../utils/shared/geo-utils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
-import { patternShape, tripShape } from '../../../../utils/client/shapes';
+import { fragmentRefShape, tripShape } from '../../../../utils/client/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getStopStatusFromStopData } from '../../../../utils/client/stopStatusUtils';
 
@@ -42,14 +42,46 @@ function getSplitIndex(points, position) {
 
 const EMPTY_FILTERED_STOPS = [];
 
-function RouteLine({
-  pattern,
+const RouteLineFragment = graphql`
+  fragment RouteLineFragment on Pattern {
+    code
+    geometry {
+      lat
+      lon
+    }
+    route {
+      mode
+      type
+      color
+      gtfsId
+    }
+    stops {
+      lat
+      lon
+      name
+      gtfsId
+      platformCode
+      code
+      alerts {
+        alertEffect
+        alertSeverityLevel
+        effectiveStartDate
+        effectiveEndDate
+      }
+      ...StopCardHeader_stop
+    }
+  }
+`;
+
+export default function RouteLine({
+  pattern: patternRef,
   trip = null,
   thin = false,
   filteredStops = EMPTY_FILTERED_STOPS,
   vehiclePosition = null,
 }) {
   const config = useConfigContext();
+  const pattern = useFragment(RouteLineFragment, patternRef);
 
   if (!pattern) {
     return false;
@@ -177,7 +209,7 @@ function RouteLine({
 }
 
 RouteLine.propTypes = {
-  pattern: patternShape.isRequired,
+  pattern: fragmentRefShape.isRequired,
   trip: tripShape,
   thin: PropTypes.bool,
   filteredStops: PropTypes.arrayOf(PropTypes.string.isRequired),
@@ -186,36 +218,3 @@ RouteLine.propTypes = {
     lon: PropTypes.number,
   }),
 };
-
-export default createFragmentContainer(RouteLine, {
-  pattern: graphql`
-    fragment RouteLine_pattern on Pattern {
-      code
-      geometry {
-        lat
-        lon
-      }
-      route {
-        mode
-        type
-        color
-        gtfsId
-      }
-      stops {
-        lat
-        lon
-        name
-        gtfsId
-        platformCode
-        code
-        alerts {
-          alertEffect
-          alertSeverityLevel
-          effectiveStartDate
-          effectiveEndDate
-        }
-        ...StopCardHeader_stop
-      }
-    }
-  `,
-});

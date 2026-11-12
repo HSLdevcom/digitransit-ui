@@ -1,9 +1,21 @@
-import { createFragmentContainer, graphql } from 'react-relay';
+import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import StopPageMap from './map/StopPageMap';
-import { rentalVehicleShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/client/shapes';
 
-const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
+export default function RentalVehiclePageMapContainer({
+  rentalVehicle: rentalVehicleRef,
+}) {
+  const rentalVehicle = useFragment(
+    graphql`
+      fragment RentalVehiclePageMapContainer_rentalVehicle on RentalVehicle {
+        lat
+        lon
+        name
+      }
+    `,
+    rentalVehicleRef,
+  );
   if (!rentalVehicle) {
     return false;
   }
@@ -14,26 +26,8 @@ const RentalVehiclePageMapContainer = ({ rentalVehicle }) => {
       rentalVehicle.name
     );
   return <StopPageMap stop={rentalVehicle} stopName={stopName} scooter />;
-};
+}
 
 RentalVehiclePageMapContainer.propTypes = {
-  rentalVehicle: rentalVehicleShape,
-};
-
-const containerComponent = createFragmentContainer(
-  RentalVehiclePageMapContainer,
-  {
-    rentalVehicle: graphql`
-      fragment RentalVehiclePageMapContainer_rentalVehicle on RentalVehicle {
-        lat
-        lon
-        name
-      }
-    `,
-  },
-);
-
-export {
-  containerComponent as default,
-  RentalVehiclePageMapContainer as Component,
+  rentalVehicle: fragmentRefShape,
 };

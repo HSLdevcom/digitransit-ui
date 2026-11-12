@@ -318,7 +318,16 @@ override it locally. The rollup/babel tooling itself is owned by the root
 so the config package declares none. Because it is a `devDependency` of every
 buildable package, changing it requires bumping all of them
 (`packages-version-check` enforces this). The root `babel.config.cjs`
-is unrelated: it only serves tooling (eslint parser, Jest e2e).
+is unrelated: it only serves tooling (eslint parser).
+
+## Shared test helpers
+
+`packages/private/test-utils` (`@digitransit-ui/test-utils`, private, no build step)
+holds test helpers shared by the app and package tests, currently the axe-core
+checks (see `docs/Tests.md`). Its setup file is registered in the root
+`vitest.config.js`, so packages don't declare a dependency on it. It resolves
+through the workspace symlink in `node_modules/@digitransit-ui`, like the schema
+package, and its dependencies come from the root `devDependencies`.
 
 ## Build Caching
 

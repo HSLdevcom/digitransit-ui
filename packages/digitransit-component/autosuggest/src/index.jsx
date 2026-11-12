@@ -664,6 +664,16 @@ function DTAutosuggest({
     }
   }, [state.renderMobile, isOpen]);
 
+  // Downshift keeps highlightedIndex when the suggestions change, and the
+  // menu is hidden on mobile, so the highlighted item may not be shown.
+  const activeItemHidden =
+    isMobile || highlightedIndex >= state.suggestions.length;
+  const getComboboxInputProps = props =>
+    getInputProps({
+      ...props,
+      ...(activeItemHidden && { 'aria-activedescendant': undefined }),
+    });
+
   return (
     <>
       {isMobile && (
@@ -711,11 +721,7 @@ function DTAutosuggest({
               styles[id],
               inputClassName && styles[`${inputClassName}-input-icon`],
             ])}
-            aria-label={ariaRequiredText
-              .concat(' ')
-              .concat(SearchBarId)
-              .concat(' ')
-              .concat(t('search-autosuggest-label', { lng }))}
+            aria-hidden="true"
           >
             <Icon img={`${icon}`} />
           </div>
@@ -728,10 +734,12 @@ function DTAutosuggest({
             .concat(' ')
             .concat(SearchBarId)
             .concat(' ')
+            .concat(t('search-autosuggest-label', { lng }))
+            .concat(' ')
             .concat(ariaLabelText)}
           id={id}
           lng={lng}
-          getInputProps={getInputProps}
+          getInputProps={getComboboxInputProps}
           getLabelProps={getLabelProps}
           selectItem={selectItem}
           value={state.value}

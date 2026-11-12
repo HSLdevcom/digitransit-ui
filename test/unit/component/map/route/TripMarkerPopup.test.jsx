@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import { Component as TripMarkerPopup } from '../../../../../app/component/map/route/TripMarkerPopup';
+import TripMarkerPopup from '../../../../../app/component/map/route/TripMarkerPopup';
 
 describe('<TripMarkerPopup />', () => {
   it('should render popup', () => {

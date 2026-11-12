@@ -139,8 +139,8 @@ below.
 ## Module rules (loaders)
 
 - **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
-  `.babelrc`/`babel.config.cjs` are only for tooling: the eslint parser and
-  Jest e2e). Also sets
+  `.babelrc`/`babel.config.cjs` are only for tooling: the eslint parser).
+  Also sets
   `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
   otherwise treat every `app/` file as strict ESM and demand an explicit
   extension on every relative import, but the client bundle keeps the
@@ -290,9 +290,8 @@ Both dev and prod also always get:
     don't (replacing the former `postcss-loader` + autoprefixer step).
     `include: Features.MediaRangeSyntax` keeps `min-width`/`max-width`
     media queries rather than converting them to range syntax
-    (`width>=…`, Chrome 104+): browsers older than the targets, and the
-    e2e suite's Playwright Chromium (97), would otherwise never match
-    them and get the mobile layout everywhere.
+    (`width>=…`, Chrome 104+): browsers older than the targets would
+    otherwise never match them and get the mobile layout everywhere.
 - **`moduleIds`/`chunkIds`**: `'named'` in dev (readable IDs for
   debugging), `'deterministic'` in prod (webpack5's own default). These
   used to be hardcoded `'named'` everywhere, which baked full literal
@@ -320,13 +319,15 @@ Both dev and prod also always get:
 
 ## `node` / `resolve` / `cache`
 
-- **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
-  build cache (replaces webpack4's memory-only `cache: true`).
-  `buildDependencies.config` lists `webpack.config.js`,
-  `scripts/build/contextHelper.js` and `package.json` (whose
-  `browserslist` drives the Babel and Lightning CSS targets), so editing
-  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
-  that decides which theme entries and favicons get built.
+- **`cache`** — production builds use webpack5's persistent
+  `{ type: 'filesystem' }` build cache. `buildDependencies.config` lists
+  `webpack.config.js`, `scripts/build/contextHelper.js` and `package.json`
+  (whose `browserslist` drives the Babel and Lightning CSS targets), so
+  editing any of them invalidates the cache. `version` is keyed on `CONFIG`,
+  since that decides which theme entries and favicons get built. The dev
+  server uses `{ type: 'memory' }` instead: the shared disk cache went stale
+  after branch switches and package rebuilds and had to be deleted by hand
+  (`node_modules/.cache/webpack`), while saving only a few seconds per start.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over

@@ -16,11 +16,7 @@ ENV \
 COPY .yarnrc.yml package.json yarn.lock lerna.json ./
 COPY .yarn ./.yarn
 COPY --parents packages/*/*/package.json ./
-RUN \
-  # Tell Playwright not to download browser binaries, as it is only used for testing (not building).
-  # https://github.com/microsoft/playwright/blob/v1.16.2/installation-tests/installation-tests.sh#L200-L216
-  export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 \
-  && yarn install --immutable --inline-builds
+RUN yarn install --immutable --inline-builds
 
 # Deliberately scoped to the packages' full
 # source (rather than folded into the `COPY . .` + `yarn run build` step

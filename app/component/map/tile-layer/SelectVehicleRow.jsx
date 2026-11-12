@@ -1,12 +1,36 @@
 import PropTypes from 'prop-types';
-import { createFragmentContainer, graphql } from 'react-relay';
+import { useFragment, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
 import { getRouteMode } from '../../../../utils/client/modeUtils';
 import Icon from '../../Icon';
+import { fragmentRefShape } from '../../../../utils/client/shapes';
 
-function SelectVehicleRow({ trip }) {
+export default function SelectVehicleRow({ trip: tripRef }) {
+  const trip = useFragment(
+    graphql`
+      fragment SelectVehicleRow_trip on Trip {
+        gtfsId
+        pattern {
+          code
+          headsign
+          stops {
+            name
+          }
+        }
+        route {
+          gtfsId
+          mode
+          shortName
+          type
+          longName
+          color
+        }
+      }
+    `,
+    tripRef,
+  );
   const mode = getRouteMode(trip.route);
   const iconId = `icon_${mode || 'bus'}`;
 
@@ -28,7 +52,7 @@ function SelectVehicleRow({ trip }) {
         />
       </span>
       <span className="choose-row-center-column">
-        <h5 className="choose-row-header">{trip.route.shortName}</h5>
+        <h4 className="choose-row-header">{trip.route.shortName}</h4>
         <span className="choose-row-text">
           <span className="choose-row-address">{name}</span>
         </span>
@@ -40,48 +64,10 @@ function SelectVehicleRow({ trip }) {
   );
 }
 
-const containerComponent = createFragmentContainer(SelectVehicleRow, {
-  trip: graphql`
-    fragment SelectVehicleRow_trip on Trip {
-      gtfsId
-      pattern {
-        code
-        headsign
-        stops {
-          name
-        }
-      }
-      route {
-        gtfsId
-        mode
-        shortName
-        type
-        longName
-        color
-      }
-    }
-  `,
-});
-
 SelectVehicleRow.propTypes = {
-  trip: PropTypes.shape({
-    gtfsId: PropTypes.string,
-    pattern: PropTypes.shape({
-      headsign: PropTypes.string,
-      code: PropTypes.string.isRequired,
-    }),
-    route: PropTypes.shape({
-      gtfsId: PropTypes.string.isRequired,
-      mode: PropTypes.string,
-      longName: PropTypes.string,
-      shortName: PropTypes.string,
-      color: PropTypes.string,
-    }).isRequired,
-  }).isRequired,
+  trip: fragmentRefShape.isRequired,
   message: PropTypes.shape({
     mode: PropTypes.string.isRequired,
     tripStartTime: PropTypes.string,
   }).isRequired,
 };
-
-export { containerComponent as default, SelectVehicleRow as Component };

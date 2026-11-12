@@ -67,6 +67,12 @@
     }
   }
 
+  .stop-constant-operation-container {
+    min-height: 0;
+    padding-top: var(--space-fixed-m);
+    margin-bottom: 20px;
+  }
+
   .near-you-no-stops {
     width: 100%;
     background-color: $infobox-background-color;
