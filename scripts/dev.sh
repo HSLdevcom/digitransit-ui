@@ -104,12 +104,10 @@ yarn sprites
 # Build the digitransit-* packages once, synchronously, before
 # starting webpack-dev-server and the package watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
-# outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.js) doesn't reliably invalidate when those
-# outputs later appear via packages-watch's rollup watch, so it
-# can permanently cache a broken/missing module resolution. Building here
-# first ensures webpack-dev-server always sees valid output on its first
-# compile.
+# outputs don't exist yet; building here first ensures webpack-dev-server
+# always sees valid output on its first compile. (The dev server uses webpack's
+# in-memory cache, see webpack.config.js, so no stale disk cache survives
+# between runs.)
 yarn packages-build
 
 yarn relay-watch &

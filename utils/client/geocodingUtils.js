@@ -1,4 +1,4 @@
-import { getJson } from '../shared/xhrPromise';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
 /**
  * Reverse geocodes a position with Pelias.

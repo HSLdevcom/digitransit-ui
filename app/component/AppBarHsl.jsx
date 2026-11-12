@@ -4,10 +4,10 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { favouriteShape } from '../../utils/client/shapes';
 import { clearFutureRoutes } from '../../utils/client/storeUtils';
 import { clearOldSearches } from '../data/SearchHistory';
-import { getJson } from '../../utils/shared/xhrPromise';
 import {
   getFavouriteRouteGtfsIds,
   getFavouriteStopsAndStations,
