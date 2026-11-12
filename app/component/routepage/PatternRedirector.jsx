@@ -4,10 +4,7 @@ import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
-import {
-  getOldSearchItems,
-  saveOldSearchItems,
-} from '../../data/SearchHistory';
+import { getOldSearches, removeSearch } from '../../data/SearchHistory';
 import { fragmentRefShape, routeShape } from '../../../utils/client/shapes';
 import PatternRedirectorFragment from './queries/PatternRedirectorFragment';
 
@@ -56,21 +53,20 @@ export default function PatternRedirectorGuard({ route: routeRef = null }) {
   const { match } = useRouter();
   const route = useFragment(PatternRedirectorFragment, routeRef);
   if (!route) {
-    const oldSearchItems = getOldSearchItems();
-    const oldItem = oldSearchItems.filter(
+    const oldItem = getOldSearches().find(
       s =>
-        s.item.properties.layer.startsWith('route-') &&
-        s.item.properties.link === match.location.pathname,
+        s.properties.layer.startsWith('route-') &&
+        s.properties.link === match.location.pathname,
     );
-    if (oldItem && oldItem.length !== 0) {
+    if (oldItem) {
       const error = {
         id: 'no-route-found',
         values: {
-          shortName: oldItem[0].item.properties.shortName,
-          longName: oldItem[0].item.properties.longName,
+          shortName: oldItem.properties.shortName,
+          longName: oldItem.properties.longName,
         },
       };
-      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
+      removeSearch({ item: oldItem });
       return <Error404 error={error} />;
     }
     return <Error404 />;
