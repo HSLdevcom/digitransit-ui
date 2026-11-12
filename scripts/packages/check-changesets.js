@@ -1,132 +1,153 @@
 /**
- * Fails if a package changed since $BASE_SHA but its package.json
- * "version" wasn't bumped accordingly.
+ * Fails a PR whose changed packages aren't all released by a changeset, or
+ * that edits a package's "version" by hand (the Version packages PR does that).
  *
- * `lerna publish from-package` only republishes a package when its
- * committed version is greater than what's already on npm, so a changed
- * package with an unbumped version would silently never get published.
- * This check only runs when $BASE_SHA is provided.
+ * Changed packages include dependents (dev dependencies too), so a change to
+ * e.g. the private schema or rollup-config package needs changesets for the
+ * packages built from it. Packages Changesets bumps automatically as
+ * dependents count as released.
  *
- * Usage: BASE_SHA=<git ref> yarn packages-version-check
- *
- * Intended to be run via the "packages-version-check" npm script
- * (so node_modules/.bin, including lerna, is on PATH), not invoked directly.
+ * Usage: [BASE_REF=<branch>] yarn packages-changeset-check
+ * Diffs against the merge-base with origin/$BASE_REF (default v3).
  */
 import { execFileSync } from 'child_process';
-import { readFileSync } from 'fs';
-import { relative, join } from 'path';
-import semver from 'semver';
+import { mkdtempSync, readFileSync, rmSync } from 'fs';
+import { tmpdir } from 'os';
+import { join, relative } from 'path';
 
-// Plain ANSI codes (no extra dependency needed): GitHub Actions' log viewer,
-// like most terminals, renders these directly. Respect the NO_COLOR
-// convention (https://no-color.org/) for anyone piping/redirecting output.
 const colorsEnabled = !process.env.NO_COLOR;
 const red = text => (colorsEnabled ? `\x1b[31m${text}\x1b[0m` : text);
 const green = text => (colorsEnabled ? `\x1b[32m${text}\x1b[0m` : text);
 
-function gitShow(ref, file) {
-  try {
-    return execFileSync('git', ['show', `${ref}:${file}`], {
-      encoding: 'utf8',
-      stdio: ['ignore', 'pipe', 'ignore'],
-    });
-  } catch {
-    return null;
-  }
-}
+const run = (command, args) =>
+  execFileSync(command, args, { encoding: 'utf8' }).trim();
 
-// Runs `lerna ls` with the given extra args and returns the parsed JSON
-// package list. Shared by every lerna-ls call in this script so they all
-// get consistent execFileSync options and JSON parsing. Always passes
-// --all so private packages are never silently dropped before we see them.
-function lernaLs(extraArgs) {
-  const output = execFileSync(
-    'lerna',
-    ['ls', '--all', ...extraArgs, '--json', '--loglevel=error'],
-    { encoding: 'utf8' },
+/** Packages changed since `base`, dependents included unless excluded. */
+function changedPackages(base, { excludeDependents = false } = {}) {
+  return JSON.parse(
+    run('lerna', [
+      'ls',
+      '--all',
+      '--since',
+      base,
+      ...(excludeDependents ? ['--exclude-dependents'] : []),
+      '--json',
+      '--loglevel=error',
+    ]),
   );
-  return JSON.parse(output);
 }
 
-// Checks that every package whose files changed since `base` also
-// bumped its own "version". Returns false (and logs failures) if not. Returns
-// true if there's no base to diff against, nothing changed, or everything
-// changed is correctly bumped.
-function checkOwnVersionBumps(base) {
-  if (!base || /^0+$/.test(base)) {
-    // Either unset, or the all-zero SHA GitHub uses for e.g. a brand-new
-    // branch push with no prior commit to diff against.
-    console.log(
-      'No base commit to compare against, skipping version-bump check.',
-    );
-    return true;
-  }
-
-  // Deliberately NOT using --exclude-dependents: a package whose own files
-  // didn't change but that depends on a package whose version *did* change
-  // still needs its own version bumped too (its effective published
-  // behavior/dependency graph changed).
-  const changedPackages = lernaLs(['--since', base]);
-
-  if (changedPackages.length === 0) {
-    console.log('No packages changed.');
-    return true;
-  }
-
-  const failures = [];
-
-  changedPackages.forEach(pkg => {
-    const packageDir = relative(process.cwd(), pkg.location);
-    const packageJsonPath = join(packageDir, 'package.json');
-
-    const currentPackage = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
-
-    const previousPackageJson = gitShow(base, packageJsonPath);
-
-    // New package: there is no previous version to bump.
-    if (!previousPackageJson) {
-      console.log(green(`✓ ${pkg.name}: new package`));
-      return;
-    }
-
-    const previousPackage = JSON.parse(previousPackageJson);
-
-    if (!semver.gt(currentPackage.version, previousPackage.version)) {
-      failures.push({
-        name: pkg.name,
-        version: currentPackage.version,
-      });
-
-      console.error(
-        red(
-          `✗ ${pkg.name}: version was not bumped (${previousPackage.version} -> ${currentPackage.version})`,
-        ),
+/**
+ * Names of the packages the pending changesets bump, auto-bumped dependents
+ * included. Returns null when `changeset status` fails, e.g. because packages
+ * changed but there are no changesets; it prints its own message.
+ */
+function plannedReleases(base) {
+  const directory = mkdtempSync(join(tmpdir(), 'changeset-status-'));
+  const output = join(directory, 'status.json');
+  try {
+    try {
+      execFileSync(
+        'changeset',
+        ['status', `--since=${base}`, `--output=${output}`],
+        { stdio: ['ignore', 'inherit', 'inherit'] },
       );
-    } else {
-      console.log(
-        green(
-          `✓ ${pkg.name}: ${previousPackage.version} -> ${currentPackage.version}`,
-        ),
-      );
+    } catch (error) {
+      if (typeof error.status === 'number') {
+        return null;
+      }
+      throw error;
     }
-  });
-
-  if (failures.length > 0) {
-    console.error(red('\nThe following changed packages need a version bump:'));
-
-    failures.forEach(pkg => {
-      console.error(red(`  - ${pkg.name} (${pkg.version})`));
-    });
-
-    console.error(
-      red('\nRun `yarn packages-version-bump` to bump package versions.'),
+    const { releases } = JSON.parse(readFileSync(output, 'utf8'));
+    // Dev dependents are listed with type "none": their range is updated, but
+    // they aren't bumped or published.
+    return new Set(
+      releases
+        .filter(release => release.type !== 'none')
+        .map(release => release.name),
     );
-
-    return false;
+  } finally {
+    rmSync(directory, { recursive: true, force: true });
   }
-
-  console.log(green('\nAll changed packages have version bumps.'));
-  return true;
 }
 
-process.exit(checkOwnVersionBumps(process.env.BASE_SHA) ? 0 : 1);
+/** Errors for changed packages whose "version" differs from `base`. */
+function findVersionEdits(changed, base) {
+  return changed
+    .filter(pkg => {
+      const packageJsonPath = join(
+        relative(process.cwd(), pkg.location),
+        'package.json',
+      );
+      let previous;
+      try {
+        previous = JSON.parse(
+          run('git', ['show', `${base}:${packageJsonPath}`]),
+        ).version;
+      } catch {
+        return false; // New package.
+      }
+      return previous !== pkg.version;
+    })
+    .map(
+      pkg =>
+        `${pkg.name}: "version" was edited; the Version packages PR sets versions`,
+    );
+}
+
+/**
+ * Errors for changed public packages that no changeset releases. Releasing a
+ * changed package often releases its dependents too, so they're only
+ * reported once every directly changed package has a changeset.
+ */
+function findUncoveredPackages(changed, base, released) {
+  const unreleased = changed.filter(
+    pkg => !pkg.private && !released.has(pkg.name),
+  );
+  const directlyChanged = new Set(
+    changedPackages(base, { excludeDependents: true }).map(pkg => pkg.name),
+  );
+  const unreleasedChanged = unreleased.filter(pkg =>
+    directlyChanged.has(pkg.name),
+  );
+  if (unreleasedChanged.length > 0) {
+    return unreleasedChanged.map(
+      pkg => `${pkg.name}: changed but has no changeset`,
+    );
+  }
+  return unreleased.map(
+    pkg => `${pkg.name}: depends on a changed package but has no changeset`,
+  );
+}
+
+const base = run('git', [
+  'merge-base',
+  'HEAD',
+  `origin/${process.env.BASE_REF || 'v3'}`,
+]);
+const changed = changedPackages(base);
+
+if (changed.length === 0) {
+  console.log(green('✓ No packages changed.'));
+  process.exit(0);
+}
+
+const released = plannedReleases(base);
+const errors = [
+  ...findVersionEdits(changed, base),
+  ...(released ? findUncoveredPackages(changed, base, released) : []),
+];
+
+if (errors.length > 0) {
+  errors.forEach(error => console.error(red(`✗ ${error}`)));
+  console.error(
+    red(
+      '\nAdd changesets with `yarn packages-changeset`; never edit versions by hand.',
+    ),
+  );
+}
+if (errors.length > 0 || !released) {
+  process.exit(1);
+}
+
+console.log(green(`✓ All ${changed.length} changed packages have changesets.`));

@@ -43,8 +43,7 @@
     "packages-test": "yarn packages-build && vitest run --project=!app --project=!server",
     "packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
     "packages-changeset": "changeset",
-    "packages-version": "changeset version",
-    "packages-version-check": "node scripts/packages/check-versions.js",
+    "packages-changeset-check": "node scripts/packages/check-changesets.js",
     "packages-translations-check": "node scripts/packages/sort-translations.js",
     "packages-dependencies-check": "node scripts/packages/check-dependencies.js",
     "packages-translations-fix": "node scripts/packages/sort-translations.js --fix"
@@ -270,7 +269,6 @@
     "rollup-plugin-postcss": "4.0.2",
     "sass": "^1.107.1",
     "sass-loader": "17.1.0",
-    "semver": "^7.8.5",
     "style-loader": "^4.0.0",
     "stylelint": "15.11.0",
     "stylelint-config-standard-scss": "11.1.0",
