@@ -40,4 +40,24 @@ describe('<ParkOrStationHeader />', () => {
     expect(url).toContain(config.URL.PELIAS_REVERSE_GEOCODER);
     expect(url).toContain('boundary.country=FI');
   });
+
+  it('still renders the name when reverse geocoding fails', async () => {
+    const config = createTestConfig();
+    const peliasMatcher = {
+      url: `begin:${config.URL.PELIAS_REVERSE_GEOCODER}`,
+    };
+    fetchMock.get(peliasMatcher, 500);
+
+    const { getByText } = renderWithProviders(
+      <ParkOrStationHeader
+        parkOrStation={{ name: 'Test park', lat: 60.1, lon: 24.9 }}
+      />,
+      { config },
+    );
+
+    await waitFor(() =>
+      expect(fetchMock.callHistory.called(peliasMatcher)).toBe(true),
+    );
+    expect(getByText('Test park')).toBeTruthy();
+  });
 });
