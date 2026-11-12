@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { FormattedMessage } from 'react-intl';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import StopCode from './StopCode';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
-import { getJson } from '../../utils/shared/xhrPromise';
 import getZoneId from '../../utils/client/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
 import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
@@ -35,15 +35,18 @@ export default function ParkOrBikeStationHeader({
         config.searchParams['boundary.country'];
     }
 
-    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(data => {
-      if (data.features != null && data.features.length > 0) {
-        const match = data.features[0].properties;
-        const id = getZoneId(config, match.zones, data.zones);
-        if (id) {
-          setZoneId(id.toString().toLowerCase());
+    getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
+      .then(data => {
+        if (data.features != null && data.features.length > 0) {
+          const match = data.features[0].properties;
+          const id = getZoneId(config, match.zones, data.zones);
+          if (id) {
+            setZoneId(id.toString().toLowerCase());
+          }
         }
-      }
-    });
+      })
+      // The zone is optional, the header works without it.
+      .catch(() => {});
   }, []);
 
   const { name, stationId } = parkOrStation;

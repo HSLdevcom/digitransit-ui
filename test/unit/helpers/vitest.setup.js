@@ -6,6 +6,7 @@
 // construct a JSDOM instance or copy its properties onto `global` by hand.
 import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
+import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import relayHooks from 'react-relay/hooks';
@@ -25,6 +26,10 @@ import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
 // by default; a test asserting refetch behaviour can assert on it directly
 // via its own local vi.mock override (see below), which takes precedence
 // over this one for that file.
+// getJson uses axios, which would use jsdom's XMLHttpRequest by default.
+// Route it through fetch so tests can keep mocking fetch.
+axios.defaults.adapter = 'fetch';
+
 vi.mock('react-relay', async importOriginal => {
   const actual = await importOriginal();
   return {
