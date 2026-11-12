@@ -52,7 +52,7 @@ Root-level commands covering all `digitransit-*` packages at once
 - `yarn packages-publish` — publish changed packages to npm (interactive)
 - `yarn packages-publish-ci` — same, non-interactive (used by CI)
 - `yarn packages-changeset` — add a changeset (packages, bump types and a note) to a PR that changes packages; never edit package versions by hand
-- `yarn packages-version-check` — verify every changed package has a changeset and internal dependency ranges are consistent
+- `yarn packages-changeset-check` — verify that every package a PR changes has a changeset (CI runs this on PRs)
 - `yarn packages-translations-check` — verify `digitransit-component` packages' own translations are sorted and every locale has the same keys
 - `yarn packages-translations-fix` — same, but sorts keys in place (key mismatches need a manual fix)
 

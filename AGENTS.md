@@ -76,8 +76,9 @@ right one by *who consumes the code*, not just by convenience.
     test/build tooling lives only in the root `devDependencies`; package scripts call it via
     `yarn run -T <bin>`, except rollup in `build`/`watch`, which is called by path to save a Yarn
     process per watcher. See "Dependency Classification" in `docs/Packages.md`.
-  - Never bump package versions manually; the `packages-version-bump` script is run after
-    a PR is approved but before merging by the author.
+  - Never edit package versions. A PR that changes a package adds a changeset
+    (`yarn packages-changeset`); the "Version packages" PR opened by CI bumps the versions. See
+    "Publishing" in `docs/Packages.md`.
 - `styles/` — shared styles: `main.scss` entry, `abstracts/` (no CSS output), `base/` (global CSS),
   `themes/<theme>/theme.scss` (custom property values). See "Styles" below.
 - `static/` — static assets, copied to `_static/`.
