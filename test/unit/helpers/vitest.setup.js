@@ -6,6 +6,7 @@
 // construct a JSDOM instance or copy its properties onto `global` by hand.
 import { cleanup } from '@testing-library/react';
 import Link from 'found/Link';
+import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
@@ -24,6 +25,10 @@ vi.mock('react-relay', async importOriginal =>
 vi.mock('react-relay/hooks', async importOriginal =>
   withRelayStubs(await importOriginal()),
 );
+
+// getJson uses axios, which would use jsdom's XMLHttpRequest by default.
+// Route it through fetch so tests can keep mocking fetch.
+axios.defaults.adapter = 'fetch';
 
 // jsdom has no layout, so react-truncate-markup would cut the text.
 vi.mock('react-truncate-markup', () => ({

@@ -89,23 +89,18 @@ function mockGeolocation() {
       clearWatch: vi.fn(),
     },
   });
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({
-      json: () => ({
-        features: [
-          {
-            properties: {
-              name: 'Kamppi',
-              gid: 'address-id',
-              layer: 'address',
-              localadmin: 'Helsinki',
-            },
-          },
-        ],
-      }),
-    }),
-  );
+  getJson.mockResolvedValue({
+    features: [
+      {
+        properties: {
+          name: 'Kamppi',
+          gid: 'address-id',
+          layer: 'address',
+          localadmin: 'Helsinki',
+        },
+      },
+    ],
+  });
   onTestFinished(() => {
     if (permissionsDescriptor) {
       Object.defineProperty(navigator, 'permissions', permissionsDescriptor);
@@ -117,7 +112,7 @@ function mockGeolocation() {
     } else {
       delete navigator.geolocation;
     }
-    vi.unstubAllGlobals();
+    getJson.mockReset();
   });
 
   return {

@@ -14,9 +14,20 @@ import {
 export const STORE_VERSION = 3;
 
 /**
- * The maximum amount of time in seconds a stored item will be returned.
+ * The maximum amount of time in seconds a stored item is kept.
  */
 export const STORE_PERIOD = 60 * 60 * 24 * 60; // 60 days
+
+/**
+ * The maximum number of items kept in the stored history.
+ */
+export const STORE_MAX_ITEMS = 120;
+
+/**
+ * The number of most recent items that are never dropped by the item limit,
+ * so that a new search is not lost to items with a higher count.
+ */
+export const STORE_KEEP_LATEST = 20;
 
 const getItemKey = properties => {
   if (properties.layer?.startsWith('route-') && properties.gtfsId) {
@@ -25,18 +36,22 @@ const getItemKey = properties => {
   return getNameLabel(properties, true);
 };
 
+const isFresh = (item, timestamp) =>
+  item.lastUpdated ? timestamp - item.lastUpdated < STORE_PERIOD : true;
+
+// Keeps the highest-count item for each key in a single pass.
 const deduplicateItems = items => {
   const uniqueItems = [];
+  const indexByKey = new Map();
   items.forEach(item => {
     // Items without properties are malformed/unusable downstream, drop them.
     if (!item.item.properties) {
       return;
     }
-    const key = getItemKey(item.item.properties);
-    const existingIndex = uniqueItems.findIndex(existingItem =>
-      isEqual(key, getItemKey(existingItem.item.properties)),
-    );
-    if (existingIndex === -1) {
+    const key = JSON.stringify(getItemKey(item.item.properties));
+    const existingIndex = indexByKey.get(key);
+    if (existingIndex === undefined) {
+      indexByKey.set(key, uniqueItems.length);
       uniqueItems.push(item);
     } else if (item.count > uniqueItems[existingIndex].count) {
       uniqueItems[existingIndex] = item;
@@ -45,25 +60,64 @@ const deduplicateItems = items => {
   return uniqueItems;
 };
 
-/**
- * Reads the stored history, initializing or deduplicating it when needed.
- */
-export const getStorageObject = () => {
-  let storage = getOldSearchesStorage();
-  if (!storage || storage.version == null || storage.version < STORE_VERSION) {
-    storage = {
-      version: STORE_VERSION,
-      items: [],
-    };
-    setOldSearchesStorage(storage);
+// Drops expired and duplicate items. If there are still too many, keeps the
+// most recent items and fills the rest with the most used and then most recent.
+const normalizeItems = items => {
+  const timestamp = unixTime();
+  const unique = deduplicateItems(items.filter(i => isFresh(i, timestamp)));
+  if (unique.length <= STORE_MAX_ITEMS) {
+    return unique;
   }
-  const items = deduplicateItems(storage.items);
-  if (items.length !== storage.items.length) {
-    storage = { ...storage, items };
-    setOldSearchesStorage(storage);
-  }
-  return storage;
+  const byRecency = orderBy(unique, [i => i.lastUpdated || 0], ['desc']);
+  const latest = byRecency.slice(0, STORE_KEEP_LATEST);
+  const others = orderBy(
+    byRecency.slice(STORE_KEEP_LATEST),
+    ['count', i => i.lastUpdated || 0],
+    ['desc', 'desc'],
+  ).slice(0, STORE_MAX_ITEMS - STORE_KEEP_LATEST);
+  return orderBy([...latest, ...others], 'count', 'desc');
 };
+
+// The history is read from localStorage once per page session. All changes go
+// through this module, which keeps the cache and the storage in sync.
+let cache = null;
+
+const persist = items => {
+  cache = { version: STORE_VERSION, items: orderBy(items, 'count', 'desc') };
+  setOldSearchesStorage(cache);
+};
+
+/**
+ * Drops the in-memory copy so that the history is re-read from localStorage.
+ */
+export const resetSearchHistoryCache = () => {
+  cache = null;
+};
+
+// Another tab changed the history; drop the stale copy so it isn't overwritten.
+window.addEventListener('storage', event => {
+  if (event.key === null || event.key === 'saved-searches') {
+    resetSearchHistoryCache();
+  }
+});
+
+const loadStorage = () => {
+  const stored = getOldSearchesStorage();
+  const isCurrent = stored.version != null && stored.version >= STORE_VERSION;
+  const items = isCurrent ? normalizeItems(stored.items) : [];
+  if (!isCurrent || items.length !== stored.items.length) {
+    persist(items);
+  } else {
+    cache = { version: STORE_VERSION, items };
+  }
+  return cache;
+};
+
+/**
+ * Returns the stored history. It is read from localStorage once per session.
+ * Expired, duplicate and surplus items are removed at that point.
+ */
+export const getStorageObject = () => cache || loadStorage();
 
 export const saveSearch = search => {
   const { items } = getStorageObject();
@@ -78,67 +132,44 @@ export const saveSearch = search => {
   if (matches.length > 0) {
     // Keep the entry with the highest count and discard duplicates.
     const best = matches.reduce((a, b) => (b.count > a.count ? b : a));
-    best.count += 1;
-    best.lastUpdated = timestamp;
-    best.item = cloneDeep(search.item);
     updatedItems = [
       ...items.filter(
         oldItem => !isEqual(key, getItemKey(oldItem.item.properties)),
       ),
-      best,
+      {
+        ...best,
+        count: best.count + 1,
+        lastUpdated: timestamp,
+        item: cloneDeep(search.item),
+      },
     ];
   } else {
     updatedItems = [...items, { count: 1, lastUpdated: timestamp, ...search }];
   }
 
-  setOldSearchesStorage({
-    version: STORE_VERSION,
-    items: orderBy(updatedItems, 'count', 'desc'),
-  });
+  persist(updatedItems);
 };
 
 export const removeSearch = search => {
   const { items } = getStorageObject();
 
   const key = getItemKey(search.item.properties);
-  for (let i = 0; i < items.length; i++) {
-    if (isEqual(key, getItemKey(items[i].item.properties))) {
-      // remove
-      items.splice(i, 1);
-      setOldSearchesStorage({
-        version: STORE_VERSION,
-        items: orderBy(items, 'count', 'desc'),
-      });
-      break;
-    }
+  const remaining = items.filter(
+    item => !isEqual(key, getItemKey(item.item.properties)),
+  );
+  if (remaining.length !== items.length) {
+    persist(remaining);
   }
 };
 
 export const clearOldSearches = () => {
-  const storage = {
-    version: STORE_VERSION,
-    items: [],
-  };
-  setOldSearchesStorage(storage);
+  persist([]);
 };
 
-export const getOldSearchItems = () => {
-  const { items } = getStorageObject();
-  const timestamp = unixTime();
-  return items.filter(item =>
-    item.lastUpdated ? timestamp - item.lastUpdated < STORE_PERIOD : true,
+// Callers may modify the results, so they get copies of the cached items.
+export const getOldSearches = type =>
+  cloneDeep(
+    getStorageObject()
+      .items.filter(item => (type ? item.type === type : true))
+      .map(item => item.item),
   );
-};
-
-export const getOldSearches = type => {
-  return getOldSearchItems()
-    .filter(item => (type ? item.type === type : true))
-    .map(item => item.item);
-};
-
-export const saveOldSearchItems = items => {
-  setOldSearchesStorage({
-    version: STORE_VERSION,
-    items: orderBy(items, 'count', 'desc'),
-  });
-};
