@@ -203,7 +203,13 @@ export default function StopPageMap({
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
-      topButtons={<StopItineraryButton stop={stop} />}
+      topButtons={
+        <StopItineraryButton
+          stop={stop}
+          citybike={citybike}
+          scooter={scooter}
+        />
+      }
     >
       {children}
     </MapWithTracking>

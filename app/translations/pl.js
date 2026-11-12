@@ -428,8 +428,10 @@ export default {
     'route-page.title-short': 'Trasa',
     'route-to-ferry': 'Droga do przystani',
     'route-to-park': 'Droga do parkingu',
+    'route-to-scooter': 'Droga do hulajnogi',
     'route-to-station': 'Droga do stacji',
     'route-to-stop': 'Droga do przystanku',
+    'route-to-terminal': 'Droga do terminalu',
     'router-change-departure-time': 'Zmień czas wyjazdu ›',
     'router-location-not-found':
       'Please select location on the road network or at a stop.',
@@ -480,7 +482,12 @@ export default {
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
+    'set-ferry-as-routes': 'Wybierz przystań jako … trasy',
+    'set-park-as-routes': 'Wybierz parking jako … trasy',
+    'set-scooter-as-routes': 'Wybierz hulajnogę jako … trasy',
+    'set-station-as-routes': 'Wybierz stację jako … trasy',
     'set-stop-as-routes': 'Wybierz przystanek jako … trasy',
+    'set-terminal-as-routes': 'Wybierz terminal jako … trasy',
     'set-time-earlier-button-label': 'Ustaw wcześniejszy czas podróży',
     'set-time-later-button-label': 'Ustaw późniejszy czas podróży',
     settings: 'Ustawienia',

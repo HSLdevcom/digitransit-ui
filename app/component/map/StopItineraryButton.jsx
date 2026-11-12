@@ -1,4 +1,5 @@
-import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
+import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
@@ -13,23 +14,34 @@ import {
 } from '../../../utils/shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function StopItineraryButton({ stop }) {
+// The place type decides the wording of the button and the dialog title.
+// Keys: route-to-<type> and set-<type>-as-routes
+export function getPlaceType(place, citybike, scooter) {
+  if (place?.vehicleParkingId) {
+    return 'park';
+  }
+  if (scooter) {
+    return 'scooter';
+  }
+  if (citybike) {
+    return 'station';
+  }
+  if (place?.locationType === 'STATION') {
+    return place.vehicleMode === 'FERRY' ? 'terminal' : 'station';
+  }
+  return place?.vehicleMode === 'FERRY' ? 'ferry' : 'stop';
+}
+
+export default function StopItineraryButton({
+  stop,
+  citybike = false,
+  scooter = false,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
   const [showModal, setShowModal] = useState(false);
-  const [buttonText, setButtonText] = useState(null);
-  useEffect(() => {
-    if (stop?.vehicleParkingId) {
-      setButtonText('route-to-park');
-    } else if (stop?.vehicleMode === 'FERRY') {
-      setButtonText('route-to-ferry');
-    } else if (stop?.locationType === 'STATION') {
-      setButtonText('route-to-station');
-    } else {
-      setButtonText('route-to-stop');
-    }
-  }, [stop]);
+  const placeType = getPlaceType(stop, citybike, scooter);
   const { location } = match;
   const closeModal = () => setShowModal(false);
   // Reset query parameters from timetablepage  that is not needed in summary page
@@ -89,16 +101,17 @@ export default function StopItineraryButton({ stop }) {
         }}
       >
         <Icon className="stop-itinerary-button-icon" img="icon_route" />
-        {buttonText && (
-          <FormattedMessage id={buttonText} defaultMessage="Route to stop" />
-        )}
+        <FormattedMessage
+          id={`route-to-${placeType}`}
+          defaultMessage="Route to the stop"
+        />
       </button>
       {showModal && (
         <Modal lang={config.language} open onOpenChange={closeModal}>
           <ModalContent
             title={intl.formatMessage({
-              id: 'set-stop-as-routes',
-              defaultMessage: 'Set stop as routes',
+              id: `set-${placeType}-as-routes`,
+              defaultMessage: "Set the stop as route's",
             })}
             lang={config.language}
             className="stop-itinerary-modal-sheet"
@@ -144,4 +157,8 @@ export default function StopItineraryButton({ stop }) {
   );
 }
 
-StopItineraryButton.propTypes = { stop: stopShape.isRequired };
+StopItineraryButton.propTypes = {
+  stop: stopShape.isRequired,
+  citybike: PropTypes.bool,
+  scooter: PropTypes.bool,
+};
