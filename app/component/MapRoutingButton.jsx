@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Modal from '@hsl-fi/modal';
+import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { stopShape } from '../../utils/client/shapes';
 import Icon from './Icon';
@@ -93,58 +94,50 @@ export default function MapRoutingButton({ stop }) {
         )}
       </button>
       {showModal && (
-        <Modal
-          appElement="#app"
-          contentLabel=""
-          closeButtonLabel={intl.formatMessage({ id: 'close' })}
-          isOpen={showModal}
-          onCrossClick={closeModal}
-          className="map-routing-modal"
-          overlayClassName="map-routing-modal-overlay"
-        >
-          <h2 className="map-routing-modal-header">
-            <FormattedMessage
-              id="set-stop-as-routes"
-              defaultMessage="Set stop as routes"
-            />
-          </h2>
-          <div className="map-routing-modal-button-container">
-            <button
-              type="button"
-              className="map-routing-modal-button"
-              onClick={() => {
-                onSelectLocation(stop, 'origin');
-              }}
-            >
-              <FormattedMessage id="as-origin" defaultMessage="Route to stop" />
-            </button>
-            {config.viaPointsEnabled && (
-              <button
-                type="button"
-                className="map-routing-modal-button"
-                onClick={() => {
-                  onSelectLocation(stop, 'via');
-                }}
+        <Modal lang={config.language} open onOpenChange={closeModal}>
+          <ModalContent
+            title={intl.formatMessage({
+              id: 'set-stop-as-routes',
+              defaultMessage: 'Set stop as routes',
+            })}
+            lang={config.language}
+            className="map-routing-modal-sheet"
+          >
+            <FlexColumn gap="xs">
+              <Button
+                variant="secondary"
+                expand
+                onClick={() => onSelectLocation(stop, 'origin')}
               >
-                <FormattedMessage
-                  id="as-viapoint"
-                  defaultMessage="Route to stop"
-                />
-              </button>
-            )}
-            <button
-              type="button"
-              className="map-routing-modal-button"
-              onClick={() => {
-                onSelectLocation(stop, 'destination');
-              }}
-            >
-              <FormattedMessage
-                id="as-destination"
-                defaultMessage="Route to stop"
-              />
-            </button>
-          </div>
+                {intl.formatMessage({
+                  id: 'as-origin',
+                  defaultMessage: 'Route to stop',
+                })}
+              </Button>
+              {config.viaPointsEnabled && (
+                <Button
+                  variant="secondary"
+                  expand
+                  onClick={() => onSelectLocation(stop, 'via')}
+                >
+                  {intl.formatMessage({
+                    id: 'as-viapoint',
+                    defaultMessage: 'Route to stop',
+                  })}
+                </Button>
+              )}
+              <Button
+                variant="secondary"
+                expand
+                onClick={() => onSelectLocation(stop, 'destination')}
+              >
+                {intl.formatMessage({
+                  id: 'as-destination',
+                  defaultMessage: 'Route to stop',
+                })}
+              </Button>
+            </FlexColumn>
+          </ModalContent>
         </Modal>
       )}
     </>
