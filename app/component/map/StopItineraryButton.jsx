@@ -3,17 +3,17 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
-import { stopShape } from '../../utils/client/shapes';
-import Icon from './Icon';
-import { locationToUri, locationToOTP } from '../../utils/shared/otpStrings';
+import { stopShape } from '../../../utils/client/shapes';
+import Icon from '../Icon';
+import { locationToUri, locationToOTP } from '../../../utils/shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../utils/shared/path';
-import { useConfigContext } from '../hooks/ConfigContext';
+} from '../../../utils/shared/path';
+import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function MapRoutingButton({ stop }) {
+export default function StopItineraryButton({ stop }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
@@ -83,12 +83,12 @@ export default function MapRoutingButton({ stop }) {
     <>
       <button
         type="button"
-        className="map-routing-button"
+        className="stop-itinerary-button"
         onClick={() => {
           setShowModal(true);
         }}
       >
-        <Icon className="map-routing-button-icon" img="icon_route" />
+        <Icon className="stop-itinerary-button-icon" img="icon_route" />
         {buttonText && (
           <FormattedMessage id={buttonText} defaultMessage="Route to stop" />
         )}
@@ -101,7 +101,7 @@ export default function MapRoutingButton({ stop }) {
               defaultMessage: 'Set stop as routes',
             })}
             lang={config.language}
-            className="map-routing-modal-sheet"
+            className="stop-itinerary-modal-sheet"
           >
             <FlexColumn gap="xs">
               <Button
@@ -144,4 +144,4 @@ export default function MapRoutingButton({ stop }) {
   );
 }
 
-MapRoutingButton.propTypes = { stop: stopShape.isRequired };
+StopItineraryButton.propTypes = { stop: stopShape.isRequired };

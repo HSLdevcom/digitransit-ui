@@ -2,13 +2,13 @@ import { fireEvent, screen, within } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockRouter, mockMatch } from '../helpers/mock-router';
-import MapRoutingButton from '../../../app/component/MapRoutingButton';
+import StopItineraryButton from '../../../app/component/map/StopItineraryButton';
 
 const stop = { name: 'Test stop', lat: 60.1, lon: 24.9, gtfsId: 'HSL:1' };
 
 function renderButton(config = createTestConfig()) {
   const router = { ...mockRouter, push: vi.fn() };
-  renderWithProviders(<MapRoutingButton stop={stop} />, {
+  renderWithProviders(<StopItineraryButton stop={stop} />, {
     config,
     router,
     match: { ...mockMatch, router },
@@ -16,7 +16,7 @@ function renderButton(config = createTestConfig()) {
   return router;
 }
 
-describe('<MapRoutingButton />', () => {
+describe('<StopItineraryButton />', () => {
   it('opens a dialog and routes from the stop when origin is selected', () => {
     const router = renderButton(createTestConfig({ viaPointsEnabled: false }));
     expect(screen.queryByRole('dialog')).toBeNull();

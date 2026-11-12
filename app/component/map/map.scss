@@ -364,7 +364,7 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
-.map-routing-button {
+.stop-itinerary-button {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
@@ -392,7 +392,7 @@ div.leaflet-marker-icon.vehicle-icon {
     color: $theme-primary-color;
   }
 
-  .map-routing-button-icon {
+  .stop-itinerary-button-icon {
     color: $theme-primary-color;
     margin: 3px 5px 0 0;
   }
@@ -400,7 +400,7 @@ div.leaflet-marker-icon.vehicle-icon {
 
 // @hsl-fi/dialog has no size variants and the sheet is 560px wide on desktop.
 // Narrow it down to match the old small modal for this short list of options.
-.map-routing-modal-sheet {
+.stop-itinerary-modal-sheet {
   @media (min-width: 500px) {
     max-width: 335px;
     margin: 0 auto;
