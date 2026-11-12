@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, Spacer, Text } from '@hsl-fi/layout-primitives';
-import useDsLang from '../../hooks/useDsLang';
+import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function LocationModal({
   handleClose,
@@ -11,7 +11,6 @@ export default function LocationModal({
   showInfo,
   children = null,
 }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   // The location search's mobile view (digitransit-component-autosuggest's
   // MobileView) renders its own full-screen react-modal, portaled directly
@@ -29,10 +28,10 @@ export default function LocationModal({
   };
 
   return (
-    <Modal lang={dsLang} onOpenChange={handleClose} open>
+    <Modal lang={hslfiLocale} onOpenChange={handleClose} open>
       <ModalContent
         title={intl.formatMessage({ id: 'stop-near-you-modal-header' })}
-        lang={dsLang}
+        lang={hslfiLocale}
         className="location-modal-content"
         onPointerDownOutside={ignoreMobileSearchOutsidePointerDown}
       >

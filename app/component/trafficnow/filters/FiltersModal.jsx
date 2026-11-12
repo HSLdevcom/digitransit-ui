@@ -5,10 +5,9 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Filters from './Filters';
 import { useFilterContext } from './FiltersContext';
-import useDsLang from '../../../hooks/useDsLang';
+import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
 
 export default function FiltersModal({ isOpen, onClose }) {
-  const dsLang = useDsLang();
   const { resetFilters, selectedFilters } = useFilterContext();
   const intl = useIntl();
   const filtersOnOpenRef = useRef(selectedFilters);
@@ -62,7 +61,7 @@ export default function FiltersModal({ isOpen, onClose }) {
             </h3>
           )}
         </FormattedMessage>
-        <CloseButton lang={dsLang} onClick={handleClose} />
+        <CloseButton lang={hslfiLocale} onClick={handleClose} />
       </header>
       <Filters onApplyClick={handleClose} onResetClick={resetFilters} />
     </Modal>

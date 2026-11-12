@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getLoginPath } from '../../utils/shared/path';
-import useDsLang from '../hooks/useDsLang';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 export default function LoginPrompt({
   open,
@@ -12,7 +12,6 @@ export default function LoginPrompt({
   titleId = 'login-header',
   descriptionId = 'login-content',
 }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   const { match } = useRouter();
 
@@ -49,11 +48,11 @@ export default function LoginPrompt({
   };
 
   return (
-    <Modal lang={dsLang} onOpenChange={handleSecondaryClick} open={open}>
+    <Modal lang={hslfiLocale} onOpenChange={handleSecondaryClick} open={open}>
       <ModalContent
         title={title}
         description={description}
-        lang={dsLang}
+        lang={hslfiLocale}
         buttons={[
           {
             children: login,

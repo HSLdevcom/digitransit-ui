@@ -5,10 +5,9 @@ import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
-import useDsLang from '../../hooks/useDsLang';
+import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function RouteNotificationButton({ notification }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   const [open, setOpen] = useState(false);
 
@@ -65,7 +64,7 @@ export default function RouteNotificationButton({ notification }) {
         <ModalContent
           title={closeButtonLabel}
           description={descriptionNode}
-          lang={dsLang}
+          lang={hslfiLocale}
         />
       </Modal>
     </>

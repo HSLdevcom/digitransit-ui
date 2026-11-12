@@ -5,10 +5,9 @@ import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import { useFavouriteActions } from '../../../hooks/FavouriteContext';
-import useDsLang from '../../../hooks/useDsLang';
+import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   const { savePersonalizationPreferences } = useFavouriteActions();
   const [action, setAction] = useState();
@@ -31,11 +30,11 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   };
 
   return (
-    <Modal lang={dsLang} onOpenChange={onClose} open={open}>
+    <Modal lang={hslfiLocale} onOpenChange={onClose} open={open}>
       <ModalContent
         title={title}
         description={<Text variant="text-s">{description}</Text>}
-        lang={dsLang}
+        lang={hslfiLocale}
         buttons={[
           {
             children: ok,

@@ -34,6 +34,7 @@ import { configureCountry } from '../../utils/client/configureCountry';
 import { getUser } from '../../utils/client/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchServices from '../data/SearchServices';
+import { initHslfiLocale } from '../../utils/client/hslfiLocale';
 import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
@@ -96,6 +97,7 @@ async function init() {
   const { language } = config;
   const translations = await import(`../translations/${language}`);
   i18n.changeLanguage(language);
+  initHslfiLocale(language, translations.default[language]);
 
   const network = new RelayNetworkLayer([
     cacheMiddleware({

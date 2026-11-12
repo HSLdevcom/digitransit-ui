@@ -195,8 +195,12 @@ next to `i18n.js`: `getDsLang(lang)` returns built-in languages as is and a
 cached locale object built from the package's own translations otherwise.
 `DS_MESSAGE_KEYS` lists the translation keys it needs, and each package test
 fails if a non-built-in locale lacks one, so a missing text never silently
-falls back to Finnish. The app does the same with `app/hooks/useDsLang.js`
-(tested in `test/unit/hooks/useDsLang.test.js`).
+falls back to Finnish. The app builds one locale object from its own
+translations at client startup (`initHslfiLocale` in `app/client/client.jsx`)
+and components pass `lang={hslfiLocale}` from `utils/client/hslfiLocale.js`.
+Translations missing from the object (fi/sv/en) fall back to the design
+system's built-in texts; other languages must contain all of them (tested in
+`test/unit/utils/client/hslfiLocale.test.js`).
 
 ## Documentation (README generation)
 

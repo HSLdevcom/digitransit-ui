@@ -3,10 +3,9 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text, FlexColumn, FlexRow } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import Icon from '../Icon';
-import useDsLang from '../../hooks/useDsLang';
+import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function WeatherDetailsPopup({ weatherData, onClose }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   // Icons for night time is represented adding a 100 to an id. For example:
   // iconId 1 (clear sky) for a day is 101 for a night. Subtract this so we don't need duplicate translations.
@@ -25,8 +24,12 @@ export default function WeatherDetailsPopup({ weatherData, onClose }) {
     </span>
   );
   return (
-    <Modal lang={dsLang} open onOpenChange={onClose}>
-      <ModalContent title={title} lang={dsLang} className="weather-modal-sheet">
+    <Modal lang={hslfiLocale} open onOpenChange={onClose}>
+      <ModalContent
+        title={title}
+        lang={hslfiLocale}
+        className="weather-modal-sheet"
+      >
         <FlexColumn alignItems="center" gap="m">
           <FlexRow alignItems="center" gap="s">
             <Icon

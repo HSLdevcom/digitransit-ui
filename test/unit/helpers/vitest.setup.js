@@ -10,6 +10,12 @@ import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import relayHooks from 'react-relay/hooks';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { initHslfiLocale } from '../../../utils/client/hslfiLocale';
+import translations from '../../../app/translations/en';
+
+// Components pass the design system locale to @hsl-fi components; the client
+// bootstrap sets it up in the browser.
+initHslfiLocale('en', translations.en);
 
 // Stub useFragment/useRefetchableFragment globally so components can be
 // tested by passing in complete, already-resolved data as props instead of

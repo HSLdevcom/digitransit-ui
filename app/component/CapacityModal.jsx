@@ -4,7 +4,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { FlexColumn, FlexRow, Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
-import useDsLang from '../hooks/useDsLang';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 const CAPACITY_LEGEND = [
   ['icon_MANY_SEATS_AVAILABLE', 'capacity-modal.many-seats-available'],
@@ -17,16 +17,15 @@ const CAPACITY_LEGEND = [
 ];
 
 export default function CapacityModal({ onClose }) {
-  const dsLang = useDsLang();
   const intl = useIntl();
   const config = useConfigContext();
 
   return (
-    <Modal lang={dsLang} open onOpenChange={onClose}>
+    <Modal lang={hslfiLocale} open onOpenChange={onClose}>
       <ModalContent
         title={intl.formatMessage({ id: 'capacity-modal.heading' })}
         description={intl.formatMessage({ id: 'capacity-modal.subheading' })}
-        lang={dsLang}
+        lang={hslfiLocale}
       >
         <FlexColumn gap="s" style={{ marginTop: 'var(--space-fixed-xs)' }}>
           <Text variant="label">

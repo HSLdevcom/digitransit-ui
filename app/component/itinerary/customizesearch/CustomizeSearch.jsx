@@ -26,10 +26,9 @@ import {
 } from '../../../../utils/client/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import useDsLang from '../../../hooks/useDsLang';
+import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
 
 export default function CustomizeSearch({ onToggleClick, mobile = false }) {
-  const dsLang = useDsLang();
   const config = useConfigContext();
   const intl = useIntl();
   const [settings, setSettings] = useState(getSettings(config));
@@ -71,7 +70,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
             </button>
           ) : (
             <CloseButton
-              lang={dsLang}
+              lang={hslfiLocale}
               aria-label={closeLabel}
               className="close-settings"
               onClick={closeSettings}
