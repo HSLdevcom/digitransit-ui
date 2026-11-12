@@ -226,15 +226,16 @@ a time:
    ```
 
    It asks which packages to release, their bump types (patch/minor/major)
-   and a summary, and writes a uniquely named `.changeset/*.md` file to commit
-   with the PR. Packages that depend on a bumped package get a patch bump
+   and a summary, which becomes the changelog entry, and writes a uniquely
+   named `.changeset/*.md` file to commit with the PR. Packages that depend on a bumped package get a patch bump
    automatically. The `check-changesets` CI job
    (`yarn packages-changeset-check`) fails a PR when a changed package isn't
    released or a `version` was edited by hand. The check only sees committed
    changes and compares against the merge-base with `origin/v3`.
 2. After merging to `v3`, the `version-packages` CI job keeps a "Version
    packages" PR open that applies all pending changesets: it bumps the
-   versions and deletes the changeset files.
+   versions, adds the summaries to the packages' `CHANGELOG.md` files and
+   deletes the changeset files.
 3. Merging that PR publishes. The `publish-npm` job runs on every push to
    `v3` and publishes every package whose version isn't on npm yet:
 
@@ -262,11 +263,15 @@ query-utils too. `packages-changeset-check` enforces this.
 
 ### Changelogs
 
-Changelog generation is **not** automated: `.changeset/config.json` sets
-`"changelog": false`, and `lerna.json`'s
-`command.publish.conventionalCommits` is `false`. There's no commitlint
-enforcing commit message format either; this project's commit history
-doesn't follow the Conventional Commits format.
+Each package's `CHANGELOG.md` is generated from changeset summaries by the
+Version packages PR, so write the summary for the package's users and don't
+edit the file by hand. Packages released only because a dependency was
+bumped get a "No changes in this release." entry. The changelogs live in
+the repository; they aren't part of the published packages.
+
+Commit messages aren't used: `lerna.json`'s
+`command.publish.conventionalCommits` is `false`, and this project's commit
+history doesn't follow the Conventional Commits format.
 
 ## Dependency Classification
 

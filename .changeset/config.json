@@ -3,7 +3,7 @@
   "baseBranch": "v3",
   "access": "public",
   "commit": false,
-  "changelog": false,
+  "changelog": "@changesets/cli/changelog",
   "updateInternalDependencies": "patch",
   "privatePackages": { "version": true, "tag": false },
   "___experimentalUnsafeOptions_WILL_CHANGE_IN_PATCH": {
