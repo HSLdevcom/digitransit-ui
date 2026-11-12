@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
+import Icon from '@digitransit-component/digitransit-component-icon';
 import SuggestionItem, {
   getStopBadge,
   STOP_STATUS_BADGE_IMGS,
@@ -70,6 +71,27 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
     expect(screen.getByText('Pasila')).toBeTruthy();
     expect(screen.getByText('Myyrmäki')).toBeTruthy();
     expect(screen.getByText('Coming Friday')).toBeTruthy();
+  });
+
+  it('uses the city icon for a "populated area" category regardless of layer', () => {
+    const item = {
+      type: 'Place',
+      properties: {
+        layer: 'venue',
+        category: ['transport', 'populated area'],
+        label: 'Mäyränmäki, Kuopio',
+      },
+    };
+    const { container } = render(
+      <SuggestionItem
+        item={item}
+        content={['Paikka', 'Mäyränmäki', 'Kuopio']}
+      />,
+    );
+    const cityIcon = render(<Icon img="city" />).container;
+    expect(container.querySelector('svg path').getAttribute('d')).toBe(
+      cityIcon.querySelector('svg path').getAttribute('d'),
+    );
   });
 
   describe('stop status badge', () => {
