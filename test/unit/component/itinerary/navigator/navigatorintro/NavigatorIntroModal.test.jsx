@@ -1,16 +1,19 @@
 import { fireEvent, screen } from '@testing-library/react';
+import * as HslModalModule from '@hsl-fi/modal';
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 import { createTestConfig } from '../../../../helpers/mock-context';
 import NavigatorIntroModal from '../../../../../../app/component/itinerary/navigator/navigatorintro/NavigatorIntroModal';
 
-vi.mock('@hsl-fi/modal', () => ({
-  // eslint-disable-next-line react/prop-types
-  default: ({ isOpen, children }) => (isOpen ? children : null),
-}));
+// eslint-disable-next-line react/prop-types
+const ModalStub = ({ isOpen, children }) => (isOpen ? children : null);
 
 const baseConfig = createTestConfig();
 
 describe('<NavigatorIntroModal />', () => {
+  beforeEach(() => {
+    vi.spyOn(HslModalModule, 'default', 'get').mockReturnValue(ModalStub);
+  });
+
   it('renders the navigator intro content', () => {
     renderWithProviders(
       <NavigatorIntroModal

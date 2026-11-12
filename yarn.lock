@@ -10852,6 +10852,7 @@ __metadata:
     downshift: "npm:^9.4.0"
     eslint: "npm:8.56.0"
     eslint-config-airbnb: "npm:19.0.4"
+    eslint-config-airbnb-base: "npm:15.0.0"
     eslint-config-prettier: "npm:9.1.0"
     eslint-plugin-compat: "npm:4.2.0"
     eslint-plugin-import: "npm:2.32.0"
@@ -11734,7 +11735,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"eslint-config-airbnb-base@npm:^15.0.0":
+"eslint-config-airbnb-base@npm:15.0.0, eslint-config-airbnb-base@npm:^15.0.0":
   version: 15.0.0
   resolution: "eslint-config-airbnb-base@npm:15.0.0"
   dependencies:

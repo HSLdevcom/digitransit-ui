@@ -1,18 +1,11 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import StopNearYou from '../../../../app/component/nearyou/StopNearYou';
+import * as NearYouHeaderModule from '../../../../app/component/nearyou/NearYouHeader';
+import * as StopNearYouDepartureRowContainerModule from '../../../../app/component/nearyou/StopNearYouDepartureRowContainer';
 import { createTestConfig } from '../../helpers/mock-context';
 
-vi.mock('../../../../app/component/nearyou/NearYouHeader', () => ({
-  default: () => <div className="near-you-header" />,
-}));
-vi.mock(
-  '../../../../app/component/nearyou/StopNearYouDepartureRowContainer',
-  () => ({ default: () => <div className="departure-rows" /> }),
-);
-// jsdom has no layout, so truncation would cut the text
-vi.mock('react-truncate-markup', () => ({
-  default: ({ children }) => children,
-}));
+const NearYouHeaderStub = () => <div className="near-you-header" />;
+const DepartureRowsStub = () => <div className="departure-rows" />;
 
 const config = createTestConfig({
   colors: { primary: '#00AFFF', caution: '#dc0451' },
@@ -50,6 +43,17 @@ const renderView = alerts =>
   );
 
 describe('<StopNearYou /> alert banner', () => {
+  beforeEach(() => {
+    vi.spyOn(NearYouHeaderModule, 'default', 'get').mockReturnValue(
+      NearYouHeaderStub,
+    );
+    vi.spyOn(
+      StopNearYouDepartureRowContainerModule,
+      'default',
+      'get',
+    ).mockReturnValue(DepartureRowsStub);
+  });
+
   it('shows the banner when the stop has a stop alert', () => {
     const { container } = renderView([makeAlert()]);
     expect(container.querySelector('.alert-container')).not.toBeNull();

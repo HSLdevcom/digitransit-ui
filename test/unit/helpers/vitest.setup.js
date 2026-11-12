@@ -9,57 +9,36 @@ import Link from 'found/Link';
 import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import relayHooks from 'react-relay/hooks';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { relayMock, withRelayStubs } from './mock-relay';
 
-// Stub useFragment/useRefetchableFragment globally so components can be
-// tested by passing in complete, already-resolved data as props instead of
-// a real Relay fragment reference/store. This has to be done via vi.mock
-// (which replaces the module itself) rather than reassigning a property on
-// the default export - `import { useFragment } from 'react-relay'` (used
-// throughout app/component/**) gets a snapshot of the named export under
-// Vite/Vitest's CJS interop, so it doesn't see a later
-// `relay.useFragment = ...` reassignment; only
-// `import relay from 'react-relay'; relay.useFragment` call sites would.
-// vi.mock avoids that distinction since both import forms resolve to the
-// same mocked module. useRefetchableFragment's refetch function is a no-op
-// by default; a test asserting refetch behaviour can assert on it directly
-// via its own local vi.mock override (see below), which takes precedence
-// over this one for that file.
+// Relay is stubbed here once, for both entry points, so components get the
+// same hooks whichever one they import from. The stubs read their behaviour
+// from `relayMock` (see mock-relay.js), which tests configure instead of
+// mocking anything themselves. Module mocks belong here rather than in test
+// files: test files share one module registry per worker (vitest.config.js
+// `isolate: false`), so a mock must be the same for every file (see
+// docs/Tests.md).
+vi.mock('react-relay', async importOriginal =>
+  withRelayStubs(await importOriginal()),
+);
+vi.mock('react-relay/hooks', async importOriginal =>
+  withRelayStubs(await importOriginal()),
+);
+
 // getJson uses axios, which would use jsdom's XMLHttpRequest by default.
 // Route it through fetch so tests can keep mocking fetch.
 axios.defaults.adapter = 'fetch';
 
-vi.mock('react-relay', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    ...actual.default,
-    useFragment: (_fragment, fragmentRef) => fragmentRef,
-    useRefetchableFragment: (_fragment, fragmentRef) => [fragmentRef, vi.fn()],
-  };
-});
+// jsdom has no layout, so react-truncate-markup would cut the text.
+vi.mock('react-truncate-markup', () => ({
+  default: ({ children }) => children,
+}));
 
-// Stub useLazyLoadQuery globally for the same reason, defaulting to an empty
-// result so standalone-query components (TripLink, FuzzyTripLink, and the
-// trafficnow/ components) render their "no data yet" state without needing a
-// real Relay environment/network response. This is done via vi.spyOn in a
-// beforeEach below (run after Vitest's own `restoreMocks` autouse hook
-// resets it) rather than vi.mock like useFragment/useRefetchableFragment
-// above: components call useLazyLoadQuery via a direct
-// `import { useLazyLoadQuery } from 'react-relay/hooks'` (the existing
-// trafficnow/ convention) and tests needing a resolved-data branch already
-// override it with their own `vi.spyOn(relayHooks, 'useLazyLoadQuery')...`
-// call (see test/unit/component/trafficnow/TrafficNow.test.jsx) - a
-// competing vi.mock of the same specifier interferes with that spy's
-// visibility to the component's own named import.
-beforeEach(() => {
-  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({});
-});
-
-// set up timezone in luxon
-Settings.defaultZone = 'Europe/Helsinki';
-Settings.defaultLocale = 'fi';
+// set up timezone in luxon; restored after every test (see afterEach below)
+const luxonDefaults = { zone: 'Europe/Helsinki', locale: 'fi' };
+Settings.defaultZone = luxonDefaults.zone;
+Settings.defaultLocale = luxonDefaults.locale;
 
 Object.defineProperty(window.navigator, 'userAgent', {
   value: 'node.js',
@@ -70,10 +49,14 @@ Object.defineProperty(window.navigator, 'userAgent', {
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/middleware/shell.js` renders the app into.
-const appRoot = document.createElement('div');
-appRoot.id = 'app';
-document.body.appendChild(appRoot);
+// root element `server/middleware/shell.js` renders the app into. The test
+// files of a worker share one document, so the element is created once.
+let appRoot = document.getElementById('app');
+if (!appRoot) {
+  appRoot = document.createElement('div');
+  appRoot.id = 'app';
+  document.body.appendChild(appRoot);
+}
 
 const config = {
   useCookiesPrompt: false,
@@ -83,11 +66,10 @@ initAnalyticsClientSide(config);
 
 const MockLink = ({ children }) => children;
 
-// These are process-wide overrides applied once for the whole run (not
-// per-test mocks), so they're done via plain property reassignment rather
-// than vi.fn()/vi.spyOn() - the `restoreMocks: true` Vitest config option
-// (vitest.config.js's `app` project) restores every vi mock before each test,
-// which would undo a vi-based stub here after the very first test.
+// These overrides last for a whole test file (not per-test mocks), so they're
+// done via plain property reassignment rather than vi.spyOn() - spies are
+// restored after every test (see afterEach below), which would undo a
+// vi-based stub here after the very first test.
 const originalConsoleError = console.error;
 const originalLinkRender = Link.render;
 
@@ -127,18 +109,27 @@ afterAll(() => {
   Link.render = originalLinkRender;
 });
 
-// make sure the local and session storage stays clear for each test
+// Resets what a test may have changed, as the test files of a worker share
+// one environment (vitest.config.js `isolate: false`).
 afterEach(() => {
   cleanup();
-  // react-modal hides its app element (body in some tests) and only restores
-  // it after closeTimeoutMS; a leftover aria-hidden would make later
-  // getByRole queries in the same file fail.
+  // react-modal hides its app element (#app, or body in some tests) and only
+  // restores it after closeTimeoutMS; a leftover aria-hidden would make later
+  // getByRole queries fail.
+  appRoot.removeAttribute('aria-hidden');
   document.body.removeAttribute('aria-hidden');
-  // `restoreMocks: true` (vitest.config.js's `app` project) only restores
-  // vi.fn()/vi.spyOn() mocks right before the *next* test starts, so a
-  // test-scoped mock (e.g. one replacing the window.localStorage getter)
-  // is still active here otherwise, breaking this cleanup itself.
+  // The `restoreMocks` config option only restores spies right before the
+  // *next* test starts, so a test-scoped spy (e.g. one replacing the
+  // window.localStorage getter) would still be active here, breaking this
+  // cleanup itself. Undoing spies, stubbed globals and fake timers here also
+  // keeps them from leaking into the next test file's setup.
   vi.restoreAllMocks();
+  relayMock.reset();
+  vi.unstubAllGlobals();
+  vi.useRealTimers();
+  Settings.defaultZone = luxonDefaults.zone;
+  Settings.defaultLocale = luxonDefaults.locale;
+  Settings.now = () => Date.now();
   window.localStorage.clear();
   window.sessionStorage.clear();
 });

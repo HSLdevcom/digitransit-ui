@@ -1,29 +1,19 @@
 import PropTypes from 'prop-types';
 import { onTestFinished } from 'vitest';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
-import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
+import * as getJsonModule from '@digitransit-search-util/digitransit-search-util-get-json';
 import {
   SearchProvider,
   useSearchContext,
 } from '../../../app/hooks/SearchContext';
 import searchServices from '../../../app/data/SearchServices';
-import { removeSearch, saveSearch } from '../../../app/data/SearchHistory';
+import * as SearchHistory from '../../../app/data/SearchHistory';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { renderWithProviders } from '../helpers/mock-providers';
 
-vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({
-  default: vi.fn(),
-}));
-vi.mock('../../../app/data/SearchServices', () => ({
-  default: {
-    getRoutesByIds: vi.fn(),
-    setPositionGetter: vi.fn(),
-  },
-}));
-vi.mock('../../../app/data/SearchHistory', () => ({
-  removeSearch: vi.fn(),
-  saveSearch: vi.fn(),
-}));
+let getJson;
+let removeSearch;
+let saveSearch;
 
 const suggestionShape = PropTypes.shape({
   type: PropTypes.string.isRequired,
@@ -141,10 +131,17 @@ function mockGeolocation() {
 
 describe('SearchProvider', () => {
   beforeEach(() => {
-    saveSearch.mockClear();
-    removeSearch.mockClear();
-    getJson.mockReset();
-    searchServices.getRoutesByIds.mockReset();
+    saveSearch = vi.spyOn(SearchHistory, 'saveSearch').mockReturnValue();
+    removeSearch = vi.spyOn(SearchHistory, 'removeSearch').mockReturnValue();
+    getJson = vi.fn();
+    vi.spyOn(getJsonModule, 'default').mockImplementation(getJson);
+    vi.spyOn(searchServices, 'setPositionGetter').mockReturnValue();
+    // set by init() at app start, so there is nothing to spy on
+    searchServices.getRoutesByIds = vi.fn();
+  });
+
+  afterEach(() => {
+    delete searchServices.getRoutesByIds;
   });
 
   it('labels an embedded current location selection with a translated text', () => {

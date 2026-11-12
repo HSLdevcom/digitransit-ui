@@ -2,7 +2,6 @@ import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import Legs from '../../../../../app/component/itinerary/Legs';
 import { AlertSeverityLevelType } from '../../../../../utils/shared/constants';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selector-warning';
 
 // The summary row (Itinerary) and the details (Legs) are rendered from the
 // same itinerary and must agree on whether an alert is shown.
@@ -68,8 +67,6 @@ const config = {
 };
 
 describe('itinerary list and details alert parity', () => {
-  ignoreRelayModernSelectorWarning();
-
   const renderBoth = legs => {
     const itinerary = { start: iso(0), end: iso(60), legs };
     const list = renderWithProviders(
