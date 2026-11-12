@@ -15,7 +15,7 @@ import BackButton from '../BackButton';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import MapRoutingButton from '../MapRoutingButton';
+import StopItineraryButton from './StopItineraryButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
 import { streetQuery } from './StreetQuery';
@@ -203,7 +203,13 @@ export default function StopPageMap({
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
-      topButtons={<MapRoutingButton stop={stop} />}
+      topButtons={
+        <StopItineraryButton
+          stop={stop}
+          citybike={citybike}
+          scooter={scooter}
+        />
+      }
     >
       {children}
     </MapWithTracking>

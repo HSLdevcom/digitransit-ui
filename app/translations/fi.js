@@ -659,8 +659,10 @@ export default {
     'route-pattern-swap-tooltip': 'Vaihda suunta',
     'route-to-ferry': 'Reitti laiturille',
     'route-to-park': 'Reitti parkille',
+    'route-to-scooter': 'Reitti sähköpotkulaudalle',
     'route-to-station': 'Reitti asemalle',
     'route-to-stop': 'Reitti pysäkille',
+    'route-to-terminal': 'Reitti terminaalille',
     'router-change-departure-time': 'Muuta lähtöaikaa ›',
     'router-location-not-found':
       'Ole hyvä ja valitse paikka tieverkolta tai pysäkiltä.',
@@ -714,7 +716,12 @@ export default {
     'separate-ticket-required-for-call-agency-disclaimer':
       'Matka sisältää kutsuliikennettä. Voit tarkistaa maksutavat ja käytännöt ',
     'services-and-features': 'Palvelut ja varustelut',
+    'set-ferry-as-routes': 'Aseta laituri reitin',
+    'set-park-as-routes': 'Aseta parkki reitin',
+    'set-scooter-as-routes': 'Aseta sähköpotkulauta reitin',
+    'set-station-as-routes': 'Aseta asema reitin',
     'set-stop-as-routes': 'Aseta pysäkki reitin',
+    'set-terminal-as-routes': 'Aseta terminaali reitin',
     'set-time-earlier-button-label': 'Aikaista matkustusajankohtaa',
     'set-time-later-button-label': 'Myöhäistä matkustusajankohtaa',
     settings: 'Asetukset',
