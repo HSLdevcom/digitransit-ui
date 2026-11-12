@@ -153,8 +153,8 @@ export const shouldShowFarePurchaseInfo = (config, fares) => {
 export const shouldShowMobilePurchaseInfo = (config, legs, fares, isMobile) =>
   Boolean(
     isMobile &&
-      shouldShowFareInfo(config, legs, fares) &&
-      shouldShowFarePurchaseInfo(config, fares),
+    shouldShowFareInfo(config, legs, fares) &&
+    shouldShowFarePurchaseInfo(config, fares),
   );
 
 /**
