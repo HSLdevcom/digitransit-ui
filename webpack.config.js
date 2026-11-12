@@ -393,20 +393,27 @@ export default {
     runtimeChunk: isProduction ? 'single' : false,
   },
   performance: { hints: false },
-  cache: {
-    type: 'filesystem',
-    // `CONFIG` decides which theme entries and favicons get built.
-    version: process.env.CONFIG || 'all',
-    // Invalidate the cache when the build config itself changes, including
-    // package.json's `browserslist` (Babel and Lightning CSS targets).
-    buildDependencies: {
-      config: [
-        import.meta.filename,
-        path.join(rootDir, 'scripts/build/contextHelper.js'),
-        path.join(rootDir, 'package.json'),
-      ],
-    },
-  },
+  // The dev server uses the in-memory cache: the shared disk cache went stale
+  // after branch switches and package rebuilds (e.g. modules cached with an
+  // undefined source) and had to be deleted by hand, while saving only a few
+  // seconds per start. Watch-mode rebuilds are equally fast either way.
+  cache: isProduction
+    ? {
+        type: 'filesystem',
+        // `CONFIG` decides which theme entries and favicons get built.
+        version: process.env.CONFIG || 'all',
+        // Invalidate the cache when the build config itself changes,
+        // including package.json's `browserslist` (Babel and Lightning CSS
+        // targets).
+        buildDependencies: {
+          config: [
+            import.meta.filename,
+            path.join(rootDir, 'scripts/build/contextHelper.js'),
+            path.join(rootDir, 'package.json'),
+          ],
+        },
+      }
+    : { type: 'memory' },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
     mainFields: ['browser', 'module', 'main'],
