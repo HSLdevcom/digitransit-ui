@@ -1,4 +1,4 @@
-import { fireEvent } from '@testing-library/react';
+import { act, fireEvent } from '@testing-library/react';
 
 import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import {
@@ -15,6 +15,19 @@ const defaultProps = {
   focusToHeader: () => {},
   refTime: 0,
 };
+
+const timeAtMinute = minutes =>
+  new Date(1553769600000 + minutes * 60 * 1000).toISOString();
+
+const makeTransitLeg = (mode, startMinute, endMinute) => ({
+  from: {},
+  to: {},
+  mode,
+  duration: (endMinute - startMinute) * 60,
+  route: { mode, shortName: mode, alerts: [] },
+  start: { scheduledTime: timeAtMinute(startMinute) },
+  end: { scheduledTime: timeAtMinute(endMinute) },
+});
 
 // A ViaLeg is a plain `.leg.via` marker div. StreetBar and TransitBar both
 // apply a `line <mode>` class to their inner RouteNumber, so the mode class
@@ -49,12 +62,21 @@ describe('<Itinerary />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderItinerary = (props, config, router, breakpoint = 'large') =>
-    renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
+  const renderItinerary = (
+    props,
+    config,
+    router,
+    breakpoint = 'large',
+    options = {},
+  ) => {
+    const { match } = options;
+    return renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
       breakpoint,
       ...(config ? { config } : {}),
       ...(router ? { router } : {}),
+      ...(match ? { match } : {}),
     });
+  };
 
   it('should display both walking legs in the summary view', () => {
     const props = {
@@ -104,6 +126,21 @@ describe('<Itinerary />', () => {
 
     const types = getLegTypes(container);
     expect(types).toEqual(['street', 'via', 'street', 'via', 'street']);
+  });
+
+  it('should show the overflow icon when the itinerary legs exceed their container', () => {
+    vi.spyOn(HTMLElement.prototype, 'clientWidth', 'get').mockReturnValue(100);
+    vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(101);
+    const { container } = renderItinerary({
+      itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+      intermediatePlaces:
+        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
+    });
+
+    expect(
+      container.querySelector('.overflow-icon-container .overflow-icon'),
+    ).not.toBeNull();
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
@@ -174,6 +211,37 @@ describe('<Itinerary />', () => {
     const { container } = renderItinerary(props);
 
     expect(getLegTypes(container).filter(t => t === 'via')).toHaveLength(1);
+  });
+
+  it('should not duplicate visit markers at the same station', () => {
+    const firstLeg = {
+      ...makeTransitLeg('WALK', 0, 10),
+      route: null,
+      from: {
+        stop: { gtfsId: 'test:station' },
+        viaLocationType: 'VISIT',
+      },
+    };
+    const secondLeg = {
+      ...makeTransitLeg('WALK', 10, 20),
+      route: null,
+      from: {
+        stop: { gtfsId: 'test:station' },
+        viaLocationType: 'VISIT',
+      },
+    };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(20),
+        legs: [firstLeg, secondLeg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
+      1,
+    );
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
@@ -661,6 +729,255 @@ describe('<Itinerary />', () => {
     expect(container.querySelectorAll('.leg.car_park')).toHaveLength(1);
   });
 
+  it('should render an owned bicycle leg with a bike parking indicator', () => {
+    const props = {
+      itinerary: {
+        start: new Date(1553769600000).toISOString(),
+        end: new Date(1553770200000).toISOString(),
+        legs: [
+          {
+            from: {},
+            to: { vehicleParking: true },
+            mode: 'BICYCLE',
+            rentedBike: false,
+            duration: 600,
+            distance: 3000,
+            route: null,
+            start: { scheduledTime: new Date(1553769600000).toISOString() },
+            end: { scheduledTime: new Date(1553770200000).toISOString() },
+          },
+        ],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(container.querySelector('.leg.bicycle')).not.toBeNull();
+    expect(container.querySelectorAll('.leg.bike_park')).toHaveLength(1);
+  });
+
+  it('should show a bike parking indicator at the end of a walk after cycling', () => {
+    const bicycleLeg = {
+      from: {},
+      to: {},
+      mode: 'BICYCLE',
+      rentedBike: false,
+      duration: 600,
+      distance: 3000,
+      route: null,
+      start: { scheduledTime: timeAtMinute(0) },
+      end: { scheduledTime: timeAtMinute(10) },
+    };
+    const walkingLeg = {
+      from: { viaLocationType: 'VISIT' },
+      to: { vehicleParking: true },
+      mode: 'WALK',
+      duration: 600,
+      distance: 500,
+      route: null,
+      start: { scheduledTime: timeAtMinute(10) },
+      end: { scheduledTime: timeAtMinute(20) },
+    };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(20),
+        legs: [bicycleLeg, walkingLeg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(container.querySelector('.leg.walk')).not.toBeNull();
+    expect(container.querySelectorAll('.leg.bike_park')).toHaveLength(1);
+  });
+
+  it('should show the bicycle-on-transit icon for an own-bicycle itinerary', () => {
+    const bicycleLeg = {
+      from: {},
+      to: {},
+      mode: 'BICYCLE',
+      rentedBike: false,
+      duration: 600,
+      distance: 3000,
+      route: null,
+      start: { scheduledTime: timeAtMinute(0) },
+      end: { scheduledTime: timeAtMinute(10) },
+    };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(20),
+        legs: [bicycleLeg, makeTransitLeg('RAIL', 10, 20)],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      bikeBoardingModes: { RAIL: {} },
+    });
+
+    expect(
+      container.querySelector('.leg.rail .itinerary-icon_with-bicycle'),
+    ).not.toBeNull();
+  });
+
+  it('should show the car-on-transit icon for an own-car itinerary', () => {
+    const carLeg = {
+      from: {},
+      to: {},
+      mode: 'CAR',
+      duration: 600,
+      distance: 3000,
+      route: null,
+      start: { scheduledTime: timeAtMinute(0) },
+      end: { scheduledTime: timeAtMinute(10) },
+    };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(20),
+        legs: [carLeg, makeTransitLeg('RAIL', 10, 20)],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      carBoardingModes: { RAIL: {} },
+    });
+
+    expect(
+      container.querySelector('.leg.rail .itinerary-icon_with-car'),
+    ).not.toBeNull();
+  });
+
+  it('should render a separate wait bar for a long transfer', () => {
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(25),
+        legs: [makeTransitLeg('RAIL', 0, 10), makeTransitLeg('BUS', 15, 25)],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(container.querySelectorAll('.leg.wait')).toHaveLength(1);
+  });
+
+  it('should use the car wait icon on a whole-trip car itinerary', () => {
+    const carLeg = {
+      from: {},
+      to: {},
+      mode: 'CAR',
+      duration: 600,
+      distance: 3000,
+      route: null,
+      start: { scheduledTime: timeAtMinute(0) },
+      end: { scheduledTime: timeAtMinute(10) },
+    };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(30),
+        legs: [carLeg, makeTransitLeg('RAIL', 20, 30)],
+      },
+    };
+    const { container } = renderItinerary(props, {
+      ...mockContext.config,
+      carBoardingModes: {},
+    });
+
+    expect(
+      container.querySelector('.leg.wait use')?.getAttribute('xlink:href'),
+    ).toBe('#icon_wait-car');
+  });
+
+  it('should include a short transfer wait in the preceding leg instead of a wait bar', () => {
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(21),
+        legs: [makeTransitLeg('RAIL', 0, 10), makeTransitLeg('BUS', 11, 21)],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(container.querySelectorAll('.leg.wait')).toHaveLength(0);
+  });
+
+  it('should render a pass-through marker once between transit legs', () => {
+    const firstLeg = makeTransitLeg('RAIL', 0, 10);
+    firstLeg.to = { viaLocationType: 'PASS_THROUGH' };
+    const nextLeg = makeTransitLeg('BUS', 10, 20);
+    nextLeg.transitLeg = true;
+    nextLeg.from = { viaLocationType: 'PASS_THROUGH' };
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(20),
+        legs: [firstLeg, nextLeg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
+      1,
+    );
+    expect(
+      getLegTypes(container).filter(type => type === 'transit'),
+    ).toHaveLength(2);
+  });
+
+  it('should render a via marker for a transit leg with a via stop call', () => {
+    const leg = makeTransitLeg('RAIL', 0, 10);
+    leg.viaStopCall = true;
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(10),
+        legs: [leg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
+      1,
+    );
+  });
+
+  it('should render only one marker when a transit visit is also a via stop call', () => {
+    const leg = makeTransitLeg('RAIL', 0, 10);
+    leg.from = { viaLocationType: 'VISIT' };
+    leg.viaStopCall = true;
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(10),
+        legs: [leg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
+      1,
+    );
+  });
+
+  it('should not render a wait bar before an interlined transit leg', () => {
+    const firstLeg = makeTransitLeg('RAIL', 0, 10);
+    const interlinedLeg = makeTransitLeg('BUS', 15, 25);
+    interlinedLeg.interlineWithPreviousLeg = true;
+    const props = {
+      itinerary: {
+        start: timeAtMinute(0),
+        end: timeAtMinute(25),
+        legs: [firstLeg, interlinedLeg],
+      },
+    };
+    const { container } = renderItinerary(props);
+
+    expect(container.querySelectorAll('.leg.wait')).toHaveLength(0);
+    expect(
+      getLegTypes(container).filter(type => type === 'transit'),
+    ).toHaveLength(1);
+  });
+
   it('should render a taxi leg with the external taxi icon and skip the transit bar even when a route is present', () => {
     const props = {
       itinerary: {
@@ -725,6 +1042,62 @@ describe('<Itinerary />', () => {
     ).toHaveLength(0);
   });
 
+  it.each([
+    ['below the surcharge limit', 599, 600, 'https://example.org/pricing'],
+    ['at the surcharge limit', 600, 600, 'https://example.org/pricing'],
+    ['without duration instructions', 900, 600, undefined],
+    [
+      'without a surcharge limit',
+      900,
+      undefined,
+      'https://example.org/pricing',
+    ],
+  ])(
+    'should use the rental vehicle network and omit the warning %s',
+    (description, duration, timeBeforeSurcharge, durationInstructions) => {
+      const props = {
+        itinerary: {
+          start: timeAtMinute(0),
+          end: timeAtMinute(10),
+          legs: [
+            {
+              from: {
+                rentalVehicle: {
+                  rentalNetwork: { networkId: 'testnetwork' },
+                },
+              },
+              to: {},
+              mode: 'BICYCLE',
+              rentedBike: true,
+              duration,
+              distance: 3000,
+              route: null,
+              start: { scheduledTime: timeAtMinute(0) },
+              end: { scheduledTime: timeAtMinute(10) },
+            },
+          ],
+        },
+      };
+      const { container } = renderItinerary(props, {
+        ...mockContext.config,
+        vehicleRental: {
+          ...mockContext.config.vehicleRental,
+          networks: {
+            testnetwork: {
+              timeBeforeSurcharge,
+              durationInstructions,
+            },
+          },
+        },
+      });
+
+      expect(container.querySelector('.leg.citybike')).not.toBeNull();
+      expect(
+        container.querySelector('.citybike-duration-info-short'),
+      ).toBeNull();
+    },
+  );
+
   it('should show the CO2 leaf icon and total distance when configured and the itinerary has the lowest emissions', () => {
     const props = {
       lowestCo2value: 42,
@@ -760,13 +1133,14 @@ describe('<Itinerary />', () => {
     ).toBe('1.5 km');
   });
 
-  it('should show a short citybike duration warning when a single rental network exceeds its surcharge-free time', () => {
-    const props = {
-      itinerary: {
-        start: new Date(1553769600000).toISOString(),
-        end: new Date(1553770500000).toISOString(),
-        legs: [
-          {
+  it.each([1, 2])(
+    'should show a short citybike duration warning for %i legs exceeding the limit on the same network',
+    legCount => {
+      const props = {
+        itinerary: {
+          start: new Date(1553769600000).toISOString(),
+          end: timeAtMinute(15 * legCount),
+          legs: Array.from({ length: legCount }, (_, index) => ({
             from: {
               vehicleRentalStation: {
                 rentalNetwork: { networkId: 'testnetwork' },
@@ -778,30 +1152,30 @@ describe('<Itinerary />', () => {
             duration: 900,
             distance: 3000,
             route: null,
-            start: { scheduledTime: new Date(1553769600000).toISOString() },
-            end: { scheduledTime: new Date(1553770500000).toISOString() },
-          },
-        ],
-      },
-    };
-    const { container } = renderItinerary(props, {
-      ...mockContext.config,
-      vehicleRental: {
-        ...mockContext.config.vehicleRental,
-        networks: {
-          testnetwork: {
-            timeBeforeSurcharge: 600,
-            durationInstructions: 'https://example.org/pricing',
-            icon: 'citybike',
+            start: { scheduledTime: timeAtMinute(15 * index) },
+            end: { scheduledTime: timeAtMinute(15 * (index + 1)) },
+          })),
+        },
+      };
+      const { container } = renderItinerary(props, {
+        ...mockContext.config,
+        vehicleRental: {
+          ...mockContext.config.vehicleRental,
+          networks: {
+            testnetwork: {
+              timeBeforeSurcharge: 600,
+              durationInstructions: 'https://example.org/pricing',
+              icon: 'citybike',
+            },
           },
         },
-      },
-    });
+      });
 
-    const warning = container.querySelector('.citybike-duration-info-short');
-    expect(warning).not.toBeNull();
-    expect(warning.textContent).toContain('10 min');
-  });
+      const warning = container.querySelector('.citybike-duration-info-short');
+      expect(warning).not.toBeNull();
+      expect(warning.textContent).toContain('10 min');
+    },
+  );
 
   it('should show the general citybike duration warning when more than one rental network exceeds its surcharge-free time', () => {
     const props = {
@@ -891,6 +1265,28 @@ describe('<Itinerary />', () => {
     expect(container.querySelectorAll('.feedback-panel')).toHaveLength(0);
   });
 
+  it('should expand unanswered feedback after one second', () => {
+    vi.useFakeTimers();
+    try {
+      const { container } = renderItinerary({
+        itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
+        intermediatePlaces:
+          dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+        recommended: true,
+        giveFeedback: () => {},
+      });
+      const feedback = container.querySelector('.feedback-animated');
+
+      expect(feedback.className).not.toContain('open');
+      act(() => {
+        vi.advanceTimersByTime(1000);
+      });
+      expect(feedback.className).toContain('open');
+    } finally {
+      vi.useRealTimers();
+    }
+  });
+
   it('should show an estimated time and dial-a-ride message for a call agency leg', () => {
     const props = {
       itinerary: {
@@ -950,6 +1346,40 @@ describe('<Itinerary />', () => {
       expect(focusToHeader.mock.calls.length).toBe(1);
     });
 
+    it('should preserve the selected mode in the itinerary details path', () => {
+      const replace = vi.fn();
+      const push = vi.fn();
+      const match = {
+        ...mockContext.match,
+        location: { ...mockContext.match.location, state: { existing: true } },
+        params: {
+          from: 'origin',
+          to: 'destination',
+          hash: 'bikeAndVehicle',
+        },
+      };
+      const { container } = renderItinerary(
+        buildProps({ passive: false }),
+        undefined,
+        { ...mockContext.router, replace, push },
+        'large',
+        { match },
+      );
+
+      fireEvent.click(container.querySelector('.summary-clickable-area'));
+
+      expect(replace.mock.calls[0][0].pathname).toBe(
+        '/reitti/origin/destination/bikeAndVehicle/',
+      );
+      expect(push.mock.calls[0][0].pathname).toBe(
+        '/reitti/origin/destination/bikeAndVehicle/2',
+      );
+      expect(push.mock.calls[0][0].state).toEqual({
+        existing: true,
+        selectedItineraryIndex: 2,
+      });
+    });
+
     it('should only highlight the itinerary without navigating when passive on a large breakpoint', () => {
       const replace = vi.fn();
       const push = vi.fn();
@@ -991,6 +1421,30 @@ describe('<Itinerary />', () => {
       fireEvent.click(container.querySelector('.summary-clickable-area'));
       expect(push.mock.calls.length).toBe(1);
       expect(focusToHeader.mock.calls.length).toBe(1);
+    });
+
+    it('should highlight the itinerary when selected with the keyboard', () => {
+      const replace = vi.fn();
+      const push = vi.fn();
+      const { container } = renderItinerary(
+        buildProps({ passive: true }),
+        undefined,
+        {
+          ...mockContext.router,
+          replace,
+          push,
+        },
+      );
+
+      fireEvent.keyPress(container.querySelector('.summary-clickable-area'), {
+        key: 'Enter',
+        charCode: 13,
+        keyCode: 13,
+      });
+
+      expect(replace.mock.calls).toHaveLength(1);
+      expect(replace.mock.calls[0][0].state.selectedItineraryIndex).toBe(2);
+      expect(push).not.toHaveBeenCalled();
     });
   });
 });

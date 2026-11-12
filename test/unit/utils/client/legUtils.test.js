@@ -376,6 +376,34 @@ describe('legUtils', () => {
         compressedLegs.filter(leg => !!leg.from.viaLocationType).length,
       ).toBe(2);
     });
+
+    it('preserves bicycle-walk legs before transit when requested', () => {
+      const legs = [
+        { mode: 'WALK', distance: 200, duration: 120 },
+        { mode: 'BICYCLE', distance: 1600, duration: 360 },
+        { mode: 'WALK', distance: 200, duration: 120 },
+        { mode: 'RAIL', distance: 5000, duration: 600, transitLeg: true },
+      ].map(leg => ({ rentedBike: false, from: {}, to: {}, ...leg }));
+
+      const summaryLegs = utils.compressLegs(legs);
+      const displayLegs = utils.compressLegs(legs, true);
+
+      expect(summaryLegs.map(leg => leg.mode)).toEqual(['BICYCLE', 'RAIL']);
+      expect(summaryLegs[0]).toMatchObject({ distance: 2000, duration: 600 });
+      expect(displayLegs.map(leg => leg.mode)).toEqual([
+        'BICYCLE',
+        'BICYCLE_WALK',
+        'RAIL',
+      ]);
+      expect(displayLegs[0]).toMatchObject({ distance: 1800, duration: 480 });
+      expect(displayLegs[1]).toMatchObject({ distance: 200, duration: 120 });
+      expect(legs.map(leg => leg.mode)).toEqual([
+        'WALK',
+        'BICYCLE',
+        'WALK',
+        'RAIL',
+      ]);
+    });
   });
 
   describe('getTotalDistance', () => {
