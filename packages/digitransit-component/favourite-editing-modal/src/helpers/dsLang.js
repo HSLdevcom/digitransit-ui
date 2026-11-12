@@ -1,50 +1,21 @@
-import i18n from './i18n';
+import translations from './translations';
 
-const BUILT_IN_LANGS = ['fi', 'sv', 'en'];
-
-/**
- * Translation keys of the design system messages used by this package, by
- * namespace. Every language of the translations must contain all of them.
- */
-export const DS_MESSAGE_KEYS = {
-  CloseButton: { close: 'close' },
-};
-
-// The language is fixed at runtime, so this holds a single locale object. The
-// language code check below only keeps the result correct if the function is
-// called with another language, e.g. in tests.
-let cached;
+// Built once per language, as the design system requires stable locale objects.
+const dsLocales = Object.fromEntries(
+  Object.entries(translations).map(([code, { translation }]) => [
+    code,
+    { code, messages: { CloseButton: { close: translation.close } } },
+  ]),
+);
 
 /**
- * Returns the design system `lang` prop value for a language: the language
- * code for built-in languages and languages without translations, otherwise
- * a locale object with messages from this package's translations.
+ * Returns the design system `lang` prop value for a language: a locale object
+ * with this package's close text, or the language code itself for languages
+ * without translations.
  *
  * @param {string} lang language code
  * @returns {string|{code: string, messages: Object}}
  */
 export default function getDsLang(lang) {
-  if (
-    BUILT_IN_LANGS.includes(lang) ||
-    !i18n.hasResourceBundle(lang, 'translation')
-  ) {
-    return lang;
-  }
-  if (cached?.code !== lang) {
-    cached = {
-      code: lang,
-      messages: Object.fromEntries(
-        Object.entries(DS_MESSAGE_KEYS).map(([namespace, keys]) => [
-          namespace,
-          Object.fromEntries(
-            Object.entries(keys).map(([name, key]) => [
-              name,
-              i18n.getResource(lang, 'translation', key),
-            ]),
-          ),
-        ]),
-      ),
-    };
-  }
-  return cached;
+  return dsLocales[lang] ?? lang;
 }
