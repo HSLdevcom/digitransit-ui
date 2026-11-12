@@ -52,4 +52,13 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-json modu
 
     expect(error.response.status).toBe(500);
   });
+
+  it('rejects a successful response whose body is not JSON', async () => {
+    const adapter = adapterReturning(200, '<html>proxy error</html>');
+    vi.spyOn(axios, 'get').mockImplementation((url, config) =>
+      axios.request({ ...config, url, adapter }),
+    );
+
+    await expect(getJson('https://example.com/data')).rejects.toThrow();
+  });
 });

@@ -5,8 +5,8 @@
 ## getJson
 
 Return Promise for a url json get request. The promise rejects on network
-errors, timeouts (10 s) and HTTP 4xx/5xx responses (the error carries
-`response.status`).
+errors, timeouts (10 s), HTTP 4xx/5xx responses (the error carries
+`response.status`) and response bodies that are not valid JSON.
 
 ### Parameters
 
