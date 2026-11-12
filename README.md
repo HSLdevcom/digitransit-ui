@@ -51,8 +51,9 @@ Root-level commands covering all `digitransit-*` packages at once
 - `yarn packages-docs` — regenerate every package's README
 - `yarn packages-publish` — publish changed packages to npm (interactive)
 - `yarn packages-publish-ci` — same, non-interactive (used by CI)
-- `yarn packages-version-bump` — bump versions and push the version-bump commit and its tags (fetches tags first), should be run at the end of a PR that changes packages right before it is merged
-- `yarn packages-version-check` — verify versions/dependency ranges are consistent
+- `yarn packages-changeset` — add a changeset (packages, bump types and a note) to a PR that changes packages; never edit package versions by hand
+- `yarn packages-version` — apply pending changesets to package versions; CI runs this in the "Version packages" PR, whose merge publishes to npm
+- `yarn packages-version-check` — verify every changed package has a changeset and internal dependency ranges are consistent
 - `yarn packages-translations-check` — verify `digitransit-component` packages' own translations are sorted and every locale has the same keys
 - `yarn packages-translations-fix` — same, but sorts keys in place (key mismatches need a manual fix)
 
