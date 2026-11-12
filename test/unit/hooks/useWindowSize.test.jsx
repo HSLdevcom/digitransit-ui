@@ -11,8 +11,8 @@ import useWindowSize from '../../../app/hooks/useWindowSize';
  * @param {Number} height
  */
 const resize = (width, height) => {
-  global.window.innerWidth = width || global.window.innerWidth;
-  global.window.innerHeight = height || global.window.innerHeight;
+  vi.stubGlobal('innerWidth', width || window.innerWidth);
+  vi.stubGlobal('innerHeight', height || window.innerHeight);
   const resizeEvent = new window.Event('resize', { bubbles: true });
   act(() => {
     global.window.dispatchEvent(resizeEvent);

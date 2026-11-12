@@ -136,6 +136,11 @@ right one by *who consumes the code*, not just by convenience.
     user's perspective rather than relying on implementation details. Use
     `renderWithProviders` / `TestProviders` from `test/unit/helpers/mock-providers.jsx` to supply
     config, intl and context providers.
+  - The app suite runs with `isolate: false`: the test files of a worker share one jsdom
+    environment and module registry. Leave no global state behind (e.g. `vi.stubGlobal()` instead
+    of assigning to `window`), and stub modules with `vi.spyOn()` on the module namespace instead
+    of per-file `vi.mock()` (enforced by ESLint; module mocks every file needs live in
+    `test/unit/helpers/vitest.setup.js`). See `docs/Tests.md`.
   - Run all: `yarn test-unit` (**Vitest**, root `vitest.config.js`).
   - Run just the app suite: `yarn test-unit:app` or just the server tests: `yarn test-unit:server`.
   - Run a single test file or test: `yarn test-unit:app <path-substring>` or

@@ -21,11 +21,6 @@ describe('<DateSelect />', () => {
     Settings.defaultZone = 'Europe/Helsinki';
   });
 
-  afterAll(() => {
-    Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'Europe/Helsinki';
-  });
-
   it('should render 60 options', () => {
     const options = getDateOptions(
       defaultProps.startDate,

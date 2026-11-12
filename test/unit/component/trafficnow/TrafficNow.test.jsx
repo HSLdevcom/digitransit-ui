@@ -1,13 +1,5 @@
-// react-relay's CJS build (unlike this repo's own Babel-ESM output) has no
-// `__esModule` marker, so `import * as X` gets a one-off *copied* namespace
-// object from Babel's interop helper instead of the live module.exports —
-// stubbing that copy wouldn't be visible to the component modules' own
-// (separately copied) references. A default import bypasses that: Babel's
-// `_interopRequireDefault` wraps a non-ESM module as `{ default: rawModule }`
-// without copying properties, so `relayHooks` below is the exact same live
-// object every importer of 'react-relay/hooks' reads its named exports from.
-import relayHooks from 'react-relay/hooks';
 import { renderWithProviders } from '../../helpers/mock-providers';
+import { relayMock } from '../../helpers/mock-relay';
 import { mockMatch } from '../../helpers/mock-router';
 import { createTestConfig } from '../../helpers/mock-context';
 import TrafficNow from '../../../../app/component/trafficnow/TrafficNow';
@@ -45,25 +37,22 @@ const ALERT_ONE = {
 };
 
 /**
- * Stubs useLazyLoadQuery (react-relay/hooks) so every child component that
- * calls it (Disruptions, CanceledTripsContainer, DisruptionDetailsContainer)
- * renders using canned fixture data instead of requiring a real Relay
- * environment/network response. `alertsFixture` is swappable per test so the
- * alertId (details) view can be exercised with a matching alert.
+ * Registers canned fixture data for the queries that child components
+ * (Disruptions, CanceledTripsContainer, DisruptionDetailsContainer) run, so
+ * they render without a real Relay environment/network response.
+ * `alertsFixture` is swappable per test so the alertId (details) view can be
+ * exercised with a matching alert.
  */
 function stubRelayQueries({ alertsFixture = EMPTY_ALERTS_FIXTURE } = {}) {
-  vi.spyOn(relayHooks, 'useLazyLoadQuery').mockImplementation(query => {
-    if (query === AlertsQuery) {
-      return alertsFixture;
-    }
-    if (query === CanceledTripsOverviewQuery) {
-      return EMPTY_CANCELATIONS_OVERVIEW_FIXTURE;
-    }
-    if (query === CanceledTripsForModeQuery) {
-      return EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE;
-    }
-    return {};
-  });
+  relayMock.query(AlertsQuery, alertsFixture);
+  relayMock.query(
+    CanceledTripsOverviewQuery,
+    EMPTY_CANCELATIONS_OVERVIEW_FIXTURE,
+  );
+  relayMock.query(
+    CanceledTripsForModeQuery,
+    EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE,
+  );
 }
 
 describe('<TrafficNow />', () => {

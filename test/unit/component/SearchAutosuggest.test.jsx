@@ -1,33 +1,22 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { fireEvent, screen } from '@testing-library/react';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import * as AutosuggestModule from '@digitransit-component/digitransit-component-autosuggest';
+import * as AutosuggestPanelModule from '@digitransit-component/digitransit-component-autosuggest-panel';
 import SearchAutosuggest, {
   SearchAutosuggestPanel,
 } from '../../../app/component/SearchAutosuggest';
-import SelectFromMap from '../../../app/component/map/SelectFromMap';
-import SelectFromMapModal from '../../../app/component/SelectFromMapModal';
+import * as SelectFromMapModule from '../../../app/component/map/SelectFromMap';
+import * as SelectFromMapModalModule from '../../../app/component/SelectFromMapModal';
 import searchServices from '../../../app/data/SearchServices';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
 
-vi.mock('@digitransit-component/digitransit-component-autosuggest', () => ({
-  default: vi.fn(),
-}));
-vi.mock(
-  '@digitransit-component/digitransit-component-autosuggest-panel',
-  () => ({
-    default: vi.fn(),
-  }),
-);
-vi.mock('../../../app/component/map/SelectFromMap', () => ({
-  default: vi.fn(),
-}));
-vi.mock('../../../app/component/SelectFromMapModal', () => ({
-  default: vi.fn(),
-}));
+const DTAutoSuggest = vi.fn();
+const DTAutosuggestPanel = vi.fn();
+const SelectFromMap = vi.fn();
+const SelectFromMapModal = vi.fn();
 
 const mapLocation = { address: 'Map location', lat: 60.2, lon: 24.9 };
 const manualSuggestion = {
@@ -114,6 +103,18 @@ describe('search autosuggest adapters', () => {
     DTAutosuggestPanel.mockReset().mockImplementation(AutosuggestStub);
     SelectFromMap.mockReset().mockImplementation(MapStub);
     SelectFromMapModal.mockReset().mockImplementation(ModalStub);
+    vi.spyOn(AutosuggestModule, 'default', 'get').mockReturnValue(
+      DTAutoSuggest,
+    );
+    vi.spyOn(AutosuggestPanelModule, 'default', 'get').mockReturnValue(
+      DTAutosuggestPanel,
+    );
+    vi.spyOn(SelectFromMapModule, 'default', 'get').mockReturnValue(
+      SelectFromMap,
+    );
+    vi.spyOn(SelectFromMapModalModule, 'default', 'get').mockReturnValue(
+      SelectFromMapModal,
+    );
   });
 
   it.each([

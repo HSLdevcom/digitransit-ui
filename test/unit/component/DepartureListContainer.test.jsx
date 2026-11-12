@@ -1,19 +1,18 @@
 import { act, screen } from '@testing-library/react';
 import DepartureListContainer from '../../../app/component/DepartureListContainer';
+import * as DepartureRowModule from '../../../app/component/DepartureRow';
 import * as mqttClient from '../../../utils/client/mqttClient';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 // The global MockLink (vitest.setup.js) drops DepartureRow's `as="tr"`, which
 // makes its <td>s invalid DOM; the row itself isn't under test here.
-vi.mock('../../../app/component/DepartureRow', () => ({
-  // eslint-disable-next-line react/prop-types
-  default: ({ departure }) => (
-    <tr>
-      <td>{departure.headsign}</td>
-    </tr>
-  ),
-}));
+// eslint-disable-next-line react/prop-types
+const DepartureRowStub = ({ departure: { headsign } }) => (
+  <tr>
+    <td>{headsign}</td>
+  </tr>
+);
 
 const serviceDay = 1700000000;
 const currentTime = serviceDay + 1000;
@@ -61,6 +60,12 @@ const makeStoptime = ({
 });
 
 describe('<DepartureListContainer />', () => {
+  beforeEach(() => {
+    vi.spyOn(DepartureRowModule, 'default', 'get').mockReturnValue(
+      DepartureRowStub,
+    );
+  });
+
   it('renders headsigns, and "Arrives / Terminus" for last-stop arrivals', () => {
     renderWithProviders(
       <DepartureListContainer

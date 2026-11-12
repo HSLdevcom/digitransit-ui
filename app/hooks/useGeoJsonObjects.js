@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { getJson } from '../../utils/shared/xhrPromise';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
 const configCache = new Map();
 const dataCache = new Map();
