@@ -28,7 +28,6 @@ export default function TransportModes({ updateSettings }) {
             labelId={modeToTranslationId(mode, config)}
             labelStyle="mode-label"
             key={`settings-toggle-${mode}`}
-            id={`settings-toggle-${mode}`}
             leftElement={
               <Icon
                 img={`icon_${lowerCaseMode}`}

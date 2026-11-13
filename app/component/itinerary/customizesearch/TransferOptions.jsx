@@ -25,7 +25,6 @@ export default function TransferOptions({ settings, updateSettings }) {
 
   return (
     <SettingsToggle
-      id="settings-toggle-transfers"
       labelId="avoid-transfers"
       toggled={avoidTransfers}
       onToggle={onToggle}

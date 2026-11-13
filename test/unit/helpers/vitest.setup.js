@@ -10,7 +10,13 @@ import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { initHslfiLocale } from '../../../utils/client/hslfiLocale';
+import translations from '../../../app/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';
+
+// Components pass the design system locale to @hsl-fi components; the client
+// bootstrap sets it up in the browser.
+initHslfiLocale('en', translations.en);
 
 // Relay is stubbed here once, for both entry points, so components get the
 // same hooks whichever one they import from. The stubs read their behaviour

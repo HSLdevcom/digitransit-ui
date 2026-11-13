@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { CloseButton } from '@hsl-fi/layout-primitives';
-import { useConfigContext } from '../hooks/ConfigContext';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 export default function MenuDrawer({
   open,
@@ -13,7 +13,6 @@ export default function MenuDrawer({
   className = '',
   closeLabel = '',
 }) {
-  const config = useConfigContext();
   useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
   const classNames = {
     base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
@@ -37,7 +36,7 @@ export default function MenuDrawer({
     >
       <CloseButton
         className="menu-drawer-close"
-        lang={config.language}
+        lang={hslfiLocale}
         {...(closeLabel && { 'aria-label': closeLabel })}
         onClick={onRequestChange}
       />

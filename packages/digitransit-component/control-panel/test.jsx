@@ -1,6 +1,8 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import CtrlPanel from './src/index';
+import translations from './src/helpers/translations';
+import getDsLang from './src/helpers/dsLang';
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
   it('exports SeparatorLine and NearStopsAndRoutes as static members', () => {
@@ -138,5 +140,20 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       fireEvent.click(screen.getAllByRole('link')[6]);
       expect(screen.getByText(/shows all stops and routes/i)).toBeTruthy();
     });
+  });
+});
+
+describe('design system localization', () => {
+  it.each(Object.keys(translations))('%s has the close text', lang => {
+    expect(translations[lang].translation.close).toBeDefined();
+  });
+
+  it('returns a stable locale object for languages with translations', () => {
+    expect(getDsLang('sv')).toEqual({
+      code: 'sv',
+      messages: { CloseButton: { close: translations.sv.translation.close } },
+    });
+    expect(getDsLang('de')).toBe(getDsLang('de'));
+    expect(getDsLang('xx')).toBe('xx');
   });
 });

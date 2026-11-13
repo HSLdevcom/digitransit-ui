@@ -1,6 +1,8 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent } from '@testing-library/react';
 import FavouriteModal from './src/index';
+import translations from './src/helpers/translations';
+import getDsLang from './src/helpers/dsLang';
 
 const place = { address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 };
 
@@ -182,5 +184,25 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     expect(handleClose).toHaveBeenCalledTimes(1);
     expect(cancelSelected).not.toHaveBeenCalled();
     expect(saveFavourite).not.toHaveBeenCalled();
+  });
+});
+
+describe('design system localization', () => {
+  it.each(Object.keys(translations))('%s has the close text', lang => {
+    expect(translations[lang].translation.close).toBeDefined();
+  });
+
+  it('returns a stable locale object for languages with translations', () => {
+    expect(getDsLang('sv')).toEqual({
+      code: 'sv',
+      messages: { CloseButton: { close: translations.sv.translation.close } },
+    });
+    expect(getDsLang('de')).toBe(getDsLang('de'));
+    expect(getDsLang('xx')).toBe('xx');
+  });
+
+  it('renders design system strings in German', () => {
+    renderModal({ lang: 'de' });
+    expect(screen.getByRole('button', { name: 'Schließen' })).toBeTruthy();
   });
 });

@@ -50,6 +50,23 @@ const translations = {
       'viapoint-slack-amount': 'Pysähdyksen kesto',
     },
   },
+  it: {
+    translation: {
+      'add-via-button-label': 'Aggiungi una tappa intermedia',
+      'add-via-duration-button-label':
+        'Imposta la durata della sosta alla tappa intermedia {{index}}',
+      'add-via-duration-button-label-close':
+        'Chiudi la selezione della durata della sosta alla tappa intermedia {{index}}',
+      'add-via-duration-button-label-open':
+        'Apri la selezione della durata della sosta alla tappa intermedia {{index}}',
+      'minute-short': 'min',
+      'remove-via-button-label': 'Rimuovi la tappa intermedia {{index}}',
+      'swap-order-button-label': 'Inverti partenza e destinazione',
+      'via-point': 'Tappa intermedia',
+      'via-point-index': 'Tappa intermedia {{index}}',
+      'viapoint-slack-amount': 'Durata della sosta',
+    },
+  },
   pl: {
     translation: {
       'add-via-button-label': 'Dodaj punkt pośredni',

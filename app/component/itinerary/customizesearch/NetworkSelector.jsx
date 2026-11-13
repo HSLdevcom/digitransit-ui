@@ -34,7 +34,6 @@ export default function NetworkSelector({ type, updateSettings }) {
             config.language,
           )}
           key={`toggle-network-${network.networkName}`}
-          id={`toggle-network-${network.networkName}`}
           leftElement={
             <Icon
               className={`${network.icon}-icon`}

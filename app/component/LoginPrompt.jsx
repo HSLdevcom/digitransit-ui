@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { useConfigContext } from '../hooks/ConfigContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getLoginPath } from '../../utils/shared/path';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 export default function LoginPrompt({
   open,
@@ -13,7 +13,6 @@ export default function LoginPrompt({
   descriptionId = 'login-content',
 }) {
   const intl = useIntl();
-  const config = useConfigContext();
   const { match } = useRouter();
 
   const login = intl.formatMessage({
@@ -49,15 +48,11 @@ export default function LoginPrompt({
   };
 
   return (
-    <Modal
-      lang={config.language}
-      onOpenChange={handleSecondaryClick}
-      open={open}
-    >
+    <Modal lang={hslfiLocale} onOpenChange={handleSecondaryClick} open={open}>
       <ModalContent
         title={title}
         description={description}
-        lang={config.language}
+        lang={hslfiLocale}
         buttons={[
           {
             children: login,

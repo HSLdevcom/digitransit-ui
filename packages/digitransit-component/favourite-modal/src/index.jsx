@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import i18n from './helpers/i18n';
+import getDsLang from './helpers/dsLang';
 import FavouriteForm from './helpers/FavouriteForm';
 import styles from './helpers/styles.scss';
 
@@ -56,7 +57,7 @@ export default function FavouriteModal({
       }}
     >
       <ModalContent
-        lang={lang}
+        lang={getDsLang(lang)}
         title={t(isEdit ? 'edit-place' : 'save-place', { lng: lang })}
         className={styles.modalContent}
         aria-describedby={undefined}

@@ -15,6 +15,7 @@ import {
   getDepartureHeadsigns,
   getDepartureStoptimes,
 } from '../../../utils/client/patternUtils';
+import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function FilterTimeTableModal({
   stop,
@@ -125,10 +126,10 @@ export default function FilterTimeTableModal({
   ];
 
   return (
-    <Modal lang={config.language} onOpenChange={closeModal} open>
+    <Modal lang={hslfiLocale} onOpenChange={closeModal} open>
       <ModalContent
         title={intl.formatMessage({ id: 'show-routes' })}
-        lang={config.language}
+        lang={hslfiLocale}
       >
         <div className="routes-container">
           <CheckboxGroup
