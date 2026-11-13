@@ -63,27 +63,57 @@ jobs:
 #          sudo apt install -y libxml2-utils
 #          xmllint --nonet --noout static/assets/svg-sprite.*.svg
 
-  check-versions:
-    if: github.event_name == 'pull_request' || github.ref == 'refs/heads/v3'
+  # PRs that change packages need changesets. The bot's Version packages PR
+  # consumes them, so it's skipped.
+  check-changesets:
+    if: >-
+      github.event_name == 'pull_request' &&
+      github.head_ref != format('changeset-release/{0}', github.base_ref)
     needs: install
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v6
         with:
-          # The version-bump check below diffs against the PR/push base
-          # commit, so it needs full git history (not the default shallow
-          # clone) to compute a merge-base.
+          # Diffs against the merge-base with the base branch.
           fetch-depth: '0'
       - name: Setup Node, install dependencies
         uses: ./.github/actions/setup
         with:
           node-version: ${{ env.NODE_VERSION }}
 
-      - name: Check changed packages have version bumps
+      - name: Check changed packages have changesets
         env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
-        run: yarn packages-version-check
+          BASE_REF: ${{ github.base_ref }}
+        run: yarn packages-changeset-check
+
+  # Keeps one "Version packages" PR open that applies the pending changesets.
+  # Merging it bumps the versions on v3, and publish-npm then publishes them.
+  version-packages:
+    if: github.ref == 'refs/heads/v3'
+    needs: install
+    runs-on: ubuntu-latest
+    concurrency:
+      group: version-packages
+      cancel-in-progress: false
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: '0'
+      - name: Setup Node, install dependencies
+        uses: ./.github/actions/setup
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Create or update the Version packages PR
+        uses: changesets/action@v2
+        with:
+          commit-message: Version packages
+          pr-title: Version packages
 
   check-readmes:
     needs: install
