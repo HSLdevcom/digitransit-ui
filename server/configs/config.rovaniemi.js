@@ -50,7 +50,6 @@ export default configMerger(walttiConfig, {
   feedIds: ['Rovaniemi'],
 
   ticketLinkOperatorCode: 50237,
-  showTicketLinkOnlyWhenTesting: true,
 
   useTicketIcons: true,
   showTicketPrice: true,
