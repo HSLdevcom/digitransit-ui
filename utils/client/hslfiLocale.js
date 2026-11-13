@@ -10,9 +10,6 @@ export const DS_MESSAGE_KEYS = {
   TextInput: { clear: 'clear-button-label' },
 };
 
-/** Languages with built-in texts in the design system. */
-export const DS_BUILT_IN_LANGS = ['fi', 'sv', 'en'];
-
 /**
  * Design system locale object `{ code, messages }` of the application
  * language. Pass it as the `lang` prop of design system components. The

@@ -1,5 +1,4 @@
 import {
-  DS_BUILT_IN_LANGS,
   DS_MESSAGE_KEYS,
   hslfiLocale,
   initHslfiLocale,
@@ -12,8 +11,10 @@ const translations = Object.assign(
   {},
   ...Object.values(translationFiles).map(file => file.default),
 );
+// languages with built-in texts in the design system
+const builtInLangs = ['fi', 'sv', 'en'];
 const customLangs = Object.keys(translations).filter(
-  lang => !DS_BUILT_IN_LANGS.includes(lang),
+  lang => !builtInLangs.includes(lang),
 );
 const dsKeys = Object.values(DS_MESSAGE_KEYS).flatMap(Object.values);
 
