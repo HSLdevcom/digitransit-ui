@@ -533,7 +533,7 @@ SuggestionItem.propTypes = {
       }),
     }),
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.array,
   isMobile: PropTypes.bool,
   ariaFavouriteString: PropTypes.string,

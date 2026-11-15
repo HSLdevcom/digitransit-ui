@@ -359,7 +359,7 @@ MapWithTracking.propTypes = {
   onMapTracking: PropTypes.func,
   setMWTRef: PropTypes.func,
   mapRef: PropTypes.func,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   leafletEvents: PropTypes.object,
   topButtons: PropTypes.node,
   showControls: PropTypes.bool,

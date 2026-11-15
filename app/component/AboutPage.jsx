@@ -18,7 +18,7 @@ export default function AboutPage() {
                 section.paragraphs.map((p, j) => (
                   <p
                     key={`about-section-${i}-p-${j}`}
-                    // eslint-disable-next-line
+                    // eslint-disable-next-line react/no-danger
                     dangerouslySetInnerHTML={{ __html: p }}
                   />
                 ))}

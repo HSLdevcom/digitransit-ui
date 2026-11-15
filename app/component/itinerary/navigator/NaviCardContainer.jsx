@@ -285,6 +285,6 @@ NaviCardContainer.propTypes = {
   lastLeg: legShape,
   previousLeg: legShape,
   isJourneyCompleted: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object.isRequired,
 };
