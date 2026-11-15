@@ -1,4 +1,3 @@
-/* eslint-disable no-console */
 import crypto from 'crypto';
 import LRU from 'lru-cache';
 

@@ -36,7 +36,7 @@ describe('Stops', () => {
         },
         { repeat: 1 },
       );
-      new Stops(tile, config, []).getPromise(); // eslint-disable-line no-new
+      new Stops(tile, config, []).getPromise();
       expect(fetchMock.callHistory.called('end:/3/1/2.pbf')).toBe(true);
     });
 
@@ -48,7 +48,7 @@ describe('Stops', () => {
         },
         { repeat: 1 },
       );
-      new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []).getPromise(); // eslint-disable-line no-new
+      new Stops({ ...tile, props: { zoomOffset: 1 } }, config, []).getPromise();
       expect(fetchMock.callHistory.called('end:/4/1/2.pbf')).toBe(true);
     });
 

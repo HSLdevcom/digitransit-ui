@@ -15,8 +15,6 @@ function toDeg(rad) {
 export function displayImperialDistance(meters) {
   const feet = meters * 3.2808399;
 
-  /* eslint-disable yoda */
-
   if (feet < 100) {
     return `${Math.round(feet / 10) * 10} ft`; // Tens of feet
   }
@@ -87,7 +85,6 @@ export function displayDistance(meters, config, formatNumber) {
   return `${(meters / 1000).toFixed(1)}  km`;
 }
  */
-/* eslint-enable yoda */
 
 // Return the bounding box of a latlon array of length > 0
 export function boundWithMinimumArea(points, maxZoom = 18) {
@@ -114,7 +111,6 @@ export function boundWithMinimumArea(points, maxZoom = 18) {
 function getLengthOf(geometry) {
   let d = 0;
 
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];
@@ -129,7 +125,6 @@ function getMiddleIndexOf(geometry) {
   let distanceSoFar = 0;
   const distanceToHalf = getLengthOf(geometry) * 0.5;
 
-  // eslint-disable-next-line no-plusplus
   for (let i = 0; i < geometry.length - 1; ++i) {
     const dlat = geometry[i + 1][0] - geometry[i][0];
     const dlon = geometry[i + 1][1] - geometry[i][1];

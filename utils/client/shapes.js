@@ -407,27 +407,22 @@ export const mapLayerShape = PropTypes.shape({
 export const mapLayerOptionsShape = PropTypes.shape({
   parkAndRide: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   stop: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   terminal: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   vehicles: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   citybike: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
 });

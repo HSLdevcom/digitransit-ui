@@ -69,7 +69,6 @@ export default function ViaLeg({
   const arrivalTime = legTimeStr(arrival);
   const duration = durationToString(intl, leg.duration * 1000);
   const stayDuration = legTime(leg.start) - arrivalMs;
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">

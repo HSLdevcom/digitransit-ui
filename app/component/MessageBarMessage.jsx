@@ -53,7 +53,6 @@ export default function MessageBarMessage({
     content.find(part => part.type === 'heading'),
     textColor,
   );
-  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
     <div className="message-content" style={{ color: textColor }}>
       {headingContent && (

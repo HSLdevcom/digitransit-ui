@@ -67,7 +67,6 @@ export default function MapWithTracking({
   onMapTracking,
   setMWTRef,
   mapRef,
-  // eslint-disable-next-line react/prop-types
   leafletEvents = {},
   topButtons = null,
   showControls = true,
@@ -195,7 +194,6 @@ export default function MapWithTracking({
       mounted.current = false;
     };
     // Runs only once, mirroring componentDidMount/componentWillUnmount.
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
@@ -206,7 +204,6 @@ export default function MapWithTracking({
     ) {
       setMapTrackingState(mapTracking);
     }
-    // eslint-disable-next-line
   }, [mapTracking]);
 
   const btnClassName = 'map-with-tracking-buttons';

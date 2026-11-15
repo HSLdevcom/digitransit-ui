@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { useEffect, useState, useRef, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';

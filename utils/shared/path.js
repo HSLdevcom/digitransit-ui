@@ -52,11 +52,11 @@ export const buildQueryString = params => {
 export const buildURL = (pathSegments = []) => {
   const urlOrigin =
     typeof window !== 'undefined'
-      ? window.location.origin // eslint-disable-line compat/compat
+      ? window.location.origin
       : 'url://builder/';
 
   // build valid url
-  const url = new URL(urlOrigin); // eslint-disable-line compat/compat
+  const url = new URL(urlOrigin);
   url.pathname = pathJoin(pathSegments);
   return url;
 };
