@@ -364,7 +364,7 @@ div.leaflet-marker-icon.vehicle-icon {
   }
 }
 
-.map-routing-button {
+.stop-itinerary-button {
   display: flex;
   justify-content: space-evenly;
   align-items: flex-start;
@@ -392,67 +392,18 @@ div.leaflet-marker-icon.vehicle-icon {
     color: $theme-primary-color;
   }
 
-  .map-routing-button-icon {
+  .stop-itinerary-button-icon {
     color: $theme-primary-color;
     margin: 3px 5px 0 0;
   }
 }
 
-.map-routing-modal-overlay {
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-  background-color: rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-}
-
-.map-routing-modal {
-  z-index: 999;
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  background: $white;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
-  border-radius: 5px;
-  width: 100%;
-  transform: translate(-50%, -50%);
-  max-width: 335px;
-  padding: 35px 20px 20px 20px;
-
-  .map-routing-modal-header {
-    font-size: $font-size-large;
-    font-weight: $font-weight-medium;
-    margin: 0 0 20px;
-    display: flex;
-    align-items: center;
-    letter-spacing: -0.3px;
-    color: $dark-gray;
-  }
-
-  .map-routing-modal-button-container {
-    border: 1px solid $light-gray;
-    box-sizing: border-box;
-    border-radius: 8px;
-    width: 295px;
-    display: flex;
-    flex-direction: column;
-
-    .map-routing-modal-button {
-      width: 100%;
-      height: 50px;
-      background: $white;
-      font-weight: $font-weight-medium;
-      color: $theme-primary-color;
-      padding-left: 20px;
-      text-align: left;
-    }
-
-    .map-routing-modal-button:nth-of-type(2) {
-      border-top: 1px solid $light-gray;
-      border-bottom: 1px solid $light-gray;
-    }
+// @hsl-fi/dialog has no size variants and the sheet is 560px wide on desktop.
+// Narrow it down to match the old small modal for this short list of options.
+.stop-itinerary-modal-sheet {
+  @media (min-width: 500px) {
+    max-width: 335px;
+    margin: 0 auto;
   }
 }
 

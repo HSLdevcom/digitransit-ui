@@ -675,8 +675,10 @@ export default {
     'route-pattern-swap-tooltip': 'Change direction',
     'route-to-ferry': 'Route to the pier',
     'route-to-park': 'Route to the park',
+    'route-to-scooter': 'Route to the scooter',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
+    'route-to-terminal': 'Route to the terminal',
     'router-change-departure-time': 'Change departure time ›',
     'router-location-not-found':
       'Please select location on the road network or at a stop.',
@@ -731,7 +733,12 @@ export default {
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'services-and-features': 'Services and facilities',
+    'set-ferry-as-routes': "Set the pier as route's",
+    'set-park-as-routes': "Set the park as route's",
+    'set-scooter-as-routes': "Set the scooter as route's",
+    'set-station-as-routes': "Set the station as route's",
     'set-stop-as-routes': "Set the stop as route's",
+    'set-terminal-as-routes': "Set the terminal as route's",
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     settings: 'Settings',

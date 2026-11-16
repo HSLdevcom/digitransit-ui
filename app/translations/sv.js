@@ -669,8 +669,10 @@ export default {
     'route-pattern-swap-tooltip': 'Byt riktning',
     'route-to-ferry': 'Rutt till piren',
     'route-to-park': 'Rutt till parken',
+    'route-to-scooter': 'Rutt till elsparkcykeln',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
+    'route-to-terminal': 'Rutt till terminalen',
     'router-change-departure-time': 'Ändra avgångstid ›',
     'router-location-not-found':
       'Var god och välj en plats på vägnätet eller på hållplatsen.',
@@ -722,7 +724,12 @@ export default {
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'services-and-features': 'Tjänster och funktioner',
+    'set-ferry-as-routes': 'Ställa pir som rutter',
+    'set-park-as-routes': 'Ställa park som rutter',
+    'set-scooter-as-routes': 'Ställa elsparkcykel som rutter',
+    'set-station-as-routes': 'Ställa station som rutter',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
+    'set-terminal-as-routes': 'Ställa terminal som rutter',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     settings: 'Anpassa',
