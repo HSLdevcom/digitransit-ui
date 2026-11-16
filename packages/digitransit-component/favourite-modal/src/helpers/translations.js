@@ -6,7 +6,6 @@ const translations = {
       'cannot-save-place':
         'Ein Ort ohne Adresse oder Symbol kann nicht gespeichert werden',
       'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
-      close: 'Schließen',
       'edit-place': 'Ort bearbeiten',
       home: 'Zuhause',
       'input-placeholder': 'Einen Namen für Ort setzen (optional)',
@@ -25,7 +24,6 @@ const translations = {
       cancel: 'Cancel',
       'cannot-save-place': 'Cannot save a place without address or icon',
       'choose-icon': "Select the place's icon",
-      close: 'Close',
       'edit-place': 'Edit place',
       home: 'home',
       'input-placeholder': 'Give the name a place (optional)',
@@ -45,7 +43,6 @@ const translations = {
       'cannot-save-place':
         'Paikkaa ilman osoitetta tai ikonia ei voida tallentaa',
       'choose-icon': 'Valitse paikan kuvake',
-      close: 'Sulje',
       'edit-place': 'Muokkaa paikkaa',
       home: 'koti',
       'input-placeholder': 'Anna paikalle nimi (vapaaehtoinen)',
@@ -65,7 +62,6 @@ const translations = {
       'cannot-save-place':
         'Impossibile salvare un luogo senza indirizzo o icona',
       'choose-icon': 'Seleziona l’icona del luogo',
-      close: 'Chiudi',
       'edit-place': 'Modifica luogo',
       home: 'casa',
       'input-placeholder': 'Dai un nome al luogo (facoltativo)',
@@ -84,7 +80,6 @@ const translations = {
       cancel: 'Anuluj',
       'cannot-save-place': 'Nie można zapisać miejsca bez nazwy lub ikony',
       'choose-icon': 'Wybierz ikonę miejsca',
-      close: 'Zamknij',
       'edit-place': 'Edytuj miejsce',
       home: 'dom',
       'input-placeholder': 'Nadaj nazwę miejscu (opcjonalne)',
@@ -104,7 +99,6 @@ const translations = {
       'cannot-save-place':
         'Det går inte att spara en plats utan adress eller ikon',
       'choose-icon': 'Välj platsens ikon',
-      close: 'Stäng',
       'edit-place': 'Redigera plats',
       home: 'hem',
       'input-placeholder': 'Ange platsens namn (frivilligt)',
@@ -121,3 +115,10 @@ const translations = {
 };
 
 export default translations;
+
+/** Design system locales for languages it has no built-in messages for. */
+export const hslfiLocales = {
+  de: { code: 'de', messages: { CloseButton: { close: 'Schließen' } } },
+  it: { code: 'it', messages: { CloseButton: { close: 'Chiudi' } } },
+  pl: { code: 'pl', messages: { CloseButton: { close: 'Zamknij' } } },
+};

@@ -1,8 +1,6 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, within, fireEvent } from '@testing-library/react';
 import FavouriteEditingModal from './src/index';
-import translations from './src/helpers/translations';
-import getDsLang from './src/helpers/dsLang';
 
 const favourites = [
   {
@@ -121,20 +119,5 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
 
     expect(deleteFavourite).not.toHaveBeenCalled();
     expect(screen.getByRole('heading', { name: 'Edit places' })).toBeTruthy();
-  });
-});
-
-describe('design system localization', () => {
-  it.each(Object.keys(translations))('%s has the close text', lang => {
-    expect(translations[lang].translation.close).toBeDefined();
-  });
-
-  it('returns a stable locale object for languages with translations', () => {
-    expect(getDsLang('sv')).toEqual({
-      code: 'sv',
-      messages: { CloseButton: { close: translations.sv.translation.close } },
-    });
-    expect(getDsLang('de')).toBe(getDsLang('de'));
-    expect(getDsLang('xx')).toBe('xx');
   });
 });

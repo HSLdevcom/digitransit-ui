@@ -168,3 +168,10 @@ const translations = {
 };
 
 export default translations;
+
+/** Design system locales for languages it has no built-in messages for. */
+export const hslfiLocales = {
+  de: { code: 'de', messages: { CloseButton: { close: 'Schließen' } } },
+  it: { code: 'it', messages: { CloseButton: { close: 'Chiudi' } } },
+  pl: { code: 'pl', messages: { CloseButton: { close: 'Zamknij' } } },
+};

@@ -10,7 +10,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import FavouriteListItem from './helpers/FavouriteListItem';
 import i18n from './helpers/i18n';
-import getDsLang from './helpers/dsLang';
+import { hslfiLocales } from './helpers/translations';
 import styles from './helpers/styles.scss';
 
 /**
@@ -130,7 +130,7 @@ export default function FavouriteEditingModal({
         }}
       >
         <ModalContent
-          lang={getDsLang(lang)}
+          lang={hslfiLocales[lang] ?? lang}
           title={t('edit-places', { lng: lang })}
           className={styles.modalContent}
           aria-describedby={undefined}

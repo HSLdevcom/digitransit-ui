@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text } from '@hsl-fi/layout-primitives';
 import styles from './styles.scss';
-import getDsLang from './dsLang';
+import { hslfiLocales } from './translations';
 
 export default function AllModesModal({
   modalOpen,
@@ -23,7 +23,7 @@ export default function AllModesModal({
       }}
     >
       <ModalContent
-        lang={getDsLang(language)}
+        lang={hslfiLocales[language] ?? language}
         title={t('title', { lng: language })}
         description={
           <Text variant="paragraph-small" fixedSize="desktop" color="default">
