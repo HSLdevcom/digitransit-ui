@@ -107,6 +107,15 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     );
   });
 
+  it('adds the "new search" instruction only when showUpdateInstructions is set', () => {
+    const text = 'Changing time parameters will trigger a new search.';
+    const { unmount } = renderPicker();
+    expect(screen.queryByText(text)).toBeNull();
+    unmount();
+    renderPicker({ showUpdateInstructions: true });
+    expect(screen.getByText(text)).toBeTruthy();
+  });
+
   it('returns focus to the open button after "Leaving now"', () => {
     const { openButton } = renderPicker();
     fireEvent.click(openButton());

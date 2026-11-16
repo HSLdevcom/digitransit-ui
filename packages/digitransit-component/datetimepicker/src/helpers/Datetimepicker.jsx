@@ -30,6 +30,7 @@ Settings.defaultLocale = 'en';
  * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
  * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
  * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
+ * @param {boolean} props.showUpdateInstructions    Add a hidden instruction that changing the time triggers a new search. Optional. Default is false.
  *
  *
  * @example
@@ -64,6 +65,7 @@ export default function Datetimepicker({
   onOpen,
   onClose,
   openPicker,
+  showUpdateInstructions = false,
 }) {
   Settings.defaultZone = timeZone;
   const [t] = useTranslation();
@@ -471,9 +473,11 @@ export default function Datetimepicker({
       <legend className={styles['sr-only']}>
         {t('accessible-title', translationSettings)}
       </legend>
-      <span className={styles['sr-only']}>
-        {t('accessible-update-instructions', translationSettings)}
-      </span>
+      {showUpdateInstructions && (
+        <span className={styles['sr-only']}>
+          {t('accessible-update-instructions', translationSettings)}
+        </span>
+      )}
       <div
         className={
           !isOpen
@@ -536,4 +540,5 @@ Datetimepicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
+  showUpdateInstructions: PropTypes.bool,
 };
