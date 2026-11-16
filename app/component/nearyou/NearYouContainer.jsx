@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
@@ -184,7 +184,7 @@ function NearYouContainer({
         </div>
       )}
       <div key="items" role="list" className="near-you-container">
-        {items}
+        <Suspense fallback={<Loading />}>{items}</Suspense>
       </div>
       {loading === 2 && (
         <div key="loading2" className="near-you-spinner-container">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState, startTransition } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -101,9 +101,18 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
+  const mounted = useRef(false);
+
   useEffect(() => {
+    // data was just fetched by the parent query
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
     if (isParentTabActive) {
-      refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
+      startTransition(() => {
+        refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
+      });
     }
   }, [currentTime, isParentTabActive]);
   if (!stop.stoptimesWithoutPatterns) {

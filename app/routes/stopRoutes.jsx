@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Route, RedirectException } from 'found';
 import { graphql } from 'react-relay';
 
@@ -275,7 +276,11 @@ export default function getStopRoutes(isTerminal = false) {
                         `/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`,
                       );
                     } else {
-                      return <Component {...props} error={error} />;
+                      return (
+                        <Suspense fallback={<Loading />}>
+                          <Component {...props} error={error} />
+                        </Suspense>
+                      );
                     }
                   }
                   return <Loading />;

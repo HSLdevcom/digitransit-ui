@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
@@ -5,6 +6,7 @@ import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
 import StopNearYou from './StopNearYou';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import NoFavourites from './NoFavourites';
+import Loading from '../Loading';
 import NearYouFavouritesFragment from './queries/NearYouFavouritesFragment';
 
 export default function NearYouFavouritesContainer({
@@ -84,7 +86,7 @@ export default function NearYouFavouritesContainer({
         return null;
     }
   });
-  return stopElements;
+  return <Suspense fallback={<Loading />}>{stopElements}</Suspense>;
 }
 
 NearYouFavouritesContainer.propTypes = {

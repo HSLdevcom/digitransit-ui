@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
@@ -465,15 +465,17 @@ export default function NearYouPage() {
                         omitNonPickups: false,
                       }}
                       environment={relayEnvironment}
-                      render={res =>
-                        res.props?.stops.map(stop => (
-                          <StopNearYou
-                            stop={stop}
-                            key={stop.gtfsId}
-                            isParentTabActive={isActive}
-                          />
-                        ))
-                      }
+                      render={res => (
+                        <Suspense fallback={<Loading />}>
+                          {res.props?.stops.map(stop => (
+                            <StopNearYou
+                              stop={stop}
+                              key={stop.gtfsId}
+                              isParentTabActive={isActive}
+                            />
+                          ))}
+                        </Suspense>
+                      )}
                     />
                   ) : null}
 

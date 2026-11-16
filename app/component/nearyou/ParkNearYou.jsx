@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, startTransition } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import { graphql, useRefetchableFragment } from 'react-relay';
@@ -39,9 +39,18 @@ export default function ParkNearYou({
   const currentTime = useCurrentTime();
   const [park, refetch] = useRefetchableFragment(parkFragment, parkRef);
 
+  const mounted = useRef(false);
+
   useEffect(() => {
+    // data was just fetched by the parent query
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
     if (isParentTabActive) {
-      refetch({}, { fetchPolicy: 'network-only' });
+      startTransition(() => {
+        refetch({}, { fetchPolicy: 'network-only' });
+      });
     }
   }, [currentTime, isParentTabActive]);
 

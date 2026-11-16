@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, startTransition } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
@@ -41,9 +41,18 @@ export default function VehicleRentalStationNearYou({
     stationRef,
   );
 
+  const mounted = useRef(false);
+
   useEffect(() => {
+    // data was just fetched by the parent query
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
     if (isParentTabActive) {
-      refetch({}, { fetchPolicy: 'network-only' });
+      startTransition(() => {
+        refetch({}, { fetchPolicy: 'network-only' });
+      });
     }
   }, [currentTime, isParentTabActive]);
 

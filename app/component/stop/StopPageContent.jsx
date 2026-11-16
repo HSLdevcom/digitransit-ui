@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef, startTransition } from 'react';
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
@@ -62,8 +62,17 @@ export default function StopPageContent({ stop: stopRef, error }) {
   const match = useMatch();
   const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
 
+  const mounted = useRef(false);
+
   useEffect(() => {
-    refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
+    // data was just fetched by the parent query
+    if (!mounted.current) {
+      mounted.current = true;
+      return;
+    }
+    startTransition(() => {
+      refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
+    });
   }, [currentTime]);
 
   if (!stop && error) {
