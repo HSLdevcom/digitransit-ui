@@ -443,6 +443,11 @@ $zindex:
         font-weight: var(--font-weight-medium, 500);
         background-color: #fff;
       }
+
+      /* the radio input is visually hidden, so show focus on its label */
+      &:focus-within {
+        outline: 2px solid #212121;
+      }
     }
 
     .radio-textbutton {
