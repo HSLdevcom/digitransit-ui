@@ -235,6 +235,11 @@ $zindex:
     margin-right: 0;
     position: relative;
     top: -2px;
+
+    // Close button is first in DOM order but displayed last in the row
+    &.close-edge {
+      order: 1;
+    }
   }
 
   .combobox-container {

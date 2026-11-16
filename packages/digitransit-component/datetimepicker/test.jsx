@@ -64,6 +64,38 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     expect(calls.onNowClick[0]).toBeTypeOf('number');
   });
 
+  it('moves focus to the close button on open and back to the open button on close', () => {
+    const { openButton } = renderPicker();
+    fireEvent.click(openButton());
+    const closeButton = screen.getByRole('button', {
+      name: 'Close the picker',
+    });
+    expect(document.activeElement).toBe(closeButton);
+    fireEvent.click(closeButton);
+    expect(document.activeElement).toBe(openButton());
+  });
+
+  it('puts the close button before the other open picker controls in DOM order', () => {
+    const { container, openButton } = renderPicker();
+    fireEvent.click(openButton());
+    const closeButton = screen.getByRole('button', {
+      name: 'Close the picker',
+    });
+    const controls = Array.from(
+      container
+        .querySelectorAll('.datetimepicker-top-row')[1]
+        .querySelectorAll('button, input'),
+    );
+    expect(controls[0]).toBe(closeButton);
+  });
+
+  it('returns focus to the open button after "Leaving now"', () => {
+    const { openButton } = renderPicker();
+    fireEvent.click(openButton());
+    fireEvent.click(screen.getByRole('button', { name: 'Leaving now' }));
+    expect(document.activeElement).toBe(openButton());
+  });
+
   it('keeps the departure/arrival choice of each picker separate when several pickers are on a page', () => {
     const { container } = render(
       <>
