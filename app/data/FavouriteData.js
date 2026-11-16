@@ -191,8 +191,11 @@ export function getPersonalizationPreferences(favourites) {
  * still resolves through OTP and, for bike stations, belongs to an active
  * citybike network. Resolved identities are cached so availability checks
  * and local deletions do not require another query.
+ *
+ * The class is exported so that tests can create fresh instances; the app
+ * uses only the singleton default export.
  */
-class FavouriteData {
+export class FavouriteData {
   favourites = [];
 
   config = {};

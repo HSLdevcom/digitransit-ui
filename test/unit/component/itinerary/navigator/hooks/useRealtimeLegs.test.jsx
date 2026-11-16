@@ -2,16 +2,16 @@ import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
 import { useRealtimeLegs } from '../../../../../../app/component/itinerary/navigator/hooks/useRealtimeLegs';
+import * as useQueryRealtimeLegsModule from '../../../../../../app/component/itinerary/navigator/hooks/useQueryRealtimeLegs';
 import { ItineraryContextProvider } from '../../../../../../app/component/itinerary/context/ItineraryContext';
 import { setLatestNavigatorItinerary } from '../../../../../../utils/client/localStorage';
 import { epochToIso } from '../../../../../../utils/client/timeUtils';
 
-const { queryMock } = vi.hoisted(() => ({ queryMock: vi.fn() }));
+const queryMock = vi.fn();
 
-vi.mock(
-  '../../../../../../app/component/itinerary/navigator/hooks/useQueryRealtimeLegs',
-  () => ({ default: () => queryMock }),
-);
+beforeEach(() => {
+  vi.spyOn(useQueryRealtimeLegsModule, 'default').mockReturnValue(queryMock);
+});
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 

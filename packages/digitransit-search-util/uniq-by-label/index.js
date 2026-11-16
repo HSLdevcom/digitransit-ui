@@ -1,8 +1,6 @@
 import uniqWith from 'lodash/uniqWith';
 import isEqual from 'lodash/isEqual';
-import memoize from 'lodash/memoize';
 import escapeRegExp from 'lodash/escapeRegExp';
-import cloneDeep from 'lodash/cloneDeep';
 
 /**
  * Location properties.
@@ -60,81 +58,74 @@ export const formatFavouritePlaceLabel = (name, address) => [
  *
  * @returns {Array.<string>} Formatted label.
  */
-export const getNameLabel = memoize(
-  (suggestion, plain = false) => {
-    switch (suggestion.layer) {
-      case 'currentPosition':
-        return [suggestion.labelId, suggestion.address];
-      case 'selectFromMap':
-      case 'ownLocations':
-      case 'back':
-        return [suggestion.labelId];
-      case 'favouritePlace':
-        return formatFavouritePlaceLabel(suggestion.name, suggestion.address);
-      case 'favouriteVehicleRentalStation':
-      case 'bikestation':
-        return [suggestion.name];
-      case 'favouriteRoute':
-      case 'route-BUS':
-      case 'route-TRAM':
-      case 'route-RAIL':
-      case 'route-SUBWAY':
-      case 'route-FERRY':
-      case 'route-FUNICULAR':
-      case 'route-AIRPLANE':
-        return !plain && suggestion.shortName
-          ? [
-              suggestion.gtfsId,
-              suggestion.mode.toLowerCase(),
-              suggestion.longName,
-            ]
-          : [
-              suggestion.shortName,
-              suggestion.longName,
-              suggestion.agency ? suggestion.agency.name : undefined,
-            ];
-      case 'venue':
-      case 'address':
-      case 'street':
-        return [
-          suggestion.name,
-          suggestion.label.replace(
-            new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
-            '',
-          ),
-        ];
-      case 'favouriteStop':
-      case 'stop':
-        return plain
-          ? [
-              suggestion.name ||
-                suggestion.label ||
-                (suggestion.address && suggestion.address.split(',')[0]),
-              getLocaladmin(suggestion),
-            ]
-          : [
-              suggestion.name,
-              suggestion.id,
-              getStopCode(suggestion),
-              getLocaladmin(suggestion),
-            ];
-      case 'favouriteStation':
-      case 'station':
-      default:
-        return [
-          suggestion.name ||
-            suggestion.label ||
-            (suggestion.address && suggestion.address.split(',')[0]),
-          getLocaladmin(suggestion),
-        ];
-    }
-  },
-  (item, plain) => {
-    const i = cloneDeep(item);
-    i.plain = plain;
-    return i;
-  },
-);
+export const getNameLabel = (suggestion, plain = false) => {
+  switch (suggestion.layer) {
+    case 'currentPosition':
+      return [suggestion.labelId, suggestion.address];
+    case 'selectFromMap':
+    case 'ownLocations':
+    case 'back':
+      return [suggestion.labelId];
+    case 'favouritePlace':
+      return formatFavouritePlaceLabel(suggestion.name, suggestion.address);
+    case 'favouriteVehicleRentalStation':
+    case 'bikestation':
+      return [suggestion.name];
+    case 'favouriteRoute':
+    case 'route-BUS':
+    case 'route-TRAM':
+    case 'route-RAIL':
+    case 'route-SUBWAY':
+    case 'route-FERRY':
+    case 'route-FUNICULAR':
+    case 'route-AIRPLANE':
+      return !plain && suggestion.shortName
+        ? [
+            suggestion.gtfsId,
+            suggestion.mode.toLowerCase(),
+            suggestion.longName,
+          ]
+        : [
+            suggestion.shortName,
+            suggestion.longName,
+            suggestion.agency ? suggestion.agency.name : undefined,
+          ];
+    case 'venue':
+    case 'address':
+    case 'street':
+      return [
+        suggestion.name,
+        suggestion.label.replace(
+          new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
+          '',
+        ),
+      ];
+    case 'favouriteStop':
+    case 'stop':
+      return plain
+        ? [
+            suggestion.name ||
+              suggestion.label ||
+              (suggestion.address && suggestion.address.split(',')[0]),
+            getLocaladmin(suggestion),
+          ]
+        : [
+            suggestion.name,
+            suggestion.id,
+            getStopCode(suggestion),
+            getLocaladmin(suggestion),
+          ];
+    case 'favouriteStation':
+    case 'station':
+    default:
+      return [
+        suggestion.name ||
+          suggestion.label ||
+          (suggestion.address && suggestion.address.split(',')[0]),
+        getLocaladmin(suggestion),
+      ];
+  }
+};
 
 /**
  * Checks that features are unique by label

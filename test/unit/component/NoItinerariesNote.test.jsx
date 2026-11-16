@@ -1,4 +1,4 @@
-import { mockContext } from '../helpers/mock-context';
+import { createTestConfig, mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import translations from '../../../app/translations/en';
 import NoItinerariesNote from '../../../app/component/itinerary/NoItinerariesNote';
@@ -37,8 +37,7 @@ const HelsinkiRegionBounds = [
   [25.5345, 59.78402],
 ];
 
-mockContext.config = {
-  ...mockContext.config,
+const testConfig = createTestConfig({
   areaPolygon: HelsinkiRegionBounds,
   minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
@@ -55,7 +54,7 @@ mockContext.config = {
       href: 'https://matka.fintraffic.fi/en/',
     },
   },
-};
+});
 
 const defaultProps = {
   error: undefined,
@@ -67,7 +66,7 @@ const defaultProps = {
 
 const renderNote = props =>
   renderWithProviders(<NoItinerariesNote {...props} />, {
-    config: mockContext.config,
+    config: testConfig,
     match: mockContext.match,
   });
 

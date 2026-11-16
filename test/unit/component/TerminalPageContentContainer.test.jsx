@@ -1,10 +1,9 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { Component as TerminalPageContent } from '../../../app/component/stop/TerminalPageContentContainer';
+import * as DepartureListContainerModule from '../../../app/component/DepartureListContainer';
 
-vi.mock('../../../app/component/DepartureListContainer', () => ({
-  default: () => <div data-testid="departure-list" />,
-}));
+const DepartureListStub = () => <div data-testid="departure-list" />;
 
 const markersConfig = createTestConfig({ showStopStatusMarkers: true });
 
@@ -29,6 +28,12 @@ const renderTerminal = stationProps =>
   );
 
 describe('<TerminalPageContentContainer />', () => {
+  beforeEach(() => {
+    vi.spyOn(DepartureListContainerModule, 'default', 'get').mockReturnValue(
+      DepartureListStub,
+    );
+  });
+
   it('renders the no-departures banner when stoptimes is empty', () => {
     const { container, queryByTestId } = renderTerminal({});
     expect(

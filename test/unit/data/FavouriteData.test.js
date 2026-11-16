@@ -1,21 +1,10 @@
 import { vi } from 'vitest';
-
-const getStopAndStationsQuery = vi.fn();
-const getFavouriteVehicleRentalStationsQuery = vi.fn();
-const updateFavouritesRequest = vi.fn();
-const deleteFavouritesRequest = vi.fn();
-
-vi.mock('../../../utils/client/apiUtils', async importOriginal => ({
-  ...(await importOriginal()),
-  updateFavourites: (...args) => updateFavouritesRequest(...args),
-  deleteFavourites: (...args) => deleteFavouritesRequest(...args),
-}));
-
-vi.mock('@digitransit-search-util/digitransit-search-util-query-utils', () => ({
-  getStopAndStationsQuery: (...args) => getStopAndStationsQuery(...args),
-  getFavouriteVehicleRentalStationsQuery: (...args) =>
-    getFavouriteVehicleRentalStationsQuery(...args),
-}));
+import * as queryUtils from '@digitransit-search-util/digitransit-search-util-query-utils';
+import * as apiUtils from '../../../utils/client/apiUtils';
+import {
+  FavouriteData,
+  STATUS_HAS_DATA,
+} from '../../../app/data/FavouriteData';
 
 const stopFavourite = {
   type: 'stop',
@@ -55,22 +44,24 @@ const flushPromises = async () => {
 
 describe('FavouriteData', () => {
   let favouriteStore;
-  let STATUS_HAS_DATA;
+  let getStopAndStationsQuery;
+  let getFavouriteVehicleRentalStationsQuery;
+  let updateFavouritesRequest;
 
-  beforeEach(async () => {
-    getStopAndStationsQuery.mockReset();
-    getFavouriteVehicleRentalStationsQuery.mockReset();
-    updateFavouritesRequest.mockReset();
-    deleteFavouritesRequest.mockReset();
-    // FavouriteData's default export is a module-level singleton, and this
-    // worker's test files share one module registry (see vitest.config.js
-    // `isolate: false`). Reset modules and re-import for every test so each
-    // test gets its own fresh instance, instead of sharing/racing against
-    // whatever the app-wide singleton is doing in other test files.
-    vi.resetModules();
-    const favouriteDataModule = await import('../../../app/data/FavouriteData');
-    favouriteStore = favouriteDataModule.default;
-    STATUS_HAS_DATA = favouriteDataModule.STATUS_HAS_DATA;
+  beforeEach(() => {
+    // Stubbed so that no test reaches OTP or the favourites backend
+    getStopAndStationsQuery = vi
+      .spyOn(queryUtils, 'getStopAndStationsQuery')
+      .mockReturnValue(undefined);
+    getFavouriteVehicleRentalStationsQuery = vi
+      .spyOn(queryUtils, 'getFavouriteVehicleRentalStationsQuery')
+      .mockReturnValue(undefined);
+    updateFavouritesRequest = vi
+      .spyOn(apiUtils, 'updateFavourites')
+      .mockReturnValue(undefined);
+    vi.spyOn(apiUtils, 'deleteFavourites').mockReturnValue(undefined);
+    // A fresh store for every test instead of the app-wide singleton
+    favouriteStore = new FavouriteData();
     favouriteStore.init({
       allowLogin: true,
       vehicleRental: {

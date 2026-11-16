@@ -1,7 +1,6 @@
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import RoutePage from '../../../app/component/routepage/RoutePage';
 import {
   PREFIX_DISRUPTION,
@@ -79,10 +78,6 @@ const baseProps = {
 };
 
 describe('<RoutePage />', () => {
-  // RoutePage's children include Relay fragment containers; see
-  // ignoreRelayModernSelectorWarning's comment for why this is needed.
-  ignoreRelayModernSelectorWarning();
-
   const renderView = (
     { match = baseMatch, ...props } = {},
     config = baseConfig,

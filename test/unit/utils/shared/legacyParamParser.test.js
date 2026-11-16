@@ -1,17 +1,17 @@
 import { DateTime } from 'luxon';
+import * as getGeocodingResultsModule from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
 import legacyParamParser from '../../../../utils/shared/legacyParamParser';
 import defaultConfig from '../../../../server/configs/config.default';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 
 // legacyParamParser also supports free-text from/to, resolved via geocoding -
-// mocked below so no test touches the network.
-const { getGeocodingResults } = vi.hoisted(() => ({
-  getGeocodingResults: vi.fn(),
-}));
-vi.mock(
-  '@digitransit-search-util/digitransit-search-util-get-geocoding-results',
-  () => ({ default: getGeocodingResults }),
-);
+// stubbed below so no test touches the network.
+let getGeocodingResults;
+beforeEach(() => {
+  getGeocodingResults = vi
+    .spyOn(getGeocodingResultsModule, 'default')
+    .mockResolvedValue([]);
+});
 
 const config = { ...defaultConfig, queryMaxAgeDays: 30 };
 

@@ -128,7 +128,7 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
     }
   };
 
-  const { entityId: routeId } = splitGtfsId(rest.match.params.routeId);
+  const { feedId } = splitGtfsId(rest.match.params.routeId);
   const flexAgencies = useMemo(
     () =>
       [...config.flex.internal.agencies, ...config.flex.external.agencies].map(
@@ -136,10 +136,10 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
       ),
     [config.flex.internal.agencies, config.flex.external.agencies],
   );
-  const isFlexRoute = flexAgencies.includes(routeId);
+  const isFlexRoute = flexAgencies.includes(feedId);
 
   const mapLayers = isFlexRoute
-    ? { ...baseMapLayers, areaStop: { routeGtfsId: routeId } }
+    ? { ...baseMapLayers, areaStop: { routeGtfsId: feedId } }
     : baseMapLayers;
 
   if (!pattern) {

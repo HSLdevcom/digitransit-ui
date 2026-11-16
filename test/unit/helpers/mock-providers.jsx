@@ -20,6 +20,7 @@ import {
 } from '../../../app/hooks/RealTimeInformationContext';
 import translations from '../../../app/translations/en';
 import { mockContext } from './mock-context';
+import { mockRelayEnvironment } from './mock-relay';
 import { BreakpointContext } from '../../../app/hooks/BreakpointContext';
 
 const defaultMessages = translations.en;
@@ -35,14 +36,6 @@ export function createTestIntl({
 } = {}) {
   return createIntl({ locale, messages }, intlCache);
 }
-const noop = () => {};
-const mockRelayEnvironment = {
-  check: noop,
-  lookup: noop,
-  retain: noop,
-  execute: noop,
-  subscribe: noop,
-};
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
 
 function TestRealTimeVehicles({ vehicles }) {

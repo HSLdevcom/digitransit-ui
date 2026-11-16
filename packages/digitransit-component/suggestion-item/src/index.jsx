@@ -54,6 +54,11 @@ const iconProps = {
   'bus-tram-stop-digitransit': ['bustram-stop-digitransit', 'tram'],
 };
 
+// geocoder categories that determine the icon, can be extended in the future
+const categoryIcons = {
+  'populated area': ['city'],
+};
+
 function isFavourite(item) {
   return item.type?.includes('Favourite');
 }
@@ -178,6 +183,10 @@ function getIconProperties(item, modeSet, stopCode, modes) {
     }
     if (parkLayers.includes(item.properties.layer)) {
       return [item.properties.layer, item.properties.layer];
+    }
+    const category = item.properties.category?.find(c => categoryIcons[c]);
+    if (category) {
+      return categoryIcons[category];
     }
     if (
       item.properties.label?.split(',').length === 1 &&

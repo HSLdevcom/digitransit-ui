@@ -319,13 +319,15 @@ Both dev and prod also always get:
 
 ## `node` / `resolve` / `cache`
 
-- **`cache: { type: 'filesystem' }`** — webpack5's built-in persistent
-  build cache (replaces webpack4's memory-only `cache: true`).
-  `buildDependencies.config` lists `webpack.config.js`,
-  `scripts/build/contextHelper.js` and `package.json` (whose
-  `browserslist` drives the Babel and Lightning CSS targets), so editing
-  any of them invalidates the cache. `version` is keyed on `CONFIG`, since
-  that decides which theme entries and favicons get built.
+- **`cache`** — production builds use webpack5's persistent
+  `{ type: 'filesystem' }` build cache. `buildDependencies.config` lists
+  `webpack.config.js`, `scripts/build/contextHelper.js` and `package.json`
+  (whose `browserslist` drives the Babel and Lightning CSS targets), so
+  editing any of them invalidates the cache. `version` is keyed on `CONFIG`,
+  since that decides which theme entries and favicons get built. The dev
+  server uses `{ type: 'memory' }` instead: the shared disk cache went stale
+  after branch switches and package rebuilds and had to be deleted by hand
+  (`node_modules/.cache/webpack`), while saving only a few seconds per start.
 - **`resolve.extensions`** adds `.mjs` ahead of the defaults so native-ESM
   entry points resolve.
 - **`resolve.mainFields`** prefers `browser`, then `module` (ESM), over

@@ -1,8 +1,5 @@
-// See test/unit/component/trafficnow/TrafficNow.test.jsx for why a default
-// import of 'react-relay/hooks' is used to get a stubbable live reference to
-// useLazyLoadQuery (shared with the 'react-relay' import FuzzyTripLink uses).
-import relayHooks from 'react-relay/hooks';
 import { renderWithProviders } from '../helpers/mock-providers';
+import { relayMock } from '../helpers/mock-relay';
 import FuzzyTripLink from '../../../app/component/routepage/FuzzyTripLink';
 
 const vehicle = {
@@ -22,7 +19,7 @@ const props = {
 
 describe('<FuzzyTripLink />', () => {
   it('should render the icon wrapped by a link once the fuzzy trip query resolves', () => {
-    vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({
+    relayMock.query(null, {
       trip: {
         route: { gtfsId: 'OULU:15' },
         pattern: { code: '1' },
@@ -41,9 +38,7 @@ describe('<FuzzyTripLink />', () => {
   });
 
   it('should render the icon-only Suspense fallback while the fuzzy trip query is pending', () => {
-    vi.spyOn(relayHooks, 'useLazyLoadQuery').mockImplementation(() => {
-      throw new Promise(() => {});
-    });
+    relayMock.query(null, relayMock.pending);
     const { container } = renderWithProviders(<FuzzyTripLink {...props} />);
     expect(container.querySelectorAll('.route-now-content')).toHaveLength(1);
     expect(container.querySelectorAll('.large-vehicle-icon')).toHaveLength(1);

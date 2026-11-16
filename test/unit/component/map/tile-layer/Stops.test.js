@@ -3,6 +3,12 @@ import Stops from '../../../../../app/component/map/tile-layer/Stops';
 
 describe('Stops', () => {
   beforeAll(() => fetchMock.mockGlobal());
+
+  afterEach(() => {
+    fetchMock.removeRoutes();
+    fetchMock.clearHistory();
+  });
+
   afterAll(() => fetchMock.unmockGlobal());
   const config = {
     URL: {

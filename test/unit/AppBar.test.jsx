@@ -5,8 +5,12 @@ import { mockContext } from './helpers/mock-context';
 
 describe('<AppBar />', () => {
   beforeAll(() => {
-    global.requestAnimationFrame = cb => setTimeout(cb, 0);
-    global.cancelAnimationFrame = id => clearTimeout(id);
+    vi.stubGlobal('requestAnimationFrame', cb => setTimeout(cb, 0));
+    vi.stubGlobal('cancelAnimationFrame', id => clearTimeout(id));
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
   });
 
   it('should show logo', () => {

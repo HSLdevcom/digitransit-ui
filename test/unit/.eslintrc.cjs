@@ -1,3 +1,7 @@
+const {
+  rules: { 'no-restricted-properties': airbnbRestrictedProperties },
+} = require('eslint-config-airbnb-base/rules/best-practices');
+
 module.exports = {
   extends: '../../.eslintrc.cjs',
   globals: {
@@ -24,4 +28,25 @@ module.exports = {
     // transform handles it all), so it always gets the "never" convention.
     'import/extensions': ['error', 'never', { ignorePackages: true }],
   },
+  overrides: [
+    {
+      // The app project's test files share one module registry per worker
+      // (vitest.config.js `isolate: false`), so a per-file module mock would
+      // miss modules an earlier file already imported, and leak into later
+      // files. Options replace the inherited ones, hence airbnb's are restated.
+      files: ['**/*.test.js', '**/*.test.jsx'],
+      excludedFiles: ['server/**', 'utils/server/**'],
+      rules: {
+        'no-restricted-properties': [
+          ...airbnbRestrictedProperties,
+          ...['mock', 'doMock', 'unmock', 'doUnmock'].map(property => ({
+            object: 'vi',
+            property,
+            message:
+              'App test files share their module registry. Stub exports with vi.spyOn() on the module namespace instead, or mock a module for every file in helpers/vitest.setup.js (see docs/Tests.md).',
+          })),
+        ],
+      },
+    },
+  ],
 };

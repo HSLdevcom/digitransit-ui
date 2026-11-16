@@ -1,4 +1,4 @@
-import { getJson } from '../../utils/shared/xhrPromise.js';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import {
   loadAllRawConfigurations,
   setAssembledZones,

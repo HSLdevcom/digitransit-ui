@@ -9,7 +9,7 @@ import {
 } from '../../../utils/client/localStorage';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
 
-const { STORE_VERSION } = oldSearchesData;
+const { STORE_VERSION, STORE_MAX_ITEMS, STORE_KEEP_LATEST } = oldSearchesData;
 
 const mockData = {
   old: {
@@ -81,6 +81,10 @@ const mockData = {
 };
 
 describe('SearchHistory', () => {
+  beforeEach(() => {
+    oldSearchesData.resetSearchHistoryCache();
+  });
+
   afterEach(() => {
     MockDate.reset();
   });
@@ -149,6 +153,155 @@ describe('SearchHistory', () => {
       const { items } = getOldSearchesStorage();
       expect(items).toHaveLength(1);
       expect(items[0].item.properties).toBeDefined();
+    });
+
+    it('should remove expired items from the storage', () => {
+      const now = DateTime.local(2018, 2, 18);
+      MockDate.set(now);
+      const entry = (label, lastUpdated) => ({
+        count: 1,
+        type: 'endpoint',
+        lastUpdated: lastUpdated.toUnixInteger(),
+        item: { properties: { label, layer: 'address', name: label } },
+      });
+      setOldSearchesStorage({
+        version: STORE_VERSION,
+        items: [
+          entry('fresh', now.minus({ days: 59 })),
+          entry('expired', now.minus({ days: 61 })),
+        ],
+      });
+
+      oldSearchesData.getStorageObject();
+
+      const { items } = getOldSearchesStorage();
+      expect(items.map(i => i.item.properties.label)).toEqual(['fresh']);
+    });
+
+    it('should cap the stored items, keeping the latest, most used and most recent', () => {
+      const now = DateTime.local(2018, 2, 18);
+      MockDate.set(now);
+      const total = STORE_MAX_ITEMS + 20;
+      const items = Array.from({ length: total }, (_, i) => ({
+        count: i === 0 ? 5 : 1,
+        type: 'endpoint',
+        lastUpdated: now.minus({ seconds: total - i }).toUnixInteger(),
+        item: {
+          properties: { label: `place ${i}`, layer: 'address', name: `p${i}` },
+        },
+      }));
+      setOldSearchesStorage({ version: STORE_VERSION, items });
+
+      oldSearchesData.getStorageObject();
+
+      const stored = getOldSearchesStorage().items;
+      const names = stored.map(i => i.item.properties.name);
+      expect(stored).toHaveLength(STORE_MAX_ITEMS);
+      expect(names).toContain('p0'); // oldest, but highest count
+      expect(names).toContain(`p${total - 1}`); // newest
+      expect(names).not.toContain('p1'); // oldest of the count-1 items
+    });
+
+    it('should never drop the latest searches to items with a higher count', () => {
+      const now = DateTime.local(2018, 2, 18);
+      MockDate.set(now);
+      const items = Array.from(
+        { length: STORE_MAX_ITEMS + STORE_KEEP_LATEST },
+        (_, i) => ({
+          count: i < STORE_MAX_ITEMS ? 3 : 1,
+          type: 'endpoint',
+          lastUpdated: now.minus({ days: 20 - i / 10 }).toUnixInteger(),
+          item: {
+            properties: {
+              label: `place ${i}`,
+              layer: 'address',
+              name: `p${i}`,
+            },
+          },
+        }),
+      );
+      setOldSearchesStorage({ version: STORE_VERSION, items });
+
+      oldSearchesData.getStorageObject();
+
+      const names = getOldSearchesStorage().items.map(
+        i => i.item.properties.name,
+      );
+      expect(names).toHaveLength(STORE_MAX_ITEMS);
+      for (
+        let i = STORE_MAX_ITEMS;
+        i < STORE_MAX_ITEMS + STORE_KEEP_LATEST;
+        i++
+      ) {
+        expect(names).toContain(`p${i}`);
+      }
+    });
+  });
+
+  describe('session cache', () => {
+    const entry = name => ({
+      count: 1,
+      type: 'endpoint',
+      item: { properties: { label: name, layer: 'address', name } },
+    });
+    const names = () =>
+      oldSearchesData.getOldSearches().map(i => i.properties.name);
+
+    it('should read the storage only once per session', () => {
+      setOldSearchesStorage({ version: STORE_VERSION, items: [entry('a')] });
+      expect(names()).toEqual(['a']);
+
+      setOldSearchesStorage({ version: STORE_VERSION, items: [entry('b')] });
+      expect(names()).toEqual(['a']);
+    });
+
+    it('should reload when another tab changes the storage', () => {
+      setOldSearchesStorage({ version: STORE_VERSION, items: [entry('a')] });
+      expect(names()).toEqual(['a']);
+
+      setOldSearchesStorage({ version: STORE_VERSION, items: [entry('b')] });
+      window.dispatchEvent(
+        new StorageEvent('storage', { key: 'saved-searches' }),
+      );
+      expect(names()).toEqual(['b']);
+    });
+
+    it('should keep the cache and the storage in sync when saving', () => {
+      oldSearchesData.saveSearch(entry('a'));
+      oldSearchesData.saveSearch(entry('b'));
+      oldSearchesData.removeSearch(entry('a'));
+
+      expect(names()).toEqual(['b']);
+      expect(getOldSearchesStorage().items).toHaveLength(1);
+    });
+
+    it('should apply the cap when the history is next loaded', () => {
+      const now = DateTime.local(2018, 2, 18);
+      MockDate.set(now);
+      const items = Array.from({ length: STORE_MAX_ITEMS }, (_, i) => ({
+        count: 3,
+        type: 'endpoint',
+        lastUpdated: now.minus({ days: 1, seconds: i }).toUnixInteger(),
+        item: {
+          properties: { label: `p${i}`, layer: 'address', name: `p${i}` },
+        },
+      }));
+      setOldSearchesStorage({ version: STORE_VERSION, items });
+
+      oldSearchesData.saveSearch(entry('new'));
+      expect(getOldSearchesStorage().items).toHaveLength(STORE_MAX_ITEMS + 1);
+
+      oldSearchesData.resetSearchHistoryCache();
+      expect(names()).toHaveLength(STORE_MAX_ITEMS);
+      expect(names()).toContain('new');
+      expect(getOldSearchesStorage().items).toHaveLength(STORE_MAX_ITEMS);
+    });
+
+    it('should return copies that callers can modify', () => {
+      setOldSearchesStorage({ version: STORE_VERSION, items: [entry('a')] });
+      delete oldSearchesData.getOldSearches()[0].properties.name;
+
+      expect(names()).toEqual(['a']);
     });
   });
 
@@ -399,12 +552,13 @@ describe('SearchHistory', () => {
     });
 
     it('should inherit the highest count when merging duplicate route entries', () => {
+      const nowSecs = Math.floor(Date.now() / 1000);
       setOldSearchesStorage({
         version: STORE_VERSION,
         items: [
           {
             count: 8,
-            lastUpdated: 1000,
+            lastUpdated: nowSecs - 100,
             type: 'search',
             item: {
               type: 'Route',
@@ -420,7 +574,7 @@ describe('SearchHistory', () => {
           },
           {
             count: 2,
-            lastUpdated: 900,
+            lastUpdated: nowSecs - 200,
             type: 'search',
             item: {
               type: 'OldSearch',
