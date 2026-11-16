@@ -159,6 +159,7 @@ export default function MobilePickerModal({
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
+                aria-hidden="true"
               >
                 <Icon img="calendar" color={color} />
               </span>
@@ -174,6 +175,7 @@ export default function MobilePickerModal({
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                aria-hidden="true"
               >
                 <Icon img="time" color={color} />
               </span>

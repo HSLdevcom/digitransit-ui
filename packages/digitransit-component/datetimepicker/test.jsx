@@ -116,6 +116,15 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     expect(screen.getByText(text)).toBeTruthy();
   });
 
+  it('hides decorative icons from assistive technology', () => {
+    const { container } = renderPicker();
+    const svgs = container.querySelectorAll('svg');
+    expect(svgs.length).toBeGreaterThan(0);
+    svgs.forEach(svg => {
+      expect(svg.closest('[aria-hidden="true"]')).not.toBeNull();
+    });
+  });
+
   it('returns focus to the open button after "Leaving now"', () => {
     const { openButton } = renderPicker();
     fireEvent.click(openButton());
