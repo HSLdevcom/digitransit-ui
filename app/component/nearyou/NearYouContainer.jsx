@@ -3,7 +3,7 @@ import { useEffect, useState, useRef } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
@@ -119,10 +119,9 @@ function NearYouContainer({
           if (place.stoptimesWithoutPatterns.length > 0) {
             if (!prioritizedStops.includes(place.gtfsId)) {
               return (
-                <StopNearYouContainer
+                <StopNearYou
                   key={`${place.gtfsId}`}
                   stop={place}
-                  currentTime={currentTime}
                   isParentTabActive={isParentTabActive}
                 />
               );
@@ -274,7 +273,7 @@ const refetchContainer = createPaginationContainer(
                   vehicleParkingId
                 }
                 ... on Stop {
-                  ...StopNearYouContainer_stop
+                  ...StopNearYou_stop
                     @arguments(
                       startTime: $startTime
                       omitNonPickups: $omitNonPickups

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import NoFavourites from './NoFavourites';
 import NearYouFavouritesFragment from './queries/NearYouFavouritesFragment';
@@ -67,11 +67,10 @@ export default function NearYouFavouritesContainer({
       case 'stop':
       case 'station':
         return (
-          <StopNearYouContainer
+          <StopNearYou
             key={stop.gtfsId}
             stop={stop}
             isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
           />
         );
       case 'vehicleRentalStation':

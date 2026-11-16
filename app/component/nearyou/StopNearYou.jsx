@@ -1,8 +1,9 @@
 import { useEffect, useState, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
-import { stopShape, relayShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import {
   hasEntitiesOfType,
   isAlertValid,
@@ -14,24 +15,96 @@ import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-export default function StopNearYou({
-  stop,
-  currentTime,
-  relay,
-  isParentTabActive,
-}) {
+const stopFragment = graphql`
+  fragment StopNearYou_stop on Stop
+  @refetchable(queryName: "StopNearYouRefetchQuery")
+  @argumentDefinitions(
+    startTime: { type: "Long", defaultValue: 0 }
+    omitNonPickups: { type: "Boolean", defaultValue: false }
+  ) {
+    id
+    name
+    gtfsId
+    code
+    desc
+    lat
+    lon
+    alerts {
+      alertSeverityLevel
+      alertDescriptionText
+      alertHeaderText
+      effectiveStartDate
+      effectiveEndDate
+      entities {
+        __typename
+      }
+    }
+    zoneId
+    platformCode
+    locationType
+    vehicleMode
+    stops {
+      zoneId
+    }
+    stoptimesWithoutPatterns(
+      startTime: $startTime
+      omitNonPickups: $omitNonPickups
+    ) {
+      realtimeDeparture
+      realtime
+      realtimeState
+      serviceDay
+      headsign
+      stop {
+        platformCode
+      }
+      trip {
+        gtfsId
+        tripHeadsign
+        occupancy {
+          occupancyStatus
+        }
+        pattern {
+          code
+          route {
+            gtfsId
+          }
+        }
+        route {
+          alerts {
+            alertSeverityLevel
+            effectiveStartDate
+            effectiveEndDate
+          }
+          type
+          shortName
+          longName
+          gtfsId
+          mode
+          color
+          patterns {
+            headsign
+          }
+        }
+      }
+    }
+  }
+`;
+
+export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const intl = useIntl();
   const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
+  const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
   useEffect(() => {
     if (isParentTabActive && currentTime - timeRef.current > 30) {
-      relay.refetch(oldVariables => {
-        return { ...oldVariables, stopId: gtfsId, startTime: currentTime };
-      }, null);
+      refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
       timeRef.current = currentTime;
     }
   }, [currentTime, isParentTabActive]);
@@ -118,8 +191,6 @@ export default function StopNearYou({
 }
 
 StopNearYou.propTypes = {
-  stop: stopShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  relay: relayShape.isRequired,
+  stop: fragmentRefShape.isRequired,
   isParentTabActive: PropTypes.bool.isRequired,
 };

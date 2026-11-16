@@ -9,7 +9,7 @@ import MobileView from '../MobileView';
 import { DesktopOrMobile, useBreakpoint } from '../../hooks/BreakpointContext';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import UpdateLocationButton from './UpdateLocationButton';
 import MapWrapper from './MapWrapper';
 import LocationModal from './LocationModal';
@@ -452,7 +452,7 @@ export default function NearYouPage() {
                         ) {
                           stops: stops(ids: $stopIds) {
                             gtfsId
-                            ...StopNearYouContainer_stop
+                            ...StopNearYou_stop
                               @arguments(
                                 startTime: $startTime
                                 omitNonPickups: $omitNonPickups
@@ -468,10 +468,9 @@ export default function NearYouPage() {
                       environment={relayEnvironment}
                       render={res =>
                         res.props?.stops.map(stop => (
-                          <StopNearYouContainer
+                          <StopNearYou
                             stop={stop}
                             key={stop.gtfsId}
-                            currentTime={currentTime}
                             isParentTabActive={isActive}
                           />
                         ))
