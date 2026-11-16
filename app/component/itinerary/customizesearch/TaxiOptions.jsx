@@ -30,7 +30,6 @@ export default function TaxiOptions({ settings, updateSettings }) {
         <FormattedMessage id={taxiLabelId} />
       </div>
       <SettingsToggle
-        id="settings-toggle-taxi"
         labelId={taxiLabelId}
         labelStyle="mode-label"
         leftElement={

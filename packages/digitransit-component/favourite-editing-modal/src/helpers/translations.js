@@ -6,8 +6,10 @@ const translations = {
       delete: 'Löschen',
       'delete-place-header': 'Wollen Sie den Favoriten löschen?',
       'delete-place-name': 'Lösche Favorit: {{favourite.name}}',
+      down: 'Favorit nach unten verschieben',
       'edit-place-name': 'Bearbeite Favorit: {{favourite.name}}',
       'edit-places': 'Bearbeite Favoriten',
+      up: 'Favorit nach oben verschieben',
     },
   },
   en: {
@@ -32,6 +34,18 @@ const translations = {
       'edit-place-name': 'Muokkaa paikkaa: {{favourite.name}}',
       'edit-places': 'Muokkaa paikkoja',
       up: 'Siirrä suosikkisijaintia ylöpäin',
+    },
+  },
+  it: {
+    translation: {
+      cancel: 'Annulla',
+      delete: 'Elimina',
+      'delete-place-header': 'Vuoi eliminare il luogo?',
+      'delete-place-name': 'Elimina luogo: {{favourite.name}}',
+      down: 'Sposta il preferito in basso',
+      'edit-place-name': 'Modifica luogo: {{favourite.name}}',
+      'edit-places': 'Modifica luoghi',
+      up: 'Sposta il preferito in alto',
     },
   },
   pl: {
@@ -61,3 +75,10 @@ const translations = {
 };
 
 export default translations;
+
+/** Design system locales for languages it has no built-in messages for. */
+export const hslfiLocales = {
+  de: { code: 'de', messages: { CloseButton: { close: 'Schließen' } } },
+  it: { code: 'it', messages: { CloseButton: { close: 'Chiudi' } } },
+  pl: { code: 'pl', messages: { CloseButton: { close: 'Zamknij' } } },
+};

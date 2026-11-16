@@ -2,11 +2,13 @@
 const translations = {
   de: {
     translation: {
+      'add-destination': 'Als Ziel festlegen',
       'add-favourite': 'Füge Favorit hinzu',
       'add-home': 'Setze Zuhause',
       'add-place': 'Setze Ort',
       'add-work': 'Setze Arbeitsort',
       edit: 'Bearbeiten',
+      'favourites-list': 'Liste der Favoriten',
       home: 'Zuhause',
       'open-favourites': 'Öffne Favoriten',
       work: 'Arbeit',
@@ -38,6 +40,20 @@ const translations = {
       home: 'Koti',
       'open-favourites': 'Avaa suosikit',
       work: 'Työ',
+    },
+  },
+  it: {
+    translation: {
+      'add-destination': 'Imposta come destinazione',
+      'add-favourite': 'Aggiungi ai preferiti',
+      'add-home': 'Aggiungi casa',
+      'add-place': 'Aggiungi luogo',
+      'add-work': 'Aggiungi lavoro',
+      edit: 'Modifica',
+      'favourites-list': 'Elenco dei preferiti',
+      home: 'Casa',
+      'open-favourites': 'Apri i preferiti',
+      work: 'Lavoro',
     },
   },
   pl: {

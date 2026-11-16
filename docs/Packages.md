@@ -186,6 +186,23 @@ spelling. That mismatch is never auto-fixed (there's no way to guess the
 correct key or translation), so `--fix` still exits non-zero if any remain;
 resolve those by hand in the package's `translations.js`.
 
+### Design system strings
+
+`@hsl-fi/*` components only ship `fi`, `sv` and `en` texts; for other
+languages their `lang` prop takes a locale object (`{ code, messages }`), and
+for the built-in languages the object's messages override the built-in ones.
+Missing messages fall back to the built-in texts (Finnish for other languages).
+Packages whose DS components render built-in texts export `hslfiLocales` from
+their `translations.js`: ready-made locale objects (with the package's
+`CloseButton` text) for the languages the DS has no built-in texts for, and
+components pass `lang={hslfiLocales[lang] ?? lang}`. The built-in languages
+(fi/sv/en) need no entry. The app builds one locale object from its own
+translations at client startup (`initHslfiLocale` in `app/client/client.jsx`)
+and components pass `lang={hslfiLocale}` from `utils/client/hslfiLocale.js`.
+Translations missing from the object (fi/sv/en) fall back to the design
+system's built-in texts; other languages must contain all of them (tested in
+`test/unit/utils/client/hslfiLocale.test.js`).
+
 ## Documentation (README generation)
 
 Every package's `README.md` is generated from its JSDoc by
