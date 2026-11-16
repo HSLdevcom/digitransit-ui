@@ -2,7 +2,7 @@ import { useEffect, useRef, startTransition } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { graphql, useRefetchableFragment } from 'react-relay';
+import { useRefetchableFragment } from 'react-relay';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
@@ -11,25 +11,7 @@ import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
 import { fragmentRefShape } from '../../../utils/client/shapes';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import { useCurrentTime } from '../../hooks/TimeContext';
-
-const vehicleStationFragment = graphql`
-  fragment VehicleRentalStationNearYou_station on VehicleRentalStation
-  @refetchable(queryName: "VehicleRentalStationNearYouQuery") {
-    stationId
-    name
-    availableVehicles {
-      total
-    }
-    availableSpaces {
-      total
-    }
-    capacity
-    rentalNetwork {
-      networkId
-    }
-    operative
-  }
-`;
+import VehicleRentalStationNearYouFragment from './queries/VehicleRentalStationNearYouFragment';
 
 export default function VehicleRentalStationNearYou({
   station: stationRef,
@@ -37,7 +19,7 @@ export default function VehicleRentalStationNearYou({
 }) {
   const currentTime = useCurrentTime();
   const [station, refetch] = useRefetchableFragment(
-    vehicleStationFragment,
+    VehicleRentalStationNearYouFragment,
     stationRef,
   );
 

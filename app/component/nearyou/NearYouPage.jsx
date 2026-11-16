@@ -451,7 +451,7 @@ export default function NearYouPage() {
                         ) {
                           stops: stops(ids: $stopIds) {
                             gtfsId
-                            ...StopNearYou_stop
+                            ...StopNearYouFragment_stop
                               @arguments(
                                 startTime: $startTime
                                 omitNonPickups: $omitNonPickups

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, startTransition } from 'react';
 import PropTypes from 'prop-types';
-import { graphql, useRefetchableFragment } from 'react-relay';
+import { useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import { fragmentRefShape } from '../../../utils/client/shapes';
@@ -16,89 +16,14 @@ import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
-
-const stopFragment = graphql`
-  fragment StopNearYou_stop on Stop
-  @refetchable(queryName: "StopNearYouRefetchQuery")
-  @argumentDefinitions(
-    startTime: { type: "Long", defaultValue: 0 }
-    omitNonPickups: { type: "Boolean", defaultValue: false }
-  ) {
-    id
-    name
-    gtfsId
-    code
-    desc
-    lat
-    lon
-    alerts {
-      alertSeverityLevel
-      alertDescriptionText
-      alertHeaderText
-      effectiveStartDate
-      effectiveEndDate
-      entities {
-        __typename
-      }
-    }
-    zoneId
-    platformCode
-    locationType
-    vehicleMode
-    stops {
-      zoneId
-    }
-    stoptimesWithoutPatterns(
-      startTime: $startTime
-      omitNonPickups: $omitNonPickups
-    ) {
-      realtimeDeparture
-      realtime
-      realtimeState
-      serviceDay
-      headsign
-      stop {
-        platformCode
-      }
-      trip {
-        gtfsId
-        tripHeadsign
-        occupancy {
-          occupancyStatus
-        }
-        pattern {
-          code
-          route {
-            gtfsId
-          }
-        }
-        route {
-          alerts {
-            alertSeverityLevel
-            effectiveStartDate
-            effectiveEndDate
-          }
-          type
-          shortName
-          longName
-          gtfsId
-          mode
-          color
-          patterns {
-            headsign
-          }
-        }
-      }
-    }
-  }
-`;
+import StopNearYouFragment from './queries/StopNearYouFragment';
 
 export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const intl = useIntl();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
-  const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
+  const [stop, refetch] = useRefetchableFragment(StopNearYouFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
   const mounted = useRef(false);

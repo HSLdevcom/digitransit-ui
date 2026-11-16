@@ -260,18 +260,18 @@ const refetchContainer = createPaginationContainer(
               place {
                 __typename
                 ... on VehicleRentalStation {
-                  ...VehicleRentalStationNearYou_station
+                  ...VehicleRentalStationNearYouFragment_station
                   stationId
                   rentalNetwork {
                     networkId
                   }
                 }
                 ... on VehicleParking {
-                  ...ParkNearYou_park
+                  ...ParkNearYouFragment_park
                   vehicleParkingId
                 }
                 ... on Stop {
-                  ...StopNearYou_stop
+                  ...StopNearYouFragment_stop
                     @arguments(
                       startTime: $startTime
                       omitNonPickups: $omitNonPickups
