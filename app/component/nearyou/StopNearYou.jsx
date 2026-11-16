@@ -1,4 +1,4 @@
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -97,15 +97,13 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const intl = useIntl();
-  const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
   useEffect(() => {
-    if (isParentTabActive && currentTime - timeRef.current > 30) {
+    if (isParentTabActive) {
       refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
-      timeRef.current = currentTime;
     }
   }, [currentTime, isParentTabActive]);
   if (!stop.stoptimesWithoutPatterns) {

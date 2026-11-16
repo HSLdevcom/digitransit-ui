@@ -1,33 +1,47 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'found';
-import { graphql, createRefetchContainer } from 'react-relay';
+import { graphql, useRefetchableFragment } from 'react-relay';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../utils/shared/path';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { parkShape, relayShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import ParkAndRideContent from '../ParkAndRideContent';
+import { useCurrentTime } from '../../hooks/TimeContext';
 
-const ParkNearYou = ({
-  park,
-  relay,
-  currentTime,
+const parkFragment = graphql`
+  fragment ParkNearYou_park on VehicleParking
+  @refetchable(queryName: "ParkNearYouQuery") {
+    ...ParkAndRideContent_vehicleParking
+    vehicleParkingId
+    name
+    lat
+    lon
+    availability {
+      carSpaces
+    }
+    parkCapacity: capacity {
+      bicycleSpaces
+      carSpaces
+    }
+    openingHours {
+      osm
+    }
+    tags
+    realtime
+  }
+`;
+
+export default function ParkNearYou({
+  park: parkRef,
   isParentTabActive = false,
   mode,
-}) => {
-  const timeRef = useRef(currentTime);
+}) {
+  const currentTime = useCurrentTime();
+  const [park, refetch] = useRefetchableFragment(parkFragment, parkRef);
 
   useEffect(() => {
-    const { vehicleParkingId } = park;
-    if (isParentTabActive && currentTime - timeRef.current > 30) {
-      relay.refetch(
-        oldVariables => {
-          return { ...oldVariables, vehicleParkingId };
-        },
-        null,
-        null,
-        { force: true }, // query variables stay the same between refetches
-      );
-      timeRef.current = currentTime;
+    if (isParentTabActive) {
+      refetch({}, { fetchPolicy: 'network-only' });
     }
   }, [currentTime, isParentTabActive]);
 
@@ -61,48 +75,10 @@ const ParkNearYou = ({
       </div>
     </span>
   );
-};
+}
 
 ParkNearYou.propTypes = {
-  park: parkShape.isRequired,
-  currentTime: PropTypes.number,
+  park: fragmentRefShape.isRequired,
   isParentTabActive: PropTypes.bool,
-  relay: relayShape.isRequired,
   mode: PropTypes.string.isRequired,
 };
-
-const containerComponent = createRefetchContainer(
-  ParkNearYou,
-  {
-    park: graphql`
-      fragment ParkNearYou_park on VehicleParking {
-        ...ParkAndRideContent_vehicleParking
-        vehicleParkingId
-        name
-        lat
-        lon
-        availability {
-          carSpaces
-        }
-        parkCapacity: capacity {
-          bicycleSpaces
-          carSpaces
-        }
-        openingHours {
-          osm
-        }
-        tags
-        realtime
-      }
-    `,
-  },
-  graphql`
-    query ParkNearYouRefetchQuery($vehicleParkingId: String!) {
-      vehicleParking(id: $vehicleParkingId) {
-        ...ParkNearYou_park
-      }
-    }
-  `,
-);
-
-export { containerComponent as default, ParkNearYou as Component };

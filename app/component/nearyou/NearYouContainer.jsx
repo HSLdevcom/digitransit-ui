@@ -141,7 +141,6 @@ function NearYouContainer({
             <ParkNearYou
               key={`${place.vehicleParkingId}`}
               park={place}
-              currentTime={currentTime}
               isParentTabActive={isParentTabActive}
               mode={mode}
             />

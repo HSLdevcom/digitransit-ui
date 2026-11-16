@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
@@ -36,16 +36,14 @@ export default function VehicleRentalStationNearYou({
   isParentTabActive = false,
 }) {
   const currentTime = useCurrentTime();
-  const timeRef = useRef(currentTime);
   const [station, refetch] = useRefetchableFragment(
     vehicleStationFragment,
     stationRef,
   );
 
   useEffect(() => {
-    if (isParentTabActive && currentTime - timeRef.current > 30) {
+    if (isParentTabActive) {
       refetch({}, { fetchPolicy: 'network-only' });
-      timeRef.current = currentTime;
     }
   }, [currentTime, isParentTabActive]);
 
