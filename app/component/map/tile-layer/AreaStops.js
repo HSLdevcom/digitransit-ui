@@ -55,11 +55,8 @@ export default class AreaStops {
           if (areaStopsLayer) {
             for (let i = 0; i < areaStopsLayer.length; i += 1) {
               const feature = areaStopsLayer.feature(i);
-              if (
-                feature.properties.name?.includes(
-                  this.mapLayers.areaStop.routeGtfsId,
-                )
-              ) {
+              const { routeGtfsId } = this.mapLayers.areaStop;
+              if (feature.properties.gtfsId?.startsWith(`${routeGtfsId}:`)) {
                 const geom = feature.loadGeometry();
                 this.drawAreaLine(geom, {
                   dash: [5, 5],
