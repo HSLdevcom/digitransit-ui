@@ -363,9 +363,16 @@ export default function Datetimepicker({
               className={styles['departure-now-button']}
               onClick={handleNowClick}
               ref={inputRef}
+              aria-describedby={`${htmlId}-now-description`}
             >
               {t('departure-now', translationSettings)}
             </button>
+            <span
+              id={`${htmlId}-now-description`}
+              className={styles['sr-only']}
+            >
+              {t('accessible-departure-now', translationSettings)}
+            </span>
           </div>
           <div
             className={

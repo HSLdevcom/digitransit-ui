@@ -89,6 +89,18 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     expect(controls[0]).toBe(closeButton);
   });
 
+  it('describes exactly what "Leaving now" does', () => {
+    const { openButton } = renderPicker();
+    fireEvent.click(openButton());
+    const nowButton = screen.getByRole('button', { name: 'Leaving now' });
+    const description = document.getElementById(
+      nowButton.getAttribute('aria-describedby'),
+    );
+    expect(description.textContent).toBe(
+      'Sets the departure time to now and closes the picker.',
+    );
+  });
+
   it('returns focus to the open button after "Leaving now"', () => {
     const { openButton } = renderPicker();
     fireEvent.click(openButton());
