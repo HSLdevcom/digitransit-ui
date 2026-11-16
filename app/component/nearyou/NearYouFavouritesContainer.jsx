@@ -13,7 +13,6 @@ export default function NearYouFavouritesContainer({
   vehicleStations: vehicleStationsRef,
   searchPosition,
   isParentTabActive,
-  currentTime,
   breakpoint,
 }) {
   const stops = useFragment(NearYouFavouritesFragment.stops, stopsRef);
@@ -79,7 +78,6 @@ export default function NearYouFavouritesContainer({
             key={stop.name}
             station={stop}
             isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
           />
         );
       default:
@@ -95,6 +93,5 @@ NearYouFavouritesContainer.propTypes = {
   vehicleStations: PropTypes.arrayOf(fragmentRefShape),
   searchPosition: locationShape,
   isParentTabActive: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   breakpoint: PropTypes.string,
 };

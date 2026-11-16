@@ -358,7 +358,6 @@ export default function NearYouPage() {
                 searchPosition={searchPosition}
                 noFavourites={noFavourites}
                 isParentTabActive={isActive}
-                currentTime={currentTime}
               />
             ) : (
               <Loading />

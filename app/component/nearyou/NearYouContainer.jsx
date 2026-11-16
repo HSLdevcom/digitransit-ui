@@ -133,7 +133,6 @@ function NearYouContainer({
             <VehicleRentalStationNearYou
               key={`${place.stationId}`}
               station={place}
-              currentTime={currentTime}
               isParentTabActive={isParentTabActive}
             />
           );
