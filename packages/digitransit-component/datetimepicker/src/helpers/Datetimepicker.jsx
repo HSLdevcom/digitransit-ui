@@ -432,9 +432,9 @@ export default function Datetimepicker({
     );
   }
 
-  const formatToprowSummary = () => {
+  const getSummaryText = () => {
     if (nowSelected && departureOrArrival === 'departure') {
-      return <span>{t('departure-now', translationSettings)}</span>;
+      return t('departure-now', translationSettings);
     }
     const dateDisplay = getDateDisplay(displayTimestamp);
     const timeDisplay = getTimeDisplay(displayTimestamp);
@@ -450,15 +450,15 @@ export default function Datetimepicker({
       .plus({ days: 1 })
       .hasSame(DateTime.fromMillis(displayTimestamp), 'day');
     if (isToday) {
-      return <span>{`${summary} ${timeDisplay}`}</span>;
+      return `${summary} ${timeDisplay}`;
     }
     if (isTomorrow) {
-      return (
-        <span>{`${summary} ${dateDisplay.toLowerCase()} ${timeDisplay}`}</span>
-      );
+      return `${summary} ${dateDisplay.toLowerCase()} ${timeDisplay}`;
     }
-    return <span>{`${summary} ${dateDisplay} ${timeDisplay}`}</span>;
+    return `${summary} ${dateDisplay} ${timeDisplay}`;
   };
+
+  const summaryText = getSummaryText();
 
   return (
     <fieldset
@@ -485,9 +485,6 @@ export default function Datetimepicker({
           <span className={styles['time-icon']}>
             <Icon img="time" color={color} />
           </span>
-          <span className={styles['sr-only']}>
-            {t('accessible-open', translationSettings)}
-          </span>
           <span role="alert" className={styles['sr-only']} ref={alertRef} />
           <button
             id={`${htmlId}-open`}
@@ -495,6 +492,8 @@ export default function Datetimepicker({
             className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
             aria-controls={`${htmlId}-root`}
             aria-expanded="false"
+            // Name starts with the visible text (WCAG 2.5.3) and exposes the selected time
+            aria-label={`${summaryText}. ${t('accessible-open', translationSettings)}`}
             onClick={() => {
               pendingFocusRef.current = 'close';
               changeOpen(true);
@@ -505,7 +504,7 @@ export default function Datetimepicker({
             }}
             ref={openPickerRef}
           >
-            {formatToprowSummary()}
+            {summaryText}
             <span className={styles['dropdown-icon']}>
               <Icon img="arrow-dropdown" color={color} />
             </span>

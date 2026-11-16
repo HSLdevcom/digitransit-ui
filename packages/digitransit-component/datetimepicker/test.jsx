@@ -28,12 +28,10 @@ function renderPicker(props) {
       {...props}
     />,
   );
-  // The toggle button's accessible name comes from its associated <label>
-  // (an sr-only "Open the picker" span), not from the visible date/time text
-  // that's rendered as a child of the button itself - so locate it by its
-  // accessible name and read the visible text separately.
+  // The toggle button's accessible name is the visible summary followed by
+  // the action, e.g. "Departure Wed 15.11. 00:13. Open the picker".
   const openButton = () =>
-    screen.getByRole('button', { name: 'Open the picker' });
+    screen.getByRole('button', { name: /Open the picker$/ });
   return { ...result, calls, openButton };
 }
 
@@ -41,6 +39,14 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
   it('shows the initial departure date and time on the closed toggle button', () => {
     const { openButton } = renderPicker();
     expect(openButton().textContent).toContain('Departure Wed 15.11. 00:13');
+  });
+
+  it('includes the visible text in the accessible name of the closed toggle button', () => {
+    const { openButton } = renderPicker();
+    expect(openButton().getAttribute('aria-label')).toBe(
+      'Departure Wed 15.11. 00:13. Open the picker',
+    );
+    expect(openButton().getAttribute('aria-expanded')).toBe('false');
   });
 
   it('shows the initial arrival date and time when starting in arrival mode', () => {
