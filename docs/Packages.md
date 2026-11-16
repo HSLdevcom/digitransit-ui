@@ -192,11 +192,11 @@ resolve those by hand in the package's `translations.js`.
 languages their `lang` prop takes a locale object (`{ code, messages }`), and
 for the built-in languages the object's messages override the built-in ones.
 Missing messages fall back to the built-in texts (Finnish for other languages).
-Packages whose DS components render built-in texts have a `dsLang.js` helper
-next to `i18n.js`: `getDsLang(lang)` returns a locale object built once from
-the package's own translations for each language. Each package test fails if
-a language lacks the `close` text, so it never silently falls back to
-Finnish. The app builds one locale object from its own
+Packages whose DS components render built-in texts export `hslfiLocales` from
+their `translations.js`: ready-made locale objects (with the package's
+`CloseButton` text) for the languages the DS has no built-in texts for, and
+components pass `lang={hslfiLocales[lang] ?? lang}`. The built-in languages
+(fi/sv/en) need no entry. The app builds one locale object from its own
 translations at client startup (`initHslfiLocale` in `app/client/client.jsx`)
 and components pass `lang={hslfiLocale}` from `utils/client/hslfiLocale.js`.
 Translations missing from the object (fi/sv/en) fall back to the design
