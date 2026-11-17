@@ -18,7 +18,6 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import StopNearYouFragment from './queries/StopNearYouFragment';
-import RefetchQuery from './queries/__generated__/StopNearYouFragmentRefetchQuery.graphql';
 
 export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
@@ -28,13 +27,7 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const [stop, refetch] = useRefetchableFragment(StopNearYouFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
-  useRefetchOnTick(
-    refetch,
-    StopNearYouFragment,
-    stopRef,
-    RefetchQuery,
-    isParentTabActive,
-  );
+  useRefetchOnTick(refetch, StopNearYouFragment, stopRef, isParentTabActive);
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }

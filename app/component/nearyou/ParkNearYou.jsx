@@ -7,7 +7,6 @@ import { fragmentRefShape } from '../../../utils/client/shapes';
 import ParkAndRideContent from '../ParkAndRideContent';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import ParkNearYouFragment from './queries/ParkNearYouFragment';
-import RefetchQuery from './queries/__generated__/ParkNearYouFragmentRefetchQuery.graphql';
 
 export default function ParkNearYou({
   park: parkRef,
@@ -16,13 +15,7 @@ export default function ParkNearYou({
 }) {
   const [park, refetch] = useRefetchableFragment(ParkNearYouFragment, parkRef);
 
-  useRefetchOnTick(
-    refetch,
-    ParkNearYouFragment,
-    parkRef,
-    RefetchQuery,
-    isParentTabActive,
-  );
+  useRefetchOnTick(refetch, ParkNearYouFragment, parkRef, isParentTabActive);
 
   const prefix = mode === 'BIKEPARK' ? PREFIX_BIKEPARK : PREFIX_CARPARK;
   return (

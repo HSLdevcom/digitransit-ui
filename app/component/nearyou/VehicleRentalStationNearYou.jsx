@@ -11,7 +11,6 @@ import { fragmentRefShape } from '../../../utils/client/shapes';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import VehicleRentalStationNearYouFragment from './queries/VehicleRentalStationNearYouFragment';
-import RefetchQuery from './queries/__generated__/VehicleRentalStationNearYouFragmentRefetchQuery.graphql';
 
 export default function VehicleRentalStationNearYou({
   station: stationRef,
@@ -26,7 +25,6 @@ export default function VehicleRentalStationNearYou({
     refetch,
     VehicleRentalStationNearYouFragment,
     stationRef,
-    RefetchQuery,
     isParentTabActive,
   );
 

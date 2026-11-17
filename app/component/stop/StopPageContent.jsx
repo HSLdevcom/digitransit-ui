@@ -9,7 +9,6 @@ import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
-import RefetchQuery from './__generated__/StopPageContentQuery.graphql';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 
@@ -63,7 +62,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
   const match = useMatch();
   const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
 
-  useRefetchOnTick(refetch, stopFragment, stopRef, RefetchQuery);
+  useRefetchOnTick(refetch, stopFragment, stopRef);
 
   if (!stop && error) {
     throw error.message;
