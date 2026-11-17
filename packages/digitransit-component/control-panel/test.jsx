@@ -66,7 +66,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       expect(clicks).toEqual(['/en/nearyou/BUS/POS']);
     });
 
-    it('activates a mode link with the Enter key but ignores other keys', () => {
+    it('activates a mode link with the Enter key but ignores other keys, including Space', () => {
       const clicks = [];
       render(
         <CtrlPanel position="left">
@@ -81,6 +81,7 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       );
       const link = screen.getByRole('link');
       fireEvent.keyDown(link, { key: 'a' });
+      fireEvent.keyDown(link, { key: ' ' });
       expect(clicks).toEqual([]);
       fireEvent.keyDown(link, { key: 'Enter' });
       expect(clicks).toEqual(['/en/nearyou/BUS/POS']);
