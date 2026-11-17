@@ -142,6 +142,7 @@ export default function DepartureRow({
   return (
     <Link
       as="tr"
+      role="link"
       tabIndex={isParentTabActive ? '0' : '-1'}
       to={routePagePath(
         trip.pattern.route.gtfsId,
