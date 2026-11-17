@@ -16,6 +16,7 @@ Icon renders predefined Svg icons as react component.
     *   `$0.height`  
     *   `$0.width`  
     *   `$0.rotate`  
+    *   `$0.ariaLabel`  
 
 ### Examples
 
@@ -27,6 +28,7 @@ Icon renders predefined Svg icons as react component.
    color="#007ac9" // Color of image, optional
    rotate={90}     // How many degrees to rotate image, optional
    className="foo" // Extra class name on the svg, optional
+   ariaLabel="Closed" // Accessible name for an icon that carries information. Without it the icon is decorative and hidden from assistive technology, optional
 />
 ```
 
