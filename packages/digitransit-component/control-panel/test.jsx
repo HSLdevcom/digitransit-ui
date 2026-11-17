@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import CtrlPanel from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-control-panel module', () => {
@@ -113,6 +113,33 @@ describe('Testing @digitransit-component/digitransit-component-control-panel mod
       fireEvent.click(screen.getAllByRole('link')[6]);
       expect(screen.getByRole('dialog')).toBeTruthy();
       expect(screen.getAllByRole('link').length).toBeGreaterThan(7);
+    });
+
+    it('returns focus to the "more" link when the dialog is closed', async () => {
+      render(
+        <CtrlPanel position="left">
+          <CtrlPanel.NearStopsAndRoutes
+            modeArray={[
+              'favorite',
+              'bus',
+              'tram',
+              'rail',
+              'subway',
+              'ferry',
+              'citybike',
+              'carpark',
+            ]}
+            language="en"
+            origin={{}}
+            onClick={() => {}}
+            urlPrefix="/nearyou"
+          />
+        </CtrlPanel>,
+      );
+      const more = screen.getAllByRole('link')[6];
+      fireEvent.click(more);
+      fireEvent.click(screen.getAllByRole('button', { name: /close/i })[0]);
+      await waitFor(() => expect(document.activeElement).toBe(more));
     });
 
     it('shows the all-modes description in the dialog', () => {
