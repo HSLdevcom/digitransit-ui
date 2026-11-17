@@ -11,7 +11,10 @@ import {
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
-import { getCapacity } from '../../utils/client/occupancyUtil';
+import {
+  capacityToTranslationId,
+  getCapacity,
+} from '../../utils/client/occupancyUtil';
 import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
 import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
@@ -129,6 +132,10 @@ export default function DepartureRow({
             platformCode: departure.stop?.platformCode,
           },
         )
+      : ''
+  }${
+    capacity
+      ? `, ${intl.formatMessage({ id: capacityToTranslationId(capacity) })}`
       : ''
   }`;
 
