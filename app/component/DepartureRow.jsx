@@ -149,6 +149,13 @@ export default function DepartureRow({
           name: 'RightNowTab',
         });
       }}
+      // A <tr> has no native link activation, so Enter triggers the click
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
+      }}
       aria-label={ariaLabel}
       className={cx(
         'departure-row',
