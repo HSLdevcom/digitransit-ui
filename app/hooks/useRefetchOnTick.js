@@ -1,6 +1,7 @@
 import { useEffect, useRef, startTransition } from 'react';
 import { fetchQuery, useRelayEnvironment } from 'react-relay';
 import { getFragment, getSelector } from 'relay-runtime';
+import { RRNLError } from 'react-relay-network-modern';
 import { useCurrentTime } from './TimeContext';
 
 /**
@@ -8,6 +9,9 @@ import { useCurrentTime } from './TimeContext';
  * The data is first fetched into the Relay store, and only then applied with refetch,
  * which reads it from the store without suspending. A failed request leaves the current
  * data in place and the next tick retries, instead of throwing to an error boundary.
+ * Only network layer errors are ignored, other errors are not swallowed.
+ * A tick is skipped while the previous request is still in flight, so slow connections
+ * don't stack requests.
  *
  * @param {function} refetch the refetch function of useRefetchableFragment
  * @param {object} fragment the fragment definition
@@ -23,6 +27,7 @@ export default function useRefetchOnTick(
   const environment = useRelayEnvironment();
   const currentTime = useCurrentTime();
   const mounted = useRef(false);
+  const inFlight = useRef(false);
 
   useEffect(() => {
     // data was just fetched by the parent query
@@ -30,12 +35,13 @@ export default function useRefetchOnTick(
       mounted.current = true;
       return;
     }
-    if (enabled) {
+    if (enabled && !inFlight.current) {
       const { variables } = getSelector(fragment, fragmentRef);
       const query = getFragment(fragment).metadata.refetch.operation;
       // time windowed fragments move their window forward
       const newVariables =
         'startTime' in variables ? { startTime: currentTime } : {};
+      inFlight.current = true;
       fetchQuery(
         environment,
         query,
@@ -48,12 +54,21 @@ export default function useRefetchOnTick(
         { fetchPolicy: 'network-only' },
       )
         .toPromise()
-        .then(() => {
-          startTransition(() => {
-            refetch(newVariables, { fetchPolicy: 'store-or-network' });
-          });
-        })
-        .catch(() => {});
+        .then(
+          () => {
+            startTransition(() => {
+              refetch(newVariables, { fetchPolicy: 'store-or-network' });
+            });
+          },
+          err => {
+            if (!(err instanceof RRNLError)) {
+              throw err;
+            }
+          },
+        )
+        .finally(() => {
+          inFlight.current = false;
+        });
     }
   }, [currentTime, enabled]);
 }
