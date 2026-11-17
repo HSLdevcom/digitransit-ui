@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, startTransition } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -16,7 +16,9 @@ import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
+import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import StopNearYouFragment from './queries/StopNearYouFragment';
+import RefetchQuery from './queries/__generated__/StopNearYouFragmentRefetchQuery.graphql';
 
 export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
@@ -26,20 +28,13 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const [stop, refetch] = useRefetchableFragment(StopNearYouFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
-  const mounted = useRef(false);
-
-  useEffect(() => {
-    // data was just fetched by the parent query
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
-    }
-    if (isParentTabActive) {
-      startTransition(() => {
-        refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
-      });
-    }
-  }, [currentTime, isParentTabActive]);
+  useRefetchOnTick(
+    refetch,
+    StopNearYouFragment,
+    stopRef,
+    RefetchQuery,
+    isParentTabActive,
+  );
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
