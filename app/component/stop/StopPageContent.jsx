@@ -1,4 +1,3 @@
-import { useEffect, useRef, startTransition } from 'react';
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
@@ -9,6 +8,8 @@ import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
+import useRefetchOnTick from '../../hooks/useRefetchOnTick';
+import RefetchQuery from './__generated__/StopPageContentQuery.graphql';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
 
@@ -62,18 +63,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
   const match = useMatch();
   const [stop, refetch] = useRefetchableFragment(stopFragment, stopRef);
 
-  const mounted = useRef(false);
-
-  useEffect(() => {
-    // data was just fetched by the parent query
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
-    }
-    startTransition(() => {
-      refetch({ startTime: currentTime }, { fetchPolicy: 'network-only' });
-    });
-  }, [currentTime]);
+  useRefetchOnTick(refetch, stopFragment, stopRef, RefetchQuery);
 
   if (!stop && error) {
     throw error.message;

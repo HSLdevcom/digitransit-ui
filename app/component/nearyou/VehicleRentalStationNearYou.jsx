@@ -1,4 +1,3 @@
-import { useEffect, useRef, startTransition } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
@@ -10,33 +9,26 @@ import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
 import { fragmentRefShape } from '../../../utils/client/shapes';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
-import { useCurrentTime } from '../../hooks/TimeContext';
+import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import VehicleRentalStationNearYouFragment from './queries/VehicleRentalStationNearYouFragment';
+import RefetchQuery from './queries/__generated__/VehicleRentalStationNearYouFragmentRefetchQuery.graphql';
 
 export default function VehicleRentalStationNearYou({
   station: stationRef,
   isParentTabActive = false,
 }) {
-  const currentTime = useCurrentTime();
   const [station, refetch] = useRefetchableFragment(
     VehicleRentalStationNearYouFragment,
     stationRef,
   );
 
-  const mounted = useRef(false);
-
-  useEffect(() => {
-    // data was just fetched by the parent query
-    if (!mounted.current) {
-      mounted.current = true;
-      return;
-    }
-    if (isParentTabActive) {
-      startTransition(() => {
-        refetch({}, { fetchPolicy: 'network-only' });
-      });
-    }
-  }, [currentTime, isParentTabActive]);
+  useRefetchOnTick(
+    refetch,
+    VehicleRentalStationNearYouFragment,
+    stationRef,
+    RefetchQuery,
+    isParentTabActive,
+  );
 
   return (
     <span role="listitem">
