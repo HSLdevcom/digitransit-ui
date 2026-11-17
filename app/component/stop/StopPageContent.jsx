@@ -2,7 +2,7 @@ import { useEffect, useRef, startTransition } from 'react';
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
-import { errorShape, stopShape } from '../../../utils/client/shapes';
+import { errorShape, fragmentRefShape } from '../../../utils/client/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
@@ -169,6 +169,6 @@ export default function StopPageContent({ stop: stopRef, error }) {
   );
 }
 StopPageContent.propTypes = {
-  stop: stopShape,
+  stop: fragmentRefShape.isRequired,
   error: errorShape,
 };
