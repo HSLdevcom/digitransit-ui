@@ -126,14 +126,12 @@ describe('<DateSelectGrouped />', () => {
       dateFormat,
       intl,
     );
-    const groups = groupDatesByWeek(options, today.weekNumber, intl);
+    const groups = groupDatesByWeek(options, today, intl);
     expect(groups[0].label).toBe('This week');
     expect(groups[0].options).toHaveLength(2);
   });
 
   it('should label the next week', () => {
-    expect(formatWeekLabel(today.weekNumber + 1, today.weekNumber, intl)).toBe(
-      'Next week',
-    );
+    expect(formatWeekLabel(today.weekNumber + 1, 1, intl)).toBe('Next week');
   });
 });

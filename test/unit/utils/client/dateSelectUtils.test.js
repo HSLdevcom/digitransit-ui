@@ -52,31 +52,16 @@ describe('dateSelectUtils', () => {
   });
 
   describe('formatWeekLabel', () => {
-    it('should return "This week" for current week', () => {
-      const currentWeek = 3;
-      const weekNum = 3;
-
-      const result = formatWeekLabel(weekNum, currentWeek, intl);
-
-      expect(result).toBe('This week');
+    it('should return "This week" for the current week', () => {
+      expect(formatWeekLabel(3, 0, intl)).toBe('This week');
     });
 
-    it('should return "Next week" for next week', () => {
-      const currentWeek = 3;
-      const weekNum = 4;
-
-      const result = formatWeekLabel(weekNum, currentWeek, intl);
-
-      expect(result).toBe('Next week');
+    it('should return "Next week" for the following week', () => {
+      expect(formatWeekLabel(4, 1, intl)).toBe('Next week');
     });
 
     it('should return week number for other weeks', () => {
-      const currentWeek = 3;
-      const weekNum = 5;
-
-      const result = formatWeekLabel(weekNum, currentWeek, intl);
-
-      expect(result).toBe('Week 5');
+      expect(formatWeekLabel(5, 2, intl)).toBe('Week 5');
     });
   });
 
@@ -139,7 +124,11 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, intl);
+      const result = groupDatesByWeek(
+        processedDates,
+        DateTime.fromISO('2024-01-15'),
+        intl,
+      );
 
       expect(result).toHaveLength(2);
       expect(result[0].label).toBe('This week');
@@ -159,10 +148,40 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, intl);
+      const result = groupDatesByWeek(
+        processedDates,
+        DateTime.fromISO('2024-01-15'),
+        intl,
+      );
 
       expect(result[0].options[0]).toHaveProperty('ariaLabel');
       expect(result[0].options[0].ariaLabel).toBe('Monday 15.1.');
+    });
+
+    it('should keep week 1 of the next year after the last week of this year', () => {
+      const days = ['2026-12-28', '2027-01-04', '2027-01-11'];
+      const processedDates = days.map(d => {
+        const dateObj = DateTime.fromISO(d);
+        return {
+          value: d,
+          textLabel: d,
+          ariaLabel: d,
+          weekNumber: dateObj.weekNumber,
+          dateObj,
+        };
+      });
+
+      const result = groupDatesByWeek(
+        processedDates,
+        DateTime.fromISO('2026-12-28'),
+        intl,
+      );
+
+      expect(result.map(g => g.label)).toEqual([
+        'This week',
+        'Next week',
+        'Week 2',
+      ]);
     });
 
     it('should sort weeks in ascending order', () => {
@@ -190,7 +209,11 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(processedDates, 3, intl);
+      const result = groupDatesByWeek(
+        processedDates,
+        DateTime.fromISO('2024-01-15'),
+        intl,
+      );
 
       expect(result).toHaveLength(3);
       expect(result[0].label).toBe('This week');

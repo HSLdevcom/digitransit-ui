@@ -26,16 +26,16 @@ export function formatDateLabel(date, today, tomorrow, intl) {
 /**
  * Generate week group label ("This week", "Next week", or "Week N").
  *
- * @param {number} weekNum - Week number
- * @param {number} currentWeek - Current week number
+ * @param {number} weekNum - ISO week number of the group
+ * @param {number} weeksFromNow - Calendar weeks between the current week and the group
  * @param {Object} intl - Internationalization object with formatMessage
  * @returns {string} Formatted group label
  */
-export function formatWeekLabel(weekNum, currentWeek, intl) {
-  if (weekNum === currentWeek) {
+export function formatWeekLabel(weekNum, weeksFromNow, intl) {
+  if (weeksFromNow === 0) {
     return intl.formatMessage({ id: 'this-week', defaultMessage: 'This week' });
   }
-  if (weekNum === currentWeek + 1) {
+  if (weeksFromNow === 1) {
     return intl.formatMessage({ id: 'next-week', defaultMessage: 'Next week' });
   }
   return intl.formatMessage(
@@ -66,32 +66,36 @@ export function processDates(dates, today, tomorrow, dateFormat, intl) {
 }
 
 /**
- * Group dates by week number.
+ * Group dates by calendar week in chronological order, so that week 1 of the
+ * next year comes after the last week of this year.
  *
  * @param {Array<Object>} processedDates - Array of processed date objects
- * @param {number} currentWeek - Current week number
+ * @param {DateTime} today - Today's date, used to find the current week
  * @param {Object} intl - Internationalization object
  * @returns {Array<Object>} Array of grouped options with label and options
  */
-export function groupDatesByWeek(processedDates, currentWeek, intl) {
-  const byWeek = processedDates.reduce((acc, item) => {
-    if (!acc[item.weekNumber]) {
-      acc[item.weekNumber] = [];
+export function groupDatesByWeek(processedDates, today, intl) {
+  const currentWeekStart = today.startOf('week');
+  const byWeek = new Map();
+  processedDates.forEach(item => {
+    const weekStart = item.dateObj.startOf('week');
+    const key = weekStart.toISODate();
+    if (!byWeek.has(key)) {
+      byWeek.set(key, { weekStart, items: [] });
     }
-    acc[item.weekNumber].push(item);
-    return acc;
-  }, {});
+    byWeek.get(key).items.push(item);
+  });
 
-  const groupedOptions = [];
-  Object.entries(byWeek)
-    .sort(([a], [b]) => Number(a) - Number(b))
-    .forEach(([weekNum, weekItems]) => {
-      const groupLabel = formatWeekLabel(Number(weekNum), currentWeek, intl);
-
-      groupedOptions.push({ label: groupLabel, options: weekItems });
-    });
-
-  return groupedOptions;
+  return [...byWeek.entries()]
+    .sort(([a], [b]) => (a < b ? -1 : 1))
+    .map(([, { weekStart, items }]) => ({
+      label: formatWeekLabel(
+        weekStart.weekNumber,
+        Math.round(weekStart.diff(currentWeekStart, 'weeks').weeks),
+        intl,
+      ),
+      options: items,
+    }));
 }
 
 /**

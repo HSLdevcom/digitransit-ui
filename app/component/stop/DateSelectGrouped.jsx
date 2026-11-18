@@ -45,7 +45,7 @@ function DateSelectGrouped({
       intl,
     );
 
-    const groupedOptions = groupDatesByWeek(options, today.weekNumber, intl);
+    const groupedOptions = groupDatesByWeek(options, today, intl);
 
     return { grouped: groupedOptions, processedDates: options };
   }, [dateFormat, dates, startDate?.toISODate(), locale]);
