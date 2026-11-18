@@ -121,9 +121,9 @@ export function getAnalyticsInitCode(config, req) {
       // - not when mobile time picker or mobile settings are open
       const ceItineraryPage = buildCrazyEggSurveyScript(
         {
-          fi: '8cb293bb-6785-481a-81c3-7f4e6f04a536',
-          sv: '904fe02f-fde8-41b7-933b-ea215cdd5a00',
-          en: '254eb853-fa71-4b3c-8313-9eeca10129b6',
+          fi: '470215ef-c02e-4123-a9de-2792c0fcaf97',
+          sv: 'dd11434b-5a93-4daa-905e-3198ac502d1e',
+          en: 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12',
         },
         {
           language: lang,

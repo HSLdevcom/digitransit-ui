@@ -196,6 +196,10 @@ export default {
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
     includeTaxiSuggestions: false,
+    transitGroupRelaxFunction: {
+      constant: 300,
+      coefficient: 1.2,
+    },
   },
 
   /**
@@ -627,6 +631,7 @@ export default {
     matka: '(matka|^dev.digitransit)',
     vaasa: 'vaasa',
     walttiOpas: 'waltti',
+    walttiTest: 'waltti-test',
     rovaniemi: '(rovaniemi|linkkari)',
     kouvola: 'kouvola',
     tampere: 'tampere',

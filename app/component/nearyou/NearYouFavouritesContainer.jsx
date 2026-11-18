@@ -1,10 +1,12 @@
+import { Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import NoFavourites from './NoFavourites';
+import Loading from '../Loading';
 import NearYouFavouritesFragment from './queries/NearYouFavouritesFragment';
 
 export default function NearYouFavouritesContainer({
@@ -13,7 +15,6 @@ export default function NearYouFavouritesContainer({
   vehicleStations: vehicleStationsRef,
   searchPosition,
   isParentTabActive,
-  currentTime,
   breakpoint,
 }) {
   const stops = useFragment(NearYouFavouritesFragment.stops, stopsRef);
@@ -67,11 +68,10 @@ export default function NearYouFavouritesContainer({
       case 'stop':
       case 'station':
         return (
-          <StopNearYouContainer
+          <StopNearYou
             key={stop.gtfsId}
             stop={stop}
             isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
           />
         );
       case 'vehicleRentalStation':
@@ -80,14 +80,13 @@ export default function NearYouFavouritesContainer({
             key={stop.name}
             station={stop}
             isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
           />
         );
       default:
         return null;
     }
   });
-  return stopElements;
+  return <Suspense fallback={<Loading />}>{stopElements}</Suspense>;
 }
 
 NearYouFavouritesContainer.propTypes = {
@@ -96,6 +95,5 @@ NearYouFavouritesContainer.propTypes = {
   vehicleStations: PropTypes.arrayOf(fragmentRefShape),
   searchPosition: locationShape,
   isParentTabActive: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   breakpoint: PropTypes.string,
 };

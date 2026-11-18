@@ -745,18 +745,21 @@ export default {
 
   flex: {
     external: {
-      enabled: true,
-      transit: true,
+      enabled: isDevRunEnv(),
+      transit: isDevRunEnv(),
       direct: false,
       agencies: ['Uber:agency-mog2skf5-1'],
     },
-    // TODO: flex call agency buses disabled for now, proper configuration coming in the future
-    /* internal: {
-      enabled: true,
-      transit: true,
-      direct: true,
-      agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
-    }, */
+    internal: {
+      enabled: isDevRunEnv(),
+      transit: isDevRunEnv(),
+      direct: isDevRunEnv(),
+      agencies: [
+        'KirkkonummiE:612',
+        'KirkkonummiP:612',
+        'kalasatama_flex:fedaa37f-67c7-4be6-a98c-158b1ecc2e5b',
+      ],
+    },
     infoLanguage: 'fi',
     settingLabelOverride: 'demand-responsive-traffic',
     taxiExternalIcon: 'icon_uber-wide',
@@ -764,7 +767,7 @@ export default {
 
   showRouteDescNotification: isDevRunEnv(),
   useAlternativeNameForModes: ['RAIL'],
-  personalization: false,
+  personalization: true,
   personalizationSurveyLinks: {
     fi: 'https://surveys.crazyegg.com/s/303436/c50407d2-a31b-4336-a43b-149ac6639d78',
     sv: 'https://surveys.crazyegg.com/s/303436/7977162c-07a0-4316-82e0-ae2dee934edf',

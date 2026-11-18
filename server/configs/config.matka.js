@@ -101,7 +101,6 @@ export default {
         'CAR_FERRIES',
         'flixbus',
       ],
-  externalFeedIds: ['02Taksi'],
 
   additionalFeedIds: {
     estonia: ['Vikingline', 'Viro'],
@@ -270,6 +269,8 @@ export default {
     'ferry',
     'citybike',
     'airplane',
+    'carpark',
+    'bikepark',
   ],
 
   showVehiclesOnStopPage: false,
@@ -444,16 +445,17 @@ export default {
   ],
   navigation: true,
 
-  // TODO: flex call agency buses disabled for now, proper configuration coming in the future
-  /* flex: {
+  externalFeedIds: ['02Taksi'],
+
+  flex: {
     internal: {
-      enabled: true,
-      transit: true,
-      direct: true,
+      enabled: isDevRunEnv(),
+      transit: isDevRunEnv(),
+      direct: isDevRunEnv(),
       agencies: ['KirkkonummiE:612', 'KirkkonummiP:612'],
     },
     infoLanguage: 'fi',
-  }, */
+  },
 
   taxiZone: {
     enabled: true,

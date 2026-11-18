@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import { Route, RedirectException } from 'found';
 import { graphql } from 'react-relay';
 
@@ -94,7 +95,7 @@ const queries = {
     pageContent: graphql`
       query stopRoutes_StopPageContent_Query($stopId: String!) {
         stop(id: $stopId) {
-          ...StopPageContentContainer_stop
+          ...StopPageContent_stop
         }
       }
     `,
@@ -174,8 +175,8 @@ const queries = {
     `,
     pageContent: graphql`
       query stopRoutes_TerminalPageContent_Query($terminalId: String!) {
-        station(id: $terminalId) {
-          ...TerminalPageContentContainer_station
+        stop: station(id: $terminalId) {
+          ...StopPageContent_stop @arguments(timeRange: 43200)
         }
       }
     `,
@@ -261,27 +262,25 @@ export default function getStopRoutes(isTerminal = false) {
             >
               <Route
                 getComponent={() => {
-                  return isTerminal
-                    ? import(
-                        /* webpackChunkName: "stop" */ '../component/stop/TerminalPageContentContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading)
-                    : import(
-                        /* webpackChunkName: "stop" */ '../component/stop/StopPageContentContainer'
-                      )
-                        .then(getDefault)
-                        .catch(errorLoading);
+                  return import(
+                    /* webpackChunkName: "stop" */ '../component/stop/StopPageContent'
+                  )
+                    .then(getDefault)
+                    .catch(errorLoading);
                 }}
                 query={queryMap.pageContent}
                 render={({ Component, props, error }) => {
                   if (Component && (props || error)) {
-                    if (!error && !(props.stop || props.station)) {
+                    if (!error && !props.stop) {
                       throw new RedirectException(
                         `/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`,
                       );
                     } else {
-                      return <Component {...props} error={error} />;
+                      return (
+                        <Suspense fallback={<Loading />}>
+                          <Component {...props} error={error} />
+                        </Suspense>
+                      );
                     }
                   }
                   return <Loading />;

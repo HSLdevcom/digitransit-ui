@@ -289,6 +289,14 @@ export default {
 
   navigation: true,
 
+  externalFeedIds: ['02Taksi'],
+
+  taxiZone: {
+    enabled: isDevRunEnv(),
+    transit: isDevRunEnv(),
+    direct: false,
+  },
+
   replacementBusNotification: {
     // Header is displayed via translation key 'replacement-bus'.
     content: {

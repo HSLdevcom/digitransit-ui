@@ -131,27 +131,27 @@ describe('analytics utils', () => {
       document.cookie = 'lang=fi';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('8cb293bb-6785-481a-81c3-7f4e6f04a536')).toBe(true);
+      expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).toBe(true);
     });
     it('should include Swedish itinerary survey ID when lang=sv', () => {
       document.cookie = 'lang=sv';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('904fe02f-fde8-41b7-933b-ea215cdd5a00')).toBe(true);
+      expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).toBe(true);
     });
     it('should include English itinerary survey ID when lang=en', () => {
       document.cookie = 'lang=en';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('254eb853-fa71-4b3c-8313-9eeca10129b6')).toBe(true);
+      expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).toBe(true);
     });
     it('should not include itinerary survey when language is unknown', () => {
       document.cookie = 'lang=xx';
       const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
       document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-      expect(res.includes('8cb293bb-6785-481a-81c3-7f4e6f04a536')).toBe(false);
-      expect(res.includes('904fe02f-fde8-41b7-933b-ea215cdd5a00')).toBe(false);
-      expect(res.includes('254eb853-fa71-4b3c-8313-9eeca10129b6')).toBe(false);
+      expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).toBe(false);
+      expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).toBe(false);
+      expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).toBe(false);
     });
 
     it('should include route page survey when lang=fi', () => {

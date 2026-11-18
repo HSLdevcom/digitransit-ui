@@ -167,8 +167,8 @@ export default configMerger(walttiConfig, {
   },
   zoneIdMapping: {
     1: 'A',
-    2: 'B',
-    3: 'C',
+    2: 'A',
+    3: 'A',
   },
   zones: {
     stops: true,

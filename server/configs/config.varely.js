@@ -1,4 +1,5 @@
 import configMerger from '../../utils/server/configMerger.js';
+import { isDevRunEnv } from '../../utils/server/envUtils.js';
 import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'varely';
@@ -69,6 +70,11 @@ export default configMerger(walttiConfig, {
       availableForSelection: true,
       defaultValue: true,
       color: '#0064f0',
+    },
+
+    taxi: {
+      availableForSelection: true, // experimental feature
+      defaultValue: false,
     },
   },
 
@@ -151,6 +157,14 @@ export default configMerger(walttiConfig, {
         ],
       },
     ],
+  },
+
+  externalFeedIds: ['02Taksi'],
+
+  taxiZone: {
+    enabled: isDevRunEnv(),
+    transit: isDevRunEnv(),
+    direct: false,
   },
 
   sourceForAlertsAndDisruptions: {
