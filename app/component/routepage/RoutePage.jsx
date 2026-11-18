@@ -120,9 +120,12 @@ export default function RoutePage({
               style={{ color: shortNameColor }}
             >
               <span className="sr-only">
-                {`${intl.formatMessage({
-                  id: modeToTranslationId(mode, config),
-                })} ${label?.toLowerCase() ?? ''}`}
+                {[
+                  intl.formatMessage({ id: modeToTranslationId(mode, config) }),
+                  label?.toLowerCase(),
+                ]
+                  .filter(Boolean)
+                  .join(', ')}
               </span>
               <span aria-hidden="true">{label}</span>
             </h1>
