@@ -61,7 +61,8 @@ export default function useRefetchOnTick(
             });
           },
           err => {
-            if (!(err instanceof RRNLError)) {
+            // TypeError is fetch's network failure (offline)
+            if (!(err instanceof RRNLError || err instanceof TypeError)) {
               throw err;
             }
           },
