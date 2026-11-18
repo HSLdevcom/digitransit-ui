@@ -25,6 +25,7 @@ This component renders an input to choose a date and time. Renders separate inpu
     *   `props.onOpen` **[function][4]** Determine what to do when timepicker is open. Optional. no default implementation.
     *   `props.onClose` **[function][4]** Determine what to do when timepicker is closed. Optional. no default implementation.
     *   `props.openPicker` **[function][4]** Determine if timepicker should be open in intial render. Optional. Default is undefined.
+    *   `props.showUpdateInstructions` **[boolean][2]** Add a hidden instruction that changing the time triggers a new search. Use only where a time change really starts a search. Optional. Default is false. (optional, default `false`)
     *   `props.color`   (optional, default `'#007ac9'`)
     *   `props.timeZone`   (optional, default `'Europe/Helsinki'`)
 
