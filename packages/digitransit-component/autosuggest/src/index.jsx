@@ -5,6 +5,7 @@ import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immediate';
 import { useCombobox } from 'downshift';
+import { STOP_STATUS } from '@digitransit-component/digitransit-component-suggestion-item';
 import Icon, {
   defaultColors,
 } from '@digitransit-component/digitransit-component-icon';
@@ -618,6 +619,14 @@ function DTAutosuggest({
       colors,
       modeSet,
       showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
+      stopStatusLabels: {
+        [STOP_STATUS.OUT_OF_SERVICE]: t('stop-status-out-of-service', { lng }),
+        [STOP_STATUS.NO_SERVICE_TODAY]: t('stop-status-no-service-today', {
+          lng,
+        }),
+        [STOP_STATUS.ALERT]: t('stop-status-alert', { lng }),
+        [STOP_STATUS.INFO]: t('stop-status-info', { lng }),
+      },
     }),
     [
       state.loading,

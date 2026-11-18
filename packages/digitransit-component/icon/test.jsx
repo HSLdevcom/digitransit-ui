@@ -24,4 +24,19 @@ describe('Testing @digitransit-component/digitransit-component-icon module', () 
     expect(svg.style.width).toBe('1.5em');
     expect(svg.style.transform).toBe('rotate(90deg)');
   });
+
+  it('is hidden from assistive technology unless it has an ariaLabel', () => {
+    const decorative = render(<Icon img="close" />).container.querySelector(
+      'svg',
+    );
+    expect(decorative.getAttribute('aria-hidden')).toBe('true');
+    expect(decorative.getAttribute('role')).toBeNull();
+
+    const labelled = render(
+      <Icon img="close" ariaLabel="Closed" />,
+    ).container.querySelector('svg');
+    expect(labelled.getAttribute('role')).toBe('img');
+    expect(labelled.getAttribute('aria-label')).toBe('Closed');
+    expect(labelled.getAttribute('aria-hidden')).toBeNull();
+  });
 });
