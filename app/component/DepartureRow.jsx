@@ -11,7 +11,10 @@ import {
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
-import { getCapacity } from '../../utils/client/occupancyUtil';
+import {
+  capacityToTranslationId,
+  getCapacity,
+} from '../../utils/client/occupancyUtil';
 import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
 import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
@@ -130,11 +133,16 @@ export default function DepartureRow({
           },
         )
       : ''
+  }${
+    capacity
+      ? `, ${intl.formatMessage({ id: capacityToTranslationId(capacity) })}`
+      : ''
   }`;
 
   return (
     <Link
       as="tr"
+      role="link"
       tabIndex={isParentTabActive ? '0' : '-1'}
       to={routePagePath(
         trip.pattern.route.gtfsId,
@@ -148,6 +156,13 @@ export default function DepartureRow({
           action: 'OpenRouteViewFromStop',
           name: 'RightNowTab',
         });
+      }}
+      // A <tr> has no native link activation, so Enter triggers the click
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
       }}
       aria-label={ariaLabel}
       className={cx(

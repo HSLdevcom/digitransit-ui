@@ -13,7 +13,8 @@ export const VALID_NEAR_YOU_MODES = [
 
 const NO_THEME_MODES = ['bikepark', 'carpark', 'subway', 'airplane']; // common icon in all themes
 
-const SELECTION_KEYS = ['Enter', ' ', 'Spacebar'];
+// Links activate with Enter only; Space is left for page scrolling.
+const SELECTION_KEYS = ['Enter'];
 
 export function getIconName(mode, modeSet, boxed) {
   const theme = NO_THEME_MODES.includes(mode) ? '' : `-${modeSet}`;
