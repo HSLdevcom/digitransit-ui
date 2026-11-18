@@ -305,7 +305,7 @@ export default function Datetimepicker({
                 onClick={handleClose}
                 ref={closePickerRef}
               >
-                <span className={styles['close-icon']} aria-hidden="true">
+                <span className={styles['close-icon']}>
                   <Icon img="close" color={color} />
                 </span>
                 <span className={styles['sr-only']}>
@@ -395,7 +395,6 @@ export default function Datetimepicker({
                 icon={
                   <span
                     className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
-                    aria-hidden="true"
                   >
                     <Icon img="calendar" color={color} />
                   </span>
@@ -418,7 +417,6 @@ export default function Datetimepicker({
                 icon={
                   <span
                     className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                    aria-hidden="true"
                   >
                     <Icon img="time" color={color} />
                   </span>
@@ -488,7 +486,7 @@ export default function Datetimepicker({
         }
       >
         <label className={styles['label-open']} htmlFor={`${htmlId}-open`}>
-          <span className={styles['time-icon']} aria-hidden="true">
+          <span className={styles['time-icon']}>
             <Icon img="time" color={color} />
           </span>
           <span role="alert" className={styles['sr-only']} ref={alertRef} />
@@ -511,7 +509,7 @@ export default function Datetimepicker({
             ref={openPickerRef}
           >
             {summaryText}
-            <span className={styles['dropdown-icon']} aria-hidden="true">
+            <span className={styles['dropdown-icon']}>
               <Icon img="arrow-dropdown" color={color} />
             </span>
           </button>
