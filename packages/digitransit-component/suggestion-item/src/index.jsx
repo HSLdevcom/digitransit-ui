@@ -95,13 +95,13 @@ function hasGtfsId(item) {
 }
 
 /**
- * Resolves the sprite id of the stop status badge shown on a suggestion's
- * icon, based on the item's geocoding `addendum.GTFS` metadata.
+ * Resolves the stop status of a suggestion, based on the item's geocoding
+ * `addendum.GTFS` metadata.
  *
  * @param {object} item a search suggestion item
- * @returns {string|null} a badge sprite id, or null when no badge applies
+ * @returns {string|null} a STOP_STATUS value, or null when no status applies
  */
-export function getStopBadge(item) {
+export function getStopStatus(item) {
   if (!STATUS_LAYERS.has(item.properties?.layer)) {
     return null;
   }
@@ -110,21 +110,34 @@ export function getStopBadge(item) {
   }
   const gtfs = item.properties?.addendum?.GTFS;
   if (gtfs?.noService) {
-    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE];
+    return STOP_STATUS.OUT_OF_SERVICE;
   }
   if (gtfs?.noServiceToday) {
-    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+    return STOP_STATUS.NO_SERVICE_TODAY;
   }
   if (
     gtfs?.alertSeverity === STOP_STATUS.ALERT ||
     gtfs?.alertSeverity === STOP_STATUS.INFO
   ) {
-    return STOP_STATUS_BADGE_IMGS[gtfs.alertSeverity];
+    return gtfs.alertSeverity;
   }
   return null;
 }
 
+/**
+ * Resolves the sprite id of the stop status badge shown on a suggestion's
+ * icon.
+ *
+ * @param {object} item a search suggestion item
+ * @returns {string|null} a badge sprite id, or null when no badge applies
+ */
+export function getStopBadge(item) {
+  const status = getStopStatus(item);
+  return status ? STOP_STATUS_BADGE_IMGS[status] : null;
+}
+
 const noop = () => {};
+const NO_LABELS = {};
 
 const DEFAULT_AUTO_SUGGEST_ICONS = {
   citybikes: station => {
@@ -237,6 +250,7 @@ function hasVehicleStationCode(stationId) {
  *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
  *    showStopStatusMarkers={true}
+ *    stopStatusLabels={{ 'out-of-service': 'Stop out of service' }}
  * />
  */
 const SuggestionItem = memo(
@@ -251,6 +265,7 @@ const SuggestionItem = memo(
     getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
     modeSet = 'hsl',
     showStopStatusMarkers = false,
+    stopStatusLabels = NO_LABELS,
   }) => {
     const [suggestionType, name, label, stopCode, modes, platform] =
       content || ['', item.name, item.address];
@@ -280,7 +295,11 @@ const SuggestionItem = memo(
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
-    const stopStatusBadge = showStopStatusMarkers ? getStopBadge(item) : null;
+    const stopStatus = showStopStatusMarkers ? getStopStatus(item) : null;
+    const stopStatusBadge = stopStatus
+      ? STOP_STATUS_BADGE_IMGS[stopStatus]
+      : null;
+    const stopStatusLabel = stopStatus ? stopStatusLabels[stopStatus] : null;
     const icon = (
       <span
         className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}
@@ -297,12 +316,19 @@ const SuggestionItem = memo(
     let ariaParts;
     if (name !== stopCode) {
       ariaParts = isFavourite(item)
-        ? [ariaFavouriteString, suggestionType, name, stopCode, label]
-        : [suggestionType, name, stopCode, label];
+        ? [
+            ariaFavouriteString,
+            suggestionType,
+            name,
+            stopCode,
+            label,
+            stopStatusLabel,
+          ]
+        : [suggestionType, name, stopCode, label, stopStatusLabel];
     } else {
       ariaParts = isFavourite(item)
-        ? [ariaFavouriteString, suggestionType, name, label]
-        : [suggestionType, name, label];
+        ? [ariaFavouriteString, suggestionType, name, label, stopStatusLabel]
+        : [suggestionType, name, label, stopStatusLabel];
     }
     const ariaDescription = getAriaDescription(ariaParts);
     const acri = (
@@ -336,9 +362,7 @@ const SuggestionItem = memo(
           },
         )}
       >
-        <span aria-label={suggestionType} className={styles['suggestion-icon']}>
-          {icon}
-        </span>
+        <span className={styles['suggestion-icon']}>{icon}</span>
         <div
           className={cx(styles['suggestion-result'], {
             [styles.futureroute]: isFutureRoute,
@@ -520,6 +544,7 @@ SuggestionItem.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
   showStopStatusMarkers: PropTypes.bool,
+  stopStatusLabels: PropTypes.objectOf(PropTypes.string),
 };
 
 export default SuggestionItem;

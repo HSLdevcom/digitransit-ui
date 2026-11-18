@@ -30,6 +30,7 @@ Settings.defaultLocale = 'en';
  * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
  * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
  * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
+ * @param {boolean} props.showUpdateInstructions    Add a hidden instruction that changing the time triggers a new search. Optional. Default is false.
  *
  *
  * @example
@@ -64,6 +65,7 @@ export default function Datetimepicker({
   onOpen,
   onClose,
   openPicker,
+  showUpdateInstructions = false,
 }) {
   Settings.defaultZone = timeZone;
   const [t] = useTranslation();
@@ -77,8 +79,11 @@ export default function Datetimepicker({
   const [htmlId] = useState(uniqueId('datetimepicker-'));
   const [useMobileInputs] = useState(isMobile() && dateTimeInputIsSupported());
   const openPickerRef = useRef();
+  const closePickerRef = useRef();
   const inputRef = useRef();
   const alertRef = useRef();
+  // Control to focus after the next open/close render
+  const pendingFocusRef = useRef(null);
 
   const translationSettings = { lng: lang };
 
@@ -217,7 +222,19 @@ export default function Datetimepicker({
     }
   }
 
+  // The toggled control is hidden when the picker opens or closes, so move
+  // focus explicitly. The mobile modal manages its own focus.
+  useEffect(() => {
+    const target = pendingFocusRef.current;
+    pendingFocusRef.current = null;
+    if (useMobileInputs || !target) {
+      return;
+    }
+    (target === 'close' ? closePickerRef : openPickerRef).current?.focus();
+  }, [isOpen]);
+
   const handleClose = () => {
+    pendingFocusRef.current = 'open';
     changeOpen(false);
     showScreenreaderCloseAlert();
     if (onClose) {
@@ -278,6 +295,24 @@ export default function Datetimepicker({
             <span role="alert" className={styles['sr-only']} ref={alertRef} />
             <span />
             {/* This empty span prevents a weird focus bug on chrome */}
+            {/* First in DOM order so it is the first stop after opening; shown at the right edge via CSS order */}
+            <span className={`${styles['right-edge']} ${styles['close-edge']}`}>
+              <button
+                type="button"
+                className={styles['close-button']}
+                aria-controls={`${htmlId}-root`}
+                aria-expanded="true"
+                onClick={handleClose}
+                ref={closePickerRef}
+              >
+                <span className={styles['close-icon']}>
+                  <Icon img="close" color={color} />
+                </span>
+                <span className={styles['sr-only']}>
+                  {t('accessible-close', translationSettings)}
+                </span>
+              </button>
+            </span>
             <span className={styles['departure-or-arrival-container']}>
               <label
                 htmlFor={`${htmlId}-departure`}
@@ -330,24 +365,15 @@ export default function Datetimepicker({
               className={styles['departure-now-button']}
               onClick={handleNowClick}
               ref={inputRef}
+              aria-describedby={`${htmlId}-now-description`}
             >
               {t('departure-now', translationSettings)}
             </button>
-            <span className={styles['right-edge']}>
-              <button
-                type="button"
-                className={styles['close-button']}
-                aria-controls={`${htmlId}-root`}
-                aria-expanded="true"
-                onClick={handleClose}
-              >
-                <span className={styles['close-icon']}>
-                  <Icon img="close" color={color} />
-                </span>
-                <span className={styles['sr-only']}>
-                  {t('accessible-close', translationSettings)}
-                </span>
-              </button>
+            <span
+              id={`${htmlId}-now-description`}
+              className={styles['sr-only']}
+            >
+              {t('accessible-departure-now', translationSettings)}
             </span>
           </div>
           <div
@@ -408,9 +434,9 @@ export default function Datetimepicker({
     );
   }
 
-  const formatToprowSummary = () => {
+  const getSummaryText = () => {
     if (nowSelected && departureOrArrival === 'departure') {
-      return <span>{t('departure-now', translationSettings)}</span>;
+      return t('departure-now', translationSettings);
     }
     const dateDisplay = getDateDisplay(displayTimestamp);
     const timeDisplay = getTimeDisplay(displayTimestamp);
@@ -426,15 +452,15 @@ export default function Datetimepicker({
       .plus({ days: 1 })
       .hasSame(DateTime.fromMillis(displayTimestamp), 'day');
     if (isToday) {
-      return <span>{`${summary} ${timeDisplay}`}</span>;
+      return `${summary} ${timeDisplay}`;
     }
     if (isTomorrow) {
-      return (
-        <span>{`${summary} ${dateDisplay.toLowerCase()} ${timeDisplay}`}</span>
-      );
+      return `${summary} ${dateDisplay.toLowerCase()} ${timeDisplay}`;
     }
-    return <span>{`${summary} ${dateDisplay} ${timeDisplay}`}</span>;
+    return `${summary} ${dateDisplay} ${timeDisplay}`;
   };
+
+  const summaryText = getSummaryText();
 
   return (
     <fieldset
@@ -447,9 +473,11 @@ export default function Datetimepicker({
       <legend className={styles['sr-only']}>
         {t('accessible-title', translationSettings)}
       </legend>
-      <span className={styles['sr-only']}>
-        {t('accessible-update-instructions', translationSettings)}
-      </span>
+      {showUpdateInstructions && (
+        <span className={styles['sr-only']}>
+          {t('accessible-update-instructions', translationSettings)}
+        </span>
+      )}
       <div
         className={
           !isOpen
@@ -461,9 +489,6 @@ export default function Datetimepicker({
           <span className={styles['time-icon']}>
             <Icon img="time" color={color} />
           </span>
-          <span className={styles['sr-only']}>
-            {t('accessible-open', translationSettings)}
-          </span>
           <span role="alert" className={styles['sr-only']} ref={alertRef} />
           <button
             id={`${htmlId}-open`}
@@ -471,7 +496,10 @@ export default function Datetimepicker({
             className={`${styles.textbutton} ${styles.active} ${styles['open-button']}`}
             aria-controls={`${htmlId}-root`}
             aria-expanded="false"
+            // Name starts with the visible text (WCAG 2.5.3) and exposes the selected time
+            aria-label={`${summaryText}. ${t('accessible-open', translationSettings)}`}
             onClick={() => {
+              pendingFocusRef.current = 'close';
               changeOpen(true);
               showScreenreaderOpenAlert();
               if (onOpen) {
@@ -480,7 +508,7 @@ export default function Datetimepicker({
             }}
             ref={openPickerRef}
           >
-            {formatToprowSummary()}
+            {summaryText}
             <span className={styles['dropdown-icon']}>
               <Icon img="arrow-dropdown" color={color} />
             </span>
@@ -512,4 +540,5 @@ Datetimepicker.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
+  showUpdateInstructions: PropTypes.bool,
 };

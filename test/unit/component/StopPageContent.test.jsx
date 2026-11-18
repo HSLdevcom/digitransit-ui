@@ -1,28 +1,27 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
-import { Component as StopPageContentContainer } from '../../../app/component/stop/StopPageContentContainer';
+import StopPageContent from '../../../app/component/stop/StopPageContent';
 import * as DepartureListContainerModule from '../../../app/component/DepartureListContainer';
 
 const DepartureListStub = () => <div data-testid="departure-list" />;
 
 const markersConfig = createTestConfig({ showStopStatusMarkers: true });
 
+const stopParams = { stopId: 'HSL:1234' };
+const terminalParams = { terminalId: 'HSL:5678' };
+
 const baseProps = {
-  relay: { refetch: () => {}, environment: {} },
   match: { ...mockMatch, params: { stopId: 'HSL:1234' } },
 };
 
-const renderStop = (stopProps, config = markersConfig) =>
+const renderStop = (stopProps, config = markersConfig, params = stopParams) =>
   renderWithProviders(
-    <StopPageContentContainer
-      {...baseProps}
-      stop={{ routes: [], ...stopProps }}
-    />,
-    { config, match: baseProps.match, currentTime: 0 },
+    <StopPageContent {...baseProps} stop={{ routes: [], ...stopProps }} />,
+    { config, match: { ...baseProps.match, params }, currentTime: 0 },
   );
 
-describe('<StopPageContentContainer />', () => {
+describe('<StopPageContent />', () => {
   beforeEach(() => {
     vi.spyOn(DepartureListContainerModule, 'default', 'get').mockReturnValue(
       DepartureListStub,
@@ -54,5 +53,18 @@ describe('<StopPageContentContainer />', () => {
     ];
     const { queryByTestId } = renderStop({ stoptimes });
     expect(queryByTestId('departure-list')).not.toBeNull();
+  });
+
+  it('shows the departure column headers only for terminals', () => {
+    const stoptimes = [
+      { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
+    ];
+    const terminal = renderStop({ stoptimes }, markersConfig, terminalParams);
+    expect(
+      terminal.container.querySelector('.departure-list-header'),
+    ).not.toBeNull();
+    terminal.unmount();
+    const stop = renderStop({ stoptimes });
+    expect(stop.container.querySelector('.departure-list-header')).toBeNull();
   });
 });

@@ -3,7 +3,7 @@ import { graphql } from 'react-relay';
 export default {
   stops: graphql`
     fragment NearYouFavouritesFragment_stops on Stop @relay(plural: true) {
-      ...StopNearYouContainer_stop
+      ...StopNearYouFragment_stop
       gtfsId
       lat
       lon
@@ -11,7 +11,7 @@ export default {
   `,
   stations: graphql`
     fragment NearYouFavouritesFragment_stations on Stop @relay(plural: true) {
-      ...StopNearYouContainer_stop
+      ...StopNearYouFragment_stop
       gtfsId
       lat
       lon
@@ -24,7 +24,7 @@ export default {
   vehicleStations: graphql`
     fragment NearYouFavouritesFragment_vehicleStations on VehicleRentalStation
     @relay(plural: true) {
-      ...VehicleRentalStationNearYou_station
+      ...VehicleRentalStationNearYouFragment_station
       stationId
       name
       availableVehicles {

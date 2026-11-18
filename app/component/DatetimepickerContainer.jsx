@@ -10,6 +10,7 @@ export default function DatetimepickerContainer({
   realtime,
   embedWhenClosed = null,
   embedWhenOpen = null,
+  showUpdateInstructions = false,
 }) {
   const config = useConfigContext();
   const { match, router } = useRouter();
@@ -108,6 +109,7 @@ export default function DatetimepickerContainer({
       onOpen={onOpen}
       onClose={onClose}
       openPicker={openPicker}
+      showUpdateInstructions={showUpdateInstructions}
     />
   );
 }
@@ -116,4 +118,5 @@ DatetimepickerContainer.propTypes = {
   realtime: PropTypes.bool.isRequired,
   embedWhenClosed: PropTypes.node,
   embedWhenOpen: PropTypes.node,
+  showUpdateInstructions: PropTypes.bool,
 };

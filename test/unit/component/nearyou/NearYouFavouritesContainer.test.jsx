@@ -13,7 +13,6 @@ describe('<NearYouFavouritesContainer />', () => {
         searchPosition={searchPosition}
         isParentTabActive
         breakpoint="large"
-        currentTime={0}
       />,
     );
     expect(container.querySelector('.no-favourites-container')).not.toBeNull();
@@ -28,7 +27,6 @@ describe('<NearYouFavouritesContainer />', () => {
         searchPosition={searchPosition}
         isParentTabActive
         breakpoint="large"
-        currentTime={0}
       />,
     );
     expect(container.querySelector('.no-favourites-container')).not.toBeNull();

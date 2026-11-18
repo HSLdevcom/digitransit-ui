@@ -14,7 +14,6 @@ function NearYouFavourites({
   searchPosition,
   noFavourites = false,
   isParentTabActive = false,
-  currentTime,
 }) {
   const breakpoint = useBreakpoint();
   if (noFavourites) {
@@ -53,7 +52,6 @@ function NearYouFavourites({
             <NearYouFavouritesContainer
               searchPosition={searchPosition}
               isParentTabActive={isParentTabActive}
-              currentTime={currentTime}
               breakpoint={breakpoint}
               {...props}
             />
@@ -72,7 +70,6 @@ NearYouFavourites.propTypes = {
   searchPosition: locationShape.isRequired,
   noFavourites: PropTypes.bool,
   isParentTabActive: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
 };
 
 export default function NearYouFavouritesRelayConnector(props) {
