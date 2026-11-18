@@ -181,8 +181,10 @@ export default function FavouritesContainer({
       });
 
       setAddModalOpen(false);
-      if (favourite?.favouriteId) {
-        // Editing a place was started from the edit modal, so return to it
+      // A favourite with an id is being edited, which is only possible from the
+      // edit modal. Closing the form goes back there, like Cancel does.
+      const editingExistingFavourite = favourite?.favouriteId !== undefined;
+      if (editingExistingFavourite) {
         setEditModalOpen(true);
       }
     } else {
