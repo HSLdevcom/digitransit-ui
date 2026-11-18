@@ -122,6 +122,12 @@
   max-width: 200px;
   flex-basis: 200px;
 
+  // react-select's focusable input is invisible, so outline the whole select
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--color-outline-default, #000);
+    outline-offset: 2px;
+  }
+
   .route-schedule__control {
     width: 100%;
     height: 100%;
