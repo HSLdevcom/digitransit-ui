@@ -89,9 +89,13 @@ export default function MobilePickerModal({
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
+            aria-describedby={`${htmlId}-now-description`}
           >
             {t('departure-now', translationSettings)}
           </button>
+          <span id={`${htmlId}-now-description`} className={styles['sr-only']}>
+            {t('accessible-departure-now', translationSettings)}
+          </span>
         </div>
         <div className={styles['tab-row']}>
           <label
@@ -155,6 +159,7 @@ export default function MobilePickerModal({
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
+                aria-hidden="true"
               >
                 <Icon img="calendar" color={color} />
               </span>
@@ -170,6 +175,7 @@ export default function MobilePickerModal({
             icon={
               <span
                 className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
+                aria-hidden="true"
               >
                 <Icon img="time" color={color} />
               </span>
