@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import groupBy from 'lodash/groupBy';
@@ -44,6 +44,10 @@ function StopPageTabs({ stop }) {
   const { search } = match.location;
 
   const [focusedTab, changeFocusedTab] = useState(activeTab);
+  // Keep the roving tabindex on the selected tab when it changes by click
+  useEffect(() => {
+    changeFocusedTab(activeTab);
+  }, [activeTab]);
   const rightNowTabRef = useRef();
   const timetableTabRef = useRef();
   const disruptionTabRef = useRef();
