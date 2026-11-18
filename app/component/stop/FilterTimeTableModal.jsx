@@ -22,6 +22,7 @@ export default function FilterTimeTableModal({
   setRoutes,
   showFilterModal,
   showRoutesList,
+  onCloseAutoFocus = undefined,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
@@ -130,6 +131,7 @@ export default function FilterTimeTableModal({
       <ModalContent
         title={intl.formatMessage({ id: 'show-routes' })}
         lang={hslfiLocale}
+        onCloseAutoFocus={onCloseAutoFocus}
       >
         <div className="routes-container">
           <CheckboxGroup
@@ -151,4 +153,5 @@ FilterTimeTableModal.propTypes = {
   setRoutes: PropTypes.func.isRequired,
   showFilterModal: PropTypes.func.isRequired,
   showRoutesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCloseAutoFocus: PropTypes.func,
 };
