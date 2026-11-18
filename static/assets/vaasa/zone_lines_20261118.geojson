@@ -5,17 +5,7 @@
     {
       "type": "Feature",
       "geometry": {
-        "type": "Point",
-        "coordinates": [21.77251, 63.07558]
-      },
-      "properties": {
-        "Zone": "A"
-      }
-    },
-    {
-      "type": "Feature",
-      "geometry": {
-        "type": "Polygon",
+        "type": "MultiLineString",
         "coordinates": [
           [
             [21.80618, 63.0944],
