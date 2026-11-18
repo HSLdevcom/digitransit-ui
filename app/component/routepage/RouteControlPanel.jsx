@@ -375,9 +375,10 @@ export default function RouteControlPanel({
                 id="route-stop-tab"
                 ref={stopTabRef}
                 aria-selected={activeTab === Tab.Stops}
+                aria-label={intl.formatMessage({ id: 'stops' })}
                 style={{ '--totalCount': `${countOfButtons}` }}
               >
-                <div>
+                <div aria-hidden="true">
                   <FormattedMessage id="stops" defaultMessage="Stops" />
                 </div>
               </button>
@@ -391,9 +392,10 @@ export default function RouteControlPanel({
                 id="route-timetable-tab"
                 ref={timetableTabRef}
                 aria-selected={activeTab === Tab.Timetable}
+                aria-label={intl.formatMessage({ id: 'timetable' })}
                 style={{ '--totalCount': `${countOfButtons}` }}
               >
-                <div>
+                <div aria-hidden="true">
                   <FormattedMessage id="timetable" defaultMessage="Timetable" />
                 </div>
               </button>
@@ -420,6 +422,7 @@ export default function RouteControlPanel({
                 style={{ '--totalCount': `${countOfButtons}` }}
               >
                 <div
+                  aria-hidden="true"
                   className={`tab-route-disruption ${
                     disruptionClassName || `no-alerts`
                   }`}

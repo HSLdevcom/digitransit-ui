@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState, useRef, useEffect } from 'react';
 import { useFragment } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
 import { fragmentRefShape } from '../../../utils/client/shapes';
@@ -39,6 +39,7 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }) {
+  const intl = useIntl();
   const { router, match } = useRouter();
   const activeTab = getActiveTab(match.location.pathname);
   const { search } = match.location;
@@ -133,9 +134,10 @@ function StopPageTabs({ stop }) {
           ref={rightNowTabRef}
           tabIndex={focusedTab === Tab.RightNow ? 0 : -1}
           aria-selected={activeTab === Tab.RightNow}
+          aria-label={intl.formatMessage({ id: 'right-now' })}
           style={{ '--totalCount': '3' }}
         >
-          <div>
+          <div aria-hidden="true">
             <FormattedMessage id="right-now" defaultMessage="right now" />
           </div>
         </button>
@@ -156,9 +158,10 @@ function StopPageTabs({ stop }) {
           ref={timetableTabRef}
           tabIndex={focusedTab === Tab.Timetable ? 0 : -1}
           aria-selected={activeTab === Tab.Timetable}
+          aria-label={intl.formatMessage({ id: 'timetable' })}
           style={{ '--totalCount': '3' }}
         >
-          <div>
+          <div aria-hidden="true">
             <FormattedMessage id="timetable" defaultMessage="timetable" />
           </div>
         </button>
@@ -184,9 +187,11 @@ function StopPageTabs({ stop }) {
           ref={disruptionTabRef}
           tabIndex={focusedTab === Tab.Disruptions ? 0 : -1}
           aria-selected={activeTab === Tab.Disruptions}
+          aria-label={intl.formatMessage({ id: 'disruptions' })}
           style={{ '--totalCount': '3' }}
         >
           <div
+            aria-hidden="true"
             className={`tab-route-disruption ${
               disruptionClassName || 'no-alerts'
             }`}
