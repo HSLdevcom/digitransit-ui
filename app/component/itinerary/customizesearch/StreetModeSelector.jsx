@@ -30,7 +30,6 @@ export default function StreetModeSelector({ settings, updateSettings }) {
         />
       </div>
       <SettingsToggle
-        id="settings-toggle-bicycle"
         labelId="bicycle"
         labelStyle="mode-label"
         leftElement={
@@ -46,7 +45,6 @@ export default function StreetModeSelector({ settings, updateSettings }) {
       />
       {config.showBikeAndParkItineraries && (
         <SettingsToggle
-          id="settings-toggle-bikeAndPark"
           labelId="park-and-ride"
           leftElement={<span style={{ width: '3em' }} />}
           toggled={settings.showBikeAndParkItineraries}
@@ -56,7 +54,6 @@ export default function StreetModeSelector({ settings, updateSettings }) {
 
       {config.includeCarSuggestions && (
         <SettingsToggle
-          id="settings-toggle-car"
           labelId="car"
           labelStyle="mode-label"
           leftElement={
@@ -69,7 +66,6 @@ export default function StreetModeSelector({ settings, updateSettings }) {
       )}
       {config.includeParkAndRideSuggestions && (
         <SettingsToggle
-          id="settings-toggle-parkAndRide"
           labelId="park-and-ride"
           leftElement={<span style={{ width: '3em' }} />}
           toggled={settings.includeParkAndRideSuggestions}

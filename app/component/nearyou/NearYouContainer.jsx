@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import {
   sortNearYouRentalStations,
   sortNearYouStops,
@@ -119,10 +119,9 @@ function NearYouContainer({
           if (place.stoptimesWithoutPatterns.length > 0) {
             if (!prioritizedStops.includes(place.gtfsId)) {
               return (
-                <StopNearYouContainer
+                <StopNearYou
                   key={`${place.gtfsId}`}
                   stop={place}
-                  currentTime={currentTime}
                   isParentTabActive={isParentTabActive}
                 />
               );
@@ -134,7 +133,6 @@ function NearYouContainer({
             <VehicleRentalStationNearYou
               key={`${place.stationId}`}
               station={place}
-              currentTime={currentTime}
               isParentTabActive={isParentTabActive}
             />
           );
@@ -143,7 +141,6 @@ function NearYouContainer({
             <ParkNearYou
               key={`${place.vehicleParkingId}`}
               park={place}
-              currentTime={currentTime}
               isParentTabActive={isParentTabActive}
               mode={mode}
             />
@@ -187,7 +184,7 @@ function NearYouContainer({
         </div>
       )}
       <div key="items" role="list" className="near-you-container">
-        {items}
+        <Suspense fallback={<Loading />}>{items}</Suspense>
       </div>
       {loading === 2 && (
         <div key="loading2" className="near-you-spinner-container">
@@ -263,18 +260,18 @@ const refetchContainer = createPaginationContainer(
               place {
                 __typename
                 ... on VehicleRentalStation {
-                  ...VehicleRentalStationNearYou_station
+                  ...VehicleRentalStationNearYouFragment_station
                   stationId
                   rentalNetwork {
                     networkId
                   }
                 }
                 ... on VehicleParking {
-                  ...ParkNearYou_park
+                  ...ParkNearYouFragment_park
                   vehicleParkingId
                 }
                 ... on Stop {
-                  ...StopNearYouContainer_stop
+                  ...StopNearYouFragment_stop
                     @arguments(
                       startTime: $startTime
                       omitNonPickups: $omitNonPickups

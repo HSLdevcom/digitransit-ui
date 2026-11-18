@@ -105,7 +105,6 @@ export default function Personalization({ settings, updateSettings }) {
       </div>
       <SettingsToggle
         ref={settingsToggleRef}
-        id="settings-toggle-personalization"
         labelId="personal-itineraries"
         labelStyle="mode-label-upper"
         leftElement={

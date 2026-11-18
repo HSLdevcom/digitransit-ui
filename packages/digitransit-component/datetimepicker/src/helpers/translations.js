@@ -4,15 +4,20 @@ const translations = {
     translation: {
       'accessible-close': 'Schließe die Auswahl',
       'accessible-closed': 'Auswahl geschlossen',
+      'accessible-departure-now':
+        'Setzt die Abfahrtszeit auf jetzt und schließt die Auswahl.',
       'accessible-open': 'Öffne die Auswahl',
       'accessible-opened': 'Auswahl geöffnet',
       'accessible-title': 'Datum und Uhrzeitauswahl',
+      'accessible-update-instructions':
+        'Das Ändern der Zeitparameter löst eine neue Suche aus.',
       arrival: 'Ankunft',
       cancel: 'Abbrechen',
       'choose-time': 'Zeit wählen',
       date: 'Datum',
       departure: 'Abfahrt',
       'departure-now': 'Abfahrt jetzt',
+      'invalid-input': 'Die eingegebene Uhrzeit ist ungültig',
       ready: 'Fertig',
       time: 'Zeit',
       today: 'Heute',
@@ -23,6 +28,8 @@ const translations = {
     translation: {
       'accessible-close': 'Close the picker',
       'accessible-closed': 'Timepicker closed',
+      'accessible-departure-now':
+        'Sets the departure time to now and closes the picker.',
       'accessible-open': 'Open the picker',
       'accessible-opened': 'Timepicker opened',
       'accessible-title': 'Date and timepicker',
@@ -45,6 +52,8 @@ const translations = {
     translation: {
       'accessible-close': 'Sulje valitsin',
       'accessible-closed': 'Valitsin suljettu',
+      'accessible-departure-now':
+        'Asettaa lähtöajaksi nyt ja sulkee valitsimen.',
       'accessible-open': 'Avaa valitsin',
       'accessible-opened': 'Valitsin avattu',
       'accessible-title': 'Aika- ja päivämäärävalitsin',
@@ -63,10 +72,35 @@ const translations = {
       tomorrow: 'Huomenna',
     },
   },
+  it: {
+    translation: {
+      'accessible-close': 'Chiudi il selettore',
+      'accessible-closed': 'Selettore dell’ora chiuso',
+      'accessible-departure-now':
+        'Imposta la partenza a ora e chiude il selettore.',
+      'accessible-open': 'Apri il selettore',
+      'accessible-opened': 'Selettore dell’ora aperto',
+      'accessible-title': 'Selettore di data e ora',
+      'accessible-update-instructions':
+        'La modifica dei parametri di orario avvierà una nuova ricerca.',
+      arrival: 'Arrivo',
+      cancel: 'Annulla',
+      'choose-time': 'Scegli l’ora',
+      date: 'Data',
+      departure: 'Partenza',
+      'departure-now': 'Parti ora',
+      'invalid-input': 'L’ora inserita non è valida',
+      ready: 'Fatto',
+      time: 'Ora',
+      today: 'Oggi',
+      tomorrow: 'Domani',
+    },
+  },
   pl: {
     translation: {
       'accessible-close': 'Zamknij wybornik',
       'accessible-closed': 'Zamknięto wybornik',
+      'accessible-departure-now': 'Ustawia odjazd na teraz i zamyka wybornik.',
       'accessible-open': 'Otwórz wybornik',
       'accessible-opened': 'Otwarto wybornik',
       'accessible-title': 'Wybór daty i godziny',
@@ -89,6 +123,8 @@ const translations = {
     translation: {
       'accessible-close': 'Stäng väljaren',
       'accessible-closed': 'Väljaren stängde',
+      'accessible-departure-now':
+        'Ställer in avgångstiden på nu och stänger väljaren.',
       'accessible-open': 'Öppna väljaren',
       'accessible-opened': 'Väljaren öppnade',
       'accessible-title': 'Tid- och datumväljaren',

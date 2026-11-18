@@ -184,3 +184,10 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     expect(saveFavourite).not.toHaveBeenCalled();
   });
 });
+
+describe('design system localization', () => {
+  it('renders design system strings in German', () => {
+    renderModal({ lang: 'de' });
+    expect(screen.getByRole('button', { name: 'Schließen' })).toBeTruthy();
+  });
+});

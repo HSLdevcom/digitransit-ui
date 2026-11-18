@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unstable-nested-components */
-import { useEffect, useState, useRef } from 'react';
+import { useEffect, useState, useRef, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
@@ -9,7 +9,7 @@ import MobileView from '../MobileView';
 import { DesktopOrMobile, useBreakpoint } from '../../hooks/BreakpointContext';
 import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
 import Loading from '../Loading';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import UpdateLocationButton from './UpdateLocationButton';
 import MapWrapper from './MapWrapper';
 import LocationModal from './LocationModal';
@@ -358,7 +358,6 @@ export default function NearYouPage() {
                 searchPosition={searchPosition}
                 noFavourites={noFavourites}
                 isParentTabActive={isActive}
-                currentTime={currentTime}
               />
             ) : (
               <Loading />
@@ -452,7 +451,7 @@ export default function NearYouPage() {
                         ) {
                           stops: stops(ids: $stopIds) {
                             gtfsId
-                            ...StopNearYouContainer_stop
+                            ...StopNearYouFragment_stop
                               @arguments(
                                 startTime: $startTime
                                 omitNonPickups: $omitNonPickups
@@ -466,16 +465,17 @@ export default function NearYouPage() {
                         omitNonPickups: false,
                       }}
                       environment={relayEnvironment}
-                      render={res =>
-                        res.props?.stops.map(stop => (
-                          <StopNearYouContainer
-                            stop={stop}
-                            key={stop.gtfsId}
-                            currentTime={currentTime}
-                            isParentTabActive={isActive}
-                          />
-                        ))
-                      }
+                      render={res => (
+                        <Suspense fallback={<Loading />}>
+                          {res.props?.stops.map(stop => (
+                            <StopNearYou
+                              stop={stop}
+                              key={stop.gtfsId}
+                              isParentTabActive={isActive}
+                            />
+                          ))}
+                        </Suspense>
+                      )}
                     />
                   ) : null}
 

@@ -35,7 +35,7 @@ export default function StopNearYouDepartureRowContainer({
     );
   });
   return (
-    <table className="near-departures-container">
+    <table className="near-departures-container" role="presentation">
       <thead className="sr-only">
         <tr>
           <th>

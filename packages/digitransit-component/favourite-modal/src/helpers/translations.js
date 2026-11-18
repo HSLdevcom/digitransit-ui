@@ -3,11 +3,20 @@ const translations = {
   de: {
     translation: {
       cancel: 'Abbrechen',
+      'cannot-save-place':
+        'Ein Ort ohne Adresse oder Symbol kann nicht gespeichert werden',
       'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
       'edit-place': 'Ort bearbeiten',
+      home: 'Zuhause',
       'input-placeholder': 'Einen Namen für Ort setzen (optional)',
+      place: 'ein Ort',
+      'required-text': 'Pflichtfeld',
       save: 'Speichern',
       'save-place': 'Favorit speichern',
+      school: 'Schule',
+      shopping: 'Einkaufen',
+      sport: 'Sport',
+      work: 'Arbeit',
     },
   },
   en: {
@@ -45,6 +54,25 @@ const translations = {
       shopping: 'ostokset',
       sport: 'urheilu',
       work: 'työ',
+    },
+  },
+  it: {
+    translation: {
+      cancel: 'Annulla',
+      'cannot-save-place':
+        'Impossibile salvare un luogo senza indirizzo o icona',
+      'choose-icon': 'Seleziona l’icona del luogo',
+      'edit-place': 'Modifica luogo',
+      home: 'casa',
+      'input-placeholder': 'Dai un nome al luogo (facoltativo)',
+      place: 'un luogo',
+      'required-text': 'campo obbligatorio',
+      save: 'Salva',
+      'save-place': 'Salva luogo',
+      school: 'scuola',
+      shopping: 'shopping',
+      sport: 'sport',
+      work: 'lavoro',
     },
   },
   pl: {
@@ -87,3 +115,10 @@ const translations = {
 };
 
 export default translations;
+
+/** Design system locales for languages it has no built-in messages for. */
+export const hslfiLocales = {
+  de: { code: 'de', messages: { CloseButton: { close: 'Schließen' } } },
+  it: { code: 'it', messages: { CloseButton: { close: 'Chiudi' } } },
+  pl: { code: 'pl', messages: { CloseButton: { close: 'Zamknij' } } },
+};

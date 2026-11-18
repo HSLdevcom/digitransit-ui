@@ -342,20 +342,6 @@
     &-toggle {
       &--container {
         gap: var(--space-s);
-
-        .toggle {
-          display: flex;
-          height: tokens.$form-input-size;
-
-          .slider {
-            width: tokens.$toggle-slider-width;
-
-            &::before {
-              height: tokens.$toggle-slider-thumb-size;
-              width: tokens.$toggle-slider-thumb-size;
-            }
-          }
-        }
       }
     }
 

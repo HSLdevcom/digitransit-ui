@@ -33,13 +33,8 @@ const makeStop = (alerts = []) => ({
 
 const renderView = alerts =>
   renderWithProviders(
-    <StopNearYou
-      stop={makeStop(alerts)}
-      currentTime={1000}
-      relay={{ refetch: vi.fn() }}
-      isParentTabActive
-    />,
-    { config },
+    <StopNearYou stop={makeStop(alerts)} isParentTabActive />,
+    { config, currentTime: 1000 },
   );
 
 describe('<StopNearYou /> alert banner', () => {
