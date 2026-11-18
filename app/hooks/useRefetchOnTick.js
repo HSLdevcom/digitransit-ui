@@ -1,6 +1,6 @@
 import { useEffect, useRef, startTransition } from 'react';
 import { fetchQuery, useRelayEnvironment } from 'react-relay';
-import { getFragment, getSelector } from 'relay-runtime';
+import { getRefetchMetadata, getSelector } from 'relay-runtime';
 import { RRNLError } from 'react-relay-network-modern';
 import { useCurrentTime } from './TimeContext';
 
@@ -37,7 +37,11 @@ export default function useRefetchOnTick(
     }
     if (enabled && !inFlight.current) {
       const { variables } = getSelector(fragment, fragmentRef);
-      const query = getFragment(fragment).metadata.refetch.operation;
+      // refetch query generated for the @refetchable fragment; exported by relay-runtime but not documented
+      const { refetchableRequest: query } = getRefetchMetadata(
+        fragment,
+        'useRefetchOnTick',
+      );
       // time windowed fragments move their window forward
       const newVariables =
         'startTime' in variables ? { startTime: currentTime } : {};
