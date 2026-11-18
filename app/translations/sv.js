@@ -665,6 +665,7 @@ export default {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-page.trip-sr': 'Avgår {departure}, anländer {arrival}',
     'route-pattern-select-tooltip': 'Visa rutter',
     'route-pattern-swap-tooltip': 'Byt riktning',
     'route-to-ferry': 'Rutt till piren',

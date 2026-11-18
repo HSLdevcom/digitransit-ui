@@ -671,6 +671,7 @@ export default {
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-page.trip-sr': 'Departs {departure}, arrives {arrival}',
     'route-pattern-select-tooltip': 'Show routes',
     'route-pattern-swap-tooltip': 'Change direction',
     'route-to-ferry': 'Route to the pier',
