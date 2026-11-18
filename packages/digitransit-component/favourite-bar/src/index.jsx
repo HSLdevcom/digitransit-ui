@@ -215,8 +215,11 @@ export default function FavouriteBar({
     if (index < listFavourites.length) {
       onClickFavourite(listFavourites[index]);
     } else if (index === listFavourites.length) {
+      // The list closes, so the modal should return focus to the button instead of the row
+      expandListRef.current?.focus();
       onAddPlace();
     } else if (index === listFavourites.length + 1) {
+      expandListRef.current?.focus();
       onEdit();
     }
     toggleList();

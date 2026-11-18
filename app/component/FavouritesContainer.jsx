@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import FavouriteBar from '@digitransit-component/digitransit-component-favourite-bar';
 import FavouriteModal from '@digitransit-component/digitransit-component-favourite-modal';
 import FavouriteEditModal from '@digitransit-component/digitransit-component-favourite-editing-modal';
@@ -27,6 +27,7 @@ export default function FavouritesContainer({
   const { saveFavourite, deleteFavourite, updateFavourites } =
     useFavouriteActions();
   const closeModalTimeoutRef = useRef(null);
+  const openerRef = useRef(null);
 
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const [addModalOpen, setAddModalOpen] = useState(false);
@@ -40,6 +41,24 @@ export default function FavouritesContainer({
       }
     };
   }, []);
+
+  // The modals have no trigger element, so Radix cannot return focus on its own.
+  // Switching between the add and edit modals keeps one of them open, so focus
+  // moves back only when all are closed.
+  const anyModalOpen = addModalOpen || editModalOpen || loginModalOpen;
+
+  useLayoutEffect(() => {
+    if (anyModalOpen) {
+      openerRef.current = document.activeElement;
+    }
+  }, [anyModalOpen]);
+
+  const restoreFocus = event => {
+    event.preventDefault();
+    if (!anyModalOpen) {
+      openerRef.current?.focus();
+    }
+  };
 
   const lang = config.language;
 
@@ -162,6 +181,10 @@ export default function FavouritesContainer({
       });
 
       setAddModalOpen(false);
+      if (favourite?.favouriteId) {
+        // Editing a place was started from the edit modal, so return to it
+        setEditModalOpen(true);
+      }
     } else {
       addAnalyticsEvent({
         category: 'Favourite',
@@ -214,6 +237,7 @@ export default function FavouritesContainer({
         cancelSelected={cancelSelected}
         favourite={favourite}
         lang={lang}
+        onCloseAutoFocus={restoreFocus}
         autosuggestComponent={
           <SearchAutosuggest
             appElement="#app"
@@ -243,11 +267,13 @@ export default function FavouritesContainer({
         onEditSelected={editSelectedFavourite}
         lang={lang}
         isLoading={isLoading}
+        onCloseAutoFocus={restoreFocus}
       />
 
       <LoginPrompt
         open={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
+        onCloseAutoFocus={restoreFocus}
       />
     </>
   );

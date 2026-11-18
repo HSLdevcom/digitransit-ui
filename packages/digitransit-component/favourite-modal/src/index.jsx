@@ -43,6 +43,7 @@ export default function FavouriteModal({
   autosuggestComponent,
   favourite = null,
   lang = 'fi',
+  onCloseAutoFocus = undefined,
 }) {
   const { t } = useTranslation('translation', { i18n });
   const isEdit = favourite?.favouriteId !== undefined;
@@ -61,6 +62,7 @@ export default function FavouriteModal({
         title={t(isEdit ? 'edit-place' : 'save-place', { lng: lang })}
         className={styles.modalContent}
         aria-describedby={undefined}
+        onCloseAutoFocus={onCloseAutoFocus}
       >
         <FavouriteForm
           favourite={favourite}
@@ -125,4 +127,9 @@ FavouriteModal.propTypes = {
   /** Optional. Language, fi, en or sv. Defaults to fi.
    * @type {string} */
   lang: PropTypes.string,
+  /** Optional. Called when the dialog has closed and focus is about to move.
+   * The dialog has no trigger element, so use this to return focus to the
+   * element that opened it.
+   * @type {function} */
+  onCloseAutoFocus: PropTypes.func,
 };
