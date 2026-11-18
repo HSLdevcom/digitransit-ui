@@ -124,6 +124,29 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       );
     });
 
+    it('adds the status label to the screen reader text only when a badge applies', () => {
+      const labels = { 'out-of-service': 'Stop out of service' };
+      const srText = props => {
+        const { container, unmount } = render(
+          <SuggestionItem
+            item={makeStopItem({ noService: true })}
+            content={content}
+            stopStatusLabels={labels}
+            {...props}
+          />,
+        );
+        const text = container.querySelector('p').textContent;
+        unmount();
+        return text;
+      };
+      expect(srText({ showStopStatusMarkers: true })).toContain(
+        'stop out of service',
+      );
+      expect(srText({ showStopStatusMarkers: false })).not.toContain(
+        'out of service',
+      );
+    });
+
     describe('getStopBadge', () => {
       it('returns null for layers that are not stops or stations', () => {
         const item = makeStopItem({ noService: true });
