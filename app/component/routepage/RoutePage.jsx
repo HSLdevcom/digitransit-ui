@@ -119,11 +119,10 @@ export default function RoutePage({
               tabIndex={-1}
               style={{ color: shortNameColor }}
             >
-              <span className="sr-only" style={{ whiteSpace: 'pre' }}>
-                {intl.formatMessage({
+              <span className="sr-only">
+                {`${intl.formatMessage({
                   id: modeToTranslationId(mode, config),
-                })}{' '}
-                {label?.toLowerCase()}
+                })} ${label?.toLowerCase() ?? ''}`}
               </span>
               <span aria-hidden="true">{label}</span>
             </h1>
