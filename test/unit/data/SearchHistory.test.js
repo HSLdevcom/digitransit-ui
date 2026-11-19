@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-expressions */
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 

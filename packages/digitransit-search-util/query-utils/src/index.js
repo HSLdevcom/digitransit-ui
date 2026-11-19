@@ -283,7 +283,6 @@ export function getStopAndStationsQuery(favourites) {
         map,
         stopOrStation,
       ) {
-        // eslint-disable-next-line no-param-reassign
         map[stopOrStation.gtfsId] = stopOrStation;
         return map;
       }, {});

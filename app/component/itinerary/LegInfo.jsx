@@ -21,7 +21,6 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import OnDemandInfo from './OnDemandInfo';
 import RouteNumberContainer from '../RouteNumberContainer';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function LegInfo({
   leg,
   hasNoShortName,

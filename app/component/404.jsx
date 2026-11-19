@@ -51,7 +51,7 @@ export default function Error404({ error }) {
 Error404.propTypes = {
   error: PropTypes.shape({
     id: PropTypes.string,
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/forbid-prop-types
     values: PropTypes.object,
   }),
 };

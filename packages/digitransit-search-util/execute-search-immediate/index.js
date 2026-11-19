@@ -325,7 +325,6 @@ export function getSearchResults(
     searchComponents.push(selectFromOwnLocations(input));
   }
   if (allTargets || targets.includes('Locations')) {
-    // eslint-disable-next-line prefer-destructuring
     const searchParams = geocodingSearchParams;
     if (sources.includes('Favourite')) {
       const favouriteLocations = getFavouriteLocations(context);

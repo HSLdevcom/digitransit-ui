@@ -401,7 +401,7 @@ export function getPlanParams(
   if (config.customWeights) {
     otpModes.forEach(m => {
       if (config.customWeights[m.mode]) {
-        // eslint-disable-next-line
+        // eslint-disable-next-line no-param-reassign
         m.cost = { reluctance: config.customWeights[m.mode] };
       }
     });

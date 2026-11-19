@@ -53,7 +53,6 @@ export default function MessageBarMessage({
     content.find(part => part.type === 'heading'),
     textColor,
   );
-  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
     <div className="message-content" style={{ color: textColor }}>
       {headingContent && (
@@ -68,7 +67,7 @@ export default function MessageBarMessage({
 }
 
 MessageBarMessage.propTypes = {
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.arrayOf(PropTypes.object).isRequired,
   textColor: PropTypes.string,
   truncate: PropTypes.bool,

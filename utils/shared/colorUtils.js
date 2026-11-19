@@ -1,5 +1,4 @@
 /* eslint no-bitwise: ["error", { "allow": [">>", "&", "|", "<<"] }] */
-// eslint-disable-next-line
 export function LightenDarkenColor(color, amt) {
   /* https://css-tricks.com/snippets/javascript/lighten-darken-color/ */
 

@@ -67,6 +67,8 @@
   ],
   "prettier": {
     "arrowParens": "avoid",
+    "printWidth": 100,
+    "objectWrap": "collapse",
     "endOfLine": "auto",
     "singleQuote": true,
     "trailingComma": "all",

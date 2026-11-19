@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useReducer, useRef, useState } from 'react';
@@ -424,7 +423,7 @@ export default function DTAutosuggestPanel({
               index={i}
               disabled={viaPoints.length <= 1}
               className={styles['viapoint-container']}
-              key={`viapoint-${i}`} // eslint-disable-line
+              key={`viapoint-${i}`} // eslint-disable-line react/no-array-index-key
             >
               {handleRef => (
                 <>

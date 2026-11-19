@@ -57,7 +57,6 @@ export default function CarLeg({
   const address =
     leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">

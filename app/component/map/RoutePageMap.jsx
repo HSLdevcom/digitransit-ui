@@ -1,4 +1,3 @@
-/* eslint-disable no-underscore-dangle */
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { graphql, useFragment } from 'react-relay';
@@ -206,7 +205,6 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
       />,
     );
   }
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <MapWithTracking
       {...mwtProps}
