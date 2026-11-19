@@ -143,7 +143,7 @@ export default function NaviContainer({
   const isJourneyCompleted = isDestinationReached || isPastExpectedArrival;
 
   if (LEGLOG) {
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-console
     console.log(
       ...summaryString(
         itinerary.legs,
@@ -217,10 +217,10 @@ NaviContainer.propTypes = {
   relayEnvironment: relayShape.isRequired,
   setNavigation: PropTypes.func.isRequired,
   isNavigatorIntroDismissed: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   mapRef: PropTypes.object,
   mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
     .isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object.isRequired,
 };

@@ -26,7 +26,7 @@ function setItem(key, value) {
       if (error.name === 'QuotaExceededError') {
         // eslint-disable-next-line no-console
         console.log(
-          '[localStorage]' + // eslint-disable-line no-console
+          '[localStorage]' +
             ' Unable to save state; localStorage is not available in Safari private mode',
         );
       } else {

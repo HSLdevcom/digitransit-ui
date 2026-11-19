@@ -100,7 +100,6 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
 
 VehicleRentalDurationInfo.propTypes = {
   networks: PropTypes.arrayOf(
-    // eslint-disable-next-line
     PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
   ).isRequired,
   config: configShape.isRequired,

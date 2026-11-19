@@ -74,7 +74,6 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
               aria-label={closeLabel}
               className="close-settings"
               onClick={closeSettings}
-              // eslint-disable-next-line jsx-a11y/no-autofocus
               autoFocus
             />
           )}

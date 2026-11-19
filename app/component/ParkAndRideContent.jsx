@@ -156,7 +156,6 @@ export default function ParkAndRideContent({
             {parkLabel('is-open')}
             <div className={cx('opening-hours', 'park-value')}>
               {openingHours.map(text => (
-                // eslint-disable-next-line react/no-array-index-key
                 <span key={`opening-hour-${text}`}>
                   {renderOpeningHours(text, dotted)}
                 </span>

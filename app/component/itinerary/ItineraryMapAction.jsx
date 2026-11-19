@@ -9,7 +9,6 @@ export default function ItineraryMapAction({
   ariaLabelId = 'itinerary-summary.show-on-map',
 }) {
   const intl = useIntl();
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
       className="itinerary-map-action"

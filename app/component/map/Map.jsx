@@ -297,7 +297,7 @@ Map.propTypes = {
   lon: PropTypes.number,
   zoom: PropTypes.number,
   bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   leafletEvents: PropTypes.object,
   leafletObjs: PropTypes.arrayOf(PropTypes.node),
   leafletMapRef: PropTypes.func,
@@ -305,7 +305,7 @@ Map.propTypes = {
   bottomPadding: PropTypes.number,
   bottomButtons: PropTypes.node,
   topButtons: PropTypes.node,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   geoJson: PropTypes.object,
   mapLayers: mapLayerShape,
   breakpoint: PropTypes.string,

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-key */
 import { graphql } from 'react-relay';
 import Route from 'found/Route';
 import Redirect from 'found/Redirect';

@@ -9,7 +9,6 @@ import Icon from '../../Icon';
 export const valueShape = PropTypes.oneOfType([
   PropTypes.string,
   PropTypes.number,
-  // eslint-disable-next-line
   PropTypes.object,
 ]);
 

@@ -215,8 +215,9 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
   overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
-  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
-  is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config (`"prettier"` in
+  `package.json`) is `printWidth: 100, objectWrap: 'collapse', singleQuote: true,
+  trailingComma: 'all', arrowParens: 'avoid'`.
 - Keep comments and explanations concise, describing the current state rather than how it was
   reached; prefer one-line comments. Comment only where necessary; document functions with concise JSDoc (`/** ... */`).
 - When removing `defaultProps`, use parameter defaults only for valid values; never default to

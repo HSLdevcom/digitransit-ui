@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import { useEffect, useCallback, useMemo, useRef, useReducer } from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
@@ -791,7 +790,7 @@ DTAutosuggest.propTypes = {
   filterResults: PropTypes.func,
   searchContext: PropTypes.shape({
     URL_PELIAS: PropTypes.string,
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/forbid-prop-types
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
