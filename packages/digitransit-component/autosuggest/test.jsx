@@ -103,6 +103,13 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     expect(input.getAttribute('aria-label')).toBe(name);
   });
 
+  it('adds the extra description to the input description', () => {
+    const { container } = renderAutosuggest({ extraDescription: 'Search starts automatically.' });
+    const input = screen.getByRole('combobox');
+    const description = container.querySelector(`#${input.getAttribute('aria-describedby')}`);
+    expect(description.textContent).toContain('Search starts automatically.');
+  });
+
   it('renders the clear history button outside the listbox', () => {
     const { container } = render(
       <Suggestions

@@ -47,6 +47,7 @@ An autosuggest search input for finding locations, stops, stations, routes and v
     *   `props.translatedPlaceholder`  
     *   `props.required`   (optional, default `false`)
     *   `props.externalLabelId`   (optional, default `undefined`)
+    *   `props.extraDescription`   (optional, default `''`)
     *   `props.ariaLabel`  
     *   `props.colors`   (optional, default `defaultColors`)
     *   `props.modeSet`  
@@ -78,6 +79,7 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 *   `translatedPlaceholder` **[string][3]?** 
 *   `required` **[boolean][4]?** 
 *   `externalLabelId` **[string][3]?** id of a visible <label for={id}> that names the input
+*   `extraDescription` **[string][3]?** text appended to the accessible description of the input
 *   `colors` **[Object][1]?** 
 *   `modeSet` **[string][3]?** 
 *   `showScroll` **[boolean][4]?** 

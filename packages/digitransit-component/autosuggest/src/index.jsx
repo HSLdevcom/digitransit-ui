@@ -199,6 +199,7 @@ const getNewTargets = ({ targets, isLocationSearch, isMobile, ownPlaces, sources
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
  * @property {string} [externalLabelId] id of a visible <label for={id}> that names the input
+ * @property {string} [extraDescription] text appended to the accessible description of the input
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -237,6 +238,7 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   externalLabelId = undefined,
+  extraDescription = '',
   ariaLabel,
   colors = defaultColors,
   modeSet,
@@ -612,6 +614,7 @@ function DTAutosuggest({
           appElement={appElement}
           mobileLabel={mobileLabel || t(id, { lng })}
           ariaProps={{ ariaCurrentSuggestion, SearchBarId, ariaRequiredText }}
+          extraDescription={extraDescription}
           id={id}
           lng={lng}
           onSelectedItemChange={onSelectedItemChange}
@@ -658,6 +661,8 @@ function DTAutosuggest({
           ariaDescription={t('search-autosuggest-label', { lng })
             .concat(' ')
             .concat(ariaLabelText)
+            .concat(' ')
+            .concat(extraDescription)
             .trim()}
           id={id}
           lng={lng}
@@ -733,6 +738,7 @@ DTAutosuggest.propTypes = {
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,
   externalLabelId: PropTypes.string,
+  extraDescription: PropTypes.string,
   modeSet: PropTypes.string,
   showScroll: PropTypes.bool,
   isEmbedded: PropTypes.bool,

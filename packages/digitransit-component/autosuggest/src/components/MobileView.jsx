@@ -37,6 +37,7 @@ import {
  * @property {string} inputClassName
  * @property {boolean} required
  * @property {string} [mobileLabel]
+ * @property {string} [extraDescription]
  * @property {boolean} [showScroll]
  * @property {AutosuggestState} state
  * @property {function} dispatch
@@ -61,6 +62,7 @@ export default function MobileView({
   inputClassName,
   required,
   mobileLabel,
+  extraDescription = '',
   showScroll,
   state,
   dispatch,
@@ -164,6 +166,8 @@ export default function MobileView({
     .concat(SearchBarId)
     .concat(' ')
     .concat(ariaCurrentSuggestion)
+    .concat(' ')
+    .concat(extraDescription)
     .trim();
   return (
     <ReactModal
@@ -273,6 +277,7 @@ MobileView.propTypes = {
   inputClassName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   mobileLabel: PropTypes.string.isRequired,
+  extraDescription: PropTypes.string,
   required: PropTypes.bool.isRequired,
   showScroll: PropTypes.bool.isRequired,
   lng: PropTypes.string.isRequired,

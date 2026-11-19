@@ -265,6 +265,11 @@ export default function IndexPage() {
     targets,
     refPoint,
     searchPanelText: intl.formatMessage({ id: 'where', defaultMessage: 'Where to?' }),
+    extraDescription: intl.formatMessage({
+      id: 'search-fields.search-starts',
+      defaultMessage:
+        'Route search starts automatically when both origin and destination have been selected.',
+    }),
     originPlaceHolder: 'search-origin-index',
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
@@ -309,12 +314,6 @@ export default function IndexPage() {
           <FormattedMessage id="index.title" default="Journey Planner" />
         </h1>
         <CtrlPanel position="left">
-          <span className="sr-only">
-            <FormattedMessage
-              id="search-fields.sr-instructions"
-              defaultMessage="The search is triggered automatically when origin and destination are set. Changing any search parameters triggers a new search"
-            />
-          </span>
           <LocationSearch {...locationSearchProps} />
           <DatetimepickerContainer realtime />
           {!config.hideFavourites && (
