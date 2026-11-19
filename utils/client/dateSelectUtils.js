@@ -1,5 +1,3 @@
-import { DateTime } from 'luxon';
-
 /**
  * Generate human-readable label for a date.
  * Returns "Today", "Tomorrow", or formatted date (e.g., "Mon 15.1.").
@@ -94,18 +92,4 @@ export function groupDatesByWeek(processedDates, today, intl) {
       ),
       options: items,
     }));
-}
-
-/**
- * Extract selected value from DateTime object.
- *
- * @param {DateTime} selectedDay - Selected day as a Luxon DateTime
- * @param {string} dateFormat - Format string for DateTime conversion
- * @returns {string|undefined} Formatted date string or undefined
- */
-export function extractSelectedValue(selectedDay, dateFormat) {
-  if (selectedDay && selectedDay instanceof DateTime && selectedDay.isValid) {
-    return selectedDay.toFormat(dateFormat);
-  }
-  return undefined;
 }

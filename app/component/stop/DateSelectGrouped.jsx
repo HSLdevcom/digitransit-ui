@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DsSelect, SelectGroup, SelectOption } from '../DsSelect';
 import {
-  extractSelectedValue,
   formatDateLabel,
   processDates,
   groupDatesByWeek,
@@ -30,7 +29,9 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
   }, [dateFormat, dates, locale]);
 
   const selectedOption = useMemo(() => {
-    const selectedValue = extractSelectedValue(selectedDay, dateFormat);
+    const selectedValue = selectedDay?.isValid
+      ? selectedDay.toFormat(dateFormat)
+      : undefined;
     const found = processedDates.find(o => o.value === selectedValue);
     if (found) {
       return found;

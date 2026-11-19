@@ -4,7 +4,6 @@ import {
   formatWeekLabel,
   processDates,
   groupDatesByWeek,
-  extractSelectedValue,
 } from '../../../../utils/client/dateSelectUtils';
 import { createTestIntl } from '../../helpers/mock-providers';
 
@@ -213,42 +212,6 @@ describe('dateSelectUtils', () => {
       expect(result[0].label).toBe('This week');
       expect(result[1].label).toBe('Next week');
       expect(result[2].label).toBe('Week 5');
-    });
-  });
-
-  describe('extractSelectedValue', () => {
-    it('should extract formatted value from valid DateTime', () => {
-      const selectedDay = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-
-      const result = extractSelectedValue(selectedDay, dateFormat);
-
-      expect(result).toBe('20240115');
-    });
-
-    it('should return undefined for invalid DateTime', () => {
-      const invalidDate = DateTime.invalid('invalid');
-
-      const result = extractSelectedValue(invalidDate, dateFormat);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should return undefined for null', () => {
-      const result = extractSelectedValue(null, dateFormat);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should return undefined for undefined', () => {
-      const result = extractSelectedValue(undefined, dateFormat);
-
-      expect(result).toBeUndefined();
-    });
-
-    it('should return undefined for non-DateTime objects', () => {
-      const result = extractSelectedValue('2024-01-15', dateFormat);
-
-      expect(result).toBeUndefined();
     });
   });
 });
