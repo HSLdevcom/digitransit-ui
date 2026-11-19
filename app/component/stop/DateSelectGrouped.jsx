@@ -7,8 +7,9 @@ import {
   processDates,
   groupDatesByWeek,
 } from '../../../utils/client/dateSelectUtils';
+import { DATE_FORMAT } from '../../../utils/shared/constants';
 
-function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
+function DateSelectGrouped({ selectedDay, dates, onDateChange }) {
   const intl = useIntl();
   const { locale, formatMessage } = intl;
 
@@ -18,7 +19,6 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
     const options = processDates(
       dates.map(d => d.setLocale(locale)),
       now,
-      dateFormat,
       intl,
     );
 
@@ -27,11 +27,11 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
       processedDates: options,
       today: now,
     };
-  }, [dateFormat, dates, locale]);
+  }, [dates, locale]);
 
   const selectedOption = useMemo(() => {
     const selectedValue = selectedDay?.isValid
-      ? selectedDay.toFormat(dateFormat)
+      ? selectedDay.toFormat(DATE_FORMAT)
       : undefined;
     const found = processedDates.find(o => o.value === selectedValue);
     if (found) {
@@ -40,10 +40,10 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
     // Synthesise an option for the selected day when it is not in the
     // available-dates list (e.g. today when service only starts in the future).
     if (selectedDay?.isValid) {
-      return processDates([selectedDay], today, dateFormat, intl)[0];
+      return processDates([selectedDay], today, intl)[0];
     }
     return processedDates[0];
-  }, [processedDates, today, selectedDay, dateFormat, intl]);
+  }, [processedDates, today, selectedDay, intl]);
 
   const id = 'route-schedule-grouped-datepicker';
 
@@ -83,7 +83,6 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
 
 DateSelectGrouped.propTypes = {
   selectedDay: PropTypes.instanceOf(DateTime),
-  dateFormat: PropTypes.string.isRequired,
   dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)).isRequired,
   onDateChange: PropTypes.func.isRequired,
 };

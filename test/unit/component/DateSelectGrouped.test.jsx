@@ -10,7 +10,6 @@ import {
 } from '../../../utils/client/dateSelectUtils';
 
 describe('<DateSelectGrouped />', () => {
-  const dateFormat = 'yyyyLLdd';
   const today = DateTime.fromISO('2019-01-01', { zone: 'UTC' });
   const tomorrow = today.plus({ days: 1 });
   const intl = createTestIntl();
@@ -24,7 +23,6 @@ describe('<DateSelectGrouped />', () => {
     const { container } = renderWithProviders(
       <DateSelectGrouped
         selectedDay={tomorrow}
-        dateFormat={dateFormat}
         dates={[today, tomorrow]}
         onDateChange={() => {}}
       />,
@@ -41,11 +39,7 @@ describe('<DateSelectGrouped />', () => {
 
   it('should select the first available date when selectedDay is undefined', () => {
     const { container } = renderWithProviders(
-      <DateSelectGrouped
-        dateFormat={dateFormat}
-        dates={[today, tomorrow]}
-        onDateChange={() => {}}
-      />,
+      <DateSelectGrouped dates={[today, tomorrow]} onDateChange={() => {}} />,
     );
     expect(
       container.querySelector('#aria-input-route-schedule-grouped-datepicker')
@@ -57,7 +51,6 @@ describe('<DateSelectGrouped />', () => {
     const { container } = renderWithProviders(
       <DateSelectGrouped
         selectedDay={DateTime.invalid('invalid')}
-        dateFormat={dateFormat}
         dates={[today, tomorrow]}
         onDateChange={() => {}}
       />,
@@ -69,7 +62,7 @@ describe('<DateSelectGrouped />', () => {
   });
 
   it('should return no options for an empty dates array', () => {
-    expect(processDates([], today, dateFormat, intl)).toHaveLength(0);
+    expect(processDates([], today, intl)).toHaveLength(0);
   });
 
   it('should label today and tomorrow', () => {
@@ -78,7 +71,7 @@ describe('<DateSelectGrouped />', () => {
   });
 
   it('should create accessible date options', () => {
-    const options = processDates([today], today, dateFormat, intl);
+    const options = processDates([today], today, intl);
     expect(options[0].value).toBe('20190101');
     expect(typeof options[0].ariaLabel).toBe('string');
     expect(options[0].textLabel).toBe('Today');
@@ -89,7 +82,6 @@ describe('<DateSelectGrouped />', () => {
     const { container, getByRole } = renderWithProviders(
       <DateSelectGrouped
         selectedDay={today}
-        dateFormat={dateFormat}
         dates={[today, tomorrow]}
         onDateChange={onDateChange}
       />,
@@ -103,7 +95,7 @@ describe('<DateSelectGrouped />', () => {
   });
 
   it('should group dates by week', () => {
-    const options = processDates([today, tomorrow], today, dateFormat, intl);
+    const options = processDates([today, tomorrow], today, intl);
     const groups = groupDatesByWeek(options, today, intl);
     expect(groups[0].label).toBe('This week');
     expect(groups[0].options).toHaveLength(2);

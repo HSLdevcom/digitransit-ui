@@ -1,3 +1,5 @@
+import { DATE_FORMAT } from '../shared/constants';
+
 /**
  * Generate human-readable label for a date.
  * Returns "Today", "Tomorrow", or formatted date (e.g., "Mon 15.1.").
@@ -46,14 +48,13 @@ export function formatWeekLabel(weekNum, weeksFromNow, intl) {
  *
  * @param {Array<DateTime>} dates - Array of Luxon DateTime objects
  * @param {DateTime} today - Today's date for comparison
- * @param {string} dateFormat - Format string for DateTime conversion
  * @param {Object} intl - Internationalization object
  * @returns {Array<Object>} Array of date objects with value, textLabel, ariaLabel, dateObj
  */
-export function processDates(dates, today, dateFormat, intl) {
+export function processDates(dates, today, intl) {
   return dates.map(d => ({
     dateObj: d,
-    value: d.toFormat(dateFormat),
+    value: d.toFormat(DATE_FORMAT),
     textLabel: formatDateLabel(d, today, intl),
     // accessibility label with full weekday
     ariaLabel: d.toFormat('EEEE d.L.'),

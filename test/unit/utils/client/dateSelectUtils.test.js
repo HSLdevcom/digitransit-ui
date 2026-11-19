@@ -8,7 +8,6 @@ import {
 import { createTestIntl } from '../../helpers/mock-providers';
 
 describe('dateSelectUtils', () => {
-  const dateFormat = 'yyyyLLdd';
   const intl = createTestIntl();
 
   beforeEach(() => {
@@ -69,7 +68,7 @@ describe('dateSelectUtils', () => {
         DateTime.fromISO('2024-01-17', { zone: 'UTC' }),
       ];
 
-      const result = processDates(dates, today, dateFormat, intl);
+      const result = processDates(dates, today, intl);
 
       expect(result).toHaveLength(3);
       expect(result[0].textLabel).toBe('Today');
@@ -83,7 +82,7 @@ describe('dateSelectUtils', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
       const dates = [DateTime.fromISO('2024-01-15', { zone: 'UTC' })];
 
-      const result = processDates(dates, today, dateFormat, intl);
+      const result = processDates(dates, today, intl);
 
       expect(result[0]).toHaveProperty('dateObj');
     });
