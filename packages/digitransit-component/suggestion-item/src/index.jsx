@@ -1,4 +1,3 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import { useState, memo } from 'react';
 import cx from 'classnames';
@@ -534,7 +533,7 @@ SuggestionItem.propTypes = {
       }),
     }),
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.array,
   isMobile: PropTypes.bool,
   ariaFavouriteString: PropTypes.string,

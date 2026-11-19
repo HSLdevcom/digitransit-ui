@@ -48,14 +48,13 @@ describe('config', () => {
         parseFloat(boundaryPolygon[boundaryPolygon.length - 1]),
       ).toBeLessThanOrEqual(62);
     });
-    /* eslint-disable no-unused-expressions */
     it('should return default configuration with empty realTimePatch and unchanged realTime.HSL', () => {
       const request = {
         headers: {},
       };
       const config = getConfiguration(request);
-      expect(config.realTimePatch).toEqual({}); // eslint-disable-line no-unused-expressions
-      expect(config.realTime.HSL.mqtt).toBe(defaultConfig.realTime.HSL.mqtt); // eslint-disable-line no-unused-expressions
+      expect(config.realTimePatch).toEqual({});
+      expect(config.realTime.HSL.mqtt).toBe(defaultConfig.realTime.HSL.mqtt);
     });
   });
 

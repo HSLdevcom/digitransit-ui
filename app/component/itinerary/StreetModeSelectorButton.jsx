@@ -89,7 +89,6 @@ export default function StreetModeSelectorButton({
     secondaryColor = getModeIconColor(config, mode);
   }
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events
     <button
       className="street-mode-selector-button-container"
       onClick={() => onClick(name)}

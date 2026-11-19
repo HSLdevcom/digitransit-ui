@@ -366,7 +366,6 @@ export default function IndexPage() {
       results.filter(config.stopSearchFilter);
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return breakpoint === 'large' ? (
     <div
       className={`front-page flex-vertical ${

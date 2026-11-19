@@ -386,14 +386,14 @@ NearYouMap.propTypes = {
   stops: PropTypes.oneOfType([
     PropTypes.shape({
       nearest: PropTypes.shape({
-        // eslint-disable-next-line
+        // eslint-disable-next-line react/forbid-prop-types
         edges: PropTypes.arrayOf(PropTypes.object).isRequired,
       }).isRequired,
     }),
     PropTypes.arrayOf(PropTypes.object),
   ]),
   prioritizedStops: PropTypes.arrayOf(stopShape),
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   favouriteIds: PropTypes.object.isRequired,
   position: locationShape.isRequired,
   breakpoint: PropTypes.string.isRequired,

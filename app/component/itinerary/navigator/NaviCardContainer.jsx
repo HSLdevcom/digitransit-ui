@@ -233,7 +233,6 @@ export default function NaviCardContainer({
     className = 'show-card';
   }
   return (
-    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions
     <div
       className={`navi-card-container ${className}`}
       style={{ top: containerTopPosition }}
@@ -286,6 +285,6 @@ NaviCardContainer.propTypes = {
   lastLeg: legShape,
   previousLeg: legShape,
   isJourneyCompleted: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object.isRequired,
 };

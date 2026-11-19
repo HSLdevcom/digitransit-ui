@@ -31,7 +31,6 @@ export default function CarParkLeg({
   const duration = durationToString(intl, leg.duration * 1000);
   const firstLegClassName = index === 0 ? 'first' : '';
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">

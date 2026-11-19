@@ -10,7 +10,6 @@ import {
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function SelectVehicleRentalRow({
   name,
   network,
