@@ -9,7 +9,11 @@ import {
 } from '../../../utils/client/dateSelectUtils';
 import { DATE_FORMAT } from '../../../utils/shared/constants';
 
-function DateSelectGrouped({ selectedDay, dates, onDateChange }) {
+export default function DateSelectGrouped({
+  selectedDay,
+  dates,
+  onDateChange,
+}) {
   const intl = useIntl();
   const { locale, formatMessage } = intl;
 
@@ -86,7 +90,3 @@ DateSelectGrouped.propTypes = {
   dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)).isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
-
-DateSelectGrouped.displayName = 'DateSelectGrouped';
-
-export default DateSelectGrouped;
