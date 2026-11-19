@@ -14,14 +14,16 @@ import EntityBadge from './components/EntityBadge';
 import { patternShape, routeShape } from '../../../utils/client/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
+import { rememberOpenedCard } from './cardFocus';
 
-export default function CanceledTripCard({ mode, routes, isMobile = false }) {
+export default function CanceledTripCard({ mode, routes, cardKey = undefined, isMobile = false }) {
   const { router } = useRouter();
   const intl = useIntl();
   const { trafficNowMaxRoutesPerCard } = useConfigContext();
   const { selectedFilters } = useFilterContext();
   const favourites = useFavourites();
-  const handleRouteBadgeClick = url => e => {
+  const handleRouteBadgeClick = (url, openedCardKey) => e => {
+    rememberOpenedCard(openedCardKey);
     e.preventDefault();
     e.stopPropagation();
     router.push(url);
@@ -39,7 +41,8 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
   return (
     <Card
       className="disruption-card clickable"
-      onClick={handleRouteBadgeClick(`/${TRAFFICNOW}/peruutukset/${mode}`)}
+      data-card-key={cardKey}
+      onClick={handleRouteBadgeClick(`/${TRAFFICNOW}/peruutukset/${mode}`, cardKey)}
     >
       <header>
         <span className="disruption-card__header-left">
@@ -100,6 +103,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
 
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
+  cardKey: PropTypes.string,
   isMobile: PropTypes.bool,
   routes: PropTypes.arrayOf(
     PropTypes.shape({

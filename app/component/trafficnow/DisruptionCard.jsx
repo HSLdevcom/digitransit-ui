@@ -15,6 +15,7 @@ export default function DisruptionCard({
   onClick = () => {},
   isMobile = false,
   mode = undefined,
+  cardKey = undefined,
 }) {
   const intl = useIntl();
   const {
@@ -31,6 +32,7 @@ export default function DisruptionCard({
   return (
     <Card
       className="disruption-card clickable"
+      data-card-key={cardKey}
       onClick={() => {
         onClick(id);
       }}
@@ -79,4 +81,5 @@ DisruptionCard.propTypes = {
   onClick: PropTypes.func,
   isMobile: PropTypes.bool,
   mode: PropTypes.string,
+  cardKey: PropTypes.string,
 };
