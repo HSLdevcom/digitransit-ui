@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import DTAutosuggest from './src/index';
+import { Suggestions } from './src/components/Suggestions';
 
 // searchContext's sources/targets being empty means "search all sources",
 // which includes a real geocoding lookup via axios - mock it so tests that
@@ -100,6 +101,23 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     expect(name).toContain(input.placeholder);
     fireEvent.change(input, { target: { value: 'Pasi' } });
     expect(input.getAttribute('aria-label')).toBe(name);
+  });
+
+  it('renders the clear history button outside the listbox', () => {
+    const { container } = render(
+      <Suggestions
+        suggestions={[]}
+        getMenuProps={props => ({ role: 'listbox', ...props })}
+        label="Suggestions"
+        getItemProps={props => props}
+        lng="en"
+        styles={{}}
+        hidden={false}
+        renderClearHistoryButton
+      />,
+    );
+    const button = screen.getByRole('button');
+    expect(container.querySelector('[role="listbox"]').contains(button)).toBe(false);
   });
 
   it('is named by an external label instead of aria-label', () => {

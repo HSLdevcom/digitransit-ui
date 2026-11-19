@@ -168,6 +168,7 @@ export default function MobileView({
   return (
     <ReactModal
       isOpen={state.renderMobile}
+      contentLabel={mobileLabel}
       className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
       shouldReturnFocusAfterClose={false}
