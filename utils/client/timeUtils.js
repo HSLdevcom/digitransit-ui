@@ -9,7 +9,7 @@ export const DATE_PATTERN = 'ccc d.L.';
  */
 export function getStartTime(seconds) {
   const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
-  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  const mins = `0${Math.floor(seconds / 60) % 60}`.slice(-2);
   return hours + mins;
 }
 
@@ -20,7 +20,7 @@ export function getStartTime(seconds) {
  */
 export function getStartTimeWithColon(seconds) {
   const hours = `0${Math.floor(seconds / 60 / 60)}`.slice(-2);
-  const mins = `0${(seconds / 60) % 60}`.slice(-2);
+  const mins = `0${Math.floor(seconds / 60) % 60}`.slice(-2);
   return `${hours}:${mins}`;
 }
 
