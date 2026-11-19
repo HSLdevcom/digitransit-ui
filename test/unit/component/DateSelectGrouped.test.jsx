@@ -69,16 +69,16 @@ describe('<DateSelectGrouped />', () => {
   });
 
   it('should return no options for an empty dates array', () => {
-    expect(processDates([], today, tomorrow, dateFormat, intl)).toHaveLength(0);
+    expect(processDates([], today, dateFormat, intl)).toHaveLength(0);
   });
 
   it('should label today and tomorrow', () => {
-    expect(formatDateLabel(today, today, tomorrow, intl)).toBe('Today');
-    expect(formatDateLabel(tomorrow, today, tomorrow, intl)).toBe('Tomorrow');
+    expect(formatDateLabel(today, today, intl)).toBe('Today');
+    expect(formatDateLabel(tomorrow, today, intl)).toBe('Tomorrow');
   });
 
   it('should create accessible date options', () => {
-    const options = processDates([today], today, tomorrow, dateFormat, intl);
+    const options = processDates([today], today, dateFormat, intl);
     expect(options[0].value).toBe('20190101');
     expect(typeof options[0].ariaLabel).toBe('string');
     expect(options[0].textLabel).toBe('Today');
@@ -103,13 +103,7 @@ describe('<DateSelectGrouped />', () => {
   });
 
   it('should group dates by week', () => {
-    const options = processDates(
-      [today, tomorrow],
-      today,
-      tomorrow,
-      dateFormat,
-      intl,
-    );
+    const options = processDates([today, tomorrow], today, dateFormat, intl);
     const groups = groupDatesByWeek(options, today, intl);
     expect(groups[0].label).toBe('This week');
     expect(groups[0].options).toHaveLength(2);

@@ -17,12 +17,9 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
   // Group the provided dates (assumed sorted, no past dates) by week.
   const { grouped, processedDates } = useMemo(() => {
     const today = DateTime.local().startOf('day');
-    const tomorrow = today.plus({ days: 1 });
-
     const options = processDates(
       dates.map(d => d.setLocale(locale)),
       today,
-      tomorrow,
       dateFormat,
       intl,
     );
@@ -42,11 +39,10 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
     // available-dates list (e.g. today when service only starts in the future).
     if (selectedDay?.isValid) {
       const refToday = DateTime.local().startOf('day');
-      const refTomorrow = refToday.plus({ days: 1 });
       return {
         dateObj: selectedDay,
         value: selectedDay.toFormat(dateFormat),
-        textLabel: formatDateLabel(selectedDay, refToday, refTomorrow, intl),
+        textLabel: formatDateLabel(selectedDay, refToday, intl),
         ariaLabel: selectedDay.toFormat('EEEE d.L.'),
         weekNumber: selectedDay.weekNumber,
       };

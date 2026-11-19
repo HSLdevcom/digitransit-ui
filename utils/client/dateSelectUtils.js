@@ -6,13 +6,12 @@ import { DateTime } from 'luxon';
  *
  * @param {DateTime} date - Date to label
  * @param {DateTime} today - Today's date for comparison
- * @param {DateTime} tomorrow - Tomorrow's date for comparison
  * @param {Object} intl - Internationalization object with formatMessage
  * @returns {string} Formatted label
  */
-export function formatDateLabel(date, today, tomorrow, intl) {
+export function formatDateLabel(date, today, intl) {
   const isToday = date.hasSame(today, 'day');
-  const isTomorrow = date.hasSame(tomorrow, 'day');
+  const isTomorrow = date.hasSame(today.plus({ days: 1 }), 'day');
 
   if (isToday) {
     return intl.formatMessage({ id: 'today', defaultMessage: 'Today' });
@@ -49,16 +48,15 @@ export function formatWeekLabel(weekNum, weeksFromNow, intl) {
  *
  * @param {Array<DateTime>} dates - Array of Luxon DateTime objects
  * @param {DateTime} today - Today's date for comparison
- * @param {DateTime} tomorrow - Tomorrow's date for comparison
  * @param {string} dateFormat - Format string for DateTime conversion
  * @param {Object} intl - Internationalization object
  * @returns {Array<Object>} Array of date objects with value, textLabel, weekNumber, dateObj
  */
-export function processDates(dates, today, tomorrow, dateFormat, intl) {
+export function processDates(dates, today, dateFormat, intl) {
   return dates.map(d => ({
     dateObj: d,
     value: d.toFormat(dateFormat),
-    textLabel: formatDateLabel(d, today, tomorrow, intl),
+    textLabel: formatDateLabel(d, today, intl),
     // accessibility label with full weekday
     ariaLabel: d.toFormat('EEEE d.L.'),
     weekNumber: d.weekNumber,

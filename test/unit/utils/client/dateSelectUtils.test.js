@@ -21,30 +21,27 @@ describe('dateSelectUtils', () => {
   describe('formatDateLabel', () => {
     it('should return "Today" for today\'s date', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, intl);
+      const result = formatDateLabel(date, today, intl);
 
       expect(result).toBe('Today');
     });
 
     it('should return "Tomorrow" for tomorrow\'s date', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-16', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, intl);
+      const result = formatDateLabel(date, today, intl);
 
       expect(result).toBe('Tomorrow');
     });
 
     it('should return formatted date for other dates', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const tomorrow = today.plus({ days: 1 });
       const date = DateTime.fromISO('2024-01-20', { zone: 'UTC' });
 
-      const result = formatDateLabel(date, today, tomorrow, intl);
+      const result = formatDateLabel(date, today, intl);
 
       expect(result).toBe('Sat 20.1.');
     });
@@ -67,14 +64,13 @@ describe('dateSelectUtils', () => {
   describe('processDates', () => {
     it('should process dates with correct labels and values', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const tomorrow = today.plus({ days: 1 });
       const dates = [
         DateTime.fromISO('2024-01-15', { zone: 'UTC' }),
         DateTime.fromISO('2024-01-16', { zone: 'UTC' }),
         DateTime.fromISO('2024-01-17', { zone: 'UTC' }),
       ];
 
-      const result = processDates(dates, today, tomorrow, dateFormat, intl);
+      const result = processDates(dates, today, dateFormat, intl);
 
       expect(result).toHaveLength(3);
       expect(result[0].textLabel).toBe('Today');
@@ -86,10 +82,9 @@ describe('dateSelectUtils', () => {
 
     it('should include dateObj and weekNumber in processed dates', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const tomorrow = today.plus({ days: 1 });
       const dates = [DateTime.fromISO('2024-01-15', { zone: 'UTC' })];
 
-      const result = processDates(dates, today, tomorrow, dateFormat, intl);
+      const result = processDates(dates, today, dateFormat, intl);
 
       expect(result[0]).toHaveProperty('dateObj');
       expect(result[0]).toHaveProperty('weekNumber');
