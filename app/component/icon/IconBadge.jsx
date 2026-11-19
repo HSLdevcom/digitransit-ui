@@ -10,17 +10,9 @@ export default function IconBadge({ badgeFill, badgeText, textFill = '#fff' }) {
 
   return (
     <svg className="icon-badge" viewBox="0 0 40 40">
-      <circle
-        className="badge-circle"
-        cx="20"
-        cy="20"
-        fill={badgeFill}
-        r="18"
-      />
+      <circle className="badge-circle" cx="20" cy="20" fill={badgeFill} r="18" />
       <text
-        className={cx('badge-text', {
-          long: isBadgeTextLong(badgeText),
-        })}
+        className={cx('badge-text', { long: isBadgeTextLong(badgeText) })}
         dy="0.35em"
         x="20"
         y="20"

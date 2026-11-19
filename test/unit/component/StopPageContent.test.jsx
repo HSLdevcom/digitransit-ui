@@ -11,28 +11,23 @@ const markersConfig = createTestConfig({ showStopStatusMarkers: true });
 const stopParams = { stopId: 'HSL:1234' };
 const terminalParams = { terminalId: 'HSL:5678' };
 
-const baseProps = {
-  match: { ...mockMatch, params: { stopId: 'HSL:1234' } },
-};
+const baseProps = { match: { ...mockMatch, params: { stopId: 'HSL:1234' } } };
 
 const renderStop = (stopProps, config = markersConfig, params = stopParams) =>
-  renderWithProviders(
-    <StopPageContent {...baseProps} stop={{ routes: [], ...stopProps }} />,
-    { config, match: { ...baseProps.match, params }, currentTime: 0 },
-  );
+  renderWithProviders(<StopPageContent {...baseProps} stop={{ routes: [], ...stopProps }} />, {
+    config,
+    match: { ...baseProps.match, params },
+    currentTime: 0,
+  });
 
 describe('<StopPageContent />', () => {
   beforeEach(() => {
-    vi.spyOn(DepartureListContainerModule, 'default', 'get').mockReturnValue(
-      DepartureListStub,
-    );
+    vi.spyOn(DepartureListContainerModule, 'default', 'get').mockReturnValue(DepartureListStub);
   });
 
   it("should show a 'no departures' indicator when stoptimes is empty", () => {
     const { container, queryByTestId } = renderStop({}, createTestConfig());
-    expect(
-      container.querySelector('.stop-no-departures-container'),
-    ).not.toBeNull();
+    expect(container.querySelector('.stop-no-departures-container')).not.toBeNull();
     expect(container.textContent).toContain('No departures');
     expect(queryByTestId('departure-list')).toBeNull();
   });
@@ -48,21 +43,15 @@ describe('<StopPageContent />', () => {
   });
 
   it('shows the departure list when stoptimes are present', () => {
-    const stoptimes = [
-      { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
-    ];
+    const stoptimes = [{ serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } }];
     const { queryByTestId } = renderStop({ stoptimes });
     expect(queryByTestId('departure-list')).not.toBeNull();
   });
 
   it('shows the departure column headers only for terminals', () => {
-    const stoptimes = [
-      { serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } },
-    ];
+    const stoptimes = [{ serviceDay: 0, realtimeState: 'SCHEDULED', trip: { pattern: {} } }];
     const terminal = renderStop({ stoptimes }, markersConfig, terminalParams);
-    expect(
-      terminal.container.querySelector('.departure-list-header'),
-    ).not.toBeNull();
+    expect(terminal.container.querySelector('.departure-list-header')).not.toBeNull();
     terminal.unmount();
     const stop = renderStop({ stoptimes });
     expect(stop.container.querySelector('.departure-list-header')).toBeNull();

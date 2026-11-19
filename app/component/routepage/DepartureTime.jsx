@@ -46,25 +46,12 @@ export default function DepartureTime({
                   defaultMessage: 'Departure time was at',
                 })}
           </span>
-          <span
-            className={cx(
-              'time',
-              {
-                realtime,
-                canceled,
-              },
-              className,
-            )}
-            aria-hidden
-          >
+          <span className={cx('time', { realtime, canceled }, className)} aria-hidden>
             {shownTime}
           </span>
           {realtime && (
             <span className="sr-only">
-              {intl.formatMessage({
-                id: 'realtime',
-                defaultMessage: 'Realtime',
-              })}
+              {intl.formatMessage({ id: 'realtime', defaultMessage: 'Realtime' })}
             </span>
           )}
         </>
@@ -72,25 +59,14 @@ export default function DepartureTime({
       <span
         className={cx(
           'time',
-          {
-            realtime,
-            canceled,
-            first: !isNextDeparture,
-            next: isNextDeparture,
-          },
+          { realtime, canceled, first: !isNextDeparture, next: isNextDeparture },
           className,
         )}
       >
-        {isNextDeparture &&
-          `${intl.formatMessage({
-            id: 'next',
-            defaultMessage: 'Next',
-          })} `}
+        {isNextDeparture && `${intl.formatMessage({ id: 'next', defaultMessage: 'Next' })} `}
         {epochToTime(departureTime * 1000, config)}
       </span>
-      {canceled && showCancelationIcon && (
-        <Icon className="caution" img="icon_caution" />
-      )}
+      {canceled && showCancelationIcon && <Icon className="caution" img="icon_caution" />}
     </Fragment>
   );
 }

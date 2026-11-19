@@ -34,9 +34,7 @@ const MessageConsumer = ({ controlRef }) => {
   return <div data-message-count={messages.length} />;
 };
 
-MessageConsumer.propTypes = {
-  controlRef: PropTypes.shape({ current: PropTypes.object }),
-};
+MessageConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }) };
 
 const flushEffects = async () => {
   await act(async () => {
@@ -64,25 +62,12 @@ describe('MessageContext', () => {
     it('loads static and remotely fetched config messages, sorted by priority', async () => {
       const staticMessagesUrl = '/staticMessages';
       fetchMock.get(staticMessagesUrl, {
-        staticMessages: [
-          {
-            id: '2',
-            content: {
-              en: [{ type: 'text', content: 'foo' }],
-            },
-          },
-        ],
+        staticMessages: [{ id: '2', content: { en: [{ type: 'text', content: 'foo' }] } }],
       });
       const config = {
         ...mockContext.config,
         staticMessages: [
-          {
-            id: '1',
-            content: {
-              en: [{ type: 'text', content: 'bar' }],
-            },
-            priority: -1,
-          },
+          { id: '1', content: { en: [{ type: 'text', content: 'bar' }] }, priority: -1 },
         ],
         staticMessagesUrl,
       };
@@ -101,24 +86,13 @@ describe('MessageContext', () => {
 
       expect(fetchMock.callHistory.called(staticMessagesUrl)).toBe(true);
       expect(controlRef.current.messages).toEqual([
-        {
-          content: { en: [{ type: 'text', content: 'foo' }] },
-          id: '2',
-        },
-        {
-          content: { en: [{ type: 'text', content: 'bar' }] },
-          id: '1',
-          priority: -1,
-        },
+        { content: { en: [{ type: 'text', content: 'foo' }] }, id: '2' },
+        { content: { en: [{ type: 'text', content: 'bar' }] }, id: '1', priority: -1 },
       ]);
     });
 
     it('does not fetch when staticMessagesUrl is an empty string', async () => {
-      const config = {
-        ...mockContext.config,
-        staticMessages: [],
-        staticMessagesUrl: '',
-      };
+      const config = { ...mockContext.config, staticMessages: [], staticMessagesUrl: '' };
       const controlRef = createRef();
 
       await act(async () => {
@@ -179,10 +153,7 @@ describe('MessageContext', () => {
         </ConfigProvider>,
       );
 
-      const message = {
-        id: '42',
-        content: { en: [{ type: 'text', content: 'bar' }] },
-      };
+      const message = { id: '42', content: { en: [{ type: 'text', content: 'bar' }] } };
 
       act(() => {
         controlRef.current.actions.addMessage(message);
@@ -244,16 +215,12 @@ describe('MessageContext', () => {
       act(() => {
         messageActions.addMessage(message);
       });
-      expect(controlRef.current.messages.map(m => m.id)).toContain(
-        'geolocation-denied',
-      );
+      expect(controlRef.current.messages.map(m => m.id)).toContain('geolocation-denied');
 
       act(() => {
         messageActions.markMessageAsRead('geolocation-denied');
       });
-      expect(controlRef.current.messages.map(m => m.id)).not.toContain(
-        'geolocation-denied',
-      );
+      expect(controlRef.current.messages.map(m => m.id)).not.toContain('geolocation-denied');
     });
   });
 
@@ -273,15 +240,13 @@ describe('MessageContext', () => {
             en: [
               {
                 type: 'text',
-                content:
-                  'On Monday 4 February, A and K trains run every 20 minutes until 2pm',
+                content: 'On Monday 4 February, A and K trains run every 20 minutes until 2pm',
               },
             ],
             sv: [
               {
                 type: 'text',
-                content:
-                  'A- och K-tågen går med 20 minuters mellanrum tills kl 14 ',
+                content: 'A- och K-tågen går med 20 minuters mellanrum tills kl 14 ',
               },
             ],
           },
@@ -294,22 +259,10 @@ describe('MessageContext', () => {
 
     it('should ignore messages that have no content in any language', () => {
       const staticMessages = [
-        {
-          id: '03022019_203559_96',
-          content: { fi: [], en: [], sv: [] },
-        },
-        {
-          id: '03022019_203612_18',
-          content: { fi: [], en: [], sv: [] },
-        },
-        {
-          id: '03022019_203612_86',
-          content: { fi: [], en: [], sv: [] },
-        },
-        {
-          id: '04022019_060821_65',
-          content: { fi: [], en: [], sv: [] },
-        },
+        { id: '03022019_203559_96', content: { fi: [], en: [], sv: [] } },
+        { id: '03022019_203612_18', content: { fi: [], en: [], sv: [] } },
+        { id: '03022019_203612_86', content: { fi: [], en: [], sv: [] } },
+        { id: '04022019_060821_65', content: { fi: [], en: [], sv: [] } },
       ];
       const callback = vi.fn();
       processStaticMessages({ staticMessages }, callback);
@@ -320,11 +273,7 @@ describe('MessageContext', () => {
       const staticMessages = [
         {
           id: '03022019_203559_96',
-          content: {
-            fi: [],
-            en: [{ type: 'text', content: 'Foo' }],
-            sv: [],
-          },
+          content: { fi: [], en: [{ type: 'text', content: 'Foo' }], sv: [] },
         },
       ];
       const callback = vi.fn();

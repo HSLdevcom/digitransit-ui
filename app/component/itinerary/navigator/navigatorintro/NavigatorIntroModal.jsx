@@ -4,11 +4,7 @@ import NavigatorModal from '../NavigatorModal';
 import NavigatorIntro from './NavigatorIntro';
 import { useConfigContext } from '../../../../hooks/ConfigContext';
 
-export default function NavigatorIntroModal({
-  onPrimaryClick,
-  onClose,
-  onOpenGeolocationInfo,
-}) {
+export default function NavigatorIntroModal({ onPrimaryClick, onClose, onOpenGeolocationInfo }) {
   const config = useConfigContext();
   const logo = getAssetUrl(config.navigationLogo);
 

@@ -82,30 +82,28 @@ function checkInternalDependencyRanges() {
     const packageJsonPath = join(packageDir, 'package.json');
     const packageJson = JSON.parse(readFileSync(packageJsonPath, 'utf8'));
 
-    ['dependencies', 'peerDependencies', 'devDependencies'].forEach(
-      depField => {
-        const deps = packageJson[depField] || {};
+    ['dependencies', 'peerDependencies', 'devDependencies'].forEach(depField => {
+      const deps = packageJson[depField] || {};
 
-        Object.entries(deps).forEach(([depName, spec]) => {
-          // Only sibling packages are relevant. An external scoped
-          // dependency that merely shares the @digitransit- prefix is skipped.
-          if (!packageNames.has(depName)) {
-            return;
-          }
+      Object.entries(deps).forEach(([depName, spec]) => {
+        // Only sibling packages are relevant. An external scoped
+        // dependency that merely shares the @digitransit- prefix is skipped.
+        if (!packageNames.has(depName)) {
+          return;
+        }
 
-          if (spec !== REQUIRED_INTERNAL_SPEC) {
-            failures.push({ name: pkg.name, depField, depName, spec });
+        if (spec !== REQUIRED_INTERNAL_SPEC) {
+          failures.push({ name: pkg.name, depField, depName, spec });
 
-            console.error(
-              red(
-                `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
-                  `"${REQUIRED_INTERNAL_SPEC}"`,
-              ),
-            );
-          }
-        });
-      },
-    );
+          console.error(
+            red(
+              `✗ ${pkg.name}: ${depField} "${depName}": "${spec}" must be ` +
+                `"${REQUIRED_INTERNAL_SPEC}"`,
+            ),
+          );
+        }
+      });
+    });
   });
 
   if (failures.length > 0) {
@@ -136,11 +134,7 @@ function checkInternalDependencyRanges() {
     return false;
   }
 
-  console.log(
-    green(
-      `✓ All internal @digitransit-* references use "${REQUIRED_INTERNAL_SPEC}".`,
-    ),
-  );
+  console.log(green(`✓ All internal @digitransit-* references use "${REQUIRED_INTERNAL_SPEC}".`));
   return true;
 }
 
@@ -152,9 +146,7 @@ function checkOwnVersionBumps(base) {
   if (!base || /^0+$/.test(base)) {
     // Either unset, or the all-zero SHA GitHub uses for e.g. a brand-new
     // branch push with no prior commit to diff against.
-    console.log(
-      'No base commit to compare against, skipping version-bump check.',
-    );
+    console.log('No base commit to compare against, skipping version-bump check.');
     return true;
   }
 
@@ -191,10 +183,7 @@ function checkOwnVersionBumps(base) {
     const previousPackage = JSON.parse(previousPackageJson);
 
     if (!semver.gt(currentPackage.version, previousPackage.version)) {
-      failures.push({
-        name: pkg.name,
-        version: currentPackage.version,
-      });
+      failures.push({ name: pkg.name, version: currentPackage.version });
 
       console.error(
         red(
@@ -202,11 +191,7 @@ function checkOwnVersionBumps(base) {
         ),
       );
     } else {
-      console.log(
-        green(
-          `✓ ${pkg.name}: ${previousPackage.version} -> ${currentPackage.version}`,
-        ),
-      );
+      console.log(green(`✓ ${pkg.name}: ${previousPackage.version} -> ${currentPackage.version}`));
     }
   });
 
@@ -217,9 +202,7 @@ function checkOwnVersionBumps(base) {
       console.error(red(`  - ${pkg.name} (${pkg.version})`));
     });
 
-    console.error(
-      red('\nRun `yarn packages-version-bump` to bump package versions.'),
-    );
+    console.error(red('\nRun `yarn packages-version-bump` to bump package versions.'));
 
     return false;
   }

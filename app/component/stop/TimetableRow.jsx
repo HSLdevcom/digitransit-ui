@@ -3,20 +3,14 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 
-export default function TimetableRow({
-  title,
-  stoptimes,
-  showRoutes = [],
-  timerows = [],
-}) {
+export default function TimetableRow({ title, stoptimes, showRoutes = [], timerows = [] }) {
   const intl = useIntl();
   return (
     <div
       className="timetable-row"
       style={{
         display:
-          timerows.filter(o => o === title).length === 0 &&
-          showRoutes.length > 0
+          timerows.filter(o => o === title).length === 0 && showRoutes.length > 0
             ? 'none'
             : undefined,
       }}
@@ -27,36 +21,25 @@ export default function TimetableRow({
         {stoptimes
           .filter(
             time =>
-              (showRoutes.filter(o => o === time.id).length > 0 &&
-                showRoutes.length > 0) ||
+              (showRoutes.filter(o => o === time.id).length > 0 && showRoutes.length > 0) ||
               showRoutes.length === 0,
           )
-          .sort(
-            (time1, time2) =>
-              time1.scheduledDeparture - time2.scheduledDeparture,
-          )
+          .sort((time1, time2) => time1.scheduledDeparture - time2.scheduledDeparture)
           .map(time => (
             <div
-              className={cx('timetablerow-linetime', {
-                canceled: time.isCanceled,
-              })}
+              className={cx('timetablerow-linetime', { canceled: time.isCanceled })}
               key={`${time.id}-${time.name}-${time.scheduledDeparture}-${time.gtfsId}`}
             >
               <div className="sr-only">
-                {time.isCanceled &&
-                  `${intl.formatMessage({ id: 'canceled' })} `}
-                {`${DateTime.fromSeconds(
-                  time.serviceDay + time.scheduledDeparture,
-                ).toFormat('HH:mm')}, ${intl.formatMessage({
-                  id: time.mode.toLowerCase(),
-                })} ${time.name}
+                {time.isCanceled && `${intl.formatMessage({ id: 'canceled' })} `}
+                {`${DateTime.fromSeconds(time.serviceDay + time.scheduledDeparture).toFormat(
+                  'HH:mm',
+                )}, ${intl.formatMessage({ id: time.mode.toLowerCase() })} ${time.name}
               `}
               </div>
               <span aria-hidden>
-                {DateTime.fromSeconds(
-                  time.serviceDay + time.scheduledDeparture,
-                ).toFormat('mm')}
-                /{time.name}
+                {DateTime.fromSeconds(time.serviceDay + time.scheduledDeparture).toFormat('mm')}/
+                {time.name}
                 {time.duplicate}
               </span>
             </div>

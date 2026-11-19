@@ -101,9 +101,7 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
         updateViaPoints,
       });
 
-      fireEvent.click(
-        screen.getByRole('button', { name: 'Remove via point 1' }),
-      );
+      fireEvent.click(screen.getByRole('button', { name: 'Remove via point 1' }));
 
       expect(updateViaPoints).toHaveBeenCalledWith([]);
     });
@@ -113,15 +111,10 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest-panel
       const viaPoints = [viaPoint, { ...viaPoint, address: 'Pasila' }];
       renderPanel({ showSwapControl: true, viaPoints, swapOrder });
 
-      fireEvent.click(
-        screen.getByRole('button', { name: 'Reverse origin and destination' }),
-      );
+      fireEvent.click(screen.getByRole('button', { name: 'Reverse origin and destination' }));
 
       expect(swapOrder).toHaveBeenCalledOnce();
-      expect(viaPoints.map(vp => vp.address)).toEqual([
-        'Pasila',
-        'Kamppi, Helsinki',
-      ]);
+      expect(viaPoints.map(vp => vp.address)).toEqual(['Pasila', 'Kamppi, Helsinki']);
     });
   });
 });

@@ -12,10 +12,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 
-export default function ScooterLinkContainer({
-  rentalVehicle,
-  mobileReturn = false,
-}) {
+export default function ScooterLinkContainer({ rentalVehicle, mobileReturn = false }) {
   const config = useConfigContext();
   const { language } = config;
 
@@ -26,9 +23,7 @@ export default function ScooterLinkContainer({
   const scooterHeadsign = (
     <FormattedMessage
       id="open-operator-app"
-      values={{
-        operator: networkConfig.name[language] || network,
-      }}
+      values={{ operator: networkConfig.name[language] || network }}
       defaultMessage="Open the app to use a scooter"
     />
   );
@@ -43,13 +38,7 @@ export default function ScooterLinkContainer({
     <div>
       <div className="itinerary-transit-leg-route-with-link">
         <div className="itinerary-with-link">
-          <div
-            className={cx(
-              'citybike-icon',
-              { small: mobileReturn },
-              'scooter-icon',
-            )}
-          >
+          <div className={cx('citybike-icon', { small: mobileReturn }, 'scooter-icon')}>
             <Icon img={vehicleIcon} width={1.655} height={1.655} />
           </div>
 
@@ -67,16 +56,8 @@ export default function ScooterLinkContainer({
         </div>
 
         <div className="link-to-e-scooter-operator">
-          <ExternalLink
-            className="rental-vehicle-link"
-            href={rentalVehicleLink}
-            onClick={onClick}
-          >
-            <Icon
-              img="icon_external-link-box"
-              className="scooter-link-icon"
-              omitViewBox
-            />
+          <ExternalLink className="rental-vehicle-link" href={rentalVehicleLink} onClick={onClick}>
+            <Icon img="icon_external-link-box" className="scooter-link-icon" omitViewBox />
           </ExternalLink>
         </div>
       </div>

@@ -43,9 +43,7 @@ function findPackagePaths() {
   const packagesRoot = path.join(repoRoot, 'packages');
   return fs
     .readdirSync(packagesRoot, { withFileTypes: true })
-    .filter(
-      entry => entry.isDirectory() && entry.name.startsWith('digitransit-'),
-    )
+    .filter(entry => entry.isDirectory() && entry.name.startsWith('digitransit-'))
     .flatMap(familyEntry => {
       const packagesDir = path.join(packagesRoot, familyEntry.name);
       return fs

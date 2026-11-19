@@ -41,9 +41,7 @@ export default function NearStopsAndRoutes({
 
   const modes = modeArray.filter(mode => VALID_NEAR_YOU_MODES.includes(mode));
   const useModal = horizontal && modes.length > MAX_VISIBLE_MODES;
-  const visibleModes = useModal
-    ? [...modes.slice(0, MAX_VISIBLE_MODES - 1), MORE]
-    : modes;
+  const visibleModes = useModal ? [...modes.slice(0, MAX_VISIBLE_MODES - 1), MORE] : modes;
 
   const renderButton = (mode, inModal) => (
     <ModeButton
@@ -60,17 +58,7 @@ export default function NearStopsAndRoutes({
       onActivate={
         mode === MORE
           ? () => setModalOpen(true)
-          : e =>
-              onClick(
-                getModeUrl({
-                  urlPrefix,
-                  language,
-                  omitLanguageUrl,
-                  origin,
-                  mode,
-                }),
-                e,
-              )
+          : e => onClick(getModeUrl({ urlPrefix, language, omitLanguageUrl, origin, mode }), e)
       }
     />
   );

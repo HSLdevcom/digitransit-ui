@@ -15,9 +15,7 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const ok = intl.formatMessage({ id: 'continue' });
   const cancel = intl.formatMessage({ id: 'cancel' });
   const title = intl.formatMessage({ id: 'personalization-continue-query' });
-  const description = intl.formatMessage({
-    id: 'personalization-continue-choices',
-  });
+  const description = intl.formatMessage({ id: 'personalization-continue-choices' });
   const select = intl.formatMessage({ id: 'choose' });
   const keep = intl.formatMessage({ id: 'personalization-history-keep' });
   const remove = intl.formatMessage({ id: 'personalization-history-remove' });
@@ -36,16 +34,8 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
         description={<Text variant="text-s">{description}</Text>}
         lang={hslfiLocale}
         buttons={[
-          {
-            children: ok,
-            disabled: !action,
-            onClick: handlePrimaryClick,
-          },
-          {
-            children: cancel,
-            onClick: onClose,
-            variant: 'secondary',
-          },
+          { children: ok, disabled: !action, onClick: handlePrimaryClick },
+          { children: cancel, onClick: onClose, variant: 'secondary' },
         ]}
       >
         <RadioGroup

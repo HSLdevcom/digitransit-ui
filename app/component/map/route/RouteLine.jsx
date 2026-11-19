@@ -24,11 +24,7 @@ function getSplitIndex(points, position) {
   let bestIndex = 0;
   for (let i = closestIndex - n; i <= closestIndex + n; i++) {
     if (i >= 0 && i + 1 < points.length) {
-      const projectedToLine = getClosestPoint(
-        points[i],
-        points[i + 1],
-        position,
-      );
+      const projectedToLine = getClosestPoint(points[i], points[i + 1], position);
       const distanceToLine = distance(projectedToLine, position);
       if (distanceToLine < bestDistance) {
         bestDistance = distanceToLine;
@@ -94,16 +90,10 @@ export default function RouteLine({
   if (!thin) {
     // We are drawing a background line under an itinerary line,
     // so we don't want many markers cluttering the map
-    objs.push(
-      <LocationMarker key="from" position={pattern.stops[0]} type="from" />,
-    );
+    objs.push(<LocationMarker key="from" position={pattern.stops[0]} type="from" />);
 
     objs.push(
-      <LocationMarker
-        key="to"
-        position={pattern.stops[pattern.stops.length - 1]}
-        type="to"
-      />,
+      <LocationMarker key="to" position={pattern.stops[pattern.stops.length - 1]} type="to" />,
     );
   }
 
@@ -115,9 +105,7 @@ export default function RouteLine({
       .map((stop, i) => (
         <StopMarker
           stop={stop}
-          key={`${stop.gtfsId}-${pattern.code}${
-            i === pattern.stops.length - 1 && '-last'
-          }`}
+          key={`${stop.gtfsId}-${pattern.code}${i === pattern.stops.length - 1 && '-last'}`}
           mode={modeClass + (thin ? ' thin' : '')}
           thin={thin}
           stopStatus={getStopStatusFromStopData({
@@ -146,9 +134,7 @@ export default function RouteLine({
   // if vehicle position is known, split into two lines: before and after vehicle
   const beforeSplitColor = '#888888';
   const stops = pattern.geometry || pattern.stops;
-  const filteredPoints = stops.filter(
-    point => point.lat !== null && point.lon !== null,
-  );
+  const filteredPoints = stops.filter(point => point.lat !== null && point.lon !== null);
   const lineSplitIndex = getSplitIndex(filteredPoints, vehiclePosition);
 
   const beforeSplit = filteredPoints.slice(0, lineSplitIndex);
@@ -157,11 +143,7 @@ export default function RouteLine({
     // calculate new point at vehicle position that is first/last element of the two splits
     const lastBefore = beforeSplit[lineSplitIndex - 1];
     const firstAfter = afterSplit[0];
-    const projectedPoint = getClosestPoint(
-      lastBefore,
-      firstAfter,
-      vehiclePosition,
-    );
+    const projectedPoint = getClosestPoint(lastBefore, firstAfter, vehiclePosition);
     beforeSplit.push(projectedPoint);
     afterSplit.unshift(projectedPoint);
   }
@@ -172,9 +154,7 @@ export default function RouteLine({
     .map((stop, i) => (
       <StopMarker
         stop={stop}
-        key={`${stop.gtfsId}-${pattern.code}${
-          i === pattern.stops.length - 1 && '-last'
-        }`}
+        key={`${stop.gtfsId}-${pattern.code}${i === pattern.stops.length - 1 && '-last'}`}
         mode={modeClass + (thin ? ' thin' : '')}
         colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
         thin={thin}
@@ -213,8 +193,5 @@ RouteLine.propTypes = {
   trip: tripShape,
   thin: PropTypes.bool,
   filteredStops: PropTypes.arrayOf(PropTypes.string.isRequired),
-  vehiclePosition: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  vehiclePosition: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }),
 };

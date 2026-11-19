@@ -12,11 +12,7 @@ export default function UpdateLocationButton({ mode, onClick }) {
         <FormattedMessage
           id="nearest-stops-update-location"
           defaultMessage="Update stops"
-          values={{
-            mode: intl.formatMessage({
-              id: `nearest-stops-${mode.toLowerCase()}`,
-            }),
-          }}
+          values={{ mode: intl.formatMessage({ id: `nearest-stops-${mode.toLowerCase()}` }) }}
         />
       </button>
     </div>

@@ -33,17 +33,8 @@ export default function TripMarkerPopup({ trip: tripRef, message }) {
     `,
     tripRef,
   );
-  const patternPath = routePagePath(
-    trip.route.gtfsId,
-    PREFIX_STOPS,
-    trip.pattern.code,
-  );
-  const tripPath = routePagePath(
-    trip.route.gtfsId,
-    PREFIX_STOPS,
-    trip.pattern.code,
-    trip.gtfsId,
-  );
+  const patternPath = routePagePath(trip.route.gtfsId, PREFIX_STOPS, trip.pattern.code);
+  const tripPath = routePagePath(trip.route.gtfsId, PREFIX_STOPS, trip.pattern.code, trip.gtfsId);
 
   return (
     <div className="card">
@@ -64,10 +55,7 @@ export default function TripMarkerPopup({ trip: tripRef, message }) {
             });
           }}
         >
-          <FormattedMessage
-            id="trip-information"
-            defaultMessage="Trip Information"
-          />
+          <FormattedMessage id="trip-information" defaultMessage="Trip Information" />
         </Link>
         <br />
         <Link to={patternPath} className="route">
@@ -80,8 +68,6 @@ export default function TripMarkerPopup({ trip: tripRef, message }) {
 
 TripMarkerPopup.propTypes = {
   trip: fragmentRefShape.isRequired,
-  message: PropTypes.shape({
-    mode: PropTypes.string.isRequired,
-    tripStartTime: PropTypes.string,
-  }).isRequired,
+  message: PropTypes.shape({ mode: PropTypes.string.isRequired, tripStartTime: PropTypes.string })
+    .isRequired,
 };

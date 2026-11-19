@@ -6,11 +6,7 @@ import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../../utils/client/indoorUtils';
-import {
-  IndoorLegType,
-  IndoorStepType,
-  VerticalDirection,
-} from '../../../utils/shared/constants';
+import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../utils/shared/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 export default function IndoorStep({
@@ -22,17 +18,10 @@ export default function IndoorStep({
   onlyOneStep = false,
   indoorLegType = IndoorLegType.NoStepsInside,
 }) {
-  const indoorTranslationId = getIndoorTranslationId(
-    type,
-    verticalDirection,
-    toLevelName,
-  );
+  const indoorTranslationId = getIndoorTranslationId(type, verticalDirection, toLevelName);
 
   return (
-    <div
-      style={{ width: '100%', position: 'relative' }}
-      className="row itinerary-row"
-    >
+    <div style={{ width: '100%', position: 'relative' }} className="row itinerary-row">
       <div className="small-offset-2 leg-before indoor-step">
         <div
           className={cx('leg-before-circle', 'circle-fill', 'indoor-step', {
@@ -54,11 +43,8 @@ export default function IndoorStep({
           className={cx(
             'leg-before-line',
             'indoor-step',
-            {
-              'only-one-step': onlyOneStep,
-            },
-            isLastPlace &&
-              indoorLegType === IndoorLegType.StepsBeforeEntranceInside
+            { 'only-one-step': onlyOneStep },
+            isLastPlace && indoorLegType === IndoorLegType.StepsBeforeEntranceInside
               ? 'default-dotted-line'
               : 'indoor-dotted-line',
           )}
@@ -71,11 +57,7 @@ export default function IndoorStep({
           })}
         >
           <Icon
-            img={getVerticalTransportationUseIconId(
-              verticalDirection,
-              type,
-              false,
-            )}
+            img={getVerticalTransportationUseIconId(verticalDirection, type, false)}
             className="itinerary-intermediate-indoor-icon"
           />
           <div className="itinerary-intermediate-indoor-step-info">

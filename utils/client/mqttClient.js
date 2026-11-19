@@ -30,12 +30,8 @@ function getTopic(options, settings) {
   const tripId = options.tripId ? options.tripId : '+';
   // headsigns with / cause problems
   const headsign =
-    options.headsign && options.headsign.indexOf('/') === -1
-      ? options.headsign
-      : '+';
-  const tripStartTime = options.tripStartTime
-    ? convertTo24HourFormat(options.tripStartTime)
-    : '+';
+    options.headsign && options.headsign.indexOf('/') === -1 ? options.headsign : '+';
+  const tripStartTime = options.tripStartTime ? convertTo24HourFormat(options.tripStartTime) : '+';
   const feedId = options.feedId || settings.feedId || '+';
   const topic = settings.mqttTopicResolver(
     route,
@@ -83,12 +79,8 @@ export function parseMessage(topic, message, defaultFeedId) {
   ) {
     // change times from 24 hour system to 29 hour system, and removes ':'
     const tripStartTime =
-      startTime &&
-      startTime.length > 4 &&
-      parseInt(startTime.substring(0, 2), 10) < 5
-        ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(
-            3,
-          )}`
+      startTime && startTime.length > 4 && parseInt(startTime.substring(0, 2), 10) < 5
+        ? `${parseInt(startTime.substring(0, 2), 10) + 24}${startTime.substring(3)}`
         : startTime.replace(/:/g, '');
     return {
       id: vehid,
@@ -141,23 +133,20 @@ export function startMqttClient(settings, onMessage) {
 
   return import(/* webpackChunkName: "mqtt" */ 'mqtt').then(mqtt => {
     if (settings.gtfsrt) {
-      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(
-        bindings => {
-          const feedReader = bindings.FeedMessage.read;
-          const credentials =
-            settings.credentials !== undefined ? settings.credentials : {};
-          const client = mqtt.default.connect(settings.mqtt, credentials);
-          client.on('connect', () => client.subscribe(topics));
-          client.on('message', (topic, messages) => {
-            const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
-            parsedMessages.forEach(message => {
-              onMessage(message);
-            });
+      return import(/* webpackChunkName: "gtfsrt" */ './gtfsrt').then(bindings => {
+        const feedReader = bindings.FeedMessage.read;
+        const credentials = settings.credentials !== undefined ? settings.credentials : {};
+        const client = mqtt.default.connect(settings.mqtt, credentials);
+        client.on('connect', () => client.subscribe(topics));
+        client.on('message', (topic, messages) => {
+          const parsedMessages = parseFeedMQTT(feedReader, messages, topic);
+          parsedMessages.forEach(message => {
+            onMessage(message);
           });
+        });
 
-          return { client, topics };
-        },
-      );
+        return { client, topics };
+      });
     }
     const client = mqtt.default.connect(settings.mqtt);
     client.on('connect', () => client.subscribe(topics));

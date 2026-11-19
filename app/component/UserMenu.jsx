@@ -31,10 +31,7 @@ export default function UserMenu({ menuItems, user = EMPTY_USER }) {
     };
   });
 
-  const initials =
-    given_name && family_name
-      ? given_name.charAt(0) + family_name.charAt(0)
-      : ''; // Authenticated user's initials, will be shown next to Person-icon.
+  const initials = given_name && family_name ? given_name.charAt(0) + family_name.charAt(0) : ''; // Authenticated user's initials, will be shown next to Person-icon.
 
   return (
     <div ref={useMenuRef} className={cx('usermenu-wrapper')}>
@@ -43,10 +40,7 @@ export default function UserMenu({ menuItems, user = EMPTY_USER }) {
         type="button"
         className="noborder"
         onClick={toggleMenu}
-        aria-label={intl.formatMessage({
-          id: 'usermenu',
-          defaultMessage: 'User menu',
-        })}
+        aria-label={intl.formatMessage({ id: 'usermenu', defaultMessage: 'User menu' })}
         aria-haspopup="true"
         aria-controls="userMenu"
         aria-expanded={menuOpen}

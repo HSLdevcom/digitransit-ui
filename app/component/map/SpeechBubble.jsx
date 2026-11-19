@@ -11,10 +11,7 @@ export default function SpeechBubble({
   return (
     <Marker
       key="_text"
-      position={{
-        lat: position.lat,
-        lng: position.lon,
-      }}
+      position={{ lat: position.lat, lng: position.lon }}
       interactive={false}
       icon={L.divIcon({
         html: `<div>${text}</div>`,
@@ -28,10 +25,7 @@ export default function SpeechBubble({
 }
 
 SpeechBubble.propTypes = {
-  position: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }).isRequired,
+  position: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }).isRequired,
   text: PropTypes.string,
   speechBubbleStyle: PropTypes.string,
   zIndexOffset: PropTypes.number,

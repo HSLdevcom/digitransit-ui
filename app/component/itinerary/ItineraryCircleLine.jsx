@@ -5,15 +5,7 @@ import { ViaLocationType } from '../../../utils/shared/constants';
 
 function CircleMarker({ top, modeClassName, color, appendClass }) {
   return (
-    <div
-      className={cx(
-        'leg-before-circle',
-        'circle',
-        modeClassName,
-        { top },
-        appendClass,
-      )}
-    >
+    <div className={cx('leg-before-circle', 'circle', modeClassName, { top }, appendClass)}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width={28}
@@ -51,10 +43,7 @@ export default function ItineraryCircleLine({
       return (
         <>
           <div className="itinerary-icon-container start">
-            <Icon
-              img="icon_origin-ellipse"
-              className="itinerary-icon from from-it"
-            />
+            <Icon img="icon_origin-ellipse" className="itinerary-icon from from-it" />
           </div>
           {showCircle && (
             <CircleMarker
@@ -107,22 +96,12 @@ export default function ItineraryCircleLine({
   }
 
   return (
-    <div
-      className={cx('leg-before', modeClassName, {
-        first: index === 0,
-      })}
-      aria-hidden="true"
-    >
+    <div className={cx('leg-before', modeClassName, { first: index === 0 })} aria-hidden="true">
       {topMarker}
 
       <div
         style={{ color }}
-        className={cx(
-          'leg-before-line',
-          modeClassName,
-          appendClass,
-          backgroundClass,
-        )}
+        className={cx('leg-before-line', modeClassName, appendClass, backgroundClass)}
       />
 
       {renderBottomMarker && bottomMarker}

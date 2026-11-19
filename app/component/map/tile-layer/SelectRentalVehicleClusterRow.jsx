@@ -17,9 +17,7 @@ export default function SelectVehicleRentalClusterRow({
   const config = useConfigContext();
   const img = isScooter ? 'icon_scooter-lollipop' : 'icon_citybike-lollipop';
   const color = config.colors[isScooter ? 'scooter' : 'citybike'];
-  const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[
-    ...networksInCluster,
-  ]}`;
+  const linkAddress = `/${prefix}/${encodeURIComponent(id)}/${[...networksInCluster]}`;
 
   const address = desc || <FormattedMessage id="citybike-station-no-id" />;
   return (
@@ -32,9 +30,7 @@ export default function SelectVehicleRentalClusterRow({
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasVehicleRentalCode(id) && (
-            <span className="choose-row-number">
-              {splitGtfsId(id).entityId}
-            </span>
+            <span className="choose-row-number">{splitGtfsId(id).entityId}</span>
           )}
         </span>
       </span>

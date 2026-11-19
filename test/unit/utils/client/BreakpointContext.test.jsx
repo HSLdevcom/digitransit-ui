@@ -15,9 +15,7 @@ function BreakpointLabel({ onRender }) {
   return <output>{breakpoint}</output>;
 }
 
-BreakpointLabel.propTypes = {
-  onRender: PropTypes.func,
-};
+BreakpointLabel.propTypes = { onRender: PropTypes.func };
 
 describe('breakpoint context', () => {
   const originalWidth = window.innerWidth;
@@ -69,9 +67,7 @@ describe('breakpoint context', () => {
 
   it('reads the viewport once per throttled update', () => {
     vi.useFakeTimers();
-    const readWidth = vi
-      .spyOn(window, 'innerWidth', 'get')
-      .mockReturnValue(399);
+    const readWidth = vi.spyOn(window, 'innerWidth', 'get').mockReturnValue(399);
     const addEventListener = vi.spyOn(window, 'addEventListener');
     const { getByText, unmount } = render(
       <BreakpointProvider>
@@ -178,10 +174,7 @@ describe('breakpoint context', () => {
       vi.advanceTimersByTime(100);
     });
     expect(getByText('small')).toBeTruthy();
-    expect(onRender.mock.calls.map(([value]) => value)).toEqual([
-      'medium',
-      'small',
-    ]);
+    expect(onRender.mock.calls.map(([value]) => value)).toEqual(['medium', 'small']);
 
     unmount();
     onRender.mockClear();
@@ -217,21 +210,16 @@ describe('breakpoint context', () => {
     expect(onRender).not.toHaveBeenCalled();
   });
 
-  it.each(['large', 'medium', 'small'])(
-    'lazily selects the layout for %s',
-    breakpoint => {
-      const desktop = vi.fn(() => <div>Desktop</div>);
-      const mobile = vi.fn(() => <div>Mobile</div>);
-      const { getByText } = render(
-        <BreakpointContext.Provider value={breakpoint}>
-          <DesktopOrMobile desktop={desktop} mobile={mobile} />
-        </BreakpointContext.Provider>,
-      );
-      expect(
-        getByText(breakpoint === 'large' ? 'Desktop' : 'Mobile'),
-      ).toBeTruthy();
-      expect(desktop).toHaveBeenCalledTimes(breakpoint === 'large' ? 1 : 0);
-      expect(mobile).toHaveBeenCalledTimes(breakpoint === 'large' ? 0 : 1);
-    },
-  );
+  it.each(['large', 'medium', 'small'])('lazily selects the layout for %s', breakpoint => {
+    const desktop = vi.fn(() => <div>Desktop</div>);
+    const mobile = vi.fn(() => <div>Mobile</div>);
+    const { getByText } = render(
+      <BreakpointContext.Provider value={breakpoint}>
+        <DesktopOrMobile desktop={desktop} mobile={mobile} />
+      </BreakpointContext.Provider>,
+    );
+    expect(getByText(breakpoint === 'large' ? 'Desktop' : 'Mobile')).toBeTruthy();
+    expect(desktop).toHaveBeenCalledTimes(breakpoint === 'large' ? 1 : 0);
+    expect(mobile).toHaveBeenCalledTimes(breakpoint === 'large' ? 0 : 1);
+  });
 });

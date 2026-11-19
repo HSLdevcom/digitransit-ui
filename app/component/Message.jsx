@@ -11,7 +11,4 @@ export default function Message({ labelId, defaultMessage }) {
   return null;
 }
 
-Message.propTypes = {
-  labelId: PropTypes.string,
-  defaultMessage: PropTypes.string,
-};
+Message.propTypes = { labelId: PropTypes.string, defaultMessage: PropTypes.string };

@@ -88,19 +88,14 @@ export default function DatetimepickerStateContainer({
       }
     }
     if (!initialArriveBy === (departureOrArrival === 'arrival')) {
-      changeDepartureOrArrival(
-        initialArriveBy === true ? 'arrival' : 'departure',
-      );
+      changeDepartureOrArrival(initialArriveBy === true ? 'arrival' : 'departure');
     }
   }, [initialTimestamp, initialArriveBy]);
 
   const timeChanged = debounce(newTime => {
     if (newTime === null) {
       changeTimestampState(DateTime.now().toMillis());
-      onTimeChange(
-        DateTime.now().toUnixInteger(),
-        departureOrArrival === 'arrival',
-      );
+      onTimeChange(DateTime.now().toUnixInteger(), departureOrArrival === 'arrival');
       return;
     }
     changeTimestampState(newTime);
@@ -110,10 +105,7 @@ export default function DatetimepickerStateContainer({
   const dateChanged = debounce(newDate => {
     if (newDate === null) {
       changeTimestampState(DateTime.now().toMillis());
-      onDateChange(
-        DateTime.now().toUnixInteger(),
-        departureOrArrival === 'arrival',
-      );
+      onDateChange(DateTime.now().toUnixInteger(), departureOrArrival === 'arrival');
       return;
     }
     changeTimestampState(newDate);

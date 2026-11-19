@@ -21,10 +21,7 @@ export default function BackButton({ title, fallback }) {
     } else if (fallback === 'pop' && location.pathname.split('/').length > 1) {
       const parts = location.pathname.split('/');
       parts.pop();
-      const newLoc = {
-        ...location,
-        pathname: parts.join('/'),
-      };
+      const newLoc = { ...location, pathname: parts.join('/') };
       router.replace(newLoc);
     } else if (url) {
       window.location.href = url;

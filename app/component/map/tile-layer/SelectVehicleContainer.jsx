@@ -28,12 +28,7 @@ const fuzzyRowQuery = graphql`
     $time: Int!
     $date: String!
   ) {
-    trip: fuzzyTrip(
-      route: $routeId
-      direction: $direction
-      time: $time
-      date: $date
-    ) {
+    trip: fuzzyTrip(route: $routeId, direction: $direction, time: $time, date: $date) {
       ...SelectVehicleRow_trip
     }
   }
@@ -46,12 +41,7 @@ const fuzzyQuery = graphql`
     $time: Int!
     $date: String!
   ) {
-    trip: fuzzyTrip(
-      route: $routeId
-      direction: $direction
-      time: $time
-      date: $date
-    ) {
+    trip: fuzzyTrip(route: $routeId, direction: $direction, time: $time, date: $date) {
       ...TripMarkerPopup_trip
     }
   }
@@ -65,9 +55,7 @@ export default function SelectVehicleContainer({ rowView = false, vehicle }) {
   return vehicle.tripId ? (
     <QueryRenderer
       query={rowView ? rowQuery : query}
-      variables={{
-        tripId: vehicle.tripId,
-      }}
+      variables={{ tripId: vehicle.tripId }}
       environment={environment}
       render={results => {
         if (results.props?.trip) {
@@ -108,7 +96,4 @@ export default function SelectVehicleContainer({ rowView = false, vehicle }) {
   );
 }
 
-SelectVehicleContainer.propTypes = {
-  rowView: PropTypes.bool,
-  vehicle: vehicleShape.isRequired,
-};
+SelectVehicleContainer.propTypes = { rowView: PropTypes.bool, vehicle: vehicleShape.isRequired };

@@ -32,6 +32,4 @@ export default function RouteAgencyInfo({ route: routeRef }) {
   return null;
 }
 
-RouteAgencyInfo.propTypes = {
-  route: fragmentRefShape.isRequired,
-};
+RouteAgencyInfo.propTypes = { route: fragmentRefShape.isRequired };

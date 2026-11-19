@@ -34,18 +34,14 @@ describe('<WaitLeg />', () => {
 
     it('should show the top circle by default', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(
-        1,
-      );
+      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(1);
     });
 
     it('should show the top circle when not preceded by a transit leg', () => {
       const { container } = renderWithProviders(
         <WaitLeg {...defaultProps} hasPreviousTransitLeg={false} />,
       );
-      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(
-        1,
-      );
+      expect(container.querySelectorAll('.leg-before-circle.top')).toHaveLength(1);
     });
   });
 
@@ -57,17 +53,12 @@ describe('<WaitLeg />', () => {
           leg={{
             ...defaultProps.leg,
             route: { type: ExtendedRouteTypes.CallAgency },
-            to: {
-              name: 'Testikatu 12, Helsinki',
-              stop: { gtfsId: 'HSL:flex-area' },
-            },
+            to: { name: 'Testikatu 12, Helsinki', stop: { gtfsId: 'HSL:flex-area' } },
           }}
         />,
         { router: { ...mockRouter, createHref: to => to } },
       );
-      expect(container.querySelector('.address').textContent).toBe(
-        'Testikatu 12',
-      );
+      expect(container.querySelector('.address').textContent).toBe('Testikatu 12');
       expect(container.querySelector('.place').textContent).toBe('Helsinki');
       expect(container.querySelector('a')).toBeNull();
       expect(container.querySelector('.itinerary-arrow-icon')).toBeNull();
@@ -94,12 +85,8 @@ describe('<WaitLeg />', () => {
 
     it('should render the destination stop name', () => {
       const { container } = renderWithProviders(<WaitLeg {...defaultProps} />);
-      expect(container.querySelector('.itinerary-row').textContent).toContain(
-        'Stop B',
-      );
-      expect(
-        container.querySelector('.itinerary-time-column-time').textContent,
-      ).toBe('14:48');
+      expect(container.querySelector('.itinerary-row').textContent).toContain('Stop B');
+      expect(container.querySelector('.itinerary-time-column-time').textContent).toBe('14:48');
     });
   });
 });

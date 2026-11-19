@@ -8,17 +8,11 @@ const baseConfig = createTestConfig();
 describe('<NaviStarter />', () => {
   it('shows the early-start prompt before the itinerary start time', () => {
     const { container } = renderWithProviders(
-      <NaviStarter
-        time="10:00"
-        startItinerary={() => {}}
-        isPastStart={false}
-      />,
+      <NaviStarter time="10:00" startItinerary={() => {}} isPastStart={false} />,
       { config: baseConfig },
     );
     expect(container.textContent).toContain('10:00');
-    expect(
-      container.querySelector('.navi-initializer-card.success'),
-    ).not.toBeNull();
+    expect(container.querySelector('.navi-initializer-card.success')).not.toBeNull();
   });
 
   it('renders nothing once the itinerary has already started', () => {
@@ -32,16 +26,10 @@ describe('<NaviStarter />', () => {
   it('calls startItinerary once the slide-out animation ends', () => {
     const startItinerary = vi.fn();
     const { container } = renderWithProviders(
-      <NaviStarter
-        time="10:00"
-        startItinerary={startItinerary}
-        isPastStart={false}
-      />,
+      <NaviStarter time="10:00" startItinerary={startItinerary} isPastStart={false} />,
       { config: baseConfig },
     );
-    fireEvent.animationEnd(
-      container.querySelector('.navi-initializer-container'),
-    );
+    fireEvent.animationEnd(container.querySelector('.navi-initializer-container'));
     expect(startItinerary).toHaveBeenCalledTimes(1);
   });
 });

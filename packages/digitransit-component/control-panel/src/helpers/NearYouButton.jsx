@@ -22,25 +22,13 @@ export default function NearYouButton({
   if (mode === 'favorite') {
     iconProps = { img: 'star' };
   } else if (mode === 'more') {
-    iconProps = {
-      img: 'arrow',
-      color: colors.primary,
-      width: 1.2,
-      height: 1.2,
-    };
+    iconProps = { img: 'arrow', color: colors.primary, width: 1.2, height: 1.2 };
   } else {
-    iconProps = {
-      img: getIconName(mode, modeSet, boxed),
-      color: colors[mode],
-    };
+    iconProps = { img: getIconName(mode, modeSet, boxed), color: colors[mode] };
   }
 
   if (!boxed) {
-    iconProps = {
-      ...iconProps,
-      width: 1.4,
-      height: 1.4,
-    };
+    iconProps = { ...iconProps, width: 1.4, height: 1.4 };
   }
   const buttonStyle = { '--margin': margin, '--padding': padding };
   let iconContainerStyle = { '--iconMargin': padding };
@@ -55,9 +43,7 @@ export default function NearYouButton({
       '--iconMargin': '17px',
     };
   }
-  const buttonClass = withBorder
-    ? 'near-you-button-with-border'
-    : 'near-you-button';
+  const buttonClass = withBorder ? 'near-you-button-with-border' : 'near-you-button';
   return (
     <div aria-hidden="true" className={styles[buttonClass]} style={buttonStyle}>
       <span className={styles['icon-container']} style={iconContainerStyle}>

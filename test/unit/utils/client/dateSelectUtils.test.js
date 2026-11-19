@@ -111,11 +111,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(
-        processedDates,
-        DateTime.fromISO('2024-01-15'),
-        intl,
-      );
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
 
       expect(result).toHaveLength(2);
       expect(result[0].label).toBe('This week');
@@ -134,11 +130,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(
-        processedDates,
-        DateTime.fromISO('2024-01-15'),
-        intl,
-      );
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
 
       expect(result[0].options[0]).toHaveProperty('ariaLabel');
       expect(result[0].options[0].ariaLabel).toBe('Monday 15.1.');
@@ -148,25 +140,12 @@ describe('dateSelectUtils', () => {
       const days = ['2026-12-28', '2027-01-04', '2027-01-11'];
       const processedDates = days.map(d => {
         const dateObj = DateTime.fromISO(d);
-        return {
-          value: d,
-          textLabel: d,
-          ariaLabel: d,
-          dateObj,
-        };
+        return { value: d, textLabel: d, ariaLabel: d, dateObj };
       });
 
-      const result = groupDatesByWeek(
-        processedDates,
-        DateTime.fromISO('2026-12-28'),
-        intl,
-      );
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2026-12-28'), intl);
 
-      expect(result.map(g => g.label)).toEqual([
-        'This week',
-        'Next week',
-        'Week 2',
-      ]);
+      expect(result.map(g => g.label)).toEqual(['This week', 'Next week', 'Week 2']);
     });
 
     it('should sort weeks in ascending order', () => {
@@ -191,11 +170,7 @@ describe('dateSelectUtils', () => {
         },
       ];
 
-      const result = groupDatesByWeek(
-        processedDates,
-        DateTime.fromISO('2024-01-15'),
-        intl,
-      );
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
 
       expect(result).toHaveLength(3);
       expect(result[0].label).toBe('This week');

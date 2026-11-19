@@ -58,10 +58,7 @@ export default function GenericMarker({
     leaflet.map.getZoom() >= config.map.genericMarker.nameMarkerMinZoom && (
       <Marker
         key={`${name}_text`}
-        position={{
-          lat: position.lat,
-          lng: position.lon,
-        }}
+        position={{ lat: position.lat, lng: position.lon }}
         interactive={false}
         icon={L.divIcon({
           html: `<div>${name}</div>`,

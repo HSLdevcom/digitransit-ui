@@ -20,11 +20,7 @@ describe('<TileLayerContainer />', () => {
     options: { maxZoom: null, minZoom: null },
   });
 
-  const baseProps = {
-    tileSize: 1,
-    zoomOffset: 1,
-    mapLayers: { stop: {}, terminal: {} },
-  };
+  const baseProps = { tileSize: 1, zoomOffset: 1, mapLayers: { stop: {}, terminal: {} } };
   const initialTime = 123457890;
 
   const renderLayer = (map, props = {}, currentTime = initialTime) => {
@@ -38,8 +34,7 @@ describe('<TileLayerContainer />', () => {
     const result = renderWithProviders(element(props, currentTime), { config });
     return {
       ...result,
-      update: (p, time = currentTime) =>
-        result.rerender(element({ ...props, ...p }, time)),
+      update: (p, time = currentTime) => result.rerender(element({ ...props, ...p }, time)),
     };
   };
 
@@ -49,12 +44,7 @@ describe('<TileLayerContainer />', () => {
     it('should send analytics for a terminal stop target', () => {
       const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
       sendSelectionAnalytics(
-        [
-          {
-            layer: 'stop',
-            feature: { properties: { stops: 'HSL:1234', type: 'BUS' } },
-          },
-        ],
+        [{ layer: 'stop', feature: { properties: { stops: 'HSL:1234', type: 'BUS' } } }],
         config,
       );
       expect(spy).toHaveBeenCalledTimes(1);

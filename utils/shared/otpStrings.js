@@ -11,10 +11,7 @@ export function parseLatLon(coords) {
     const lat = parseFloat(latlon[0]);
     const lon = parseFloat(latlon[1]);
     if (!Number.isNaN(lat) && !Number.isNaN(lon)) {
-      return {
-        lat,
-        lon,
-      };
+      return { lat, lon };
     }
   }
   return undefined;
@@ -33,20 +30,14 @@ export function otpToLocation(otpString) {
   }
 
   if (coords) {
-    return {
-      ...location,
-      ...parseLatLon(coords),
-    };
+    return { ...location, ...parseLatLon(coords) };
   }
 
   return location;
 }
 
 export function locationToUri(location) {
-  if (
-    location.type === 'CurrentLocation' &&
-    location.status === 'no-location'
-  ) {
+  if (location.type === 'CurrentLocation' && location.status === 'no-location') {
     return 'POS';
   }
   if (!location.lat) {
@@ -63,9 +54,7 @@ export function locationToOTP(location) {
   if (location.lat) {
     const address = location.address || '';
     const slack = location.locationSlack ? `::${location.locationSlack}` : '';
-    const addressParts = location.gtfsId
-      ? `${address}**${location.gtfsId}`
-      : address;
+    const addressParts = location.gtfsId ? `${address}**${location.gtfsId}` : address;
     return `${addressParts}::${location.lat},${location.lon}${slack}`;
   }
   if (location.type === 'SelectFromMap') {

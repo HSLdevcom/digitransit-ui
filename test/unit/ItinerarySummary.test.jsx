@@ -11,9 +11,7 @@ describe('<ItinerarySummary />', () => {
       walking: { distance: 555, duration: 300 },
     };
     const { container } = renderWithProviders(<ItinerarySummary {...props} />);
-    expect(
-      container.querySelectorAll('.distance--itinerary-summary'),
-    ).toHaveLength(2);
+    expect(container.querySelectorAll('.distance--itinerary-summary')).toHaveLength(2);
   });
 
   it('should show walking distance before biking distance', () => {
@@ -36,9 +34,7 @@ describe('<ItinerarySummary />', () => {
       biking: { distance: 1000, duration: 180 },
     };
     const { container } = renderWithProviders(<ItinerarySummary {...props} />);
-    expect(
-      container.querySelectorAll('.distance--itinerary-summary'),
-    ).toHaveLength(1);
+    expect(container.querySelectorAll('.distance--itinerary-summary')).toHaveLength(1);
     expect(container.querySelector('.icon.bike')).not.toBeNull();
     expect(container.querySelector('.icon.walk')).toBeNull();
   });

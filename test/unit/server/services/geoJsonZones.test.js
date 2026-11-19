@@ -1,15 +1,11 @@
 import { getZoneUrl } from '../../../../server/services/geoJsonZones';
 
-const { getJson, loadAllRawConfigurations, setAssembledZones } = vi.hoisted(
-  () => ({
-    getJson: vi.fn(),
-    loadAllRawConfigurations: vi.fn(),
-    setAssembledZones: vi.fn(),
-  }),
-);
-vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({
-  default: getJson,
+const { getJson, loadAllRawConfigurations, setAssembledZones } = vi.hoisted(() => ({
+  getJson: vi.fn(),
+  loadAllRawConfigurations: vi.fn(),
+  setAssembledZones: vi.fn(),
 }));
+vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({ default: getJson }));
 vi.mock('../../../../server/configs/config', () => ({
   loadAllRawConfigurations,
   setAssembledZones,
@@ -21,10 +17,7 @@ describe('geoJsonZones', () => {
       const json = {
         layers: [
           { name: { fi: 'Muu' }, url: 'https://example.com/other' },
-          {
-            name: { fi: 'Vyöhykkeet', en: 'Zones' },
-            url: 'https://example.com/zones',
-          },
+          { name: { fi: 'Vyöhykkeet', en: 'Zones' }, url: 'https://example.com/zones' },
         ],
       };
       expect(getZoneUrl(json)).toBe('https://example.com/zones');
@@ -33,17 +26,13 @@ describe('geoJsonZones', () => {
     it('returns undefined when noZoneSharing is set', () => {
       const json = {
         noZoneSharing: true,
-        layers: [
-          { name: { fi: 'Vyöhykkeet' }, url: 'https://example.com/zones' },
-        ],
+        layers: [{ name: { fi: 'Vyöhykkeet' }, url: 'https://example.com/zones' }],
       };
       expect(getZoneUrl(json)).toBeUndefined();
     });
 
     it('returns undefined when no zone layer is present', () => {
-      const json = {
-        layers: [{ name: { fi: 'Muu' }, url: 'https://example.com/other' }],
-      };
+      const json = { layers: [{ name: { fi: 'Muu' }, url: 'https://example.com/other' }] };
       expect(getZoneUrl(json)).toBeUndefined();
     });
   });
@@ -76,9 +65,7 @@ describe('geoJsonZones', () => {
       loadAllRawConfigurations.mockResolvedValue([
         { geoJson: { layerConfigUrl: 'https://remote/layers.json' } },
         {},
-        {
-          geoJson: { layers: [{ name: { fi: 'Vyöhykkeet' }, url: 'inline' }] },
-        },
+        { geoJson: { layers: [{ name: { fi: 'Vyöhykkeet' }, url: 'inline' }] } },
         {
           geoJson: {
             noZoneSharing: true,
@@ -106,9 +93,7 @@ describe('geoJsonZones', () => {
       vi.spyOn(console, 'error').mockImplementation(() => {});
       loadAllRawConfigurations.mockResolvedValue([
         { geoJson: { layerConfigUrl: 'https://remote/layers.json' } },
-        {
-          geoJson: { layers: [{ name: { fi: 'Vyöhykkeet' }, url: 'inline' }] },
-        },
+        { geoJson: { layers: [{ name: { fi: 'Vyöhykkeet' }, url: 'inline' }] } },
       ]);
       getJson.mockRejectedValue(new Error('down'));
       const collectGeoJsonZones = await loadCollectGeoJsonZones();

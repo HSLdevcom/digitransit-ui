@@ -3,9 +3,7 @@ import isEmpty from 'lodash/isEmpty';
 import { retryFetch } from '../shared/fetchUtils';
 
 export function getUser() {
-  const options = {
-    credentials: 'include',
-  };
+  const options = { credentials: 'include' };
   return retryFetch('/api/user', 2, 200, options).then(res => res.json());
 }
 
@@ -31,9 +29,7 @@ export function getFavourites() {
 export function updateFavourites(data, type) {
   const options = {
     method: 'PUT',
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: { 'Content-type': 'application/json' },
     body: JSON.stringify(data),
   };
   return retryFetch(favouritesUrl(type), 0, 0, options).then(res => res.json());
@@ -42,9 +38,7 @@ export function updateFavourites(data, type) {
 export function deleteFavourites(data) {
   const options = {
     method: 'DELETE',
-    headers: {
-      'Content-type': 'application/json',
-    },
+    headers: { 'Content-type': 'application/json' },
     body: JSON.stringify(data),
   };
   return retryFetch(favouritesUrl(), 0, 0, options).then(res => res.json());
@@ -63,10 +57,7 @@ export function getWeatherData(baseURL, time, lat, lon) {
   )
     .then(res => res.text())
     .then(str => {
-      const parser = new XMLParser({
-        ignoreAttributes: true,
-        removeNSPrefix: true,
-      });
+      const parser = new XMLParser({ ignoreAttributes: true, removeNSPrefix: true });
       const json = parser.parse(str);
       const data = json.FeatureCollection.member.map(elem => elem.BsWfsElement);
       return data;

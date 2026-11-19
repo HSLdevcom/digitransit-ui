@@ -18,11 +18,7 @@ export default function RouteNumberContainer({
       <RouteNumber
         color={route.color ? `#${route.color}` : null}
         mode={mode !== undefined ? mode : route.mode}
-        text={
-          hideText
-            ? ''
-            : getTripOrRouteText(trip, route, config, interliningWithRoute)
-        }
+        text={hideText ? '' : getTripOrRouteText(trip, route, config, interliningWithRoute)}
         {...props}
       />
     )

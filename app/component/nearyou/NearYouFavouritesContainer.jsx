@@ -28,33 +28,21 @@ export default function NearYouFavouritesContainer({
     ...(stops || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'stop',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'stop', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.push(
     ...(stations || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'station',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'station', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.push(
     ...(vehicleStations || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'vehicleRentalStation',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'vehicleRentalStation', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
@@ -67,13 +55,7 @@ export default function NearYouFavouritesContainer({
     switch (stop.type) {
       case 'stop':
       case 'station':
-        return (
-          <StopNearYou
-            key={stop.gtfsId}
-            stop={stop}
-            isParentTabActive={isParentTabActive}
-          />
-        );
+        return <StopNearYou key={stop.gtfsId} stop={stop} isParentTabActive={isParentTabActive} />;
       case 'vehicleRentalStation':
         return (
           <VehicleRentalStationNearYou

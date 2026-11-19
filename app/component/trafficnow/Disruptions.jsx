@@ -13,10 +13,7 @@ import CanceledTripCard from './CanceledTripCard';
 import DisruptionCard from './DisruptionCard';
 import NoDisruptions from './components/NoDisruptions';
 import { useFilterContext } from './filters/FiltersContext';
-import {
-  filterAndSortAlerts,
-  filterCanceledModes,
-} from './filters/filterUtils';
+import { filterAndSortAlerts, filterCanceledModes } from './filters/filterUtils';
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { buildDisruptionCards } from './utils';
@@ -27,19 +24,12 @@ const POLL_INTERVAL_MS = 60 * 1000;
 
 export const buildAlertsFingerprint = alerts =>
   alerts
-    .map(
-      a =>
-        `${a.id}|${a.effectiveStartDate}|${a.effectiveEndDate}|${a.alertSeverityLevel}`,
-    )
+    .map(a => `${a.id}|${a.effectiveStartDate}|${a.effectiveEndDate}|${a.alertSeverityLevel}`)
     .sort()
     .join(';');
 
 // filters out routes with non relevant feedId:s and modes without any routes
-export function getCanceledModes(
-  cancelationsByMode,
-  feedIds,
-  selectedFeeds = [],
-) {
+export function getCanceledModes(cancelationsByMode, feedIds, selectedFeeds = []) {
   return Object.entries(cancelationsByMode)
     .map(([key, value]) => ({
       key,
@@ -47,8 +37,7 @@ export function getCanceledModes(
       routes: value.routes.filter(
         ({ route }) =>
           feedIds.includes(splitGtfsId(route.gtfsId).feedId) &&
-          (!selectedFeeds.length ||
-            selectedFeeds.includes(splitGtfsId(route.gtfsId).feedId)),
+          (!selectedFeeds.length || selectedFeeds.includes(splitGtfsId(route.gtfsId).feedId)),
       ),
     }))
     .filter(({ routes }) => routes.length);
@@ -101,12 +90,7 @@ export default function Disruptions({ dateTime }) {
   // Memoized so the query variables stay stable across re-renders.
   const canceledTripsVars = useMemo(
     () => ({
-      runningTimeRanges: [
-        {
-          start: dateTime,
-          end: null,
-        },
-      ],
+      runningTimeRanges: [{ start: dateTime, end: null }],
       fetchBus: modesToFetch.includes(TransportMode.Bus),
       fetchTram: modesToFetch.includes(TransportMode.Tram),
       fetchRail: modesToFetch.includes(TransportMode.Rail),
@@ -116,11 +100,9 @@ export default function Disruptions({ dateTime }) {
     [dateTime, selectedFilters.vehicleModes.join(',')],
   );
 
-  const cancelationsByMode = useLazyLoadQuery(
-    CanceledTripsOverviewQuery,
-    canceledTripsVars,
-    { fetchKey },
-  );
+  const cancelationsByMode = useLazyLoadQuery(CanceledTripsOverviewQuery, canceledTripsVars, {
+    fetchKey,
+  });
 
   const canceledModes = getCanceledModes(
     cancelationsByMode,
@@ -187,10 +169,7 @@ export default function Disruptions({ dateTime }) {
         if (!json?.data?.alerts) {
           return;
         }
-        if (
-          buildAlertsFingerprint(json.data.alerts) !==
-          displayedFingerprintRef.current
-        ) {
+        if (buildAlertsFingerprint(json.data.alerts) !== displayedFingerprintRef.current) {
           setHasUpdates(true);
         }
       } catch {
@@ -215,20 +194,12 @@ export default function Disruptions({ dateTime }) {
 
   const disruptions = filterAndSortAlerts(alerts, selectedFilters);
 
-  const disruptionCards = buildDisruptionCards(
-    disruptions,
-    selectedFilters,
-    config,
-  );
+  const disruptionCards = buildDisruptionCards(disruptions, selectedFilters, config);
 
   const resultAmount = canceledModesFiltered.length + disruptionCards.length;
 
   return (
-    <div
-      className={cx('disruptions', {
-        'disruptions--mobile': mobile,
-      })}
-    >
+    <div className={cx('disruptions', { 'disruptions--mobile': mobile })}>
       {hasUpdates && (
         <div className="disruptions-update-banner-anchor">
           <div className="disruptions-update-banner" role="status">
@@ -253,21 +224,13 @@ export default function Disruptions({ dateTime }) {
           <>
             <Text variant="heading-xs" as="h3">
               {formatMessage(
-                {
-                  id: 'disruptions-found-amount',
-                  defaultMessage: 'No disruptions found',
-                },
+                { id: 'disruptions-found-amount', defaultMessage: 'No disruptions found' },
                 { amount: resultAmount },
               )}
             </Text>
             <div className="disruptions-list">
               {canceledModesFiltered.map(({ key, routes }) => (
-                <CanceledTripCard
-                  isMobile={mobile}
-                  key={key}
-                  mode={key}
-                  routes={routes}
-                />
+                <CanceledTripCard isMobile={mobile} key={key} mode={key} routes={routes} />
               ))}
               {disruptionCards.map(({ key, alert, mode }) => (
                 <DisruptionCard
@@ -286,6 +249,4 @@ export default function Disruptions({ dateTime }) {
   );
 }
 
-Disruptions.propTypes = {
-  dateTime: PropTypes.string.isRequired,
-};
+Disruptions.propTypes = { dateTime: PropTypes.string.isRequired };

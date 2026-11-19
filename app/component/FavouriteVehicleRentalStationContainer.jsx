@@ -1,17 +1,10 @@
 import PropTypes from 'prop-types';
 import Favourite from './Favourite';
 import { getFavouriteByStationIdAndNetworks } from '../data/FavouriteData';
-import {
-  useFavourites,
-  useFavouriteStatus,
-  useFavouriteActions,
-} from '../hooks/FavouriteContext';
+import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 
-export default function FavouriteVehicleRentalStationContainer({
-  vehicleRentalStation,
-  ...rest
-}) {
+export default function FavouriteVehicleRentalStationContainer({ vehicleRentalStation, ...rest }) {
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
   const { saveFavourite, deleteFavourite } = useFavouriteActions();
@@ -67,8 +60,6 @@ FavouriteVehicleRentalStationContainer.propTypes = {
     lat: PropTypes.number,
     lon: PropTypes.number,
     name: PropTypes.string,
-    rentalNetwork: PropTypes.shape({
-      networkId: PropTypes.string.isRequired,
-    }).isRequired,
+    rentalNetwork: PropTypes.shape({ networkId: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
 };

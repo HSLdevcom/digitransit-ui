@@ -17,13 +17,7 @@ const stopAlert = {
   entities: [{ __typename: 'Stop', gtfsId: 'HSL:X' }],
 };
 
-const stop = (gtfsId, alerts = []) => ({
-  gtfsId,
-  name: gtfsId,
-  code: gtfsId,
-  zoneId: 'A',
-  alerts,
-});
+const stop = (gtfsId, alerts = []) => ({ gtfsId, name: gtfsId, code: gtfsId, zoneId: 'A', alerts });
 
 const busLeg = ({ from, to, startMin, endMin, route, interline = false }) => ({
   mode: 'BUS',
@@ -100,13 +94,7 @@ describe('itinerary list and details alert parity', () => {
     const origin = stop('HSL:A');
     const alerted = stop('HSL:X', [stopAlert]);
     const { listShowsAlert, detailsShowAlert } = renderBoth([
-      busLeg({
-        from: origin,
-        to: alerted,
-        startMin: 0,
-        endMin: 30,
-        route: '1',
-      }),
+      busLeg({ from: origin, to: alerted, startMin: 0, endMin: 30, route: '1' }),
       walkLeg({ from: alerted, startMin: 30, endMin: 40 }),
     ]);
     expect(detailsShowAlert).toBe(true);
@@ -119,14 +107,7 @@ describe('itinerary list and details alert parity', () => {
     const last = stop('HSL:B');
     const { listShowsAlert, detailsShowAlert } = renderBoth([
       busLeg({ from: origin, to: middle, startMin: 0, endMin: 15, route: '1' }),
-      busLeg({
-        from: middle,
-        to: last,
-        startMin: 15,
-        endMin: 30,
-        route: '2',
-        interline: true,
-      }),
+      busLeg({ from: middle, to: last, startMin: 15, endMin: 30, route: '2', interline: true }),
       walkLeg({ from: last, startMin: 30, endMin: 40 }),
     ]);
     expect(detailsShowAlert).toBe(true);

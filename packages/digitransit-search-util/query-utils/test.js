@@ -36,11 +36,9 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
       }));
 
     it('getStopAndStationsQuery resolves an empty array', () =>
-      getStopAndStationsQuery([{ type: 'stop', gtfsId: 'HSL:1234' }]).then(
-        result => {
-          expect(result).toEqual([]);
-        },
-      ));
+      getStopAndStationsQuery([{ type: 'stop', gtfsId: 'HSL:1234' }]).then(result => {
+        expect(result).toEqual([]);
+      }));
 
     it('getAllVehicleRentalStations resolves an empty array', () =>
       getAllVehicleRentalStations().then(result => {
@@ -61,10 +59,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
       }));
 
     it('getFavouriteVehicleRentalStationsQuery resolves an empty array', () =>
-      getFavouriteVehicleRentalStationsQuery(
-        [{ stationId: 'station1' }],
-        '',
-      ).then(result => {
+      getFavouriteVehicleRentalStationsQuery([{ stationId: 'station1' }], '').then(result => {
         expect(result).toEqual([]);
       }));
 
@@ -127,19 +122,13 @@ describe('Testing @digitransit-search-util/digitransit-search-util-query-utils m
 
   describe('filterSearchResultsByMode(results, mode, type)', () => {
     const stops = [
-      {
-        properties: { addendum: { GTFS: { modes: ['BUS', 'TRAM'] } } },
-      },
-      {
-        properties: { addendum: { GTFS: { modes: ['SUBWAY'] } } },
-      },
+      { properties: { addendum: { GTFS: { modes: ['BUS', 'TRAM'] } } } },
+      { properties: { addendum: { GTFS: { modes: ['SUBWAY'] } } } },
       { properties: {} },
     ];
 
     it("keeps only stops whose GTFS modes include the given mode, for type 'Stops'", () => {
-      expect(filterSearchResultsByMode(stops, 'BUS', 'Stops')).toEqual([
-        stops[0],
-      ]);
+      expect(filterSearchResultsByMode(stops, 'BUS', 'Stops')).toEqual([stops[0]]);
     });
 
     it("returns results unchanged for type 'Routes'", () => {

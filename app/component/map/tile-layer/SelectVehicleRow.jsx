@@ -66,8 +66,6 @@ export default function SelectVehicleRow({ trip: tripRef }) {
 
 SelectVehicleRow.propTypes = {
   trip: fragmentRefShape.isRequired,
-  message: PropTypes.shape({
-    mode: PropTypes.string.isRequired,
-    tripStartTime: PropTypes.string,
-  }).isRequired,
+  message: PropTypes.shape({ mode: PropTypes.string.isRequired, tripStartTime: PropTypes.string })
+    .isRequired,
 };

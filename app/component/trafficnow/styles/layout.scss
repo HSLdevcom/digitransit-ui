@@ -46,8 +46,7 @@
   &__header {
     display: flex;
     flex-direction: column;
-    padding: 30px var(--padding-horizontal-gutter) var(--space-xl)
-      var(--padding-horizontal-gutter);
+    padding: 30px var(--padding-horizontal-gutter) var(--space-xl) var(--padding-horizontal-gutter);
     flex: 0 0 50%;
 
     &-image {
@@ -111,8 +110,7 @@
         flex: 1;
         display: flex;
         flex-direction: column;
-        padding: var(--space-xl) tokens.$padding-horizontal-gutter
-          var(--space-xl) var(--space-xl);
+        padding: var(--space-xl) tokens.$padding-horizontal-gutter var(--space-xl) var(--space-xl);
         gap: var(--space-s);
       }
 

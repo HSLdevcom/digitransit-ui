@@ -97,9 +97,7 @@ export default function dayRangePattern(arrayOfDayNumbers) {
   }
 
   if (retValue === '-' && sortedUniqueDayNumbers.length > 1) {
-    retValue = `${getSinglePattern(
-      sortedUniqueDayNumbers[0],
-    )},${getSinglePattern(
+    retValue = `${getSinglePattern(sortedUniqueDayNumbers[0])},${getSinglePattern(
       sortedUniqueDayNumbers[sortedUniqueDayNumbers.length - 1],
     )}`;
   }

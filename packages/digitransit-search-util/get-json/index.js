@@ -17,10 +17,7 @@ import serialize from '@digitransit-search-util/digitransit-search-util-serializ
 export default function getJson(url, params) {
   return axios
     .get(
-      encodeURI(url) +
-        (params
-          ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params)
-          : ''),
+      encodeURI(url) + (params ? (url.search(/\?/) === -1 ? '?' : '&') + serialize(params) : ''),
       {
         timeout: 10000,
         method: 'GET',
@@ -29,9 +26,7 @@ export default function getJson(url, params) {
         responseType: 'json',
         transitional: { silentJSONParsing: false },
 
-        headers: {
-          Accept: 'application/json',
-        },
+        headers: { Accept: 'application/json' },
       },
     )
     .then(res => {

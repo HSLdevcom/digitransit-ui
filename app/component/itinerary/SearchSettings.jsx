@@ -26,9 +26,7 @@ export default function SearchSettings({ toggleSettings }) {
         embedWhenOpen={
           <div className="open-embed-container">
             <div className="open-advanced-settings open-embed">
-              {!config.hideItinerarySettings && (
-                <SettingsButton onToggleClick={toggleSettings} />
-              )}
+              {!config.hideItinerarySettings && <SettingsButton onToggleClick={toggleSettings} />}
             </div>
           </div>
         }
@@ -37,6 +35,4 @@ export default function SearchSettings({ toggleSettings }) {
   );
 }
 
-SearchSettings.propTypes = {
-  toggleSettings: PropTypes.func.isRequired,
-};
+SearchSettings.propTypes = { toggleSettings: PropTypes.func.isRequired };

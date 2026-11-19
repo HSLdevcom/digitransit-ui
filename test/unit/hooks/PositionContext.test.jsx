@@ -32,9 +32,7 @@ describe('PositionContext', () => {
 
     fireEvent.click(screen.getByRole('button', { name: 'deny location' }));
 
-    expect(screen.getByTestId('position').textContent).toBe(
-      'geolocation-denied:0:0',
-    );
+    expect(screen.getByTestId('position').textContent).toBe('geolocation-denied:0:0');
     expect(searchServices.getPositions().status).toBe('geolocation-denied');
   });
 
@@ -67,9 +65,7 @@ describe('PositionContext', () => {
       location: { lat: 60.17, lon: 24.94 },
     });
     state = positionReducer(state, { type: 'reverse-geocoding-started' });
-    expect(positionReducer(state, { type: 'reverse-geocoding-started' })).toBe(
-      state,
-    );
+    expect(positionReducer(state, { type: 'reverse-geocoding-started' })).toBe(state);
 
     const address = { type: 'address-found', location: { address: 'Foo 1' } };
     state = positionReducer(state, address);
@@ -83,10 +79,7 @@ describe('PositionContext', () => {
     });
     state = positionReducer(state, { type: 'reverse-geocoding-started' });
     state = positionReducer(state, { type: 'geolocation-watch-timeout' });
-    state = positionReducer(state, {
-      type: 'address-found',
-      location: { address: 'Foo 1' },
-    });
+    state = positionReducer(state, { type: 'address-found', location: { address: 'Foo 1' } });
 
     expect(state.position.status).toBe('geolocation-watch-timeout');
     expect(state.position.address).toBeUndefined();

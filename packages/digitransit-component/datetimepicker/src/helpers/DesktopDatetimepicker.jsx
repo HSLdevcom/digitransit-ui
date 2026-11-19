@@ -123,9 +123,7 @@ export default function DesktopDatetimepicker({
     const hour = input.length <= 2 ? input : input.split(':')[0];
     const isValidHour = /^([0-1]?[0-9]|2[0-3])$/.test(hour);
     const comp = hour.length === 1 ? '0'.concat(input) : input;
-    return isValidHour
-      ? option.label.split(':')[0] === comp.split(':')[0]
-      : true;
+    return isValidHour ? option.label.split(':')[0] === comp.split(':')[0] : true;
   };
   const ariaError = t('invalid-input', translationSettings);
   return (
@@ -189,9 +187,7 @@ export default function DesktopDatetimepicker({
           }
           handleTimestamp(time.value);
         }}
-        components={{
-          IndicatorsContainer: () => null,
-        }}
+        components={{ IndicatorsContainer: () => null }}
         className={cx(
           styles['datetimepicker-select-container'],
           invalidInput ? 'datetimepicker-invalid-input' : '',
@@ -208,8 +204,7 @@ export default function DesktopDatetimepicker({
             return true;
           }
           const completeInput =
-            input.length === 5 ||
-            (input.length === 4 && input.split(':')[0].length === 1);
+            input.length === 5 || (input.length === 4 && input.split(':')[0].length === 1);
           const isMod15 = option.label.split(':')[1] % 15 === 0;
           const minuteInput = input.split(':')[1]?.length === 1;
 
@@ -234,9 +229,7 @@ export default function DesktopDatetimepicker({
             }
           }
           if (completeInput && !showAllOptions) {
-            return input.length === 4
-              ? '0'.concat(input) === option.label
-              : input === option.label;
+            return input.length === 4 ? '0'.concat(input) === option.label : input === option.label;
           }
           if (isMod15) {
             return filterOptions(option, input);

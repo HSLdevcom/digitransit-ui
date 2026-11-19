@@ -83,28 +83,19 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
 
   describe('formatFavouritePlaceLabel(name, address)', () => {
     it('should remove name from address word-wise', () => {
-      const output = formatFavouritePlaceLabel(
-        'Tietäjä',
-        'Tietäjäntie 11, Espoo',
-      );
+      const output = formatFavouritePlaceLabel('Tietäjä', 'Tietäjäntie 11, Espoo');
       expect(output.length).toBe(2);
       expect(output[0]).toBe('Tietäjä');
       expect(output[1]).toBe('Tietäjäntie 11, Espoo');
     });
 
     it('should remove trailing comma and space', () => {
-      const output1 = formatFavouritePlaceLabel(
-        'Tietäjäntie',
-        'Tietäjäntie 11, Espoo',
-      );
+      const output1 = formatFavouritePlaceLabel('Tietäjäntie', 'Tietäjäntie 11, Espoo');
       expect(output1.length).toBe(2);
       expect(output1[0]).toBe('Tietäjäntie');
       expect(output1[1]).toBe('11, Espoo');
 
-      const output2 = formatFavouritePlaceLabel(
-        'Tietäjäntie 11',
-        'Tietäjäntie 11, Espoo',
-      );
+      const output2 = formatFavouritePlaceLabel('Tietäjäntie 11', 'Tietäjäntie 11, Espoo');
       expect(output2.length).toBe(2);
       expect(output2[0]).toBe('Tietäjäntie 11');
       expect(output2[1]).toBe('Espoo');

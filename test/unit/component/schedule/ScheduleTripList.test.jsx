@@ -22,10 +22,7 @@ describe('<ScheduleTripList />', () => {
   });
 
   const defaultProps = {
-    trips: [
-      createTrip('trip-1', 28080, 30060),
-      createTrip('trip-2', 29080, 31060),
-    ],
+    trips: [createTrip('trip-1', 28080, 30060), createTrip('trip-2', 29080, 31060)],
     fromIdx: 0,
     toIdx: 1,
   };
@@ -56,9 +53,7 @@ describe('<ScheduleTripList />', () => {
         },
       ];
 
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={trips} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={trips} />);
 
       expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
       expect(container.textContent).toContain('07:48');
@@ -82,9 +77,7 @@ describe('<ScheduleTripList />', () => {
         },
       ];
 
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={trips} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={trips} />);
 
       expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
       expect(container.textContent).toContain('07:48');
@@ -93,15 +86,10 @@ describe('<ScheduleTripList />', () => {
     it('should filter out trips with empty stoptimes array', () => {
       const trips = [
         createTrip('valid-trip', 28080, 30060),
-        {
-          id: 'no-stoptimes-trip',
-          stoptimes: [],
-        },
+        { id: 'no-stoptimes-trip', stoptimes: [] },
       ];
 
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={trips} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={trips} />);
 
       expect(container.querySelectorAll('[role="listitem"]').length).toBe(1);
     });
@@ -137,9 +125,7 @@ describe('<ScheduleTripList />', () => {
         ],
       };
 
-      const { container } = render(
-        <ScheduleTripList trips={[trip]} fromIdx={1} toIdx={3} />,
-      );
+      const { container } = render(<ScheduleTripList trips={[trip]} fromIdx={1} toIdx={3} />);
 
       expect(container.textContent).toContain('05:33');
       expect(container.textContent).toContain('11:06');
@@ -209,9 +195,7 @@ describe('<ScheduleTripList />', () => {
 
     it('should not mark trip as canceled for UPDATED state', () => {
       const trips = [createTrip('updated-trip', 28080, 30060, 'UPDATED')];
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={trips} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={trips} />);
 
       expect(container.querySelector('.trip-from.canceled')).toBeNull();
       expect(container.querySelector('.trip-to.canceled')).toBeNull();
@@ -244,9 +228,7 @@ describe('<ScheduleTripList />', () => {
         ],
       };
 
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={[trip]} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={[trip]} />);
 
       expect(container.textContent).toContain('01:00');
       expect(container.textContent).toContain('02:00');
@@ -259,9 +241,7 @@ describe('<ScheduleTripList />', () => {
         createTrip('trip-3', 30080, 32060),
       ];
 
-      const { container } = render(
-        <ScheduleTripList {...defaultProps} trips={trips} />,
-      );
+      const { container } = render(<ScheduleTripList {...defaultProps} trips={trips} />);
 
       expect(container.querySelectorAll('[role="listitem"]').length).toBe(3);
     });

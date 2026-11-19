@@ -28,12 +28,10 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('.route-schedule-grouped-date-select-heading')
-        .textContent,
+      container.querySelector('.route-schedule-grouped-date-select-heading').textContent,
     ).toContain('Select time');
     expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker').textContent,
     ).toContain('Tomorrow');
   });
 
@@ -46,8 +44,7 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker').textContent,
     ).toContain('Today');
   });
 
@@ -76,10 +73,9 @@ describe('<DateSelectGrouped />', () => {
         onDateChange={onDateChange}
       />,
     );
-    fireEvent.keyDown(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
-      { key: 'Enter' },
-    );
+    fireEvent.keyDown(container.querySelector('#aria-input-route-schedule-grouped-datepicker'), {
+      key: 'Enter',
+    });
     fireEvent.click(getByRole('option', { name: 'Tomorrow' }));
     expect(onDateChange).toHaveBeenCalledWith('20190102');
   });

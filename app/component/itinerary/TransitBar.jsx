@@ -31,11 +31,7 @@ export default function TransitBar({
 
   return (
     <div
-      className={cx(
-        'leg',
-        mode.toLowerCase(),
-        fitRouteNumber ? 'fit-route-number' : '',
-      )}
+      className={cx('leg', mode.toLowerCase(), fitRouteNumber ? 'fit-route-number' : '')}
       style={{ '--width': `${legLength}%` }}
     >
       <RouteNumberContainer

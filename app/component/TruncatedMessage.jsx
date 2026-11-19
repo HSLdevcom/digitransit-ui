@@ -35,10 +35,7 @@ export default function TruncatedMessage({
                 onShowMore();
               }}
             >
-              {intl.formatMessage({
-                id: 'show-more',
-                defaultMessage: 'Show more',
-              })}
+              {intl.formatMessage({ id: 'show-more', defaultMessage: 'Show more' })}
             </button>{' '}
             &rsaquo;
           </span>

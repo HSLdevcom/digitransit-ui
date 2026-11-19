@@ -7,28 +7,17 @@ export default {
   activeTab: PREFIX_STOPS,
   className: 'bp-large',
   serviceDay: '20190306',
-  relay: {
-    setVariables: () => {},
-  },
-  params: {
-    routeId: 'HSL:1010',
-    patternId: 'HSL:1010:0:01',
-  },
+  relay: { setVariables: () => {} },
+  params: { routeId: 'HSL:1010', patternId: 'HSL:1010:0:01' },
   route: {
     patterns: [
       {
         code: 'HSL:1010:0:01',
         headsign: 'Pikku Huopalahti',
         stops: [
-          {
-            name: 'Korppaanmäki',
-          },
-          {
-            name: 'Johanneksenkirkko',
-          },
-          {
-            name: 'Tarkk´ampujankatu',
-          },
+          { name: 'Korppaanmäki' },
+          { name: 'Johanneksenkirkko' },
+          { name: 'Tarkk´ampujankatu' },
         ],
         tripsForDate: [
           {
@@ -37,17 +26,13 @@ export default {
                 scheduledArrival: 600,
                 scheduledDeparture: 600,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwNA==' },
               },
               {
                 scheduledArrival: 720,
                 scheduledDeparture: 720,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwMg==' },
               },
             ],
           },
@@ -57,17 +42,13 @@ export default {
                 scheduledArrival: 840,
                 scheduledDeparture: 840,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwNA==' },
               },
               {
                 scheduledArrival: 960,
                 scheduledDeparture: 960,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwMg==' },
               },
             ],
           },
@@ -77,15 +58,9 @@ export default {
         code: 'HSL:1010:0:02',
         headsign: 'Pikku Huopalahti',
         stops: [
-          {
-            name: 'Korppaanmäki',
-          },
-          {
-            name: 'Johanneksenkirkko',
-          },
-          {
-            name: 'Tarkk´ampujankatu',
-          },
+          { name: 'Korppaanmäki' },
+          { name: 'Johanneksenkirkko' },
+          { name: 'Tarkk´ampujankatu' },
         ],
         tripsForDate: [
           {
@@ -94,17 +69,13 @@ export default {
                 scheduledArrival: 1440,
                 scheduledDeparture: 1440,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwNA==' },
               },
               {
                 scheduledArrival: 1500,
                 scheduledDeparture: 1500,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwMg==' },
               },
             ],
           },
@@ -114,15 +85,9 @@ export default {
         code: 'HSL:1010:1:01',
         headsign: 'Korppaanmäki',
         stops: [
-          {
-            name: 'Pikku Huopalahti',
-          },
-          {
-            name: 'Johanneksenkirkko',
-          },
-          {
-            name: 'Tarkk´ampujankatu',
-          },
+          { name: 'Pikku Huopalahti' },
+          { name: 'Johanneksenkirkko' },
+          { name: 'Tarkk´ampujankatu' },
         ],
         tripsForDate: [
           {
@@ -131,17 +96,13 @@ export default {
                 scheduledArrival: 600,
                 scheduledDeparture: 600,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwNA==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwNA==' },
               },
               {
                 scheduledArrival: 720,
                 scheduledDeparture: 720,
                 serviceDay: Math.floor(new Date().getTime() / 1000),
-                stop: {
-                  id: 'U3RvcDpIU0w6MTI5MTQwMg==',
-                },
+                stop: { id: 'U3RvcDpIU0w6MTI5MTQwMg==' },
               },
             ],
           },

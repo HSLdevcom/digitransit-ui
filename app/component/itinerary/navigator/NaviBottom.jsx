@@ -3,14 +3,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legShape } from '../../../../utils/client/shapes';
-import {
-  epochToTime,
-  durationToString,
-} from '../../../../utils/client/timeUtils';
-import {
-  getFaresFromLegs,
-  shouldShowFareInfo,
-} from '../../../../utils/client/fareUtils';
+import { epochToTime, durationToString } from '../../../../utils/client/timeUtils';
+import { getFaresFromLegs, shouldShowFareInfo } from '../../../../utils/client/fareUtils';
 import localizedUrl from '../../../../utils/client/urlUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
@@ -20,11 +14,7 @@ export default function NaviBottom({ setNavigation, arrival, time, legs }) {
   const currentLanguage = config.language;
 
   const handleClose = () => {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      event: 'navigator',
-      action: 'cancel_navigation',
-    });
+    addAnalyticsEvent({ category: 'Itinerary', event: 'navigator', action: 'cancel_navigation' });
     setNavigation(false);
   };
 
@@ -37,12 +27,9 @@ export default function NaviBottom({ setNavigation, arrival, time, legs }) {
     shouldShowFareInfo(config, legs) &&
     getFaresFromLegs(legs, config)?.find(f => !f.isUnknown);
 
-  const remainingDuration =
-    arrival >= time ? durationToString(intl, arrival - time) : null;
+  const remainingDuration = arrival >= time ? durationToString(intl, arrival - time) : null;
 
-  const sheetClasses = cx('navi-bottom-sheet', {
-    'ticket-link': isTicketSaleActive,
-  });
+  const sheetClasses = cx('navi-bottom-sheet', { 'ticket-link': isTicketSaleActive });
 
   const closeButton = (
     <button type="button" onClick={handleClose} className="navi-close-button">

@@ -21,9 +21,7 @@ export default function NetworkSelector({ type, updateSettings }) {
   );
   const last = networks.length ? networks[networks.length - 1] : undefined;
   const selected =
-    type === TransportMode.Scooter
-      ? getScooterNetworks(config)
-      : getCitybikeNetworks(config);
+    type === TransportMode.Scooter ? getScooterNetworks(config) : getCitybikeNetworks(config);
 
   return (
     <>
@@ -42,17 +40,9 @@ export default function NetworkSelector({ type, updateSettings }) {
               width={2}
             />
           }
-          toggled={
-            !!selected.find(
-              o => o.toLowerCase() === network.networkName.toLowerCase(),
-            )
-          }
+          toggled={!!selected.find(o => o.toLowerCase() === network.networkName.toLowerCase())}
           onToggle={() => {
-            const newNetworks = updateVehicleNetworks(
-              selected,
-              network.networkName,
-              network.type,
-            );
+            const newNetworks = updateVehicleNetworks(selected, network.networkName, network.type);
             const newSettings =
               type === TransportMode.Scooter
                 ? { scooterNetworks: newNetworks }

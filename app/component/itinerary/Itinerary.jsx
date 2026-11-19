@@ -53,8 +53,7 @@ import { normalizeLegLengths } from './itineraryLegProcessor';
 
 const NAME_LENGTH_THRESHOLD = 65; // for truncating long short names
 
-const stationId = place =>
-  place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
+const stationId = place => place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
 
 export const ViaLeg = () => (
   <div className="leg via">
@@ -94,12 +93,9 @@ export default function Itinerary({
       streetHash.parkAndRide,
       streetHash.carAndVehicle,
     ];
-    const subpath = modesWithSubpath.includes(match.params.hash)
-      ? `/${match.params.hash}/`
-      : '/';
+    const subpath = modesWithSubpath.includes(match.params.hash) ? `/${match.params.hash}/` : '/';
 
-    const momentumScroll =
-      document.getElementsByClassName('momentum-scroll')[0];
+    const momentumScroll = document.getElementsByClassName('momentum-scroll')[0];
     if (momentumScroll) {
       momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
     }
@@ -120,10 +116,7 @@ export default function Itinerary({
       name: props.hash,
     });
 
-    const basePath = `${getItineraryPagePath(
-      match.params.from,
-      match.params.to,
-    )}${subpath}`;
+    const basePath = `${getItineraryPagePath(match.params.from, match.params.to)}${subpath}`;
     const indexPath = `${basePath}${props.hash}`;
     const newLocation = {
       ...match.location,
@@ -142,16 +135,9 @@ export default function Itinerary({
     } else {
       router.replace({
         ...match.location,
-        state: {
-          ...match.location.state,
-          selectedItineraryIndex: props.hash,
-        },
+        state: { ...match.location.state, selectedItineraryIndex: props.hash },
       });
-      addAnalyticsEvent({
-        category: 'Itinerary',
-        action: 'HighlightItinerary',
-        name: props.hash,
-      });
+      addAnalyticsEvent({ category: 'Itinerary', action: 'HighlightItinerary', name: props.hash });
     }
   };
 
@@ -161,8 +147,7 @@ export default function Itinerary({
   const usingOwnBicycleWholeTrip =
     usingOwnBicycle && itinerary.legs.every(leg => !leg.to.vehicleParking);
   const usingOwnCar = itinerary.legs.some(isCarLeg);
-  const usingOwnCarWholeTrip =
-    usingOwnCar && itinerary.legs.every(leg => !leg.to.vehicleParking);
+  const usingOwnCarWholeTrip = usingOwnCar && itinerary.legs.every(leg => !leg.to.vehicleParking);
   const { refTime } = props;
   const startTime = Date.parse(itinerary.start);
   const endTime = Date.parse(itinerary.end);
@@ -172,9 +157,7 @@ export default function Itinerary({
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
   const splitLegs = splitLegsAtViaPoints(itinerary.legs, intermediatePlaces);
-  const compressedLegs = compressLegs(splitLegs).map(leg => ({
-    ...leg,
-  }));
+  const compressedLegs = compressLegs(splitLegs).map(leg => ({ ...leg }));
   let intermediateSlack = 0;
   let legWithRouteCount = 0;
   let containsScooterLeg = false;
@@ -186,8 +169,7 @@ export default function Itinerary({
     }
     nameLengthSum += 10; // every leg requires some minimum space
     if (i > 0 && (leg.from.viaLocationType || leg.to.viaLocationType)) {
-      intermediateSlack +=
-        legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
+      intermediateSlack += legTime(leg.start) - legTime(compressedLegs[i - 1].end); // calculate time spent at each intermediate place
     }
     containsScooterLeg = leg.mode === 'SCOOTER' || containsScooterLeg;
   });
@@ -204,9 +186,7 @@ export default function Itinerary({
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength = lastLeg ? relativeLength(lastLeg.duration * 1000) : 0;
   const fitAllRouteNumbers = legWithRouteCount < 4; // if there are three or fewer legs with routes, we will show all the route numbers.
-  const bikeParkedIndex = usingOwnBicycle
-    ? getBikeParkedIndex(compressedLegs)
-    : undefined;
+  const bikeParkedIndex = usingOwnBicycle ? getBikeParkedIndex(compressedLegs) : undefined;
   const renderModeIcons = compressedLegs.length < 10;
 
   const normalizedLegs = normalizeLegLengths(compressedLegs, {
@@ -250,22 +230,17 @@ export default function Itinerary({
       nextLeg,
     } = processedLeg;
     const startMs = legTime(leg.start);
-    const routeName =
-      leg.route && getTripOrRouteText(leg.trip, leg.route, config);
+    const routeName = leg.route && getTripOrRouteText(leg.trip, leg.route, config);
     const longName = !routeName || routeName.length > 5;
 
     const viaKey = `via_${leg.mode}_${startMs}`;
-    const startsAtMarkedStation =
-      !!markedStationId && stationId(leg.from) === markedStationId;
+    const startsAtMarkedStation = !!markedStationId && stationId(leg.from) === markedStationId;
     if (!isWalkOrBicycleWalkLeg(leg)) {
       markedStationId = undefined;
     }
 
     let viaPointAdded = false;
-    if (
-      leg.from.viaLocationType === ViaLocationType.Visit &&
-      !startsAtMarkedStation
-    ) {
+    if (leg.from.viaLocationType === ViaLocationType.Visit && !startsAtMarkedStation) {
       viaPointAdded = true;
       addViaIcon(leg.from, viaKey);
     }
@@ -288,21 +263,12 @@ export default function Itinerary({
       if (usingOwnBicycle && leg.to.vehicleParking) {
         onlyIconLegCount += 1;
         legs.push(
-          <div
-            className="leg bike_park"
-            key={`${leg.mode}_${startMs}_bike_park_indicator`}
-          >
-            <Icon
-              img="icon-bike_parking"
-              className="itinerary-icon bike_park"
-            />
+          <div className="leg bike_park" key={`${leg.mode}_${startMs}_bike_park_indicator`}>
+            <Icon img="icon-bike_parking" className="itinerary-icon bike_park" />
           </div>,
         );
       }
-    } else if (
-      (leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') &&
-      leg.rentedBike
-    ) {
+    } else if ((leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') && leg.rentedBike) {
       const bikingTime = Math.floor(leg.duration / 60);
       bikeNetwork =
         leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
@@ -313,17 +279,14 @@ export default function Itinerary({
         config.vehicleRental.networks[bikeNetwork].durationInstructions
       ) {
         const rentDurationOverSurchargeLimit =
-          leg.duration >
-          config.vehicleRental.networks[bikeNetwork].timeBeforeSurcharge;
+          leg.duration > config.vehicleRental.networks[bikeNetwork].timeBeforeSurcharge;
         if (rentDurationOverSurchargeLimit) {
           citybikeNetworks.add(bikeNetwork);
         }
         showRentalBikeDurationWarning =
           showRentalBikeDurationWarning || rentDurationOverSurchargeLimit;
         if (!citybikeicon) {
-          citybikeicon = getRentalNetworkIcon(
-            getRentalNetworkConfig(bikeNetwork, config),
-          );
+          citybikeicon = getRentalNetworkIcon(getRentalNetworkConfig(bikeNetwork, config));
         }
       }
       legs.push(
@@ -336,11 +299,7 @@ export default function Itinerary({
           legLength={legLength}
         />,
       );
-      vehicleNames.push(
-        formatMessage({
-          id: `to-bicycle`,
-        }),
-      );
+      vehicleNames.push(formatMessage({ id: `to-bicycle` }));
       stopNames.push(leg.from.name);
     } else if (leg.mode === 'SCOOTER' && leg.rentedBike) {
       const scooterDuration = Math.floor(leg.duration / 60);
@@ -354,11 +313,7 @@ export default function Itinerary({
           legLength={legLength}
         />,
       );
-      vehicleNames.push(
-        formatMessage({
-          id: `to-e-scooter`,
-        }),
-      );
+      vehicleNames.push(formatMessage({ id: `to-e-scooter` }));
       stopNames.push('');
     } else if (leg.mode === 'CAR') {
       const drivingTime = Math.floor(leg.duration / 60);
@@ -375,10 +330,7 @@ export default function Itinerary({
       if (leg.to.vehicleParking) {
         onlyIconLegCount += 1;
         legs.push(
-          <div
-            className="leg car_park"
-            key={`${leg.mode}_${startMs}_car_park_indicator`}
-          >
+          <div className="leg car_park" key={`${leg.mode}_${startMs}_car_park_indicator`}>
             <Icon img="icon_car-park" className="itinerary-icon car_park" />
           </div>,
         );
@@ -411,14 +363,8 @@ export default function Itinerary({
       if (leg.to.vehicleParking) {
         onlyIconLegCount += 1;
         legs.push(
-          <div
-            className="leg bike_park"
-            key={`${leg.mode}_${startMs}_bike_park_indicator`}
-          >
-            <Icon
-              img="icon-bike_parking"
-              className="itinerary-icon bike_park"
-            />
+          <div className="leg bike_park" key={`${leg.mode}_${startMs}_bike_park_indicator`}>
+            <Icon img="icon-bike_parking" className="itinerary-icon bike_park" />
           </div>,
         );
       }
@@ -426,11 +372,8 @@ export default function Itinerary({
 
     if (leg.route) {
       const withBicycle =
-        usingOwnBicycleWholeTrip &&
-        config.bikeBoardingModes[leg.route.mode] !== undefined;
-      const withCar =
-        usingOwnCarWholeTrip &&
-        config.carBoardingModes[leg.route.mode] !== undefined;
+        usingOwnBicycleWholeTrip && config.bikeBoardingModes[leg.route.mode] !== undefined;
+      const withCar = usingOwnCarWholeTrip && config.carBoardingModes[leg.route.mode] !== undefined;
       if (
         !startsAtMarkedStation &&
         (leg.from.viaLocationType === ViaLocationType.PassThrough ||
@@ -440,16 +383,12 @@ export default function Itinerary({
       }
       if (!isTaxiLeg(leg)) {
         const renderRouteNumberForALongLeg =
-          legLength > renderRouteNumberThreshold &&
-          !longName &&
-          legWithRouteCount < 7;
+          legLength > renderRouteNumberThreshold && !longName && legWithRouteCount < 7;
         legs.push(
           <TransitBar
             key={`${leg.mode}_${startMs}`}
             leg={leg}
-            fitRouteNumber={
-              (fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg
-            }
+            fitRouteNumber={(fitAllRouteNumbers && !longName) || renderRouteNumberForALongLeg}
             interliningWithRoute={interliningWithRoute}
             legLength={legLength}
             withBicycle={withBicycle}
@@ -460,9 +399,7 @@ export default function Itinerary({
         );
       }
       vehicleNames.push(
-        `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${
-          routeName || ''
-        }`,
+        `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${routeName || ''}`,
       );
       stopNames.push(leg.from.name);
       if (
@@ -495,8 +432,7 @@ export default function Itinerary({
 
   const normalLegCount = legs.length - onlyIconLegCount;
   // how many pixels to take from each 'normal' leg to give room for the icons
-  const iconLegsInPixels =
-    normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0;
+  const iconLegsInPixels = normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0;
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
 
   const firstDeparture = compressedLegs.find(leg =>
@@ -528,16 +464,12 @@ export default function Itinerary({
     <FormattedMessage
       id="itinerary-co2.description-simple"
       defaultMessage="CO₂ emissions for this route"
-      values={{
-        co2value,
-      }}
+      values={{ co2value }}
     />
   );
 
   const ariaLabelMessage = intl.formatMessage(
-    {
-      id: 'itinerary-page.show-details-label',
-    },
+    { id: 'itinerary-page.show-details-label' },
     { number: props.hash + 1 },
   );
 
@@ -558,10 +490,7 @@ export default function Itinerary({
     date
   );
   const showCo2Info =
-    config.showCO2InItinerarySummary &&
-    co2value !== null &&
-    co2value >= 0 &&
-    !containsScooterLeg;
+    config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
 
   const gotFeedback = props.feedback !== undefined;
   const itineraryContainerOverflowRef = useRef(null);
@@ -599,32 +528,19 @@ export default function Itinerary({
       role="listitem"
       className={cx([
         'itinerary-summary-row',
-        {
-          passive,
-          'bp-large': breakpoint === 'large',
-          'no-border': hideSelectionIndicator,
-        },
+        { passive, 'bp-large': breakpoint === 'large', 'no-border': hideSelectionIndicator },
       ])}
       aria-atomic="true"
     >
       <div className="sr-only">
-        <FormattedMessage
-          id="summary-page.row-label"
-          values={{
-            number: props.hash + 1,
-          }}
-        />{' '}
+        <FormattedMessage id="summary-page.row-label" values={{ number: props.hash + 1 }} />{' '}
         {summaryDescription}
         {showCo2Info && <> {co2summary}</>}
       </div>
       <div
         className="itinerary-summary-visible"
         style={{ display: 'flex' }}
-        data-ticket-type={`${getTicketString(
-          itinerary.legs,
-          getZones(itinerary.legs),
-          config,
-        )}`}
+        data-ticket-type={`${getTicketString(itinerary.legs, getZones(itinerary.legs), config)}`}
       >
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */}
@@ -648,14 +564,8 @@ export default function Itinerary({
               <span key="ShowOnMapScreenReader" className="sr-only">
                 <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
               </span>
-              <div
-                className="itinerary-duration-container"
-                key="startTime"
-                aria-hidden="true"
-              >
-                {startDate && (
-                  <div className="itinerary-start-date">{startDate}</div>
-                )}
+              <div className="itinerary-duration-container" key="startTime" aria-hidden="true">
+                {startDate && <div className="itinerary-start-date">{startDate}</div>}
                 <div className="itinerary-start-time-and-end-time">
                   {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}
                   {`${departureTime} - ${arrivalTime}`}
@@ -687,18 +597,13 @@ export default function Itinerary({
                 aria-hidden="true"
               >
                 <div
-                  className={cx(
-                    'itinerary-legs',
-                    showOverflowIcon ? 'overflow-icon' : '',
-                  )}
+                  className={cx('itinerary-legs', showOverflowIcon ? 'overflow-icon' : '')}
                   ref={itineraryContainerOverflowRef}
                 >
                   {legs}
                 </div>
                 <div className="overflow-icon-container">
-                  {showOverflowIcon && (
-                    <Icon img="icon_three-dots" className="overflow-icon" />
-                  )}
+                  {showOverflowIcon && <Icon img="icon_three-dots" className="overflow-icon" />}
                 </div>
               </div>
               <div
@@ -716,8 +621,7 @@ export default function Itinerary({
                       id="citybike-duration-info-short"
                       values={{
                         duration:
-                          config.vehicleRental.networks[bikeNetwork]
-                            .timeBeforeSurcharge / 60,
+                          config.vehicleRental.networks[bikeNetwork].timeBeforeSurcharge / 60,
                       }}
                       defaultMessage=""
                     />
@@ -725,10 +629,7 @@ export default function Itinerary({
                 ) : (
                   <div className="citybike-duration-info-short">
                     <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage
-                      id="citybike-duration-general-header"
-                      defaultMessage=""
-                    />
+                    <FormattedMessage id="citybike-duration-general-header" defaultMessage="" />
                   </div>
                 ))}
             </div>
@@ -737,10 +638,7 @@ export default function Itinerary({
                 className={
                   gotFeedback
                     ? ''
-                    : cx('feedback-animated', {
-                        open: isExpanded,
-                        expanded: feedbackExpandDone,
-                      })
+                    : cx('feedback-animated', { open: isExpanded, expanded: feedbackExpandDone })
                 }
                 onTransitionEnd={e => {
                   if (e.propertyName === 'max-height' && isExpanded) {
@@ -772,9 +670,7 @@ export default function Itinerary({
                 e.stopPropagation();
                 onSelectImmediately();
               }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && onSelectImmediately()
-              }
+              onKeyPress={e => isKeyboardSelectionEvent(e) && onSelectImmediately()}
               aria-label={ariaLabelMessage}
             >
               <div className="action-arrow flex-grow">

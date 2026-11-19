@@ -1,11 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useRef } from 'react';
 import { legTime } from '../../../../../utils/client/legUtils';
-import {
-  fakeDelay,
-  matchLegEnds,
-  shiftLegsByGeolocation,
-} from './utils/realtimeLegUtils';
+import { fakeDelay, matchLegEnds, shiftLegsByGeolocation } from './utils/realtimeLegUtils';
 
 const GEOLOCATED_LEGS = false;
 
@@ -18,20 +14,14 @@ const GEOLOCATED_LEGS = false;
  * @param {Object} params.origin - Origin point for geolocation adjustments.
  * @returns {Function} A function to process and update legs.
  */
-export default function useProcessLegs(
-  simulateTransferProblem,
-  position,
-  vehicles,
-  origin,
-) {
+export default function useProcessLegs(simulateTransferProblem, position, vehicles, origin) {
   const simCounter = useRef(0);
 
   const processLegs = useCallback(
     (prevLegs, rtLegMap, now) => {
       const newRtLegs = prevLegs.map(leg => {
         const l = cloneDeep(leg);
-        const rtLeg =
-          l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap[l.legId] } : null;
+        const rtLeg = l.legId && rtLegMap?.[l.legId] ? { ...rtLegMap[l.legId] } : null;
         if (rtLeg) {
           if (l.freezeStart) {
             delete rtLeg.start;
@@ -39,10 +29,7 @@ export default function useProcessLegs(
           return {
             ...l,
             ...rtLeg,
-            to: {
-              ...l.to,
-              vehicleRentalStation: rtLeg.to.vehicleRentalStation,
-            },
+            to: { ...l.to, vehicleRentalStation: rtLeg.to.vehicleRentalStation },
           };
         }
         return l;

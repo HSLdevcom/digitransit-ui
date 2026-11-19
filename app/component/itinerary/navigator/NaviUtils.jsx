@@ -3,11 +3,7 @@ import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { GeodeticToEnu } from '../../../../utils/shared/geo-utils';
-import {
-  legTime,
-  legTimeAcc,
-  PLATFORM_STATUS,
-} from '../../../../utils/client/legUtils';
+import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../../utils/client/legUtils';
 import {
   getTripOrRouteMode,
   getStopMode,
@@ -140,10 +136,7 @@ export function pathProgress(pos, geom) {
   }
   traversed /= totalLength;
   const { dx, dy } = vSub(geom[minI + 1], geom[minI]);
-  const projected = {
-    x: geom[minI].x + minF * dx,
-    y: geom[minI].y + minF * dy,
-  };
+  const projected = { x: geom[minI].x + minF * dx, y: geom[minI].y + minF * dy };
 
   return { projected, orthogonalDistance: dst, traversed };
 }
@@ -166,9 +159,7 @@ export function legTraversal(leg, origin, pos) {
   const { traversed, orthogonalDistance } = pathProgress(posXY, leg.geometry);
   const metersToGo = (1.0 - traversed) * leg.distance;
 
-  return orthogonalDistance > ACCEPT_LOCATION_RADIUS
-    ? null
-    : { traversed, metersToGo };
+  return orthogonalDistance > ACCEPT_LOCATION_RADIUS ? null : { traversed, metersToGo };
 }
 
 function transferId(transfer) {
@@ -203,8 +194,7 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
           toLeg: leg,
           duration,
           slack: duration,
-          originalDuration:
-            legTime(leg.originalStart) - legTime(prev.originalEnd),
+          originalDuration: legTime(leg.originalStart) - legTime(prev.originalEnd),
         });
       }
     }
@@ -214,22 +204,16 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
       const t1 = legTime(prev.end);
       const t2 = legTime(next.start);
       const duration = t2 - t1;
-      const originalDuration =
-        legTime(next.originalStart) - legTime(prev.originalEnd);
+      const originalDuration = legTime(next.originalStart) - legTime(prev.originalEnd);
       if (t2 > time) {
         // transfer is not over yet
         if (t1 > t2) {
           // certain failure, next transit departs before previous arrives
-          transfers.push({
-            severity: 'ALERT',
-            fromLeg: prev,
-            toLeg: next,
-          });
+          transfers.push({ severity: 'ALERT', fromLeg: prev, toLeg: next });
         } else {
           const legDuration = leg.duration * 1000; // this is original duration
           // check if user is already at the next departure stop
-          const atStop =
-            position && distance(position, leg.to) <= DESTINATION_RADIUS;
+          const atStop = position && distance(position, leg.to) <= DESTINATION_RADIUS;
           let currentSlack = duration - legDuration;
           if (!atStop && currentSlack < slack) {
             // original transfer not possible
@@ -253,13 +237,7 @@ function findTransferProblems(legs, time, position, tailLength, slack) {
                 severity = 'ALERT';
               }
             }
-            transfers.push({
-              severity,
-              fromLeg: prev,
-              toLeg: next,
-              duration,
-              originalDuration,
-            });
+            transfers.push({ severity, fromLeg: prev, toLeg: next, duration, originalDuration });
           } else {
             if (atStop) {
               currentSlack *= 2; // no slack prob if at stop
@@ -285,10 +263,7 @@ export const getLocalizedMode = (mode, intl, config) => {
 };
 
 export const getToLocalizedMode = (mode, intl) => {
-  return intl.formatMessage({
-    id: `to-${mode.toLowerCase()}`,
-    defaultMessage: `${mode}`,
-  });
+  return intl.formatMessage({ id: `to-${mode.toLowerCase()}`, defaultMessage: `${mode}` });
 };
 
 export const getAdditionalMessages = (
@@ -303,8 +278,7 @@ export const getAdditionalMessages = (
 ) => {
   // Todo: multiple fares?
   const fare = getFaresFromLegs([nextLeg], config)?.find(f => !f.isUnknown);
-  const isTicketSaleActive =
-    !config.hideNaviTickets && shouldShowFareInfo(config, legs) && fare;
+  const isTicketSaleActive = !config.hideNaviTickets && shouldShowFareInfo(config, legs) && fare;
 
   const msgs = [];
   const closed = messages.get('ticket')?.closed;
@@ -321,25 +295,13 @@ export const getAdditionalMessages = (
       const title = intl.formatMessage({ id: 'navigation-remember-ticket' });
       const body = `${fares[0].ticketName} ${formatFare(fares[0])}`;
 
-      msgs.push({
-        severity: 'INFO',
-        id: 'ticket',
-        title,
-        body,
-      });
+      msgs.push({ severity: 'INFO', id: 'ticket', title, body });
     }
   }
   return msgs;
 };
 
-export const getTransitLegState = (
-  leg,
-  intl,
-  messages,
-  time,
-  settings,
-  config,
-) => {
+export const getTransitLegState = (leg, intl, messages, time, settings, config) => {
   const { start, realtimeState, from, mode, legId, route } = leg;
   const { scheduledTime, estimated } = start;
   if (messages.get(legId)?.closed) {
@@ -365,8 +327,7 @@ export const getTransitLegState = (
     severity = 'WARNING';
   } else if (!isRealTime) {
     const departure = leg.trip.stoptimesForDate[0];
-    const departed =
-      1000 * (departure.serviceDay + departure.scheduledDeparture);
+    const departed = 1000 * (departure.serviceDay + departure.scheduledDeparture);
     if (time + DISPLAY_MESSAGE_THRESHOLD < departed) {
       // vehicle just departed, maybe no realtime yet
       severity = 'INFO';
@@ -376,21 +337,13 @@ export const getTransitLegState = (
     title = intl.formatMessage({ id: 'navileg-mode-schedule' });
     body = intl.formatMessage(
       { id: 'navileg-start-schedule' },
-      {
-        route: shortName,
-        time: timeStr(scheduledTime),
-        mode: localizedMode,
-      },
+      { route: shortName, time: timeStr(scheduledTime), mode: localizedMode },
     );
   } else {
     const { parentStation, name } = from.stop;
 
     const fromId = // eslint-disable-next-line no-nested-ternary
-      mode === 'FERRY'
-        ? 'from-ferrypier'
-        : parentStation
-          ? 'from-station'
-          : 'from-stop';
+      mode === 'FERRY' ? 'from-ferrypier' : parentStation ? 'from-station' : 'from-stop';
     const stopOrStation = intl.formatMessage({ id: fromId });
     title = intl.formatMessage(
       { id: 'navileg-mode-realtime' },
@@ -398,25 +351,12 @@ export const getTransitLegState = (
     );
     body = intl.formatMessage(
       { id: 'navileg-start-realtime' },
-      {
-        time: timeStr(estimated.time),
-        stopOrStation,
-        stopName: name,
-      },
+      { time: timeStr(estimated.time), stopOrStation, stopName: name },
     );
     severity = 'INFO';
   }
 
-  return [
-    {
-      severity,
-      content,
-      id: legId,
-      expiresOn: legTime(start),
-      title,
-      body,
-    },
-  ];
+  return [{ severity, content, id: legId, expiresOn: legTime(start), title, body }];
 };
 
 export function itinerarySearchPath(time, leg, nextLeg, position, to) {
@@ -436,11 +376,7 @@ export function itinerarySearchPath(time, leg, nextLeg, position, to) {
 }
 
 function withNewSearchBtn(children, searchCallback, alertType) {
-  addAnalyticsEvent({
-    category: 'Itinerary',
-    event: 'navigator',
-    action: 'notification_alert',
-  });
+  addAnalyticsEvent({ category: 'Itinerary', event: 'navigator', action: 'notification_alert' });
 
   const handleClick = callback => () => {
     addAnalyticsEvent({
@@ -456,11 +392,7 @@ function withNewSearchBtn(children, searchCallback, alertType) {
     <div className="navi-info-content">
       {children}
       <FormattedMessage id="navigation-abort-trip" />
-      <button
-        className="new-itinerary-search"
-        type="button"
-        onClick={handleClick(searchCallback)}
-      >
+      <button className="new-itinerary-search" type="button" onClick={handleClick(searchCallback)}>
         <span className="notification-header">
           <FormattedMessage id="settings-dropdown-open-label" />
         </span>
@@ -582,10 +514,7 @@ export const getItineraryAlerts = (
       const id = `canceled-${legId}`;
       const lMode = getLocalizedMode(mode, intl, config);
       const routeName = `${lMode} ${route.shortName}`;
-      const title = intl.formatMessage(
-        { id: 'navigation-mode-canceled' },
-        { name: routeName },
-      );
+      const title = intl.formatMessage({ id: 'navigation-mode-canceled' }, { name: routeName });
       const jsxBody =
         i === 0
           ? withNewSearchBtn(
@@ -605,13 +534,7 @@ export const getItineraryAlerts = (
       });
     });
   } else {
-    const transfers = findTransferProblems(
-      legs,
-      time,
-      position,
-      tailLength,
-      slack,
-    );
+    const transfers = findTransferProblems(legs, time, position, tailLength, slack);
     if (transfers.length) {
       let title;
       let body;
@@ -633,39 +556,24 @@ export const getItineraryAlerts = (
               { transfer: desc },
             );
             jsxBody = withNewSearchBtn(
-              <FormattedMessage
-                id="navigation-transfer-problem-details"
-                values={{ transfer }}
-              />,
+              <FormattedMessage id="navigation-transfer-problem-details" values={{ transfer }} />,
               itinerarySearchCallback,
-              `transfer-${
-                prob.fromLeg.route.shortName
-              }${prob.fromLeg.mode.toLowerCase()}-${
+              `transfer-${prob.fromLeg.route.shortName}${prob.fromLeg.mode.toLowerCase()}-${
                 prob.toLeg.route.shortName
               }${prob.toLeg.mode.toLowerCase()}`,
             );
           } else {
             title = intl.formatMessage({ id: 'navigation-hurry-transfer' });
-            const change = Math.floor(
-              (prob.duration - prob.originalDuration) / 60000,
-            );
+            const change = Math.floor((prob.duration - prob.originalDuration) / 60000);
 
             body = intl.formatMessage(
               { id: 'navigation-hurry-transfer-value' },
-              {
-                transfer: desc,
-                time: durationToString(intl, prob.duration),
-                change,
-              },
+              { transfer: desc, time: durationToString(intl, prob.duration), change },
             );
             jsxBody = (
               <FormattedMessage
                 id="navigation-hurry-transfer-value"
-                values={{
-                  transfer,
-                  time: durationToString(intl, prob.duration),
-                  change,
-                }}
+                values={{ transfer, time: durationToString(intl, prob.duration), change }}
               />
             );
           }
@@ -687,9 +595,7 @@ export const getItineraryAlerts = (
           const id = transferId(tr);
           const alert = messages.get(id);
           if (alert && alert.severity !== 'INFO') {
-            title = intl.formatMessage({
-              id: 'navigation-hurry-transfer-solved',
-            });
+            title = intl.formatMessage({ id: 'navigation-hurry-transfer-solved' });
             body = intl.formatMessage(
               { id: 'navigation-hurry-transfer-solved-details' },
               {
@@ -742,13 +648,7 @@ export const getItineraryAlerts = (
         nextLeg.from.stop.platformCode,
         routeName,
       );
-      alerts.push({
-        severity: 'WARNING',
-        id,
-        expiresOn: legTime(nextLeg.start),
-        title,
-        body,
-      });
+      alerts.push({ severity: 'WARNING', id, expiresOn: legTime(nextLeg.start), title, body });
     }
   }
 

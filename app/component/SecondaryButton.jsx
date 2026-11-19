@@ -6,26 +6,16 @@ import Icon from './Icon';
 
 export default function SecondaryButton(props) {
   const intl = useIntl();
-  const className = cx([
-    'secondary-button',
-    props.buttonName,
-    { small: props.smallSize },
-  ]);
+  const className = cx(['secondary-button', props.buttonName, { small: props.smallSize }]);
   return (
     <button
       type="button"
       className={className}
-      aria-label={intl.formatMessage({
-        id: props.ariaLabel,
-        defaultMessage: props.ariaLabel,
-      })}
+      aria-label={intl.formatMessage({ id: props.ariaLabel, defaultMessage: props.ariaLabel })}
       onClick={e => props.buttonClickAction(e)}
     >
       {props.buttonIcon && <Icon img={props.buttonIcon} />}
-      <FormattedMessage
-        id={props.buttonName}
-        defaultMessage={props.buttonName}
-      />
+      <FormattedMessage id={props.buttonName} defaultMessage={props.buttonName} />
     </button>
   );
 }

@@ -56,9 +56,7 @@ export default function StopPageMap({
   const breakpoint = useBreakpoint();
   // if the stop is not a gtfs transit stop, disable vehicles
   const shouldShowVehicles = config.showVehiclesOnStopPage && stop.gtfsId;
-  const mapLayerOverrides = shouldShowVehicles
-    ? { notThese: ['vehicles'] }
-    : {};
+  const mapLayerOverrides = shouldShowVehicles ? { notThese: ['vehicles'] } : {};
   if (citybike) {
     mapLayerOverrides.force = ['citybike'];
   } else if (scooter) {
@@ -85,39 +83,25 @@ export default function StopPageMap({
       if (locationState.hasLocation) {
         if (distance(locationState, stop) < maxShowRouteDistance) {
           const settings = getSettings(config);
-          let location = {
-            coordinate: {
-              latitude: targetStop.lat,
-              longitude: targetStop.lon,
-            },
-          };
+          let location = { coordinate: { latitude: targetStop.lat, longitude: targetStop.lon } };
           if (targetStop.gtfsId) {
-            location = {
-              stopLocation: { stopLocationId: targetStop.gtfsId },
-            };
+            location = { stopLocation: { stopLocationId: targetStop.gtfsId } };
           }
           const variables = {
             mode: 'WALK',
             origin: {
               location: {
-                coordinate: {
-                  latitude: locationState.lat,
-                  longitude: locationState.lon,
-                },
+                coordinate: { latitude: locationState.lat, longitude: locationState.lon },
               },
             },
-            destination: {
-              location,
-            },
+            destination: { location },
             walkSpeed: settings.walkSpeed,
             wheelchair: !!settings.accessibilityOption,
           };
           fetchQuery(environment, streetQuery, variables)
             .toPromise()
             .then(result => {
-              setWalk(
-                result.plan.edges.length ? result.plan.edges?.[0].node : null,
-              );
+              setWalk(result.plan.edges.length ? result.plan.edges?.[0].node : null);
             });
         }
       }
@@ -134,10 +118,7 @@ export default function StopPageMap({
     ) {
       setBounds([
         [locationState.lat, locationState.lon],
-        [
-          stop.lat + (stop.lat - locationState.lat),
-          stop.lon + (stop.lon - locationState.lon),
-        ],
+        [stop.lat + (stop.lat - locationState.lat), stop.lon + (stop.lon - locationState.lon)],
       ]);
     }
   }, [stop, locationState.status]);
@@ -203,13 +184,7 @@ export default function StopPageMap({
       {...mwtProps}
       mapLayers={mapLayers}
       mapLayerOptions={mapLayerOptions}
-      topButtons={
-        <StopItineraryButton
-          stop={stop}
-          citybike={citybike}
-          scooter={scooter}
-        />
-      }
+      topButtons={<StopItineraryButton stop={stop} citybike={citybike} scooter={scooter} />}
     >
       {children}
     </MapWithTracking>

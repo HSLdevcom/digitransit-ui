@@ -19,12 +19,8 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -35,9 +31,7 @@ export default {
       sv: `${POI_MAP_PREFIX}/sv/vehicleParkingGroups/`,
       fi: `${POI_MAP_PREFIX}/fi/vehicleParkingGroups/`,
     },
-    REALTIME_RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
-    },
+    REALTIME_RENTAL_VEHICLE_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/` },
   },
 
   aboutThisService: {
@@ -71,17 +65,11 @@ export default {
 
   vehicleRental: {},
 
-  search: {
-    minimalRegexp: /.+/,
-  },
+  search: { minimalRegexp: /.+/ },
 
-  agency: {
-    show: false,
-  },
+  agency: { show: false },
 
-  meta: {
-    description: APP_DESCRIPTION,
-  },
+  meta: { description: APP_DESCRIPTION },
 
   vehicles: true,
   showVehiclesOnStopPage: true,
@@ -89,45 +77,21 @@ export default {
   showCO2InItinerarySummary: true,
 
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
 
-    rail: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    rail: { availableForSelection: false, defaultValue: false },
 
-    tram: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    tram: { availableForSelection: false, defaultValue: false },
 
-    subway: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    subway: { availableForSelection: false, defaultValue: false },
 
-    citybike: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    citybike: { availableForSelection: false, defaultValue: false },
 
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    airplane: { availableForSelection: false, defaultValue: false },
 
-    ferry: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    ferry: { availableForSelection: false, defaultValue: false },
 
-    funicular: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    funicular: { availableForSelection: false, defaultValue: false },
 
     taxi: {
       availableForSelection: true, // experimental feature
@@ -142,30 +106,15 @@ export default {
     en: 'Timetables and routes',
   },
   nearYouModes: ['bus'],
-  maxNearYouDistance: {
-    bus: 30000,
-    tram: 30000,
-    rail: 50000,
-    ferry: 50000,
-    citybike: 30000,
-  },
+  maxNearYouDistance: { bus: 30000, tram: 30000, rail: 50000, ferry: 50000, citybike: 30000 },
 
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14,
 
   nationalServiceLink: {
-    fi: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/',
-    },
-    sv: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/sv/',
-    },
-    en: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/en/',
-    },
+    fi: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/' },
+    sv: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/sv/' },
+    en: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/en/' },
   },
 
   messageBarAlerts: true,
@@ -227,9 +176,7 @@ export default {
 
   // mapping fareId from OTP fare identifiers to human readable form
   fareMapping: function mapFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
+    return fareId && fareId.substring ? fareId.substring(fareId.indexOf(':') + 1) : '';
   },
 
   // if true we don't show fare information on top of the itinerary
@@ -239,30 +186,13 @@ export default {
   startSearchFromUserLocation: true,
 
   minTransferTimeSelection: [
-    {
-      title: '1.5 min',
-      value: 90,
-    },
-    {
-      title: '3 min',
-      value: 180,
-    },
-    {
-      title: '5 min',
-      value: 300,
-    },
-    {
-      title: '7 min',
-      value: 420,
-    },
-    {
-      title: '10 min',
-      value: 600,
-    },
+    { title: '1.5 min', value: 90 },
+    { title: '3 min', value: 180 },
+    { title: '5 min', value: 300 },
+    { title: '7 min', value: 420 },
+    { title: '10 min', value: 600 },
   ],
-  carBoardingModes: {
-    FERRY: { showNotification: true },
-  },
+  carBoardingModes: { FERRY: { showNotification: true } },
 
   ticketPurchaseLink: function purchaseTicketLink(fare, availableTickets) {
     const fareId = fare.fareProducts[0].product.id;
@@ -275,10 +205,7 @@ export default {
   appName: 'walttiapp',
   ticketButtonTextId: 'buy-in-app',
 
-  analyticsScript: function createAnalyticsScript(
-    hostname,
-    sendAnalyticsCustomEventGoals,
-  ) {
+  analyticsScript: function createAnalyticsScript(hostname, sendAnalyticsCustomEventGoals) {
     const address = sendAnalyticsCustomEventGoals
       ? 'https://plausible.io/js/script.tagged-events.js'
       : 'https://plausible.io/js/script.js';

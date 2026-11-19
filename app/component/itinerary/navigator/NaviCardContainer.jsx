@@ -114,22 +114,12 @@ export default function NaviCardContainer({
     );
 
   const makeNewItinerarySearch = () => {
-    const path = itinerarySearchPath(
-      time,
-      currentLeg,
-      nextLeg,
-      position,
-      match.params.to,
-    );
+    const path = itinerarySearchPath(time, currentLeg, nextLeg, position, match.params.to);
     router.push(path);
   };
 
   useEffect(() => {
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      event: 'navigator',
-      action: 'start_navigation',
-    });
+    addAnalyticsEvent({ category: 'Itinerary', event: 'navigator', action: 'start_navigation' });
     updateClient(getNaviTopics(), realTime, config);
   }, []);
 
@@ -158,16 +148,7 @@ export default function NaviCardContainer({
       // Messages for NaviStack.
       addMessages(incomingMessages, [
         ...getTransitLegState(nextLeg, intl, messages, time, settings, config),
-        ...getAdditionalMessages(
-          currentLeg,
-          nextLeg,
-          firstLeg,
-          time,
-          config,
-          messages,
-          intl,
-          legs,
-        ),
+        ...getAdditionalMessages(currentLeg, nextLeg, firstLeg, time, config, messages, intl, legs),
       ]);
     }
     if (legChanged) {
@@ -191,9 +172,7 @@ export default function NaviCardContainer({
         : activeMessages;
 
       // handle messages that are updated.
-      const keptMessages = previousValidMessages.filter(
-        msg => !incomingMessages.get(msg.id),
-      );
+      const keptMessages = previousValidMessages.filter(msg => !incomingMessages.get(msg.id));
       const newMessages = Array.from(incomingMessages.values());
       setActiveMessages([...keptMessages, ...newMessages]);
       setMessages(new Map([...messages, ...incomingMessages]));
@@ -250,8 +229,7 @@ export default function NaviCardContainer({
         tailLength={tailLength}
         cardAnimation={className}
         platformUpdated={
-          platformStatus === PLATFORM_STATUS.CHANGED ||
-          platformStatus === PLATFORM_STATUS.RESTORED
+          platformStatus === PLATFORM_STATUS.CHANGED || platformStatus === PLATFORM_STATUS.RESTORED
         }
       />
       {activeMessages.length > 0 && (

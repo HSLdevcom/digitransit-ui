@@ -4,10 +4,7 @@ import fetchTicketPrices from './services/ticketPrices.js';
 import collectGeoJsonZones from './services/geoJsonZones.js';
 import fetchCitybikeConfigurations from './services/citybikeSeasons.js';
 
-const state = {
-  httpServer: undefined,
-  redisClient: undefined,
-};
+const state = { httpServer: undefined, redisClient: undefined };
 
 // Stop accepting new connections and let in-flight requests finish (up to a
 // grace period, kept under `docker stop`'s default 10s so our own clean
@@ -26,9 +23,7 @@ function gracefulShutdown(signal) {
   forceExitTimer.unref();
 
   const closeRedisAndExit = () =>
-    state.redisClient
-      ? state.redisClient.quit(() => process.exit(0))
-      : process.exit(0);
+    state.redisClient ? state.redisClient.quit(() => process.exit(0)) : process.exit(0);
 
   if (state.httpServer) {
     state.httpServer.close(closeRedisAndExit);
@@ -59,8 +54,5 @@ await Promise.all([
 ]);
 
 state.httpServer = app.listen(config.PORT, () =>
-  console.log(
-    'Digitransit-ui available on port %d',
-    state.httpServer.address().port,
-  ),
+  console.log('Digitransit-ui available on port %d', state.httpServer.address().port),
 );

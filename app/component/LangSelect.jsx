@@ -10,10 +10,7 @@ const Language = ({ lang }) => {
   const highlight = lang === language;
 
   const aria = highlight
-    ? intl.formatMessage(
-        { id: 'search-current-suggestion' },
-        { selection: lang },
-      )
+    ? intl.formatMessage({ id: 'search-current-suggestion' }, { selection: lang })
     : intl.formatMessage({ id: 'language-selection' }, { language: lang });
   return (
     <a

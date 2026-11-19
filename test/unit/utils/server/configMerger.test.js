@@ -6,15 +6,8 @@ describe('configMerger', () => {
       const base = {
         aboutThisService: {
           fi: [
-            {
-              header: 'header1',
-              paragraphs: ['foo1'],
-              link: 'foo1.com',
-            },
-            {
-              header: 'header2',
-              paragraphs: ['foo2'],
-            },
+            { header: 'header1', paragraphs: ['foo1'], link: 'foo1.com' },
+            { header: 'header2', paragraphs: ['foo2'] },
           ],
         },
       };
@@ -22,20 +15,9 @@ describe('configMerger', () => {
       const modifications = {
         aboutThisService: {
           fi: [
-            {
-              header: 'header1',
-              paragraphs: ['bar1'],
-              link: 'bar1.com',
-            },
-            {
-              header: 'header2',
-              link: 'bar2.com',
-            },
-            {
-              header: 'header3',
-              paragraphs: ['bar3'],
-              link: 'bar3.com',
-            },
+            { header: 'header1', paragraphs: ['bar1'], link: 'bar1.com' },
+            { header: 'header2', link: 'bar2.com' },
+            { header: 'header3', paragraphs: ['bar3'], link: 'bar3.com' },
           ],
         },
       };

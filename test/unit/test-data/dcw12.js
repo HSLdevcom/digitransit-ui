@@ -53,10 +53,7 @@ export default {
         vehicleRentalStation: null,
         stop: null,
       },
-      legGeometry: {
-        length: 2,
-        points: 'eaenJklzvC@K',
-      },
+      legGeometry: { length: 2, points: 'eaenJklzvC@K' },
       intermediateStops: [],
       realTime: false,
       transitLeg: false,
@@ -87,10 +84,7 @@ export default {
         vehicleRentalStation: null,
         stop: null,
       },
-      legGeometry: {
-        length: 5,
-        points: 'caenJwlzvC@@VH^Jf@Y',
-      },
+      legGeometry: { length: 5, points: 'caenJwlzvC@@VH^Jf@Y' },
       intermediateStops: [],
       realTime: false,
       transitLeg: false,
@@ -121,10 +115,7 @@ export default {
         vehicleRentalStation: null,
         stop: null,
       },
-      legGeometry: {
-        length: 8,
-        points: 'a~dnJylzvC?KNEDADC^zDEBb@bE',
-      },
+      legGeometry: { length: 8, points: 'a~dnJylzvC?KNEDADC^zDEBb@bE' },
       intermediateStops: [],
       realTime: false,
       transitLeg: false,
@@ -158,16 +149,8 @@ export default {
           rentedBike: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Aleksanterinkatu, Helsinki',
-            lat: 60.168898,
-            lon: 24.945822,
-            stop: null,
-          },
-          to: {
-            stop: null,
-            viaLocationType: 'VISIT',
-          },
+          from: { name: 'Aleksanterinkatu, Helsinki', lat: 60.168898, lon: 24.945822, stop: null },
+          to: { stop: null, viaLocationType: 'VISIT' },
         },
         {
           realTime: false,
@@ -187,21 +170,14 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: null,
-          },
+          to: { stop: null },
         },
       ],
     },
     passive: false,
     currentTime: 1534225911718,
     intermediatePlaces: [
-      {
-        address: 'Kaivopuisto, Helsinki',
-        locationSlack: 600,
-        lat: 60.156843,
-        lon: 24.956721,
-      },
+      { address: 'Kaivopuisto, Helsinki', locationSlack: 600, lat: 60.156843, lon: 24.956721 },
     ],
   },
   cityBikeRouteWithIntermediatePlaces: {
@@ -225,12 +201,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Opastinsilta 6, Helsinki',
-            lat: 60.199118,
-            lon: 24.940652,
-            stop: null,
-          },
+          from: { name: 'Opastinsilta 6, Helsinki', lat: 60.199118, lon: 24.940652, stop: null },
           to: { stop: null },
         },
         {
@@ -269,12 +240,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Näkinsilta',
-            lat: 60.179765,
-            lon: 24.9554618,
-            stop: null,
-          },
+          from: { name: 'Näkinsilta', lat: 60.179765, lon: 24.9554618, stop: null },
           to: { stop: null },
         },
         {
@@ -381,12 +347,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Viiskulma',
-            lat: 60.160944,
-            lon: 24.941859,
-            stop: null,
-          },
+          from: { name: 'Viiskulma', lat: 60.160944, lon: 24.941859, stop: null },
           to: { stop: null },
         },
         {
@@ -493,12 +454,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Itämerentori',
-            lat: 60.163535,
-            lon: 24.914765,
-            stop: null,
-          },
+          from: { name: 'Itämerentori', lat: 60.163535, lon: 24.914765, stop: null },
           to: { stop: null },
         },
       ],
@@ -506,12 +462,7 @@ export default {
     passive: false,
     currentTime: 1534248499202,
     intermediatePlaces: [
-      {
-        address: 'Merihaka, Helsinki',
-        locationSlack: 3600,
-        lat: 60.178882,
-        lon: 24.960086,
-      },
+      { address: 'Merihaka, Helsinki', locationSlack: 3600, lat: 60.178882, lon: 24.960086 },
       {
         address: 'Punavuorenkatu 1, Helsinki',
         locationSlack: 1200,
@@ -542,12 +493,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Opastinsilta 6, Helsinki',
-            lat: 60.199118,
-            lon: 24.940652,
-            stop: null,
-          },
+          from: { name: 'Opastinsilta 6, Helsinki', lat: 60.199118, lon: 24.940652, stop: null },
           to: { stop: null },
         },
         {
@@ -695,12 +641,7 @@ export default {
     passive: false,
     currentTime: 1534249069766,
     intermediatePlaces: [
-      {
-        address: 'Merihaka, Helsinki',
-        locationSlack: 3600,
-        lat: 60.178882,
-        lon: 24.960086,
-      },
+      { address: 'Merihaka, Helsinki', locationSlack: 3600, lat: 60.178882, lon: 24.960086 },
       {
         address: 'Punavuorenkatu 1, Helsinki',
         locationSlack: 1200,
@@ -731,17 +672,8 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Leppävaaran asema, Espoo',
-            lat: 60.219424,
-            lon: 24.814576,
-            stop: null,
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:2111502',
-            },
-          },
+          from: { name: 'Leppävaaran asema, Espoo', lat: 60.219424, lon: 24.814576, stop: null },
+          to: { stop: { gtfsId: 'HSL:2111502' } },
         },
         {
           realTime: false,
@@ -758,117 +690,34 @@ export default {
             shortName: 'U',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: {
             stoptimes: [
-              {
-                stop: {
-                  gtfsId: 'HSL:1020502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1174502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1291501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2111502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2131501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2132502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:3010501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2161501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2612501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2611502',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2511501',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:6010503',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:6010504',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:6010505',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:6010501',
-                },
-                pickupType: 'NONE',
-              },
+              { stop: { gtfsId: 'HSL:1020502' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1174502' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1291501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2111502' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2131501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2132502' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:3010501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2161501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2612501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2611502' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2511501' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:6010503' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:6010504' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:6010505' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:6010501' }, pickupType: 'NONE' },
             ],
           },
           from: {
             name: 'Leppävaara',
             lat: 60.219486,
             lon: 24.813242,
-            stop: {
-              gtfsId: 'HSL:2111502',
-            },
+            stop: { gtfsId: 'HSL:2111502' },
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:2131501',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:2131501' } },
         },
         {
           realTime: false,
@@ -882,14 +731,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Kilo',
-            lat: 60.217952,
-            lon: 24.783293,
-            stop: {
-              gtfsId: 'HSL:2131501',
-            },
-          },
+          from: { name: 'Kilo', lat: 60.217952, lon: 24.783293, stop: { gtfsId: 'HSL:2131501' } },
         },
         {
           realTime: false,
@@ -909,11 +751,7 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:2131501',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:2131501' } },
         },
         {
           realTime: false,
@@ -930,24 +768,11 @@ export default {
             shortName: 'E',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
-          from: {
-            name: 'Kilo',
-            lat: 60.217952,
-            lon: 24.783293,
-            stop: {
-              gtfsId: 'HSL:2131501',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:2132502',
-            },
-          },
+          from: { name: 'Kilo', lat: 60.217952, lon: 24.783293, stop: { gtfsId: 'HSL:2131501' } },
+          to: { stop: { gtfsId: 'HSL:2132502' } },
         },
         {
           realTime: false,
@@ -961,26 +786,14 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Kera',
-            lat: 60.216041,
-            lon: 24.75359,
-            stop: {
-              gtfsId: 'HSL:2132502',
-            },
-          },
+          from: { name: 'Kera', lat: 60.216041, lon: 24.75359, stop: { gtfsId: 'HSL:2132502' } },
         },
       ],
     },
     passive: false,
     currentTime: 1534331553377,
     intermediatePlaces: [
-      {
-        address: 'Kilon asema, Espoo',
-        locationSlack: 5400,
-        lat: 60.217879,
-        lon: 24.781975,
-      },
+      { address: 'Kilon asema, Espoo', locationSlack: 5400, lat: 60.217879, lon: 24.781975 },
     ],
     children: false,
   },
@@ -1011,11 +824,7 @@ export default {
             lon: 24.917185306549076,
             stop: null,
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172144',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1172144' } },
         },
         {
           realTime: true,
@@ -1032,24 +841,11 @@ export default {
             shortName: '50',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
-          from: {
-            name: 'Posti 1',
-            lat: 60.21287,
-            lon: 24.91677,
-            stop: {
-              gtfsId: 'HSL:1172144',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
-          },
+          from: { name: 'Posti 1', lat: 60.21287, lon: 24.91677, stop: { gtfsId: 'HSL:1172144' } },
+          to: { stop: { gtfsId: 'HSL:1172142' } },
         },
         {
           realTime: false,
@@ -1066,9 +862,7 @@ export default {
             name: 'Ilmalan bussivarikko',
             lat: 60.21009,
             lon: 24.91752,
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
+            stop: { gtfsId: 'HSL:1172142' },
             viaLocationType: 'VISIT',
           },
           to: { stop: null },
@@ -1091,11 +885,7 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1172142' } },
         },
         {
           realTime: true,
@@ -1112,24 +902,16 @@ export default {
             shortName: '50',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
           from: {
             name: 'Ilmalan bussivarikko',
             lat: 60.21009,
             lon: 24.91752,
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
+            stop: { gtfsId: 'HSL:1172142' },
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1171121',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1171121' } },
         },
         {
           realTime: false,
@@ -1147,9 +929,7 @@ export default {
             name: 'Ilmalantori',
             lat: 60.205915,
             lon: 24.91852,
-            stop: {
-              gtfsId: 'HSL:1171121',
-            },
+            stop: { gtfsId: 'HSL:1171121' },
           },
           to: { stop: null },
         },
@@ -1158,11 +938,7 @@ export default {
     passive: false,
     currentTime: 1534339633441,
     intermediatePlaces: [
-      {
-        address: 'Ilmalan bussivarikko 2198, Helsinki',
-        lat: 60.21009,
-        lon: 24.91752,
-      },
+      { address: 'Ilmalan bussivarikko 2198, Helsinki', lat: 60.21009, lon: 24.91752 },
       { address: 'Postintaival 3, Helsinki', lat: 60.209802, lon: 24.919357 },
     ],
     children: false,
@@ -1188,17 +964,8 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Ilmalan asema, Helsinki',
-            lat: 60.207595,
-            lon: 24.921465,
-            stop: null,
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172553',
-            },
-          },
+          from: { name: 'Ilmalan asema, Helsinki', lat: 60.207595, lon: 24.921465, stop: null },
+          to: { stop: { gtfsId: 'HSL:1172553' } },
         },
         {
           realTime: false,
@@ -1215,75 +982,22 @@ export default {
             shortName: 'A',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: {
             stoptimes: [
-              {
-                stop: {
-                  gtfsId: 'HSL:2111504',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:2118551',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1465552',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1465551',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1291551',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1172553',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1174552',
-                },
-                pickupType: 'SCHEDULED',
-              },
-              {
-                stop: {
-                  gtfsId: 'HSL:1020552',
-                },
-                pickupType: 'NONE',
-              },
+              { stop: { gtfsId: 'HSL:2111504' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:2118551' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1465552' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1465551' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1291551' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1172553' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1174552' }, pickupType: 'SCHEDULED' },
+              { stop: { gtfsId: 'HSL:1020552' }, pickupType: 'NONE' },
             ],
           },
-          from: {
-            name: 'Ilmala',
-            lat: 60.207587,
-            lon: 24.921303,
-            stop: {
-              gtfsId: 'HSL:1172553',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1174552',
-            },
-          },
+          from: { name: 'Ilmala', lat: 60.207587, lon: 24.921303, stop: { gtfsId: 'HSL:1172553' } },
+          to: { stop: { gtfsId: 'HSL:1174552' } },
         },
         {
           realTime: false,
@@ -1297,14 +1011,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Pasila',
-            lat: 60.199041,
-            lon: 24.932928,
-            stop: {
-              gtfsId: 'HSL:1174552',
-            },
-          },
+          from: { name: 'Pasila', lat: 60.199041, lon: 24.932928, stop: { gtfsId: 'HSL:1174552' } },
           to: { stop: null },
         },
         {
@@ -1331,9 +1038,7 @@ export default {
     },
     passive: false,
     currentTime: 1534342037101,
-    intermediatePlaces: [
-      { address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 },
-    ],
+    intermediatePlaces: [{ address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 }],
     children: false,
   },
   transitRouteWithShortWalkAtStartBeforeIntermediatePlace: {
@@ -1357,12 +1062,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Opastinsilta 6, Helsinki',
-            lat: 60.199118,
-            lon: 24.940652,
-            stop: null,
-          },
+          from: { name: 'Opastinsilta 6, Helsinki', lat: 60.199118, lon: 24.940652, stop: null },
           to: { stop: null },
         },
         {
@@ -1383,11 +1083,7 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1174502',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1174502' } },
         },
         {
           realTime: false,
@@ -1404,24 +1100,11 @@ export default {
             shortName: 'A',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
-          from: {
-            name: 'Pasila',
-            lat: 60.199041,
-            lon: 24.932928,
-            stop: {
-              gtfsId: 'HSL:1174502',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172503',
-            },
-          },
+          from: { name: 'Pasila', lat: 60.199041, lon: 24.932928, stop: { gtfsId: 'HSL:1174502' } },
+          to: { stop: { gtfsId: 'HSL:1172503' } },
         },
         {
           realTime: false,
@@ -1435,23 +1118,14 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Ilmala',
-            lat: 60.207605,
-            lon: 24.921321,
-            stop: {
-              gtfsId: 'HSL:1172503',
-            },
-          },
+          from: { name: 'Ilmala', lat: 60.207605, lon: 24.921321, stop: { gtfsId: 'HSL:1172503' } },
           to: { stop: null },
         },
       ],
     },
     passive: false,
     currentTime: 1534342392930,
-    intermediatePlaces: [
-      { address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 },
-    ],
+    intermediatePlaces: [{ address: 'Opastinsilta 7, Helsinki', lat: 60.19948, lon: 24.939067 }],
     children: false,
   },
   transitRouteWithIntermediatePlaceAtStop: {
@@ -1481,11 +1155,7 @@ export default {
             lon: 24.917185306549076,
             stop: null,
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172144',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1172144' } },
         },
         {
           realTime: true,
@@ -1502,24 +1172,11 @@ export default {
             shortName: '50',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
-          from: {
-            name: 'Posti 1',
-            lat: 60.21287,
-            lon: 24.91677,
-            stop: {
-              gtfsId: 'HSL:1172144',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
-          },
+          from: { name: 'Posti 1', lat: 60.21287, lon: 24.91677, stop: { gtfsId: 'HSL:1172144' } },
+          to: { stop: { gtfsId: 'HSL:1172142' } },
         },
         {
           realTime: true,
@@ -1536,25 +1193,17 @@ export default {
             shortName: '50',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
           from: {
             name: 'Ilmalan bussivarikko',
             lat: 60.21009,
             lon: 24.91752,
-            stop: {
-              gtfsId: 'HSL:1172142',
-            },
+            stop: { gtfsId: 'HSL:1172142' },
             viaLocationType: 'PASS_THROUGH',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1174102',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1174102' } },
         },
         {
           realTime: false,
@@ -1572,9 +1221,7 @@ export default {
             name: 'Ilmalan seisake',
             lat: 60.20796,
             lon: 24.92078,
-            stop: {
-              gtfsId: 'HSL:1174102',
-            },
+            stop: { gtfsId: 'HSL:1174102' },
           },
           to: { stop: null },
         },
@@ -1613,12 +1260,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Opastinsilta 5, Helsinki',
-            lat: 60.199647,
-            lon: 24.940299,
-            stop: null,
-          },
+          from: { name: 'Opastinsilta 5, Helsinki', lat: 60.199647, lon: 24.940299, stop: null },
           to: { stop: null },
         },
         {
@@ -1639,11 +1281,7 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1173125',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1173125' } },
         },
         {
           realTime: true,
@@ -1660,24 +1298,16 @@ export default {
             shortName: '50',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
           from: {
             name: 'Pasilan asema',
             lat: 60.198537,
             lon: 24.937137,
-            stop: {
-              gtfsId: 'HSL:1173125',
-            },
+            stop: { gtfsId: 'HSL:1173125' },
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1174101',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1174101' } },
         },
         {
           realTime: false,
@@ -1695,9 +1325,7 @@ export default {
             name: 'Ilmalan seisake',
             lat: 60.208023,
             lon: 24.921068,
-            stop: {
-              gtfsId: 'HSL:1174101',
-            },
+            stop: { gtfsId: 'HSL:1174101' },
           },
           to: { stop: null },
         },
@@ -1719,11 +1347,7 @@ export default {
             stop: null,
             viaLocationType: 'VISIT',
           },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1172553',
-            },
-          },
+          to: { stop: { gtfsId: 'HSL:1172553' } },
         },
         {
           realTime: true,
@@ -1740,24 +1364,11 @@ export default {
             shortName: 'I',
             color: null,
             alerts: [],
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
           },
           trip: null,
-          from: {
-            name: 'Ilmala',
-            lat: 60.207587,
-            lon: 24.921303,
-            stop: {
-              gtfsId: 'HSL:1172553',
-            },
-          },
-          to: {
-            stop: {
-              gtfsId: 'HSL:1174552',
-            },
-          },
+          from: { name: 'Ilmala', lat: 60.207587, lon: 24.921303, stop: { gtfsId: 'HSL:1172553' } },
+          to: { stop: { gtfsId: 'HSL:1174552' } },
         },
         {
           realTime: false,
@@ -1771,14 +1382,7 @@ export default {
           intermediatePlace: false,
           route: null,
           trip: null,
-          from: {
-            name: 'Pasila',
-            lat: 60.199041,
-            lon: 24.932928,
-            stop: {
-              gtfsId: 'HSL:1174552',
-            },
-          },
+          from: { name: 'Pasila', lat: 60.199041, lon: 24.932928, stop: { gtfsId: 'HSL:1174552' } },
           to: { stop: null },
         },
         {

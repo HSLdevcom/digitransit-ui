@@ -3,16 +3,10 @@ import { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 
-import {
-  mapLayerOptionsShape,
-  mapLayerShape,
-} from '../../../utils/client/shapes';
+import { mapLayerOptionsShape, mapLayerShape } from '../../../utils/client/shapes';
 import Checkbox from '../Checkbox';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import {
-  getTransportModes,
-  showRentalVehiclesOfType,
-} from '../../../utils/client/modeUtils';
+import { getTransportModes, showRentalVehiclesOfType } from '../../../utils/client/modeUtils';
 import { TransportMode } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
@@ -20,30 +14,17 @@ import { useMapLayers } from '../../hooks/MapLayerContext';
 
 const sendLayerChangeAnalytic = (name, enable) => {
   const action = enable ? 'ShowMapLayer' : 'HideMapLayer';
-  addAnalyticsEvent({
-    category: 'Map',
-    action,
-    name,
-  });
+  addAnalyticsEvent({ category: 'Map', action, name });
 };
 
-export default function MapLayersDialogContent({
-  mapLayers,
-  mapLayerOptions,
-  setOpen,
-}) {
+export default function MapLayersDialogContent({ mapLayers, mapLayerOptions, setOpen }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { updateMapLayers } = useMapLayers();
   const geoJson = useGeoJsonObjects(config.geoJson);
   const transportModes = getTransportModes(config);
 
-  const arr = geoJson
-    ? Object.entries(geoJson).map(([k, v]) => ({
-        url: k,
-        ...v,
-      }))
-    : undefined;
+  const arr = geoJson ? Object.entries(geoJson).map(([k, v]) => ({ url: k, ...v })) : undefined;
 
   const isTransportModeEnabled = transportMode =>
     transportMode && transportMode.availableForSelection;
@@ -63,8 +44,7 @@ export default function MapLayersDialogContent({
             checked={
               !mapLayerOptions
                 ? mapLayers.vehicles
-                : !!mapLayerOptions?.vehicles?.isLocked &&
-                  !!mapLayerOptions?.vehicles?.isSelected
+                : !!mapLayerOptions?.vehicles?.isLocked && !!mapLayerOptions?.vehicles?.isSelected
             }
             disabled={!!mapLayerOptions?.vehicles?.isLocked}
             defaultMessage="Moving vehicles"
