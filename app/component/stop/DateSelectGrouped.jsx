@@ -27,7 +27,7 @@ function DateSelectGrouped({ selectedDay, dates, onDateChange }) {
       processedDates: options,
       today: now,
     };
-  }, [dates, locale]);
+  }, [dates]);
 
   const selectedOption = useMemo(() => {
     const selectedValue = selectedDay?.isValid
@@ -43,7 +43,7 @@ function DateSelectGrouped({ selectedDay, dates, onDateChange }) {
       return processDates([selectedDay], today, intl)[0];
     }
     return processedDates[0];
-  }, [processedDates, today, selectedDay, intl]);
+  }, [processedDates, today, selectedDay]);
 
   const id = 'route-schedule-grouped-datepicker';
 
