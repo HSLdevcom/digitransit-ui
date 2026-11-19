@@ -205,6 +205,18 @@
       position: relative;
     }
   }
+
+  // same inverted highlight as the design system select
+  .route-schedule__option--is-focused,
+  .route-schedule__option:active {
+    background-color: var(--color-surface-accent, #0074bf);
+    color: var(--color-text-invert, #fff);
+    border-radius: var(--radius-s, 4px);
+
+    .icon-container {
+      color: var(--color-icon-invert, #fff);
+    }
+  }
 }
 
 .combobox-label {
