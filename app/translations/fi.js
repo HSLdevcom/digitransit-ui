@@ -610,6 +610,7 @@ export default {
     'route-page.special-routes': 'Muut reitit',
     'route-page.title': 'Linja {shortName}',
     'route-page.title-short': 'Linja',
+    'route-page.trip-sr': 'Lähtee {departure}, saapuu {arrival}',
     'route-pattern-select-tooltip': 'Näytä reitit',
     'route-pattern-swap-tooltip': 'Vaihda suunta',
     'route-to-ferry': 'Reitti laiturille',

@@ -198,7 +198,6 @@ export default function ScheduleContainer({
       >
         <div className="route-schedule-grouped-date-select">
           <DateSelectGrouped
-            dateFormat={DATE_FORMAT}
             selectedDay={wantedDay}
             dates={availableDates}
             onDateChange={changeDate}

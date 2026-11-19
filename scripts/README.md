@@ -80,29 +80,17 @@ in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `packages/check-versions.js`
+## Using `packages/check-changesets.js`
 
-Runs two checks against the packages (`digitransit-component`,
-`digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
-pull requests.
-
-1. **Internal reference protocol.** Every `@digitransit-*` `dependencies`/`peerDependencies`
-   entry that points at another package must be declared as exactly `"workspace:^"`.
-   `lerna version` only rewrites/cascades an internal cross-reference (and `yarn` only links the
-   local copy instead of pulling a stale published one) when it uses the `workspace:` protocol; a
-   plain semver pin is silently left behind on version bumps. `lerna publish` resolves
-   `"workspace:^"` to `"^<version>"` in the published tarball, so consumers outside the monorepo
-   are unaffected. This check always runs, regardless of `BASE_SHA`.
-
-2. **Version bumps.** Fails if a package changed since a given base commit but its
-   `package.json` `version` wasn't bumped accordingly (or was bumped in the wrong direction).
-   `lerna publish from-package` only republishes a package when its committed version is greater
-   than what's already on npm, so a changed-but-unbumped package would otherwise silently never
-   get published. This check runs only when `BASE_SHA` is set. Run `yarn bump-versions-workspaces`
-   (`lerna version`) to bump the changed packages and cascade bumps to their dependents.
+Fails if a package changed since the merge-base with `origin/$BASE_REF` (default `v3`) isn't
+released by a changeset, or if a package's `version` was edited by hand. Changed packages include
+their dependents, so a change to a private package such as the schema or `rollup-config` needs
+changesets for the packages that depend on it. Packages Changesets bumps automatically count as
+released. Only committed changes are seen. CI runs it on pull requests (the `check-changesets`
+job), except on the "Version packages" PR. See "Publishing" in `docs/Packages.md`.
 
 ```
-BASE_SHA=<git ref> yarn packages-version-check
+yarn packages-changeset-check
 ```
 
 ## Using `packages/check-dependencies.js`
@@ -120,6 +108,8 @@ documented in `docs/Packages.md` ("Dependency Classification"):
 5. Every non-`workspace:` peer is exactly `^<version the root package.json's dependencies
    declare>`.
 6. `@hsl-fi/*` packages are peers (`@hsl-fi/hooks` is the one allowed exception).
+7. Every reference to another package in this repo (dependencies, peers or devDependencies,
+   private packages included) is exactly `workspace:^`.
 
 ```
 yarn packages-dependencies-check
