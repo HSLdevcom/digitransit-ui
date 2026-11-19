@@ -21,13 +21,7 @@ function setUpOpenId(app) {
   }
   app.use(express.json());
   app.use(express.urlencoded({ extended: false }));
-  app.use(
-    helmet({
-      contentSecurityPolicy: false,
-      referrerPolicy: false,
-      expectCt: false,
-    }),
-  );
+  app.use(helmet({ contentSecurityPolicy: false, referrerPolicy: false, expectCt: false }));
   return setUpOIDC(app, PORT, indexPath, hostnames);
 }
 

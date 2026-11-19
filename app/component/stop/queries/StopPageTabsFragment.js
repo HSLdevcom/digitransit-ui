@@ -28,9 +28,7 @@ export const StopPageTabsFragment = graphql`
         alertHash
       }
     }
-    canceledCalls(
-      timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
-    ) {
+    canceledCalls(timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]) {
       tripOnServiceDate {
         serviceDate
         trip {

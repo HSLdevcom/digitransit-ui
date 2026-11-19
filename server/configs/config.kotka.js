@@ -14,37 +14,17 @@ export default configMerger(walttiConfig, {
     name: 'Kotkan seudun joukkoliikenne',
     href: 'https://jonnejaminne.fi/',
     altLink: {
-      sv: {
-        name: 'Kotka regiontrafik',
-        href: 'https://jonnejaminne.fi/sv/',
-      },
-      en: {
-        name: 'Kotka region traffic',
-        href: 'https://jonnejaminne.fi/en/',
-      },
+      sv: { name: 'Kotka regiontrafik', href: 'https://jonnejaminne.fi/sv/' },
+      en: { name: 'Kotka region traffic', href: 'https://jonnejaminne.fi/en/' },
     },
   },
 
-  colors: {
-    primary: '#0001FF',
-    bus: '#0001FF',
-  },
+  colors: { primary: '#0001FF', bus: '#0001FF' },
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    citybike: {
-      availableForSelection: true,
-    },
-    ferry: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
+    citybike: { availableForSelection: true },
+    ferry: { availableForSelection: true, defaultValue: true },
+    rail: { availableForSelection: true, defaultValue: true },
   },
 
   nearYouModes: ['bus', 'ferry', 'citybike', 'rail'],
@@ -53,10 +33,7 @@ export default configMerger(walttiConfig, {
     networks: {
       donkey_kotka: {
         enabled: true,
-        season: {
-          start: '28.4',
-          end: '31.10',
-        },
+        season: { start: '28.4', end: '31.10' },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
         name: {
@@ -88,10 +65,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  socialMedia: {
-    title: APP_TITLE,
-    description: APP_DESCRIPTION,
-  },
+  socialMedia: { title: APP_TITLE, description: APP_DESCRIPTION },
 
   title: APP_TITLE,
 
@@ -112,19 +86,12 @@ export default configMerger(walttiConfig, {
     [26.422, 60.688],
   ],
 
-  defaultEndpoint: {
-    address: 'Kotkan kauppatori',
-    lat: 60.467348,
-    lon: 26.945758,
-  },
+  defaultEndpoint: { address: 'Kotkan kauppatori', lat: 60.467348, lon: 26.945758 },
 
   menu: {
     copyright: { label: `© Kotka ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -164,31 +131,17 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B' },
+  zones: { stops: true, itinerary: true },
 
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/kotka/zone_lines_20250114.geojson',
       },
       {
-        name: {
-          fi: 'Myyntipisteet',
-          sv: 'Servicekontorer',
-          en: 'Service points',
-        },
+        name: { fi: 'Myyntipisteet', sv: 'Servicekontorer', en: 'Service points' },
         url: `${CDN_URL}/waltti-assets/v1/salespoints/salespoints_kotka.json`,
       },
     ],

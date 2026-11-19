@@ -27,9 +27,7 @@ export default function FavouriteForm({
   const current = { ...favourite, ...edits };
 
   const canSave =
-    !!current.selectedIconId &&
-    Number.isFinite(current.lat) &&
-    Number.isFinite(current.lon);
+    !!current.selectedIconId && Number.isFinite(current.lat) && Number.isFinite(current.lon);
 
   const specifyName = event => {
     const { value } = event.target;
@@ -37,10 +35,7 @@ export default function FavouriteForm({
   };
 
   const selectIcon = iconName => {
-    setEdits(previous => ({
-      ...previous,
-      selectedIconId: toFavouriteIconId(iconName),
-    }));
+    setEdits(previous => ({ ...previous, selectedIconId: toFavouriteIconId(iconName) }));
   };
 
   const save = () => {
@@ -48,11 +43,7 @@ export default function FavouriteForm({
       return;
     }
     const { defaultName, ...rest } = current;
-    saveFavourite({
-      ...rest,
-      name: current.name || defaultName,
-      type: 'place',
-    });
+    saveFavourite({ ...rest, name: current.name || defaultName, type: 'place' });
     if (isEdit) {
       cancelSelected();
     } else {
@@ -77,9 +68,7 @@ export default function FavouriteForm({
       <fieldset className={styles.iconFieldset}>
         <legend className={styles.legend}>
           {t('choose-icon', { lng: lang })}
-          <span className={styles.srOnly}>
-            {t('required-text', { lng: lang })}
-          </span>
+          <span className={styles.srOnly}>{t('required-text', { lng: lang })}</span>
         </legend>
         <FavouriteIconTable
           selectedIconId={current.selectedIconId}
@@ -94,20 +83,13 @@ export default function FavouriteForm({
           expand
           disabled={!canSave}
           aria-label={
-            canSave
-              ? t('save-place', { lng: lang })
-              : t('cannot-save-place', { lng: lang })
+            canSave ? t('save-place', { lng: lang }) : t('cannot-save-place', { lng: lang })
           }
           onClick={save}
         >
           {t('save', { lng: lang })}
         </Button>
-        <Button
-          variant="secondary"
-          size="l"
-          expand
-          onClick={isEdit ? cancelSelected : handleClose}
-        >
+        <Button variant="secondary" size="l" expand onClick={isEdit ? cancelSelected : handleClose}>
           {t('cancel', { lng: lang })}
         </Button>
       </div>

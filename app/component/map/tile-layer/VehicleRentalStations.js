@@ -38,10 +38,8 @@ export default class VehicleRentalStations {
     this.config = config;
     this.relayEnvironment = relayEnvironment;
     this.scaleratio = window.devicePixelRatio || 1;
-    this.citybikeImageSize =
-      20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
-    this.availabilityImageSize =
-      14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
+    this.citybikeImageSize = 20 * this.scaleratio * getMapIconScale(this.tile.coords.z);
+    this.availabilityImageSize = 14 * this.scaleratio * getMapIconScale(this.tile.coords.z);
     this.timeOfLastFetch = undefined;
     this.canHaveStationUpdates = true;
   }
@@ -49,8 +47,7 @@ export default class VehicleRentalStations {
   getPromise = lang => this.fetchAndDraw(lang);
 
   fetchAndDraw = lang => {
-    const zoomedIn =
-      this.tile.coords.z > this.config.vehicleRental.cityBikeSmallIconZoom;
+    const zoomedIn = this.tile.coords.z > this.config.vehicleRental.cityBikeSmallIconZoom;
     const baseUrl = zoomedIn
       ? getLayerBaseUrl(this.config.URL.REALTIME_RENTAL_STATION_MAP, lang)
       : getLayerBaseUrl(this.config.URL.RENTAL_STATION_MAP, lang);
@@ -70,8 +67,7 @@ export default class VehicleRentalStations {
 
             this.features = [];
 
-            const layer =
-              vt.layers.rentalStations || vt.layers.realtimeRentalStations;
+            const layer = vt.layers.rentalStations || vt.layers.realtimeRentalStations;
 
             if (layer) {
               for (let i = 0, ref = layer.length - 1; i <= ref; i++) {
@@ -79,12 +75,7 @@ export default class VehicleRentalStations {
                 [[feature.geom]] = feature.loadGeometry();
                 // Must filter out stations that are not shown as there can be a large amount
                 // of invisible rental stations, which are often accidentally clicked
-                if (
-                  this.shouldShowStation(
-                    feature.properties.id,
-                    feature.properties.network,
-                  )
-                ) {
+                if (this.shouldShowStation(feature.properties.id, feature.properties.network)) {
                   this.features.push(pick(feature, ['geom', 'properties']));
                 }
               }
@@ -98,9 +89,7 @@ export default class VehicleRentalStations {
             // this value will be later reset to true
             this.canHaveStationUpdates = zoomedIn;
             // Await promises to ensure that the highlighted stops are always drawn on top.
-            const drawPromises = this.features.map(feature =>
-              this.draw(feature, zoomedIn),
-            );
+            const drawPromises = this.features.map(feature => this.draw(feature, zoomedIn));
             return Promise.all(drawPromises.filter(Boolean));
           },
           err => console.log(err), // eslint-disable-line no-console
@@ -115,9 +104,7 @@ export default class VehicleRentalStations {
   draw = (feature, zoomedIn) => {
     const { id, network, formFactors, operative } = feature.properties;
     const isHighlighted = this.tile.highlightedStops?.includes(id);
-    let name = getRentalNetworkIcon(
-      getRentalNetworkConfig(network, this.config),
-    );
+    let name = getRentalNetworkIcon(getRentalNetworkConfig(network, this.config));
     let color;
     if (formFactors === 'SCOOTER') {
       color = this.config.colors.scooter;
@@ -163,11 +150,7 @@ export default class VehicleRentalStations {
     );
   };
 
-  drawHighlighted = (
-    { geom, properties: { id, network } },
-    iconName,
-    color,
-  ) => {
+  drawHighlighted = ({ geom, properties: { id, network } }, iconName, color) => {
     const citybikeCapacity = getVehicleCapacity(this.config, network);
     const callback = ({ station: result }) => {
       if (result) {
@@ -185,17 +168,14 @@ export default class VehicleRentalStations {
       return this;
     };
 
-    fetchQuery(this.relayEnvironment, query, { id }, { force: true })
-      .toPromise()
-      .then(callback);
+    fetchQuery(this.relayEnvironment, query, { id }, { force: true }).toPromise().then(callback);
   };
 
   onTimeChange = lang => {
     const currentTime = Date.now();
     if (
       this.canHaveStationUpdates &&
-      (!this.timeOfLastFetch ||
-        currentTime - this.timeOfLastFetch > REALTIME_REFETCH_FREQUENCY)
+      (!this.timeOfLastFetch || currentTime - this.timeOfLastFetch > REALTIME_REFETCH_FREQUENCY)
     ) {
       this.fetchAndDraw(lang);
     }
@@ -203,15 +183,11 @@ export default class VehicleRentalStations {
 
   shouldShowStation = (id, network) =>
     this.config.vehicleRental.networks[network] &&
-    (this.config.vehicleRental.networks[network].showRentalStations ===
-      undefined ||
+    (this.config.vehicleRental.networks[network].showRentalStations === undefined ||
       this.config.vehicleRental.networks[network].showRentalStations) &&
     (!this.tile.stopsToShow || this.tile.stopsToShow.includes(id)) &&
     !this.tile.objectsToHide.vehicleRentalStations.includes(id) &&
-    showCitybikeNetwork(
-      this.config.vehicleRental.networks[network],
-      this.config,
-    );
+    showCitybikeNetwork(this.config.vehicleRental.networks[network], this.config);
 
   static getName = () => 'citybike';
 }

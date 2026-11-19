@@ -115,10 +115,7 @@ export default function Datetimepicker({
     }
     const newId = setInterval(() => {
       const now = DateTime.now();
-      const sameMinute = DateTime.fromMillis(displayTimestamp).hasSame(
-        now,
-        'minute',
-      );
+      const sameMinute = DateTime.fromMillis(displayTimestamp).hasSame(now, 'minute');
       if (!sameMinute) {
         clearInterval(newId);
         setTimer(null);
@@ -156,9 +153,7 @@ export default function Datetimepicker({
 
   // compute choices only when timestamp changes instead of every render
   const [timeChoices, dateChoices] = useMemo(() => {
-    const selectedMoment = DateTime.fromMillis(
-      timestamp || DateTime.now().toMillis(),
-    );
+    const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
     const timeSelectStartTime = selectedMoment.startOf('day').toMillis();
     const isMobileCurrently = isMobile();
     let newTimeChoices = [];
@@ -175,8 +170,7 @@ export default function Datetimepicker({
       // if time is set to now
       // add times in 5 min intervals for next 30 mins
       const fiveMinutes = 1000 * 60 * 5;
-      const nextFiveMin =
-        Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
+      const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
       const timesToAdd = Array(7)
         .fill()
         .map((_, i) => nextFiveMin + i * fiveMinutes);
@@ -186,10 +180,9 @@ export default function Datetimepicker({
       newTimeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
       newTimeChoices = Array.from(new Set(newTimeChoices)); // remove duplicates
     }
-    const dateSelectStartTime = DateTime.now().startOf('day').set({
-      hour: selectedMoment.hour,
-      minute: selectedMoment.minute,
-    });
+    const dateSelectStartTime = DateTime.now()
+      .startOf('day')
+      .set({ hour: selectedMoment.hour, minute: selectedMoment.minute });
     const newDateChoices = Array(serviceTimeRange)
       .fill()
       .map((_, i) => dateSelectStartTime.plus({ days: i }).toMillis());
@@ -280,9 +273,7 @@ export default function Datetimepicker({
     return (
       <>
         <div
-          className={`${styles['datetimepicker-open-container']} ${
-            !isOpen ? styles.hidden : ''
-          }`}
+          className={`${styles['datetimepicker-open-container']} ${!isOpen ? styles.hidden : ''}`}
         >
           <div
             className={
@@ -317,11 +308,7 @@ export default function Datetimepicker({
               <label
                 htmlFor={`${htmlId}-departure`}
                 className={`${styles['radio-textbutton-label']}
-                ${
-                  styles[
-                    departureOrArrival === 'departure' ? 'active' : undefined
-                  ]
-                }`}
+                ${styles[departureOrArrival === 'departure' ? 'active' : undefined]}`}
               >
                 {t('departure', translationSettings)}
                 <input
@@ -339,11 +326,7 @@ export default function Datetimepicker({
               <label
                 htmlFor={`${htmlId}-arrival`}
                 className={`${styles['radio-textbutton-label']}
-                ${
-                  styles[
-                    departureOrArrival === 'arrival' ? 'active' : undefined
-                  ]
-                }`}
+                ${styles[departureOrArrival === 'arrival' ? 'active' : undefined]}`}
               >
                 {t('arrival', translationSettings)}
                 <input
@@ -369,18 +352,13 @@ export default function Datetimepicker({
             >
               {t('departure-now', translationSettings)}
             </button>
-            <span
-              id={`${htmlId}-now-description`}
-              className={styles['sr-only']}
-            >
+            <span id={`${htmlId}-now-description`} className={styles['sr-only']}>
               {t('accessible-departure-now', translationSettings)}
             </span>
           </div>
           <div
             className={
-              isOpen
-                ? `${styles['picker-container']}`
-                : `${styles.hidden} datetimepicker-top-row`
+              isOpen ? `${styles['picker-container']}` : `${styles.hidden} datetimepicker-top-row`
             }
           >
             <span className={styles['combobox-left']}>
@@ -393,9 +371,7 @@ export default function Datetimepicker({
                 timeChoices={dateChoices}
                 validate={() => null}
                 icon={
-                  <span
-                    className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
-                  >
+                  <span className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}>
                     <Icon img="calendar" color={color} />
                   </span>
                 }
@@ -415,9 +391,7 @@ export default function Datetimepicker({
                 getDisplay={getTimeDisplay}
                 timeChoices={timeChoices}
                 icon={
-                  <span
-                    className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-                  >
+                  <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
                     <Icon img="time" color={color} />
                   </span>
                 }
@@ -444,10 +418,7 @@ export default function Datetimepicker({
       departureOrArrival === 'departure' ? 'departure' : 'arrival',
       translationSettings,
     );
-    const isToday = DateTime.now().hasSame(
-      DateTime.fromMillis(displayTimestamp),
-      'day',
-    );
+    const isToday = DateTime.now().hasSame(DateTime.fromMillis(displayTimestamp), 'day');
     const isTomorrow = DateTime.now()
       .plus({ days: 1 })
       .hasSame(DateTime.fromMillis(displayTimestamp), 'day');
@@ -466,13 +437,9 @@ export default function Datetimepicker({
     <fieldset
       className={styles['dt-datetimepicker']}
       id={`${htmlId}-root`}
-      style={{
-        '--color': `${color}`,
-      }}
+      style={{ '--color': `${color}` }}
     >
-      <legend className={styles['sr-only']}>
-        {t('accessible-title', translationSettings)}
-      </legend>
+      <legend className={styles['sr-only']}>{t('accessible-title', translationSettings)}</legend>
       {showUpdateInstructions && (
         <span className={styles['sr-only']}>
           {t('accessible-update-instructions', translationSettings)}

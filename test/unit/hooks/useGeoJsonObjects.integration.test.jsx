@@ -24,21 +24,11 @@ describe('useGeoJsonObjects', () => {
   it('loads configured remote layers', async () => {
     const configUrl = 'https://localhost/layers';
     const dataUrl = 'https://localhost/layer-remote.geojson';
-    fetchMock.get(configUrl, {
-      geoJson: {
-        layers: [{ name: 'Test layer', url: dataUrl }],
-      },
-    });
-    fetchMock.get(dataUrl, {
-      type: 'FeatureCollection',
-      features: [],
-    });
+    fetchMock.get(configUrl, { geoJson: { layers: [{ name: 'Test layer', url: dataUrl }] } });
+    fetchMock.get(dataUrl, { type: 'FeatureCollection', features: [] });
 
     const { findByText } = renderWithProviders(<GeoJsonConsumer />, {
-      config: {
-        ...mockContext.config,
-        geoJson: { layerConfigUrl: configUrl },
-      },
+      config: { ...mockContext.config, geoJson: { layerConfigUrl: configUrl } },
     });
 
     expect(await findByText(/Test layer/)).toBeTruthy();
@@ -48,23 +38,12 @@ describe('useGeoJsonObjects', () => {
   it('reuses cached layer data after a consumer remounts', async () => {
     const dataUrl = 'https://localhost/layer-cache.geojson';
     fetchMock.get(dataUrl, { type: 'FeatureCollection', features: [] });
-    const { findByText, rerender } = renderWithProviders(
-      <GeoJsonConsumer key="map" />,
-      {
-        config: {
-          ...mockContext.config,
-          geoJson: {
-            layers: [
-              {
-                name: 'Test layer',
-                url: dataUrl,
-                isOffByDefault: true,
-              },
-            ],
-          },
-        },
+    const { findByText, rerender } = renderWithProviders(<GeoJsonConsumer key="map" />, {
+      config: {
+        ...mockContext.config,
+        geoJson: { layers: [{ name: 'Test layer', url: dataUrl, isOffByDefault: true }] },
       },
-    );
+    });
 
     expect(await findByText(/"isOffByDefault":true/)).toBeTruthy();
     rerender(<GeoJsonConsumer key="dialog" />);

@@ -9,8 +9,7 @@ export default {
     'accessibility-limited': 'Wózek inwalidzki',
     'accessibility-nolimit': 'Bez ograniczeń',
     'accessibility-statement': 'Oświadczenie ws. dostępności',
-    'add-favourite-bikeStation-failed-heading':
-      'Nie udało się zapisać stacji roweru miejskiego',
+    'add-favourite-bikeStation-failed-heading': 'Nie udało się zapisać stacji roweru miejskiego',
     'add-favourite-place-failed-heading': 'Nie udało się zapisać miejsca',
     'add-favourite-route-failed-heading': 'Nie udało się zapisać trasy',
     'add-favourite-station-failed-heading': 'Nie udało się zapisać stacji.',
@@ -21,10 +20,8 @@ export default {
     'add-to-favourites': 'Dodaj do ulubionych',
     'add-via-button-label': 'Dodaj punkt pośredni',
     'add-via-duration-button-label': 'Wybierz czas postoju dla punktu {index}',
-    'add-via-duration-button-label-close':
-      'Zamknij wybornik czasu postoju w punkcie {index}',
-    'add-via-duration-button-label-open':
-      'Otwórz wybornik czasu postoju w punkcie {index}',
+    'add-via-duration-button-label-close': 'Zamknij wybornik czasu postoju w punkcie {index}',
+    'add-via-duration-button-label-open': 'Otwórz wybornik czasu postoju w punkcie {index}',
     'add-work': 'Dodaj pracę',
     address: 'Adres',
     'address-or-stop': 'Adres lub przystanek',
@@ -33,8 +30,7 @@ export default {
     'airport-check-in':
       'Check-in immediately upon arrival if you have not completed check-in in advance',
     'airport-collect-luggage': 'Odbierz swój bagaż',
-    'airport-security-check-go-to-gate':
-      'Proceed to your gate through security check',
+    'airport-security-check-go-to-gate': 'Proceed to your gate through security check',
     all: 'Wszystkie',
     'all-routes': 'Wszystkie trasy',
     'all-routes-disabled': 'Brak tras',
@@ -43,12 +39,9 @@ export default {
     'alternative-name-rail': 'Pociąg',
     'aria-itinerary-summary':
       'Łączny czas podróży — {duration}. Odjazd o {inFuture} {departureTime} i przyjazd o {arrivalTime}',
-    'aria-itinerary-summary-bike-distance':
-      'Łącznie {duration} rowerem, {distance} ',
-    'aria-itinerary-summary-car-distance':
-      'Łącznie {duration} jazdy, {distance} ',
-    'aria-itinerary-summary-walk-distance':
-      'Łącznie {duration} pieszo, {distance} ',
+    'aria-itinerary-summary-bike-distance': 'Łącznie {duration} rowerem, {distance} ',
+    'aria-itinerary-summary-car-distance': 'Łącznie {duration} jazdy, {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Łącznie {duration} pieszo, {distance} ',
     'arriving-at': 'Arriving',
     'arriving-soon': 'Teraz',
     'as-destination': 'Cel',
@@ -62,12 +55,10 @@ export default {
     bicycle: 'Rower',
     'bicycle-walk-from-transit':
       'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
-    'bicycle-walk-from-transit-no-duration':
-      'Walk your bike off the {transportMode}',
+    'bicycle-walk-from-transit-no-duration': 'Walk your bike off the {transportMode}',
     'bicycle-walk-to-transit':
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
-    'bicycle-walk-to-transit-no-duration':
-      'Walk your bike to the {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Walk your bike to the {transportMode}',
     'bike-availability': 'Rowery nie są teraz dostępne na stacji',
     'bike-only': 'Tylko rower',
     'bike-park': '„Parkuj i Jedź” dla rowerów',
@@ -82,14 +73,12 @@ export default {
     'call-number': 'Zadzwoń {number}',
     cancel: 'Anuluj',
     canceled: 'Anulowano',
-    'capacity-modal.crushed-standing-room-only':
-      'Pozostało niewiele miejsc stojących',
+    'capacity-modal.crushed-standing-room-only': 'Pozostało niewiele miejsc stojących',
     'capacity-modal.few-seats-available': 'Niektóre miejsca są dostępne',
     'capacity-modal.heading': 'Czy w pojeździe jest miejsce?',
     'capacity-modal.legend': 'Legenda',
     'capacity-modal.many-seats-available': 'Wiele miejsc dostępnych',
-    'capacity-modal.standing-room-only':
-      'Pozostało niewiele miejsc siedzących i stojących.',
+    'capacity-modal.standing-room-only': 'Pozostało niewiele miejsc siedzących i stojących.',
     'capacity-modal.subheading':
       'Informacja o pojemności w czasie rzeczywistym jest dostępna dla niektórych pojazdów',
     car: 'Samochód',
@@ -115,8 +104,7 @@ export default {
     'citybike-network-headers': 'Rowery miejskie',
     'citybike-purchase-link': 'Kup',
     'citybike-return-full': 'Zwracasz rower miejski?',
-    'citybike-return-full-link':
-      'Jak zwrócić rower miejski, gdy stacja jest pełna ›',
+    'citybike-return-full-link': 'Jak zwrócić rower miejski, gdy stacja jest pełna ›',
     'citybike-start-using': 'Rozpocznij, używając roweru miejskiego',
     'citybike-start-using-info': 'Więcej informacji',
     'citybike-station': 'Stacja rowerowa {stationId}',
@@ -132,22 +120,19 @@ export default {
     'create-stop-monitor': 'Utwórz widok tablicy przystankowej',
     'crushed-standing-room-only': 'Crushed standing room only',
     'cycle-distance-duration': '{duration} rowerem ({distance})',
-    'cyclewalk-distance-duration':
-      'Prowadź rower przez {duration} ({distance})',
+    'cyclewalk-distance-duration': 'Prowadź rower przez {duration} ({distance})',
     date: 'Data',
     day: 'Dzień',
     delete: 'Usuń',
     'delete-favourite-failed-heading': 'Nie udało się usunąć zapisu',
     'departure-list-update.sr-instructions':
       'The list of upcoming departures and departure times will update in real time.',
-    'departure-page-sr':
-      'Informacje o podróży {shortName} {destination} {time}.',
+    'departure-page-sr': 'Informacje o podróży {shortName} {destination} {time}.',
     'departure-time-in-minutes': '{minutes} min.',
     'departure-time-sr': '{when} clock {time}, {realTime}',
     'departures-by-hour': 'Odjazdy według godziny',
     'departures-by-hour-minutes-route': '(minuty/trasa)',
-    'departures-not-found':
-      'Unfortunately, no timetable was found for the stop you selected',
+    'departures-not-found': 'Unfortunately, no timetable was found for the stop you selected',
     'departures-not-found-time-threshold':
       'Unfortunately, no timetable was found for the stop you selected. It is possible that the day you searched for is too ar in the future. Please try again nearer to the time of your journey',
     destination: 'Cel',
@@ -159,8 +144,7 @@ export default {
     disruption: 'Utrudnienie',
     'disruption-info': 'Informacja o utrudnieniach',
     'disruption-info-no-alerts': 'Brak znanych utrudnień lub objazdów.',
-    'disruption-info-route-no-alerts':
-      'Brak znanych utrudnień lub objazdów na tej trasie.',
+    'disruption-info-route-no-alerts': 'Brak znanych utrudnień lub objazdów na tej trasie.',
     disruptions: 'Utrudnienia',
     'disruptions-and-diversions': 'Utrudnienia i objazdy',
     'disruptions-tab.sr-disruptions': 'Jedno lub więcej znane utrudnienie',
@@ -169,8 +153,7 @@ export default {
     earlier: 'Wcześniejsze odjazdy',
     'embedded-search.choose-language': 'Język',
     'embedded-search.choose-mode': 'Środek transportu',
-    'embedded-search.choose-width-component':
-      'Szerokość osadzonego komponentu ',
+    'embedded-search.choose-width-component': 'Szerokość osadzonego komponentu ',
     'embedded-search.form-heading': 'Narzędzia osadzania',
     engine_ignition_aid: 'Engine starting aid',
     english: 'Angielski',
@@ -197,13 +180,10 @@ export default {
     'geolocation-denied-text':
       'Nie udzielono dostępu do geolokalizacji. Możesz wyrazić zgodę w ustawieniach telefonu lub przeglądarki.',
     'geolocation-failed-heading': 'Geolokalizacja nie powiodła się',
-    'geolocation-failed-text':
-      'Twoja przeglądarka nie obsługuje uzyskiwania lokalizacji.',
+    'geolocation-failed-text': 'Twoja przeglądarka nie obsługuje uzyskiwania lokalizacji.',
     'geolocation-prompt-text': 'Zezwól przeglądarce na wykrycie lokalizacji.',
-    'geolocation-timeout-heading':
-      'Wykrycie Twojej lokalizacji zajmuje dłużej niż zwykle.',
-    'geolocation-timeout-text':
-      'Czy zaakceptowano prośbę o dostęp do lokalizacji?',
+    'geolocation-timeout-heading': 'Wykrycie Twojej lokalizacji zajmuje dłużej niż zwykle.',
+    'geolocation-timeout-text': 'Czy zaakceptowano prośbę o dostęp do lokalizacji?',
     hour: 'Godzina',
     'include-estonia': 'Uwzględnij Estonię',
     'index.title': 'Journey Planner',
@@ -223,8 +203,7 @@ export default {
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
       'At {time} drive {distance} from {origin} to {to} {destination}. Estimated time {duration}',
-    'itinerary-details.end-leg':
-      'At {time} arrive to destination {destination}.',
+    'itinerary-details.end-leg': 'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',
     'itinerary-details.route-has-severe-alert': 'Trasa ma utrudnienia.',
     'itinerary-details.route-has-unknown-alert': 'Trasa ma utrudnienia.',
@@ -234,21 +213,18 @@ export default {
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
-    'itinerary-details.via-leg':
-      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
+    'itinerary-details.via-leg': '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
       'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-hide-alternative-legs': 'Ukryj alternatywy',
     'itinerary-hide-stops': 'Ukryj przystanki',
-    'itinerary-in-the-past':
-      'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past': 'The route search falls within a period that is in the past.',
     'itinerary-in-the-past-link': 'Wyrusz teraz ›',
     'itinerary-in-the-past-title': 'Opcje trasy nie mogą być wyświetlone',
     'itinerary-page.itineraries-loaded': 'Pobrano wyniki wyszukiwania',
     'itinerary-page.loading-itineraries': 'Pobieranie wyników wyszukiwania',
     'itinerary-page.show-details': 'Pokaż szczegóły planu podróży',
-    'itinerary-page.show-details-label':
-      'Pokaż szczegóły planu podróży {number}',
+    'itinerary-page.show-details-label': 'Pokaż szczegóły planu podróży {number}',
     'itinerary-page.title': 'Trasa podróży',
     'itinerary-summary-page.description': 'Propozycje trasy',
     'itinerary-summary-row.clickable-area-description': 'Pokaż na mapie',
@@ -261,21 +237,15 @@ export default {
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
     'itinerary-summary-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
-    'itinerary-summary-row.transfers':
-      'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
-    'itinerary-summary.bikeAndPublic-bus-title':
-      'Weź rower ze sobą do autobusu',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Weź rower ze sobą do autobusu',
     'itinerary-summary.bikeAndPublic-ferry-title': 'Weź rower ze sobą do promu',
-    'itinerary-summary.bikeAndPublic-rail-title':
-      'Weź rower ze sobą do pociągu',
-    'itinerary-summary.bikeAndPublic-subway-title':
-      'Weź rower ze sobą do metra',
-    'itinerary-summary.bikeAndPublic-tram-title':
-      'Weź rower ze sobą do tramwaju',
-    'itinerary-summary.bikePark-title':
-      'Pozostaw rower w miejscu „Parkuj i Jedź”',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Weź rower ze sobą do pociągu',
+    'itinerary-summary.bikeAndPublic-subway-title': 'Weź rower ze sobą do metra',
+    'itinerary-summary.bikeAndPublic-tram-title': 'Weź rower ze sobą do tramwaju',
+    'itinerary-summary.bikePark-title': 'Pozostaw rower w miejscu „Parkuj i Jedź”',
     'itinerary-summary.interline-wait':
       'The route number ({shortName}) and destination ({destination}) will change at the {stop} stop. Waiting time at the stop is {time}. Please wait onboard.',
     'itinerary-summary.interline-wait-multiple-legs':
@@ -286,8 +256,7 @@ export default {
     'journey-planner-manual': 'Journey planner manual',
     'language-selection': 'Język: {language}',
     later: 'Późniejsze odjazdy',
-    'leave-your-car-park-and-ride':
-      'Pozostaw swój samochód w miejscu „Parkuj i Jedź”',
+    'leave-your-car-park-and-ride': 'Pozostaw swój samochód w miejscu „Parkuj i Jedź”',
     leaves: 'Odjeżdża',
     'leaving-at': 'Odjazd o',
     lighting: 'Lighting',
@@ -354,8 +323,7 @@ export default {
     'no-more-route-msg': 'No additional itineraries were found',
     'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end': 'Wybierz punkt docelowy',
-    'no-route-found':
-      'Niestety, nie udało się odnaleźć trasy {shortName} ({longName}).',
+    'no-route-found': 'Niestety, nie udało się odnaleźć trasy {shortName} ({longName}).',
     'no-route-msg': 'Niestety, nie udało się odnaleźć propozycji trasy.',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
@@ -416,8 +384,7 @@ export default {
     'route-guide': 'Route guide',
     'route-here': 'Cel',
     'route-no-stop': 'Bez zatrzymywania się',
-    'route-page-vehicle-position':
-      '{mode} {shortName} jest na przystanku {stopName}',
+    'route-page-vehicle-position': '{mode} {shortName} jest na przystanku {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} jest między przystankiem {stopName}, a przystankiem {nextStopName}.',
     'route-page-vehicle-selected': 'Obecny wybór.',
@@ -436,16 +403,12 @@ export default {
     'route-to-stop': 'Droga do przystanku',
     'route-to-terminal': 'Droga do terminalu',
     'router-change-departure-time': 'Zmień czas wyjazdu ›',
-    'router-location-not-found':
-      'Please select location on the road network or at a stop.',
-    'router-location-not-found-title-1':
-      'There is no defined access to the destination',
-    'router-location-not-found-title-2':
-      'There is no defined access to the origin',
+    'router-location-not-found': 'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1': 'There is no defined access to the destination',
+    'router-location-not-found-title-2': 'There is no defined access to the origin',
     'router-location-not-found-title-3':
       'There is no defined access to the origin and the destination',
-    'router-only-walk':
-      'Dla wyszukiwanej trasy nie są dostępne alternatywy szybsze niż pieszo.',
+    'router-only-walk': 'Dla wyszukiwanej trasy nie są dostępne alternatywy szybsze niż pieszo.',
     'router-only-walk-title': 'Przejdź trasę pieszo',
     'router-outside-bounds-3':
       'Nie znaleziono sugestii, ponieważ punkt początkowy i docelowy jest poza obszarem usługi.',
@@ -464,8 +427,7 @@ export default {
     routes: 'Trasy',
     'scooter-availability': 'Hulajnogi dostępne teraz na stacji',
     'scooter-distance-duration': 'Przejedź hulajnogą {duration} ({distance})',
-    'scooterwalk-distance-duration':
-      'Przejdź z hulajnogą {duration} ({distance})',
+    'scooterwalk-distance-duration': 'Przejdź z hulajnogą {duration} ({distance})',
     'search-current-suggestion': 'Obecny wybór: {selection}',
     'search-fields.sr-instructions':
       'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
@@ -479,8 +441,7 @@ export default {
     'select-map-layers-header': 'Pokazuj na mapie',
     'select-route': 'Select {mode} route {shortName} to {headsign}',
     'selected-routes': 'Wybrane linie',
-    'separate-ticket-required':
-      'Osobny bilet jest wymagany dla tej części podróży.',
+    'separate-ticket-required': 'Osobny bilet jest wymagany dla tej części podróży.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
@@ -509,8 +470,7 @@ export default {
     stop: 'Przystanek',
     'stop-departure-time-future': 'Departure time is in {minutes} minutes',
     'stop-departure-time-past': 'Departure time was',
-    'stop-list-update.sr-instructions':
-      'Departure times for each stop will update in real time.',
+    'stop-list-update.sr-instructions': 'Departure times for each stop will update in real time.',
     'stop-near-you': 'Szukaj przystanków i tras w pobliżu',
     'stop-near-you-modal-grant-permission': 'lub włącz usługi lokalizacji',
     'stop-near-you-modal-grant-permission-info':
@@ -527,16 +487,13 @@ export default {
     stops: 'Przystanki',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Rozkłady jazdy na przystankach w okolicy',
-    'street-mode-bike-aria':
-      'Show cycle route. Duration {duration}, distance {length}',
+    'street-mode-bike-aria': 'Show cycle route. Duration {duration}, distance {length}',
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
-    'street-mode-car-aria':
-      'Show driving route. Duration {duration}, distance {length}',
+    'street-mode-car-aria': 'Show driving route. Duration {duration}, distance {length}',
     'street-mode-parkandride-aria':
       'Show park and ride route. Duration {duration}, driving distance {length}',
-    'street-mode-walk-aria':
-      'Show walking route. Duration {duration}, distance {length}',
+    'street-mode-walk-aria': 'Show walking route. Duration {duration}, distance {length}',
     subway: 'Metro',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Propozycja trasy {number}',
@@ -575,8 +532,7 @@ export default {
     'trip-information': 'Informacje o podróży',
     'try-again': 'Spróbuj ponownie',
     'use-national-service-postfix': '.',
-    'use-national-service-prefix':
-      'Polecamy spróbować korzystania z krajowego planera podróży, ',
+    'use-national-service-prefix': 'Polecamy spróbować korzystania z krajowego planera podróży, ',
     'use-own-position': 'Użyj bieżącej lokalizacji',
     userinfo: 'Moje informacje',
     usermenu: 'Menu użytkownika',
@@ -588,17 +544,13 @@ export default {
     walk: 'walking',
     'walk-bike-itinerary-1': 'Your search returned only walking routes.',
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
-    'walk-bike-itinerary-3':
-      'Your search returned only walking and cycling routes.',
-    'walk-bike-itinerary-4':
-      'Your search only returned routes requiring cycling or driving.',
+    'walk-bike-itinerary-3': 'Your search returned only walking and cycling routes.',
+    'walk-bike-itinerary-4': 'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Idź pieszo {duration} ({distance})',
     'walk-only': 'Tylko pieszo',
     'walking-speed': 'Prędkość chodu',
-    'warning-call-agency':
-      'Only on demand: {routeName}, which needs to be booked in advance.',
-    'warning-call-agency-no-route':
-      'Only on demand. Needs to be booked in advance.',
+    'warning-call-agency': 'Only on demand: {routeName}, which needs to be booked in advance.',
+    'warning-call-agency-no-route': 'Only on demand. Needs to be booked in advance.',
     weather: 'Pogoda',
     'weather-data-source': 'Źródło: Fiński Instytut Meteorologiczny',
     'weather-detail-title': 'Prognoza pogody dla miejsca początkowego o ',

@@ -10,11 +10,7 @@ export default function DisruptionInfoButtonContainer({ onClick = () => {} }) {
   const { feedIds } = useConfigContext();
   const { environment } = useContext(ReactRelayContext);
   const openDisruptionInfo = () => {
-    addAnalyticsEvent({
-      category: 'Navigation',
-      action: 'OpenDisruptions',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Navigation', action: 'OpenDisruptions', name: null });
     onClick();
   };
 
@@ -31,16 +27,10 @@ export default function DisruptionInfoButtonContainer({ onClick = () => {} }) {
       variables={{ feedIds }}
       environment={environment}
       render={({ props }) => (
-        <DisruptionInfoButton
-          viewer={null}
-          {...props}
-          openDisruptionInfo={openDisruptionInfo}
-        />
+        <DisruptionInfoButton viewer={null} {...props} openDisruptionInfo={openDisruptionInfo} />
       )}
     />
   );
 }
 
-DisruptionInfoButtonContainer.propTypes = {
-  onClick: PropTypes.func,
-};
+DisruptionInfoButtonContainer.propTypes = { onClick: PropTypes.func };

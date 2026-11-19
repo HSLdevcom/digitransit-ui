@@ -23,10 +23,7 @@ import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
 import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import {
-  getTransportModes,
-  getNearYouModes,
-} from '../../../utils/client/modeUtils';
+import { getTransportModes, getNearYouModes } from '../../../utils/client/modeUtils';
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,
@@ -58,9 +55,7 @@ function getModes(config, hasOtpLocationFavourites) {
   const nearYouModes = getNearYouModes(config, hasOtpLocationFavourites);
   const modes = nearYouModes.length
     ? nearYouModes
-    : Object.keys(transportModes).filter(
-        mode => transportModes[mode].availableForSelection,
-      );
+    : Object.keys(transportModes).filter(mode => transportModes[mode].availableForSelection);
   return modes.map(nearYouMode => nearYouMode.toUpperCase());
 }
 
@@ -92,8 +87,7 @@ export default function NearYouPage() {
   const currentTime = useCurrentTime();
   const breakpoint = useBreakpoint();
   const position = usePosition();
-  const { checkPositioningPermission, startLocationWatch } =
-    usePositionActions();
+  const { checkPositioningPermission, startLocationWatch } = usePositionActions();
   const relayEnvironment = useRelayEnvironment();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus();
@@ -106,14 +100,11 @@ export default function NearYouPage() {
   const favouriteStationIds = stopsAndStations
     .filter(stop => stop.type === 'station')
     .map(stop => stop.gtfsId);
-  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(
-    favourites,
-    config,
-  ).map(station => station.stationId);
-  const centerOfMap = useRef({});
-  const [modes, setModes] = useState(
-    extendModes(getModes(config, hasOtpLocationFavourites), mode),
+  const favouriteVehicleStationIds = getFavouriteVehicleRentalStations(favourites, config).map(
+    station => station.stationId,
   );
+  const centerOfMap = useRef({});
+  const [modes, setModes] = useState(extendModes(getModes(config, hasOtpLocationFavourites), mode));
   const [phase, setPhase] = useState(PH_START);
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
   const [searchPosition, setSearchPosition] = useState({});
@@ -124,13 +115,7 @@ export default function NearYouPage() {
   const updateMapLayerOptions = () => {
     if (config.map.showLayerSelector) {
       const options = getMapLayerOptions({
-        lockedMapLayers: [
-          'vehicles',
-          'citybike',
-          'stop',
-          'parkAndRide',
-          'parkAndRideForBikes',
-        ],
+        lockedMapLayers: ['vehicles', 'citybike', 'stop', 'parkAndRide', 'parkAndRideForBikes'],
         selectedMapLayers: [
           PARKING_MODE_LAYERS[mode] ? null : 'vehicles',
           mode.toLowerCase(),
@@ -245,8 +230,7 @@ export default function NearYouPage() {
         qModes = [queryMode];
         break;
     }
-    const prioritizedStops =
-      config.prioritizedStopsNearYou[queryMode.toLowerCase()] || [];
+    const prioritizedStops = config.prioritizedStopsNearYou[queryMode.toLowerCase()] || [];
     return {
       lat: searchPosition.lat,
       lon: searchPosition.lon,
@@ -275,11 +259,9 @@ export default function NearYouPage() {
       const bo = opts.boundsOptions;
       const size = mapElement.leafletElement.getSize();
       const x =
-        bo.paddingTopLeft[0] +
-        (size.x - bo.paddingTopLeft[0] - bo.paddingBottomRight[0]) / 2;
+        bo.paddingTopLeft[0] + (size.x - bo.paddingTopLeft[0] - bo.paddingBottomRight[0]) / 2;
       const y =
-        bo.paddingTopLeft[1] +
-        (size.y - bo.paddingTopLeft[1] - bo.paddingBottomRight[1]) / 2;
+        bo.paddingTopLeft[1] + (size.y - bo.paddingTopLeft[1] - bo.paddingBottomRight[1]) / 2;
       const point = mapElement.leafletElement.containerPointToLatLng([x, y]);
       location = { lat: point.lat, lon: point.lng };
     }
@@ -299,16 +281,10 @@ export default function NearYouPage() {
         newPhase = PH_USEGEOLOCATION;
         type = center.type;
         const path = `/${PREFIX_NEARYOU}/${mode}/POS`;
-        router.replace({
-          ...match.location,
-          pathname: path,
-        });
+        router.replace({ ...match.location, pathname: path });
       } else {
         const path = `/${PREFIX_NEARYOU}/${mode}/${locationToUri(center)}`;
-        router.replace({
-          ...match.location,
-          pathname: path,
-        });
+        router.replace({ ...match.location, pathname: path });
       }
       setSearchPosition({ ...center, type });
       setCenterOfMapChanged(false);
@@ -323,10 +299,7 @@ export default function NearYouPage() {
     const paramArray = match.location.pathname.split(mode);
     const pathParams = paramArray.length > 1 ? paramArray[1] : '/POS';
     const path = `/${PREFIX_NEARYOU}/${newMode}${pathParams}`;
-    router.replace({
-      ...match.location,
-      pathname: path,
-    });
+    router.replace({ ...match.location, pathname: path });
     setCenterOfMapChanged(false);
   };
 
@@ -335,8 +308,7 @@ export default function NearYouPage() {
   const renderContent = () => {
     const index = modes.indexOf(mode);
     const tabs = modes.map(tabMode => {
-      const renderStopRouteSearch =
-        tabMode !== 'FERRY' && tabMode !== 'FAVORITE';
+      const renderStopRouteSearch = tabMode !== 'FERRY' && tabMode !== 'FAVORITE';
       const isActive = tabMode === mode;
 
       if (tabMode === 'FAVORITE') {
@@ -403,8 +375,7 @@ export default function NearYouPage() {
             variables={getQueryVariables(tabMode)}
             environment={relayEnvironment}
             render={({ props }) => {
-              const prioritizedStops =
-                config.prioritizedStopsNearYou[tabMode.toLowerCase()] || [];
+              const prioritizedStops = config.prioritizedStopsNearYou[tabMode.toLowerCase()] || [];
               let favIds;
               switch (mode) {
                 case 'CITYBIKE':
@@ -415,10 +386,7 @@ export default function NearYouPage() {
                   favIds = new Set();
                   break;
                 default:
-                  favIds = new Set([
-                    ...favouriteStopIds,
-                    ...favouriteStationIds,
-                  ]);
+                  favIds = new Set([...favouriteStopIds, ...favouriteStationIds]);
                   break;
               }
               return (
@@ -431,14 +399,9 @@ export default function NearYouPage() {
                     />
                   )}
                   {tabMode === 'CITYBIKE' && <CityBikeInfo />}
-                  {(tabMode === 'CARPARK' || tabMode === 'BIKEPARK') && (
-                    <ParkInfo mode={tabMode} />
-                  )}
+                  {(tabMode === 'CARPARK' || tabMode === 'BIKEPARK') && <ParkInfo mode={tabMode} />}
                   {centerOfMapChanged && (
-                    <UpdateLocationButton
-                      mode={tabMode}
-                      onClick={updateLocation}
-                    />
+                    <UpdateLocationButton mode={tabMode} onClick={updateLocation} />
                   )}
                   {prioritizedStops.length ? (
                     <QueryRenderer
@@ -451,18 +414,11 @@ export default function NearYouPage() {
                           stops: stops(ids: $stopIds) {
                             gtfsId
                             ...StopNearYouFragment_stop
-                              @arguments(
-                                startTime: $startTime
-                                omitNonPickups: $omitNonPickups
-                              )
+                              @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
                           }
                         }
                       `}
-                      variables={{
-                        stopIds: prioritizedStops,
-                        startTime: 0,
-                        omitNonPickups: false,
-                      }}
+                      variables={{ stopIds: prioritizedStops, startTime: 0, omitNonPickups: false }}
                       environment={relayEnvironment}
                       render={res => (
                         <Suspense fallback={<Loading />}>
@@ -541,10 +497,7 @@ export default function NearYouPage() {
 
   const selectHandler = item => {
     const path = `/${PREFIX_NEARYOU}/${mode}/${locationToUri(item)}`;
-    router.replace({
-      ...match.location,
-      pathname: path,
-    });
+    router.replace({ ...match.location, pathname: path });
     centerOfMap.current = {};
     setPhase(PH_USEDEFAULTPOS);
     setSearchPosition(item);
@@ -586,11 +539,7 @@ export default function NearYouPage() {
           <FormattedMessage
             id="nearest"
             defaultMessage="Stops near you"
-            values={{
-              mode: (
-                <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} />
-              ),
-            }}
+            values={{ mode: <FormattedMessage id={`nearest-stops-${mode.toLowerCase()}`} /> }}
           />
         )
       }
@@ -607,11 +556,7 @@ export default function NearYouPage() {
   );
 
   const mobile = () => (
-    <MobileView
-      content={renderContent()}
-      map={renderMap()}
-      searchBox={mapSearch()}
-    />
+    <MobileView content={renderContent()} map={renderMap()} searchBox={mapSearch()} />
   );
 
   if (PH_READY.includes(phase)) {

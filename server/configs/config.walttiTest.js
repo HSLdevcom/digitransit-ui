@@ -1,4 +1,3 @@
-/* eslint-disable prefer-template */
 import configMerger from '../../utils/server/configMerger.js';
 import ouluConfig from './config.oulu.js';
 
@@ -14,10 +13,7 @@ export default configMerger(ouluConfig, {
 
   feedIds: ['WalttiTest'],
   mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: 'https://waltti-test-monitor.digitransit.fi/createview',
-    },
+    stopMonitor: { show: true, url: 'https://waltti-test-monitor.digitransit.fi/createview' },
   },
   title: APP_TITLE,
 
@@ -31,12 +27,8 @@ export default configMerger(ouluConfig, {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -56,41 +48,19 @@ export default configMerger(ouluConfig, {
       persistence: 'repeat',
       content: {
         fi: [
-          {
-            type: 'heading',
-            content: 'Käytät Waltin testireittiopasta',
-          },
-          {
-            type: 'text',
-            content: '',
-          },
+          { type: 'heading', content: 'Käytät Waltin testireittiopasta' },
+          { type: 'text', content: '' },
         ],
         sv: [
-          {
-            type: 'heading',
-            content: 'Du använder Walttis test reseplanerare',
-          },
-          {
-            type: 'text',
-            content: '',
-          },
+          { type: 'heading', content: 'Du använder Walttis test reseplanerare' },
+          { type: 'text', content: '' },
         ],
         en: [
-          {
-            type: 'heading',
-            content: 'You are using Waltti test journey planner',
-          },
-          {
-            type: 'text',
-            content: '',
-          },
+          { type: 'heading', content: 'You are using Waltti test journey planner' },
+          { type: 'text', content: '' },
         ],
       },
     },
   ],
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl: 'https://waltti-test-monitor.digitransit.fi',
-    },
-  },
+  stopCard: { header: { virtualMonitorBaseUrl: 'https://waltti-test-monitor.digitransit.fi' } },
 });

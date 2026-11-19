@@ -11,12 +11,7 @@ export default function NoDisruptions() {
       {logo ? (
         <img src={logo} aria-hidden="true" alt="Not found -graphic" />
       ) : (
-        <Icon
-          img="icon_three-dots"
-          color={colors.primary}
-          width={4}
-          height={4}
-        />
+        <Icon img="icon_three-dots" color={colors.primary} width={4} height={4} />
       )}
       <FormattedMessage
         id="disruptions-found-amount"

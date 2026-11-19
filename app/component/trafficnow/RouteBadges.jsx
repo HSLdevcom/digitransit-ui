@@ -10,11 +10,7 @@ import { useFilterContext } from './filters/FiltersContext';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import EntityBadge from './components/EntityBadge';
 
-export default function RouteBadges({
-  entities: rawEntities,
-  compact = false,
-  mode = undefined,
-}) {
+export default function RouteBadges({ entities: rawEntities, compact = false, mode = undefined }) {
   const config = useConfigContext();
   const intl = useIntl();
   const { selectedFilters } = useFilterContext();
@@ -31,15 +27,11 @@ export default function RouteBadges({
   const groups = Object.entries(entitiesByMode);
 
   // Overview cards are mode-specific.
-  const modeGroups = mode
-    ? groups.filter(([, group]) => group.mode === mode)
-    : groups;
+  const modeGroups = mode ? groups.filter(([, group]) => group.mode === mode) : groups;
 
   // Do not show stops together with routes on compact overview cards.
   // Stop-only disruptions still get their own card.
-  const routeGroups = compact
-    ? modeGroups.filter(([, group]) => group.isRoute)
-    : [];
+  const routeGroups = compact ? modeGroups.filter(([, group]) => group.isRoute) : [];
 
   const visibleGroups = routeGroups.length > 0 ? routeGroups : modeGroups;
 
@@ -58,12 +50,7 @@ export default function RouteBadges({
             key={key}
             stopPropagation
             mode={groupMode}
-            routes={visibleEntities.map(({ id, name, url, gtfsId }) => ({
-              id,
-              name,
-              url,
-              gtfsId,
-            }))}
+            routes={visibleEntities.map(({ id, name, url, gtfsId }) => ({ id, name, url, gtfsId }))}
             isStop={!isRoute}
             highlightedGtfsId={selectedFilters.entity?.gtfsId}
             renderSuffix={

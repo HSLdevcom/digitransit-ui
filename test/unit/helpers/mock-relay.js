@@ -59,9 +59,7 @@ const stubs = {
           return neverResolves();
         }
         try {
-          return Promise.resolve(
-            resolveResult(handler.result, variables, query),
-          );
+          return Promise.resolve(resolveResult(handler.result, variables, query));
         } catch (error) {
           return Promise.reject(error);
         }

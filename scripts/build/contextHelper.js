@@ -25,9 +25,7 @@ function getAllConfigs() {
 
 export function themePath(theme) {
   const themeCss = `./styles/themes/${theme}/theme.scss`;
-  return fs.existsSync(themeCss)
-    ? themeCss
-    : './styles/themes/default/theme.scss';
+  return fs.existsSync(themeCss) ? themeCss : './styles/themes/default/theme.scss';
 }
 
 function getEntries(theme, sprites = null) {
@@ -46,24 +44,16 @@ function getAllThemeEntries() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
     const config = getNamedConfiguration(process.env.CONFIG);
 
-    return {
-      ...getEntries('default'),
-      ...getEntries(process.env.CONFIG, config.sprites),
-    };
+    return { ...getEntries('default'), ...getEntries(process.env.CONFIG, config.sprites) };
   }
   return getAllConfigs().reduce(
-    (prev, config) => ({
-      ...prev,
-      ...getEntries(config.CONFIG, config.sprites),
-    }),
+    (prev, config) => ({ ...prev, ...getEntries(config.CONFIG, config.sprites) }),
     {},
   );
 }
 
 function faviconPluginFromConfig(config) {
-  let logo =
-    config.favicon ||
-    `./app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
+  let logo = config.favicon || `./app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
   if (!fs.existsSync(logo)) {
     logo = './app/assets/images/default/default-favicon.png';
   }
@@ -92,10 +82,7 @@ function faviconPluginFromConfig(config) {
       // Merged over the package's defaults, which enable every platform.
       // Nothing references Apple startup images (~35 MB per config) or
       // Windows tiles, so only those are skipped.
-      icons: {
-        appleStartup: false,
-        windows: false,
-      },
+      icons: { appleStartup: false, windows: false },
     },
   });
 }

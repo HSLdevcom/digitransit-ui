@@ -12,20 +12,10 @@ function defaulVehicleNumberParser(vehicleNumber) {
 }
 
 function vehicleNumberPartParser(vehicleNumber) {
-  return vehicleNumber.indexOf(' ') !== -1
-    ? vehicleNumber.split(' ')[1]
-    : vehicleNumber;
+  return vehicleNumber.indexOf(' ') !== -1 ? vehicleNumber.split(' ')[1] : vehicleNumber;
 }
 
-function walttiTopicResolver(
-  route,
-  direction,
-  tripStartTime,
-  headsign,
-  feedId,
-  tripId,
-  geoHash,
-) {
+function walttiTopicResolver(route, direction, tripStartTime, headsign, feedId, tripId, geoHash) {
   return (
     '/gtfsrt/vp/' +
     feedId +
@@ -51,15 +41,7 @@ function walttiTopicResolver(
   );
 }
 
-function elyTopicResolver(
-  route,
-  direction,
-  tripStartTime,
-  headsign,
-  feedId,
-  tripId,
-  geoHash,
-) {
+function elyTopicResolver(route, direction, tripStartTime, headsign, feedId, tripId, geoHash) {
   return (
     '/gtfsrt/vp/' +
     feedId +
@@ -141,15 +123,7 @@ function tripRouteTopicResolver(
   );
 }
 
-function routeTopicResolver(
-  route,
-  direction,
-  tripStartTime,
-  headsign,
-  feedId,
-  tripId,
-  geoHash,
-) {
+function routeTopicResolver(route, direction, tripStartTime, headsign, feedId, tripId, geoHash) {
   return (
     '/gtfsrt/vp/' +
     feedId +
@@ -181,19 +155,11 @@ function hslTopicResolver(
     direction += 1;
   }
   return (
-    '/hfp/v2/journey/ongoing/+/+/+/+/' +
-    route +
-    '/' +
-    direction +
-    '/+/' +
-    tripStartTime +
-    '/#'
+    '/hfp/v2/journey/ongoing/+/+/+/+/' + route + '/' + direction + '/+/' + tripStartTime + '/#'
   );
 }
 
-const mqttAddress = isDevRunEnv()
-  ? 'wss://dev-mqtt.digitransit.fi'
-  : 'wss://mqtt.digitransit.fi';
+const mqttAddress = isDevRunEnv() ? 'wss://dev-mqtt.digitransit.fi' : 'wss://mqtt.digitransit.fi';
 const baseMqtt = {
   mqtt: mqttAddress,
   routeSelector: defaultRouteSelector,
@@ -201,18 +167,10 @@ const baseMqtt = {
   vehicleNumberParser: defaulVehicleNumberParser,
 };
 
-const walttiMqtt = {
-  ...baseMqtt,
-  gtfsrt: true,
-  mqttTopicResolver: walttiTopicResolver,
-};
+const walttiMqtt = { ...baseMqtt, gtfsrt: true, mqttTopicResolver: walttiTopicResolver };
 
 function elyMqtt(ignoreHeadsign) {
-  return {
-    ...walttiMqtt,
-    mqttTopicResolver: elyTopicResolver,
-    ignoreHeadsign,
-  };
+  return { ...walttiMqtt, mqttTopicResolver: elyTopicResolver, ignoreHeadsign };
 }
 
 export default {

@@ -68,9 +68,7 @@ describe('timeUtils', () => {
       const startTime = now.plus({ days: 2 }).toISO();
       const intl = createTestIntl({ locale: 'fi' });
       const finnishText = getFutureText(startTime, intl);
-      expect(finnishText).toBe(
-        DateTime.fromISO(startTime).setLocale('fi').toFormat('ccc d.L.'),
-      );
+      expect(finnishText).toBe(DateTime.fromISO(startTime).setLocale('fi').toFormat('ccc d.L.'));
     });
   });
 });

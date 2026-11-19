@@ -9,12 +9,7 @@ export default function NavigatorOutro({ onClose, destination, logo }) {
   const [place, address] = destination?.split(/, (.+)/) || [];
 
   useEffect(
-    () =>
-      addAnalyticsEvent({
-        category: 'Itinerary',
-        event: 'navigator',
-        action: 'navigaton_end',
-      }),
+    () => addAnalyticsEvent({ category: 'Itinerary', event: 'navigator', action: 'navigaton_end' }),
     [],
   );
 
@@ -36,10 +31,7 @@ export default function NavigatorOutro({ onClose, destination, logo }) {
       </div>
       <div className="outro-buttons">
         <Button size="l" expand variant="success" onClick={onClose}>
-          {intl.formatMessage({
-            id: 'navigation-outro-dismiss',
-            defaultMessage: 'Exit Navigator',
-          })}
+          {intl.formatMessage({ id: 'navigation-outro-dismiss', defaultMessage: 'Exit Navigator' })}
         </Button>
       </div>
     </>

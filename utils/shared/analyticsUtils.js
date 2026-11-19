@@ -48,12 +48,8 @@ export function buildCrazyEggSurveyScript(surveyIds, options = {}) {
     return '';
   }
 
-  const pathCheck = pathPrefix
-    ? `window.location.pathname.includes("${pathPrefix}")`
-    : null;
-  const samplingCheck = surveyShare
-    ? `(Math.floor(Date.now()/1000)%${surveyShare})===0`
-    : null;
+  const pathCheck = pathPrefix ? `window.location.pathname.includes("${pathPrefix}")` : null;
+  const samplingCheck = surveyShare ? `(Math.floor(Date.now()/1000)%${surveyShare})===0` : null;
   const outerCondition = [pathCheck, samplingCheck].filter(Boolean).join('&&');
 
   const mobileGuard = mobileChecks
@@ -94,9 +90,7 @@ export function getAnalyticsInitCode(config, req) {
     : '';
 
   const useAnalytics =
-    !config.useCookiesPrompt ||
-    cookieConsent === 'true' ||
-    cookieConsent === true;
+    !config.useCookiesPrompt || cookieConsent === 'true' || cookieConsent === true;
 
   if (useAnalytics) {
     if (
@@ -104,10 +98,7 @@ export function getAnalyticsInitCode(config, req) {
       hostname &&
       (!hostname.match(/dev|test/) || config.devAnalytics)
     ) {
-      return config.analyticsScript(
-        hostname,
-        config.sendAnalyticsCustomEventGoals,
-      );
+      return config.analyticsScript(hostname, config.sendAnalyticsCustomEventGoals);
     }
     if (config.crazyEgg) {
       const surveyShare = config.SURVEY_SHARE || 250;
@@ -157,9 +148,7 @@ const handleChange = () => {
   if (!window.CookieInformation) {
     return false;
   }
-  const allow = window.CookieInformation.getConsentGivenFor(
-    'cookie_cat_statistic',
-  );
+  const allow = window.CookieInformation.getConsentGivenFor('cookie_cat_statistic');
   if (allow === undefined) {
     // happens in incognito
     return false;
@@ -188,18 +177,13 @@ const handleChange = () => {
  * @return void
  */
 export function initAnalyticsClientSide(config, cookies = new Cookies()) {
-  const useAnalytics =
-    !config.useCookiesPrompt || cookies.get('cookieConsent') === true;
+  const useAnalytics = !config.useCookiesPrompt || cookies.get('cookieConsent') === true;
 
   if (useAnalytics) {
     window.dataLayer = window.dataLayer || [];
   }
   if (config.useCookiesPrompt) {
-    window.addEventListener(
-      'CookieInformationConsentGiven',
-      handleChange,
-      false,
-    );
+    window.addEventListener('CookieInformationConsentGiven', handleChange, false);
   }
 }
 

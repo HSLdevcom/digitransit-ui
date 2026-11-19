@@ -33,9 +33,7 @@ const props = {
   focusToLeg: () => {},
   openSettings: () => {},
   showCanceledLegsBanner: false,
-  plan: {
-    date: 19700101,
-  },
+  plan: { date: 19700101 },
   isMobile: false,
   currentTime: 0,
   lang: 'fi',

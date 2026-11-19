@@ -2,11 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef, useState, useMemo } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
-import {
-  patternShape,
-  errorShape,
-  fragmentRefShape,
-} from '../../../utils/client/shapes';
+import { patternShape, errorShape, fragmentRefShape } from '../../../utils/client/shapes';
 import MapWithTracking from './MapWithTracking';
 import RouteLine from './route/RouteLine';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
@@ -77,14 +73,7 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
   const { mapLayers: baseMapLayers } = useMapLayers({
-    notThese: [
-      'stop',
-      'citybike',
-      'vehicles',
-      'scooter',
-      'parkAndRide',
-      'parkAndRideForBikes',
-    ],
+    notThese: ['stop', 'citybike', 'vehicles', 'scooter', 'parkAndRide', 'parkAndRideForBikes'],
   });
   const tripId = trip?.gtfsId;
   const [trackVehicle, setTrackVehicle] = useState(!!tripId);
@@ -169,9 +158,7 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
     if (code.current !== pattern.code || !bounds.current) {
       let filteredPoints;
       if (pattern.geometry) {
-        filteredPoints = pattern.geometry.filter(
-          point => point.lat !== null && point.lon !== null,
-        );
+        filteredPoints = pattern.geometry.filter(point => point.lat !== null && point.lon !== null);
       }
       bounds.current = boundWithMinimumArea(
         (filteredPoints || pattern.stops).map(p => [p.lat, p.lon]),
@@ -188,11 +175,7 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
   }
   const tripSelected = lat && lon && trip?.gtfsId && isActiveDate(pattern);
   const leafletObjs = [
-    <RouteLine
-      key="line"
-      pattern={pattern}
-      vehiclePosition={tripSelected ? { lat, lon } : null}
-    />,
+    <RouteLine key="line" pattern={pattern} vehiclePosition={tripSelected ? { lat, lon } : null} />,
   ];
   if (isActiveDate(pattern)) {
     leafletObjs.push(
@@ -218,10 +201,7 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
       mapLayerOptions={mapLayerOptions}
     >
       {breakpoint !== 'large' && (
-        <BackButton
-          icon="icon_arrow-collapse--left"
-          iconClassName="arrow-icon"
-        />
+        <BackButton icon="icon_arrow-collapse--left" iconClassName="arrow-icon" />
       )}
       {config.useCookiesPrompt && <CookieSettingsButton />}
     </MapWithTracking>
@@ -247,11 +227,9 @@ export default function RoutePageMapWithVehicles(props) {
     const tripStart = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
     selectedVehicle = Object.values(vehicles).find(
       vehicle =>
-        (vehicle.tripStartTime === undefined ||
-          vehicle.tripStartTime === tripStart) &&
+        (vehicle.tripStartTime === undefined || vehicle.tripStartTime === tripStart) &&
         (vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId) &&
-        (vehicle.direction === undefined ||
-          vehicle.direction === Number(trip.directionId)),
+        (vehicle.direction === undefined || vehicle.direction === Number(trip.directionId)),
     );
   }
 
@@ -266,7 +244,4 @@ export default function RoutePageMapWithVehicles(props) {
   );
 }
 
-RoutePageMapWithVehicles.propTypes = {
-  trip: fragmentRefShape,
-  pattern: fragmentRefShape,
-};
+RoutePageMapWithVehicles.propTypes = { trip: fragmentRefShape, pattern: fragmentRefShape };

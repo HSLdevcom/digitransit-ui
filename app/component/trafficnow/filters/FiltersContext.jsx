@@ -15,10 +15,7 @@ const FilterContextProvider = ({ children }) => {
   const [selectedFilters, setSelectedFilters] = useState(DEFAULT_FILTERS);
 
   const setFilter = (key, value) => {
-    setSelectedFilters(prev => ({
-      ...prev,
-      [key]: value,
-    }));
+    setSelectedFilters(prev => ({ ...prev, [key]: value }));
   };
 
   const resetFilters = () => {
@@ -33,26 +30,16 @@ const FilterContextProvider = ({ children }) => {
   };
 
   const value = useMemo(
-    () => ({
-      selectedFilters,
-      setFilter,
-      removeFilter,
-      resetFilters,
-      DEFAULT_FILTERS,
-    }),
+    () => ({ selectedFilters, setFilter, removeFilter, resetFilters, DEFAULT_FILTERS }),
     [selectedFilters],
   );
-  return (
-    <FilterContext.Provider value={value}>{children}</FilterContext.Provider>
-  );
+  return <FilterContext.Provider value={value}>{children}</FilterContext.Provider>;
 };
 
 const useFilterContext = () => {
   const context = useContext(FilterContext);
   if (!context) {
-    throw new Error(
-      'useFilterContext must be used within a FilterContextProvider',
-    );
+    throw new Error('useFilterContext must be used within a FilterContextProvider');
   }
   return context;
 };

@@ -1,9 +1,5 @@
 import { hasCitybikes } from './modeUtils';
-import {
-  PREFIX_ITINERARY_SUMMARY,
-  PREFIX_STOPS,
-  PREFIX_ROUTES,
-} from '../shared/path';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_STOPS, PREFIX_ROUTES } from '../shared/path';
 
 export const SEARCH_PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,
@@ -15,10 +11,7 @@ export function getLocationSearchTargets(config, isMobile) {
   let locationSearchTargets = ['Locations', 'CurrentPosition'];
 
   if (config.locationSearchTargetsFromOTP) {
-    locationSearchTargets = [
-      ...locationSearchTargets,
-      ...config.locationSearchTargetsFromOTP,
-    ];
+    locationSearchTargets = [...locationSearchTargets, ...config.locationSearchTargetsFromOTP];
   } else {
     locationSearchTargets.push('Stations');
     locationSearchTargets.push('Stops');

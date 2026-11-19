@@ -32,12 +32,8 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -54,32 +50,17 @@ export default configMerger(walttiConfig, {
     name: 'Nysse.fi',
     href: 'https://www.nysse.fi/',
     altLink: {
-      sv: {
-        name: 'Nysse.fi',
-        href: 'https://www.nysse.fi/en/front-page.html',
-      },
-      en: {
-        name: 'Nysse.fi',
-        href: 'https://www.nysse.fi/en/front-page.html',
-      },
+      sv: { name: 'Nysse.fi', href: 'https://www.nysse.fi/en/front-page.html' },
+      en: { name: 'Nysse.fi', href: 'https://www.nysse.fi/en/front-page.html' },
     },
   },
 
-  colors: {
-    primary: '#1c57cf',
-    bus: '#1A4A8F',
-    rail: '#0E7F3C',
-    tram: '#DA2128',
-  },
+  colors: { primary: '#1c57cf', bus: '#1A4A8F', rail: '#0E7F3C', tram: '#DA2128' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/tampere/social-share.png',
-      width: 400,
-      height: 400,
-    },
+    image: { url: 'assets/tampere/social-share.png', width: 400, height: 400 },
   },
 
   title: APP_TITLE,
@@ -95,30 +76,18 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/tampere/zone_lines_20250606.geojson',
         isOffByDefault: true,
       },
       {
-        name: {
-          fi: 'Myyntipisteet',
-          sv: 'Servicekontorer',
-          en: 'Service points',
-        },
+        name: { fi: 'Myyntipisteet', sv: 'Servicekontorer', en: 'Service points' },
         url: `${CDN_URL}/waltti-assets/v1/salespoints/salespoints_tampere.geojson`,
       },
     ],
   },
 
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
+  stopCard: { header: { virtualMonitorBaseUrl } },
   // custom ticketPurchaseLink because tampere sends different fare zones from every other waltti city
   ticketPurchaseLink: (fare, availableTickets) => {
     const appName = 'nysseapp';
@@ -132,10 +101,7 @@ export default configMerger(walttiConfig, {
     return `https://waltti.fi/${appName}/busTicket/?operator=${operatorCode}&ticketType=single&customerGroup=adult&zones=${zones}`;
   },
 
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zones: { stops: true, itinerary: true },
 
   useTicketIcons: true,
   showTicketInformation: true,
@@ -236,18 +202,9 @@ export default configMerger(walttiConfig, {
     [23.2074, 61.6546],
   ],
 
-  defaultEndpoint: {
-    address: 'Keskustori, Tampere',
-    lat: 61.4980944,
-    lon: 23.7606972,
-  },
+  defaultEndpoint: { address: 'Keskustori, Tampere', lat: 61.4980944, lon: 23.7606972 },
 
-  mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: `${virtualMonitorBaseUrl}/createview`,
-    },
-  },
+  mainMenu: { stopMonitor: { show: true, url: `${virtualMonitorBaseUrl}/createview` } },
 
   menu: {
     copyright: { label: `© Tampere ${walttiConfig.YEAR}` },
@@ -260,10 +217,7 @@ export default configMerger(walttiConfig, {
           en: 'https://www.nysse.fi/en/feedback.html',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -305,25 +259,16 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  timetables: {
-    tampere: tampereTimetables,
-  },
+  timetables: { tampere: tampereTimetables },
 
   vehicleRental: {
     networks: {
       inurba_tampere: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
-        season: {
-          start: '1.1',
-          end: '31.10',
-        },
+        season: { start: '1.1', end: '31.10' },
         icon: 'citybike',
-        name: {
-          fi: 'Tampere',
-          sv: 'Tammerfors',
-          en: 'Tampere',
-        },
+        name: { fi: 'Tampere', sv: 'Tammerfors', en: 'Tampere' },
         type: 'citybike',
         // Shown if citybike leg duration exceeds timeBeforeSurcharge
         durationInstructions: {
@@ -348,33 +293,17 @@ export default configMerger(walttiConfig, {
 
   // enable train routing for Tampere
   transportModes: {
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    tram: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    citybike: {
-      availableForSelection: true,
-    },
+    rail: { availableForSelection: true, defaultValue: true },
+    tram: { availableForSelection: true, defaultValue: true },
+    citybike: { availableForSelection: true },
   },
 
   nearYouModes: ['bus', 'tram', 'rail', 'citybike', 'bikepark', 'carpark'],
   narrowNearYouButtons: true,
 
-  bikeBoardingModes: {
-    RAIL: { showNotification: true },
-    TRAM: { showNotification: true },
-  },
+  bikeBoardingModes: { RAIL: { showNotification: true }, TRAM: { showNotification: true } },
 
-  parkAndRide: {
-    showParkAndRide: true,
-    showParkAndRideForBikes: true,
-  },
+  parkAndRide: { showParkAndRide: true, showParkAndRideForBikes: true },
 
-  defaultSettings: {
-    minTransferTime: 180,
-  },
+  defaultSettings: { minTransferTime: 180 },
 });

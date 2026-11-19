@@ -35,9 +35,7 @@ export default function LocationModal({
         className="location-modal-content"
         onPointerDownOutside={ignoreMobileSearchOutsidePointerDown}
       >
-        <Text variant="text-s">
-          {intl.formatMessage({ id: 'stop-near-you-modal-info' })}
-        </Text>
+        <Text variant="text-s">{intl.formatMessage({ id: 'stop-near-you-modal-info' })}</Text>
         <div>
           <Text variant="label">{intl.formatMessage({ id: 'origin' })}</Text>
           <Spacer size="xxs" />
@@ -47,20 +45,13 @@ export default function LocationModal({
           {intl.formatMessage({ id: 'stop-near-you-modal-grant-permission' })}
         </Text>
         {showGeolocationButton && (
-          <Button
-            type="submit"
-            variant="primary"
-            expand
-            onClick={startGeolocation}
-          >
+          <Button type="submit" variant="primary" expand onClick={startGeolocation}>
             {intl.formatMessage({ id: 'use-own-position' })}
           </Button>
         )}
         {showInfo && (
           <Text variant="text-s">
-            {intl.formatMessage({
-              id: 'stop-near-you-modal-grant-permission-info',
-            })}
+            {intl.formatMessage({ id: 'stop-near-you-modal-grant-permission-info' })}
           </Text>
         )}
       </ModalContent>

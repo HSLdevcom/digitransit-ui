@@ -11,11 +11,7 @@ const vehicle = {
   shortName: '550',
 };
 
-const props = {
-  vehicle,
-  stopName: '1',
-  nextStopName: '2',
-};
+const props = { vehicle, stopName: '1', nextStopName: '2' };
 
 describe('<FuzzyTripLink />', () => {
   it('should render the icon wrapped by a link once the fuzzy trip query resolves', () => {

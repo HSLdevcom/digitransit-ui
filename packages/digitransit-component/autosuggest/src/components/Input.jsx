@@ -34,14 +34,7 @@ export function Input({
   return (
     <div className={styles.container}>
       {renderLabel && (
-        <label
-          {...getLabelProps({
-            className: styles['sr-only'],
-            htmlFor: id,
-          })}
-        >
-          {ariaLabel}
-        </label>
+        <label {...getLabelProps({ className: styles['sr-only'], htmlFor: id })}>{ariaLabel}</label>
       )}
       <input
         aria-label={ariaLabel}
@@ -58,11 +51,7 @@ export function Input({
           inputClassName,
         )}
         id={id}
-        {...getInputProps({
-          ref: inputRef,
-          onBlur: inputOnBlur,
-          onChange: handleChange,
-        })}
+        {...getInputProps({ ref: inputRef, onBlur: inputOnBlur, onChange: handleChange })}
       />
       {value && (
         <ClearButton
@@ -87,9 +76,8 @@ Input.propTypes = {
   getLabelProps: PropTypes.func.isRequired,
   clearInput: PropTypes.func.isRequired,
   ariaLabel: PropTypes.string.isRequired,
-  inputRef: PropTypes.shape({
-    current: PropTypes.oneOfType([PropTypes.string, PropTypes.object]),
-  }).isRequired,
+  inputRef: PropTypes.shape({ current: PropTypes.oneOfType([PropTypes.string, PropTypes.object]) })
+    .isRequired,
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
   renderLabel: PropTypes.bool,
   isMobile: PropTypes.bool.isRequired,

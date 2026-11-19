@@ -1,9 +1,6 @@
 import * as modeUtils from '../../../../utils/client/modeUtils';
 import * as pathUtils from '../../../../utils/shared/path';
-import {
-  AlertEntityType,
-  LocationTypes,
-} from '../../../../utils/shared/constants';
+import { AlertEntityType, LocationTypes } from '../../../../utils/shared/constants';
 import {
   getAvailableModes,
   groupEntitiesByMode,
@@ -70,9 +67,7 @@ describe('TrafficNow utils', () => {
       vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
         (isStation, gtfsId) => `/stop/${gtfsId}`,
       );
-      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
-        gtfsId => `/route/${gtfsId}`,
-      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(gtfsId => `/route/${gtfsId}`);
     });
 
     it('groups StopOnRoute entities into both route and stop groups', () => {
@@ -92,9 +87,7 @@ describe('TrafficNow utils', () => {
       };
       const grouped = groupEntitiesByMode([entity], {});
       // StopOnRoute produces two groups: one for the route, one for the stop.
-      expect(Object.keys(grouped)).toEqual(
-        expect.arrayContaining(['rail_route', 'rail_stop']),
-      );
+      expect(Object.keys(grouped)).toEqual(expect.arrayContaining(['rail_route', 'rail_stop']));
     });
 
     it('deduplicates entities with the same id in the same group', () => {
@@ -151,9 +144,7 @@ describe('TrafficNow utils', () => {
       vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
         (isStation, gtfsId) => `/stop/${gtfsId}`,
       );
-      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
-        gtfsId => `/route/${gtfsId}`,
-      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(gtfsId => `/route/${gtfsId}`);
     });
 
     it('returns each route mode once, ignoring stop groups of the same mode', () => {
@@ -240,9 +231,7 @@ describe('TrafficNow utils', () => {
       vi.spyOn(pathUtils, 'stopPagePath').mockImplementation(
         (isStation, gtfsId) => `/stop/${gtfsId}`,
       );
-      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(
-        gtfsId => `/route/${gtfsId}`,
-      );
+      vi.spyOn(pathUtils, 'routePagePath').mockImplementation(gtfsId => `/route/${gtfsId}`);
     });
 
     const makeAlert = (id, entityMode) => ({
@@ -289,11 +278,7 @@ describe('TrafficNow utils', () => {
     it('keeps only the selected modes when vehicleModes filter is active', () => {
       const busAlert = makeAlert('a1', 'BUS');
       const tramAlert = makeAlert('a2', 'TRAM');
-      const cards = buildDisruptionCards(
-        [busAlert, tramAlert],
-        { vehicleModes: ['bus'] },
-        {},
-      );
+      const cards = buildDisruptionCards([busAlert, tramAlert], { vehicleModes: ['bus'] }, {});
       expect(cards).toHaveLength(1);
       expect(cards[0].mode).toBe('bus');
     });
@@ -318,11 +303,7 @@ describe('TrafficNow utils', () => {
           },
         ],
       };
-      const cards = buildDisruptionCards(
-        [alert],
-        { entity: { gtfsId: 'HSL:r1' } },
-        {},
-      );
+      const cards = buildDisruptionCards([alert], { entity: { gtfsId: 'HSL:r1' } }, {});
       expect(cards).toHaveLength(1);
       expect(cards[0].mode).toBe('bus');
     });
@@ -347,11 +328,7 @@ describe('TrafficNow utils', () => {
           },
         ],
       };
-      const cards = buildDisruptionCards(
-        [alert],
-        { favourites: new Set(['HSL:r2']) },
-        {},
-      );
+      const cards = buildDisruptionCards([alert], { favourites: new Set(['HSL:r2']) }, {});
       expect(cards).toHaveLength(1);
       expect(cards[0].mode).toBe('tram');
     });
@@ -365,11 +342,7 @@ describe('TrafficNow utils', () => {
 
     it('still produces a no-mode card even when a mode filter is active', () => {
       const alert = { id: 'a1', entities: [] };
-      const cards = buildDisruptionCards(
-        [alert],
-        { vehicleModes: ['bus'] },
-        {},
-      );
+      const cards = buildDisruptionCards([alert], { vehicleModes: ['bus'] }, {});
       expect(cards).toHaveLength(1);
       expect(cards[0].mode).toBeUndefined();
     });

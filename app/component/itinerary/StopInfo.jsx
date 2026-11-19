@@ -19,9 +19,7 @@ export default function StopInfo({
   )) || (
     <FormattedMessage
       id="number-of-intermediate-stops"
-      values={{
-        number: intermediateStopCount,
-      }}
+      values={{ number: intermediateStopCount }}
       defaultMessage="{number, plural, =0 {No stops} one {1 stop} other {{number} stops} }"
     />
   );
@@ -45,11 +43,7 @@ export default function StopInfo({
         }
       }}
     >
-      <div
-        className={cx('intermediate-stop-info-container', {
-          open: showIntermediateStops,
-        })}
-      >
+      <div className={cx('intermediate-stop-info-container', { open: showIntermediateStops })}>
         {intermediateStopCount === 0 ? (
           <span className="intermediate-stop-no-stops">{message}</span>
         ) : (

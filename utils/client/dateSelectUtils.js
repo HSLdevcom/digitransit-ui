@@ -105,9 +105,7 @@ export function groupDatesByWeek(processedDates, currentWeek, intl) {
 export function generateDateRange(startDate, numberOfDays, locale) {
   const normalizedStart = startDate.setLocale(locale).startOf('day');
 
-  return Array.from({ length: numberOfDays }, (_, i) =>
-    normalizedStart.plus({ days: i }),
-  );
+  return Array.from({ length: numberOfDays }, (_, i) => normalizedStart.plus({ days: i }));
 }
 
 /**

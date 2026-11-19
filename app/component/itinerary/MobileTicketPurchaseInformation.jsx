@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { fareShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
-import {
-  getAlternativeFares,
-  formatFare,
-} from '../../../utils/client/fareUtils';
+import { getAlternativeFares, formatFare } from '../../../utils/client/fareUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -24,8 +21,7 @@ export default function MobileTicketPurchaseInformation({
     fares.filter(f => !f.isUnknown),
     config.availableTickets,
   );
-  const price =
-    config.showTicketPrice && fare.price > 0 ? formatFare(fare) : '';
+  const price = config.showTicketPrice && fare.price > 0 ? formatFare(fare) : '';
 
   const faresInfo = () => {
     const header = `${intl.formatMessage({
@@ -37,10 +33,7 @@ export default function MobileTicketPurchaseInformation({
         <div className="sr-only">
           <FormattedMessage
             id="mobile-ticket-purchase-aria"
-            values={{
-              ticketName: fare.ticketName,
-              price,
-            }}
+            values={{ ticketName: fare.ticketName, price }}
             defaultMessage="Mobile ticket purchase information. Buy {ticketName} for {price}"
           />
         </div>
@@ -64,9 +57,7 @@ export default function MobileTicketPurchaseInformation({
       <div className="app-link">
         <a
           className={config.analyticsClass}
-          onClick={() =>
-            addAnalyticsEvent({ event: 'journey_planner_open_app' })
-          }
+          onClick={() => addAnalyticsEvent({ event: 'journey_planner_open_app' })}
           href={config.ticketPurchaseLink(fare, config.availableTickets)}
           target="_blank"
           rel="noopener noreferrer"

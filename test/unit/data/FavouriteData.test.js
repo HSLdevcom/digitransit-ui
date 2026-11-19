@@ -1,22 +1,11 @@
 import { vi } from 'vitest';
 import * as queryUtils from '@digitransit-search-util/digitransit-search-util-query-utils';
 import * as apiUtils from '../../../utils/client/apiUtils';
-import {
-  FavouriteData,
-  STATUS_HAS_DATA,
-} from '../../../app/data/FavouriteData';
+import { FavouriteData, STATUS_HAS_DATA } from '../../../app/data/FavouriteData';
 
-const stopFavourite = {
-  type: 'stop',
-  gtfsId: 'HSL:1234',
-  favouriteId: 'stop-1',
-};
+const stopFavourite = { type: 'stop', gtfsId: 'HSL:1234', favouriteId: 'stop-1' };
 
-const placeFavourite = {
-  type: 'place',
-  gid: 'openstreetmap:venue:node:1',
-  favouriteId: 'place-1',
-};
+const placeFavourite = { type: 'place', gid: 'openstreetmap:venue:node:1', favouriteId: 'place-1' };
 
 const bikeFavourite = {
   type: 'bikeStation',
@@ -26,11 +15,7 @@ const bikeFavourite = {
 };
 
 const resolvedBikeStation = { properties: { labelId: 'foo:bike-1' } };
-const staleStopFavourite = {
-  ...stopFavourite,
-  gtfsId: 'HSL:removed',
-  favouriteId: 'removed-stop',
-};
+const staleStopFavourite = { ...stopFavourite, gtfsId: 'HSL:removed', favouriteId: 'removed-stop' };
 
 // Flushes any pending microtasks (e.g. the Promise.all chain inside
 // validateOtpLocationFavourites()). Uses only microtasks (no setImmediate/
@@ -56,9 +41,7 @@ describe('FavouriteData', () => {
     getFavouriteVehicleRentalStationsQuery = vi
       .spyOn(queryUtils, 'getFavouriteVehicleRentalStationsQuery')
       .mockReturnValue(undefined);
-    updateFavouritesRequest = vi
-      .spyOn(apiUtils, 'updateFavourites')
-      .mockReturnValue(undefined);
+    updateFavouritesRequest = vi.spyOn(apiUtils, 'updateFavourites').mockReturnValue(undefined);
     vi.spyOn(apiUtils, 'deleteFavourites').mockReturnValue(undefined);
     // A fresh store for every test instead of the app-wide singleton
     favouriteStore = new FavouriteData();
@@ -66,21 +49,13 @@ describe('FavouriteData', () => {
       allowLogin: true,
       vehicleRental: {
         networks: {
-          foo: {
-            type: 'citybike',
-            enabled: true,
-            season: { alwaysOn: true },
-          },
+          foo: { type: 'citybike', enabled: true, season: { alwaysOn: true } },
           inactive: {
             type: 'citybike',
             enabled: true,
             season: { start: '1.1.2000', end: '2.1.2000' },
           },
-          disabled: {
-            type: 'citybike',
-            enabled: false,
-            season: { alwaysOn: true },
-          },
+          disabled: { type: 'citybike', enabled: false, season: { alwaysOn: true } },
         },
       },
     });
@@ -132,9 +107,7 @@ describe('FavouriteData', () => {
 
     it('counts a resolved bike station in an active network', async () => {
       getStopAndStationsQuery.mockResolvedValue([]);
-      getFavouriteVehicleRentalStationsQuery.mockResolvedValue([
-        resolvedBikeStation,
-      ]);
+      getFavouriteVehicleRentalStationsQuery.mockResolvedValue([resolvedBikeStation]);
 
       favouriteStore.set([bikeFavourite], true);
       await flushPromises();
@@ -147,13 +120,9 @@ describe('FavouriteData', () => {
         start: '1.2.2026',
         end: '28.2.2026',
       };
-      const now = vi
-        .spyOn(Date, 'now')
-        .mockReturnValue(new Date(2026, 1, 15).valueOf());
+      const now = vi.spyOn(Date, 'now').mockReturnValue(new Date(2026, 1, 15).valueOf());
       getStopAndStationsQuery.mockResolvedValue([]);
-      getFavouriteVehicleRentalStationsQuery.mockResolvedValue([
-        resolvedBikeStation,
-      ]);
+      getFavouriteVehicleRentalStationsQuery.mockResolvedValue([resolvedBikeStation]);
       favouriteStore.set([bikeFavourite], true);
       await flushPromises();
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(true);
@@ -184,24 +153,16 @@ describe('FavouriteData', () => {
       getStopAndStationsQuery.mockResolvedValue([]);
       getFavouriteVehicleRentalStationsQuery.mockResolvedValue([]);
 
-      favouriteStore.set(
-        [staleStopFavourite, { ...bikeFavourite, networks: ['inactive'] }],
-        true,
-      );
+      favouriteStore.set([staleStopFavourite, { ...bikeFavourite, networks: ['inactive'] }], true);
       await flushPromises();
 
-      expect(getFavouriteVehicleRentalStationsQuery).toHaveBeenCalledWith(
-        [],
-        '',
-      );
+      expect(getFavouriteVehicleRentalStationsQuery).toHaveBeenCalledWith([], '');
       expect(favouriteStore.getHasOtpLocationFavourites()).toBe(false);
     });
 
     it('trusts only eligible bike stations when validation fails', async () => {
       getStopAndStationsQuery.mockResolvedValue([]);
-      getFavouriteVehicleRentalStationsQuery.mockRejectedValue(
-        new Error('network error'),
-      );
+      getFavouriteVehicleRentalStationsQuery.mockRejectedValue(new Error('network error'));
       const inactiveBike = {
         ...bikeFavourite,
         networks: ['inactive'],
@@ -314,10 +275,7 @@ describe('FavouriteData', () => {
       getFavouriteVehicleRentalStationsQuery.mockResolvedValue([]);
 
       favouriteStore.saveFavourite(placeFavourite, vi.fn());
-      favouriteStore.saveFavourite(
-        { ...placeFavourite, favouriteId: 'place-2' },
-        vi.fn(),
-      );
+      favouriteStore.saveFavourite({ ...placeFavourite, favouriteId: 'place-2' }, vi.fn());
       await flushPromises();
       expect(updateFavouritesRequest).toHaveBeenCalledTimes(1);
 
@@ -336,10 +294,7 @@ describe('FavouriteData', () => {
         .mockImplementation(payload => Promise.resolve(payload));
 
       favouriteStore.saveFavourite(placeFavourite, vi.fn());
-      favouriteStore.saveFavourite(
-        { ...placeFavourite, favouriteId: 'place-2' },
-        vi.fn(),
-      );
+      favouriteStore.saveFavourite({ ...placeFavourite, favouriteId: 'place-2' }, vi.fn());
       await flushPromises();
 
       expect(updateFavouritesRequest).toHaveBeenCalledTimes(2);

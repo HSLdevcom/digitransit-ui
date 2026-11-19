@@ -1,9 +1,6 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import DisruptionBanner from '../../../app/component/DisruptionBanner';
-import {
-  AlertSeverityLevelType,
-  AlertEntityType,
-} from '../../../utils/shared/constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
 
 describe('<DisruptionBanner />', () => {
   it('should render a service alert', () => {
@@ -17,12 +14,7 @@ describe('<DisruptionBanner />', () => {
           effectiveStartDate: 1000,
           effectiveEndDate: 2000,
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'BUS',
-              shortName: '1',
-              gtfsId: 'foo:1',
-            },
+            { __typename: AlertEntityType.Route, mode: 'BUS', shortName: '1', gtfsId: 'foo:1' },
           ],
         },
       ],

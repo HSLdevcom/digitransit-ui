@@ -18,14 +18,8 @@ vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 describe('assetManifest', () => {
   const fixtureRelativePath = 'assetManifest.test-fixture.txt';
-  const fixtureAbsolutePath = path.join(
-    process.cwd(),
-    '_static',
-    fixtureRelativePath,
-  );
-  const staticDirPreexisted = fs.existsSync(
-    path.join(process.cwd(), '_static'),
-  );
+  const fixtureAbsolutePath = path.join(process.cwd(), '_static', fixtureRelativePath);
+  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
 
   beforeAll(() => {
     if (!staticDirPreexisted) {
@@ -81,8 +75,7 @@ describe('assetManifest', () => {
               : `/* ${path.basename(file)} */`,
         },
       }));
-      const assetManifest =
-        await import('../../../../server/html/assetManifest');
+      const assetManifest = await import('../../../../server/html/assetManifest');
 
       expect(assetManifest.getMainAssets()).toEqual([
         'css/digitransit-components.c1.css',
@@ -91,17 +84,13 @@ describe('assetManifest', () => {
         'js/main.m1.js',
       ]);
       expect(assetManifest.getManifestScript()).toBe('/* runtime.r1.js */');
-      expect(assetManifest.getAssetPath('hsl_theme.css')).toBe(
-        'css/hsl_theme.abc.css',
-      );
+      expect(assetManifest.getAssetPath('hsl_theme.css')).toBe('css/hsl_theme.abc.css');
     });
   });
 
   describe('readStaticFile', () => {
     it('reads a file from _static/ regardless of NODE_ENV', () => {
-      expect(readStaticFile(fixtureRelativePath).toString()).toBe(
-        'fixture content',
-      );
+      expect(readStaticFile(fixtureRelativePath).toString()).toBe('fixture content');
     });
   });
 });

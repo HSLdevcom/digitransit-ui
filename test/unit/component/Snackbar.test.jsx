@@ -17,9 +17,7 @@ describe('<Snackbar />', () => {
         />
       </BreakpointContext.Provider>
     );
-    const { container, getByRole, rerender } = renderWithProviders(
-      view('small'),
-    );
+    const { container, getByRole, rerender } = renderWithProviders(view('small'));
     const snackbar = document.body.querySelector('.snackbar');
 
     expect(container.childElementCount).toBe(0);

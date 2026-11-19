@@ -7,9 +7,7 @@ export default graphql`
     $runningTimeRanges: [OffsetDateTimeRangeInput!]
   ) {
     canceledTripsSummary(
-      filters: {
-        include: { modes: [$mode], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [$mode], runningTimeRanges: $runningTimeRanges } }
     ) {
       routes {
         cancellationCount
@@ -23,8 +21,7 @@ export default graphql`
           cancellationCount
           pattern {
             code
-            ...CanceledTripsPatternFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledTripsPatternFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }

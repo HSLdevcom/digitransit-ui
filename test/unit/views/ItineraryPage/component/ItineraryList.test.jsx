@@ -34,11 +34,7 @@ const PROPS_TEMPLATE = {
 
 describe('<ItineraryList />', () => {
   it('should render the empty state when there are no itineraries', () => {
-    const props = {
-      ...PROPS_TEMPLATE,
-      currentTime: 1234567890,
-      searchTime: 1234567890,
-    };
+    const props = { ...PROPS_TEMPLATE, currentTime: 1234567890, searchTime: 1234567890 };
     const { container } = renderWithProviders(<ItineraryList {...props} />);
     expect(container.querySelector('.summary-list-container')).not.toBeNull();
     // The not-found message is outside the list.
@@ -46,9 +42,7 @@ describe('<ItineraryList />', () => {
   });
 
   it('should render without crashing', () => {
-    const props = {
-      ...PROPS_TEMPLATE,
-    };
+    const props = { ...PROPS_TEMPLATE };
     const { container } = renderWithProviders(<ItineraryList {...props} />);
     expect(container.querySelector('.summary-list-container')).not.toBeNull();
   });

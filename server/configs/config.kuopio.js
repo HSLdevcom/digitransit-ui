@@ -13,31 +13,17 @@ export default configMerger(walttiConfig, {
     name: 'VILKKU',
     href: 'https://vilkku.kuopio.fi/',
     altLink: {
-      sv: {
-        name: 'VILKKU',
-        href: 'https://vilkku.kuopio.fi/en',
-      },
-      en: {
-        name: 'VILKKU',
-        href: 'https://vilkku.kuopio.fi/en',
-      },
+      sv: { name: 'VILKKU', href: 'https://vilkku.kuopio.fi/en' },
+      en: { name: 'VILKKU', href: 'https://vilkku.kuopio.fi/en' },
     },
   },
 
-  colors: {
-    primary: '#0ab1c8',
-    bus: '#724f9f',
-    rail: '#0E7F3C',
-  },
+  colors: { primary: '#0ab1c8', bus: '#724f9f', rail: '#0E7F3C' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/kuopio/social-share.png',
-      width: 760,
-      height: 224,
-    },
+    image: { url: 'assets/kuopio/social-share.png', width: 760, height: 224 },
   },
 
   title: APP_TITLE,
@@ -77,27 +63,16 @@ export default configMerger(walttiConfig, {
     [29.013261, 62.454915],
   ],
 
-  defaultEndpoint: {
-    address: 'Kuopion tori',
-    lat: 62.892511,
-    lon: 27.678136,
-  },
+  defaultEndpoint: { address: 'Kuopion tori', lat: 62.892511, lon: 27.678136 },
 
   vehicleRental: {
     networks: {
       breeze_kuopio: {
         enabled: true,
-        season: {
-          start: '27.4',
-          end: '31.10',
-        },
+        season: { start: '27.4', end: '31.10' },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',
-        name: {
-          fi: 'Vilkku',
-          sv: 'Vilkku',
-          en: 'Vilkku',
-        },
+        name: { fi: 'Vilkku', sv: 'Vilkku', en: 'Vilkku' },
         type: 'citybike',
         url: {
           fi: 'https://kaupunkipyorat.kuopio.fi/',
@@ -109,13 +84,8 @@ export default configMerger(walttiConfig, {
   },
 
   transportModes: {
-    citybike: {
-      availableForSelection: true,
-    },
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    citybike: { availableForSelection: true },
+    rail: { availableForSelection: true, defaultValue: true },
   },
 
   nearYouModes: ['bus', 'rail', 'citybike'],
@@ -131,10 +101,7 @@ export default configMerger(walttiConfig, {
           en: 'https://palaute.kuopio.fi/en#!/palautelomake/27050/27054',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -177,26 +144,12 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/kuopio/zone_lines_20240508.geojson',
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-    6: 'F',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F' },
+  zones: { stops: true, itinerary: true },
   externalFareRouteIds: ['600_Skibus'],
 });

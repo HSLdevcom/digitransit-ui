@@ -1,9 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import {
-  getReadMessageIds,
-  setReadMessageId,
-} from '../../../utils/client/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../../utils/client/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Disclaimer from '../Disclaimer';
 
@@ -11,9 +8,7 @@ export default function ParkInfo({ mode }) {
   const { language, parkAndRide } = useConfigContext();
   const key = `${mode}_info`;
   const prefix = mode === 'CARPARK' ? 'car' : 'bike';
-  const [showParkInfo, setShowParkInfo] = useState(
-    !getReadMessageIds().includes(key),
-  );
+  const [showParkInfo, setShowParkInfo] = useState(!getReadMessageIds().includes(key));
 
   if (!showParkInfo) {
     return null;

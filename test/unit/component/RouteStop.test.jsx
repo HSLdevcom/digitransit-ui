@@ -5,17 +5,9 @@ import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 
 describe('<RouteStop />', () => {
   it('should not render a service alert icon for the stop', () => {
-    const props = {
-      currentTime: 1471515614,
-      color: '',
-      stop: { alerts: [] },
-    };
+    const props = { currentTime: 1471515614, color: '', stop: { alerts: [] } };
     const { container } = renderWithProviders(<RouteStop {...props} />, {
-      config: {
-        ...mockContext.config,
-        minutesToDepartureLimit: 0,
-        zones: { stops: true },
-      },
+      config: { ...mockContext.config, minutesToDepartureLimit: 0, zones: { stops: true } },
     });
     expect(container.querySelector('.caution')).toBeNull();
   });
@@ -24,16 +16,10 @@ describe('<RouteStop />', () => {
     const props = {
       currentTime: 1471515614,
       color: '',
-      stop: {
-        alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }],
-      },
+      stop: { alerts: [{ alertSeverityLevel: AlertSeverityLevelType.Warning }] },
     };
     const { container } = renderWithProviders(<RouteStop {...props} />, {
-      config: {
-        ...mockContext.config,
-        minutesToDepartureLimit: 0,
-        zones: { stops: true },
-      },
+      config: { ...mockContext.config, minutesToDepartureLimit: 0, zones: { stops: true } },
     });
     expect(container.querySelector('.caution')).not.toBeNull();
   });
@@ -46,19 +32,12 @@ describe('<RouteStop />', () => {
       mode: 'BUS',
       stop: {
         alerts: [
-          {
-            alertSeverityLevel: AlertSeverityLevelType.Warning,
-            effectiveStartDate: 1471515615,
-          },
+          { alertSeverityLevel: AlertSeverityLevelType.Warning, effectiveStartDate: 1471515615 },
         ],
       },
     };
     const { container } = renderWithProviders(<RouteStop {...props} />, {
-      config: {
-        ...mockContext.config,
-        minutesToDepartureLimit: 0,
-        zones: { stops: true },
-      },
+      config: { ...mockContext.config, minutesToDepartureLimit: 0, zones: { stops: true } },
     });
     expect(container.querySelector('.caution')).toBeNull();
   });
@@ -69,10 +48,7 @@ describe('<RouteStop />', () => {
       color: '',
       stop: {
         alerts: [
-          {
-            alertSeverityLevel: AlertSeverityLevelType.Warning,
-            effectiveStartDate: 1471515600,
-          },
+          { alertSeverityLevel: AlertSeverityLevelType.Warning, effectiveStartDate: 1471515600 },
         ],
       },
     };
@@ -88,14 +64,7 @@ describe('<RouteStop />', () => {
   });
 
   it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
-    const props = {
-      currentTime: 1471515614,
-      color: '',
-      stop: {
-        alerts: [],
-        firstDeparture: [],
-      },
-    };
+    const props = { currentTime: 1471515614, color: '', stop: { alerts: [], firstDeparture: [] } };
     const { container } = renderWithProviders(<RouteStop {...props} />, {
       config: {
         ...mockContext.config,
@@ -105,8 +74,6 @@ describe('<RouteStop />', () => {
       },
     });
     expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
-    expect(
-      container.querySelector('.route-stop-now_circleline circle'),
-    ).toBeNull();
+    expect(container.querySelector('.route-stop-now_circleline circle')).toBeNull();
   });
 });

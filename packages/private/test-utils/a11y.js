@@ -37,11 +37,7 @@ const describeUnused = ({ rule, selector }) =>
  *   axe options, and violation nodes to drop before `allow` applies.
  * @returns {Promise<string[]>}
  */
-export async function checkA11y(
-  root,
-  allow,
-  { options = AXE_OPTIONS, ignore = () => false } = {},
-) {
+export async function checkA11y(root, allow, { options = AXE_OPTIONS, ignore = () => false } = {}) {
   validateAllow(allow);
   const { violations } = await runAxe(root, options);
   const relevant = violations

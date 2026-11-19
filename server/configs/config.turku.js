@@ -52,12 +52,8 @@ export default configMerger(walttiConfig, {
       default: `${POI_MAP_PREFIX}/fi/stops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/stops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -83,14 +79,8 @@ export default configMerger(walttiConfig, {
     name: 'Föli',
     href: 'http://www.foli.fi/fi',
     altLink: {
-      sv: {
-        name: 'Föli',
-        href: 'https://www.foli.fi/sv',
-      },
-      en: {
-        name: 'Föli',
-        href: 'https://www.foli.fi/en',
-      },
+      sv: { name: 'Föli', href: 'https://www.foli.fi/sv' },
+      en: { name: 'Föli', href: 'https://www.foli.fi/en' },
     },
   },
 
@@ -98,19 +88,11 @@ export default configMerger(walttiConfig, {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
 
-    twitter: {
-      site: '@Turkukaupunki',
-    },
-    image: {
-      url: 'assets/turku/social-share.png',
-      width: 339,
-      height: 78,
-    },
+    twitter: { site: '@Turkukaupunki' },
+    image: { url: 'assets/turku/social-share.png', width: 339, height: 78 },
   },
 
-  meta: {
-    description: APP_DESCRIPTION,
-  },
+  meta: { description: APP_DESCRIPTION },
 
   title: APP_TITLE,
 
@@ -125,16 +107,9 @@ export default configMerger(walttiConfig, {
       donkey_turku: {
         capacity: BIKEAVL_WITHMAX,
         enabled: true,
-        season: {
-          start: '1.4',
-          end: '23.12',
-        },
+        season: { start: '1.4', end: '23.12' },
         icon: 'citybike',
-        name: {
-          fi: 'Turku',
-          sv: 'Åbo',
-          en: 'Turku',
-        },
+        name: { fi: 'Turku', sv: 'Åbo', en: 'Turku' },
         type: 'citybike',
         url: {
           fi: 'https://www.foli.fi/fi/aikataulut-ja-reitit/fölifillarit',
@@ -145,31 +120,16 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  defaultSettings: {
-    minTransferTime: 5 * 60,
-  },
+  defaultSettings: { minTransferTime: 5 * 60 },
 
   transportModes: {
-    bus: {
-      color: '#e8aa27',
-    },
+    bus: { color: '#e8aa27' },
 
-    ferry: {
-      availableForSelection: true,
-      defaultValue: true,
-      color: '#0064f0',
-    },
+    ferry: { availableForSelection: true, defaultValue: true, color: '#0064f0' },
 
-    funicular: {
-      availableForSelection: true,
-      defaultValue: true,
-      color: '#ff00ff',
-    },
+    funicular: { availableForSelection: true, defaultValue: true, color: '#ff00ff' },
 
-    citybike: {
-      availableForSelection: true,
-      color: '#f2b62d',
-    },
+    citybike: { availableForSelection: true, color: '#f2b62d' },
   },
 
   nearYouModes: ['bus', 'ferry', 'citybike'],
@@ -195,10 +155,7 @@ export default configMerger(walttiConfig, {
           en: 'https://opaskartta.turku.fi/eFeedback/en/Feedback/35-F%C3%96LI%20public%20transport',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -210,11 +167,7 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  defaultEndpoint: {
-    address: 'Kauppatori, Turku',
-    lat: 60.451159,
-    lon: 22.267633,
-  },
+  defaultEndpoint: { address: 'Kauppatori, Turku', lat: 60.451159, lon: 22.267633 },
 
   aboutThisService: {
     fi: [
@@ -275,9 +228,7 @@ export default configMerger(walttiConfig, {
     },
   ],
 
-  geoJson: {
-    layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas',
-  },
+  geoJson: { layerConfigUrl: 'https://data.foli.fi/geojson/reittiopas' },
 
   constantOperationStops: {
     'FUNI:9900': CONSTANT_OPERATION_PARAGRAPHS.fori,
@@ -289,15 +240,9 @@ export default configMerger(walttiConfig, {
     'FUNI:1': CONSTANT_OPERATION_PARAGRAPHS.fori,
     'FUNI:2': CONSTANT_OPERATION_PARAGRAPHS.funi,
   },
-  customWeights: {
-    FERRY: 0.6,
-    FUNICULAR: 0.1,
-  },
+  customWeights: { FERRY: 0.6, FUNICULAR: 0.1 },
 
-  parkAndRide: {
-    showParkAndRide: true,
-    showParkAndRideForBikes: true,
-  },
+  parkAndRide: { showParkAndRide: true, showParkAndRideForBikes: true },
   realTime: undefined,
   realTimePatch: undefined,
 });

@@ -17,7 +17,4 @@ export default function MapContainer({ className = '', children, ...props }) {
   );
 }
 
-MapContainer.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node,
-};
+MapContainer.propTypes = { className: PropTypes.string, children: PropTypes.node };

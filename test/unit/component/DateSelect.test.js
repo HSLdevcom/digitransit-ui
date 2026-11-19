@@ -63,8 +63,6 @@ describe('<DateSelect />', () => {
       defaultProps.selectedDate,
       ({ defaultMessage }) => defaultMessage,
     );
-    expect(
-      options.find(option => option.value === defaultProps.selectedDate),
-    ).toBeDefined();
+    expect(options.find(option => option.value === defaultProps.selectedDate)).toBeDefined();
   });
 });

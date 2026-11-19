@@ -32,29 +32,23 @@ const makeStop = (alerts = []) => ({
 });
 
 const renderView = alerts =>
-  renderWithProviders(
-    <StopNearYou stop={makeStop(alerts)} isParentTabActive />,
-    { config, currentTime: 1000 },
-  );
+  renderWithProviders(<StopNearYou stop={makeStop(alerts)} isParentTabActive />, {
+    config,
+    currentTime: 1000,
+  });
 
 describe('<StopNearYou /> alert banner', () => {
   beforeEach(() => {
-    vi.spyOn(NearYouHeaderModule, 'default', 'get').mockReturnValue(
-      NearYouHeaderStub,
+    vi.spyOn(NearYouHeaderModule, 'default', 'get').mockReturnValue(NearYouHeaderStub);
+    vi.spyOn(StopNearYouDepartureRowContainerModule, 'default', 'get').mockReturnValue(
+      DepartureRowsStub,
     );
-    vi.spyOn(
-      StopNearYouDepartureRowContainerModule,
-      'default',
-      'get',
-    ).mockReturnValue(DepartureRowsStub);
   });
 
   it('shows the banner when the stop has a stop alert', () => {
     const { container } = renderView([makeAlert()]);
     expect(container.querySelector('.alert-container')).not.toBeNull();
-    expect(container.querySelector('.alert-text').textContent).toBe(
-      'Stop disruption',
-    );
+    expect(container.querySelector('.alert-text').textContent).toBe('Stop disruption');
   });
 
   it('hides the banner when the stop has no alerts', () => {
@@ -77,19 +71,13 @@ describe('<StopNearYou /> alert banner', () => {
         effectiveStartDate: 100,
         effectiveEndDate: 500,
       }),
-      makeAlert({
-        alertHeaderText: 'Ongoing',
-        effectiveStartDate: 900,
-        effectiveEndDate: 2000,
-      }),
+      makeAlert({ alertHeaderText: 'Ongoing', effectiveStartDate: 900, effectiveEndDate: 2000 }),
     ]);
     expect(container.querySelector('.alert-text').textContent).toBe('Ongoing');
   });
 
   it('hides the banner when alerts have no Stop entity', () => {
-    const { container } = renderView([
-      makeAlert({ entities: [{ __typename: 'Route' }] }),
-    ]);
+    const { container } = renderView([makeAlert({ entities: [{ __typename: 'Route' }] })]);
     expect(container.querySelector('.alert-container')).toBeNull();
   });
 });

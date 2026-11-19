@@ -68,10 +68,7 @@ export function getCapacity(config, occupancyStatus, departureTime) {
     config.useRealtimeTravellerCapacities &&
     occupancyStatus &&
     occupancyStatus !== 'NO_DATA_AVAILABLE' &&
-    isDepartureWithinWindow(
-      departureTime,
-      config.realtimeTravellerCapacityWindowMinutes,
-    )
+    isDepartureWithinWindow(departureTime, config.realtimeTravellerCapacityWindowMinutes)
   ) {
     return mapStatus(occupancyStatus);
   }
@@ -85,9 +82,5 @@ export function getCapacity(config, occupancyStatus, departureTime) {
  * @param {*} leg leg object.
  */
 export function getCapacityForLeg(config, leg) {
-  return getCapacity(
-    config,
-    leg.trip?.occupancy?.occupancyStatus,
-    legTime(leg.start),
-  );
+  return getCapacity(config, leg.trip?.occupancy?.occupancyStatus, legTime(leg.start));
 }

@@ -3,16 +3,13 @@ import './CanceledDeparturesFragment';
 
 export default graphql`
   fragment CanceledTripsPatternFragment on Pattern
-  @argumentDefinitions(
-    runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }
-  ) {
+  @argumentDefinitions(runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }) {
     id
     code
     headsign
     stops {
       name
     }
-    ...CanceledDeparturesFragment
-      @arguments(runningTimeRanges: $runningTimeRanges)
+    ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
   }
 `;

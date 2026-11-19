@@ -11,12 +11,7 @@ const makeAlert = (id, start, end, severity) => ({
 });
 
 const makeRouteSummary = gtfsId => ({
-  route: {
-    gtfsId,
-    shortName: gtfsId,
-    id: gtfsId,
-    mode: 'BUS',
-  },
+  route: { gtfsId, shortName: gtfsId, id: gtfsId, mode: 'BUS' },
   cancellationCount: 1,
   patterns: [],
 });
@@ -35,59 +30,36 @@ describe('buildAlertsFingerprint', () => {
   it('produces a different fingerprint when an alert is added', () => {
     const a = makeAlert('a1', 1000, 2000, 'WARNING');
     const b = makeAlert('a2', 1001, 2001, 'SEVERE');
-    expect(buildAlertsFingerprint([a])).not.toBe(
-      buildAlertsFingerprint([a, b]),
-    );
+    expect(buildAlertsFingerprint([a])).not.toBe(buildAlertsFingerprint([a, b]));
   });
 
   it('produces a different fingerprint when severity changes', () => {
     const before = makeAlert('a1', 1000, 2000, 'WARNING');
     const after = makeAlert('a1', 1000, 2000, 'SEVERE');
-    expect(buildAlertsFingerprint([before])).not.toBe(
-      buildAlertsFingerprint([after]),
-    );
+    expect(buildAlertsFingerprint([before])).not.toBe(buildAlertsFingerprint([after]));
   });
 
   it('produces a different fingerprint when effective dates change', () => {
     const before = makeAlert('a1', 1000, 2000, 'WARNING');
     const after = makeAlert('a1', 1000, 3000, 'WARNING');
-    expect(buildAlertsFingerprint([before])).not.toBe(
-      buildAlertsFingerprint([after]),
-    );
+    expect(buildAlertsFingerprint([before])).not.toBe(buildAlertsFingerprint([after]));
   });
 });
 
 describe('getCanceledModes', () => {
   it('filters canceled trip routes by configured feed ids', () => {
     const canceledModes = getCanceledModes(
-      {
-        bus: {
-          routes: [
-            makeRouteSummary('HSL:1001'),
-            makeRouteSummary('MATKA:2001'),
-          ],
-        },
-      },
+      { bus: { routes: [makeRouteSummary('HSL:1001'), makeRouteSummary('MATKA:2001')] } },
       ['HSL'],
     );
 
-    expect(canceledModes).toEqual([
-      {
-        key: 'bus',
-        routes: [makeRouteSummary('HSL:1001')],
-      },
-    ]);
+    expect(canceledModes).toEqual([{ key: 'bus', routes: [makeRouteSummary('HSL:1001')] }]);
   });
 
   it('omits cancellation modes when all routes are filtered out', () => {
-    const canceledModes = getCanceledModes(
-      {
-        bus: {
-          routes: [makeRouteSummary('MATKA:2001')],
-        },
-      },
-      ['HSL'],
-    );
+    const canceledModes = getCanceledModes({ bus: { routes: [makeRouteSummary('MATKA:2001')] } }, [
+      'HSL',
+    ]);
 
     expect(canceledModes).toEqual([]);
   });
@@ -101,8 +73,6 @@ describe('getCanceledModes', () => {
       ['HSL'],
     );
 
-    expect(canceledModes).toEqual([
-      { key: 'bus', routes: [makeRouteSummary('HSL:1001')] },
-    ]);
+    expect(canceledModes).toEqual([{ key: 'bus', routes: [makeRouteSummary('HSL:1001')] }]);
   });
 });

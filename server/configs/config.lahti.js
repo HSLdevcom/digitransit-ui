@@ -22,22 +22,13 @@ export default configMerger(walttiConfig, {
       en: { name: 'lsl.fi/en', href: 'https://www.lsl.fi/in-english/' },
     },
   },
-  colors: {
-    primary: '#0066B3',
-    bus: '#0066B3',
-  },
+  colors: { primary: '#0066B3', bus: '#0066B3' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    twitter: {
-      site: '@LSL_fi',
-    },
-    image: {
-      url: 'assets/lahti/social-share.png',
-      width: 751,
-      height: 301,
-    },
+    twitter: { site: '@LSL_fi' },
+    image: { url: 'assets/lahti/social-share.png', width: 751, height: 301 },
   },
 
   title: APP_TITLE,
@@ -64,11 +55,7 @@ export default configMerger(walttiConfig, {
     [maxLon, minLat],
   ],
 
-  defaultEndpoint: {
-    address: 'Keskusta, Lahti',
-    lat: 60.983552,
-    lon: 25.656398,
-  },
+  defaultEndpoint: { address: 'Keskusta, Lahti', lat: 60.983552, lon: 25.656398 },
 
   menu: {
     copyright: { label: `© Lahti ${walttiConfig.YEAR}` },
@@ -81,10 +68,7 @@ export default configMerger(walttiConfig, {
           en: 'https://e-asiointi.lahti.fi/eFeedback/en/Feedback/29-Public%20transport',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -124,26 +108,12 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'LSL',
-    2: 'LSL',
-    3: 'LSL',
-    4: 'LSL',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'LSL', 2: 'LSL', 3: 'LSL', 4: 'LSL' },
+  zones: { stops: true, itinerary: true },
 
-  defaultSettings: {
-    minTransferTime: 5 * 60,
-  },
+  defaultSettings: { minTransferTime: 5 * 60 },
 
-  transportModes: {
-    citybike: {
-      availableForSelection: true,
-    },
-  },
+  transportModes: { citybike: { availableForSelection: true } },
 
   nearYouModes: ['bus', 'citybike'],
 
@@ -151,17 +121,10 @@ export default configMerger(walttiConfig, {
     networks: {
       freebike_lahti: {
         enabled: true,
-        season: {
-          start: '14.4',
-          end: '17.11',
-        },
+        season: { start: '14.4', end: '17.11' },
         capacity: BIKEAVL_BIKES,
         icon: 'citybike',
-        name: {
-          fi: 'Mankeli',
-          sv: 'Mankeli',
-          en: 'Mankeli',
-        },
+        name: { fi: 'Mankeli', sv: 'Mankeli', en: 'Mankeli' },
         type: 'citybike',
         url: {
           fi: 'https://kaupunkipyorat.lahti.fi/',
@@ -174,9 +137,7 @@ export default configMerger(walttiConfig, {
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: {
-    fi: 'https://www.lsl.fi/liput-ja-hinnat/',
-  },
+  ticketLink: { fi: 'https://www.lsl.fi/liput-ja-hinnat/' },
   showTicketPrice: false,
   ticketLinkOperatorCode: 50223,
 });

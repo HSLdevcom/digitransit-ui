@@ -16,11 +16,7 @@ describe('<IndoorInfo />', () => {
 
   it('shows the "hide" message when steps are expanded', () => {
     const { container } = renderWithProviders(
-      <IndoorInfo
-        intermediateStepCount={2}
-        showIntermediateSteps
-        toggleFunction={() => {}}
-      />,
+      <IndoorInfo intermediateStepCount={2} showIntermediateSteps toggleFunction={() => {}} />,
       { config: baseConfig },
     );
     expect(container.textContent).toContain('Hide the indoor route');

@@ -30,28 +30,17 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['VARELY', 'FOLI', 'Rauma', 'Pori', 'Salo'],
 
-  colors: {
-    primary: colorPrimary,
-    hover: '#00BF6F',
-    bus: colorPrimary,
-    ferry: '#0064f0',
-  },
+  colors: { primary: colorPrimary, hover: '#00BF6F', bus: colorPrimary, ferry: '#0064f0' },
 
   appBarLink: { name: 'Seutu+', href: 'https://seutuplus.fi/' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/varely/social-share.png',
-      width: 611,
-      height: 225,
-    },
+    image: { url: 'assets/varely/social-share.png', width: 611, height: 225 },
   },
 
-  meta: {
-    description: APP_DESCRIPTION,
-  },
+  meta: { description: APP_DESCRIPTION },
 
   title: APP_TITLE,
 
@@ -61,16 +50,9 @@ export default configMerger(walttiConfig, {
   favicon: './app/assets/images/varely/varely-favicon.png',
 
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      color: colorPrimary,
-    },
+    bus: { availableForSelection: true, color: colorPrimary },
 
-    ferry: {
-      availableForSelection: true,
-      defaultValue: true,
-      color: '#0064f0',
-    },
+    ferry: { availableForSelection: true, defaultValue: true, color: '#0064f0' },
 
     taxi: {
       availableForSelection: true, // experimental feature
@@ -99,17 +81,12 @@ export default configMerger(walttiConfig, {
     [21.0, 62.02],
   ],
 
-  map: {
-    minZoom: 7,
-  },
+  map: { minZoom: 7 },
 
   menu: {
     copyright: { label: `© Seutu+ ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -121,11 +98,7 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  defaultEndpoint: {
-    address: 'Linja-autoasema, Turku',
-    lat: 60.4567994,
-    lon: 22.2679201,
-  },
+  defaultEndpoint: { address: 'Linja-autoasema, Turku', lat: 60.4567994, lon: 22.2679201 },
 
   /* Enable real-time map layer for vehicle positions */
   vehicles: false,
@@ -161,38 +134,14 @@ export default configMerger(walttiConfig, {
 
   externalFeedIds: ['02Taksi'],
 
-  taxiZone: {
-    enabled: isDevRunEnv(),
-    transit: isDevRunEnv(),
-    direct: false,
-  },
+  taxiZone: { enabled: isDevRunEnv(), transit: isDevRunEnv(), direct: false },
 
   sourceForAlertsAndDisruptions: {
-    VARELY: {
-      fi: 'Varsinais-Suomi',
-      sv: 'Egentliga Finland',
-      en: 'Varsinais-Suomi',
-    },
-    Rauma: {
-      fi: 'Rauma',
-      sv: 'Raumo',
-      en: 'Rauma',
-    },
-    FOLI: {
-      fi: 'Turun seutu',
-      sv: 'Åboregion',
-      en: 'Turku region',
-    },
-    Salo: {
-      fi: 'Salo',
-      sv: 'Salo',
-      en: 'Salo',
-    },
-    Pori: {
-      fi: 'Pori',
-      sv: 'Björneborg',
-      en: 'Pori',
-    },
+    VARELY: { fi: 'Varsinais-Suomi', sv: 'Egentliga Finland', en: 'Varsinais-Suomi' },
+    Rauma: { fi: 'Rauma', sv: 'Raumo', en: 'Rauma' },
+    FOLI: { fi: 'Turun seutu', sv: 'Åboregion', en: 'Turku region' },
+    Salo: { fi: 'Salo', sv: 'Salo', en: 'Salo' },
+    Pori: { fi: 'Pori', sv: 'Björneborg', en: 'Pori' },
   },
 
   routeNotifications: [],

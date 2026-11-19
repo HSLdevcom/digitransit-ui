@@ -16,12 +16,7 @@ export default function NationalServiceLink({ nationalServiceLink }) {
         id="use-national-service-prefix"
         defaultMessage="You can also try the national service available at"
       />
-      <a
-        className="no-decoration"
-        href={link.href}
-        target="_blank"
-        rel="noreferrer"
-      >
+      <a className="no-decoration" href={link.href} target="_blank" rel="noreferrer">
         {link.name}
       </a>
       <FormattedMessage id="use-national-service-postfix" defaultMessage="" />
@@ -31,9 +26,6 @@ export default function NationalServiceLink({ nationalServiceLink }) {
 
 NationalServiceLink.propTypes = {
   nationalServiceLink: PropTypes.objectOf(
-    PropTypes.shape({
-      name: PropTypes.string.isRequired,
-      href: PropTypes.string.isRequired,
-    }),
+    PropTypes.shape({ name: PropTypes.string.isRequired, href: PropTypes.string.isRequired }),
   ),
 };

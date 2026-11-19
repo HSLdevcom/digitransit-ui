@@ -3,12 +3,9 @@ const translations = {
   de: {
     translation: {
       'add-via-button-label': 'Füge Zwischenziel hinzu',
-      'add-via-duration-button-label':
-        'Set stop duration at via point {{index}}',
-      'add-via-duration-button-label-close':
-        'Close stop duration selector at via point {{index}}',
-      'add-via-duration-button-label-open':
-        'Open stop duration selector at via point {{index}}',
+      'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
+      'add-via-duration-button-label-close': 'Close stop duration selector at via point {{index}}',
+      'add-via-duration-button-label-open': 'Open stop duration selector at via point {{index}}',
       address: 'Adresse',
       'address-place-or-business': 'Adress, Ort or Geschäft',
       airplane: 'Flug',
@@ -46,14 +43,12 @@ const translations = {
       'search-autosuggest-label-move-to-destination':
         'After selecting the starting location you are automatically moved to the destination field.',
       'search-autosuggest-len': 'There is {{count}} suggestion available',
-      'search-autosuggest-len_plural':
-        'There are {{count}} suggestions available',
+      'search-autosuggest-len_plural': 'There are {{count}} suggestions available',
       'search-button-label': 'Suche',
       'search-current-suggestion': 'Aktuelle Auswahl: {{selection}}',
       'search-destination': 'Suche Zielort, Linie or Haltestelle',
       'search-destination-index': 'Zielort eingeben',
-      'search-destination-results-but-no-search':
-        'Ergebnisse in “Zielort”-Reiter anzeigen',
+      'search-destination-results-but-no-search': 'Ergebnisse in “Zielort”-Reiter anzeigen',
       'search-no-results': 'Kein Ort gefunden.',
       'search-origin': 'Suche Startort, Linie oder Haltestelle',
       'search-origin-index': 'Startort eingeben',
@@ -82,12 +77,9 @@ const translations = {
   en: {
     translation: {
       'add-via-button-label': 'Add via point',
-      'add-via-duration-button-label':
-        'Set stop duration at via point {{index}}',
-      'add-via-duration-button-label-close':
-        'Close stop duration selector at via point {{index}}',
-      'add-via-duration-button-label-open':
-        'Open stop duration selector at via point {{index}}',
+      'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
+      'add-via-duration-button-label-close': 'Close stop duration selector at via point {{index}}',
+      'add-via-duration-button-label-open': 'Open stop duration selector at via point {{index}}',
       address: 'Address',
       'address-place-or-business': 'Address, place or business',
       airplane: 'Flight',
@@ -129,14 +121,12 @@ const translations = {
       'search-autosuggest-label-move-to-destination':
         'After selecting the starting location you are automatically moved to the destination field.',
       'search-autosuggest-len': 'There is {{count}} suggestion available',
-      'search-autosuggest-len_plural':
-        'There are {{count}} suggestions available',
+      'search-autosuggest-len_plural': 'There are {{count}} suggestions available',
       'search-button-label': 'Search',
       'search-current-suggestion': 'Current selection: {{selection}}',
       'search-destination': 'Search destination, route or stop',
       'search-destination-index': 'Enter destination',
-      'search-destination-results-but-no-search':
-        'View results in the adjacent “Destination” tab',
+      'search-destination-results-but-no-search': 'View results in the adjacent “Destination” tab',
       'search-no-results': 'No location',
       'search-origin': 'Search origin, route or stop',
       'search-origin-index': 'Enter origin',
@@ -174,8 +164,7 @@ const translations = {
   fi: {
     translation: {
       'add-via-button-label': 'Lisää välipiste',
-      'add-via-duration-button-label':
-        'Aseta välipisteelle {{index}} pysähdyksen kesto',
+      'add-via-duration-button-label': 'Aseta välipisteelle {{index}} pysähdyksen kesto',
       'add-via-duration-button-label-close':
         'Avaa välipisteen {{index}} pysähdyksen kesto valitsin',
       'add-via-duration-button-label-open':
@@ -265,12 +254,9 @@ const translations = {
   pl: {
     translation: {
       'add-via-button-label': 'Dodaj punkt pośredni',
-      'add-via-duration-button-label':
-        'Wybierz czas postoju dla punktu {{index}}',
-      'add-via-duration-button-label-close':
-        'Zamknij wybornik czasu postoju w punkcie {{index}}',
-      'add-via-duration-button-label-open':
-        'Otwórz wybornik czasu postoju w punkcie {{index}}',
+      'add-via-duration-button-label': 'Wybierz czas postoju dla punktu {{index}}',
+      'add-via-duration-button-label-close': 'Zamknij wybornik czasu postoju w punkcie {{index}}',
+      'add-via-duration-button-label-open': 'Otwórz wybornik czasu postoju w punkcie {{index}}',
       address: 'Adres',
       'address-place-or-business': 'Adres, miejsce lub firma',
       airplane: 'Lot',
@@ -285,8 +271,7 @@ const translations = {
       'clear-search-history': 'Wyczyść historię wyszukiwania',
       currentposition: 'Obecne położenie',
       delete: 'Usuń',
-      'delete-old-searches-header':
-        'Czy na pewno chcesz wyczyścić historię wyszukiwania?',
+      'delete-old-searches-header': 'Czy na pewno chcesz wyczyścić historię wyszukiwania?',
       departure: 'Odjazd',
       destination: 'Cel',
       favourite: 'Ulubione',
@@ -319,8 +304,7 @@ const translations = {
       'search-current-suggestion': 'Obecny wybór: {{selection}}',
       'search-destination': 'Szukaj celu, trasy lub przystanku',
       'search-destination-index': 'Wprowadź punkt docelowy',
-      'search-destination-results-but-no-search':
-        'Wyświetl wyniki w sąsiedniej karcie „Cel”',
+      'search-destination-results-but-no-search': 'Wyświetl wyniki w sąsiedniej karcie „Cel”',
       'search-no-results': 'Brak lokalizacji',
       'search-origin': 'Wyszukaj początek, koniec lub punkt pośredni',
       'search-origin-index': 'Wprowadź punkt początkowy',
@@ -356,8 +340,7 @@ const translations = {
   sv: {
     translation: {
       'add-via-button-label': 'Lägg till viapunkt',
-      'add-via-duration-button-label':
-        'Ställ in varaktighet för viapunkten {{index}}',
+      'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten {{index}}',
       'add-via-duration-button-label-close':
         'Stäng väljaren för varaktighet vid via-punkten {{index}}',
       'add-via-duration-button-label-open':
@@ -408,8 +391,7 @@ const translations = {
       'search-current-suggestion': 'Nuvarande val: {{selection}}',
       'search-destination': 'Sök destination, linje eller hållplats',
       'search-destination-index': 'Skriv destination',
-      'search-destination-results-but-no-search':
-        'Se resultaten under fliken Destination',
+      'search-destination-results-but-no-search': 'Se resultaten under fliken Destination',
       'search-no-results': 'Inga sökresultat',
       'search-origin': 'Sök avfärdsplats, linje eller hållplats',
       'search-origin-index': 'Skriv avfärdsplats',

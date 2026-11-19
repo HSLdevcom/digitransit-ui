@@ -5,17 +5,14 @@ import prUtils from '../../utils/server/ParkAndRideUtils.js';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';
-const GEOCODING_BASE_URL =
-  process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
+const GEOCODING_BASE_URL = process.env.GEOCODING_BASE_URL || `${API_URL}/geocoding/v1`;
 const MAP_URL = process.env.MAP_URL || 'https://dev-cdn.digitransit.fi';
 const MAP_VERSION = process.env.MAP_VERSION || 'v3';
 const POI_MAP_PREFIX = `${MAP_URL}/map/v3/finland`;
 const OTP_URL = process.env.OTP_URL || `${API_URL}/routing/v2/finland/`;
-const HSL_TIMETABLES_URL =
-  process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
+const HSL_TIMETABLES_URL = process.env.HSL_TIMETABLES_URL || 'https://dev.kartat.hsl.fi';
 const API_SUBSCRIPTION_QUERY_PARAMETER_NAME =
-  process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME ||
-  'digitransit-subscription-key';
+  process.env.API_SUBSCRIPTION_QUERY_PARAMETER_NAME || 'digitransit-subscription-key';
 const API_SUBSCRIPTION_HEADER_NAME =
   process.env.API_SUBSCRIPTION_HEADER_NAME || 'digitransit-subscription-key';
 const API_SUBSCRIPTION_TOKEN =
@@ -55,15 +52,9 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
-    REALTIME_RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
+    REALTIME_RENTAL_VEHICLE_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -81,16 +72,12 @@ export default {
         ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
         : ''
     }`,
-    PELIAS_REVERSE_GEOCODER: `${
-      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/reverse${
+    PELIAS_REVERSE_GEOCODER: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/reverse${
       hasAPISubscriptionQueryParameter
         ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
         : ''
     }`,
-    PELIAS_PLACE: `${
-      process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL
-    }/place${
+    PELIAS_PLACE: `${process.env.GEOCODING_BASE_URL || GEOCODING_BASE_URL}/place${
       hasAPISubscriptionQueryParameter
         ? `?${API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${API_SUBSCRIPTION_TOKEN}`
         : ''
@@ -99,9 +86,7 @@ export default {
       HSL: `${HSL_TIMETABLES_URL}/julkaisin-render/?component=LineTimetable`,
       tampere: 'https://www.nysse.fi/matkan-suunnittelu/linjat/',
     },
-    STOP_TIMETABLES: {
-      HSL: `${HSL_TIMETABLES_URL}/julkaisin-render/?component=Timetable`,
-    },
+    STOP_TIMETABLES: { HSL: `${HSL_TIMETABLES_URL}/julkaisin-render/?component=Timetable` },
     WEATHER_DATA:
       'https://opendata.fmi.fi/wfs?service=WFS&version=2.0.0&request=getFeature&storedquery_id=fmi::forecast::harmonie::surface::point::simple&timestep=5&parameters=temperature,WindSpeedMS,WeatherSymbol3',
     EMBEDDED_SEARCH_GENERATION: '/reittihakuelementti',
@@ -113,8 +98,7 @@ export default {
 
   hasAPISubscriptionQueryParameter,
 
-  hasAPISubscriptionHeader:
-    API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
+  hasAPISubscriptionHeader: API_SUBSCRIPTION_HEADER_NAME && API_SUBSCRIPTION_TOKEN,
 
   indexPath: '',
   title: 'Reittihaku',
@@ -149,9 +133,7 @@ export default {
   searchSources: ['oa', 'osm', 'nlsfi'],
 
   search: {
-    suggestions: {
-      useTransportIcons: false,
-    },
+    suggestions: { useTransportIcons: false },
     usePeliasStops: false,
     mapPeliasModality: false,
     peliasMapping: {},
@@ -160,10 +142,7 @@ export default {
     minimalRegexp: /.{2,}/,
   },
 
-  nearYouRoutes: {
-    radius: 10000,
-    bucketSize: 1000,
-  },
+  nearYouRoutes: { radius: 10000, bucketSize: 1000 },
 
   omitNonPickups: true,
   maxNearYouCount: 5,
@@ -196,10 +175,7 @@ export default {
     includeCarSuggestions: false,
     showBikeAndParkItineraries: false,
     includeTaxiSuggestions: false,
-    transitGroupRelaxFunction: {
-      constant: 300,
-      coefficient: 1.2,
-    },
+    transitGroupRelaxFunction: { constant: 300, coefficient: 1.2 },
   },
 
   /**
@@ -233,9 +209,7 @@ export default {
     showLoginCreateAccount: true,
     showOffCanvasList: true,
     showFrontPageLink: true,
-    stopMonitor: {
-      show: false,
-    },
+    stopMonitor: { show: false },
     showEmbeddedSearch: true,
   },
 
@@ -258,31 +232,19 @@ export default {
         // available controls positions: 'topleft', 'topright', 'bottomleft, 'bottomright'
         position: 'bottomright',
       },
-      scale: {
-        position: 'bottomright',
-      },
+      scale: { position: 'bottomright' },
     },
     genericMarker: {
       // Do not render name markers at zoom levels below this value
       nameMarkerMinZoom: 18,
 
-      popup: {
-        offset: [106, 16],
-        maxWidth: 250,
-        minWidth: 250,
-      },
+      popup: { offset: [106, 16], maxWidth: 250, minWidth: 250 },
     },
 
     line: {
-      halo: {
-        weight: 7,
-        thinWeight: 2,
-      },
+      halo: { weight: 7, thinWeight: 2 },
 
-      leg: {
-        weight: 6,
-        thinWeight: 2,
-      },
+      leg: { weight: 6, thinWeight: 2 },
 
       passiveColor: '#758993',
     },
@@ -297,19 +259,10 @@ export default {
     useModeIconsInNonTileLayer: false,
     // areBounds is for keeping map and user inside given area
     // Finland + Stockholm
-    areaBounds: {
-      corner1: [70.25, 32.25],
-      corner2: [58.99, 17.75],
-    },
+    areaBounds: { corner1: [70.25, 32.25], corner2: [58.99, 17.75] },
   },
 
-  stopCard: {
-    header: {
-      showDescription: true,
-      showStopCode: true,
-      showDistance: true,
-    },
-  },
+  stopCard: { header: { showDescription: true, showStopCode: true, showDistance: true } },
 
   autoSuggest: {
     // Let Pelias suggest based on current user location
@@ -348,11 +301,7 @@ export default {
   // lowest zoom level when to draw rail platforms
   railPlatformsMinZoom: 15,
   terminalNamesZoom: 16,
-  stopsIconSize: {
-    small: 8,
-    selected: 28,
-    default: 18,
-  },
+  stopsIconSize: { small: 8, selected: 28, default: 18 },
 
   appBarStyle: 'default',
 
@@ -379,35 +328,21 @@ export default {
 
   sprites: 'assets/svg-sprite.default.svg',
 
-  disruption: {
-    showInfoButton: true,
-  },
+  disruption: { showInfoButton: true },
 
-  agency: {
-    show: true,
-  },
+  agency: { show: true },
 
   socialMedia: {
     title: 'Digitransit',
     description: APP_DESCRIPTION,
     locale: 'en_US',
 
-    image: {
-      url: 'assets/default/social-share.png',
-      width: 2400,
-      height: 1260,
-    },
+    image: { url: 'assets/default/social-share.png', width: 2400, height: 1260 },
 
-    twitter: {
-      card: 'summary_large_image',
-      site: '@hsldevcom',
-    },
+    twitter: { card: 'summary_large_image', site: '@hsldevcom' },
   },
 
-  meta: {
-    description: APP_DESCRIPTION,
-    keywords: 'digitransit',
-  },
+  meta: { description: APP_DESCRIPTION, keywords: 'digitransit' },
 
   hideExternalOperator: () => false,
   useTicketIcons: false,
@@ -415,40 +350,19 @@ export default {
   // Control what transport modes that should be possible to select in the UI
   // and whether the transport mode is used in trip planning by default.
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
 
-    tram: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    tram: { availableForSelection: true, defaultValue: true },
 
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    rail: { availableForSelection: true, defaultValue: true },
 
-    subway: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    subway: { availableForSelection: true, defaultValue: true },
 
-    airplane: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    airplane: { availableForSelection: true, defaultValue: true },
 
-    ferry: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    ferry: { availableForSelection: true, defaultValue: true },
 
-    funicular: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    funicular: { availableForSelection: false, defaultValue: false },
 
     citybike: {
       availableForSelection: false,
@@ -521,23 +435,13 @@ export default {
   menu: {
     copyright: { label: `© Digitransit ${YEAR}` },
     content: [
-      {
-        name: 'menu-feedback',
-        href: 'https://github.com/HSLdevcom/digitransit-ui/issues',
-      },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'menu-feedback', href: 'https://github.com/HSLdevcom/digitransit-ui/issues' },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
     ],
   },
 
   // Default origin endpoint to use when user is outside of area
-  defaultEndpoint: {
-    address: 'Helsinki-Vantaan Lentoasema',
-    lat: 60.317429,
-    lon: 24.9690395,
-  },
+  defaultEndpoint: { address: 'Helsinki-Vantaan Lentoasema', lat: 60.317429, lon: 24.9690395 },
 
   defaultMapZoom: 12,
 
@@ -688,10 +592,7 @@ export default {
   messageBarAlerts: false,
 
   availableTickets: {},
-  zones: {
-    stops: false,
-    itinerary: false,
-  },
+  zones: { stops: false, itinerary: false },
 
   viaPointsEnabled: true,
   viaPointsMax: 1,
@@ -715,11 +616,7 @@ export default {
   parkingAreaSources: ['liipi'],
 
   embeddedSearch: {
-    title: {
-      fi: 'Reittihakuelementti',
-      en: 'Route search element',
-      sv: 'Ruttsökningselement',
-    },
+    title: { fi: 'Reittihakuelementti', en: 'Route search element', sv: 'Ruttsökningselement' },
     infoText: {
       fi: 'Luo reittihakuelementti ja lisää se omaan palveluusi. Hakukomponentin Hae reitti -painikkeesta siirrytään Reittioppaaseen.',
       en: 'Create a route search element and add it to your own service. The Find route button in the search component will transfer you to the journey planner.',
@@ -775,11 +672,7 @@ export default {
     {
       showForRoute: route => route.type === 715,
       id: 'flexBusNotification',
-      header: {
-        fi: 'Kutsuliikenne',
-        en: 'On-demand service',
-        sv: 'Anropsbusstrafiken',
-      },
+      header: { fi: 'Kutsuliikenne', en: 'On-demand service', sv: 'Anropsbusstrafiken' },
       content: {
         fi: [
           'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',

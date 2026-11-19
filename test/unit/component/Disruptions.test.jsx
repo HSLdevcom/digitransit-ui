@@ -1,16 +1,10 @@
 import { DateTime } from 'luxon';
 
 import { renderWithProviders } from '../helpers/mock-providers';
-import {
-  AlertSeverityLevelType,
-  AlertEntityType,
-} from '../../../utils/shared/constants';
-import Disruptions, {
-  filterCanceledCalls,
-} from '../../../app/component/stop/Disruptions';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
+import Disruptions, { filterCanceledCalls } from '../../../app/component/stop/Disruptions';
 
-const renderDisruptions = props =>
-  renderWithProviders(<Disruptions {...props} />).container;
+const renderDisruptions = props => renderWithProviders(<Disruptions {...props} />).container;
 
 describe('<Disruptions />', () => {
   it("should indicate that there are no alerts if the stop's routes have no alerts and the stop has no canceled stoptimes", () => {
@@ -27,17 +21,8 @@ describe('<Disruptions />', () => {
             realtimeState: 'SCHEDULED',
             trip: {
               tripHeadsign: 'Kamppi',
-              route: {
-                gtfsId: 'feed:63',
-                alerts: [],
-                mode: 'BUS',
-                shortName: '63',
-              },
-              stops: [
-                {
-                  name: 'Saramäentie',
-                },
-              ],
+              route: { gtfsId: 'feed:63', alerts: [], mode: 'BUS', shortName: '63' },
+              stops: [{ name: 'Saramäentie' }],
             },
           },
         ],
@@ -58,21 +43,11 @@ describe('<Disruptions />', () => {
           {
             id: 'alert-101',
             alertHeaderText: 'Route disrupted',
-            entities: [
-              {
-                __typename: AlertEntityType.Route,
-                gtfsId: 'feed:101',
-                shortName: '101',
-              },
-            ],
+            entities: [{ __typename: AlertEntityType.Route, gtfsId: 'feed:101', shortName: '101' }],
           },
         ],
         stoptimes: [],
-        routes: [
-          {
-            gtfsId: 'feed:101',
-          },
-        ],
+        routes: [{ gtfsId: 'feed:101' }],
       },
     };
     const container = renderDisruptions(props);
@@ -124,24 +99,13 @@ describe('<Disruptions />', () => {
   });
 
   it('should render multiple canceled departure times for the same trip pattern in chronological order', () => {
-    const baseTime = DateTime.now().set({
-      hour: 12,
-      minute: 0,
-      second: 0,
-      millisecond: 0,
-    });
+    const baseTime = DateTime.now().set({ hour: 12, minute: 0, second: 0, millisecond: 0 });
     const tripOnServiceDate = {
       serviceDate: baseTime.toISODate(),
       trip: {
         tripHeadsign: 'Kamppi',
         gtfsId: 'feed:63:01-1',
-        route: {
-          gtfsId: 'feed:63',
-          type: 3,
-          color: undefined,
-          mode: 'BUS',
-          shortName: '63',
-        },
+        route: { gtfsId: 'feed:63', type: 3, color: undefined, mode: 'BUS', shortName: '63' },
         pattern: {
           code: 'feed:63:01',
           headsign: 'Kamppi',
@@ -163,18 +127,14 @@ describe('<Disruptions />', () => {
         canceledCalls: [
           {
             stopCall: {
-              schedule: {
-                time: { departure: baseTime.plus({ hours: 2 }).toISO() },
-              },
+              schedule: { time: { departure: baseTime.plus({ hours: 2 }).toISO() } },
               stopLocation: { gtfsId: 'feed:bar' },
             },
             tripOnServiceDate,
           },
           {
             stopCall: {
-              schedule: {
-                time: { departure: baseTime.minus({ hours: 3 }).toISO() },
-              },
+              schedule: { time: { departure: baseTime.minus({ hours: 3 }).toISO() } },
               stopLocation: { gtfsId: 'feed:bar' },
             },
             tripOnServiceDate,
@@ -185,12 +145,8 @@ describe('<Disruptions />', () => {
     const container = renderDisruptions(props);
     const badges = container.querySelectorAll('.cancelation-badge .canceled');
     expect(badges).toHaveLength(2);
-    expect(badges[0].textContent).toBe(
-      baseTime.minus({ hours: 3 }).toFormat('HH:mm'),
-    );
-    expect(badges[1].textContent).toBe(
-      baseTime.plus({ hours: 2 }).toFormat('HH:mm'),
-    );
+    expect(badges[0].textContent).toBe(baseTime.minus({ hours: 3 }).toFormat('HH:mm'));
+    expect(badges[1].textContent).toBe(baseTime.plus({ hours: 2 }).toFormat('HH:mm'));
   });
 
   it('should filter out a canceled call if the trip terminates on the stop', () => {
@@ -250,13 +206,7 @@ describe('<Disruptions />', () => {
             id: 'alert-bar',
             alertHeaderText: 'Stop disrupted',
             alertSeverityLevel: AlertSeverityLevelType.Warning,
-            entities: [
-              {
-                __typename: AlertEntityType.Stop,
-                gtfsId: 'feed:bar',
-                name: 'Bar',
-              },
-            ],
+            entities: [{ __typename: AlertEntityType.Stop, gtfsId: 'feed:bar', name: 'Bar' }],
           },
         ],
         routes: [],

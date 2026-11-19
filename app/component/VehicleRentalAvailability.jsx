@@ -39,11 +39,7 @@ export default function VehicleRentalAvailability({
         text: (
           <p className="sub-header-h4 availability-header">
             <FormattedMessage
-              id={
-                type === 'scooter'
-                  ? 'scooter-availability'
-                  : 'bike-availability'
-              }
+              id={type === 'scooter' ? 'scooter-availability' : 'bike-availability'}
               defaultMessage="Bikes available at the station right now"
             />
             {'\u00a0'}

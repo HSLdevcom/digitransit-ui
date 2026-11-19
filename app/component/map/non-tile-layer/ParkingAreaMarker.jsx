@@ -2,10 +2,7 @@ import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { locationShape } from '../../../../utils/client/shapes';
-import {
-  getCaseRadius,
-  renderAsString,
-} from '../../../../utils/client/mapIconUtils';
+import { getCaseRadius, renderAsString } from '../../../../utils/client/mapIconUtils';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
@@ -25,9 +22,7 @@ export default function ParkingAreaMarker({ position, type, liipiId }) {
 
   const redirectToLiipiPage = () => {
     router.push(
-      `/${
-        type === 'bike' ? PREFIX_BIKEPARK : PREFIX_CARPARK
-      }/${encodeURIComponent(liipiId)}`,
+      `/${type === 'bike' ? PREFIX_BIKEPARK : PREFIX_CARPARK}/${encodeURIComponent(liipiId)}`,
     );
   };
 

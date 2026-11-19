@@ -5,10 +5,7 @@ import Icon from '../../Icon';
  * Displays the selected origin and destination when printing the schedule page.
  * Hidden in the regular view, only shown in print media.
  */
-export default function PrintableStopHeader({
-  fromDisplayName,
-  toDisplayName,
-}) {
+export default function PrintableStopHeader({ fromDisplayName, toDisplayName }) {
   return (
     <div className="printable-stop-header">
       <div className="printable-stop-header_icon-from">

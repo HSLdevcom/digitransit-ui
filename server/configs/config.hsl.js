@@ -25,11 +25,7 @@ const virtualMonitorBaseUrl = isDevRunEnv()
   ? 'https://dev-hslmonitori.digitransit.fi'
   : 'https://omatnaytot.hsl.fi';
 
-const linkLabel = {
-  fi: 'Lisätietoja',
-  en: 'More information',
-  sv: 'Ytterligare information',
-};
+const linkLabel = { fi: 'Lisätietoja', en: 'More information', sv: 'Ytterligare information' };
 
 export default {
   CONFIG,
@@ -48,15 +44,9 @@ export default {
       default: `${POI_MAP_PREFIX}/fi/realtimeStops,stations/`,
       sv: `${POI_MAP_PREFIX}/sv/realtimeStops,stations/`,
     },
-    RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/rentalStations/`,
-    },
-    REALTIME_RENTAL_STATION_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/`,
-    },
-    REALTIME_RENTAL_VEHICLE_MAP: {
-      default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/`,
-    },
+    RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/rentalStations/` },
+    REALTIME_RENTAL_STATION_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalStations/` },
+    REALTIME_RENTAL_VEHICLE_MAP: { default: `${POI_MAP_PREFIX}/fi/realtimeRentalVehicles/` },
     PARK_AND_RIDE_MAP: {
       default: `${POI_MAP_PREFIX}/en/vehicleParking/`,
       sv: `${POI_MAP_PREFIX}/sv/vehicleParking/`,
@@ -96,9 +86,7 @@ export default {
 
   title: 'Reittiopas',
 
-  availableTickets: {
-    Sipoo: true,
-  },
+  availableTickets: { Sipoo: true },
   passLanguageToRootLink: true,
 
   favicon: './app/assets/images/hsl/hsl-favicon.png',
@@ -134,9 +122,7 @@ export default {
    * settings. This means that values ought to be relative to the current default.
    * If not, the selection may not make any sense.
    */
-  defaultOptions: {
-    walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22],
-  },
+  defaultOptions: { walkSpeed: [0.69, 0.97, 1.28, 1.67, 2.22] },
 
   suggestWalkMaxDistance: 12000,
   suggestBikeMaxDistance: 100000,
@@ -180,57 +166,28 @@ export default {
   appBarStyle: 'hsl',
 
   nationalServiceLink: {
-    fi: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/',
-    },
-    sv: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/sv/',
-    },
-    en: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/en/',
-    },
+    fi: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/' },
+    sv: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/sv/' },
+    en: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/en/' },
   },
 
-  agency: {
-    show: false,
-  },
+  agency: { show: false },
 
   socialMedia: {
     title: 'Reittiopas',
     description: APP_DESCRIPTION,
 
-    image: {
-      url: 'assets/hsl/social-share.png',
-      width: 400,
-      height: 400,
-    },
+    image: { url: 'assets/hsl/social-share.png', width: 400, height: 400 },
 
-    twitter: {
-      card: 'summary',
-      site: '@HSL_HRT',
-    },
+    twitter: { card: 'summary', site: '@HSL_HRT' },
   },
 
-  meta: {
-    description: APP_DESCRIPTION,
-  },
+  meta: { description: APP_DESCRIPTION },
 
   transportModes: {
-    citybike: {
-      availableForSelection: true,
-    },
-    scooter: {
-      availableForSelection: false,
-      defaultValue: false,
-      showIfSelectedForRouting: false,
-    },
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    citybike: { availableForSelection: true },
+    scooter: { availableForSelection: false, defaultValue: false, showIfSelectedForRouting: false },
+    airplane: { availableForSelection: false, defaultValue: false },
     taxi: {
       availableForSelection: true, // experimental feature
       defaultValue: false,
@@ -286,18 +243,12 @@ export default {
 
   menu: {},
 
-  defaultEndpoint: {
-    address: 'Rautatieasema, Helsinki',
-    lat: 60.1710688,
-    lon: 24.9414841,
-  },
+  defaultEndpoint: { address: 'Rautatieasema, Helsinki', lat: 60.1710688, lon: 24.9414841 },
 
   redirectReittiopasParams: true,
   queryMaxAgeDays: 14, // to drop too old route request times from entry url
 
-  timetables: {
-    HSL: HSLTimetables,
-  },
+  timetables: { HSL: HSLTimetables },
 
   aboutThisService: {
     fi: [
@@ -330,20 +281,12 @@ export default {
 
   hideExternalOperator: agency => agency.name === 'Helsingin seudun liikenne',
   showTicketInformation: true,
-  primaryAgencyName: {
-    fi: 'HSL',
-    sv: 'HRT',
-    en: 'HSL',
-  },
+  primaryAgencyName: { fi: 'HSL', sv: 'HRT', en: 'HSL' },
 
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/hsl/zone_lines_20251013.geojson',
       },
     ],
@@ -358,10 +301,7 @@ export default {
     showScaleBar: true,
     // areBounds is for keeping map and user inside given area
     // HSL region + Lahti
-    areaBounds: {
-      corner1: [62, 27],
-      corner2: [59, 22],
-    },
+    areaBounds: { corner1: [62, 27], corner2: [59, 22] },
   },
 
   showTicketPrice: false,
@@ -376,17 +316,11 @@ export default {
   // mapping fareId from OTP fare identifiers to human readable form
   // in the new HSL zone model, just strip off the prefix 'HSL:'
   fareMapping: function mapHslFareId(fareId) {
-    return fareId && fareId.substring
-      ? fareId.substring(fareId.indexOf(':') + 1)
-      : '';
+    return fareId && fareId.substring ? fareId.substring(fareId.indexOf(':') + 1) : '';
   },
   ticketButtonTextId: 'open-app',
 
-  trafficNowRootPath: {
-    fi: '/matkustaminen',
-    sv: '/sv/att-resa',
-    en: '/en/travelling',
-  },
+  trafficNowRootPath: { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' },
 
   vehicleRental: {
     minZoomStopsNearYou: 10,
@@ -394,18 +328,10 @@ export default {
     networks: {
       smoove: {
         enabled: true,
-        season: {
-          preSeasonStart: '1.3',
-          start: '17.3',
-          end: '31.10',
-        },
+        season: { preSeasonStart: '1.3', start: '17.3', end: '31.10' },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
-        name: {
-          fi: 'Helsinki ja Espoo',
-          sv: 'Helsingfors och Esbo',
-          en: 'Helsinki and Espoo',
-        },
+        name: { fi: 'Helsinki ja Espoo', sv: 'Helsingfors och Esbo', en: 'Helsinki and Espoo' },
         type: 'citybike',
         returnInstructions: {
           fi: 'https://www.hsl.fi/kaupunkipyorat/helsinki/kayttoohje#palauta',
@@ -428,18 +354,9 @@ export default {
       en: 'https://www.hsl.fi/en/citybikes?utm_campaign=kaupunkipyorat-omat&utm_source=reittiopas&utm_medium=referral#block-28474',
     },
     scooterInfoLink: {
-      fi: {
-        text: 'Potkulaudat',
-        url: 'https://www.hsl.fi/reittiopas_potkulaudat',
-      },
-      en: {
-        text: 'Scooters',
-        url: 'https://www.hsl.fi/en/journey_planner_scooters',
-      },
-      sv: {
-        text: 'Elsparkcyklar',
-        url: 'https://www.hsl.fi/sv/reseplaneraren_sparkcyklar',
-      },
+      fi: { text: 'Potkulaudat', url: 'https://www.hsl.fi/reittiopas_potkulaudat' },
+      en: { text: 'Scooters', url: 'https://www.hsl.fi/en/journey_planner_scooters' },
+      sv: { text: 'Elsparkcyklar', url: 'https://www.hsl.fi/sv/reseplaneraren_sparkcyklar' },
     },
     maxMinutesToRentalJourneyEnd: 240,
   },
@@ -472,10 +389,7 @@ export default {
   ],
 
   narrowNearYouButtons: true,
-  nearYouRoutes: {
-    radius: 500,
-    bucketSize: 100,
-  },
+  nearYouRoutes: { radius: 500, bucketSize: 100 },
   maxNearYouDistance: {
     favorite: 20000,
     bus: 20000,
@@ -485,9 +399,7 @@ export default {
     ferry: 20000,
     citybike: 20000,
   },
-  prioritizedStopsNearYou: {
-    ferry: ['HSL:1030701'],
-  },
+  prioritizedStopsNearYou: { ferry: ['HSL:1030701'] },
 
   hostnames: [
     // DEV hostnames
@@ -496,29 +408,18 @@ export default {
     // PROD hostnames
     'https://reittiopas.hsl.fi',
   ],
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zones: { stops: true, itinerary: true },
 
   showSimilarRoutesOnRouteDropDown: true,
   useRealtimeTravellerCapacities: true,
 
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
+  stopCard: { header: { virtualMonitorBaseUrl } },
 
   routeNotifications: [
     {
       showForRoute: route => route.gtfsId.slice(4)[0] === '7',
       id: 'uLineNotification',
-      header: {
-        fi: 'U-linja',
-        en: 'U-line',
-        sv: 'U-linje',
-      },
+      header: { fi: 'U-linja', en: 'U-line', sv: 'U-linje' },
       content: {
         fi: [
           'Mm. lastenvaunujen osalta noudatetaan liikennöitsijän sääntöjä.',
@@ -548,11 +449,7 @@ export default {
     {
       showForRoute: route => route.type === 702,
       id: 'trunkRouteNotification',
-      header: {
-        fi: 'Runkolinja',
-        en: 'Trunk route',
-        sv: 'Stomlinje',
-      },
+      header: { fi: 'Runkolinja', en: 'Trunk route', sv: 'Stomlinje' },
       content: {
         fi: [
           'Pääset kyytiin myös bussin keskiovista. Varaudu näyttämään lippu pyydettäessä kuljettajalle tai tarkastajalle.',
@@ -579,11 +476,7 @@ export default {
     {
       showForRoute: route => route.type === 704,
       id: 'localRouteNotification',
-      header: {
-        fi: 'Lähibussi',
-        en: 'Neighbourhood route',
-        sv: 'Närbuss',
-      },
+      header: { fi: 'Lähibussi', en: 'Neighbourhood route', sv: 'Närbuss' },
       content: {
         fi: [
           'Kyytiin voi nousta ja kyydistä poistua pysäkkien lisäksi myös muualla, liikennesääntöjen puitteissa.',
@@ -613,11 +506,7 @@ export default {
     {
       showForRoute: route => route.type === 900,
       id: 'speedtramNotification',
-      header: {
-        fi: 'Pikaratikka',
-        en: 'Light rail',
-        sv: 'Snabbspårvagn',
-      },
+      header: { fi: 'Pikaratikka', en: 'Light rail', sv: 'Snabbspårvagn' },
       content: {
         fi: [
           'Pikaratikat kulkevat nopeammin ja pääosin omalla kaistalla erillään muusta liikenteestä.',
@@ -647,11 +536,7 @@ export default {
     {
       showForRoute: route => route.type === 715,
       id: 'flexBusNotification',
-      header: {
-        fi: 'Kutsuliikenne',
-        en: 'On-demand service',
-        sv: 'Anropsbusstrafiken',
-      },
+      header: { fi: 'Kutsuliikenne', en: 'On-demand service', sv: 'Anropsbusstrafiken' },
       content: {
         fi: [
           'Linja toimii ennakkotilauksella. Varmistaaksesi matkan, tee varaus etukäteen. Tarkemmat tiedot palveluntarjoalta.',
@@ -691,9 +576,7 @@ export default {
         'Linjen stannar endast vid vissa hållplatser, dvs. bussen stannar inte vid alla hållplatser.',
       ],
     },
-    link: {
-      fi: 'https://hsl.fi/korvaavabussi',
-    },
+    link: { fi: 'https://hsl.fi/korvaavabussi' },
     linkLabel,
   },
 
@@ -709,18 +592,12 @@ export default {
       sv: 'Skapa din egen Reseplanerare-element och lägg den till din webbtjänst. Sökknappen i element omdirigerar till Reseplaneraren.',
     },
     cookieLink: {
-      fi: {
-        text: 'Lisätietoa evästeistä',
-        url: 'https://www.hsl.fi/hsl/tietosuoja',
-      },
+      fi: { text: 'Lisätietoa evästeistä', url: 'https://www.hsl.fi/hsl/tietosuoja' },
       en: {
         text: 'More information about cookies',
         url: 'https://www.hsl.fi/en/hsl/privacy-policy',
       },
-      sv: {
-        text: 'Mer information om cookies',
-        url: 'https://www.hsl.fi/sv/hrt/Dataskydd',
-      },
+      sv: { text: 'Mer information om cookies', url: 'https://www.hsl.fi/sv/hrt/Dataskydd' },
     },
   },
 
@@ -774,14 +651,8 @@ export default {
     en: 'https://surveys.crazyegg.com/s/303436/0e3f31bb-10ab-4b65-b6cc-1058260918cc',
   },
   staticCrisisBanners: [
-    {
-      body: 'Dummy crisis alert — primary',
-      priority: 'Primary',
-    },
-    {
-      body: 'Dummy crisis alert — secondary',
-      priority: 'Secondary',
-    },
+    { body: 'Dummy crisis alert — primary', priority: 'Primary' },
+    { body: 'Dummy crisis alert — secondary', priority: 'Secondary' },
   ],
   showStaticCrisisBanners: false,
 };

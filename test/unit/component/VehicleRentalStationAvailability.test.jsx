@@ -11,9 +11,7 @@ describe('<VehicleRentalStationAvailability />', () => {
       type: 'citybike',
       useSpacesAvailable: true,
     };
-    const { container } = renderWithProviders(
-      <VehicleRentalAvailability {...props} />,
-    );
+    const { container } = renderWithProviders(<VehicleRentalAvailability {...props} />);
     expect(container.querySelector('.availability-container')).not.toBeNull();
     expect(container.querySelectorAll('.availability-header')).toHaveLength(1);
   });

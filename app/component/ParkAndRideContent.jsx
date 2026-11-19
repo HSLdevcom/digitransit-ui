@@ -71,10 +71,7 @@ export default function ParkAndRideContent({
   showDetails = true,
   backButton = true,
 }) {
-  const vehicleParking = useFragment(
-    ParkAndRideContentFragment,
-    vehicleParkingRef,
-  );
+  const vehicleParking = useFragment(ParkAndRideContentFragment, vehicleParkingRef);
   // throw error when relay query fails
   if (error) {
     throw error.message;
@@ -83,9 +80,7 @@ export default function ParkAndRideContent({
   const breakpoint = useBreakpoint();
   const { router } = useRouter();
 
-  const bikePark = mode
-    ? mode === 'BIKEPARK'
-    : window.location.href.includes(PREFIX_BIKEPARK);
+  const bikePark = mode ? mode === 'BIKEPARK' : window.location.href.includes(PREFIX_BIKEPARK);
   if (!vehicleParking) {
     const path = bikePark ? PREFIX_BIKEPARK : PREFIX_CARPARK;
     router.replace(`/${path}`);
@@ -118,9 +113,7 @@ export default function ParkAndRideContent({
     capacity = vehicleParking.parkCapacity?.carSpaces;
   }
   const realtime =
-    vehicleParking.realtime &&
-    Number.isInteger(available) &&
-    Number.isInteger(capacity);
+    vehicleParking.realtime && Number.isInteger(available) && Number.isInteger(capacity);
 
   const dotted = showDetails && openingHours.length > 1;
   const detailClass = showDetails ? 'park-details' : 'park-details-row';
@@ -128,10 +121,7 @@ export default function ParkAndRideContent({
   return (
     <div className="station-page-container">
       <div
-        className={cx('park-header', {
-          'large-header': showDetails,
-          'small-header': !showDetails,
-        })}
+        className={cx('park-header', { 'large-header': showDetails, 'small-header': !showDetails })}
       >
         {!showDetails && (
           <div className="header-icon">
@@ -156,9 +146,7 @@ export default function ParkAndRideContent({
             {parkLabel('is-open')}
             <div className={cx('opening-hours', 'park-value')}>
               {openingHours.map(text => (
-                <span key={`opening-hour-${text}`}>
-                  {renderOpeningHours(text, dotted)}
-                </span>
+                <span key={`opening-hour-${text}`}>{renderOpeningHours(text, dotted)}</span>
               ))}
             </div>
           </div>

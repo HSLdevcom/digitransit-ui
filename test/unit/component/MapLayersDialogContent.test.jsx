@@ -22,8 +22,7 @@ const renderMapLayersDialogContent = (props, config = testConfig) => {
   );
 };
 
-const getStoredMapLayers = () =>
-  JSON.parse(window.localStorage.getItem('map-layers'));
+const getStoredMapLayers = () => JSON.parse(window.localStorage.getItem('map-layers'));
 
 describe('<MapLayersDialogContent />', () => {
   beforeAll(() => fetchMock.mockGlobal());
@@ -36,13 +35,7 @@ describe('<MapLayersDialogContent />', () => {
   afterAll(() => fetchMock.unmockGlobal());
 
   it('should render', () => {
-    const props = {
-      setOpen: () => {},
-      mapLayers: {
-        stop: {},
-        terminal: {},
-      },
-    };
+    const props = { setOpen: () => {}, mapLayers: { stop: {}, terminal: {} } };
     const { container } = renderMapLayersDialogContent(props);
 
     expect(container.querySelector('.map-layer-header')).not.toBeNull();
@@ -60,18 +53,9 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the vehicles layer', () => {
-    const mapLayers = {
-      showAllBusses: false,
-      stop: {},
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
-    const { container } = renderMapLayersDialogContent(props, {
-      vehicles: true,
-    });
+    const mapLayers = { showAllBusses: false, stop: {}, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
+    const { container } = renderMapLayersDialogContent(props, { vehicles: true });
     const checkbox = container.querySelectorAll('input[type="checkbox"]')[0];
     fireEvent.click(checkbox);
 
@@ -79,22 +63,10 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the bus stop layer', () => {
-    const mapLayers = {
-      stop: {
-        bus: false,
-      },
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { stop: { bus: false }, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
-      transportModes: {
-        bus: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { bus: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -105,29 +77,12 @@ describe('<MapLayersDialogContent />', () => {
   it('should show the passed effective state of a locked stop layer', () => {
     const props = {
       setOpen: () => {},
-      mapLayers: {
-        stop: { bus: false },
-        terminal: {},
-      },
-      storedMapLayers: {
-        stop: { bus: true },
-        terminal: {},
-      },
-      mapLayerOptions: {
-        stop: {
-          bus: {
-            isLocked: true,
-            isSelected: false,
-          },
-        },
-      },
+      mapLayers: { stop: { bus: false }, terminal: {} },
+      storedMapLayers: { stop: { bus: true }, terminal: {} },
+      mapLayerOptions: { stop: { bus: { isLocked: true, isSelected: false } } },
     };
     const { container } = renderMapLayersDialogContent(props, {
-      transportModes: {
-        bus: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { bus: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
 
@@ -136,22 +91,10 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the tram stop layer', () => {
-    const mapLayers = {
-      stop: {
-        tram: false,
-      },
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { stop: { tram: false }, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
-      transportModes: {
-        tram: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { tram: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -160,22 +103,10 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the ferry stop layer', () => {
-    const mapLayers = {
-      stop: {
-        ferry: false,
-      },
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { stop: { ferry: false }, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
-      transportModes: {
-        ferry: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { ferry: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -184,22 +115,10 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the airplane stop layer', () => {
-    const mapLayers = {
-      stop: {
-        airplane: false,
-      },
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { stop: { airplane: false }, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
-      transportModes: {
-        airplane: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { airplane: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -213,15 +132,8 @@ describe('<MapLayersDialogContent />', () => {
     const tomorrow = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
     tomorrow.setDate(tomorrow.getDate() + 1);
-    const mapLayers = {
-      citybike: false,
-      stop: {},
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { citybike: false, stop: {}, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
       vehicleRental: {
         networks: {
@@ -229,12 +141,8 @@ describe('<MapLayersDialogContent />', () => {
             type: 'citybike',
             enabled: true,
             season: {
-              start: `${today.getDate()}.${
-                today.getMonth() + 1
-              }.${today.getFullYear()}`,
-              end: `${tomorrow.getDate()}.${
-                tomorrow.getMonth() + 1
-              }.${tomorrow.getFullYear()}`,
+              start: `${today.getDate()}.${today.getMonth() + 1}.${today.getFullYear()}`,
+              end: `${tomorrow.getDate()}.${tomorrow.getMonth() + 1}.${tomorrow.getFullYear()}`,
               preSeasonStart: `${yesterday.getDate()}.${
                 yesterday.getMonth() + 1
               }.${yesterday.getFullYear()}`,
@@ -242,11 +150,7 @@ describe('<MapLayersDialogContent />', () => {
           },
         },
       },
-      transportModes: {
-        citybike: {
-          availableForSelection: true,
-        },
-      },
+      transportModes: { citybike: { availableForSelection: true } },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -255,19 +159,10 @@ describe('<MapLayersDialogContent />', () => {
   });
 
   it('should update the park&ride layer', () => {
-    const mapLayers = {
-      parkAndRide: false,
-      stop: {},
-      terminal: {},
-    };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
+    const mapLayers = { parkAndRide: false, stop: {}, terminal: {} };
+    const props = { setOpen: () => {}, mapLayers };
     const { container } = renderMapLayersDialogContent(props, {
-      parkAndRide: {
-        showParkAndRide: true,
-      },
+      parkAndRide: { showParkAndRide: true },
     });
     const checkbox = container.querySelector('input[type="checkbox"]');
     fireEvent.click(checkbox);
@@ -280,56 +175,26 @@ describe('<MapLayersDialogContent />', () => {
       terminal: {},
       s: {},
       stop: {},
-      geoJson: {
-        'https://localhost/somejson': true,
-        'https://localhost/morejson': false,
-      },
+      geoJson: { 'https://localhost/somejson': true, 'https://localhost/morejson': false },
     };
-    const props = {
-      setOpen: () => {},
-      mapLayers,
-    };
-    fetchMock.get('https://localhost/somejson', {
-      type: 'FeatureCollection',
-      features: [],
-    });
-    fetchMock.get('https://localhost/morejson', {
-      type: 'FeatureCollection',
-      features: [],
-    });
+    const props = { setOpen: () => {}, mapLayers };
+    fetchMock.get('https://localhost/somejson', { type: 'FeatureCollection', features: [] });
+    fetchMock.get('https://localhost/morejson', { type: 'FeatureCollection', features: [] });
     const { container } = renderMapLayersDialogContent(props, {
       geoJson: {
         layers: [
-          {
-            name: {
-              fi: 'testi',
-              sv: 'test',
-              en: 'test',
-            },
-            url: 'https://localhost/somejson',
-          },
-          {
-            name: {
-              fi: 'nimi',
-              sv: 'namn',
-              en: 'name',
-            },
-            url: 'https://localhost/morejson',
-          },
+          { name: { fi: 'testi', sv: 'test', en: 'test' }, url: 'https://localhost/somejson' },
+          { name: { fi: 'nimi', sv: 'namn', en: 'name' }, url: 'https://localhost/morejson' },
         ],
       },
     });
     await waitFor(() => {
-      expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(
-        2,
-      );
+      expect(container.querySelectorAll('input[type="checkbox"]')).toHaveLength(2);
     });
     const checkboxes = container.querySelectorAll('input[type="checkbox"]');
 
     fireEvent.click(checkboxes[1]);
 
-    expect(getStoredMapLayers().geoJson['https://localhost/morejson']).toBe(
-      true,
-    );
+    expect(getStoredMapLayers().geoJson['https://localhost/morejson']).toBe(true);
   });
 });

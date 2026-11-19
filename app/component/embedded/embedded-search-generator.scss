@@ -78,11 +78,7 @@
           z-index: -10;
         }
 
-        &
-          > div:first-of-type
-          > div:first-of-type
-          :nth-of-type(2)
-          > div:first-of-type {
+        & > div:first-of-type > div:first-of-type :nth-of-type(2) > div:first-of-type {
           z-index: 1;
         }
 
@@ -90,11 +86,7 @@
           z-index: 0;
         }
 
-        &
-          > div:first-of-type
-          > div:first-of-type
-          :nth-of-type(5)
-          > div:first-of-type {
+        & > div:first-of-type > div:first-of-type :nth-of-type(5) > div:first-of-type {
           z-index: 1;
         }
       }

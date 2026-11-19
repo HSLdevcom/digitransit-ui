@@ -5,28 +5,10 @@ import cx from 'classnames';
 import styles from './styles.scss';
 import { isAndroid } from './mobileDetection';
 
-const AndroidSelect = ({
-  value,
-  dateChoices,
-  id,
-  getDisplay,
-  onChange,
-  labelId,
-  inputId,
-}) => {
-  const items = dateChoices.map(date => ({
-    value: date,
-    label: getDisplay(date),
-  }));
-  const selectedItem =
-    items.find(option => option.value === value) || items[0] || null;
-  const {
-    isOpen,
-    getToggleButtonProps,
-    getMenuProps,
-    getItemProps,
-    highlightedIndex,
-  } = useSelect({
+const AndroidSelect = ({ value, dateChoices, id, getDisplay, onChange, labelId, inputId }) => {
+  const items = dateChoices.map(date => ({ value: date, label: getDisplay(date) }));
+  const selectedItem = items.find(option => option.value === value) || items[0] || null;
+  const { isOpen, getToggleButtonProps, getMenuProps, getItemProps, highlightedIndex } = useSelect({
     selectedItem,
     items,
     itemToString: item => item?.label ?? '',
@@ -40,14 +22,10 @@ const AndroidSelect = ({
 
   return (
     <div className={styles.container}>
-      <div
-        {...getToggleButtonProps({ 'aria-labelledby': labelId, id: inputId })}
-      >
+      <div {...getToggleButtonProps({ 'aria-labelledby': labelId, id: inputId })}>
         <div className={styles.input}>{selectedItem.label}</div>
       </div>
-      <div
-        className={cx([styles.suggestionsContainerOpen, !isOpen && 'hidden'])}
-      >
+      <div className={cx([styles.suggestionsContainerOpen, !isOpen && 'hidden'])}>
         <ul {...getMenuProps()}>
           {isOpen &&
             items.map((option, index) => (
@@ -122,17 +100,7 @@ export default function MobileDatepicker({
           })}
         </select>
       ) : (
-        <AndroidSelect
-          {...{
-            value,
-            dateChoices,
-            id,
-            getDisplay,
-            onChange,
-            labelId,
-            inputId,
-          }}
-        />
+        <AndroidSelect {...{ value, dateChoices, id, getDisplay, onChange, labelId, inputId }} />
       )}
     </label>
   );

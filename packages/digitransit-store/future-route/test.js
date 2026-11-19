@@ -36,53 +36,29 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
     // reading/writing a shared localStorage key) so tests stay independent
     // of execution order.
     const routeInPast = {
-      origin: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
-      },
-      destination: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
+      origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
+      destination: { address: 'Myyrmäki, Vantaa', coordinates: { lat: 60.261238, lon: 24.854782 } },
       arriveBy: false,
       time: (new Date().getTime() / 1000 - 600).toFixed(0),
     };
 
     const routeInFuture1 = {
-      origin: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
-      },
-      destination: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
+      origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
+      destination: { address: 'Myyrmäki, Vantaa', coordinates: { lat: 60.261238, lon: 24.854782 } },
       arriveBy: false,
       time: (new Date().getTime() / 1000 + 360).toFixed(0),
     };
 
     const routeInFuture2 = {
-      origin: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
-      },
-      destination: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
+      origin: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
+      destination: { address: 'Myyrmäki, Vantaa', coordinates: { lat: 60.261238, lon: 24.854782 } },
       arriveBy: false,
       time: (new Date().getTime() / 1000 + 3600).toFixed(0),
     };
 
     const routeInFuture3 = {
-      origin: {
-        address: 'Myyrmäki, Vantaa',
-        coordinates: { lat: 60.261238, lon: 24.854782 },
-      },
-      destination: {
-        address: 'Pasila, Helsinki',
-        coordinates: { lat: 60.198828, lon: 24.933514 },
-      },
+      origin: { address: 'Myyrmäki, Vantaa', coordinates: { lat: 60.261238, lon: 24.854782 } },
+      destination: { address: 'Pasila, Helsinki', coordinates: { lat: 60.198828, lon: 24.933514 } },
       arriveBy: true,
       time: (new Date().getTime() / 1000 + 7200).toFixed(0),
     };
@@ -113,10 +89,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
 
     it('should remove a matching route when its updated time is in the past', () => {
       const oneRouteCollection = addFutureRoute(routeInFuture1, []);
-      const twoRouteCollection = addFutureRoute(
-        routeInFuture3,
-        oneRouteCollection,
-      );
+      const twoRouteCollection = addFutureRoute(routeInFuture3, oneRouteCollection);
       const futureRoutes = addFutureRoute(routeInPast, twoRouteCollection);
       expect(futureRoutes).toHaveLength(1);
       expect(futureRoutes[0].properties.origin.name).toBe('Myyrmäki');
@@ -125,11 +98,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
     it('should retain unrelated future routes when a route is updated to the past', () => {
       const oneRouteCollection = addFutureRoute(routeInFuture3, []);
       const futureRoutes = addFutureRoute(
-        {
-          ...routeInPast,
-          origin: routeInFuture1.origin,
-          destination: routeInFuture1.destination,
-        },
+        { ...routeInPast, origin: routeInFuture1.origin, destination: routeInFuture1.destination },
         oneRouteCollection,
       );
       expect(futureRoutes).toHaveLength(1);
@@ -140,10 +109,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       const oneRouteCollection = addFutureRoute(routeInFuture3, []);
       const updatedTime = (new Date().getTime() / 1000 + 120).toFixed(0);
       const futureRoutes = addFutureRoute(
-        {
-          ...routeInFuture3,
-          time: updatedTime,
-        },
+        { ...routeInFuture3, time: updatedTime },
         oneRouteCollection,
       );
       expect(futureRoutes).toHaveLength(0);
@@ -155,10 +121,7 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       const futureRoutes = addFutureRoute(
         {
           ...routeInPast,
-          destination: {
-            address: 'Leppävaara, Espoo',
-            coordinates: { lat: 60.218, lon: 24.813 },
-          },
+          destination: { address: 'Leppävaara, Espoo', coordinates: { lat: 60.218, lon: 24.813 } },
           time: updatedTime,
         },
         oneRouteCollection,
@@ -171,15 +134,13 @@ describe('Testing @digitransit-store/digitransit-store-future-route module', () 
       // '', ' ' and [] all look "empty"/non-numeric, but Number() coerces
       // them to 0 (a finite number) rather than NaN - so they're included
       // here alongside more obviously invalid values to guard against that.
-      [undefined, null, NaN, 'not-a-number', {}, '', ' ', []].forEach(
-        invalidTime => {
-          const futureRoutes = addFutureRoute(
-            { ...routeInFuture3, time: invalidTime },
-            oneRouteCollection,
-          );
-          expect(futureRoutes).toBe(oneRouteCollection);
-        },
-      );
+      [undefined, null, NaN, 'not-a-number', {}, '', ' ', []].forEach(invalidTime => {
+        const futureRoutes = addFutureRoute(
+          { ...routeInFuture3, time: invalidTime },
+          oneRouteCollection,
+        );
+        expect(futureRoutes).toBe(oneRouteCollection);
+      });
     });
 
     it('should return an empty array when item is missing and collection is undefined', () => {

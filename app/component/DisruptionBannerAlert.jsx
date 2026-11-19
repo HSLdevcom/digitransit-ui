@@ -20,10 +20,7 @@ export default function DisruptionBannerAlert({
   let header = alert.alertHeaderText;
   let message = alert.alertDescriptionText;
   const useHeader =
-    config.showAlertHeader &&
-    header &&
-    header.length <= 120 &&
-    !message.includes(header);
+    config.showAlertHeader && header && header.length <= 120 && !message.includes(header);
   if (useHeader) {
     header = <h3 className="disruption-info-header">{header}</h3>;
     message = (

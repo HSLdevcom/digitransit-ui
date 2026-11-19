@@ -43,13 +43,7 @@ function TripLinkQuery({ vehicleState, vehicle, shortName, ...rest }) {
     return <span className="route-now-content">{icon}</span>;
   }
   if (rest.setHumanScrolling) {
-    return (
-      <TripLinkWithScroll
-        {...rest}
-        vehicleState={vehicleState}
-        tripId={trip.gtfsId}
-      />
-    );
+    return <TripLinkWithScroll {...rest} vehicleState={vehicleState} tripId={trip.gtfsId} />;
   }
 
   const route = trip.route.gtfsId;

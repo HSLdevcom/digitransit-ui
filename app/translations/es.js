@@ -6,16 +6,14 @@ export default {
     'accessibility-limited': 'Silla de ruedas',
     'accessibility-nolimit': 'Sin límites',
     'add-itinerary-via-point': 'Añadir punto intermedio al itinerario',
-    'add-location-to-favourites':
-      'Añadir una importante localización a tus Favoritos',
+    'add-location-to-favourites': 'Añadir una importante localización a tus Favoritos',
     address: 'Dirección',
     'address-or-stop': 'Dirección o parada',
     agency: 'Operador',
     airplane: 'Vuelo',
     'airport-check-in': 'Facture en el mostrador de {agency}',
     'airport-collect-luggage': 'Recoja su equipaje',
-    'airport-security-check-go-to-gate':
-      'Proceda a su puerta a través del control de seguridad',
+    'airport-security-check-go-to-gate': 'Proceda a su puerta a través del control de seguridad',
     'all-routes': 'Todas las rutas',
     'all-routes-disabled': 'Ninguna ruta',
     'arriving-at': 'Llegada',
@@ -39,8 +37,7 @@ export default {
     'clear-button-label': 'Borrar',
     close: 'Cerrar',
     'cycle-distance-duration': 'Ir en bici {duration} ({distance})',
-    'cyclewalk-distance-duration':
-      'Anda junto a tu bici {duration} ({distance})',
+    'cyclewalk-distance-duration': 'Anda junto a tu bici {duration} ({distance})',
     date: 'Fecha',
     delete: 'Eliminar',
     'departure-time-in-minutes': '{minutes} min',
@@ -50,8 +47,7 @@ export default {
     disruption: 'Incidencia',
     'disruption-info': 'Información sobre incidencias',
     'disruption-info-no-alerts': 'No hay desvíos o incidencias conocidos.',
-    'disruption-info-route-no-alerts':
-      'No hay desvíos o incidencias conocidos en la ruta.',
+    'disruption-info-route-no-alerts': 'No hay desvíos o incidencias conocidos en la ruta.',
     disruptions: 'Incidencias',
     earlier: 'Antes',
     explanations: 'Explicaciones',
@@ -65,10 +61,8 @@ export default {
     'geolocation-denied-text':
       'No ha dado permiso para usar su geolocalización. Puede permitirlo desde los ajustes de su teléfono o navegador web.',
     'geolocation-failed-heading': 'Geolocalización fallida',
-    'geolocation-failed-text':
-      'Su navegador no soporta la obtención de localización.',
-    'geolocation-prompt-text':
-      'Acepte la petición de su navegador para acceder a su localización.',
+    'geolocation-failed-text': 'Su navegador no soporta la obtención de localización.',
+    'geolocation-prompt-text': 'Acepte la petición de su navegador para acceder a su localización.',
     'geolocation-timeout-heading':
       'Detectar su localización está llevando más tiempo del esperado.',
     'geolocation-timeout-text':
@@ -164,7 +158,6 @@ export default {
     'walking-speed': 'Velocidad de andar',
     'warning-call-agency':
       'Sólo bajo demanda: {routeName}, que necesita ser reservada con antelación.',
-    'warning-call-agency-no-route':
-      'Sólo bajo demanda, necesita ser reservado con antelación.',
+    'warning-call-agency-no-route': 'Sólo bajo demanda, necesita ser reservado con antelación.',
   },
 };

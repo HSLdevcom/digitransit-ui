@@ -1,10 +1,5 @@
 export default function routeCompare(routea, routeb) {
-  if (
-    routea.agency &&
-    routea.agency.name &&
-    routeb.agency &&
-    routeb.agency.name
-  ) {
+  if (routea.agency && routea.agency.name && routeb.agency && routeb.agency.name) {
     const agencyCompare = routea.agency.name.localeCompare(routeb.agency.name);
     if (agencyCompare !== 0) {
       return agencyCompare;

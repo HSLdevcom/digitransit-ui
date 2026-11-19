@@ -9,29 +9,13 @@ import {
 } from '../../../../app/hooks/ItineraryLocationContext';
 import OriginDestinationBar from '../../../../app/component/itinerary/OriginDestinationBar';
 
-const origin = {
-  address: 'Origin, Helsinki',
-  lat: 60.199,
-  lon: 24.934,
-};
+const origin = { address: 'Origin, Helsinki', lat: 60.199, lon: 24.934 };
 
-const destination = {
-  address: 'Destination, Helsinki',
-  lat: 60.17,
-  lon: 24.941,
-};
+const destination = { address: 'Destination, Helsinki', lat: 60.17, lon: 24.941 };
 
-const newOrigin = {
-  address: 'New origin, Helsinki',
-  lat: 60.201,
-  lon: 24.935,
-};
+const newOrigin = { address: 'New origin, Helsinki', lat: 60.201, lon: 24.935 };
 
-const newDestination = {
-  address: 'New destination, Helsinki',
-  lat: 60.171,
-  lon: 24.942,
-};
+const newDestination = { address: 'New destination, Helsinki', lat: 60.171, lon: 24.942 };
 
 // Exposes setOrigin/setDestination via a ref so tests can drive edits
 // directly through context, the same way OriginDestinationBar's own
@@ -47,17 +31,13 @@ function ActionsDriver({ controlRef }) {
 
   return null;
 }
-ActionsDriver.propTypes = {
-  controlRef: PropTypes.shape({ current: PropTypes.object }).isRequired,
-};
+ActionsDriver.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }).isRequired };
 
 const buildMatch = () => ({
   location: {
     pathname: `/reitti/${encodeURIComponent(
       `${origin.address}::${origin.lat},${origin.lon}`,
-    )}/${encodeURIComponent(
-      `${destination.address}::${destination.lat},${destination.lon}`,
-    )}`,
+    )}/${encodeURIComponent(`${destination.address}::${destination.lat},${destination.lon}`)}`,
     query: {},
   },
   params: {
@@ -94,12 +74,8 @@ describe('OriginDestinationBar', () => {
     act(() => {
       controlRef.current.setOrigin(newOrigin);
     });
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(newOrigin.address),
-    );
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(destination.address),
-    );
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(newOrigin.address));
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(destination.address));
 
     // Before match.params has caught up, edit destination too.
     act(() => {
@@ -108,15 +84,9 @@ describe('OriginDestinationBar', () => {
 
     // The final navigation must carry BOTH edits -- origin must not have
     // reverted to the original value.
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(newOrigin.address),
-    );
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(newDestination.address),
-    );
-    expect(lastReplacedLocation.pathname).not.toContain(
-      encodeURIComponent(origin.address),
-    );
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(newOrigin.address));
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(newDestination.address));
+    expect(lastReplacedLocation.pathname).not.toContain(encodeURIComponent(origin.address));
   });
 
   it('swaps origin and destination', () => {
@@ -144,11 +114,7 @@ describe('OriginDestinationBar', () => {
       controlRef.current.setDestination(origin);
     });
 
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(destination.address),
-    );
-    expect(lastReplacedLocation.pathname).toContain(
-      encodeURIComponent(origin.address),
-    );
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(destination.address));
+    expect(lastReplacedLocation.pathname).toContain(encodeURIComponent(origin.address));
   });
 });

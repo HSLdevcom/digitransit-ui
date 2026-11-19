@@ -2,23 +2,14 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
-import {
-  pickupBookingInfoShape,
-  routeShape,
-} from '../../../utils/client/shapes';
+import { pickupBookingInfoShape, routeShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
 
-export default function OnDemandInfo({
-  routeNumber,
-  route,
-  pickupBookingInfo,
-  mobile,
-  onClose,
-}) {
+export default function OnDemandInfo({ routeNumber, route, pickupBookingInfo, mobile, onClose }) {
   const intl = useIntl();
   const config = useConfigContext();
   const container = mobile
@@ -42,8 +33,7 @@ export default function OnDemandInfo({
     intl.formatMessage(
       {
         id: 'on-demand-service-prior-notice-days',
-        defaultMessage:
-          'Order must be placed at least {days} days before the trip, by {time}.',
+        defaultMessage: 'Order must be placed at least {days} days before the trip, by {time}.',
       },
       {
         days: pickupBookingInfo?.latestBookingTime?.daysPrior || '',
@@ -59,8 +49,7 @@ export default function OnDemandInfo({
     intl.formatMessage(
       {
         id: 'on-demand-service-prior-notice-minutes',
-        defaultMessage:
-          'Order must be placed at least {minutes} minutes before the trip.',
+        defaultMessage: 'Order must be placed at least {minutes} minutes before the trip.',
       },
       { minutes: bookingNoticeInMinutes },
     );
@@ -103,26 +92,16 @@ export default function OnDemandInfo({
             </div>
             <div className="divider top" />
             <div className="on-demand-info-headline">
-              <FormattedMessage
-                id="booking-method"
-                defaultMessage="Booking method"
-              />
+              <FormattedMessage id="booking-method" defaultMessage="Booking method" />
             </div>
             <div className="on-demand-info-content">
-              <FormattedMessage
-                id="on-demand-service"
-                defaultMessage="On-demand service"
-              />
+              <FormattedMessage id="on-demand-service" defaultMessage="On-demand service" />
             </div>
             {dataLanguageMatch && (
-              <div className="on-demand-info-content">
-                {pickupBookingInfo?.message}
-              </div>
+              <div className="on-demand-info-content">{pickupBookingInfo?.message}</div>
             )}
             <div className="on-demand-info-content">
-              {bookingTimeText && (
-                <div className="booking-notice">{bookingTimeText}</div>
-              )}
+              {bookingTimeText && <div className="booking-notice">{bookingTimeText}</div>}
             </div>
             {infoUrl && (
               <div className="on-demand-info-content external-link">
@@ -149,17 +128,12 @@ export default function OnDemandInfo({
             )}
             <div className="divider" />
             <div className="on-demand-info-headline">
-              <FormattedMessage
-                id="phone-number"
-                defaultMessage="Phone number"
-              />
+              <FormattedMessage id="phone-number" defaultMessage="Phone number" />
             </div>
             {pickupBookingInfo?.contactInfo?.phoneNumber && (
               <div className="on-demand-info-content">
                 <div className="phone-section">
-                  <a
-                    href={`tel:${pickupBookingInfo?.contactInfo?.phoneNumber}`}
-                  >
+                  <a href={`tel:${pickupBookingInfo?.contactInfo?.phoneNumber}`}>
                     {pickupBookingInfo?.contactInfo?.phoneNumber}
                   </a>
                 </div>
@@ -175,9 +149,7 @@ export default function OnDemandInfo({
               </div>
               <div className="on-demand-info-content">
                 {routeDescription && (
-                  <div className="service-type-description">
-                    {routeDescription}
-                  </div>
+                  <div className="service-type-description">{routeDescription}</div>
                 )}
               </div>
             </div>
@@ -185,9 +157,7 @@ export default function OnDemandInfo({
             <CallAgencyDisclaimer
               key="on-demand-disclaimer"
               header={intl.formatMessage({ id: 'pay-attention' })}
-              text={intl.formatMessage({
-                id: 'on-demand-service-route-disclaimer',
-              })}
+              text={intl.formatMessage({ id: 'on-demand-service-route-disclaimer' })}
               mobile={mobile}
             />
             <div className="divider invisible" />

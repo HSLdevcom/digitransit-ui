@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import { useState, useEffect, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import {
-  getDefaultSettings,
-  hasCustomizedSettings,
-} from '../../../../utils/client/planParamUtil';
+import { getDefaultSettings, hasCustomizedSettings } from '../../../../utils/client/planParamUtil';
 import { getCustomizedSettings } from '../../../../utils/client/localStorage';
 import Icon from '../../Icon';
 import Snackbar from '../../Snackbar';
@@ -15,12 +12,9 @@ export default function RestoreDefaultSettings({ updateSettings }) {
   const config = useConfigContext();
   const intl = useIntl();
   const [showSnackbar, setShowSnackbar] = useState(null);
-  const [slideOutRestoreSettingsButton, setSlideOutRestoreSettingsButton] =
-    useState(null);
-  const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] =
-    useState('');
-  const [restoreButtonLiveRegionMessage, setRestoreButtonLiveRegionMessage] =
-    useState('');
+  const [slideOutRestoreSettingsButton, setSlideOutRestoreSettingsButton] = useState(null);
+  const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] = useState('');
+  const [restoreButtonLiveRegionMessage, setRestoreButtonLiveRegionMessage] = useState('');
   const hasBeenShownButtonRef = useRef(false);
   const userHasCustomizedSettings = hasCustomizedSettings(config);
   const snackbarTimeout = useRef(null);
@@ -35,15 +29,9 @@ export default function RestoreDefaultSettings({ updateSettings }) {
     if (userHasCustomizedSettings) {
       hasBeenShownButtonRef.current = true;
       setRestoreButtonLiveRegionMessage(
-        intl.formatMessage({
-          id: 'settings-changed-by-you',
-          defaultMessage: 'Settings changed',
-        }),
+        intl.formatMessage({ id: 'settings-changed-by-you', defaultMessage: 'Settings changed' }),
       );
-      const liveRegionTimeoutId = setTimeout(
-        () => setRestoreButtonLiveRegionMessage(''),
-        1000,
-      );
+      const liveRegionTimeoutId = setTimeout(() => setRestoreButtonLiveRegionMessage(''), 1000);
       return () => clearTimeout(liveRegionTimeoutId);
     }
     if (userHasCustomizedSettings === false && hasBeenShownButtonRef.current) {
@@ -62,10 +50,7 @@ export default function RestoreDefaultSettings({ updateSettings }) {
     const { personalization } = customizedSettings;
     const defaultSettings = getDefaultSettings(config);
     const restoredSettings = Object.keys(customizedSettings).reduce(
-      (acc, setting) => ({
-        ...acc,
-        [setting]: defaultSettings[setting],
-      }),
+      (acc, setting) => ({ ...acc, [setting]: defaultSettings[setting] }),
       {},
     );
     // keep personalization state
@@ -115,18 +100,13 @@ export default function RestoreDefaultSettings({ updateSettings }) {
       {userHasCustomizedSettings || slideOutRestoreSettingsButton ? (
         <div
           className={cx('restore-settings', {
-            hide:
-              userHasCustomizedSettings === false &&
-              !slideOutRestoreSettingsButton,
+            hide: userHasCustomizedSettings === false && !slideOutRestoreSettingsButton,
             show: userHasCustomizedSettings === true,
             'slide-out': slideOutRestoreSettingsButton,
           })}
         >
           <Icon img="icon_checkmark" />
-          <FormattedMessage
-            id="settings-changed-by-you"
-            defaultMessage="Settings changed"
-          />
+          <FormattedMessage id="settings-changed-by-you" defaultMessage="Settings changed" />
           <button
             type="button"
             onClick={restoreDefaultSettings}
@@ -149,6 +129,4 @@ export default function RestoreDefaultSettings({ updateSettings }) {
   );
 }
 
-RestoreDefaultSettings.propTypes = {
-  updateSettings: PropTypes.func.isRequired,
-};
+RestoreDefaultSettings.propTypes = { updateSettings: PropTypes.func.isRequired };

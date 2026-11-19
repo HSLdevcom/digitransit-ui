@@ -4,10 +4,7 @@ import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import {
-  mapLayerOptionsShape,
-  mapLayerShape,
-} from '../../../utils/client/shapes';
+import { mapLayerOptionsShape, mapLayerShape } from '../../../utils/client/shapes';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import MapLayersDialogContent from './MapLayersDialogContent';
@@ -167,13 +164,7 @@ export default function MapWithTracking({
     if (isEmpty(forcedLayers.stop)) {
       return merged;
     }
-    return {
-      ...merged,
-      stop: {
-        ...mapLayers.stop,
-        ...forcedLayers.stop,
-      },
-    };
+    return { ...merged, stop: { ...mapLayers.stop, ...forcedLayers.stop } };
   };
 
   // Exposed to the parent via setMWTRef as a stable object reference, whose
@@ -197,11 +188,7 @@ export default function MapWithTracking({
   }, []);
 
   useEffect(() => {
-    if (
-      mapTracking !== undefined &&
-      mapTracking !== mapTrackingState &&
-      mounted.current
-    ) {
+    if (mapTracking !== undefined && mapTracking !== mapTrackingState && mounted.current) {
       setMapTrackingState(mapTracking);
     }
   }, [mapTracking]);
@@ -224,10 +211,7 @@ export default function MapWithTracking({
       navigated.current = false;
     }
     delete naviProps.bounds;
-  } else if (
-    bounds &&
-    (!isEqual(oldBounds.current, bounds) || refresh.current)
-  ) {
+  } else if (bounds && (!isEqual(oldBounds.current, bounds) || refresh.current)) {
     naviProps.bounds = cloneDeep(bounds);
     delete naviProps.zoom;
     if (refresh.current) {
@@ -296,9 +280,7 @@ export default function MapWithTracking({
                   img="icon_map-layers"
                   handleClick={toggleSettingsOpen}
                   color={config.colors.primary}
-                  ariaLabel={intl.formatMessage({
-                    id: 'maplayers',
-                  })}
+                  ariaLabel={intl.formatMessage({ id: 'maplayers' })}
                 />
               )}
               {renderCustomButtons && renderCustomButtons()}

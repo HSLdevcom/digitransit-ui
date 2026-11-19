@@ -28,10 +28,7 @@ export default function FavouriteListItem({
   const { t } = useTranslation('translation', { i18n });
   const { ref } = useSortable({ id: favourite.favouriteId, index });
   const iconId = getIconId(favourite.selectedIconId);
-  const [name, address] = formatFavouritePlaceLabel(
-    favourite.name,
-    favourite.address,
-  );
+  const [name, address] = formatFavouritePlaceLabel(favourite.name, favourite.address);
 
   return (
     <li ref={ref} className={styles.item}>

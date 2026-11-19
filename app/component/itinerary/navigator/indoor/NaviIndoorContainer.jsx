@@ -1,18 +1,12 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
-import {
-  IndoorStepType,
-  VerticalDirection,
-} from '../../../../../utils/shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../../../utils/shared/constants';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import { getStepFocusAction } from '../../../../../utils/client/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];
 
-export default function NaviIndoorContainer({
-  focusToPoint,
-  indoorSteps = EMPTY_INDOOR_STEPS,
-}) {
+export default function NaviIndoorContainer({ focusToPoint, indoorSteps = EMPTY_INDOOR_STEPS }) {
   return (
     <div className="navi-indoor-step-container">
       <div className="navi-indoor-step-line-container">
@@ -63,9 +57,7 @@ NaviIndoorContainer.propTypes = {
       type: PropTypes.oneOf(Object.values(IndoorStepType)),
       feature: PropTypes.shape({
         verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
-        to: PropTypes.shape({
-          name: PropTypes.string,
-        }),
+        to: PropTypes.shape({ name: PropTypes.string }),
       }),
     }),
   ),

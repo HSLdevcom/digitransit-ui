@@ -41,10 +41,7 @@ const addToModeGroup = (
     isStation = false,
   },
 ) => {
-  const url =
-    isStop || isStation
-      ? stopPagePath(isStation, gtfsId)
-      : routePagePath(gtfsId);
+  const url = isStop || isStation ? stopPagePath(isStation, gtfsId) : routePagePath(gtfsId);
   const key = `${mode}_${isStop || isStation ? 'stop' : 'route'}`;
 
   if (!acc[key]) {
@@ -58,14 +55,7 @@ const addToModeGroup = (
     };
   }
   if (!acc[key].ids.has(id)) {
-    acc[key].entities.push({
-      id,
-      name: shortName || name,
-      url,
-      gtfsId,
-      isStop,
-      isStation,
-    });
+    acc[key].entities.push({ id, name: shortName || name, url, gtfsId, isStop, isStation });
     acc[key].ids.add(id);
   }
 };
@@ -85,10 +75,7 @@ const groupEntitiesByMode = (entities, config) => {
       }
 
       if (e.route) {
-        addToModeGroup(acc, {
-          ...e.route,
-          mode: getMode(e.route, config),
-        });
+        addToModeGroup(acc, { ...e.route, mode: getMode(e.route, config) });
       }
       if (e.stop) {
         addToModeGroup(acc, {
@@ -110,10 +97,7 @@ const groupEntitiesByMode = (entities, config) => {
 
 const getAvailableModes = config =>
   Object.entries(getTransportModes(config)).reduce((acc, [k, v]) => {
-    if (
-      v.availableForSelection &&
-      TrafficNowTransportModes.includes(k.toUpperCase())
-    ) {
+    if (v.availableForSelection && TrafficNowTransportModes.includes(k.toUpperCase())) {
       acc.push(k.toUpperCase());
     }
     return acc;
@@ -165,15 +149,9 @@ const buildDisruptionCards = (disruptions, selectedFilters, config) =>
     const vehicleModes = selectedFilters.vehicleModes ?? [];
     const modes =
       vehicleModes.length > 0
-        ? allModes.filter(m =>
-            vehicleModes.includes(getBaseTransportMode(m.toLowerCase())),
-          )
+        ? allModes.filter(m => vehicleModes.includes(getBaseTransportMode(m.toLowerCase())))
         : allModes;
-    return modes.map(mode => ({
-      key: `${alert.id}-${mode}`,
-      alert,
-      mode,
-    }));
+    return modes.map(mode => ({ key: `${alert.id}-${mode}`, alert, mode }));
   });
 
 // Sort routes by shortName, favourites, search entity
@@ -183,19 +161,11 @@ const sortRoutes = (routes, favRoutes, highlightedGtfsId) =>
     .sort((a, b) => `${a.route.shortName}`.localeCompare(b.route.shortName))
     .sort(
       (a, b) =>
-        Number(favRoutes.includes(b.route.gtfsId)) -
-        Number(favRoutes.includes(a.route.gtfsId)),
+        Number(favRoutes.includes(b.route.gtfsId)) - Number(favRoutes.includes(a.route.gtfsId)),
     )
     .sort(
       (a, b) =>
-        Number(b.route.gtfsId === highlightedGtfsId) -
-        Number(a.route.gtfsId === highlightedGtfsId),
+        Number(b.route.gtfsId === highlightedGtfsId) - Number(a.route.gtfsId === highlightedGtfsId),
     );
 
-export {
-  getAvailableModes,
-  groupEntitiesByMode,
-  getAlertModes,
-  buildDisruptionCards,
-  sortRoutes,
-};
+export { getAvailableModes, groupEntitiesByMode, getAlertModes, buildDisruptionCards, sortRoutes };

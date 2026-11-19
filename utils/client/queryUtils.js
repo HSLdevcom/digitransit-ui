@@ -1,9 +1,6 @@
 import isString from 'lodash/isString';
 import { locationToOTP, getIntermediatePlaces } from '../shared/otpStrings';
-import {
-  getPathWithEndpointObjects,
-  PREFIX_ITINERARY_SUMMARY,
-} from '../shared/path';
+import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from '../shared/path';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -32,15 +29,9 @@ export const fixArrayParams = query => {
 export const replaceQueryParams = (router, match, newParams) => {
   const { location } = match;
 
-  const query = fixArrayParams({
-    ...location.query,
-    ...newParams,
-  });
+  const query = fixArrayParams({ ...location.query, ...newParams });
 
-  router.replace({
-    ...location,
-    query,
-  });
+  router.replace({ ...location, query });
 };
 
 /**
@@ -55,44 +46,27 @@ export const setIntermediatePlaces = (router, match, newIntermediatePlaces) => {
 
   if (
     isString(newIntermediatePlaces) ||
-    (Array.isArray(newIntermediatePlaces) &&
-      newIntermediatePlaces.every(isString))
+    (Array.isArray(newIntermediatePlaces) && newIntermediatePlaces.every(isString))
   ) {
     let parsedIntermediatePlaces;
 
     if (isString(newIntermediatePlaces)) {
-      parsedIntermediatePlaces = hasUndefined(newIntermediatePlaces)
-        ? ''
-        : newIntermediatePlaces;
+      parsedIntermediatePlaces = hasUndefined(newIntermediatePlaces) ? '' : newIntermediatePlaces;
     } else {
       parsedIntermediatePlaces = newIntermediatePlaces.filter(
         intermediatePlace => !hasUndefined(intermediatePlace),
       );
     }
 
-    replaceQueryParams(router, match, {
-      intermediatePlaces: parsedIntermediatePlaces,
-    });
+    replaceQueryParams(router, match, { intermediatePlaces: parsedIntermediatePlaces });
   }
 };
 
-export const updateItinerarySearch = (
-  origin,
-  destination,
-  router,
-  location,
-) => {
+export const updateItinerarySearch = (origin, destination, router, location) => {
   const newLocation = {
     ...location,
-    state: {
-      ...location.state,
-      summaryPageSelected: 0,
-    },
-    pathname: getPathWithEndpointObjects(
-      origin,
-      destination,
-      PREFIX_ITINERARY_SUMMARY,
-    ),
+    state: { ...location.state, summaryPageSelected: 0 },
+    pathname: getPathWithEndpointObjects(origin, destination, PREFIX_ITINERARY_SUMMARY),
   };
   router.replace(newLocation);
 };

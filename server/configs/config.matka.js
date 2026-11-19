@@ -33,10 +33,7 @@ export default {
   },
 
   mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: `${virtualMonitorBaseUrl}/createview`,
-    },
+    stopMonitor: { show: true, url: `${virtualMonitorBaseUrl}/createview` },
     countrySelection: ['estonia'],
   },
 
@@ -44,11 +41,7 @@ export default {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
     locale: 'fi_FI',
-    image: {
-      url: 'assets/matka/social-share.png',
-      width: 511,
-      height: 511,
-    },
+    image: { url: 'assets/matka/social-share.png', width: 511, height: 511 },
   },
 
   title: APP_TITLE,
@@ -60,12 +53,7 @@ export default {
 
   favicon: './app/assets/images/matka/matka-favicon.svg',
 
-  colors: {
-    primary: '#000',
-    tram: '#5E7921',
-    rail: '#000',
-    ferry: '#247C7B',
-  },
+  colors: { primary: '#000', tram: '#5E7921', rail: '#000', ferry: '#247C7B' },
   feedIds: isDevRunEnv()
     ? ['MATKA', 'flixbus', 'CAR_FERRIES']
     : [
@@ -102,27 +90,18 @@ export default {
         'flixbus',
       ],
 
-  additionalFeedIds: {
-    estonia: ['Vikingline', 'Viro'],
-  },
+  additionalFeedIds: { estonia: ['Vikingline', 'Viro'] },
 
   additionalSearchParams: {
-    default: {
-      'boundary.country': 'FIN',
-    },
-    estonia: {
-      'boundary.country': 'EST',
-    },
+    default: { 'boundary.country': 'FIN' },
+    estonia: { 'boundary.country': 'EST' },
   },
 
   feedIdFiltering: true,
 
   stopSearchFilter: stop => {
     const props = stop.properties;
-    if (
-      props?.id?.includes('GTFS:HSL') &&
-      props?.addendum?.GTFS?.modes?.includes('RAIL')
-    ) {
+    if (props?.id?.includes('GTFS:HSL') && props?.addendum?.GTFS?.modes?.includes('RAIL')) {
       return false;
     }
     return true;
@@ -135,10 +114,7 @@ export default {
   menu: {
     copyright: { label: `© Matka.fintraffic.fi ${YEAR}` },
     content: [
-      {
-        label: 'Fintraffic',
-        href: 'https://www.fintraffic.fi',
-      },
+      { label: 'Fintraffic', href: 'https://www.fintraffic.fi' },
       {
         name: 'menu-feedback',
         href: {
@@ -163,13 +139,7 @@ export default {
   },
 
   redirectReittiopasParams: true,
-  map: {
-    minZoom: 5,
-    areaBounds: {
-      corner1: [70.25, 32.25],
-      corner2: [55.99, 17.75],
-    },
-  },
+  map: { minZoom: 5, areaBounds: { corner1: [70.25, 32.25], corner2: [55.99, 17.75] } },
 
   suggestBikeMaxDistance: 2000000,
 
@@ -214,13 +184,8 @@ export default {
   },
 
   transportModes: {
-    citybike: {
-      availableForSelection: true,
-    },
-    scooter: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    citybike: { availableForSelection: true },
+    scooter: { availableForSelection: false, defaultValue: false },
     taxi: {
       availableForSelection: true, // experimental feature
       defaultValue: false,
@@ -280,123 +245,32 @@ export default {
   includeParkAndRideSuggestions: true,
   showBikeAndParkItineraries: true,
 
-  parkAndRide: {
-    showParkAndRide: true,
-    showParkAndRideForBikes: true,
-  },
+  parkAndRide: { showParkAndRide: true, showParkAndRideForBikes: true },
 
   sourceForAlertsAndDisruptions: {
-    HSL: {
-      fi: 'Helsingin seutu',
-      sv: 'Helsingforsregion',
-      en: 'Helsinki region',
-    },
-    tampere: {
-      fi: 'Tampereen seutu',
-      sv: 'Tammerforsregion',
-      en: 'Tampere region',
-    },
-    LINKKI: {
-      fi: 'Jyväskylän seutu',
-      sv: 'Jyväskyläregion',
-      en: 'Jyväskylä region',
-    },
-    OULU: {
-      fi: 'Oulu',
-      sv: 'Uleåborg',
-      en: 'Oulu',
-    },
-    Rauma: {
-      fi: 'Rauma',
-      sv: 'Raumo',
-      en: 'Rauma',
-    },
-    Hameenlinna: {
-      fi: 'Hämeenlinna',
-      sv: 'Tavastehus',
-      en: 'Hämeenlinna',
-    },
-    Kotka: {
-      fi: 'Kotkan seutu',
-      sv: 'Kotkaregion',
-      en: 'Kotka region',
-    },
-    Kouvola: {
-      fi: 'Kouvola',
-      sv: 'Kouvola',
-      en: 'Kouvola',
-    },
-    Lappeenranta: {
-      fi: 'Lappeenranta',
-      sv: 'Villmanstrand',
-      en: 'Lappeenranta',
-    },
-    Mikkeli: {
-      fi: 'Mikkeli',
-      sv: 'S:t Michel',
-      en: 'Mikkeli',
-    },
-    Vaasa: {
-      fi: 'Vaasan seutu',
-      sv: 'Vasaregion',
-      en: 'Vaasa region',
-    },
-    Joensuu: {
-      fi: 'Joensuun seutu',
-      sv: 'Joensuuregion',
-      en: 'Joensuu region',
-    },
-    FOLI: {
-      fi: 'Turun seutu',
-      sv: 'Åboregion',
-      en: 'Turku region',
-    },
-    Lahti: {
-      fi: 'Lahden seutu',
-      sv: 'Lahtisregion',
-      en: 'Lahti region',
-    },
-    Kuopio: {
-      fi: 'Kuopion seutu',
-      sv: 'Kuopioregion',
-      en: 'Kuopio region',
-    },
-    Rovaniemi: {
-      fi: 'Rovaniemi',
-      sv: 'Rovaniemi',
-      en: 'Rovaniemi',
-    },
-    Kajaani: {
-      fi: 'Kajaani',
-      sv: 'Kajana',
-      en: 'Kajaani',
-    },
-    Salo: {
-      fi: 'Salo',
-      sv: 'Salo',
-      en: 'Salo',
-    },
-    Pori: {
-      fi: 'Pori',
-      sv: 'Björneborg',
-      en: 'Pori',
-    },
-    Raasepori: {
-      fi: 'Raasepori',
-      sv: 'Raseborg',
-      en: 'Raasepori',
-    },
-    VARELY: {
-      fi: 'Varsinais-Suomi',
-      sv: 'Egentliga Finland',
-      en: 'Varsinais-Suomi',
-    },
+    HSL: { fi: 'Helsingin seutu', sv: 'Helsingforsregion', en: 'Helsinki region' },
+    tampere: { fi: 'Tampereen seutu', sv: 'Tammerforsregion', en: 'Tampere region' },
+    LINKKI: { fi: 'Jyväskylän seutu', sv: 'Jyväskyläregion', en: 'Jyväskylä region' },
+    OULU: { fi: 'Oulu', sv: 'Uleåborg', en: 'Oulu' },
+    Rauma: { fi: 'Rauma', sv: 'Raumo', en: 'Rauma' },
+    Hameenlinna: { fi: 'Hämeenlinna', sv: 'Tavastehus', en: 'Hämeenlinna' },
+    Kotka: { fi: 'Kotkan seutu', sv: 'Kotkaregion', en: 'Kotka region' },
+    Kouvola: { fi: 'Kouvola', sv: 'Kouvola', en: 'Kouvola' },
+    Lappeenranta: { fi: 'Lappeenranta', sv: 'Villmanstrand', en: 'Lappeenranta' },
+    Mikkeli: { fi: 'Mikkeli', sv: 'S:t Michel', en: 'Mikkeli' },
+    Vaasa: { fi: 'Vaasan seutu', sv: 'Vasaregion', en: 'Vaasa region' },
+    Joensuu: { fi: 'Joensuun seutu', sv: 'Joensuuregion', en: 'Joensuu region' },
+    FOLI: { fi: 'Turun seutu', sv: 'Åboregion', en: 'Turku region' },
+    Lahti: { fi: 'Lahden seutu', sv: 'Lahtisregion', en: 'Lahti region' },
+    Kuopio: { fi: 'Kuopion seutu', sv: 'Kuopioregion', en: 'Kuopio region' },
+    Rovaniemi: { fi: 'Rovaniemi', sv: 'Rovaniemi', en: 'Rovaniemi' },
+    Kajaani: { fi: 'Kajaani', sv: 'Kajana', en: 'Kajaani' },
+    Salo: { fi: 'Salo', sv: 'Salo', en: 'Salo' },
+    Pori: { fi: 'Pori', sv: 'Björneborg', en: 'Pori' },
+    Raasepori: { fi: 'Raasepori', sv: 'Raseborg', en: 'Raasepori' },
+    VARELY: { fi: 'Varsinais-Suomi', sv: 'Egentliga Finland', en: 'Varsinais-Suomi' },
   },
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
+  stopCard: { header: { virtualMonitorBaseUrl } },
   // Notice! Turning on this setting forces the search for car routes (for the CO2 comparison only).
   showCO2InItinerarySummary: true,
   useAssembledGeoJsonZones: 'isOffByDefault',
@@ -409,39 +283,19 @@ export default {
     SUBWAY: { showNotification: false },
   },
 
-  carBoardingModes: {
-    FERRY: { showNotification: true },
-  },
+  carBoardingModes: { FERRY: { showNotification: true } },
 
   disabledLegTextModes: ['ferry'],
 
   startSearchFromUserLocation: true,
 
   minTransferTimeSelection: [
-    {
-      title: '1.5 min',
-      value: 90,
-    },
-    {
-      title: '3 min',
-      value: 180,
-    },
-    {
-      title: '5 min',
-      value: 300,
-    },
-    {
-      title: '7 min',
-      value: 420,
-    },
-    {
-      title: '10 min',
-      value: 600,
-    },
-    {
-      title: '30 min',
-      value: 1800,
-    },
+    { title: '1.5 min', value: 90 },
+    { title: '3 min', value: 180 },
+    { title: '5 min', value: 300 },
+    { title: '7 min', value: 420 },
+    { title: '10 min', value: 600 },
+    { title: '30 min', value: 1800 },
   ],
   navigation: true,
 
@@ -457,12 +311,7 @@ export default {
     infoLanguage: 'fi',
   },
 
-  taxiZone: {
-    enabled: true,
-    transit: true,
-    direct: true,
-    showBothDirectAndTransitResults: true,
-  },
+  taxiZone: { enabled: true, transit: true, direct: true, showBothDirectAndTransitResults: true },
 
   devAnalytics: true,
   analyticsScript: function createAnalyticsScript() {

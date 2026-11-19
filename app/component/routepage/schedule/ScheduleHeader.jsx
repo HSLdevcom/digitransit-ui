@@ -4,10 +4,7 @@ import PrintableStopHeader from './PrintableStopHeader';
 import { stopShape } from '../../../../utils/client/shapes';
 
 export const getScheduleHeaderOptions = (stops, from, to) => {
-  const allOptions = stops.map((stop, index) => ({
-    label: stop.name,
-    value: index,
-  }));
+  const allOptions = stops.map((stop, index) => ({ label: stop.name, value: index }));
   const safeDestinationIndex = Math.min(to, allOptions.length - 1);
   return {
     fromOptions: allOptions.slice(0, safeDestinationIndex),
@@ -19,23 +16,14 @@ export const getScheduleHeaderOptions = (stops, from, to) => {
  * Header component for route schedules with origin/destination selection.
  * Includes printable stop headers for the print view.
  */
-export default function ScheduleHeader({
-  stops,
-  from,
-  to,
-  onFromSelectChange,
-  onToSelectChange,
-}) {
+export default function ScheduleHeader({ stops, from, to, onFromSelectChange, onToSelectChange }) {
   const { fromOptions, toOptions } = getScheduleHeaderOptions(stops, from, to);
   const fromDisplayName = fromOptions.find(o => o.value === from)?.label || '';
   const toDisplayName = toOptions.find(o => o.value === to)?.label || '';
 
   return (
     <div className="route-schedule-header row">
-      <PrintableStopHeader
-        fromDisplayName={fromDisplayName}
-        toDisplayName={toDisplayName}
-      />
+      <PrintableStopHeader fromDisplayName={fromDisplayName} toDisplayName={toDisplayName} />
       <div className="route-schedule-dropdowns">
         <ScheduleDropdown
           id="origin"
