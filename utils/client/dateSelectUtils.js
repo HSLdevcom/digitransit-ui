@@ -99,22 +99,6 @@ export function groupDatesByWeek(processedDates, today, intl) {
 }
 
 /**
- * Generate a range of future dates starting from a given date.
- *
- * @param {DateTime} startDate - Starting date (must be valid Luxon DateTime)
- * @param {number} numberOfDays - Number of days to generate
- * @param {string} locale - Locale string for date formatting
- * @returns {Array<DateTime>} Array of Luxon DateTime objects
- */
-export function generateDateRange(startDate, numberOfDays, locale) {
-  const normalizedStart = startDate.setLocale(locale).startOf('day');
-
-  return Array.from({ length: numberOfDays }, (_, i) =>
-    normalizedStart.plus({ days: i }),
-  );
-}
-
-/**
  * Extract selected value from DateTime object.
  *
  * @param {DateTime} selectedDay - Selected day as a Luxon DateTime

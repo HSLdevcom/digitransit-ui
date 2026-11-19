@@ -8,37 +8,19 @@ import {
   formatDateLabel,
   processDates,
   groupDatesByWeek,
-  generateDateRange,
 } from '../../../utils/client/dateSelectUtils';
 
-function DateSelectGrouped({
-  startDate,
-  selectedDay,
-  dateFormat,
-  dates,
-  onDateChange,
-}) {
+function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
   const intl = useIntl();
   const { locale, formatMessage } = intl;
 
-  const GENERATED_DAYS = 60; // Fallback range when no dates provided
-
-  // Generate grouped date options from the provided dates (assumed sorted, no past dates)
-  // or fallback to a generated range when no dates are provided.
+  // Group the provided dates (assumed sorted, no past dates) by week.
   const { grouped, processedDates } = useMemo(() => {
     const today = DateTime.local().startOf('day');
     const tomorrow = today.plus({ days: 1 });
 
-    let sourceDates;
-    if (dates && Array.isArray(dates)) {
-      sourceDates = dates.map(d => d.setLocale(locale));
-    } else {
-      const validStartDate = startDate?.isValid ? startDate : today;
-      sourceDates = generateDateRange(validStartDate, GENERATED_DAYS, locale);
-    }
-
     const options = processDates(
-      sourceDates,
+      dates.map(d => d.setLocale(locale)),
       today,
       tomorrow,
       dateFormat,
@@ -48,7 +30,7 @@ function DateSelectGrouped({
     const groupedOptions = groupDatesByWeek(options, today, intl);
 
     return { grouped: groupedOptions, processedDates: options };
-  }, [dateFormat, dates, startDate?.toISODate(), locale]);
+  }, [dateFormat, dates, locale]);
 
   const selectedOption = useMemo(() => {
     const selectedValue = extractSelectedValue(selectedDay, dateFormat);
@@ -109,10 +91,9 @@ function DateSelectGrouped({
 }
 
 DateSelectGrouped.propTypes = {
-  startDate: PropTypes.instanceOf(DateTime),
   selectedDay: PropTypes.instanceOf(DateTime),
   dateFormat: PropTypes.string.isRequired,
-  dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)),
+  dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)).isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
 

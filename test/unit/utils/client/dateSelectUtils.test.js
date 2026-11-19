@@ -4,7 +4,6 @@ import {
   formatWeekLabel,
   processDates,
   groupDatesByWeek,
-  generateDateRange,
   extractSelectedValue,
 } from '../../../../utils/client/dateSelectUtils';
 import { createTestIntl } from '../../helpers/mock-providers';
@@ -219,41 +218,6 @@ describe('dateSelectUtils', () => {
       expect(result[0].label).toBe('This week');
       expect(result[1].label).toBe('Next week');
       expect(result[2].label).toBe('Week 5');
-    });
-  });
-
-  describe('generateDateRange', () => {
-    it('should generate specified number of days from start date', () => {
-      const startDate = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const numberOfDays = 7;
-
-      const result = generateDateRange(startDate, numberOfDays, 'en');
-
-      expect(result).toHaveLength(7);
-      expect(result[0].toISODate()).toBe('2024-01-15');
-      expect(result[6].toISODate()).toBe('2024-01-21');
-    });
-
-    it('should set correct locale', () => {
-      const startDate = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
-      const numberOfDays = 3;
-
-      const result = generateDateRange(startDate, numberOfDays, 'fi');
-
-      expect(result[0].locale).toBe('fi');
-    });
-
-    it('should normalize dates to start of day', () => {
-      const startDate = DateTime.fromISO('2024-01-15T15:30:00', {
-        zone: 'UTC',
-      });
-      const numberOfDays = 2;
-
-      const result = generateDateRange(startDate, numberOfDays, 'en');
-
-      expect(result[0].hour).toBe(0);
-      expect(result[0].minute).toBe(0);
-      expect(result[0].second).toBe(0);
     });
   });
 
