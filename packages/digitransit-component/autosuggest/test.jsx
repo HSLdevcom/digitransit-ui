@@ -93,6 +93,15 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     expect(container.querySelector(`#${describedBy}`)).not.toBeNull();
   });
 
+  it('keeps a name that contains the placeholder while the value changes', () => {
+    renderAutosuggest();
+    const input = screen.getByRole('combobox');
+    const name = input.getAttribute('aria-label');
+    expect(name).toContain(input.placeholder);
+    fireEvent.change(input, { target: { value: 'Pasi' } });
+    expect(input.getAttribute('aria-label')).toBe(name);
+  });
+
   it('is named by an external label instead of aria-label', () => {
     renderAutosuggest({ externalLabelId: 'ext-label' });
     render(

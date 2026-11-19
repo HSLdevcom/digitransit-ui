@@ -570,10 +570,15 @@ function DTAutosuggest({
     required,
   });
 
-  // Stable name; an external <label for={id}> takes its place when externalLabelId is given.
+  // Stable name that contains the visible placeholder text, so voice control can target the field.
+  // An external <label for={id}> takes its place when externalLabelId is given.
+  const visiblePlaceholder = translatedPlaceholder || t(placeholder, { lng });
   const accessibleName = externalLabelId
     ? undefined
-    : ariaRequiredText.concat(' ').concat(SearchBarId).trim();
+    : ariaRequiredText
+        .concat(' ')
+        .concat(ariaLabel || visiblePlaceholder)
+        .trim();
 
   const mobileClearOldSearches = () => {
     const { clearOldSearches, clearFutureRoutes } = searchContext;
@@ -663,7 +668,7 @@ function DTAutosuggest({
           inputRef={inputRef}
           styles={styles}
           clearButtonColor={colors.primary}
-          placeholder={translatedPlaceholder || t(placeholder, { lng })}
+          placeholder={visiblePlaceholder}
           required={required}
           transportMode={transportMode}
           isMobile={isMobile}
