@@ -112,7 +112,6 @@ async function init() {
       fetchTimeout: config.OTPTimeout + 1000,
     }),
     next => async req => {
-      // eslint-disable-next-line no-param-reassign
       req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
       req.fetchOpts.headers['Accept-Language'] = language;
       return next(req);

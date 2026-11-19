@@ -83,7 +83,6 @@ export default function MainMenu({ closeMenu, homeUrl }) {
               defaultMessage={`include-${country}`}
             />
             <div>
-              {/* eslint-disable jsx-a11y/label-has-associated-control */}
               <label key={country}>
                 <Toggle
                   checked={!!countries[country]}

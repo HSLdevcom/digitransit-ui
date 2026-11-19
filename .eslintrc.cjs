@@ -1,5 +1,6 @@
 module.exports = {
   parser: '@babel/eslint-parser',
+  reportUnusedDisableDirectives: true,
   extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
@@ -87,15 +88,7 @@ module.exports = {
     'compat/compat': 'warn',
 
     // prettier
-    'prettier/prettier': [
-      'error',
-      {
-        arrowParens: 'avoid',
-        endOfLine: 'auto',
-        singleQuote: true,
-        trailingComma: 'all',
-      },
-    ],
+    'prettier/prettier': 'error', // options in package.json "prettier"
   },
   env: {
     browser: true,

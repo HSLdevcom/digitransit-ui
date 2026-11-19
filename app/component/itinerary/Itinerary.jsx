@@ -98,7 +98,6 @@ export default function Itinerary({
       ? `/${match.params.hash}/`
       : '/';
 
-    // eslint-disable-next-line compat/compat
     const momentumScroll =
       document.getElementsByClassName('momentum-scroll')[0];
     if (momentumScroll) {
@@ -628,8 +627,7 @@ export default function Itinerary({
         )}`}
       >
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
-            because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
-        /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+            because screen reader works weirdly with nested buttons. Same functonality works from the inner button */}
         <div className="itinerary-summary-header">
           <div>
             <div

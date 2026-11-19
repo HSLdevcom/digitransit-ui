@@ -67,7 +67,6 @@ export default function Disruption({
           : (entity.vehicleMode || 'bus').toLowerCase();
         const key = `${typename}_${mode}`;
         if (!acc[key]) {
-          // eslint-disable-next-line no-param-reassign
           acc[key] = { typename, mode, items: [] };
         }
         acc[key].items.push(entity);
