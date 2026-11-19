@@ -37,16 +37,6 @@ describe('<DateSelectGrouped />', () => {
     ).toContain('Tomorrow');
   });
 
-  it('should select the first available date when selectedDay is undefined', () => {
-    const { container } = renderWithProviders(
-      <DateSelectGrouped dates={[today, tomorrow]} onDateChange={() => {}} />,
-    );
-    expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
-    ).toContain('Today');
-  });
-
   it('should select the first available date when selectedDay is invalid', () => {
     const { container } = renderWithProviders(
       <DateSelectGrouped

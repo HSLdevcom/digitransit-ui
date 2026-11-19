@@ -34,19 +34,16 @@ export default function DateSelectGrouped({
   }, [dates]);
 
   const selectedOption = useMemo(() => {
-    const selectedValue = selectedDay?.isValid
-      ? selectedDay.toFormat(DATE_FORMAT)
-      : undefined;
-    const found = processedDates.find(o => o.value === selectedValue);
-    if (found) {
-      return found;
+    if (!selectedDay.isValid) {
+      return processedDates[0];
     }
-    // Synthesise an option for the selected day when it is not in the
-    // available-dates list (e.g. today when service only starts in the future).
-    if (selectedDay?.isValid) {
-      return processDates([selectedDay], today, intl)[0];
-    }
-    return processedDates[0];
+    const selectedValue = selectedDay.toFormat(DATE_FORMAT);
+    // Synthesise an option when the selected day is not in the available-dates
+    // list (e.g. today when service only starts in the future).
+    return (
+      processedDates.find(o => o.value === selectedValue) ??
+      processDates([selectedDay], today, intl)[0]
+    );
   }, [processedDates, today, selectedDay]);
 
   const id = 'route-schedule-grouped-datepicker';
@@ -86,7 +83,7 @@ export default function DateSelectGrouped({
 }
 
 DateSelectGrouped.propTypes = {
-  selectedDay: PropTypes.instanceOf(DateTime),
+  selectedDay: PropTypes.instanceOf(DateTime).isRequired,
   dates: PropTypes.arrayOf(PropTypes.instanceOf(DateTime)).isRequired,
   onDateChange: PropTypes.func.isRequired,
 };
