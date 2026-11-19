@@ -38,27 +38,21 @@ export default config => {
     title: (
       <Route
         getComponent={() =>
-          import(/* webpackChunkName: "itinerary" */ '../component/Title').then(
-            getDefault,
-          )
+          import(/* webpackChunkName: "itinerary" */ '../component/Title').then(getDefault)
         }
       />
     ),
     content: (
       <Route
         getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ '../component/IndexPage'
-          ).then(getDefault)
+          import(/* webpackChunkName: "itinerary" */ '../component/IndexPage').then(getDefault)
         }
       />
     ),
     meta: (
       <Route
         getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ '../component/IndexPageMeta'
-          ).then(getDefault)
+          import(/* webpackChunkName: "itinerary" */ '../component/IndexPageMeta').then(getDefault)
         }
       />
     ),
@@ -66,9 +60,9 @@ export default config => {
       <Route
         disableMapOnMobile
         getComponent={() =>
-          import(
-            /* webpackChunkName: "itinerary" */ '../component/map/IndexPageMap'
-          ).then(getDefault)
+          import(/* webpackChunkName: "itinerary" */ '../component/map/IndexPageMap').then(
+            getDefault,
+          )
         }
       />
     ),
@@ -76,9 +70,7 @@ export default config => {
 
   const itineraryPageGeolocatorProps = {
     getComponent: () =>
-      import(
-        /* webpackChunkName: "itinerary" */ '../component/Geolocator'
-      ).then(getDefault),
+      import(/* webpackChunkName: "itinerary" */ '../component/Geolocator').then(getDefault),
     render: ({ Component, props }) => {
       if (Component) {
         return (
@@ -97,9 +89,7 @@ export default config => {
     content: (
       <Route
         getComponent={() =>
-          import(
-            /* webpackChunkName: "vehiclepark" */ '../component/ParkAndRideContent'
-          )
+          import(/* webpackChunkName: "vehiclepark" */ '../component/ParkAndRideContent')
             .then(getDefault)
             .catch(errorLoading)
         }
@@ -115,12 +105,7 @@ export default config => {
           if (Component && (props || error)) {
             return <Component {...props} error={error} />;
           }
-          return getComponentOrLoadingRenderer({
-            Component,
-            props,
-            error,
-            retry,
-          });
+          return getComponentOrLoadingRenderer({ Component, props, error, retry });
         }}
       />
     ),
@@ -128,9 +113,9 @@ export default config => {
       <Route
         path="(.*)?"
         getComponent={() =>
-          import(
-            /* webpackChunkName: "vehiclepark" */ '../component/VehicleParkMap'
-          ).then(getDefault)
+          import(/* webpackChunkName: "vehiclepark" */ '../component/VehicleParkMap').then(
+            getDefault,
+          )
         }
         // TODO remove prepareVariables after hsl.fi has updated its vehicle parking addresses
         prepareVariables={prepareWeekDays}
@@ -171,12 +156,7 @@ export default config => {
                 if (Component && (props || error)) {
                   return <Component {...props} error={error} />;
                 }
-                return getComponentOrLoadingRenderer({
-                  Component,
-                  props,
-                  error,
-                  retry,
-                });
+                return getComponentOrLoadingRenderer({ Component, props, error, retry });
               }}
             />
           ),
@@ -202,28 +182,20 @@ export default config => {
       </Route>
       <Route path={`/${PREFIX_BIKEPARK}`}>
         <Route Component={Error404} />
-        <Route path=":id">
-          {{
-            ...vehicleParkingProps,
-          }}
-        </Route>
+        <Route path=":id">{{ ...vehicleParkingProps }}</Route>
       </Route>
       <Route path={`/${PREFIX_CARPARK}`}>
         <Route Component={Error404} />
-        <Route path=":id">
-          {{
-            ...vehicleParkingProps,
-          }}
-        </Route>
+        <Route path=":id">{{ ...vehicleParkingProps }}</Route>
       </Route>
       <Route path={`/${PREFIX_NEARYOU}/:mode/:place/:origin?`}>
         {{
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "nearyou" */ '../component/nearyou/NearYouPage'
-                ).then(getDefault)
+                import(/* webpackChunkName: "nearyou" */ '../component/nearyou/NearYouPage').then(
+                  getDefault,
+                )
               }
               render={({ Component, props, error }) => {
                 if (Component) {
@@ -253,9 +225,7 @@ export default config => {
         {{
           content: (
             <Route
-              getComponent={() =>
-                import('../component/RentalVehicleContent').then(getDefault)
-              }
+              getComponent={() => import('../component/RentalVehicleContent').then(getDefault)}
               query={graphql`
                 query routes_RentalVehicle_Query($id: String!) {
                   rentalVehicle(id: $id) {
@@ -267,12 +237,7 @@ export default config => {
                 if (Component && (props || error)) {
                   return <Component {...props} error={error} />;
                 }
-                return getComponentOrLoadingRenderer({
-                  Component,
-                  props,
-                  error,
-                  retry,
-                });
+                return getComponentOrLoadingRenderer({ Component, props, error, retry });
               }}
             />
           ),
@@ -280,9 +245,7 @@ export default config => {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import('../component/RentalVehiclePageMapContainer').then(
-                  getDefault,
-                )
+                import('../component/RentalVehiclePageMapContainer').then(getDefault)
               }
               query={graphql`
                 query routes_RentalVehicleMap_Query($id: String!) {
@@ -309,9 +272,7 @@ export default config => {
         path={`/${PREFIX_ITINERARY_SUMMARY}/:from/POS/:hash?/:secondHash?`}
         {...itineraryPageGeolocatorProps}
       />
-      <Route
-        path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?/:secondHash?`}
-      >
+      <Route path={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to/:hash?/:secondHash?`}>
         {{
           title: (
             <Route
@@ -347,43 +308,35 @@ export default config => {
       <Route
         path={`/${TRAFFICNOW}/hairio/:alertId`}
         getComponent={() =>
-          import(
-            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-          ).then(getDefault)
+          import(/* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow').then(
+            getDefault,
+          )
         }
-        render={({ Component }) =>
-          Component && <Component dateTime={new Date().toISOString()} />
-        }
+        render={({ Component }) => Component && <Component dateTime={new Date().toISOString()} />}
       />
       <Route
         path={`/${TRAFFICNOW}/peruutukset/:mode`}
         getComponent={() =>
-          import(
-            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-          ).then(getDefault)
+          import(/* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow').then(
+            getDefault,
+          )
         }
-        render={({ Component }) =>
-          Component && <Component dateTime={new Date().toISOString()} />
-        }
+        render={({ Component }) => Component && <Component dateTime={new Date().toISOString()} />}
       />
       <Route
         path={TRAFFICNOW}
         getComponent={() =>
-          import(
-            /* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow'
-          ).then(getDefault)
+          import(/* webpackChunkName: "trafficnow" */ '../component/trafficnow/TrafficNow').then(
+            getDefault,
+          )
         }
-        render={({ Component }) =>
-          Component && <Component dateTime={new Date().toISOString()} />
-        }
+        render={({ Component }) => Component && <Component dateTime={new Date().toISOString()} />}
       />
       <Redirect from={`/${TRAFFICNOW}/*`} to={`/${TRAFFICNOW}`} />
       <Route
         path="/tietoja-palvelusta"
         getComponent={() =>
-          import(/* webpackChunkName: "about" */ '../component/AboutPage').then(
-            getDefault,
-          )
+          import(/* webpackChunkName: "about" */ '../component/AboutPage').then(getDefault)
         }
       />
       <Route
@@ -408,28 +361,20 @@ export default config => {
       <Route path="/assets/*" Component={Error404} />
       <Redirect
         from={`/:from/:to/${TAB_NEARBY}`}
-        to={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/:from/:to`}
+        to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from/:to`}
       />
       <Redirect
         from={`/:from/:to/${TAB_FAVOURITES}`}
-        to={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/:from/:to`}
+        to={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from/:to`}
       />
-      <Route
-        path={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/POS/:to?`}
-      >
+      <Route path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/POS/:to?`}>
         {{
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ '../component/Geolocator'
-                ).then(getDefault)
+                import(/* webpackChunkName: "itinerary" */ '../component/Geolocator').then(
+                  getDefault,
+                )
               }
               render={({ Component, props }) => {
                 if (Component) {
@@ -447,18 +392,14 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/:from/POS`}
-      >
+      <Route path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from/POS`}>
         {{
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ '../component/Geolocator'
-                ).then(getDefault)
+                import(/* webpackChunkName: "itinerary" */ '../component/Geolocator').then(
+                  getDefault,
+                )
               }
               render={({ Component, props }) => {
                 if (Component) {
@@ -476,30 +417,19 @@ export default config => {
           ),
         }}
       </Route>
-      <Route
-        path={`${
-          config.indexPath === '' ? '' : `/${config.indexPath}`
-        }/:from/-`}
-      >
+      <Route path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from/-`}>
         {indexPageComponents}
       </Route>
-      <Route
-        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/-/:to`}
-      >
+      <Route path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/-/:to`}>
         {indexPageComponents}
       </Route>
-      <Route
-        path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}
-      >
+      <Route path={`${config.indexPath === '' ? '' : `/${config.indexPath}`}/:from`}>
         {indexPageComponents}
       </Route>
       <Route path={config.indexPath === '' ? '/' : `/${config.indexPath}`}>
         {indexPageComponents}
       </Route>
-      <Redirect
-        from="/:from/:to"
-        to={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`}
-      />
+      <Redirect from="/:from/:to" to={`/${PREFIX_ITINERARY_SUMMARY}/:from/:to`} />
       {config.indexPath !== '' && (
         <Redirect
           from={`/${config.indexPath}/:from/:to`}
@@ -511,9 +441,7 @@ export default config => {
           title: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ '../component/Title'
-                ).then(getDefault)
+                import(/* webpackChunkName: "itinerary" */ '../component/Title').then(getDefault)
               }
             >
               <Route path=":hash" />
@@ -522,17 +450,15 @@ export default config => {
           content: (
             <Route
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "itinerary" */ '../component/IndexPage'
-                ).then(getDefault)
+                import(/* webpackChunkName: "itinerary" */ '../component/IndexPage').then(
+                  getDefault,
+                )
               }
             />
           ),
         }}
       </Route>
-      {config.indexPath !== '' && (
-        <Redirect from="/" to={`/${config.indexPath}`} />
-      )}
+      {config.indexPath !== '' && <Redirect from="/" to={`/${config.indexPath}`} />}
       {/* For all the rest render 404 */}
       <Route path="*" Component={Error404} />
     </Route>

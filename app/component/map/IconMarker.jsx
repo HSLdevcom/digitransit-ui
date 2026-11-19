@@ -30,9 +30,7 @@ export default function IconMarker({ icon, zIndexOffset, children, ...rest }) {
 
       createIcon(oldIcon) {
         const newDiv =
-          oldIcon && oldIcon.tagName === 'DIV'
-            ? oldIcon
-            : document.createElement('div');
+          oldIcon && oldIcon.tagName === 'DIV' ? oldIcon : document.createElement('div');
 
         setDiv(newDiv);
 
@@ -61,26 +59,16 @@ export default function IconMarker({ icon, zIndexOffset, children, ...rest }) {
 
   return [
     div && createPortal(icon.element, div, 'icon'),
-    <Marker
-      key="marker"
-      {...rest}
-      icon={iconInstance}
-      keyboard={false}
-      zIndexOffset={zIndexOffset}
-    >
+    <Marker key="marker" {...rest} icon={iconInstance} keyboard={false} zIndexOffset={zIndexOffset}>
       {children}
     </Marker>,
   ];
 }
 
 IconMarker.propTypes = {
-  position: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-  }).isRequired,
-  icon: PropTypes.shape({
-    element: PropTypes.node.isRequired,
-  }).isRequired,
+  position: PropTypes.shape({ lat: PropTypes.number.isRequired, lon: PropTypes.number.isRequired })
+    .isRequired,
+  icon: PropTypes.shape({ element: PropTypes.node.isRequired }).isRequired,
   zIndexOffset: PropTypes.number,
   children: PropTypes.node,
 };

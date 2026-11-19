@@ -19,10 +19,7 @@ import {
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
-import {
-  prepareServiceDay,
-  preparePatternStopsVariables,
-} from '../../utils/client/dateParamUtils';
+import { prepareServiceDay, preparePatternStopsVariables } from '../../utils/client/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
@@ -62,15 +59,12 @@ export default function routeRoutes(config) {
       <Route
         path=":routeId/:type?"
         getComponent={() =>
-          import(
-            /* webpackChunkName: "route" */ '../component/routepage/PatternRedirector'
-          ).then(getDefault)
+          import(/* webpackChunkName: "route" */ '../component/routepage/PatternRedirector').then(
+            getDefault,
+          )
         }
         query={graphql`
-          query routeRoutes_PatternRedirector_Query(
-            $routeId: String!
-            $date: String!
-          ) {
+          query routeRoutes_PatternRedirector_Query($routeId: String!, $date: String!) {
             route(id: $routeId) {
               ...PatternRedirectorFragment_route @arguments(date: $date)
             }
@@ -85,9 +79,7 @@ export default function routeRoutes(config) {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ '../component/Title'
-                ).then(getDefault)
+                import(/* webpackChunkName: "route" */ '../component/Title').then(getDefault)
               }
               query={graphql`
                 query routeRoutes_RouteTitle_Query($routeId: String!) {
@@ -103,9 +95,9 @@ export default function routeRoutes(config) {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ '../component/routepage/RoutePageMeta'
-                ).then(getDefault)
+                import(/* webpackChunkName: "route" */ '../component/routepage/RoutePageMeta').then(
+                  getDefault,
+                )
               }
               query={graphql`
                 query routeRoutes_RoutePageMeta_Query($routeId: String!) {
@@ -121,9 +113,9 @@ export default function routeRoutes(config) {
             <Route
               path="(.*)?"
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ '../component/routepage/RoutePage'
-                ).then(getDefault)
+                import(/* webpackChunkName: "route" */ '../component/routepage/RoutePage').then(
+                  getDefault,
+                )
               }
               query={graphql`
                 query routeRoutes_RoutePage_Query(
@@ -150,9 +142,9 @@ export default function routeRoutes(config) {
             <Route
               path={`${PREFIX_STOPS}/:patternId/:tripId`}
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ '../component/map/RoutePageMap'
-                ).then(getDefault)
+                import(/* webpackChunkName: "route" */ '../component/map/RoutePageMap').then(
+                  getDefault,
+                )
               }
               query={graphql`
                 query routeRoutes_RoutePageMap_withTrip_Query(
@@ -172,9 +164,9 @@ export default function routeRoutes(config) {
             <Route
               path=":type/:patternId/(.*)?"
               getComponent={() =>
-                import(
-                  /* webpackChunkName: "route" */ '../component/map/RoutePageMap'
-                ).then(getDefault)
+                import(/* webpackChunkName: "route" */ '../component/map/RoutePageMap').then(
+                  getDefault,
+                )
               }
               query={graphql`
                 query routeRoutes_RoutePageMap_Query($patternId: String!) {
@@ -184,10 +176,7 @@ export default function routeRoutes(config) {
                 }
               `}
               render={args =>
-                renderMap({
-                  ...args,
-                  props: args.props && { ...args.props, trip: null },
-                })
+                renderMap({ ...args, props: args.props && { ...args.props, trip: null } })
               }
             />,
             <Route path="(.?)*" />,
@@ -459,11 +448,7 @@ export default function routeRoutes(config) {
                   : prepareScheduleParamsWithFiveWeeks
               }
               render={tabContent(
-                getComponentOrLoadingRendererWithRequired([
-                  'pattern',
-                  'route',
-                  'firstDepartures',
-                ]),
+                getComponentOrLoadingRendererWithRequired(['pattern', 'route', 'firstDepartures']),
               )}
             />,
             <Route

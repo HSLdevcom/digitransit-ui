@@ -4,18 +4,14 @@ import {
   initHslfiLocale,
 } from '../../../../utils/client/hslfiLocale';
 
-const translationFiles = import.meta.glob('../../../../app/translations/*.js', {
-  eager: true,
-});
+const translationFiles = import.meta.glob('../../../../app/translations/*.js', { eager: true });
 const translations = Object.assign(
   {},
   ...Object.values(translationFiles).map(file => file.default),
 );
 // languages with built-in texts in the design system
 const builtInLangs = ['fi', 'sv', 'en'];
-const customLangs = Object.keys(translations).filter(
-  lang => !builtInLangs.includes(lang),
-);
+const customLangs = Object.keys(translations).filter(lang => !builtInLangs.includes(lang));
 const dsKeys = Object.values(DS_MESSAGE_KEYS).flatMap(Object.values);
 
 describe('hslfiLocale', () => {
@@ -28,9 +24,7 @@ describe('hslfiLocale', () => {
     initHslfiLocale('de', translations.de);
     expect(hslfiLocale).toEqual({
       code: 'de',
-      messages: expect.objectContaining({
-        CloseButton: { close: translations.de.close },
-      }),
+      messages: expect.objectContaining({ CloseButton: { close: translations.de.close } }),
     });
   });
 

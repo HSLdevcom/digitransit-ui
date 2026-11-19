@@ -29,11 +29,7 @@ function makeHash(s) {
   }, 0);
 }
 
-export default function enrichPatterns(
-  patterns,
-  onlyInFuture,
-  serviceTimeRange,
-) {
+export default function enrichPatterns(patterns, onlyInFuture, serviceTimeRange) {
   const currentDate = DateTime.now();
   const lastRangeDate = DateTime.now().plus({ days: serviceTimeRange });
 
@@ -69,9 +65,7 @@ export default function enrichPatterns(
     }
   });
 
-  futureTrips = futureTrips.filter(
-    f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
-  );
+  futureTrips = futureTrips.filter(f => f.tripsForDate.length > 0 || f.activeDates.length > 0);
 
   for (let y = 0; y < futureTrips.length; y++) {
     const actDates = [];
@@ -100,10 +94,7 @@ export default function enrichPatterns(
 
       dayNumbers.push(itemDate.weekday);
       if (arr[index + 1]) {
-        const diff = DateTime.fromFormat(arr[index + 1], DATE_FORMAT).diff(
-          itemDate,
-          'days',
-        ).days;
+        const diff = DateTime.fromFormat(arr[index + 1], DATE_FORMAT).diff(itemDate, 'days').days;
         if (diff !== 1) {
           rangeFollowingDays[rangeFollowingDays.length - 1][1] = arr[index];
           rangeFollowingDays.push([arr[index + 1], 0]);
@@ -122,15 +113,11 @@ export default function enrichPatterns(
     futureTrips[y].dayDiff = dayDiff;
     futureTrips[y].dayString = dayRangePattern(dayNumbers);
     futureTrips[y].activeDates = Array.from(new Set(actDates.sort()));
-    futureTrips[y].allowedDiff = dayRangeAllowedDiff(
-      dayNumbers,
-      currentDate.weekday,
-    );
+    futureTrips[y].allowedDiff = dayRangeAllowedDiff(dayNumbers, currentDate.weekday);
 
     if (
       futureTrips[y].rangeFollowingDays.length === 1 &&
-      (futureTrips[y].rangeFollowingDays[0][0] ===
-        futureTrips[y].rangeFollowingDays[0][1] ||
+      (futureTrips[y].rangeFollowingDays[0][0] === futureTrips[y].rangeFollowingDays[0][1] ||
         futureTrips[y].rangeFollowingDays[0][1] === 0)
     ) {
       futureTrips[y].fromDate = futureTrips[y].rangeFollowingDays[0][0];
@@ -138,8 +125,7 @@ export default function enrichPatterns(
       futureTrips[y].rangeFollowingDays[0][1] = 0;
     } else if (
       futureTrips[y].rangeFollowingDays.length === 1 &&
-      futureTrips[y].rangeFollowingDays[0][0] !==
-        futureTrips[y].rangeFollowingDays[0][1]
+      futureTrips[y].rangeFollowingDays[0][0] !== futureTrips[y].rangeFollowingDays[0][1]
     ) {
       if (DateTime.fromFormat(minAndMaxDate[0], DATE_FORMAT) > currentDate) {
         futureTrips[y].fromDate = futureTrips[y].rangeFollowingDays[0][0];
@@ -147,10 +133,7 @@ export default function enrichPatterns(
         futureTrips[y].fromDate = '-';
       }
       if (
-        DateTime.fromFormat(
-          futureTrips[y].rangeFollowingDays[0][1],
-          DATE_FORMAT,
-        ) < lastRangeDate
+        DateTime.fromFormat(futureTrips[y].rangeFollowingDays[0][1], DATE_FORMAT) < lastRangeDate
       ) {
         futureTrips[y].untilDate = futureTrips[y].rangeFollowingDays[0][1];
       } else {
@@ -176,14 +159,10 @@ export default function enrichPatterns(
     futureTrips[y].minAndMaxDate = minAndMaxDate;
     futureTrips[y].inFuture =
       DateTime.now().startOf('week') <
-      DateTime.fromFormat(futureTrips[y].minAndMaxDate[0], DATE_FORMAT).startOf(
-        'week',
-      );
+      DateTime.fromFormat(futureTrips[y].minAndMaxDate[0], DATE_FORMAT).startOf('week');
   }
 
-  futureTrips = futureTrips.filter(
-    f => f.tripsForDate.length > 0 || f.activeDates.length > 0,
-  );
+  futureTrips = futureTrips.filter(f => f.tripsForDate.length > 0 || f.activeDates.length > 0);
 
   // DT-2531: shows main routes (both directions) if there is no futureTrips
   if (futureTrips.length === 0 && patterns.length > 0) {

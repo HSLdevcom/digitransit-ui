@@ -5,16 +5,10 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { CheckboxGroup } from '@hsl-fi/form';
 import Icon from '../Icon';
 import routeCompare from '../../../utils/client/route-compare';
-import {
-  getRouteMode,
-  modeToTranslationId,
-} from '../../../utils/client/modeUtils';
+import { getRouteMode, modeToTranslationId } from '../../../utils/client/modeUtils';
 import { stopShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import {
-  getDepartureHeadsigns,
-  getDepartureStoptimes,
-} from '../../../utils/client/patternUtils';
+import { getDepartureHeadsigns, getDepartureStoptimes } from '../../../utils/client/patternUtils';
 import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function FilterTimeTableModal({
@@ -73,10 +67,7 @@ export default function FilterTimeTableModal({
     .filter(o => o)
     .sort(routeCompare)
     // deduplicate patterns with same code
-    .filter(
-      (pattern, index, self) =>
-        self.map(itm => itm.code).indexOf(pattern.code) === index,
-    );
+    .filter((pattern, index, self) => self.map(itm => itm.code).indexOf(pattern.code) === index);
 
   const checkboxItems = [
     {
@@ -102,14 +93,9 @@ export default function FilterTimeTableModal({
         id: `input-${o.code}`,
         checked: showRoutes.includes(o.code),
         ariaLabel: intl.formatMessage(
+          { id: 'select-route', defaultMessage: 'Select {mode} route {shortName} to {headsign}' },
           {
-            id: 'select-route',
-            defaultMessage: 'Select {mode} route {shortName} to {headsign}',
-          },
-          {
-            mode: intl.formatMessage({
-              id: modeToTranslationId(mode, config),
-            }),
+            mode: intl.formatMessage({ id: modeToTranslationId(mode, config) }),
             shortName: o.shortName,
             headsign: o.headsign,
           },
@@ -135,11 +121,7 @@ export default function FilterTimeTableModal({
       >
         <div className="routes-container">
           <CheckboxGroup
-            label={
-              <span className="sr-only">
-                {intl.formatMessage({ id: 'show-routes' })}
-              </span>
-            }
+            label={<span className="sr-only">{intl.formatMessage({ id: 'show-routes' })}</span>}
             items={checkboxItems}
           />
         </div>

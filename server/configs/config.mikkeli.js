@@ -12,34 +12,14 @@ export default configMerger(walttiConfig, {
     name: 'Mikkelin joukkoliikenne',
     href: 'https://mikkeli.fi/asuminen-ja-ymparisto/liikenne-ja-kadut/joukkoliikenne-2-2/',
     altLink: {
-      sv: {
-        name: 'S:t Michels Kollektivtrafik',
-        href: 'https://mikkeli.fi/sv/',
-      },
-      en: {
-        name: 'Mikkeli Public Transport',
-        href: 'https://mikkeli.fi/en/',
-      },
+      sv: { name: 'S:t Michels Kollektivtrafik', href: 'https://mikkeli.fi/sv/' },
+      en: { name: 'Mikkeli Public Transport', href: 'https://mikkeli.fi/en/' },
     },
   },
 
-  colors: {
-    primary: '#167CAC',
-    bus: '#167CAC',
-  },
-  transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-  },
-  socialMedia: {
-    title: APP_TITLE,
-    description: APP_DESCRIPTION,
-    twitter: {
-      site: '@MikkelinK',
-    },
-  },
+  colors: { primary: '#167CAC', bus: '#167CAC' },
+  transportModes: { bus: { availableForSelection: true, defaultValue: true } },
+  socialMedia: { title: APP_TITLE, description: APP_DESCRIPTION, twitter: { site: '@MikkelinK' } },
 
   title: APP_TITLE,
 
@@ -69,19 +49,12 @@ export default configMerger(walttiConfig, {
     [26.43, 61.76],
   ],
 
-  defaultEndpoint: {
-    address: 'Hallitustori',
-    lat: 61.687904,
-    lon: 27.273215,
-  },
+  defaultEndpoint: { address: 'Hallitustori', lat: 61.687904, lon: 27.273215 },
 
   menu: {
     copyright: { label: `© Mikkeli ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -96,11 +69,7 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/mikkeli/zone_lines_20260122.geojson',
       },
     ],
@@ -134,15 +103,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E' },
+  zones: { stops: true, itinerary: true },
 });

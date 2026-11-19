@@ -31,10 +31,7 @@ export default graphql`
     stops {
       zoneId
     }
-    stoptimesWithoutPatterns(
-      startTime: $startTime
-      omitNonPickups: $omitNonPickups
-    ) {
+    stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: $omitNonPickups) {
       realtimeDeparture
       realtime
       realtimeState

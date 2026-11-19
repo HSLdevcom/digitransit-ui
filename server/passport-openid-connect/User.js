@@ -4,9 +4,7 @@ export class User {
   }
 
   serialize() {
-    const x = {
-      data: this.data,
-    };
+    const x = { data: this.data };
     if (this.token) {
       x.token = this.token;
     }

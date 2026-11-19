@@ -11,13 +11,7 @@ import {
   generateDateRange,
 } from '../../../utils/client/dateSelectUtils';
 
-function DateSelectGrouped({
-  startDate,
-  selectedDay,
-  dateFormat,
-  dates,
-  onDateChange,
-}) {
+function DateSelectGrouped({ startDate, selectedDay, dateFormat, dates, onDateChange }) {
   const intl = useIntl();
   const { locale, formatMessage } = intl;
 
@@ -37,13 +31,7 @@ function DateSelectGrouped({
       sourceDates = generateDateRange(validStartDate, GENERATED_DAYS, locale);
     }
 
-    const options = processDates(
-      sourceDates,
-      today,
-      tomorrow,
-      dateFormat,
-      intl,
-    );
+    const options = processDates(sourceDates, today, tomorrow, dateFormat, intl);
 
     const groupedOptions = groupDatesByWeek(options, today.weekNumber, intl);
 
@@ -77,10 +65,7 @@ function DateSelectGrouped({
   return (
     <div className="date-select-wrapper">
       <h3 className="route-schedule-grouped-date-select-heading">
-        <FormattedMessage
-          id="route-page.select-time"
-          defaultMessage="Select time"
-        />
+        <FormattedMessage id="route-page.select-time" defaultMessage="Select time" />
       </h3>
       <DsSelect
         id={`aria-input-${id}`}
@@ -95,11 +80,7 @@ function DateSelectGrouped({
         {grouped.map(group => (
           <SelectGroup key={group.label} label={group.label}>
             {group.options.map(option => (
-              <SelectOption
-                key={option.value}
-                value={option.value}
-                label={option.textLabel}
-              />
+              <SelectOption key={option.value} value={option.value} label={option.textLabel} />
             ))}
           </SelectGroup>
         ))}

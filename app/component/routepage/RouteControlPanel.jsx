@@ -29,11 +29,7 @@ import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
 import { saveSearch } from '../../data/SearchHistory';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
-const Tab = {
-  Disruptions: PREFIX_DISRUPTION,
-  Stops: PREFIX_STOPS,
-  Timetable: PREFIX_TIMETABLE,
-};
+const Tab = { Disruptions: PREFIX_DISRUPTION, Stops: PREFIX_STOPS, Timetable: PREFIX_TIMETABLE };
 
 /**
  * Determines if a route supports full control panel features
@@ -62,11 +58,7 @@ const TAB_ANALYTICS_ACTIONS = {
   [PREFIX_DISRUPTION]: 'OpenDisruptionsTab',
 };
 
-export default function RouteControlPanel({
-  route,
-  breakpoint,
-  tripStartTime = undefined,
-}) {
+export default function RouteControlPanel({ route, breakpoint, tripStartTime = undefined }) {
   const config = useConfigContext();
   const realTimeClient = useRealTimeActions();
   const intl = useIntl();
@@ -126,16 +118,12 @@ export default function RouteControlPanel({
       // Sort by most trips descending; for equal trip counts, sort by code descending as tiebreak.
       const sortedPatternsByCountOfTrips =
         'trips' in route.patterns[0]
-          ? sortBy(
-              sortBy(route.patterns, 'code').reverse(),
-              'trips.length',
-            ).reverse()
+          ? sortBy(sortBy(route.patterns, 'code').reverse(), 'trips.length').reverse()
           : undefined;
 
       const selectedPattern =
-        sortedPatternsByCountOfTrips?.find(
-          sorted => sorted.code === patternId,
-        ) ?? route.patterns.find(({ code }) => code === patternId);
+        sortedPatternsByCountOfTrips?.find(sorted => sorted.code === patternId) ??
+        route.patterns.find(({ code }) => code === patternId);
 
       if (selectedPattern) {
         const { realTime } = config;
@@ -172,11 +160,7 @@ export default function RouteControlPanel({
   }, [params.type]);
 
   const onPatternChange = newPattern => {
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'ToggleDirection',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Route', action: 'ToggleDirection', name: null });
     const { client, topics } = realTimeClient;
     const { type } = params;
 
@@ -252,10 +236,7 @@ export default function RouteControlPanel({
       const today = unixToYYYYMMDD(unixTime(), config);
       if (location.query?.serviceDay) {
         newPath += `?serviceDay=${location.query.serviceDay}`;
-      } else if (
-        pattern[0].minAndMaxDate &&
-        today < pattern[0].minAndMaxDate[0]
-      ) {
+      } else if (pattern[0].minAndMaxDate && today < pattern[0].minAndMaxDate[0]) {
         newPath += `?serviceDay=${pattern[0].minAndMaxDate[0]}`;
       }
     }
@@ -295,18 +276,11 @@ export default function RouteControlPanel({
   };
 
   const currentTime = unixTime();
-  const selectedPattern = route?.patterns?.find(
-    pattern => pattern.code === patternId,
-  );
+  const selectedPattern = route?.patterns?.find(pattern => pattern.code === patternId);
 
   const hasActiveAlert = checkActiveDisruptions(
     currentTime,
-    getCancelationsForRoute(
-      route,
-      patternId,
-      currentTime,
-      config.routeCancelationAlertValidity,
-    ),
+    getCancelationsForRoute(route, patternId, currentTime, config.routeCancelationAlertValidity),
     getAlertsForObject(selectedPattern),
   );
 
@@ -316,17 +290,13 @@ export default function RouteControlPanel({
   );
   const alerts = getAlertsForObject(selectedPattern);
 
-  const hasActiveServiceAlerts = getActiveAlertSeverityLevel(
-    alerts,
-    currentTime,
-  );
+  const hasActiveServiceAlerts = getActiveAlertSeverityLevel(alerts, currentTime);
 
   // if the pattern has cancelations, add one to alert count
   const alertsCount = alerts.length + Object.keys(canceledTripsByDate).length;
 
   const disruptionClassName =
-    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) &&
-      'active-disruption-alert') ||
+    ((hasActiveAlert || Object.keys(canceledTripsByDate).length) && 'active-disruption-alert') ||
     (hasActiveServiceAlerts && 'active-service-alert');
 
   const countOfButtons = 3;
@@ -349,11 +319,7 @@ export default function RouteControlPanel({
         'bp-large': breakpoint === 'large',
       })}
     >
-      <div
-        className={cx('route-control-panel', {
-          'bp-large': breakpoint === 'large',
-        })}
-      >
+      <div className={cx('route-control-panel', { 'bp-large': breakpoint === 'large' })}>
         {showStandardControls(route) && (
           <>
             {patternId && (
@@ -412,9 +378,7 @@ export default function RouteControlPanel({
                 id="route-disruption-tab"
                 ref={disruptionTabRef}
                 aria-selected={activeTab === Tab.Disruptions}
-                aria-label={`${intl.formatMessage({
-                  id: 'disruptions',
-                })}: ${intl.formatMessage({
+                aria-label={`${intl.formatMessage({ id: 'disruptions' })}: ${intl.formatMessage({
                   id: disruptionClassName
                     ? 'disruptions-tab.sr-disruptions'
                     : 'disruptions-tab.sr-no-disruptions',
@@ -423,15 +387,10 @@ export default function RouteControlPanel({
               >
                 <div
                   aria-hidden="true"
-                  className={`tab-route-disruption ${
-                    disruptionClassName || `no-alerts`
-                  }`}
+                  className={`tab-route-disruption ${disruptionClassName || `no-alerts`}`}
                 >
                   {disruptionIcon}
-                  <FormattedMessage
-                    id="disruptions"
-                    defaultMessage="Disruptions"
-                  />
+                  <FormattedMessage id="disruptions" defaultMessage="Disruptions" />
                 </div>
               </button>
             </div>
@@ -450,9 +409,7 @@ RouteControlPanel.propTypes = {
     shortName: PropTypes.string,
     patterns: PropTypes.arrayOf(PropTypes.shape({})),
     type: PropTypes.number,
-    agency: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }).isRequired,
+    agency: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
   }).isRequired,
   breakpoint: PropTypes.string.isRequired,
   tripStartTime: PropTypes.string,

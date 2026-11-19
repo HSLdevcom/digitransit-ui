@@ -68,10 +68,7 @@ export default function FavouriteEditingModal({
 
   const move = (index, direction) => {
     const copy = [...items];
-    [copy[index], copy[index + direction]] = [
-      copy[index + direction],
-      copy[index],
-    ];
+    [copy[index], copy[index + direction]] = [copy[index + direction], copy[index]];
     setReordered(copy);
   };
 
@@ -106,9 +103,7 @@ export default function FavouriteEditingModal({
         handleClose={closeDeleteDialog}
         isModalOpen={selectedFavourite !== null}
         dialogContent={
-          selectedFavourite
-            ? `${selectedFavourite.name}: ${selectedFavourite.address}`
-            : ''
+          selectedFavourite ? `${selectedFavourite.name}: ${selectedFavourite.address}` : ''
         }
         primaryButtonText={t('delete', { lng: lang })}
         primaryButtonOnClick={() => {
@@ -144,9 +139,7 @@ export default function FavouriteEditingModal({
                     favourite={favourite}
                     lang={lang}
                     onMoveUp={index > 0 ? () => move(index, -1) : null}
-                    onMoveDown={
-                      index < items.length - 1 ? () => move(index, 1) : null
-                    }
+                    onMoveDown={index < items.length - 1 ? () => move(index, 1) : null}
                     onEdit={() => onEditSelected(favourite)}
                     onDelete={() => setSelectedFavourite(favourite)}
                   />

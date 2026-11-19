@@ -18,12 +18,7 @@ export default function useQueryRealtimeLegs(relayEnvironment) {
       const legQueries = legs
         .filter(leg => leg.transitLeg && legTime(leg.end) > now && leg.legId)
         .map(leg =>
-          fetchQuery(
-            relayEnvironment,
-            legQuery,
-            { id: leg.legId },
-            { force: true },
-          ).toPromise(),
+          fetchQuery(relayEnvironment, legQuery, { id: leg.legId }, { force: true }).toPromise(),
         );
 
       const responses = await Promise.all(legQueries);

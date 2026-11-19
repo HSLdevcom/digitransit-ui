@@ -61,11 +61,7 @@ export default function RouteNotificationButton({ notification }) {
         <ThemedIcon name="Question" size="s" />
       </button>
       <Modal open={open} onOpenChange={setOpen}>
-        <ModalContent
-          title={closeButtonLabel}
-          description={descriptionNode}
-          lang={hslfiLocale}
-        />
+        <ModalContent title={closeButtonLabel} description={descriptionNode} lang={hslfiLocale} />
       </Modal>
     </>
   );

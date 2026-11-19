@@ -12,17 +12,10 @@ export default function NavigatorModal({
     'navigator-modal-backdrop': withBackdrop,
   });
 
-  const modalClass = cx('navigator-modal', {
-    'slide-in': slideUp,
-  });
+  const modalClass = cx('navigator-modal', { 'slide-in': slideUp });
 
   return (
-    <Modal
-      appElement="#app"
-      isOpen={isOpen}
-      className={modalClass}
-      overlayClassName={overlayClass}
-    >
+    <Modal appElement="#app" isOpen={isOpen} className={modalClass} overlayClassName={overlayClass}>
       <div className="navigator-modal-content">{children}</div>
     </Modal>
   );

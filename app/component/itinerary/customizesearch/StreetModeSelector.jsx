@@ -24,25 +24,17 @@ export default function StreetModeSelector({ settings, updateSettings }) {
   return (
     <div className="streetmodes">
       <div className="section-header">
-        <FormattedMessage
-          id="pick-street-mode"
-          defaultMessage="Your own transportation modes"
-        />
+        <FormattedMessage id="pick-street-mode" defaultMessage="Your own transportation modes" />
       </div>
       <SettingsToggle
         labelId="bicycle"
         labelStyle="mode-label"
-        leftElement={
-          <Icon color="#333" img="icon_bike" width={2.4} height={2.4} />
-        }
+        leftElement={<Icon color="#333" img="icon_bike" width={2.4} height={2.4} />}
         toggled={!!settings.includeBikeSuggestions}
         onToggle={() => onToggle('includeBikeSuggestions', 'OwnBike')}
         borderStyle="bottom-border"
       />
-      <BikingSpeed
-        bikeSpeed={settings.bikeSpeed}
-        updateSettings={updateSettings}
-      />
+      <BikingSpeed bikeSpeed={settings.bikeSpeed} updateSettings={updateSettings} />
       {config.showBikeAndParkItineraries && (
         <SettingsToggle
           labelId="park-and-ride"
@@ -56,9 +48,7 @@ export default function StreetModeSelector({ settings, updateSettings }) {
         <SettingsToggle
           labelId="car"
           labelStyle="mode-label"
-          leftElement={
-            <Icon color="#333" img="icon_car" width={2} height={2} />
-          }
+          leftElement={<Icon color="#333" img="icon_car" width={2} height={2} />}
           toggled={settings.includeCarSuggestions}
           onToggle={() => onToggle('includeCarSuggestions', 'OwnCar')}
           borderStyle="top-border"
@@ -69,9 +59,7 @@ export default function StreetModeSelector({ settings, updateSettings }) {
           labelId="park-and-ride"
           leftElement={<span style={{ width: '3em' }} />}
           toggled={settings.includeParkAndRideSuggestions}
-          onToggle={() =>
-            onToggle('includeParkAndRideSuggestions', 'ParkAndRide')
-          }
+          onToggle={() => onToggle('includeParkAndRideSuggestions', 'ParkAndRide')}
           borderStyle="top-border"
         />
       )}

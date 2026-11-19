@@ -7,25 +7,17 @@ import { useIntl } from 'react-intl';
 import LoginPrompt from './LoginPrompt';
 import SearchAutosuggest from './SearchAutosuggest';
 import { getLocationSearchTargets } from '../../utils/client/searchUtils';
-import {
-  useFavourites,
-  useFavouriteStatus,
-  useFavouriteActions,
-} from '../hooks/FavouriteContext';
+import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function FavouritesContainer({
-  onClickFavourite,
-  isMobile = false,
-}) {
+export default function FavouritesContainer({ onClickFavourite, isMobile = false }) {
   const intl = useIntl();
   const config = useConfigContext();
   const favourites = useFavourites();
   const favouriteStatus = useFavouriteStatus() || STATUS_FETCHING_OR_UPDATING;
-  const { saveFavourite, deleteFavourite, updateFavourites } =
-    useFavouriteActions();
+  const { saveFavourite, deleteFavourite, updateFavourites } = useFavouriteActions();
   const closeModalTimeoutRef = useRef(null);
   const openerRef = useRef(null);
 
@@ -62,14 +54,11 @@ export default function FavouritesContainer({
 
   const lang = config.language;
 
-  const enabled =
-    config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
+  const enabled = config.allowFavouritesFromLocalstorage || config.user?.sub !== undefined;
 
   const isLoading = favouriteStatus === STATUS_FETCHING_OR_UPDATING;
 
-  const favouritePlaces = enabled
-    ? favourites.filter(item => item.type === 'place')
-    : [];
+  const favouritePlaces = enabled ? favourites.filter(item => item.type === 'place') : [];
 
   const clearFavouriteAfterModalAnimation = () => {
     if (closeModalTimeoutRef.current) {
@@ -93,63 +82,39 @@ export default function FavouritesContainer({
   };
 
   const addHome = () => {
-    addAnalyticsEvent({
-      event: 'add_favorite_press',
-      favorite_type: 'place',
-    });
+    addAnalyticsEvent({ event: 'add_favorite_press', favorite_type: 'place' });
 
     setAddModalOpen(true);
     setFavourite({
-      name: intl.formatMessage({
-        id: 'location-home',
-        defaultMessage: 'Home',
-      }),
+      name: intl.formatMessage({ id: 'location-home', defaultMessage: 'Home' }),
       selectedIconId: 'icon-icon_home',
     });
   };
 
   const addWork = () => {
-    addAnalyticsEvent({
-      event: 'add_favorite_press',
-      favorite_type: 'place',
-    });
+    addAnalyticsEvent({ event: 'add_favorite_press', favorite_type: 'place' });
 
     setAddModalOpen(true);
     setFavourite({
-      name: intl.formatMessage({
-        id: 'location-work',
-        defaultMessage: 'Work',
-      }),
+      name: intl.formatMessage({ id: 'location-work', defaultMessage: 'Work' }),
       selectedIconId: 'icon-icon_work',
     });
   };
 
   const saveSelectedFavourite = favouriteToSave => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'SaveFavourite',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'SaveFavourite', name: null });
 
     saveFavourite(favouriteToSave);
   };
 
   const deleteSelectedFavourite = favouriteToDelete => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'DeleteFavourite',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'DeleteFavourite', name: null });
 
     deleteFavourite(favouriteToDelete);
   };
 
   const updateFavouriteOrder = updatedFavouritePlaces => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'UpdateFavourite',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'UpdateFavourite', name: null });
 
     // Backend service requires all favourites for reordering to work.
     const reordered = [
@@ -161,11 +126,7 @@ export default function FavouritesContainer({
   };
 
   const editSelectedFavourite = currentFavourite => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'EditFavourite',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'EditFavourite', name: null });
 
     setFavourite(currentFavourite);
     setEditModalOpen(false);
@@ -174,11 +135,7 @@ export default function FavouritesContainer({
 
   const closeModal = isAddModal => {
     if (isAddModal) {
-      addAnalyticsEvent({
-        category: 'Favourite',
-        action: 'CloseAddModal',
-        name: null,
-      });
+      addAnalyticsEvent({ category: 'Favourite', action: 'CloseAddModal', name: null });
 
       setAddModalOpen(false);
       // A favourite with an id is being edited, which is only possible from the
@@ -188,11 +145,7 @@ export default function FavouritesContainer({
         setEditModalOpen(true);
       }
     } else {
-      addAnalyticsEvent({
-        category: 'Favourite',
-        action: 'CloseEditModal',
-        name: null,
-      });
+      addAnalyticsEvent({ category: 'Favourite', action: 'CloseEditModal', name: null });
 
       setEditModalOpen(false);
       setFavourite(null);
@@ -202,11 +155,7 @@ export default function FavouritesContainer({
   };
 
   const cancelSelected = () => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'CancelUpdate',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'CancelUpdate', name: null });
 
     setAddModalOpen(false);
     setEditModalOpen(true);
@@ -219,12 +168,8 @@ export default function FavouritesContainer({
       <FavouriteBar
         favourites={favouritePlaces}
         onClickFavourite={onClickFavourite}
-        onAddPlace={() =>
-          enabled ? setAddModalOpen(true) : setLoginModalOpen(true)
-        }
-        onEdit={() =>
-          enabled ? setEditModalOpen(true) : setLoginModalOpen(true)
-        }
+        onAddPlace={() => (enabled ? setAddModalOpen(true) : setLoginModalOpen(true))}
+        onEdit={() => (enabled ? setEditModalOpen(true) : setLoginModalOpen(true))}
         onAddHome={() => (enabled ? addHome() : setLoginModalOpen(true))}
         onAddWork={() => (enabled ? addWork() : setLoginModalOpen(true))}
         lang={lang}

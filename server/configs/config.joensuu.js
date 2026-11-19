@@ -14,14 +14,8 @@ export default configMerger(walttiConfig, {
     name: 'JOJO',
     href: 'https://jojo.joensuu.fi/',
     altLink: {
-      sv: {
-        name: 'JOJO',
-        href: 'https://jojo.joensuu.fi/en/',
-      },
-      en: {
-        name: 'JOJO',
-        href: 'https://jojo.joensuu.fi/en/',
-      },
+      sv: { name: 'JOJO', href: 'https://jojo.joensuu.fi/en/' },
+      en: { name: 'JOJO', href: 'https://jojo.joensuu.fi/en/' },
     },
   },
 
@@ -33,20 +27,12 @@ export default configMerger(walttiConfig, {
   logo: 'joensuu/jojo-logo.png',
   secondaryLogo: 'joensuu/jojo-logo-secondary.svg',
 
-  colors: {
-    primary: '#5c4696',
-    bus: '#009fe3',
-    rail: '#64be14',
-  },
+  colors: { primary: '#5c4696', bus: '#009fe3', rail: '#64be14' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/joensuu/social-share.png',
-      width: 346,
-      height: 80,
-    },
+    image: { url: 'assets/joensuu/social-share.png', width: 346, height: 80 },
   },
 
   useSearchPolygon: true,
@@ -143,10 +129,7 @@ export default configMerger(walttiConfig, {
   menu: {
     copyright: { label: `© Joensuun kaupunki ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -161,21 +144,13 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/joensuu/zone_lines_20250402.geojson',
       },
     ],
   },
 
-  defaultEndpoint: {
-    address: 'Keskusta, Joensuu',
-    lat: 62.6024263,
-    lon: 29.7569847,
-  },
+  defaultEndpoint: { address: 'Keskusta, Joensuu', lat: 62.6024263, lon: 29.7569847 },
 
   aboutThisService: {
     fi: [
@@ -205,16 +180,8 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C', 4: 'D' },
+  zones: { stops: true, itinerary: true },
 
   showTicketInformation: true,
   useTicketIcons: true,

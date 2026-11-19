@@ -31,13 +31,7 @@ export function isKeyboardSelectionEvent(event) {
 }
 
 /** Builds the near you url for a mode, e.g. /fi/nearyou/BUS/POS/Address::lat,lon */
-export function getModeUrl({
-  urlPrefix,
-  language,
-  omitLanguageUrl,
-  origin,
-  mode,
-}) {
+export function getModeUrl({ urlPrefix, language, omitLanguageUrl, origin, mode }) {
   let urlStart = urlPrefix;
   if (!omitLanguageUrl) {
     const urlParts = urlPrefix.split('/');
@@ -46,9 +40,7 @@ export function getModeUrl({
   }
   const position =
     origin?.lat && origin?.lon
-      ? `/POS/${encodeURIComponent(origin.address)}::${origin.lat},${
-          origin.lon
-        }`
+      ? `/POS/${encodeURIComponent(origin.address)}::${origin.lat},${origin.lon}`
       : '/POS';
   return `${urlStart}/${mode.toUpperCase()}${position}`;
 }

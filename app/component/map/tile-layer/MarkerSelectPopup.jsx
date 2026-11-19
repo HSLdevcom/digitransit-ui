@@ -6,18 +6,13 @@ import SelectVehicleRentalRow from './SelectVehicleRentalRow';
 import SelectVehicleRentalClusterRow from './SelectRentalVehicleClusterRow';
 import SelectParkAndRideRow from './SelectParkAndRideRow';
 import SelectVehicleContainer from './SelectVehicleContainer';
-import {
-  PREFIX_BIKESTATIONS,
-  PREFIX_RENTALVEHICLES,
-} from '../../../../utils/shared/path';
+import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../../utils/shared/path';
 
 export default function MarkerSelectPopup({ options, zoom }) {
   const intl = useIntl();
-  const hasStop = () =>
-    options.find(option => option.layer !== 'realTimeVehicle');
+  const hasStop = () => options.find(option => option.layer !== 'realTimeVehicle');
 
-  const hasVehicle = () =>
-    options.find(option => option.layer === 'realTimeVehicle');
+  const hasVehicle = () => options.find(option => option.layer === 'realTimeVehicle');
 
   const getRowForParking = (parking, layer) =>
     ((layer === 'parkAndRide' && parking.carPlaces) ||
@@ -60,10 +55,7 @@ export default function MarkerSelectPopup({ options, zoom }) {
             key={`scooter:${option.feature.properties.cluster_id}`}
             prefix={PREFIX_RENTALVEHICLES}
             id={option.feature.properties.scooterId}
-            desc={intl.formatMessage({
-              id: 'e-scooter',
-              defaultMessage: 'scooter',
-            })}
+            desc={intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })}
             isScooter
           />
         );
@@ -75,20 +67,14 @@ export default function MarkerSelectPopup({ options, zoom }) {
             {...option.feature.properties}
             key={`scooter:${option.feature.properties.id}`}
             prefix={PREFIX_RENTALVEHICLES}
-            desc={intl.formatMessage({
-              id: 'e-scooter',
-              defaultMessage: 'scooter',
-            })}
+            desc={intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })}
             icon="icon_scooter-lollipop"
           />
         );
       }
     }
 
-    if (
-      option.layer === 'parkAndRide' ||
-      option.layer === 'parkAndRideForBikes'
-    ) {
+    if (option.layer === 'parkAndRide' || option.layer === 'parkAndRideForBikes') {
       if (option.feature.properties.vehicleParking) {
         const { vehicleParking } = option.feature.properties;
         if (Array.isArray(vehicleParking) && vehicleParking.length > 0) {
@@ -131,19 +117,13 @@ export default function MarkerSelectPopup({ options, zoom }) {
         <FormattedMessage id={id} defaultMessage="Choose stop" />
       </h3>
       <hr className="no-margin gray" />
-      <div className="scrollable momentum-scroll card-row select-scroll-container">
-        {rows}
-      </div>
+      <div className="scrollable momentum-scroll card-row select-scroll-container">{rows}</div>
     </div>
   );
 }
 
 MarkerSelectPopup.propTypes = {
-  options: PropTypes.arrayOf(
-    PropTypes.shape({
-      layer: PropTypes.string,
-    }),
-  ).isRequired,
+  options: PropTypes.arrayOf(PropTypes.shape({ layer: PropTypes.string })).isRequired,
   selectRow: PropTypes.func.isRequired,
   zoom: PropTypes.number,
 };

@@ -6,25 +6,16 @@ import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { legShape } from '../../../utils/client/shapes';
 import { legTimeStr } from '../../../utils/client/legUtils';
 
-export default function AlternativeLegsInfo({
-  legs,
-  showAlternativeLegs,
-  toggle,
-}) {
+export default function AlternativeLegsInfo({ legs, showAlternativeLegs, toggle }) {
   let values = {
     leg1: (
       <>
         <span aria-hidden="true">{legs[0].route.shortName}</span>
-        <span className="sr-only">
-          {legs[0].route.shortName?.toLowerCase()}
-        </span>
+        <span className="sr-only">{legs[0].route.shortName?.toLowerCase()}</span>
       </>
     ),
     startTime1: (
-      <span
-        className={cx({ realtime: legs[0].realTime })}
-        style={{ fontWeight: 500 }}
-      >
+      <span className={cx({ realtime: legs[0].realTime })} style={{ fontWeight: 500 }}>
         {legTimeStr(legs[0].start)}
         {legs[0].realTime && (
           <span className="sr-only">
@@ -40,16 +31,11 @@ export default function AlternativeLegsInfo({
       leg2: (
         <>
           <span aria-hidden="true">{legs[1].route.shortName}</span>
-          <span className="sr-only">
-            {legs[1].route.shortName?.toLowerCase()}
-          </span>
+          <span className="sr-only">{legs[1].route.shortName?.toLowerCase()}</span>
         </>
       ),
       startTime2: (
-        <span
-          className={cx({ realtime: legs[1].realTime })}
-          style={{ fontWeight: 500 }}
-        >
+        <span className={cx({ realtime: legs[1].realTime })} style={{ fontWeight: 500 }}>
           {legTimeStr(legs[1].start)}
           {legs[1].realTime && (
             <span className="sr-only">
@@ -102,10 +88,7 @@ export default function AlternativeLegsInfo({
     >
       <div className="alternative-legs-information">
         {message}
-        <Icon
-          img="icon_arrow-collapse--right"
-          className="itinerary-search-icon"
-        />
+        <Icon img="icon_arrow-collapse--right" className="itinerary-search-icon" />
       </div>
     </div>
   );

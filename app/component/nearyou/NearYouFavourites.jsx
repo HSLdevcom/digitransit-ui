@@ -33,9 +33,7 @@ function NearYouFavourites({
           stations: stations(ids: $stationIds) {
             ...NearYouFavouritesFragment_stations
           }
-          vehicleStations: vehicleRentalStations(
-            ids: $vehicleRentalStationIds
-          ) {
+          vehicleStations: vehicleRentalStations(ids: $vehicleRentalStationIds) {
             ...NearYouFavouritesFragment_vehicleStations
           }
         }
@@ -75,9 +73,7 @@ NearYouFavourites.propTypes = {
 export default function NearYouFavouritesRelayConnector(props) {
   return (
     <ReactRelayContext.Consumer>
-      {({ environment }) => (
-        <NearYouFavourites {...props} relayEnvironment={environment} />
-      )}
+      {({ environment }) => <NearYouFavourites {...props} relayEnvironment={environment} />}
     </ReactRelayContext.Consumer>
   );
 }

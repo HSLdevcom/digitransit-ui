@@ -21,9 +21,7 @@ export function processTicketTypeResult(result, config) {
       console.log('could not load availableTickets, result was invalid');
     }
   } else {
-    console.log(
-      'availableTickets not loaded, missing availableTickets object from config-file',
-    );
+    console.log('availableTickets not loaded, missing availableTickets object from config-file');
   }
 }
 

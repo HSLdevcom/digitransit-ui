@@ -17,29 +17,16 @@ export default configMerger(walttiConfig, {
     name: 'Linkkari',
     href: 'https://linkkari.fi/',
     altLink: {
-      sv: {
-        name: 'Linkkari',
-        href: 'https://linkkari.fi/in-English',
-      },
-      en: {
-        name: 'Linkkari',
-        href: 'https://linkkari.fi/in-English',
-      },
+      sv: { name: 'Linkkari', href: 'https://linkkari.fi/in-English' },
+      en: { name: 'Linkkari', href: 'https://linkkari.fi/in-English' },
     },
   },
 
-  colors: {
-    primary: '#34B233',
-    bus: '#34B233',
-  },
+  colors: { primary: '#34B233', bus: '#34B233' },
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/rovaniemi/social-share.png',
-      width: 504,
-      height: 426,
-    },
+    image: { url: 'assets/rovaniemi/social-share.png', width: 504, height: 426 },
   },
 
   title: APP_TITLE,
@@ -74,19 +61,12 @@ export default configMerger(walttiConfig, {
     [maxLon, minLat],
   ],
 
-  defaultEndpoint: {
-    address: 'Rovaniemi',
-    lat: 66.500855,
-    lon: 25.723734,
-  },
+  defaultEndpoint: { address: 'Rovaniemi', lat: 66.500855, lon: 25.723734 },
 
   menu: {
     copyright: { label: `© Rovaniemi ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -108,12 +88,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B' },
+  zones: { stops: true, itinerary: true },
 });

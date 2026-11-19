@@ -22,10 +22,7 @@ export default function MapWrapper({
   const { map } = useConfigContext();
   const match = useMatch();
   const { mapLayers } = useMapLayers({ notThese: ['vehicles', 'scooter'] });
-  const commonProps = {
-    onEndNavigation: setCenterOfMap,
-    onMapTracking: setCenterOfMap,
-  };
+  const commonProps = { onEndNavigation: setCenterOfMap, onMapTracking: setCenterOfMap };
   const { mode } = match.params;
 
   if (mode === 'FAVORITE') {
@@ -43,9 +40,7 @@ export default function MapWrapper({
             stations: stations(ids: $stationIds) {
               ...NearYouFavouritesMapFragment_stations
             }
-            vehicleStations: vehicleRentalStations(
-              ids: $vehicleRentalStationIds
-            ) {
+            vehicleStations: vehicleRentalStations(ids: $vehicleRentalStationIds) {
               ...NearYouFavouritesMapFragment_vehicleStations
             }
           }
@@ -53,11 +48,7 @@ export default function MapWrapper({
         variables={variables}
         environment={relayEnvironment}
         render={({ props }) => {
-          const mapProps = props || {
-            stops: null,
-            stations: null,
-            vehicleStations: null,
-          };
+          const mapProps = props || { stops: null, stations: null, vehicleStations: null };
           return (
             <NearYouFavouritesMapContainer
               mapLayers={mapLayers}

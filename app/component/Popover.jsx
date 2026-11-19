@@ -18,10 +18,7 @@ export default function Popover({
   const [isDismissed, setDismissed] = useState(false);
   const [rect, setRect] = useState(null);
 
-  const closeLabel = intl.formatMessage({
-    id: 'close',
-    defaultMessage: 'Close',
-  });
+  const closeLabel = intl.formatMessage({ id: 'close', defaultMessage: 'Close' });
 
   useLayoutEffect(() => {
     const id = requestAnimationFrame(() => {
@@ -58,28 +55,15 @@ export default function Popover({
     <>
       {highlight && (
         <>
-          <div
-            className={`popover-overlay ${isDismissed ? 'fade-away' : ''}`}
-          />
+          <div className={`popover-overlay ${isDismissed ? 'fade-away' : ''}`} />
           <div
             className={`popover-highlight ${isDismissed ? 'fade-away' : ''}`}
-            style={{
-              top: rect.top,
-              left: rect.left,
-              width: rect.width,
-              height: rect.height,
-            }}
+            style={{ top: rect.top, left: rect.left, width: rect.width, height: rect.height }}
           />
         </>
       )}
 
-      <div
-        className="popover-layer"
-        style={{
-          top: popoverTop,
-          left: popoverLeft,
-        }}
-      >
+      <div className="popover-layer" style={{ top: popoverTop, left: popoverLeft }}>
         <div
           className={`popover ${isDismissed ? 'fade-away' : ''}`}
           aria-live="polite"
@@ -135,8 +119,6 @@ Popover.propTypes = {
   header: PropTypes.node,
   message: PropTypes.node.isRequired,
   buttonText: PropTypes.node,
-  targetRef: PropTypes.shape({
-    current: PropTypes.instanceOf(Element),
-  }).isRequired,
+  targetRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }).isRequired,
   highlight: PropTypes.bool,
 };

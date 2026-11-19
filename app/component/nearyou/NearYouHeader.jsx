@@ -9,16 +9,9 @@ import { getZoneLabel } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
-export default function NearYouHeader({
-  stop,
-  desc,
-  isStation = false,
-  linkAddress,
-  mode,
-}) {
+export default function NearYouHeader({ stop, desc, isStation = false, linkAddress, mode }) {
   const config = useConfigContext();
-  const zoneId =
-    isStation && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
+  const zoneId = isStation && stop.stops.length ? stop.stops[0].zoneId : stop.zoneId;
   return (
     <div className="stop-near-you-header-container">
       <div className="stop-header-content">
@@ -31,11 +24,7 @@ export default function NearYouHeader({
           <h2 className="stop-near-you-name">
             {stop.name}
             <span className="sr-only">
-              <PlatformNumber
-                number={stop.platformCode}
-                short={false}
-                mode={mode}
-              />
+              <PlatformNumber number={stop.platformCode} short={false} mode={mode} />
             </span>
           </h2>
         </Link>
@@ -45,10 +34,7 @@ export default function NearYouHeader({
           {zoneId &&
             config.zones.stops &&
             config.feedIds.includes(splitGtfsId(stop.gtfsId).feedId) && (
-              <ZoneIcon
-                zoneId={getZoneLabel(zoneId, config)}
-                showUnknown={false}
-              />
+              <ZoneIcon zoneId={getZoneLabel(zoneId, config)} showUnknown={false} />
             )}
         </div>
       </div>

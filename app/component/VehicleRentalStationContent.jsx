@@ -61,18 +61,14 @@ export default function VehicleRentalStationContent({
   );
   const { vehicleRental, language } = config;
   const returnInstructionsUrl = networkConfig.returnInstructions?.[language];
-  const href =
-    vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
+  const href = vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
   const linkLabelId = vehicleRental.buyUrl?.[language]
     ? 'citybike-purchase-link'
     : 'citybike-start-using-info';
   return (
     <div className="station-page-container">
       <div className="large-header">
-        <ParkOrStationHeader
-          parkOrStation={vehicleRentalStation}
-          breakpoint={breakpoint}
-        />
+        <ParkOrStationHeader parkOrStation={vehicleRentalStation} breakpoint={breakpoint} />
       </div>
       <VehicleRentalStation vehicleRentalStation={vehicleRentalStation} />
       {vehicleRental.showFullInfo && isFull && (

@@ -4,14 +4,9 @@ import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import StopScheduleStatus from '../../stop/StopScheduleStatus';
 import { stopPagePath } from '../../../../utils/shared/path';
-import {
-  getStopMode,
-  transitIconName,
-} from '../../../../utils/client/modeUtils';
+import { getStopMode, transitIconName } from '../../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../../utils/shared/colorUtils';
-import getStopStatus, {
-  combineStopStatuses,
-} from '../../../../utils/client/stopStatusUtils';
+import getStopStatus, { combineStopStatuses } from '../../../../utils/client/stopStatusUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function isNull(val) {
@@ -45,10 +40,7 @@ export default function SelectStopRow({
   const config = useConfigContext();
   const mode = getStopMode(type, routes, code, config, terminal);
   const iconOptions = {};
-  iconOptions.iconId = transitIconName(
-    mode,
-    !(terminal || (mode === 'ferry' && !isNull(code))),
-  );
+  iconOptions.iconId = transitIconName(mode, !(terminal || (mode === 'ferry' && !isNull(code))));
   iconOptions.className = mode;
   iconOptions.color = getModeIconColor(config, mode);
 
@@ -71,8 +63,7 @@ export default function SelectStopRow({
     const siblingStatus = getStopStatus({
       showStopStatusMarkers: config.showStopStatusMarkers,
       closedByServiceAlert: hybridSiblingProperties.closedByServiceAlert,
-      servicesRunningOnServiceDate:
-        hybridSiblingProperties.servicesRunningOnServiceDate,
+      servicesRunningOnServiceDate: hybridSiblingProperties.servicesRunningOnServiceDate,
       servicesRunningInFuture: hybridSiblingProperties.servicesRunningInFuture,
       alertSeverityLevel: hybridSiblingProperties.mostSevereAlertSeverityLevel,
     });
@@ -91,9 +82,7 @@ export default function SelectStopRow({
       </span>
       <span className="choose-row-center-column">
         <h4 className="choose-row-header">{name}</h4>
-        <div
-          className={`choose-row-info-row ${platform ? 'small-margin' : ''}`}
-        >
+        <div className={`choose-row-info-row ${platform ? 'small-margin' : ''}`}>
           {(showDesc || showCode) && (
             <span className="choose-row-text">
               {showDesc && <span className="choose-row-address">{desc}</span>}

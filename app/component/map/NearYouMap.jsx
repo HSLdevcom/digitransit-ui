@@ -14,10 +14,7 @@ import Line from './Line';
 import MapWithTracking from './MapWithTracking';
 import { getSettings } from '../../../utils/client/planParamUtil';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
-import {
-  sortNearYouRentalStations,
-  sortNearYouStops,
-} from '../../../utils/client/sortUtils';
+import { sortNearYouRentalStations, sortNearYouStops } from '../../../utils/client/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
 import { getRouteMode } from '../../../utils/client/modeUtils';
@@ -53,11 +50,7 @@ const getRealTimeSettings = (routes, config) => {
 
   const source = feedId && realTime[feedId];
   if (source?.active) {
-    return {
-      ...source,
-      feedId,
-      options: routes,
-    };
+    return { ...source, feedId, options: routes };
   }
   return null;
 };
@@ -96,10 +89,7 @@ const handleBounds = (location, edges) => {
   const nearestStop = edges[0].node.place;
   const bounds = [
     [nearestStop.lat, nearestStop.lon],
-    [
-      location.lat + location.lat - nearestStop.lat,
-      location.lon + location.lon - nearestStop.lon,
-    ],
+    [location.lat + location.lat - nearestStop.lat, location.lon + location.lon - nearestStop.lon],
   ];
   return bounds;
 };
@@ -154,16 +144,9 @@ export default function NearYouMap({
   const fetchPlan = node => {
     if (node.distance < streetRoutingLimit) {
       const settings = getSettings(config);
-      let location = {
-        coordinate: {
-          latitude: node.place.lat,
-          longitude: node.place.lon,
-        },
-      };
+      let location = { coordinate: { latitude: node.place.lat, longitude: node.place.lon } };
       if (node.place.gtfsId) {
-        location = {
-          stopLocation: { stopLocationId: node.place.gtfsId },
-        };
+        location = { stopLocation: { stopLocationId: node.place.gtfsId } };
       }
       let routingMode = 'WALK';
       if (mode === 'CARPARK') {
@@ -173,26 +156,15 @@ export default function NearYouMap({
       }
       const variables = {
         mode: routingMode,
-        origin: {
-          location: {
-            coordinate: { latitude: position.lat, longitude: position.lon },
-          },
-        },
-        destination: {
-          location,
-        },
+        origin: { location: { coordinate: { latitude: position.lat, longitude: position.lon } } },
+        destination: { location },
         walkSpeed: settings.walkSpeed,
         wheelchair: !!settings.accessibilityOption,
       };
       fetchQuery(environment, streetQuery, variables)
         .toPromise()
         .then(result => {
-          setWalk({
-            itinerary: result.plan.edges.length
-              ? result.plan.edges[0].node
-              : null,
-            node,
-          });
+          setWalk({ itinerary: result.plan.edges.length ? result.plan.edges[0].node : null, node });
         });
     } else {
       setWalk({ itinerary: null, node });
@@ -202,8 +174,7 @@ export default function NearYouMap({
   const handleWalkRoutes = edges => {
     if (showWalkRoute && edges.length > 0) {
       const first = edges[0];
-      const shouldFetch =
-        (mode !== 'BUS' && mode !== 'TRAM') || favouriteIds.has(getId(first));
+      const shouldFetch = (mode !== 'BUS' && mode !== 'TRAM') || favouriteIds.has(getId(first));
       if (shouldFetch && !isEqual(first.node, walk.node)) {
         fetchPlan(first.node);
       } else if (!shouldFetch) {
@@ -286,9 +257,7 @@ export default function NearYouMap({
     let sortedEdges;
     if (stops.nearest?.edges) {
       if (mode === 'CITYBIKE') {
-        sortedEdges = stops.nearest.edges
-          .slice()
-          .sort(sortNearYouRentalStations(favouriteIds));
+        sortedEdges = stops.nearest.edges.slice().sort(sortNearYouRentalStations(favouriteIds));
       } else if (isTransitMode) {
         sortedEdges = stops.nearest.edges
           .slice()
@@ -299,14 +268,7 @@ export default function NearYouMap({
 
       sortedEdges.unshift(
         ...prioritizedStops.map(stop => {
-          return {
-            node: {
-              distance: distance(position, stop),
-              place: {
-                ...stop,
-              },
-            },
-          };
+          return { node: { distance: distance(position, stop), place: { ...stop } } };
         }),
       );
     } else if (mode === 'FAVORITE') {

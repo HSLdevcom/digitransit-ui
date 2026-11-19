@@ -37,10 +37,7 @@ export default function AboutPage() {
         )}
         <Link to="/">
           <div className="call-to-action-button">
-            <FormattedMessage
-              id="back-to-front-page"
-              defaultMessage="Back to front page"
-            />
+            <FormattedMessage id="back-to-front-page" defaultMessage="Back to front page" />
           </div>
         </Link>
       </div>

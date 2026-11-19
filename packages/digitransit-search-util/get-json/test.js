@@ -24,9 +24,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-json modu
       axios.request({ ...config, url, adapter }),
     );
 
-    await expect(getJson('https://example.com/data')).resolves.toEqual({
-      a: 1,
-    });
+    await expect(getJson('https://example.com/data')).resolves.toEqual({ a: 1 });
   });
 
   it('appends serialized params to the url', async () => {
@@ -37,9 +35,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-json modu
 
     await getJson('https://example.com/data?x=1', { text: 'a b' });
 
-    expect(adapter.mock.calls[0][0].url).toBe(
-      'https://example.com/data?x=1&text=a%20b',
-    );
+    expect(adapter.mock.calls[0][0].url).toBe('https://example.com/data?x=1&text=a%20b');
   });
 
   it('rejects on an HTTP error status', async () => {

@@ -14,9 +14,7 @@ function Search({ onMap = false, ...rest }) {
   const searchProps = {
     id: 'origin-stop-near-you',
     placeholder: 'origin',
-    translatedPlaceholder: onMap
-      ? intl.formatMessage({ id: 'move-on-map' })
-      : undefined,
+    translatedPlaceholder: onMap ? intl.formatMessage({ id: 'move-on-map' }) : undefined,
     mobileLabel: onMap ? intl.formatMessage({ id: 'position' }) : undefined,
     inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
     colors: config.colors,

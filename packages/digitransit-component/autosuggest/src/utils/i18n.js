@@ -6,9 +6,7 @@ const i18n = createInstance({
   // debug: true,
   resources: translations,
   defaultNS: 'translation',
-  react: {
-    useSuspense: true,
-  },
+  react: { useSuspense: true },
 });
 
 i18n.init();

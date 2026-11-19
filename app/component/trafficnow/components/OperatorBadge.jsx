@@ -21,6 +21,4 @@ export default function OperatorBadge({ feed }) {
   );
 }
 
-OperatorBadge.propTypes = {
-  feed: PropTypes.string,
-};
+OperatorBadge.propTypes = { feed: PropTypes.string };

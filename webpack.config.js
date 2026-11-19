@@ -12,11 +12,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import {
-  themeEntries,
-  themePath,
-  faviconPlugins,
-} from './scripts/build/contextHelper.js';
+import { themeEntries, themePath, faviconPlugins } from './scripts/build/contextHelper.js';
 import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
@@ -78,11 +74,7 @@ export default {
       './app/client/publicPath',
       // Dev-only: first so that it declares the cascade layer order.
       ...(isDevelopment
-        ? [
-            themePath(
-              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
-            ),
-          ]
+        ? [themePath(process.env.CONFIG || process.env.BASE_CONFIG || 'default')]
         : []),
       './app/client/client',
     ],
@@ -142,21 +134,13 @@ export default {
                 corejs: { version: '3.51' },
               },
             ],
-            [
-              '@babel/preset-react',
-              { development: isDevelopment, runtime: 'automatic' },
-            ],
+            ['@babel/preset-react', { development: isDevelopment, runtime: 'automatic' }],
           ],
           plugins: [
             'relay',
             ['@babel/plugin-transform-runtime', { helpers: true }],
             ...(isProduction
-              ? [
-                  [
-                    'transform-react-remove-prop-types',
-                    { mode: 'remove', removeImport: true },
-                  ],
-                ]
+              ? [['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]]
               : []),
           ],
         },
@@ -173,15 +157,7 @@ export default {
         loader: 'babel-loader',
         options: {
           configFile: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                modules: false,
-                bugfixes: true,
-              },
-            ],
-          ],
+          presets: [['@babel/preset-env', { modules: false, bugfixes: true }]],
         },
       },
       {
@@ -197,15 +173,7 @@ export default {
           loader: 'babel-loader',
           options: {
             configFile: false,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  modules: false,
-                  bugfixes: true,
-                },
-              ],
-            ],
+            presets: [['@babel/preset-env', { modules: false, bugfixes: true }]],
           },
         },
       },
@@ -246,19 +214,12 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           {
             loader: 'css-loader',
             // `import styles from './x.module.scss'`, as in the packages.
             options: {
-              modules: {
-                auto: true,
-                namedExport: false,
-                exportLocalsConvention: 'as-is',
-              },
+              modules: { auto: true, namedExport: false, exportLocalsConvention: 'as-is' },
             },
           },
           {
@@ -285,10 +246,7 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           'css-loader',
         ],
       },
@@ -298,10 +256,7 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           'css-loader',
         ],
       },
@@ -348,9 +303,7 @@ export default {
   ],
   optimization: {
     minimizer: [
-      new TerserJsPlugin({
-        parallel: true,
-      }),
+      new TerserJsPlugin({ parallel: true }),
       new CssMinimizerPlugin({
         minify: CssMinimizerPlugin.lightningCssMinify,
         minimizerOptions: {
@@ -358,9 +311,7 @@ export default {
           // syntax (`width>=…`): browsers older than the targets would
           // otherwise get the mobile layout.
           include: Features.MediaRangeSyntax,
-          targets: browserslistToTargets(
-            browserslist(undefined, { path: rootDir }),
-          ),
+          targets: browserslistToTargets(browserslist(undefined, { path: rootDir })),
         },
       }),
     ],
@@ -417,33 +368,22 @@ export default {
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
     mainFields: ['browser', 'module', 'main'],
-    alias: {
-      lodash: 'lodash-es',
-      'lodash.merge': 'lodash-es/merge',
-    },
+    alias: { lodash: 'lodash-es', 'lodash.merge': 'lodash-es/merge' },
     // webpack5 no longer auto-polyfills Node core modules. `net`/`tls`
     // are already stubbed to `false` by mqtt's own package.json `browser`
     // field remapping, but its `url.parse()` call for parsing broker URLs
     // is real (reachable) code in the browser bundle, so it needs an
     // actual browser-compatible implementation, not an empty stub.
-    fallback: {
-      url: require.resolve('url/'),
-    },
+    fallback: { url: require.resolve('url/') },
   },
   devServer: {
     compress: true,
     host: '::1',
     hot: false,
     port: process.env.HOT_LOAD_PORT || 9000,
-    devMiddleware: {
-      publicPath: '/',
-    },
+    devMiddleware: { publicPath: '/' },
     static: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    client: {
-      overlay: true,
-    },
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    client: { overlay: true },
   },
 };

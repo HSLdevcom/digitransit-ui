@@ -13,6 +13,4 @@ export default function CookieSettingsButton({ isMobile = false }) {
   );
 }
 
-CookieSettingsButton.propTypes = {
-  isMobile: PropTypes.bool,
-};
+CookieSettingsButton.propTypes = { isMobile: PropTypes.bool };

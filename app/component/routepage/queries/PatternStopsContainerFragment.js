@@ -60,9 +60,7 @@ export default {
           day: activeDates
         }
         canceledTrips(
-          runningTimeRanges: [
-            { start: $cancelationStartDate, end: $cancelationEndDate }
-          ]
+          runningTimeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
         ) {
           serviceDate
           trip {

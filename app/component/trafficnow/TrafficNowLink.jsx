@@ -13,18 +13,10 @@ export default function TrafficNowLink() {
   return (
     <Link className="traffic-now__link" to={`/${TRAFFICNOW}`}>
       <div className="traffic-now__link__left-column">
-        <Icon
-          img="icon_info-filled"
-          color={themeColor}
-          height={1.5}
-          width={1.5}
-        />
+        <Icon img="icon_info-filled" color={themeColor} height={1.5} width={1.5} />
         <div className="traffic-now__link__left-column-body">
           <Text as="h2">
-            {formatMessage({
-              id: 'traffic-now_link',
-              defaultMessage: 'Services now',
-            })}
+            {formatMessage({ id: 'traffic-now_link', defaultMessage: 'Services now' })}
           </Text>
           <Text as="p">
             {formatMessage({

@@ -4,9 +4,7 @@ import { useReducer, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { DragDropProvider } from '@dnd-kit/react';
 import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import Icon, {
-  defaultColors,
-} from '@digitransit-component/digitransit-component-icon';
+import Icon, { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import isEmpty from 'lodash/isEmpty';
 import Select from './helpers/Select';
 import SortableViaPoint from './helpers/SortableViaPoint';
@@ -20,9 +18,7 @@ const isViaPointEmpty = viaPoint => {
     return true;
   }
   const keys = Object.keys(viaPoint);
-  return (
-    keys.length === 1 || (keys.length === 2 && keys.includes('locationSlack'))
-  );
+  return keys.length === 1 || (keys.length === 2 && keys.includes('locationSlack'));
 };
 
 const ItinerarySearchControl = ({
@@ -34,10 +30,7 @@ const ItinerarySearchControl = ({
   wide = false,
   ...rest
 }) => (
-  <div
-    className={styles['itinerary-search-control']}
-    style={{ '--width': wide ? '47px' : '40px' }}
-  >
+  <div className={styles['itinerary-search-control']} style={{ '--width': wide ? '47px' : '40px' }}>
     {onClick && enabled && (
       <div
         {...rest}
@@ -58,9 +51,7 @@ const updateViaPointSlack = (
   updatedViaPointIndex,
   viaPointRemoved = false,
 ) => {
-  const remaining = activeViaPointSlacks.filter(
-    index => index !== updatedViaPointIndex,
-  );
+  const remaining = activeViaPointSlacks.filter(index => index !== updatedViaPointIndex);
   return viaPointRemoved
     ? remaining.map(index => (index > updatedViaPointIndex ? index - 1 : index))
     : remaining;
@@ -82,8 +73,7 @@ const value = location =>
   (location && location.gps && location.ready && 'Nykyinen sijainti') ||
   '';
 
-const getLocationType = location =>
-  location && location.gps === true ? 'position' : 'location';
+const getLocationType = location => (location && location.gps === true ? 'position' : 'location');
 
 const getSlackTimeOptions = t => {
   const timeOptions = [];
@@ -298,9 +288,7 @@ export default function DTAutosuggestPanel({
       });
     }
     viaPoints.splice(viaPointIndex, 1);
-    setActiveSlackInputs(
-      updateViaPointSlack(activeSlackInputs, viaPointIndex, true),
-    );
+    setActiveSlackInputs(updateViaPointSlack(activeSlackInputs, viaPointIndex, true));
     updateViaPointList(viaPoints);
   };
 
@@ -343,29 +331,22 @@ export default function DTAutosuggestPanel({
     swapOrder();
   };
 
-  const getSlackDisplay = slackInSeconds =>
-    `${slackInSeconds / 60} ${t('minute-short', { lng })}`;
+  const getSlackDisplay = slackInSeconds => `${slackInSeconds / 60} ${t('minute-short', { lng })}`;
 
   const slackTime = getSlackTimeOptions(t);
   const getViaPointSlackTimeOrDefault = (viaPoint, defaultValue = 0) =>
     (viaPoint && viaPoint.locationSlack) || defaultValue;
-  const isViaPointSlackTimeInputActive = index =>
-    activeSlackInputs.includes(index);
+  const isViaPointSlackTimeInputActive = index => activeSlackInputs.includes(index);
 
   return (
     <div
       className={cx([styles['autosuggest-panel'], { small: isMobile }])}
-      style={{
-        '--color': primary,
-      }}
+      style={{ '--color': primary }}
     >
       {' '}
       {searchPanelText ? (
         <div>
-          <h1 className={styles['autosuggest-searchpanel-text']}>
-            {' '}
-            {searchPanelText}
-          </h1>
+          <h1 className={styles['autosuggest-searchpanel-text']}> {searchPanelText}</h1>
         </div>
       ) : null}
       <div className={styles['origin-input-container']}>
@@ -373,9 +354,7 @@ export default function DTAutosuggestPanel({
           appElement={appElement}
           icon="originEllipse"
           id="origin"
-          autoFocus={
-            disableAutoFocus === true ? false : !isMobile && !origin?.lat
-          }
+          autoFocus={disableAutoFocus === true ? false : !isMobile && !origin?.lat}
           refPoint={refPoint}
           className={getLocationType(origin)}
           placeholder={originPlaceHolder}
@@ -401,9 +380,7 @@ export default function DTAutosuggestPanel({
             className={styles.opposite}
             enabled={showSwapControl}
             onClick={() => handleSwapOrderClick()}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && handleSwapOrderClick()
-            }
+            onKeyPress={e => isKeyboardSelectionEvent(e) && handleSwapOrderClick()}
             aria-label={t('swap-order-button-label', { lng })}
           >
             <Icon img="opposite" color={primary} />
@@ -440,22 +417,15 @@ export default function DTAutosuggestPanel({
                       </div>
                       <div
                         className={cx(
-                          `${styles['viapoint-input-container']} ${
-                            styles[`viapoint-${i + 1}`]
-                          }`,
+                          `${styles['viapoint-input-container']} ${styles[`viapoint-${i + 1}`]}`,
                         )}
                       >
                         <DTAutoSuggest
                           appElement={appElement}
                           icon="mapMarker"
                           id="via-point"
-                          ariaLabel={t('via-point-index', {
-                            index: i + 1,
-                            lng,
-                          })}
-                          autoFocus={
-                            disableAutoFocus === true ? false : !isMobile
-                          }
+                          ariaLabel={t('via-point-index', { index: i + 1, lng })}
+                          autoFocus={disableAutoFocus === true ? false : !isMobile}
                           placeholder="via-point"
                           className="viapoint"
                           searchContext={searchContext}
@@ -463,9 +433,7 @@ export default function DTAutosuggestPanel({
                           value={(o && o.address) || ''}
                           onSelect={onSelect}
                           onClear={onClear}
-                          handleViaPoints={item =>
-                            handleViaPointLocationSelected(item, i)
-                          }
+                          handleViaPoints={item => handleViaPointLocationSelected(item, i)}
                           lang={lang}
                           sources={sources}
                           targets={targets}
@@ -483,8 +451,7 @@ export default function DTAutosuggestPanel({
                           enabled={showViapointControl}
                           onClick={() => handleToggleViaPointSlackClick(i)}
                           onKeyPress={e =>
-                            isKeyboardSelectionEvent(e) &&
-                            handleToggleViaPointSlackClick(i)
+                            isKeyboardSelectionEvent(e) && handleToggleViaPointSlackClick(i)
                           }
                           aria-label={t(
                             isViaPointSlackTimeInputActive(i)
@@ -503,12 +470,8 @@ export default function DTAutosuggestPanel({
                       viaPoints[i].locationSlack > 0 && (
                         <span className={styles['viapoint-slack-time']}>{`${t(
                           'viapoint-slack-amount',
-                          {
-                            lng,
-                          },
-                        )}: ${getSlackDisplay(
-                          viaPoints[i].locationSlack,
-                        )}`}</span>
+                          { lng },
+                        )}: ${getSlackDisplay(viaPoints[i].locationSlack)}`}</span>
                       )}
                     <div
                       className={cx(styles['input-viapoint-slack-container'], {
@@ -538,14 +501,8 @@ export default function DTAutosuggestPanel({
                     className={styles['remove-via-point']}
                     enabled={showViapointControl}
                     onClick={() => handleRemoveViaPointClick(i)}
-                    onKeyPress={e =>
-                      isKeyboardSelectionEvent(e) &&
-                      handleRemoveViaPointClick(i)
-                    }
-                    aria-label={t('remove-via-button-label', {
-                      index: i + 1,
-                      lng,
-                    })}
+                    onKeyPress={e => isKeyboardSelectionEvent(e) && handleRemoveViaPointClick(i)}
+                    aria-label={t('remove-via-button-label', { index: i + 1, lng })}
                   >
                     <Icon img="trash" color={primary} />
                   </ItinerarySearchControl>
@@ -560,11 +517,7 @@ export default function DTAutosuggestPanel({
           appElement={appElement}
           icon="mapMarker"
           id="destination"
-          autoFocus={
-            disableAutoFocus === true
-              ? false
-              : !isMobile && !Number.isNaN(origin?.lat)
-          }
+          autoFocus={disableAutoFocus === true ? false : !isMobile && !Number.isNaN(origin?.lat)}
           storeRef={storeDestinationRef}
           placeholder={destinationPlaceHolder}
           className={getLocationType(destination)}
@@ -592,9 +545,7 @@ export default function DTAutosuggestPanel({
             })}
             enabled={showViapointControl && viaPoints.length === 0}
             onClick={() => handleAddViaPointClick()}
-            onKeyPress={e =>
-              isKeyboardSelectionEvent(e) && handleAddViaPointClick()
-            }
+            onKeyPress={e => isKeyboardSelectionEvent(e) && handleAddViaPointClick()}
             aria-label={t('add-via-button-label', { lng })}
           >
             <Icon img="viapoint" width={1.25} height={1.375} color={primary} />
@@ -616,9 +567,7 @@ DTAutosuggestPanel.propTypes = {
   handleViaPointLocationSelected: PropTypes.func,
   swapOrder: PropTypes.func,
   searchPanelText: PropTypes.string,
-  searchContext: PropTypes.shape({
-    URL_PELIAS: PropTypes.string,
-  }).isRequired,
+  searchContext: PropTypes.shape({ URL_PELIAS: PropTypes.string }).isRequired,
   onSelect: PropTypes.func.isRequired,
   onClear: PropTypes.func,
   addAnalyticsEvent: PropTypes.func,

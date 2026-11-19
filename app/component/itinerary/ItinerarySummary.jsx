@@ -61,10 +61,7 @@ export default function ItinerarySummary({
 ItinerarySummary.description = () =>
   "Displays itinerary summary; itinerary's duration and walk distance";
 
-const summaryShape = PropTypes.shape({
-  duration: PropTypes.number,
-  distance: PropTypes.number,
-});
+const summaryShape = PropTypes.shape({ duration: PropTypes.number, distance: PropTypes.number });
 
 ItinerarySummary.propTypes = {
   itinerary: itineraryShape.isRequired,

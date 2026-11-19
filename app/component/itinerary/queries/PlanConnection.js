@@ -37,16 +37,9 @@ export const planConnection = graphql`
       preferences: {
         accessibility: { wheelchair: { enabled: $wheelchair } }
         street: {
-          bicycle: {
-            speed: $bikeSpeed
-            rental: { allowedNetworks: $allowedRentalNetworks }
-          }
+          bicycle: { speed: $bikeSpeed, rental: { allowedNetworks: $allowedRentalNetworks } }
           scooter: { rental: { allowedNetworks: $allowedRentalNetworks } }
-          walk: {
-            speed: $walkSpeed
-            reluctance: $walkReluctance
-            boardCost: $walkBoardCost
-          }
+          walk: { speed: $walkSpeed, reluctance: $walkReluctance, boardCost: $walkBoardCost }
           car: { reluctance: $carReluctance }
         }
         transit: {

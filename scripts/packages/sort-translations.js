@@ -36,18 +36,13 @@ const SORT_KEYS_PRAGMA = '/* eslint sort-keys: "error" */';
 // Mirrors generate-readmes.js's findEntryPoint: a fixed candidate list
 // rather than a recursive glob, since every package that has one of these
 // keeps it at one of exactly two spots.
-const CANDIDATE_RELATIVE_PATHS = [
-  'src/helpers/translations.js',
-  'src/utils/translations.js',
-];
+const CANDIDATE_RELATIVE_PATHS = ['src/helpers/translations.js', 'src/utils/translations.js'];
 
 function findTranslationsFiles() {
   return fs
     .readdirSync(PACKAGES_DIR)
     .flatMap(entry =>
-      CANDIDATE_RELATIVE_PATHS.map(relative =>
-        path.join(PACKAGES_DIR, entry, relative),
-      ),
+      CANDIDATE_RELATIVE_PATHS.map(relative => path.join(PACKAGES_DIR, entry, relative)),
     )
     .filter(fullPath => fs.existsSync(fullPath))
     .sort();
@@ -90,9 +85,7 @@ const PARITY_LOCALES = ['fi', 'sv', 'en'];
 // one locale has (e.g. a 'required-field' sitting next to every other
 // locale's 'required-text').
 function findParityMismatches(translations) {
-  const locales = Object.keys(translations).filter(locale =>
-    PARITY_LOCALES.includes(locale),
-  );
+  const locales = Object.keys(translations).filter(locale => PARITY_LOCALES.includes(locale));
   const localesByKey = new Map();
   locales.forEach(locale => {
     Object.keys(translations[locale].translation).forEach(key => {
@@ -185,9 +178,7 @@ async function checkFile(filePath, fix) {
   }
   parityMismatches.forEach(({ key, present, missing }) => {
     console.log(
-      `  key '${key}' present in [${present.join(
-        ', ',
-      )}], missing in [${missing.join(', ')}]`,
+      `  key '${key}' present in [${present.join(', ')}], missing in [${missing.join(', ')}]`,
     );
   });
 
@@ -199,9 +190,7 @@ async function checkFile(filePath, fix) {
 async function main() {
   const fix = process.argv.includes('--fix');
   console.log(
-    `---------- Running sort-translations.js script (${
-      fix ? '--fix' : 'check'
-    }) ----------`,
+    `---------- Running sort-translations.js script (${fix ? '--fix' : 'check'}) ----------`,
   );
 
   const files = findTranslationsFiles();
@@ -214,9 +203,7 @@ async function main() {
   if (results.some(Boolean)) {
     process.exitCode = 1;
   } else {
-    console.log(
-      'All component package translations are sorted and consistent.',
-    );
+    console.log('All component package translations are sorted and consistent.');
   }
 }
 

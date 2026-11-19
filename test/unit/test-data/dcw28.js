@@ -10,9 +10,7 @@ export default {
       vertexType: 'BIKESHARE',
       vehicleRentalStation: {
         __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
-        __fragments__: {
-          '7::client': [{}],
-        },
+        __fragments__: { '7::client': [{}] },
       },
       stop: null,
     },
@@ -41,9 +39,7 @@ export default {
     intermediatePlace: false,
     route: null,
     trip: null,
-    __fragments__: {
-      '8::client': [{}],
-    },
+    __fragments__: { '8::client': [{}] },
   },
   index: 2,
   originalLegs: [
@@ -67,9 +63,7 @@ export default {
         vertexType: 'BIKESHARE',
         vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MDIw',
-          __fragments__: {
-            '7::client': {},
-          },
+          __fragments__: { '7::client': {} },
         },
         stop: null,
       },
@@ -89,9 +83,7 @@ export default {
       intermediatePlace: false,
       route: null,
       trip: null,
-      __fragments__: {
-        '8::client': [{}],
-      },
+      __fragments__: { '8::client': [{}] },
     },
     {
       __dataID__: 'client:-2938329325',
@@ -104,9 +96,7 @@ export default {
         vertexType: 'BIKESHARE',
         vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MDIw',
-          __fragments__: {
-            '7::client': {},
-          },
+          __fragments__: { '7::client': {} },
         },
         stop: null,
       },
@@ -118,9 +108,7 @@ export default {
         vertexType: 'BIKESHARE',
         vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
-          __fragments__: {
-            '7::client': {},
-          },
+          __fragments__: { '7::client': {} },
         },
         stop: null,
       },
@@ -141,9 +129,7 @@ export default {
       intermediatePlace: false,
       route: null,
       trip: null,
-      __fragments__: {
-        '8::client': [{}],
-      },
+      __fragments__: { '8::client': [{}] },
     },
     {
       __dataID__: 'client:-2938329326',
@@ -156,9 +142,7 @@ export default {
         vertexType: 'BIKESHARE',
         vehicleRentalStation: {
           __dataID__: 'QmlrZVJlbnRhbFN0YXRpb246MTEz',
-          __fragments__: {
-            '7::client': {},
-          },
+          __fragments__: { '7::client': {} },
         },
         stop: null,
       },
@@ -187,9 +171,7 @@ export default {
       intermediatePlace: false,
       route: null,
       trip: null,
-      __fragments__: {
-        '8::client': [{}],
-      },
+      __fragments__: { '8::client': [{}] },
     },
   ],
 };

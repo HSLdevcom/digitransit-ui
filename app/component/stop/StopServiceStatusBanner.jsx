@@ -50,8 +50,7 @@ export default function StopServiceStatusBanner({
 
   if (
     !noDepartures &&
-    (!config.showStopStatusMarkers ||
-      stoptimes.some(st => st.serviceDay < currentTime))
+    (!config.showStopStatusMarkers || stoptimes.some(st => st.serviceDay < currentTime))
   ) {
     return null;
   }
@@ -64,29 +63,19 @@ export default function StopServiceStatusBanner({
   );
 
   return (
-    <div
-      className={
-        noDepartures
-          ? 'stop-no-departures-container'
-          : 'stop-service-status-banner'
-      }
-    >
+    <div className={noDepartures ? 'stop-no-departures-container' : 'stop-service-status-banner'}>
       <div className="stop-no-departures-icon-wrapper">
         <ThemedIcon
           name={getModeStopIcon(mode)}
           className="stop-no-departures-icon"
           customColor={modeColor}
         />
-        {badgeImg && (
-          <Icon img={badgeImg} className="stop-no-departures-badge" />
-        )}
+        {badgeImg && <Icon img={badgeImg} className="stop-no-departures-badge" />}
       </div>
       {stopStatus ? (
         <StopScheduleStatus status={stopStatus} alertEffects={alertEffects} />
       ) : (
-        noDepartures && (
-          <FormattedMessage id="no-departures" defaultMessage="No departures" />
-        )
+        noDepartures && <FormattedMessage id="no-departures" defaultMessage="No departures" />
       )}
     </div>
   );
@@ -95,9 +84,8 @@ export default function StopServiceStatusBanner({
 StopServiceStatusBanner.propTypes = {
   mode: PropTypes.string.isRequired,
   modeColor: PropTypes.string,
-  stoptimes: PropTypes.arrayOf(
-    PropTypes.shape({ serviceDay: PropTypes.number.isRequired }),
-  ).isRequired,
+  stoptimes: PropTypes.arrayOf(PropTypes.shape({ serviceDay: PropTypes.number.isRequired }))
+    .isRequired,
   currentTime: PropTypes.number.isRequired,
   alerts: PropTypes.arrayOf(alertShape),
   servicesRunningInFuture: PropTypes.bool,

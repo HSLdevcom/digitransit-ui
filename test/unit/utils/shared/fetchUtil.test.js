@@ -3,8 +3,7 @@ import { retryFetch } from '../../../../utils/shared/fetchUtils';
 
 // retryFetch retries fetch requests (url, options, retry count, delay) where total number or calls is initial request + retry count
 
-const testUrl =
-  'https://dev-api.digitransit.fi/timetables/v1/hsl/routes/routes.json';
+const testUrl = 'https://dev-api.digitransit.fi/timetables/v1/hsl/routes/routes.json';
 
 const testJSONResponse = '{"test": 3}';
 
@@ -59,13 +58,9 @@ describe('retryFetch', () => {
     const allowedVariance = 100;
     const durationDifference = secondDuration - firstDuration;
 
-    expect(durationDifference).toBeGreaterThanOrEqual(
-      expectedDifference - allowedVariance,
-    );
+    expect(durationDifference).toBeGreaterThanOrEqual(expectedDifference - allowedVariance);
 
-    expect(durationDifference).toBeLessThanOrEqual(
-      expectedDifference + allowedVariance,
-    );
+    expect(durationDifference).toBeLessThanOrEqual(expectedDifference + allowedVariance);
   });
 
   it('fetch that gives 200 should not be retried', async () => {

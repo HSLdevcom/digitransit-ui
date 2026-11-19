@@ -54,10 +54,7 @@ export default function TripRouteStop({
     const arrivalTimeToStop = (serviceDay + realtimeArrival) * 1000;
     const departureTimeFromStop = (serviceDay + realtimeDeparture) * 1000;
     const vehicleTime = vehicle.timestamp * 1000;
-    const distanceToStop = estimateItineraryDistance(stop, {
-      lat: vehicle.lat,
-      lon: vehicle.long,
-    });
+    const distanceToStop = estimateItineraryDistance(stop, { lat: vehicle.lat, lon: vehicle.long });
 
     const vehicleState = getVehicleState(
       distanceToStop,
@@ -72,8 +69,7 @@ export default function TripRouteStop({
     const vehicleWithParsedShortname = {
       ...vehicle,
       shortName:
-        vehicle.shortName &&
-        config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
+        vehicle.shortName && config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
     };
     const linkProps = {
       stopName: vehicleState === 'arriving' ? prevStop?.name : stop.name,
@@ -98,11 +94,7 @@ export default function TripRouteStop({
             {...linkProps}
           />
         ) : (
-          <FuzzyTripLink
-            key={vehicle.id}
-            vehicle={vehicleWithParsedShortname}
-            {...linkProps}
-          />
+          <FuzzyTripLink key={vehicle.id} vehicle={vehicleWithParsedShortname} {...linkProps} />
         )}
       </div>
     );
@@ -111,8 +103,7 @@ export default function TripRouteStop({
     stop,
     nowUnixTime: currentTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
-    ...(config.showStopStatusMarkers &&
-      getServiceAvailability(stop.firstDeparture, currentTime)),
+    ...(config.showStopStatusMarkers && getServiceAvailability(stop.firstDeparture, currentTime)),
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
 
@@ -120,13 +111,7 @@ export default function TripRouteStop({
     vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
   );
   return (
-    <div
-      className={cx(
-        'route-stop location-details_container',
-        { passed: stopPassed },
-        className,
-      )}
-    >
+    <div className={cx('route-stop location-details_container', { passed: stopPassed }, className)}>
       {vehicleLinks}
       <div className={cx('route-stop-now_circleline', mode)}>
         {badgeImg ? (
@@ -138,10 +123,7 @@ export default function TripRouteStop({
             viewBox="0 0 16 16"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            style={{
-              fill: !stopPassed ? color : null,
-              stroke: !stopPassed ? color : null,
-            }}
+            style={{ fill: !stopPassed ? color : null, stroke: !stopPassed ? color : null }}
           >
             <circle
               cx="8"
@@ -171,10 +153,7 @@ export default function TripRouteStop({
                   {!config.showStopStatusMarkers && (
                     <ServiceAlertIcon
                       className="inline-icon"
-                      severityLevel={getActiveAlertSeverityLevel(
-                        stop.alerts,
-                        currentTime,
-                      )}
+                      severityLevel={getActiveAlertSeverityLevel(stop.alerts, currentTime)}
                     />
                   )}
                 </div>
@@ -217,18 +196,11 @@ TripRouteStop.propTypes = {
     alerts: PropTypes.arrayOf(alertShape),
     zoneId: PropTypes.string,
     firstDeparture: PropTypes.arrayOf(
-      PropTypes.shape({
-        serviceDay: PropTypes.number,
-        realtimeDeparture: PropTypes.number,
-      }),
+      PropTypes.shape({ serviceDay: PropTypes.number, realtimeDeparture: PropTypes.number }),
     ),
   }).isRequired,
-  nextStop: PropTypes.shape({
-    name: PropTypes.string,
-  }),
-  prevStop: PropTypes.shape({
-    name: PropTypes.string,
-  }),
+  nextStop: PropTypes.shape({ name: PropTypes.string }),
+  prevStop: PropTypes.shape({ name: PropTypes.string }),
   stoptime: PropTypes.shape({
     realtimeDeparture: PropTypes.number,
     realtimeArrival: PropTypes.number,

@@ -19,14 +19,7 @@ function aboutMerger(objValue, srcValue) {
       });
 
     return objValue
-      .map(val =>
-        srcByHdr[val.header]
-          ? {
-              ...val,
-              ...srcByHdr[val.header],
-            }
-          : val,
-      )
+      .map(val => (srcByHdr[val.header] ? { ...val, ...srcByHdr[val.header] } : val))
       .concat(
         // insert unmatching items from src
         srcValue.filter(val => !objByHdr[val.header]),

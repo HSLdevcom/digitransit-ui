@@ -16,10 +16,7 @@ describe('<NavigatorIntroModal />', () => {
 
   it('renders the navigator intro content', () => {
     renderWithProviders(
-      <NavigatorIntroModal
-        onClose={() => {}}
-        onOpenGeolocationInfo={() => {}}
-      />,
+      <NavigatorIntroModal onClose={() => {}} onOpenGeolocationInfo={() => {}} />,
       { config: baseConfig },
     );
     expect(screen.getByText(/You'll get assistance/)).toBeTruthy();
@@ -28,10 +25,7 @@ describe('<NavigatorIntroModal />', () => {
   it('calls onOpenGeolocationInfo when "Read more" is clicked', () => {
     const onOpenGeolocationInfo = vi.fn();
     renderWithProviders(
-      <NavigatorIntroModal
-        onClose={() => {}}
-        onOpenGeolocationInfo={onOpenGeolocationInfo}
-      />,
+      <NavigatorIntroModal onClose={() => {}} onOpenGeolocationInfo={onOpenGeolocationInfo} />,
       { config: baseConfig },
     );
     fireEvent.click(screen.getByRole('button', { name: 'Read more' }));

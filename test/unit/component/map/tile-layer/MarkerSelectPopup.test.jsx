@@ -25,20 +25,13 @@ describe('<MarkerSelectPopup />', () => {
           layer: 'citybike',
           feature: {
             geom: { x: 2948, y: 3452 },
-            properties: {
-              id: '114',
-              name: 'Ratapihantie',
-              network: 'foobar',
-            },
+            properties: { id: '114', name: 'Ratapihantie', network: 'foobar' },
           },
         },
         {
           layer: 'parkAndRide',
           feature: {
-            geom: {
-              x: 3270,
-              y: 2778,
-            },
+            geom: { x: 3270, y: 2778 },
             properties: {
               name: '{"fi":"Tapiola Park","sv":"Tapiola Park","en":"Tapiola Park"}',
               id: 'liipi:990',
@@ -49,10 +42,7 @@ describe('<MarkerSelectPopup />', () => {
         {
           layer: 'parkAndRideForBikes',
           feature: {
-            geom: {
-              x: 3270,
-              y: 2778,
-            },
+            geom: { x: 3270, y: 2778 },
             properties: {
               name: '{"fi":"Tapiola Bicycle Park","sv":"Tapiola Bicycle Park","en":"Tapiola Bicycle Park"}',
               id: 'liipi:995',
@@ -84,20 +74,14 @@ describe('<MarkerSelectPopup />', () => {
         },
       ],
       selectRow: () => {},
-      location: {
-        lat: 60.169525626502484,
-        lng: 24.933235645294193,
-      },
-      colors: {
-        primary: '#007ac9',
-        hover: '#0062a1',
-      },
+      location: { lat: 60.169525626502484, lng: 24.933235645294193 },
+      colors: { primary: '#007ac9', hover: '#0062a1' },
     };
     const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
     expect(container.querySelectorAll('.choose-row-header')).toHaveLength(4);
-    expect(
-      container.querySelector('.stop-popup-choose-header').textContent,
-    ).toBe('Select route or stop');
+    expect(container.querySelector('.stop-popup-choose-header').textContent).toBe(
+      'Select route or stop',
+    );
   });
 
   it('should render a scooter cluster row with valid data but not a scooter row', () => {
@@ -129,14 +113,8 @@ describe('<MarkerSelectPopup />', () => {
         },
       ],
       selectRow: () => {},
-      location: {
-        lat: 60.169525626502484,
-        lng: 24.933235645294193,
-      },
-      colors: {
-        primary: '#007ac9',
-        hover: '#0062a1',
-      },
+      location: { lat: 60.169525626502484, lng: 24.933235645294193 },
+      colors: { primary: '#007ac9', hover: '#0062a1' },
     };
     const { container } = renderWithProviders(<MarkerSelectPopup {...props} />);
     expect(container.querySelectorAll('.choose-row-header')).toHaveLength(1);

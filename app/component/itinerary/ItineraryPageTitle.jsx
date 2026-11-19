@@ -6,15 +6,9 @@ export default function ItineraryPageTitle() {
   return (
     <span>
       {match.params.hash == null ? (
-        <FormattedMessage
-          id="summary-page.title"
-          defaultMessage="Itinerary suggestions"
-        />
+        <FormattedMessage id="summary-page.title" defaultMessage="Itinerary suggestions" />
       ) : (
-        <FormattedMessage
-          id="itinerary-page.title"
-          defaultMessage="Itinerary"
-        />
+        <FormattedMessage id="itinerary-page.title" defaultMessage="Itinerary" />
       )}
     </span>
   );

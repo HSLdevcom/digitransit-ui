@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
 import { TransportMode } from '../../../../utils/shared/constants';
-import {
-  vehicleRentalStationShape,
-  rentalVehicleShape,
-} from '../../../../utils/client/shapes';
+import { vehicleRentalStationShape, rentalVehicleShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
@@ -19,10 +16,7 @@ import {
   getVehicleAvailabilityTextColor,
 } from '../../../../utils/client/legUtils';
 
-import {
-  PREFIX_BIKESTATIONS,
-  PREFIX_RENTALVEHICLES,
-} from '../../../../utils/shared/path';
+import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../../utils/shared/path';
 import { renderAsString } from '../../../../utils/client/mapIconUtils';
 import IconBadge from '../../icon/IconBadge';
 import { useConfigContext } from '../../../hooks/ConfigContext';
@@ -54,11 +48,7 @@ export default function VehicleMarker({
     )}-lollipop`;
 
     return !transit && zoom <= config.stopsSmallMaxZoom
-      ? L.divIcon({
-          html: smallIconSvg,
-          iconSize: [8, 8],
-          className: 'citybike cursor-pointer',
-        })
+      ? L.divIcon({ html: smallIconSvg, iconSize: [8, 8], className: 'citybike cursor-pointer' })
       : L.divIcon({
           iconAnchor: [15, 40],
           html: showBikeAvailability
@@ -85,9 +75,7 @@ export default function VehicleMarker({
                   }
                 />,
               )
-            : renderAsString(
-                <Icon img={iconName} className="city-bike-medium-size" />,
-              ),
+            : renderAsString(<Icon img={iconName} className="city-bike-medium-size" />),
           iconSize: [20, 20],
           className: 'citybike cursor-pointer',
         });
@@ -95,16 +83,11 @@ export default function VehicleMarker({
 
   return (
     <GenericMarker
-      position={{
-        lat: rental?.lat,
-        lon: rental?.lon,
-      }}
+      position={{ lat: rental?.lat, lon: rental?.lon }}
       onClick={() =>
         handleClick(
           rental.id,
-          mode === TransportMode.Scooter
-            ? PREFIX_RENTALVEHICLES
-            : PREFIX_BIKESTATIONS,
+          mode === TransportMode.Scooter ? PREFIX_RENTALVEHICLES : PREFIX_BIKESTATIONS,
         )
       }
       getIcon={getIcon}
@@ -115,8 +98,7 @@ export default function VehicleMarker({
 
 VehicleMarker.propTypes = {
   showBikeAvailability: PropTypes.bool,
-  rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape])
-    .isRequired,
+  rental: PropTypes.oneOfType([vehicleRentalStationShape, rentalVehicleShape]).isRequired,
   transit: PropTypes.bool,
   mode: PropTypes.string.isRequired,
 };

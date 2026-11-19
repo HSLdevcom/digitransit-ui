@@ -28,11 +28,7 @@ import EntranceMarker from './EntranceMarker';
 import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorStepMarker from './IndoorStepMarker';
 import { createFeatureObjects } from '../../../utils/client/clusterUtils';
-import {
-  IndoorStepType,
-  IndoorLegType,
-  WheelchairBoarding,
-} from '../../../utils/shared/constants';
+import { IndoorStepType, IndoorLegType, WheelchairBoarding } from '../../../utils/shared/constants';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,
@@ -90,17 +86,11 @@ export default function ItineraryLine({
       return Math.sqrt((lat1 - lat2) ** 2 + (lon1 - lon2) ** 2);
     };
 
-    const entranceIndex = geometry.reduce(
-      (closestIndex, currentCoord, currentIndex) => {
-        const currentDistance = getDistance(entranceCoordinates, currentCoord);
-        const closestDistance = getDistance(
-          entranceCoordinates,
-          geometry[closestIndex],
-        );
-        return currentDistance < closestDistance ? currentIndex : closestIndex;
-      },
-      0,
-    );
+    const entranceIndex = geometry.reduce((closestIndex, currentCoord, currentIndex) => {
+      const currentDistance = getDistance(entranceCoordinates, currentCoord);
+      const closestDistance = getDistance(entranceCoordinates, geometry[closestIndex]);
+      return currentDistance < closestDistance ? currentIndex : closestIndex;
+    }, 0);
 
     if (entranceCoordinates[0] && entranceCoordinates[1] && !passive) {
       clusterObjs.push({
@@ -110,10 +100,7 @@ export default function ItineraryLine({
           iconCount:
             1 +
             (entranceObject.feature.publicCode ? 1 : 0) +
-            (entranceObject.feature.wheelchairAccessible ===
-            WheelchairBoarding.Possible
-              ? 1
-              : 0),
+            (entranceObject.feature.wheelchairAccessible === WheelchairBoarding.Possible ? 1 : 0),
           type: IndoorStepType.Entrance,
           code: entranceObject.feature.publicCode?.toLowerCase(),
         },
@@ -125,11 +112,7 @@ export default function ItineraryLine({
         color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
         key={`${hash}_${i}_${mode}_0`}
         geometry={geometry.slice(0, entranceIndex + 1)}
-        mode={
-          indoorLegType === IndoorLegType.StepsBeforeEntranceInside
-            ? 'walk-inside'
-            : 'walk'
-        }
+        mode={indoorLegType === IndoorLegType.StepsBeforeEntranceInside ? 'walk-inside' : 'walk'}
         passive={passive}
       />,
     );
@@ -138,11 +121,7 @@ export default function ItineraryLine({
         color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
         key={`${hash}_${i}_${mode}_1`}
         geometry={geometry.slice(entranceIndex)}
-        mode={
-          indoorLegType === IndoorLegType.StepsAfterEntranceInside
-            ? 'walk-inside'
-            : 'walk'
-        }
+        mode={indoorLegType === IndoorLegType.StepsAfterEntranceInside ? 'walk-inside' : 'walk'}
         passive={passive}
       />,
     );
@@ -191,11 +170,7 @@ export default function ItineraryLine({
     if (showDurationBubble || (checkStreetMode(leg) && leg.distance > 100)) {
       const duration = durationToString(intl, leg.duration * 1000);
       objs.push(
-        <SpeechBubble
-          key={`speech_${hash}_${i}_${mode}`}
-          position={middle}
-          text={duration}
-        />,
+        <SpeechBubble key={`speech_${hash}_${i}_${mode}`} position={middle} text={duration} />,
       );
     }
   }
@@ -235,11 +210,7 @@ export default function ItineraryLine({
 
   function handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs) {
     if (!passive) {
-      const indoorSteps = getIndoorStepsWithVerticalTransportation(
-        previousLeg,
-        leg,
-        nextLeg,
-      );
+      const indoorSteps = getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg);
 
       if (indoorSteps) {
         indoorSteps.forEach((indoorStep, i) => {
@@ -269,9 +240,7 @@ export default function ItineraryLine({
         maxZoom: 15,
         minPoints: 2,
         extent: 512, // tile size (512)
-        map: properties => ({
-          iconCount: properties.iconCount,
-        }),
+        map: properties => ({ iconCount: properties.iconCount }),
         reduce: (accumulated, properties) => {
           // eslint-disable-next-line no-param-reassign
           accumulated.iconCount += properties.iconCount;
@@ -291,10 +260,7 @@ export default function ItineraryLine({
             <ClusterNumberMarker
               key={`clusternumbermarker_${coordinates[1]}_${coordinates[0]}_clusterId_${properties.cluster_id}`}
               number={properties.iconCount}
-              position={{
-                lat: coordinates[1],
-                lon: coordinates[0],
-              }}
+              position={{ lat: coordinates[1], lon: coordinates[0] }}
             />,
           );
         } else {
@@ -304,14 +270,8 @@ export default function ItineraryLine({
             objs.push(
               <EntranceMarker
                 key={`entrance_${coordinates[1]}_${coordinates[0]}`}
-                entranceAccessible={getEntranceWheelchairAccessibility(
-                  previousLeg,
-                  leg,
-                )}
-                position={{
-                  lat: coordinates[1],
-                  lon: coordinates[0],
-                }}
+                entranceAccessible={getEntranceWheelchairAccessibility(previousLeg, leg)}
+                position={{ lat: coordinates[1], lon: coordinates[0] }}
                 code={properties.code}
               />,
             );
@@ -319,16 +279,9 @@ export default function ItineraryLine({
             objs.push(
               <IndoorStepMarker
                 key={`indoorstepmarker_${coordinates[1]}_${coordinates[0]}`}
-                position={{
-                  lat: coordinates[1],
-                  lon: coordinates[0],
-                }}
+                position={{ lat: coordinates[1], lon: coordinates[0] }}
                 index={properties.index}
-                indoorSteps={getIndoorStepsWithVerticalTransportation(
-                  previousLeg,
-                  leg,
-                  nextLeg,
-                )}
+                indoorSteps={getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg)}
               />,
             );
           }
@@ -351,11 +304,7 @@ export default function ItineraryLine({
 
     let mode = getTripOrRouteMode(
       leg.trip,
-      {
-        mode: leg.mode,
-        type: leg.route?.type,
-        gtfsId: leg.route?.gtfsId,
-      },
+      { mode: leg.mode, type: leg.route?.type, gtfsId: leg.route?.gtfsId },
       config,
     );
 
@@ -371,9 +320,7 @@ export default function ItineraryLine({
     let middle = getMiddleOf(geometry);
     let { to, end } = leg;
 
-    const rentalId =
-      leg.from.vehicleRentalStation?.stationId ||
-      leg.from.rentalVehicle?.vehicleId;
+    const rentalId = leg.from.vehicleRentalStation?.stationId || leg.from.rentalVehicle?.vehicleId;
     const rentalNetwork =
       leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
       leg.from.rentalVehicle?.rentalNetwork.networkId;
@@ -383,26 +330,14 @@ export default function ItineraryLine({
     if (interliningLegs.length > 0) {
       // merge the geometries of legs where user can wait in the vehicle and find the middle point
       // of the new geometry
-      const points = interliningLegs
-        .map(iLeg => polyUtil.decode(iLeg.legGeometry.points))
-        .flat();
+      const points = interliningLegs.map(iLeg => polyUtil.decode(iLeg.legGeometry.points)).flat();
       const interlinedGeometry = [...geometry, ...points];
       middle = getMiddleOf(interlinedGeometry);
       to = interliningLegs[interliningLegs.length - 1].to;
       end = interliningLegs[interliningLegs.length - 1].end;
     }
 
-    handleLine(
-      previousLeg,
-      leg,
-      nextLeg,
-      mode,
-      i,
-      geometry,
-      objs,
-      clusterObjs,
-      appendClass,
-    );
+    handleLine(previousLeg, leg, nextLeg, mode, i, geometry, objs, clusterObjs, appendClass);
     handleDurationBubble(leg, mode, i, objs, middle);
     handleIntermediateStops(leg, mode, objs);
     handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
@@ -419,8 +354,7 @@ export default function ItineraryLine({
               lat: leg.from.lat,
               lon: leg.from.lon,
               network: rentalNetwork,
-              availableVehicles:
-                leg.from.vehicleRentalStation?.availableVehicles,
+              availableVehicles: leg.from.vehicleRentalStation?.availableVehicles,
             }}
             mode={leg.mode}
             transit
@@ -428,12 +362,7 @@ export default function ItineraryLine({
         );
       } else if (leg.transitLeg && !isTaxiLeg(leg) && !isCallAgencyLeg(leg)) {
         // Call agency legs don't have stops, so they can't be rendered as clickable stop markers
-        const name = getTripOrRouteText(
-          leg.trip,
-          leg.route,
-          config,
-          interliningWithRoute,
-        );
+        const name = getTripOrRouteText(leg.trip, leg.route, config, interliningWithRoute);
 
         if (!leg?.interlineWithPreviousLeg) {
           transitLegs.push({

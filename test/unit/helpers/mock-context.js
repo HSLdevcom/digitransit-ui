@@ -17,7 +17,4 @@ export const mockContext = {
  * config (mockContext.config), instead of hand-building a config object
  * from scratch per test file.
  */
-export const createTestConfig = (overrides = {}) => ({
-  ...mockContext.config,
-  ...overrides,
-});
+export const createTestConfig = (overrides = {}) => ({ ...mockContext.config, ...overrides });

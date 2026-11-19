@@ -235,89 +235,50 @@ export default {
         trip: {
           stoptimes: [
             {
-              stop: {
-                gtfsId: 'HSL:9040502',
-                id: 'U3RvcDpIU0w6OTA0MDUwMg==',
-              },
+              stop: { gtfsId: 'HSL:9040502', id: 'U3RvcDpIU0w6OTA0MDUwMg==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:9090502',
-                id: 'U3RvcDpIU0w6OTA5MDUwMg==',
-              },
+              stop: { gtfsId: 'HSL:9090502', id: 'U3RvcDpIU0w6OTA5MDUwMg==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:4810551',
-                id: 'U3RvcDpIU0w6NDgxMDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:4810551', id: 'U3RvcDpIU0w6NDgxMDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:4730551',
-                id: 'U3RvcDpIU0w6NDczMDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:4730551', id: 'U3RvcDpIU0w6NDczMDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:4740551',
-                id: 'U3RvcDpIU0w6NDc0MDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:4740551', id: 'U3RvcDpIU0w6NDc0MDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:4600551',
-                id: 'U3RvcDpIU0w6NDYwMDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:4600551', id: 'U3RvcDpIU0w6NDYwMDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:4610551',
-                id: 'U3RvcDpIU0w6NDYxMDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:4610551', id: 'U3RvcDpIU0w6NDYxMDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:1411551',
-                id: 'U3RvcDpIU0w6MTQxMTU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:1411551', id: 'U3RvcDpIU0w6MTQxMTU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:1382551',
-                id: 'U3RvcDpIU0w6MTM4MjU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:1382551', id: 'U3RvcDpIU0w6MTM4MjU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:1285551',
-                id: 'U3RvcDpIU0w6MTI4NTU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:1285551', id: 'U3RvcDpIU0w6MTI4NTU1MQ==' },
               pickupType: 'SCHEDULED',
             },
             {
-              stop: {
-                gtfsId: 'HSL:1174551',
-                id: 'U3RvcDpIU0w6MTE3NDU1MQ==',
-              },
+              stop: { gtfsId: 'HSL:1174551', id: 'U3RvcDpIU0w6MTE3NDU1MQ==' },
               pickupType: 'SCHEDULED',
             },
-            {
-              stop: {
-                gtfsId: 'HSL:1020553',
-                id: 'U3RvcDpIU0w6MTAyMDU1Mw==',
-              },
-              pickupType: 'NONE',
-            },
+            { stop: { gtfsId: 'HSL:1020553', id: 'U3RvcDpIU0w6MTAyMDU1Mw==' }, pickupType: 'NONE' },
           ],
           id: 'VHJpcDpIU0w6MzAwMUtfMjAxODA4MDFfVG9fMl8xMzEx',
           gtfsId: 'HSL:3001K_20180801_To_2_1311',
@@ -523,11 +484,7 @@ export default {
                 desc: 'Kaivokatu 1',
               },
             ],
-            route: {
-              mode: 'RAIL',
-              color: null,
-              id: 'Um91dGU6SFNMOjMwMDFL',
-            },
+            route: { mode: 'RAIL', color: null, id: 'Um91dGU6SFNMOjMwMDFL' },
           },
         },
         intermediateStops: [],
@@ -619,13 +576,6 @@ export default {
       },
     ],
     duration: 480,
-    fares: [
-      {
-        type: 'regular',
-        currency: 'EUR',
-        cents: 320,
-        components: [{ fareId: 'HSL:hki' }],
-      },
-    ],
+    fares: [{ type: 'regular', currency: 'EUR', cents: 320, components: [{ fareId: 'HSL:hki' }] }],
   },
 };

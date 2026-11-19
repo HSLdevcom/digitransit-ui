@@ -10,18 +10,10 @@ import {
 import { splitGtfsId } from '../../../../utils/shared/gtfs';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-export default function SelectVehicleRentalRow({
-  name,
-  network,
-  id,
-  desc,
-  prefix,
-  icon,
-}) {
+export default function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {
   const config = useConfigContext();
   const iconName =
-    icon ||
-    `${getRentalNetworkIcon(getRentalNetworkConfig(network, config))}-lollipop`;
+    icon || `${getRentalNetworkIcon(getRentalNetworkConfig(network, config))}-lollipop`;
   const { colors } = config;
   let color;
   if (iconName.includes('scooter')) {
@@ -45,9 +37,7 @@ export default function SelectVehicleRentalRow({
         <span className="choose-row-text">
           <span className="choose-row-address">{address}</span>
           {hasVehicleRentalCode(id) && (
-            <span className="choose-row-number">
-              {splitGtfsId(id).entityId}
-            </span>
+            <span className="choose-row-number">{splitGtfsId(id).entityId}</span>
           )}
         </span>
       </span>

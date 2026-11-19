@@ -4,10 +4,7 @@ import {
   getSpeechBubbleStyle,
 } from '../../../../../../app/component/map/non-tile-layer/TransitLegMarkers';
 
-const box = (x1, y1, x2, y2) => ({
-  topLeft: { x: x1, y: y1 },
-  bottomRight: { x: x2, y: y2 },
-});
+const box = (x1, y1, x2, y2) => ({ topLeft: { x: x1, y: y1 }, bottomRight: { x: x2, y: y2 } });
 
 describe('TransitLegMarkers', () => {
   describe('doMarkersOverlap', () => {
@@ -45,9 +42,7 @@ describe('TransitLegMarkers', () => {
 
     it('should fall back to bottomRight when bottomLeft overlaps', () => {
       const pixelPositions = [box(0, 0, 45, 15)];
-      expect(getArrowMarkerStyle(baseLeg(), pixelPositions).style).to.equal(
-        'bottomRight',
-      );
+      expect(getArrowMarkerStyle(baseLeg(), pixelPositions).style).to.equal('bottomRight');
     });
   });
 
@@ -60,16 +55,12 @@ describe('TransitLegMarkers', () => {
     });
 
     it('should pick topRight when there is nothing to overlap with', () => {
-      expect(getSpeechBubbleStyle(basePosition(), []).style).to.equal(
-        'topRight',
-      );
+      expect(getSpeechBubbleStyle(basePosition(), []).style).to.equal('topRight');
     });
 
     it('should fall back to topLeft when topRight overlaps', () => {
       const pixelPositions = [box(0, 0, 105, 30)];
-      expect(
-        getSpeechBubbleStyle(basePosition(), pixelPositions).style,
-      ).to.equal('topLeft');
+      expect(getSpeechBubbleStyle(basePosition(), pixelPositions).style).to.equal('topLeft');
     });
   });
 });

@@ -31,9 +31,7 @@ function variantValidator(props, propName, componentName) {
 
 const getIcon = variant => {
   switch (true) {
-    case [AlertSeverityLevelType.Info, AlertSeverityLevelType.Unknown].includes(
-      variant,
-    ): {
+    case [AlertSeverityLevelType.Info, AlertSeverityLevelType.Unknown].includes(variant): {
       return <Icon img="icon_info-circled" className="info" />;
     }
     case variant === AlertSeverityLevelType.Warning: {

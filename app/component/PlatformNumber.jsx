@@ -20,21 +20,13 @@ export default function PlatformNumber({
     return false;
   }
 
-  const platformUpdateIcon = (
-    <Icon className="platform-updated-icon" img="icon_arrow-right-long" />
-  );
+  const platformUpdateIcon = <Icon className="platform-updated-icon" img="icon_arrow-right-long" />;
 
   if (short) {
     return (
       <span className="platform-short">
-        {withText &&
-          mode &&
-          getTrackOrPierOrPlatformTextShort(intl, mode.toUpperCase())}
-        <span
-          className={cx('platform-number-wrapper', {
-            'platform-updated': updated,
-          })}
-        >
+        {withText && mode && getTrackOrPierOrPlatformTextShort(intl, mode.toUpperCase())}
+        <span className={cx('platform-number-wrapper', { 'platform-updated': updated })}>
           {updated && platformUpdateIcon}
           {number}
         </span>
@@ -44,14 +36,8 @@ export default function PlatformNumber({
 
   return (
     <span className={plain ? 'platform-number-plain' : 'platform-number'}>
-      {withText &&
-        mode &&
-        getTrackOrPierOrPlatformText(intl, mode.toUpperCase())}
-      <span
-        className={cx('platform-number-wrapper', {
-          'platform-updated': updated,
-        })}
-      >
+      {withText && mode && getTrackOrPierOrPlatformText(intl, mode.toUpperCase())}
+      <span className={cx('platform-number-wrapper', { 'platform-updated': updated })}>
         {updated && platformUpdateIcon}
         {number}
       </span>

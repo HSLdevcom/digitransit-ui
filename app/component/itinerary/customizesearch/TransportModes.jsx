@@ -37,9 +37,7 @@ export default function TransportModes({ updateSettings }) {
               />
             }
             toggled={selectedModes.includes(mode)}
-            onToggle={() =>
-              updateSettings({ modes: toggleTransportMode(mode, config) })
-            }
+            onToggle={() => updateSettings({ modes: toggleTransportMode(mode, config) })}
             borderStyle="bottom-border"
           />
         );
@@ -48,6 +46,4 @@ export default function TransportModes({ updateSettings }) {
   );
 }
 
-TransportModes.propTypes = {
-  updateSettings: PropTypes.func.isRequired,
-};
+TransportModes.propTypes = { updateSettings: PropTypes.func.isRequired };

@@ -17,10 +17,7 @@ export function isCitybikePreSeasonActive(season) {
     return false;
   }
   const now = Date.now();
-  return (
-    now <= seasonMs(season.start) + dayMs &&
-    now >= seasonMs(season.preSeasonStart)
-  );
+  return now <= seasonMs(season.start) + dayMs && now >= seasonMs(season.preSeasonStart);
 }
 
 export function showCitybikeNetwork(networkConfig, config) {
@@ -40,8 +37,7 @@ export function hasCitybikes(networks, config) {
   }
   return Object.values(networks).some(
     network =>
-      network.type === TransportMode.Citybike.toLowerCase() &&
-      networkIsActive(network, config),
+      network.type === TransportMode.Citybike.toLowerCase() && networkIsActive(network, config),
   );
 }
 
@@ -54,8 +50,7 @@ export function hasScooters(config) {
     return false;
   }
   return Object.values(networks).some(
-    network =>
-      network.type === TransportMode.Scooter.toLowerCase() && network.enabled,
+    network => network.type === TransportMode.Scooter.toLowerCase() && network.enabled,
   );
 }
 
@@ -99,11 +94,7 @@ export function getTransportModes(config) {
       scooterConfig = { scooter: { availableForSelection: false } };
     }
   }
-  return {
-    ...config.transportModes,
-    ...citybikeConfig,
-    ...scooterConfig,
-  };
+  return { ...config.transportModes, ...citybikeConfig, ...scooterConfig };
 }
 
 /**
@@ -157,11 +148,7 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
       case 'BUS':
         if (config.useExtendedRouteTypes && !isTerminal) {
           const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
-          if (
-            arr.some(
-              r => (r.gtfsType || r.type) === ExtendedRouteTypes.BusExpress,
-            )
-          ) {
+          if (arr.some(r => (r.gtfsType || r.type) === ExtendedRouteTypes.BusExpress)) {
             return 'bus-express';
           }
         }
@@ -169,11 +156,7 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
       case 'TRAM':
         if (config.useExtendedRouteTypes) {
           const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
-          if (
-            arr.some(
-              r => (r.gtfsType || r.type) === ExtendedRouteTypes.SpeedTram,
-            )
-          ) {
+          if (arr.some(r => (r.gtfsType || r.type) === ExtendedRouteTypes.SpeedTram)) {
             return 'speedtram';
           }
         }
@@ -184,9 +167,7 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
             return 'ferry-external';
           }
           const arr = typeof routes === 'string' ? JSON.parse(routes) : routes;
-          if (
-            arr.some(r => isExternalFeed(splitGtfsId(r.gtfsId).feedId, config))
-          ) {
+          if (arr.some(r => isExternalFeed(splitGtfsId(r.gtfsId).feedId, config))) {
             return 'ferry-external';
           }
         }
@@ -210,18 +191,9 @@ export function getStopMode(vehicleMode, routes, code, config, isTerminal) {
  * @param {boolean} [isTerminal=false] whether the stop is a terminal/station
  * @returns {string} resolved lowercase mode string
  */
-export function getPrimaryStopMode(
-  routes,
-  vehicleMode,
-  code,
-  config,
-  isTerminal = false,
-) {
-  const routeModes = [
-    ...new Set((routes || []).map(r => r.mode).filter(Boolean)),
-  ];
-  const primaryVehicleMode =
-    routeModes.length === 1 ? routeModes[0] : vehicleMode || 'BUS';
+export function getPrimaryStopMode(routes, vehicleMode, code, config, isTerminal = false) {
+  const routeModes = [...new Set((routes || []).map(r => r.mode).filter(Boolean))];
+  const primaryVehicleMode = routeModes.length === 1 ? routeModes[0] : vehicleMode || 'BUS';
   return getStopMode(primaryVehicleMode, routes, code, config, isTerminal);
 }
 
@@ -229,11 +201,7 @@ export function getPrimaryStopMode(
  * Maps an extended route mode string back to its base transport mode.
  */
 export function getBaseTransportMode(mode) {
-  if (
-    mode === 'bus-local' ||
-    mode === 'bus-express' ||
-    mode === 'replacement-bus'
-  ) {
+  if (mode === 'bus-local' || mode === 'bus-express' || mode === 'replacement-bus') {
     return 'bus';
   }
   if (mode === 'speedtram') {
@@ -277,9 +245,7 @@ export function getAvailableTransportModeConfigs(config) {
 
 export function getTransitModes(config) {
   return getAvailableTransportModeConfigs(config)
-    .filter(
-      tm => tm.defaultValue && tm.name !== 'scooter' && tm.name !== 'citybike',
-    )
+    .filter(tm => tm.defaultValue && tm.name !== 'scooter' && tm.name !== 'citybike')
     .map(tm => tm.name)
     .sort();
 }
@@ -326,9 +292,7 @@ export function showModeSettings(config) {
 export function getModes(config) {
   const { modes } = getCustomizedSettings();
   if (showModeSettings(config) && Array.isArray(modes)) {
-    const transportModes = modes.filter(mode =>
-      isTransportModeAvailable(config, mode),
-    );
+    const transportModes = modes.filter(mode => isTransportModeAvailable(config, mode));
     return transportModes;
   }
   return getTransitModes(config);
@@ -348,11 +312,7 @@ export function toggleTransportMode(transportMode, config) {
   } else {
     actionName = 'SettingsEnableTransportMode';
   }
-  addAnalyticsEvent({
-    action: actionName,
-    category: 'ItinerarySettings',
-    name: transportMode,
-  });
+  addAnalyticsEvent({ action: actionName, category: 'ItinerarySettings', name: transportMode });
   const modes = xor(getModes(config), [transportMode.toUpperCase()]);
   return modes;
 }

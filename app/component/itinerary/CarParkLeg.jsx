@@ -13,21 +13,10 @@ import ItineraryCircleLine from './ItineraryCircleLine';
 import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function CarParkLeg({
-  leg,
-  index,
-  focusAction,
-  children,
-  carPark,
-  noWalk = false,
-}) {
+export default function CarParkLeg({ leg, index, focusAction, children, carPark, noWalk = false }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(
-    parseInt(leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const firstLegClassName = index === 0 ? 'first' : '';
 
@@ -49,9 +38,7 @@ export default function CarParkLeg({
         )}
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          {legTimeStr(leg.start)}
-        </div>
+        <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
       </div>
       {noWalk ? (
         <ItineraryCircleLine
@@ -83,10 +70,7 @@ export default function CarParkLeg({
               <div className="address">
                 <FormattedMessage id="car-park" defaultMessage="Park & Ride" />
                 {leg.isViaPoint && (
-                  <Icon
-                    img="icon_mapMarker"
-                    className="itinerary-mapmarker-icon"
-                  />
+                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                 )}
                 {carPark && (
                   <Icon
@@ -100,28 +84,16 @@ export default function CarParkLeg({
             <div className="place">{carPark.name}</div>
           </div>
           <div>{children}</div>
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {!noWalk && (
-          <div
-            className={cx(
-              'itinerary-leg-action',
-              'car',
-              'itinerary-leg-action-content',
-            )}
-          >
+          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
             <FormattedMessage
               id="walk-distance-duration"
               values={{ distance, duration }}
               defaultMessage="Walk {distance} ({duration})"
             />
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
       </div>

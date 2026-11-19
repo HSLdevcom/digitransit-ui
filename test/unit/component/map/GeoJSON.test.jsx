@@ -1,16 +1,11 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet';
-import GeoJSON, {
-  getIcons,
-  getMarker,
-} from '../../../../app/component/map/GeoJSON';
+import GeoJSON, { getIcons, getMarker } from '../../../../app/component/map/GeoJSON';
 import { renderWithProviders } from '../../helpers/mock-providers';
 
 describe('<GeoJSON />', () => {
   it('should render empty if there are no features', () => {
-    const props = {
-      data: {},
-    };
+    const props = { data: {} };
     const { container } = renderWithProviders(<GeoJSON {...props} />);
     expect(container.innerHTML).toBe('');
   });
@@ -22,40 +17,18 @@ describe('<GeoJSON />', () => {
     });
 
     it('should generate svg-encoded icons', () => {
-      const features = [
-        {
-          properties: {
-            icon: {
-              id: 'test',
-              svg: '#<foobar>#',
-            },
-          },
-        },
-      ];
+      const features = [{ properties: { icon: { id: 'test', svg: '#<foobar>#' } } }];
 
       const icons = getIcons(features);
-      expect(icons.test).toBe(
-        'data:image/svg+xml;charset=utf-8,%23%3Cfoobar%3E%23',
-      );
+      expect(icons.test).toBe('data:image/svg+xml;charset=utf-8,%23%3Cfoobar%3E%23');
     });
   });
 
   describe('getMarker', () => {
     it('should use a custom marker for icons', () => {
-      const feature = {
-        properties: {
-          icon: {
-            id: 'test',
-          },
-        },
-      };
-      const latLng = L.latLng({
-        lat: 60.45065,
-        lng: 22.267,
-      });
-      const icons = {
-        test: 'foobar',
-      };
+      const feature = { properties: { icon: { id: 'test' } } };
+      const latLng = L.latLng({ lat: 60.45065, lng: 22.267 });
+      const icons = { test: 'foobar' };
 
       const marker = getMarker(feature, latLng, icons);
       expect(marker.options.icon.options.iconUrl).toBe(icons.test);
@@ -65,10 +38,7 @@ describe('<GeoJSON />', () => {
 
     it('should use a circleMarker by default', () => {
       const feature = {};
-      const latLng = L.latLng({
-        lat: 60.45065,
-        lng: 22.267,
-      });
+      const latLng = L.latLng({ lat: 60.45065, lng: 22.267 });
 
       const marker = getMarker(feature, latLng);
       expect(marker.options.interactive).toBe(false);
@@ -76,15 +46,8 @@ describe('<GeoJSON />', () => {
     });
 
     it('should use a circleMarker and a tooltip for textOnly', () => {
-      const feature = {
-        properties: {
-          textOnly: 'Test',
-        },
-      };
-      const latLng = L.latLng({
-        lat: 60.45065,
-        lng: 22.267,
-      });
+      const feature = { properties: { textOnly: 'Test' } };
+      const latLng = L.latLng({ lat: 60.45065, lng: 22.267 });
 
       const marker = getMarker(feature, latLng);
       expect(marker.options.interactive).toBe(false);

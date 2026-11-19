@@ -69,9 +69,7 @@ export const getArrowMarkerStyle = (leg, pixelPositions) => {
   proposedPosition.topLeft.y =
     proposedPosition.topLeft.y - proposedPosition.height - 2 * arrowOffset.y;
   proposedPosition.bottomRight.y =
-    proposedPosition.bottomRight.y -
-    proposedPosition.height -
-    2 * arrowOffset.y;
+    proposedPosition.bottomRight.y - proposedPosition.height - 2 * arrowOffset.y;
   overlap = doMarkersOverlap(proposedPosition, pixelPositions);
   if (!overlap) {
     return { style: 'topRight', pixelPosition: proposedPosition };
@@ -103,9 +101,7 @@ export const getSpeechBubbleStyle = (position, pixelPositions) => {
   proposedPosition.topLeft.y =
     proposedPosition.topLeft.y + proposedPosition.height + 2 * arrowOffset.y;
   proposedPosition.bottomRight.y =
-    proposedPosition.bottomRight.y +
-    proposedPosition.height +
-    2 * arrowOffset.y;
+    proposedPosition.bottomRight.y + proposedPosition.height + 2 * arrowOffset.y;
   overlap = doMarkersOverlap(proposedPosition, pixelPositions);
   if (!overlap) {
     return { style: 'bottomLeft', position: proposedPosition };
@@ -118,10 +114,7 @@ export const getSpeechBubbleStyle = (position, pixelPositions) => {
   return { style: 'bottomRight', position: proposedPosition };
 };
 
-export default function TransitLegMarkers({
-  transitLegs,
-  realtimeTransfers = false,
-}) {
+export default function TransitLegMarkers({ transitLegs, realtimeTransfers = false }) {
   const leaflet = useLeaflet();
   const config = useConfigContext();
   const intl = useIntl();
@@ -156,10 +149,7 @@ export default function TransitLegMarkers({
       type = 'regular';
     }
     const truePixelPosition = {
-      topLeft: {
-        x: leafletPixelPosition.x - offset.x,
-        y: leafletPixelPosition.y + offset.y,
-      },
+      topLeft: { x: leafletPixelPosition.x - offset.x, y: leafletPixelPosition.y + offset.y },
       bottomRight: {
         x: leafletPixelPosition.x - offset.x + leafletPixelPosition.width,
         y: leafletPixelPosition.y + offset.y + leafletPixelPosition.height,
@@ -184,14 +174,8 @@ export default function TransitLegMarkers({
         y: leafletPixelPosition.y - offsetSpeechBubble.y,
       },
       bottomRight: {
-        x:
-          leafletPixelPosition.x +
-          offsetSpeechBubble.x +
-          leafletPixelPosition.width,
-        y:
-          leafletPixelPosition.y -
-          offsetSpeechBubble.y +
-          leafletPixelPosition.height,
+        x: leafletPixelPosition.x + offsetSpeechBubble.x + leafletPixelPosition.width,
+        y: leafletPixelPosition.y - offsetSpeechBubble.y + leafletPixelPosition.height,
       },
       width: leafletPixelPosition.width,
       height: leafletPixelPosition.height,
@@ -200,10 +184,7 @@ export default function TransitLegMarkers({
   }
 
   function getSpeechBubbleText(leg, nextLeg, realtime) {
-    const duration = durationToString(
-      intl,
-      legTime(nextLeg.start) - legTime(leg.end),
-    );
+    const duration = durationToString(intl, legTime(nextLeg.start) - legTime(leg.end));
     const style = realtime ? 'color:#3b7f00' : '';
 
     return `<span>
@@ -214,10 +195,7 @@ export default function TransitLegMarkers({
 
   const objs = [];
   const pixelPositions = [];
-  const legsWithPositions = transitLegs.map(leg => ({
-    ...leg,
-    ...getLegMarkerPixelPosition(leg),
-  }));
+  const legsWithPositions = transitLegs.map(leg => ({ ...leg, ...getLegMarkerPixelPosition(leg) }));
 
   // Draw regular legmarkers first, no tweaking needed
   const legsRegular = legsWithPositions.filter(leg => leg.type === 'regular');
@@ -228,8 +206,7 @@ export default function TransitLegMarkers({
         disableModeIcons
         renderName
         wide={
-          leg.nextLeg?.interlineWithPreviousLeg &&
-          leg.interliningWithRoute !== leg.route.shortName
+          leg.nextLeg?.interlineWithPreviousLeg && leg.interliningWithRoute !== leg.route.shortName
         }
         color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
         leg={{
@@ -246,10 +223,7 @@ export default function TransitLegMarkers({
         appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
       />,
     );
-    pixelPositions.push({
-      topLeft: leg.topLeft,
-      bottomRight: leg.bottomRight,
-    });
+    pixelPositions.push({ topLeft: leg.topLeft, bottomRight: leg.bottomRight });
   });
 
   // Then, draw leg markers with arrows
@@ -264,8 +238,7 @@ export default function TransitLegMarkers({
         renderName
         style={styleAndPosition.style}
         wide={
-          leg.nextLeg?.interlineWithPreviousLeg &&
-          leg.interliningWithRoute !== leg.route.shortName
+          leg.nextLeg?.interlineWithPreviousLeg && leg.interliningWithRoute !== leg.route.shortName
         }
         color={leg.route && leg.route.color ? `#${leg.route.color}` : undefined}
         leg={{
@@ -290,15 +263,8 @@ export default function TransitLegMarkers({
   legsWithTransferStops.pop(); // Excluding the finishing leg
   legsWithTransferStops.forEach((leg, index) => {
     const speechBubblePixelPosition = getSpeechbubblePixelPosition(leg.to);
-    const styleAndPosition = getSpeechBubbleStyle(
-      speechBubblePixelPosition,
-      pixelPositions,
-    );
-    const text = getSpeechBubbleText(
-      leg,
-      transitLegs[index + 1],
-      realtimeTransfers,
-    );
+    const styleAndPosition = getSpeechBubbleStyle(speechBubblePixelPosition, pixelPositions);
+    const text = getSpeechBubbleText(leg, transitLegs[index + 1], realtimeTransfers);
     objs.push(
       <SpeechBubble
         key={`speech_${leg.to.stop.gtfsId}`}

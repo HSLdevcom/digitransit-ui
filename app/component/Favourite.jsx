@@ -17,8 +17,7 @@ export default function Favourite({
   const [disable, handleDisable] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const buttonRef = useRef(null);
-  const enabled =
-    config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
+  const enabled = config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
 
   useEffect(() => {
     handleDisable(isFetching);
@@ -52,21 +51,12 @@ export default function Favourite({
                 id: 'remove-favourite',
                 defautlMessage: 'Remove favourite selection',
               })
-            : intl.formatMessage({
-                id: 'add-to-favourites',
-                defautlMessage: 'Set favourite',
-              })
+            : intl.formatMessage({ id: 'add-to-favourites', defautlMessage: 'Set favourite' })
         }
       >
         <Icon
-          className={cx('favourite', {
-            selected: favourite && enabled,
-          })}
-          img={
-            favourite && enabled
-              ? 'icon_star-with-circle'
-              : 'icon_star-unselected'
-          }
+          className={cx('favourite', { selected: favourite && enabled })}
+          img={favourite && enabled ? 'icon_star-with-circle' : 'icon_star-unselected'}
         />
       </button>
       <LoginPrompt

@@ -29,11 +29,7 @@ export default function filterMatchingToInput(list, Input, fields) {
       fields.forEach(pName => {
         let value = get(item, pName);
 
-        if (
-          !multiWord &&
-          (pName === 'properties.label' || pName === 'address') &&
-          value
-        ) {
+        if (!multiWord && (pName === 'properties.label' || pName === 'address') && value) {
           // special case: drop last parts i.e. city and neighbourhood
           value = value.split(',');
           if (value.length > 2) {
@@ -47,9 +43,7 @@ export default function filterMatchingToInput(list, Input, fields) {
           if (multiWord) {
             parts = parts.concat(value.toLowerCase());
           } else {
-            parts = parts.concat(
-              value.toLowerCase().replace(/,/g, ' ').split(' '),
-            );
+            parts = parts.concat(value.toLowerCase().replace(/,/g, ' ').split(' '));
           }
         }
       });

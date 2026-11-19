@@ -23,15 +23,11 @@ export const defaultNetworkConfig = {
   type: RentalNetworkType.CityBike,
 };
 
-export const getRentalNetworkName = (
-  networkConfig = defaultNetworkConfig,
-  language = 'en',
-) => (networkConfig.name && networkConfig.name[language]) || undefined;
+export const getRentalNetworkName = (networkConfig = defaultNetworkConfig, language = 'en') =>
+  (networkConfig.name && networkConfig.name[language]) || undefined;
 
-export const getRentalNetworkIcon = (
-  networkConfig = defaultNetworkConfig,
-  disabled = false,
-) => `icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
+export const getRentalNetworkIcon = (networkConfig = defaultNetworkConfig, disabled = false) =>
+  `icon_${networkConfig.icon || 'citybike'}${disabled ? '_off' : ''}`;
 
 export const getRentalNetworkId = networks => {
   if (isString(networks) && networks.length > 0) {
@@ -84,20 +80,14 @@ export const mapDefaultNetworkProperties = config => {
   const mappedNetworks = [];
   Object.keys(config.vehicleRental.networks).forEach(key => {
     if (networkIsActive(config.vehicleRental.networks[key])) {
-      mappedNetworks.push({
-        networkName: key,
-        ...config.vehicleRental.networks[key],
-      });
+      mappedNetworks.push({ networkName: key, ...config.vehicleRental.networks[key] });
     }
   });
   return mappedNetworks;
 };
 
 export const getVehicleCapacity = (config, network = undefined) => {
-  return (
-    config.vehicleRental?.networks[network]?.capacity ||
-    config.vehicleRental.capacity
-  );
+  return config.vehicleRental?.networks[network]?.capacity || config.vehicleRental.capacity;
 };
 
 export const getVehicleMinZoomOnStopsNearYou = (config, override) => {
@@ -125,17 +115,10 @@ export const hasVehicleRentalCode = rentalId => {
 
 export const mapVehicleRentalFromStore = vehicleRentalStation => {
   const originalId = vehicleRentalStation.stationId;
-  const network =
-    vehicleRentalStation.networks?.[0] || originalId.split(':')[0];
-  const stationId = originalId.startsWith(network)
-    ? originalId
-    : `${network}:${originalId}`;
+  const network = vehicleRentalStation.networks?.[0] || originalId.split(':')[0];
+  const stationId = originalId.startsWith(network) ? originalId : `${network}:${originalId}`;
 
-  const newStation = {
-    ...vehicleRentalStation,
-    network,
-    stationId,
-  };
+  const newStation = { ...vehicleRentalStation, network, stationId };
   delete newStation.networks;
   return newStation;
 };

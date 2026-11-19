@@ -6,9 +6,7 @@ import config from '../../../../../server/configs/config.default';
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 
-const mockIntl = {
-  formatMessage: ({ id }) => id,
-};
+const mockIntl = { formatMessage: ({ id }) => id };
 
 function buildCanceledLeg() {
   const t = ms => ({ scheduledTime: epochToIso(ms) });
@@ -71,18 +69,8 @@ describe('getItineraryAlerts', () => {
       effectiveEndDate: (NOW + 60 * 60000) / 1000,
     };
     const legs = [
-      buildTransitLegWithAlert(
-        'leg-1',
-        NOW + 5 * 60000,
-        NOW + 15 * 60000,
-        sharedAlert,
-      ),
-      buildTransitLegWithAlert(
-        'leg-2',
-        NOW + 20 * 60000,
-        NOW + 30 * 60000,
-        sharedAlert,
-      ),
+      buildTransitLegWithAlert('leg-1', NOW + 5 * 60000, NOW + 15 * 60000, sharedAlert),
+      buildTransitLegWithAlert('leg-2', NOW + 20 * 60000, NOW + 30 * 60000, sharedAlert),
     ];
 
     const alerts = getItineraryAlerts(
@@ -119,18 +107,8 @@ describe('getItineraryAlerts', () => {
       effectiveStartDate: (NOW - 60 * 60000) / 1000,
       effectiveEndDate: (NOW + 60 * 60000) / 1000,
     };
-    const leg1 = buildTransitLegWithAlert(
-      'leg-1',
-      NOW + 5 * 60000,
-      NOW + 15 * 60000,
-      sharedAlert,
-    );
-    const leg2 = buildTransitLegWithAlert(
-      'leg-2',
-      NOW + 20 * 60000,
-      NOW + 30 * 60000,
-      sharedAlert,
-    );
+    const leg1 = buildTransitLegWithAlert('leg-1', NOW + 5 * 60000, NOW + 15 * 60000, sharedAlert);
+    const leg2 = buildTransitLegWithAlert('leg-2', NOW + 20 * 60000, NOW + 30 * 60000, sharedAlert);
     // leg1 no longer reports the alert (e.g. it cleared for that leg)
     leg1.alerts = [];
 
@@ -161,18 +139,8 @@ describe('getItineraryAlerts', () => {
       effectiveStartDate: (NOW - 60 * 60000) / 1000,
       effectiveEndDate: (NOW + 60 * 60000) / 1000,
     };
-    const leg1 = buildTransitLegWithAlert(
-      'leg-1',
-      NOW + 5 * 60000,
-      NOW + 15 * 60000,
-      sharedAlert,
-    );
-    const leg2 = buildTransitLegWithAlert(
-      'leg-2',
-      NOW + 20 * 60000,
-      NOW + 30 * 60000,
-      sharedAlert,
-    );
+    const leg1 = buildTransitLegWithAlert('leg-1', NOW + 5 * 60000, NOW + 15 * 60000, sharedAlert);
+    const leg2 = buildTransitLegWithAlert('leg-2', NOW + 20 * 60000, NOW + 30 * 60000, sharedAlert);
     // leg1 no longer reports the alert, but the user already dismissed the
     // card that was shown for it (tracked by the alert's own identity)
     leg1.alerts = [];

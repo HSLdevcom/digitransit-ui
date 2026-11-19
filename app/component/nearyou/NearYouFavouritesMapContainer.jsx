@@ -15,10 +15,7 @@ export default function NearYouFavouritesMapContainer({
   ...rest
 }) {
   const stops = useFragment(NearYouFavouritesMapFragment.stops, stopsRef);
-  const stations = useFragment(
-    NearYouFavouritesMapFragment.stations,
-    stationsRef,
-  );
+  const stations = useFragment(NearYouFavouritesMapFragment.stations, stationsRef);
   const vehicleStations = useFragment(
     NearYouFavouritesMapFragment.vehicleStations,
     vehicleStationsRef,
@@ -32,12 +29,7 @@ export default function NearYouFavouritesMapContainer({
   const edges = favs
     .filter(s => s)
     .map(stop => {
-      return {
-        node: {
-          distance: distance(position, stop),
-          place: { ...stop },
-        },
-      };
+      return { node: { distance: distance(position, stop), place: { ...stop } } };
     })
     .sort((a, b) => a.node.distance - b.node.distance);
 

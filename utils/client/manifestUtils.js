@@ -41,10 +41,7 @@ export const generateManifest = (
  *
  * @param {*} json The json data to serialize into a blob file.
  */
-export const jsonToBlob = json =>
-  new Blob([JSON.stringify(json)], {
-    type: 'application/json',
-  });
+export const jsonToBlob = json => new Blob([JSON.stringify(json)], { type: 'application/json' });
 
 /**
  * Generates a manifest blob for the current url with the given configuration,

@@ -7,19 +7,10 @@ import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
 import SearchSelectionBoundary from './SearchSelectionBoundary';
 
-function SearchInput({
-  panel,
-  fromMap,
-  isMobile,
-  showViapointControl,
-  ...rest
-}) {
-  const { onSelect, selectHandler, locationState, onGeolocationStart } =
-    useSearchContext();
+function SearchInput({ panel, fromMap, isMobile, showViapointControl, ...rest }) {
+  const { onSelect, selectHandler, locationState, onGeolocationStart } = useSearchContext();
   const Component = panel ? DTAutosuggestPanel : DTAutoSuggest;
-  const viaProps = showViapointControl
-    ? { handleViaPointLocationSelected: onSelect }
-    : {};
+  const viaProps = showViapointControl ? { handleViaPointLocationSelected: onSelect } : {};
 
   return (
     <Component

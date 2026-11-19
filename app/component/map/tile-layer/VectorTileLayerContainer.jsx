@@ -42,6 +42,4 @@ export default function VectorTileLayerContainer({ mapLayers, ...rest }) {
   );
 }
 
-VectorTileLayerContainer.propTypes = {
-  mapLayers: mapLayerShape.isRequired,
-};
+VectorTileLayerContainer.propTypes = { mapLayers: mapLayerShape.isRequired };

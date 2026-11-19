@@ -24,10 +24,7 @@ export function buildStaticMetaData(config, manifestName) {
       { name: 'apple-mobile-web-app-status-bar-style', content: 'default' },
       { name: 'apple-mobile-web-app-title', content: config.title },
       { name: 'mobile-web-app-capable', content: 'yes' },
-      {
-        name: 'theme-color',
-        content: config.colors.topBarColor || config.colors.primary,
-      },
+      { name: 'theme-color', content: config.colors.topBarColor || config.colors.primary },
       { name: 'application-name', content: config.title },
     ],
   };

@@ -8,34 +8,15 @@ import { generateManifestUrl } from './manifestUtils';
  * @param {*} config The configuration for the software installation.
  * @param {{ pathname: string }} location The current location.
  */
-export default function generateMetaData(
-  { title, description },
-  config,
-  { pathname } = {},
-) {
+export default function generateMetaData({ title, description }, config, { pathname } = {}) {
   return {
     title,
     meta: [
-      {
-        name: 'description',
-        content: description,
-      },
-      {
-        property: 'og:title',
-        content: title,
-      },
-      {
-        property: 'og:description',
-        content: description,
-      },
-      {
-        property: 'twitter:title',
-        content: title,
-      },
-      {
-        property: 'twitter:description',
-        content: description,
-      },
+      { name: 'description', content: description },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'twitter:title', content: title },
+      { property: 'twitter:description', content: description },
     ],
     ...(config && {
       link: [
@@ -48,10 +29,7 @@ export default function generateMetaData(
               pathname: pathname || window.location.pathname,
               protocol: window.location.protocol,
             },
-            {
-              title,
-              description,
-            },
+            { title, description },
           ),
         },
       ],

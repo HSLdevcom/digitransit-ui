@@ -4,12 +4,7 @@ import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
 import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
 import { render } from '@testing-library/react';
-import {
-  routerShape,
-  matchShape,
-  configShape,
-  vehicleShape,
-} from '../../../utils/client/shapes';
+import { routerShape, matchShape, configShape, vehicleShape } from '../../../utils/client/shapes';
 import { ConfigProvider } from '../../../app/hooks/ConfigContext';
 import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
 import { PositionProvider } from '../../../app/hooks/PositionContext';
@@ -30,10 +25,7 @@ const intlCache = createIntlCache();
  * A real react-intl object for testing code that takes intl as a parameter.
  * Uses the same default en messages as renderWithProviders.
  */
-export function createTestIntl({
-  locale = 'en',
-  messages = defaultMessages,
-} = {}) {
+export function createTestIntl({ locale = 'en', messages = defaultMessages } = {}) {
   return createIntl({ locale, messages }, intlCache);
 }
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
@@ -47,9 +39,7 @@ function TestRealTimeVehicles({ vehicles }) {
   return null;
 }
 
-TestRealTimeVehicles.propTypes = {
-  vehicles: PropTypes.objectOf(vehicleShape).isRequired,
-};
+TestRealTimeVehicles.propTypes = { vehicles: PropTypes.objectOf(vehicleShape).isRequired };
 
 // Wraps the component under test with the intl, config, relay and router
 // context providers used by renderWithProviders below.
@@ -65,10 +55,7 @@ export default function TestProviders({
   vehicles,
 }) {
   const routerCtx = useMemo(
-    () => ({
-      match: match || mockContext.match,
-      router: router || mockContext.router,
-    }),
+    () => ({ match: match || mockContext.match, router: router || mockContext.router }),
     [match, router],
   );
   const inner = (
@@ -77,9 +64,7 @@ export default function TestProviders({
         <BreakpointContext.Provider value={breakpoint}>
           <PositionProvider>
             <RealTimeInformationProvider>
-              {vehicles !== undefined && (
-                <TestRealTimeVehicles vehicles={vehicles} />
-              )}
+              {vehicles !== undefined && <TestRealTimeVehicles vehicles={vehicles} />}
               {children}
             </RealTimeInformationProvider>
           </PositionProvider>
@@ -92,9 +77,7 @@ export default function TestProviders({
       <ConfigProvider value={config || mockContext.config}>
         <MapLayerProvider>
           {currentTime !== undefined ? (
-            <TimeContext.Provider value={currentTime}>
-              {inner}
-            </TimeContext.Provider>
+            <TimeContext.Provider value={currentTime}>{inner}</TimeContext.Provider>
           ) : (
             <TimeProvider>{inner}</TimeProvider>
           )}

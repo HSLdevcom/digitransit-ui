@@ -1,16 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import {
-  setReadMessageIds,
-  getReadMessageIds,
-} from '../../utils/client/localStorage';
+import { setReadMessageIds, getReadMessageIds } from '../../utils/client/localStorage';
 import { useConfigContext } from './ConfigContext';
 
 export const processStaticMessages = (root, callback) => {
@@ -21,8 +11,7 @@ export const processStaticMessages = (root, callback) => {
         msg =>
           msg.content &&
           Object.keys(msg.content).some(
-            key =>
-              Array.isArray(msg.content[key]) && msg.content[key].length > 0,
+            key => Array.isArray(msg.content[key]) && msg.content[key].length > 0,
           ),
       )
       .forEach(callback);
@@ -45,25 +34,16 @@ const sortMessages = messages => {
   return arr;
 };
 
-const initialState = () => ({
-  messages: new Map(),
-  duplicateMessageCounter: 0,
-});
+const initialState = () => ({ messages: new Map(), duplicateMessageCounter: 0 });
 
 function messagesReducer(state, action) {
   switch (action.type) {
     case 'ADD_MESSAGE': {
       const { message, readIds } = action;
       if (state.messages.has(message.id)) {
-        return {
-          ...state,
-          duplicateMessageCounter: state.duplicateMessageCounter + 1,
-        };
+        return { ...state, duplicateMessageCounter: state.duplicateMessageCounter + 1 };
       }
-      if (
-        message.persistence !== 'repeat' &&
-        readIds.indexOf(message.id) !== -1
-      ) {
+      if (message.persistence !== 'repeat' && readIds.indexOf(message.id) !== -1) {
         return state;
       }
       const messages = new Map(state.messages);
@@ -95,10 +75,7 @@ function messagesReducer(state, action) {
 const MessageContext = createContext({
   messages: [],
   duplicateMessageCounter: 0,
-  actions: {
-    addMessage: () => {},
-    markMessageAsRead: () => {},
-  },
+  actions: { addMessage: () => {}, markMessageAsRead: () => {} },
 });
 
 // Bridge for plain (non-React) modules that still need to add/dismiss
@@ -107,10 +84,7 @@ const MessageContext = createContext({
 // MessageProvider fills these in with its real, stable (useCallback with no
 // deps) action functions once it mounts; there's only ever one
 // MessageProvider instance for the app's lifetime.
-const messageActionsBridge = {
-  addMessage: () => {},
-  markMessageAsRead: () => {},
-};
+const messageActionsBridge = { addMessage: () => {}, markMessageAsRead: () => {} };
 
 export const messageActions = {
   addMessage: message => messageActionsBridge.addMessage(message),
@@ -119,18 +93,13 @@ export const messageActions = {
 
 export const useMessages = () => useContext(MessageContext).messages;
 
-export const useDuplicateMessageCounter = () =>
-  useContext(MessageContext).duplicateMessageCounter;
+export const useDuplicateMessageCounter = () => useContext(MessageContext).duplicateMessageCounter;
 
 export const useMessageActions = () => useContext(MessageContext).actions;
 
 export function MessageProvider({ children = null }) {
   const config = useConfigContext();
-  const [state, dispatch] = useReducer(
-    messagesReducer,
-    undefined,
-    initialState,
-  );
+  const [state, dispatch] = useReducer(messagesReducer, undefined, initialState);
 
   const addMessage = useCallback(msg => {
     const readIds = getReadMessageIds();
@@ -168,10 +137,7 @@ export function MessageProvider({ children = null }) {
     const loadConfigMessages = async () => {
       processStaticMessages(config, addMessage);
       if (config.staticMessagesUrl) {
-        const response = await fetch(config.staticMessagesUrl, {
-          mode: 'cors',
-          cache: 'reload',
-        });
+        const response = await fetch(config.staticMessagesUrl, { mode: 'cors', cache: 'reload' });
         const json = await response.json();
         processStaticMessages(json, addMessage);
       }
@@ -205,11 +171,7 @@ export function MessageProvider({ children = null }) {
     [state, actions],
   );
 
-  return (
-    <MessageContext.Provider value={value}>{children}</MessageContext.Provider>
-  );
+  return <MessageContext.Provider value={value}>{children}</MessageContext.Provider>;
 }
 
-MessageProvider.propTypes = {
-  children: PropTypes.node,
-};
+MessageProvider.propTypes = { children: PropTypes.node };

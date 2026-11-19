@@ -19,10 +19,7 @@ import {
   createStickyRendererFactory,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
-import {
-  prepareDatesForStops,
-  prepareDatesForStopTabs,
-} from '../../utils/client/dateParamUtils';
+import { prepareDatesForStops, prepareDatesForStopTabs } from '../../utils/client/dateParamUtils';
 import { DATE_FORMAT } from '../../utils/shared/constants';
 
 // Future window (90 days) used to detect whether the stop has any upcoming
@@ -61,11 +58,7 @@ const queries = {
       ) {
         stop(id: $stopId) {
           ...StopPageMapFragment
-            @arguments(
-              startOfDay: $startOfDay
-              startTime: $startTime
-              timeRange: $timeRange
-            )
+            @arguments(startOfDay: $startOfDay, startTime: $startTime, timeRange: $timeRange)
         }
       }
     `,
@@ -100,10 +93,7 @@ const queries = {
       }
     `,
     pageTimetable: graphql`
-      query stopRoutes_StopPageTimetable_Query(
-        $stopId: String!
-        $date: String!
-      ) {
+      query stopRoutes_StopPageTimetable_Query($stopId: String!, $date: String!) {
         stop(id: $stopId) {
           ...StopTimetablePageFragment @arguments(date: $date)
         }
@@ -142,11 +132,7 @@ const queries = {
       ) {
         stop: station(id: $terminalId) {
           ...StopPageMapFragment
-            @arguments(
-              startOfDay: $startOfDay
-              startTime: $startTime
-              timeRange: $timeRange
-            )
+            @arguments(startOfDay: $startOfDay, startTime: $startTime, timeRange: $timeRange)
         }
       }
     `,
@@ -181,10 +167,7 @@ const queries = {
       }
     `,
     pageTimetable: graphql`
-      query stopRoutes_TerminalPageTimetable_Query(
-        $terminalId: String!
-        $date: String!
-      ) {
+      query stopRoutes_TerminalPageTimetable_Query($terminalId: String!, $date: String!) {
         stop: station(id: $terminalId) {
           ...StopTimetablePageFragment @arguments(date: $date)
         }
@@ -212,9 +195,9 @@ export default function getStopRoutes(isTerminal = false) {
   const renderTabContainer = createStickyRenderer();
   const renderMap = createStickyRenderer();
   // Keeps the timetable visible while a new ?date= is being fetched.
-  const renderTimetable = createStickyRendererFactory(match =>
-    JSON.stringify(match.params),
-  )(getComponentOrLoadingRenderer);
+  const renderTimetable = createStickyRendererFactory(match => JSON.stringify(match.params))(
+    getComponentOrLoadingRenderer,
+  );
   const queryMap = isTerminal ? queries.station : queries.stop;
   return (
     <Route path={`/${isTerminal ? PREFIX_TERMINALS : PREFIX_STOPS}`}>
@@ -227,12 +210,12 @@ export default function getStopRoutes(isTerminal = false) {
               path="(.*)?"
               getComponent={() => {
                 return isTerminal
-                  ? import(
-                      /* webpackChunkName: "stop" */ '../component/stop/TerminalTitle'
-                    ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopTitle'
-                    ).then(getDefault);
+                  ? import(/* webpackChunkName: "stop" */ '../component/stop/TerminalTitle').then(
+                      getDefault,
+                    )
+                  : import(/* webpackChunkName: "stop" */ '../component/stop/StopTitle').then(
+                      getDefault,
+                    );
               }}
               render={getComponentOrNullRenderer}
             />
@@ -252,9 +235,9 @@ export default function getStopRoutes(isTerminal = false) {
           content: (
             <Route
               getComponent={() => {
-                return import(
-                  /* webpackChunkName: "stop" */ '../component/stop/StopPageTabs'
-                ).then(getDefault);
+                return import(/* webpackChunkName: "stop" */ '../component/stop/StopPageTabs').then(
+                  getDefault,
+                );
               }}
               query={queryMap.pageTab}
               prepareVariables={prepareDatesForStopTabs}
@@ -262,9 +245,7 @@ export default function getStopRoutes(isTerminal = false) {
             >
               <Route
                 getComponent={() => {
-                  return import(
-                    /* webpackChunkName: "stop" */ '../component/stop/StopPageContent'
-                  )
+                  return import(/* webpackChunkName: "stop" */ '../component/stop/StopPageContent')
                     .then(getDefault)
                     .catch(errorLoading);
                 }}
@@ -298,19 +279,14 @@ export default function getStopRoutes(isTerminal = false) {
                 query={queryMap.pageTimetable}
                 prepareVariables={(params, { location }) => {
                   const date = location?.query?.date;
-                  return {
-                    ...params,
-                    date: date || DateTime.now().toFormat(DATE_FORMAT),
-                  };
+                  return { ...params, date: date || DateTime.now().toFormat(DATE_FORMAT) };
                 }}
                 render={renderTimetable}
               />
               <Route
                 path={PREFIX_DISRUPTION}
                 getComponent={() =>
-                  import(
-                    /* webpackChunkName: "stop" */ '../component/stop/Disruptions'
-                  )
+                  import(/* webpackChunkName: "stop" */ '../component/stop/Disruptions')
                     .then(getDefault)
                     .catch(errorLoading)
                 }
@@ -341,9 +317,9 @@ export default function getStopRoutes(isTerminal = false) {
                   ? import(
                       /* webpackChunkName: "stop" */ '../component/stop/TerminalPageMeta'
                     ).then(getDefault)
-                  : import(
-                      /* webpackChunkName: "stop" */ '../component/stop/StopPageMeta'
-                    ).then(getDefault);
+                  : import(/* webpackChunkName: "stop" */ '../component/stop/StopPageMeta').then(
+                      getDefault,
+                    );
               }}
               query={queryMap.pageMeta}
               render={getComponentOrNullRenderer}

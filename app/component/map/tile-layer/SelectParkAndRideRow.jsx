@@ -3,19 +3,12 @@ import Link from 'found/Link';
 import Icon from '../../Icon';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
 
-export default function SelectParkAndRideRow({
-  name = '',
-  bikeParkId,
-  carParkId,
-}) {
+export default function SelectParkAndRideRow({ name = '', bikeParkId, carParkId }) {
   const id = bikeParkId || carParkId;
   const img = carParkId ? 'icon_car-park' : 'icon_bike-park';
   const PREFIX = carParkId ? PREFIX_CARPARK : PREFIX_BIKEPARK;
   return (
-    <Link
-      className="stop-popup-choose-row"
-      to={`/${PREFIX}/${encodeURIComponent(id)}`}
-    >
+    <Link className="stop-popup-choose-row" to={`/${PREFIX}/${encodeURIComponent(id)}`}>
       <span className="choose-row-left-column" aria-hidden="true">
         <Icon img={img} />
       </span>

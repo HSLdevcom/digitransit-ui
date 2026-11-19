@@ -82,8 +82,7 @@
   border: 1px solid $light-gray;
   border-radius: var(--radius-pill);
   box-shadow: 0 4px 8px 0 var(--color-shadow-weak);
-  animation: disruptions-update-banner-in 0.5s cubic-bezier(0.16, 1, 0.3, 1)
-    forwards;
+  animation: disruptions-update-banner-in 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 
   &__text {
     display: flex;

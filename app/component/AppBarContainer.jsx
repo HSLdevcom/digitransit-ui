@@ -14,15 +14,8 @@ export default function AppBarContainer({ homeUrl, logo, style, ...args }) {
   const favourites = useFavourites();
   return (
     <>
-      <a
-        href="#mainContent"
-        id="skip-to-content-link"
-        style={{ display: 'block sr-only' }}
-      >
-        <FormattedMessage
-          id="skip-to-content"
-          defaultMessage="Skip to content"
-        />
+      <a href="#mainContent" id="skip-to-content-link" style={{ display: 'block sr-only' }}>
+        <FormattedMessage id="skip-to-content" defaultMessage="Skip to content" />
       </a>
       {style === 'hsl' ? (
         <div className="hsl-header-container">

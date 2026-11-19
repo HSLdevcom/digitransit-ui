@@ -14,30 +14,17 @@ export default configMerger(walttiConfig, {
     name: 'Porin joukkoliikenne',
     href: 'https://pjl.pori.fi/',
     altLink: {
-      sv: {
-        name: 'Björneborgs kollektiv trafik',
-        href: 'https://pjl.pori.fi/en/',
-      },
-      en: {
-        name: 'Pori public transport',
-        href: 'https://pjl.pori.fi/en/',
-      },
+      sv: { name: 'Björneborgs kollektiv trafik', href: 'https://pjl.pori.fi/en/' },
+      en: { name: 'Pori public transport', href: 'https://pjl.pori.fi/en/' },
     },
   },
 
-  colors: {
-    primary: '#1f1f66',
-    bus: '#1f1f66',
-  },
+  colors: { primary: '#1f1f66', bus: '#1f1f66' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/pori/social-share.png',
-      width: 400,
-      height: 116,
-    },
+    image: { url: 'assets/pori/social-share.png', width: 400, height: 116 },
   },
 
   title: APP_TITLE,
@@ -55,11 +42,7 @@ export default configMerger(walttiConfig, {
     'boundary.rect.max_lon': 21.93,
   },
 
-  transportModes: {
-    citybike: {
-      availableForSelection: false,
-    },
-  },
+  transportModes: { citybike: { availableForSelection: false } },
 
   areaPolygon: [
     [21.37, 61.68],
@@ -68,11 +51,7 @@ export default configMerger(walttiConfig, {
     [21.93, 61.68],
   ],
 
-  defaultEndpoint: {
-    address: 'Porin kauppatori',
-    lat: 61.4868,
-    lon: 21.7958,
-  },
+  defaultEndpoint: { address: 'Porin kauppatori', lat: 61.4868, lon: 21.7958 },
 
   menu: {
     copyright: { label: `© Pori ${walttiConfig.YEAR}` },
@@ -85,10 +64,7 @@ export default configMerger(walttiConfig, {
           en: 'mailto:joukkoliikenne@pori.fi',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -134,20 +110,12 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'CITY',
-    2: 'A',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'CITY', 2: 'A' },
+  zones: { stops: true, itinerary: true },
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: {
-    fi: 'https://pjl.pori.fi/etusivu/liput-ja-hinnat/',
-  },
+  ticketLink: { fi: 'https://pjl.pori.fi/etusivu/liput-ja-hinnat/' },
   showTicketPrice: true,
   ticketLinkOperatorCode: 50231,
   externalFareRouteIds: [

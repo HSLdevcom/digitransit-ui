@@ -4,13 +4,7 @@ import Icon from '../Icon';
 
 const EMPTY_VALUES = {};
 
-export default function FareDisclaimer({
-  textId,
-  text,
-  values = EMPTY_VALUES,
-  href,
-  linkText,
-}) {
+export default function FareDisclaimer({ textId, text, values = EMPTY_VALUES, href, linkText }) {
   return (
     <div className="disclaimer-container unknown-fare-disclaimer__top">
       <div className="icon-container">

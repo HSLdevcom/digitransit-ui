@@ -22,10 +22,7 @@ export default function ItineraryListHeader({
             />
           </div>
           <div className="with-bike-info-notification">
-            <FormattedMessage
-              id="itinerary-summary.bike-boarding-information"
-              defaultMessage=""
-            />
+            <FormattedMessage id="itinerary-summary.bike-boarding-information" defaultMessage="" />
           </div>
         </div>
       )}
@@ -39,10 +36,7 @@ export default function ItineraryListHeader({
             />
           </div>
           <div className="with-car-info-notification">
-            <FormattedMessage
-              id="itinerary-summary.car-boarding-information"
-              defaultMessage=""
-            />
+            <FormattedMessage id="itinerary-summary.car-boarding-information" defaultMessage="" />
           </div>
         </div>
       )}

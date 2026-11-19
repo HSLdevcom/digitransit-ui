@@ -18,12 +18,7 @@ import { useCurrentTime } from './TimeContext';
  * @param {object} fragmentRef the fragment reference given to the component
  * @param {boolean} enabled whether refetching is active
  */
-export default function useRefetchOnTick(
-  refetch,
-  fragment,
-  fragmentRef,
-  enabled = true,
-) {
+export default function useRefetchOnTick(refetch, fragment, fragmentRef, enabled = true) {
   const environment = useRelayEnvironment();
   const currentTime = useCurrentTime();
   const mounted = useRef(false);
@@ -38,13 +33,9 @@ export default function useRefetchOnTick(
     if (enabled && !inFlight.current) {
       const { variables } = getSelector(fragment, fragmentRef);
       // refetch query generated for the @refetchable fragment; exported by relay-runtime but not documented
-      const { refetchableRequest: query } = getRefetchMetadata(
-        fragment,
-        'useRefetchOnTick',
-      );
+      const { refetchableRequest: query } = getRefetchMetadata(fragment, 'useRefetchOnTick');
       // time windowed fragments move their window forward
-      const newVariables =
-        'startTime' in variables ? { startTime: currentTime } : {};
+      const newVariables = 'startTime' in variables ? { startTime: currentTime } : {};
       inFlight.current = true;
       fetchQuery(
         environment,

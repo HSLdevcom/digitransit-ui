@@ -69,18 +69,8 @@ describe('matchLegEnds', () => {
     // walk0 -> transit1 (originally contiguous at 10 min) -> walk2
     const legs = [
       { transitLeg: false, mode: 'WALK', start: at(0), end: at(5 * 60000) },
-      {
-        transitLeg: true,
-        mode: 'BUS',
-        start: at(5 * 60000),
-        end: at(10 * 60000),
-      },
-      {
-        transitLeg: false,
-        mode: 'WALK',
-        start: at(10 * 60000),
-        end: at(15 * 60000),
-      },
+      { transitLeg: true, mode: 'BUS', start: at(5 * 60000), end: at(10 * 60000) },
+      { transitLeg: false, mode: 'WALK', start: at(10 * 60000), end: at(15 * 60000) },
     ];
     // Real-time update: the bus actually finishes 3 min earlier than planned.
     legs[1].end = at(7 * 60000);
@@ -97,18 +87,8 @@ describe('matchLegEnds', () => {
   it("also closes the gap when the early-finishing transit leg is the itinerary's very first leg", () => {
     // transit0 (no leading leg) -> walk1, originally contiguous at 10 min.
     const legs = [
-      {
-        transitLeg: true,
-        mode: 'BUS',
-        start: at(0),
-        end: at(10 * 60000),
-      },
-      {
-        transitLeg: false,
-        mode: 'WALK',
-        start: at(10 * 60000),
-        end: at(15 * 60000),
-      },
+      { transitLeg: true, mode: 'BUS', start: at(0), end: at(10 * 60000) },
+      { transitLeg: false, mode: 'WALK', start: at(10 * 60000), end: at(15 * 60000) },
     ];
     // Same real-time update: the bus finishes 3 min earlier than planned.
     legs[0].end = at(7 * 60000);
@@ -129,24 +109,9 @@ describe('matchLegEnds', () => {
     // transitA (delayed, arrives 3 min late) -> walk transfer (originally a
     // 3 min walk) -> transitB, whose own departure time is fixed/unmovable.
     const legs = [
-      {
-        transitLeg: true,
-        mode: 'BUS',
-        start: at(0),
-        end: at(10 * 60000),
-      },
-      {
-        transitLeg: false,
-        mode: 'WALK',
-        start: at(10 * 60000),
-        end: at(13 * 60000),
-      },
-      {
-        transitLeg: true,
-        mode: 'TRAM',
-        start: at(15 * 60000),
-        end: at(20 * 60000),
-      },
+      { transitLeg: true, mode: 'BUS', start: at(0), end: at(10 * 60000) },
+      { transitLeg: false, mode: 'WALK', start: at(10 * 60000), end: at(13 * 60000) },
+      { transitLeg: true, mode: 'TRAM', start: at(15 * 60000), end: at(20 * 60000) },
     ];
     // Real-time update: transitA now arrives at 13 min instead of 10.
     legs[0].end = at(13 * 60000);

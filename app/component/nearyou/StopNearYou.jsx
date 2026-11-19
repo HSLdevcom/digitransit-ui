@@ -4,10 +4,7 @@ import { useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
 import { fragmentRefShape } from '../../../utils/client/shapes';
-import {
-  hasEntitiesOfType,
-  isAlertValid,
-} from '../../../utils/client/alertUtils';
+import { hasEntitiesOfType, isAlertValid } from '../../../utils/client/alertUtils';
 import { stopPagePath } from '../../../utils/shared/path';
 import { AlertEntityType } from '../../../utils/shared/constants';
 import NearYouHeader from './NearYouHeader';
@@ -38,9 +35,7 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const { locale } = intl;
   const isConstantOperation = constantOperationStops[gtfsId];
   const filteredAlerts = stop.alerts.filter(
-    alert =>
-      hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-      isAlertValid(alert, currentTime),
+    alert => hasEntitiesOfType(alert, AlertEntityType.Stop) && isAlertValid(alert, currentTime),
   );
 
   return (
@@ -95,17 +90,12 @@ export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
               }}
               to={linkAddress}
             >
-              <FormattedMessage
-                id="more-departures"
-                defaultMessage="More departures"
-              />
+              <FormattedMessage id="more-departures" defaultMessage="More departures" />
             </Link>
           </>
         )}
       </div>
-      {capacityModalOpen && (
-        <CapacityModal onClose={() => setCapacityModalOpen(false)} />
-      )}
+      {capacityModalOpen && <CapacityModal onClose={() => setCapacityModalOpen(false)} />}
     </span>
   );
 }
