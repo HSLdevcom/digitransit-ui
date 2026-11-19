@@ -16,7 +16,6 @@ import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import { ViaLocationType } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function WaitLeg({
   children,
   leg,

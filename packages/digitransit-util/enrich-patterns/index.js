@@ -1,5 +1,4 @@
 /* eslint-disable no-bitwise */
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable func-names */
 /* eslint-disable no-param-reassign */
 /* eslint-disable prefer-destructuring */

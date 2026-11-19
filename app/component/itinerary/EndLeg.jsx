@@ -9,7 +9,6 @@ import { parseLocation } from '../../../utils/shared/path';
 import { timeStr } from '../../../utils/client/timeUtils';
 import { getValidatedLegName } from '../../../utils/client/legUtils';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function EndLeg(props) {
   const match = useMatch();
   const intl = useIntl();

@@ -64,7 +64,7 @@ export const geoJsonFeatureShape = PropTypes.shape({
     ).isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object,
 });
 
@@ -307,7 +307,7 @@ export const legShape = PropTypes.shape({
     }),
   ),
   interlineWithPreviousLeg: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   nextLegs: PropTypes.arrayOf(PropTypes.object),
 });
 
@@ -407,27 +407,22 @@ export const mapLayerShape = PropTypes.shape({
 export const mapLayerOptionsShape = PropTypes.shape({
   parkAndRide: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   stop: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   terminal: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   vehicles: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
   citybike: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
 });
@@ -442,7 +437,7 @@ export const relayShape = PropTypes.shape({
   refetch: PropTypes.func,
   hasMore: PropTypes.func,
   loadMore: PropTypes.func,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   environment: PropTypes.object,
 });
 

@@ -1,4 +1,3 @@
-/* eslint-disable react/no-unstable-nested-components */
 import { useEffect, useState, useRef, Suspense } from 'react';
 import { FormattedMessage } from 'react-intl';
 import { graphql, QueryRenderer, useRelayEnvironment } from 'react-relay';
@@ -119,7 +118,7 @@ export default function NearYouPage() {
   const [centerOfMapChanged, setCenterOfMapChanged] = useState(false);
   const [searchPosition, setSearchPosition] = useState({});
   const [mapLayerOptions, setMapLayerOptions] = useState({});
-  // eslint-disable-next-line
+  // eslint-disable-next-line no-unused-vars
   const [resultsLoaded, setResultsLoaded] = useState(0);
 
   const updateMapLayerOptions = () => {
@@ -481,7 +480,7 @@ export default function NearYouPage() {
 
                   {props ? (
                     <NearYouContainer
-                      // eslint-disable-next-line
+                      // eslint-disable-next-line react/prop-types
                       places={props.places}
                       prioritizedStops={prioritizedStops}
                       position={searchPosition}

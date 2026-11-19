@@ -209,7 +209,7 @@ function NearYouContainer({
 }
 
 NearYouContainer.propTypes = {
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   places: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
   relay: relayShape.isRequired,
@@ -221,7 +221,7 @@ NearYouContainer.propTypes = {
   prioritizedStops: PropTypes.arrayOf(PropTypes.string).isRequired,
   mode: PropTypes.string.isRequired,
   isParentTabActive: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   favouriteIds: PropTypes.object,
 };
 

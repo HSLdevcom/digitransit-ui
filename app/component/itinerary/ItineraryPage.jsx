@@ -1301,7 +1301,6 @@ function ItineraryPageContent(props) {
         updateClient(itineraryTopics, realTime, config);
       }
       if (!isEqual(itineraryTopics, topicsState) && !naviMode) {
-        // eslint-disable-next-line react/no-did-update-set-state
         setTopicsState(itineraryTopics);
       }
     } else if (!isEmpty(topicsState)) {

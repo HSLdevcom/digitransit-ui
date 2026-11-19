@@ -184,7 +184,7 @@ PointFeatureMarker.propTypes = {
       name: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   icons: PropTypes.object,
   language: PropTypes.string.isRequired,
   locationPopup: PropTypes.string,

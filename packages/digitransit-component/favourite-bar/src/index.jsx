@@ -307,7 +307,6 @@ export default function FavouriteBar({
           color={primary}
           lang={lang}
         />
-        {/* eslint-disable jsx-a11y/role-supports-aria-props */}
         <button
           type="button"
           className={cx(styles.expandButton, styles[expandIcon], {
@@ -324,7 +323,6 @@ export default function FavouriteBar({
             <Icon img={expandIcon} color={primary} />
           </Shimmer>
         </button>
-        {/* eslint-enable jsx-a11y/role-supports-aria-props */}
       </div>
       <div className={styles['favourite-suggestion-container']}>
         {listOpen && (

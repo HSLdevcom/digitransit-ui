@@ -71,7 +71,6 @@ export default function IntermediateLeg({
     return { paddingTop: '0', paddingBottom: '22px' };
   };
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div
       style={{ width: '100%', position: 'relative' }}

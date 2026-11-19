@@ -164,6 +164,6 @@ MapWrapper.propTypes = {
   favouriteVehicleStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
   setCenterOfMap: PropTypes.func.isRequired,
   mapLayerOptions: mapLayerOptionsShape.isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   variables: PropTypes.object.isRequired,
 };
