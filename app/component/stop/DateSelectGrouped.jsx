@@ -4,7 +4,6 @@ import { DateTime } from 'luxon';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DsSelect, SelectGroup, SelectOption } from '../DsSelect';
 import {
-  formatDateLabel,
   processDates,
   groupDatesByWeek,
 } from '../../../utils/client/dateSelectUtils';
@@ -14,18 +13,20 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
   const { locale, formatMessage } = intl;
 
   // Group the provided dates (assumed sorted, no past dates) by week.
-  const { grouped, processedDates } = useMemo(() => {
-    const today = DateTime.local().startOf('day');
+  const { grouped, processedDates, today } = useMemo(() => {
+    const now = DateTime.local().startOf('day');
     const options = processDates(
       dates.map(d => d.setLocale(locale)),
-      today,
+      now,
       dateFormat,
       intl,
     );
 
-    const groupedOptions = groupDatesByWeek(options, today, intl);
-
-    return { grouped: groupedOptions, processedDates: options };
+    return {
+      grouped: groupDatesByWeek(options, now, intl),
+      processedDates: options,
+      today: now,
+    };
   }, [dateFormat, dates, locale]);
 
   const selectedOption = useMemo(() => {
@@ -39,17 +40,10 @@ function DateSelectGrouped({ selectedDay, dateFormat, dates, onDateChange }) {
     // Synthesise an option for the selected day when it is not in the
     // available-dates list (e.g. today when service only starts in the future).
     if (selectedDay?.isValid) {
-      const refToday = DateTime.local().startOf('day');
-      return {
-        dateObj: selectedDay,
-        value: selectedDay.toFormat(dateFormat),
-        textLabel: formatDateLabel(selectedDay, refToday, intl),
-        ariaLabel: selectedDay.toFormat('EEEE d.L.'),
-        weekNumber: selectedDay.weekNumber,
-      };
+      return processDates([selectedDay], today, dateFormat, intl)[0];
     }
     return processedDates[0];
-  }, [processedDates, selectedDay, dateFormat, intl]);
+  }, [processedDates, today, selectedDay, dateFormat, intl]);
 
   const id = 'route-schedule-grouped-datepicker';
 
