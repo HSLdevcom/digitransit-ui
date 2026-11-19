@@ -79,15 +79,13 @@ describe('dateSelectUtils', () => {
       expect(result[2].value).toBe('20240117');
     });
 
-    it('should include dateObj and weekNumber in processed dates', () => {
+    it('should include dateObj in processed dates', () => {
       const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
       const dates = [DateTime.fromISO('2024-01-15', { zone: 'UTC' })];
 
       const result = processDates(dates, today, dateFormat, intl);
 
       expect(result[0]).toHaveProperty('dateObj');
-      expect(result[0]).toHaveProperty('weekNumber');
-      expect(typeof result[0].weekNumber).toBe('number');
     });
   });
 
@@ -98,21 +96,18 @@ describe('dateSelectUtils', () => {
           value: '20240115',
           textLabel: 'Mon 15.1.',
           ariaLabel: 'Monday 15.1.',
-          weekNumber: 3,
           dateObj: DateTime.fromISO('2024-01-15'),
         },
         {
           value: '20240116',
           textLabel: 'Tue 16.1.',
           ariaLabel: 'Tuesday 16.1.',
-          weekNumber: 3,
           dateObj: DateTime.fromISO('2024-01-16'),
         },
         {
           value: '20240122',
           textLabel: 'Mon 22.1.',
           ariaLabel: 'Monday 22.1.',
-          weekNumber: 4,
           dateObj: DateTime.fromISO('2024-01-22'),
         },
       ];
@@ -136,7 +131,6 @@ describe('dateSelectUtils', () => {
           value: '20240115',
           textLabel: 'Mon 15.1.',
           ariaLabel: 'Monday 15.1.',
-          weekNumber: 3,
           dateObj: DateTime.fromISO('2024-01-15', { zone: 'UTC' }),
         },
       ];
@@ -159,7 +153,6 @@ describe('dateSelectUtils', () => {
           value: d,
           textLabel: d,
           ariaLabel: d,
-          weekNumber: dateObj.weekNumber,
           dateObj,
         };
       });
@@ -183,21 +176,18 @@ describe('dateSelectUtils', () => {
           value: '20240129',
           textLabel: 'Mon 29.1.',
           ariaLabel: 'Monday 29.1.',
-          weekNumber: 5,
           dateObj: DateTime.fromISO('2024-01-29'),
         },
         {
           value: '20240115',
           textLabel: 'Mon 15.1.',
           ariaLabel: 'Monday 15.1.',
-          weekNumber: 3,
           dateObj: DateTime.fromISO('2024-01-15'),
         },
         {
           value: '20240122',
           textLabel: 'Mon 22.1.',
           ariaLabel: 'Monday 22.1.',
-          weekNumber: 4,
           dateObj: DateTime.fromISO('2024-01-22'),
         },
       ];

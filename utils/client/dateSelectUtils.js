@@ -48,7 +48,7 @@ export function formatWeekLabel(weekNum, weeksFromNow, intl) {
  * @param {DateTime} today - Today's date for comparison
  * @param {string} dateFormat - Format string for DateTime conversion
  * @param {Object} intl - Internationalization object
- * @returns {Array<Object>} Array of date objects with value, textLabel, weekNumber, dateObj
+ * @returns {Array<Object>} Array of date objects with value, textLabel, ariaLabel, dateObj
  */
 export function processDates(dates, today, dateFormat, intl) {
   return dates.map(d => ({
@@ -57,7 +57,6 @@ export function processDates(dates, today, dateFormat, intl) {
     textLabel: formatDateLabel(d, today, intl),
     // accessibility label with full weekday
     ariaLabel: d.toFormat('EEEE d.L.'),
-    weekNumber: d.weekNumber,
   }));
 }
 
