@@ -12,16 +12,8 @@ export default function IndoorInfo({
 }) {
   const config = useConfigContext();
   const message = (showIntermediateSteps && (
-    <FormattedMessage
-      id="itinerary-hide-indoor-route"
-      defaultMessage="Hide indoor route"
-    />
-  )) || (
-    <FormattedMessage
-      id="itinerary-indoor-route"
-      defaultMessage="Indoor route"
-    />
-  );
+    <FormattedMessage id="itinerary-hide-indoor-route" defaultMessage="Hide indoor route" />
+  )) || <FormattedMessage id="itinerary-indoor-route" defaultMessage="Indoor route" />;
   return (
     <div
       role="button"
@@ -42,11 +34,7 @@ export default function IndoorInfo({
         }
       }}
     >
-      <div
-        className={cx('intermediate-step-info-container', {
-          open: showIntermediateSteps,
-        })}
-      >
+      <div className={cx('intermediate-step-info-container', { open: showIntermediateSteps })}>
         {intermediateStepCount === 0 ? (
           <span className="intermediate-steps-message-no-steps">{message}</span>
         ) : (

@@ -12,10 +12,7 @@ export default function Error404({ error }) {
       <Icon img="icon_error_page_not_found" />
       {!error && (
         <p>
-          <FormattedMessage
-            id="page-not-found"
-            defaultMessage="The page cannot be found."
-          />
+          <FormattedMessage id="page-not-found" defaultMessage="The page cannot be found." />
         </p>
       )}
       {error && (
@@ -30,17 +27,11 @@ export default function Error404({ error }) {
       <p>
         {config.URL.ROOTLINK ? (
           <a href={config.URL.ROOTLINK}>
-            <FormattedMessage
-              id="back-to-front-page"
-              defaultMessage="Back to front page ›"
-            />
+            <FormattedMessage id="back-to-front-page" defaultMessage="Back to front page ›" />
           </a>
         ) : (
           <Link to={`/${config.indexPath}`}>
-            <FormattedMessage
-              id="back-to-front-page"
-              defaultMessage="Back to front page ›"
-            />
+            <FormattedMessage id="back-to-front-page" defaultMessage="Back to front page ›" />
           </Link>
         )}
       </p>

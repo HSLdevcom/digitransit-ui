@@ -32,12 +32,10 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('.route-schedule-grouped-date-select-heading')
-        .textContent,
+      container.querySelector('.route-schedule-grouped-date-select-heading').textContent,
     ).toContain('Select time');
     expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker').textContent,
     ).toContain('Tomorrow');
   });
 
@@ -51,8 +49,7 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker').textContent,
     ).toContain('Today');
   });
 
@@ -67,8 +64,7 @@ describe('<DateSelectGrouped />', () => {
       />,
     );
     expect(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker')
-        .textContent,
+      container.querySelector('#aria-input-route-schedule-grouped-datepicker').textContent,
     ).toContain('Today');
   });
 
@@ -78,9 +74,7 @@ describe('<DateSelectGrouped />', () => {
 
   it('should generate dates from startDate', () => {
     const startDate = DateTime.fromISO('2019-01-05', { zone: 'UTC' });
-    expect(generateDateRange(startDate, 60, 'en')[0].toISODate()).toBe(
-      '2019-01-05',
-    );
+    expect(generateDateRange(startDate, 60, 'en')[0].toISODate()).toBe('2019-01-05');
   });
 
   it('should return no options for an empty dates array', () => {
@@ -110,30 +104,21 @@ describe('<DateSelectGrouped />', () => {
         onDateChange={onDateChange}
       />,
     );
-    fireEvent.keyDown(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
-      { key: 'Enter' },
-    );
+    fireEvent.keyDown(container.querySelector('#aria-input-route-schedule-grouped-datepicker'), {
+      key: 'Enter',
+    });
     fireEvent.click(getByRole('option', { name: 'Tomorrow' }));
     expect(onDateChange).toHaveBeenCalledWith('20190102');
   });
 
   it('should group dates by week', () => {
-    const options = processDates(
-      [today, tomorrow],
-      today,
-      tomorrow,
-      dateFormat,
-      intl,
-    );
+    const options = processDates([today, tomorrow], today, tomorrow, dateFormat, intl);
     const groups = groupDatesByWeek(options, today.weekNumber, intl);
     expect(groups[0].label).toBe('This week');
     expect(groups[0].options).toHaveLength(2);
   });
 
   it('should label the next week', () => {
-    expect(formatWeekLabel(today.weekNumber + 1, today.weekNumber, intl)).toBe(
-      'Next week',
-    );
+    expect(formatWeekLabel(today.weekNumber + 1, today.weekNumber, intl)).toBe('Next week');
   });
 });

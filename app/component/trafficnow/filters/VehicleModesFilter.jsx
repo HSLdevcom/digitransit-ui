@@ -28,18 +28,12 @@ export default function VehicleModesFilter({ filterId }) {
     }
   };
 
-  const availableModes = Object.entries(getTransportModes(config)).reduce(
-    (acc, [k, v]) => {
-      if (
-        v.availableForSelection &&
-        TrafficNowTransportModes.includes(k.toUpperCase())
-      ) {
-        acc.push(k);
-      }
-      return acc;
-    },
-    [],
-  );
+  const availableModes = Object.entries(getTransportModes(config)).reduce((acc, [k, v]) => {
+    if (v.availableForSelection && TrafficNowTransportModes.includes(k.toUpperCase())) {
+      acc.push(k);
+    }
+    return acc;
+  }, []);
   if (availableModes.length <= 1) {
     return null;
   }
@@ -59,14 +53,9 @@ export default function VehicleModesFilter({ filterId }) {
           aria-checked={selectedFilters[filterId]?.includes(option) || false}
           aria-label={intl.formatMessage({ id: option.toLowerCase() })}
           tabIndex={0}
-          className={cx([
-            'traffic-now__filters-mode-option',
-            { mobile: isMobile },
-          ])}
+          className={cx(['traffic-now__filters-mode-option', { mobile: isMobile }])}
           onClick={() => handleCheck(option)}
-          onKeyDown={e =>
-            (e.key === 'Enter' || e.key === ' ') && handleCheck(option)
-          }
+          onKeyDown={e => (e.key === 'Enter' || e.key === ' ') && handleCheck(option)}
         >
           <label className="tag-normal">
             <Icon
@@ -90,6 +79,4 @@ export default function VehicleModesFilter({ filterId }) {
   );
 }
 
-VehicleModesFilter.propTypes = {
-  filterId: PropTypes.string.isRequired,
-};
+VehicleModesFilter.propTypes = { filterId: PropTypes.string.isRequired };

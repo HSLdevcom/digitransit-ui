@@ -15,12 +15,7 @@ import { streetHash } from '../../../utils/shared/path';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function StreetModeSelectorButton({
-  icon,
-  name,
-  plan,
-  onClick,
-}) {
+export default function StreetModeSelectorButton({ icon, name, plan, onClick }) {
   const config = useConfigContext();
   const intl = useIntl();
   const itinerary = plan?.edges?.[0]?.node;
@@ -31,18 +26,10 @@ export default function StreetModeSelectorButton({
   let distance = 0;
   switch (name) {
     case streetHash.walk:
-      distance = displayDistance(
-        itinerary.walkDistance,
-        config,
-        intl.formatNumber,
-      );
+      distance = displayDistance(itinerary.walkDistance, config, intl.formatNumber);
       break;
     case streetHash.bikeAndVehicle:
-      distance = displayDistance(
-        getTotalBikingDistance(itinerary),
-        config,
-        intl.formatNumber,
-      );
+      distance = displayDistance(getTotalBikingDistance(itinerary), config, intl.formatNumber);
       break;
     case streetHash.carAndVehicle:
       distance = displayDistance(
@@ -52,18 +39,10 @@ export default function StreetModeSelectorButton({
       );
       break;
     case streetHash.parkAndRide:
-      distance = displayDistance(
-        getTotalDrivingDistance(itinerary),
-        config,
-        intl.formatNumber,
-      );
+      distance = displayDistance(getTotalDrivingDistance(itinerary), config, intl.formatNumber);
       break;
     default:
-      distance = displayDistance(
-        getTotalDistance(itinerary),
-        config,
-        intl.formatNumber,
-      );
+      distance = displayDistance(getTotalDistance(itinerary), config, intl.formatNumber);
       break;
   }
 
@@ -75,9 +54,7 @@ export default function StreetModeSelectorButton({
     name === streetHash.bikeAndVehicle ||
     name === streetHash.carAndVehicle
   ) {
-    const transitEdge = plan.edges.find(e =>
-      e.node.legs.find(l => l.transitLeg),
-    );
+    const transitEdge = plan.edges.find(e => e.node.legs.find(l => l.transitLeg));
     const mode =
       (transitEdge &&
         getExtendedMode(
@@ -94,14 +71,8 @@ export default function StreetModeSelectorButton({
       onClick={() => onClick(name)}
       type="button"
       aria-label={intl.formatMessage(
-        {
-          id: `street-mode-${name.toLowerCase()}-aria`,
-          defaultMessage: `${name} itinerary`,
-        },
-        {
-          length: distance,
-          duration,
-        },
+        { id: `street-mode-${name.toLowerCase()}-aria`, defaultMessage: `${name} itinerary` },
+        { length: distance, duration },
       )}
     >
       <div className="street-mode-selector-button-content">

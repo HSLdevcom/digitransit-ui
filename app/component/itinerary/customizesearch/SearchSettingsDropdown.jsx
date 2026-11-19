@@ -88,20 +88,14 @@ export default function SearchSettingsDropdown({
       >
         <FormattedMessage id={labelId} />
         <span className="settings-dropdown-text-container">
-          <p className="settings-dropdown-label-value">
-            {currentSelection.title}
-          </p>
+          <p className="settings-dropdown-label-value">{currentSelection.title}</p>
           <span
             aria-label={intl.formatMessage({
-              id: showDropdown
-                ? 'settings-dropdown-close-label'
-                : 'settings-dropdown-open-label',
+              id: showDropdown ? 'settings-dropdown-close-label' : 'settings-dropdown-open-label',
             })}
           />
           <Icon
-            className={
-              showDropdown ? 'fake-select-arrow inverted' : 'fake-select-arrow'
-            }
+            className={showDropdown ? 'fake-select-arrow inverted' : 'fake-select-arrow'}
             img="icon_arrow-dropdown"
           />
         </span>
@@ -118,10 +112,7 @@ export default function SearchSettingsDropdown({
 SearchSettingsDropdown.propTypes = {
   labelId: PropTypes.string.isRequired,
   options: PropTypes.arrayOf(valueShape).isRequired,
-  currentSelection: PropTypes.shape({
-    title: PropTypes.string,
-    value: valueShape,
-  }).isRequired,
+  currentSelection: PropTypes.shape({ title: PropTypes.string, value: valueShape }).isRequired,
   onOptionSelected: PropTypes.func.isRequired,
   name: PropTypes.string.isRequired,
 };

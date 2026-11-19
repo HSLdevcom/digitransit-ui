@@ -13,22 +13,14 @@ import getZoneId from '../../../../utils/client/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
-export default function LocationPopup({
-  lat,
-  lon,
-  locationPopup,
-  onSelectLocation = () => {},
-}) {
+export default function LocationPopup({ lat, lon, locationPopup, onSelectLocation = () => {} }) {
   const config = useConfigContext();
   const intl = useIntl();
   // loading and location are updated together from a Promise callback, which
   // React 16 doesn't batch outside of event handlers. Keeping them in a
   // single state object avoids rendering with loading=false before location
   // has been updated with an address.
-  const [state, setState] = useState({
-    loading: true,
-    location: { lat, lon },
-  });
+  const [state, setState] = useState({ loading: true, location: { lat, lon } });
 
   useEffect(() => {
     const searchParams = {
@@ -41,8 +33,7 @@ export default function LocationPopup({
       zones: 1,
     };
     if (config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
+      searchParams['boundary.country'] = config.searchParams['boundary.country'];
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
@@ -73,12 +64,9 @@ export default function LocationPopup({
           }));
           pointName = 'NoAddress';
         }
-        const pathPrefixMatch =
-          window.location.pathname.match(/^\/([a-z]{2,})\//);
+        const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
         const context =
-          pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath
-            ? pathPrefixMatch[1]
-            : 'index';
+          pathPrefixMatch && pathPrefixMatch[1] !== config.indexPath ? pathPrefixMatch[1] : 'index';
         addAnalyticsEvent({
           action: 'SelectMapPoint',
           category: 'Map',
@@ -114,9 +102,7 @@ export default function LocationPopup({
   return (
     <Card>
       <PopupHeader header={address} subHeader={place}>
-        {zoneId && zoneId !== place && (
-          <ZoneIcon zoneId={zoneId} showUnknown={false} />
-        )}
+        {zoneId && zoneId !== place && <ZoneIcon zoneId={zoneId} showUnknown={false} />}
       </PopupHeader>
       {(locationPopup === 'all' || locationPopup === 'origindestination') && (
         <MarkerPopupBottom

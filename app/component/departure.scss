@@ -40,13 +40,7 @@
   padding: 0 5px;
   vertical-align: top;
   overflow: hidden;
-  mask-image: linear-gradient(
-    to left,
-    transparent,
-    rgba(0, 0, 0, 0.2) 5px,
-    black 7px,
-    black
-  );
+  mask-image: linear-gradient(to left, transparent, rgba(0, 0, 0, 0.2) 5px, black 7px, black);
 }
 
 .departure > div,

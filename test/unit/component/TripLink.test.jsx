@@ -18,11 +18,7 @@ const vehicle = {
 describe('<TripLink />', () => {
   it('should render the icon wrapped by a link once the trip query resolves', () => {
     relayMock.query(null, {
-      trip: {
-        route: { gtfsId: 'OULU:15' },
-        pattern: { code: '1' },
-        gtfsId: 'OULU:12345',
-      },
+      trip: { route: { gtfsId: 'OULU:15' }, pattern: { code: '1' }, gtfsId: 'OULU:12345' },
     });
     const { container } = renderWithProviders(<TripLink vehicle={vehicle} />);
     // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js)

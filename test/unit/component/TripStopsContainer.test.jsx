@@ -4,15 +4,8 @@ import TripStopsContainer from '../../../app/component/routepage/TripStopsContai
 
 describe('<TripStopsContainer />', () => {
   it('should render empty if trip information is missing', () => {
-    const props = {
-      breakpoint: 'large',
-      routes: [],
-      trip: null,
-      match: mockMatch,
-    };
-    const { container } = renderWithProviders(
-      <TripStopsContainer {...props} />,
-    );
+    const props = { breakpoint: 'large', routes: [], trip: null, match: mockMatch };
+    const { container } = renderWithProviders(<TripStopsContainer {...props} />);
     expect(container.innerHTML).toBe('');
   });
 });

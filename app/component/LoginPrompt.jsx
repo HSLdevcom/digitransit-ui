@@ -16,35 +16,18 @@ export default function LoginPrompt({
   const intl = useIntl();
   const { match } = useRouter();
 
-  const login = intl.formatMessage({
-    id: 'login',
-    defaultMessage: 'Log in',
-  });
-  const cancel = intl.formatMessage({
-    id: 'cancel',
-    defaultMessage: 'cancel',
-  });
-  const title = intl.formatMessage({
-    id: titleId,
-    defaultMessage: 'Log in first',
-  });
+  const login = intl.formatMessage({ id: 'login', defaultMessage: 'Log in' });
+  const cancel = intl.formatMessage({ id: 'cancel', defaultMessage: 'cancel' });
+  const title = intl.formatMessage({ id: titleId, defaultMessage: 'Log in first' });
   const description = intl.formatMessage({ id: descriptionId });
 
   const handlePrimaryClick = () => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'login',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'login', name: null });
     window.location.assign(getLoginPath(match.location));
   };
 
   const handleSecondaryClick = () => {
-    addAnalyticsEvent({
-      category: 'Favourite',
-      action: 'login cancelled',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Favourite', action: 'login cancelled', name: null });
     onClose();
   };
 
@@ -56,15 +39,8 @@ export default function LoginPrompt({
         lang={hslfiLocale}
         onCloseAutoFocus={onCloseAutoFocus}
         buttons={[
-          {
-            children: login,
-            onClick: handlePrimaryClick,
-          },
-          {
-            children: cancel,
-            onClick: handleSecondaryClick,
-            variant: 'secondary',
-          },
+          { children: login, onClick: handlePrimaryClick },
+          { children: cancel, onClick: handleSecondaryClick, variant: 'secondary' },
         ]}
       />
     </Modal>

@@ -4,33 +4,20 @@ import { setCustomizedSettings } from '../../../../utils/client/localStorage';
 
 const config = {
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
 
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
+    rail: { availableForSelection: true, defaultValue: true },
 
-    citybike: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
+    citybike: { availableForSelection: true, defaultValue: false },
 
-    airplane: {
-      availableForSelection: false,
-      defaultValue: false,
-    },
+    airplane: { availableForSelection: false, defaultValue: false },
   },
 };
 
 describe('modeUtils', () => {
   describe('getAvailableTransportModeConfigs', () => {
     it('should return only available transport modes from config', () => {
-      const transportModeConfigs =
-        utils.getAvailableTransportModeConfigs(config);
+      const transportModeConfigs = utils.getAvailableTransportModeConfigs(config);
       expect(transportModeConfigs.length).toBe(3);
       expect(transportModeConfigs[0].name).toBe(TransportMode.Bus);
       expect(transportModeConfigs[1].name).toBe(TransportMode.Rail);
@@ -40,9 +27,7 @@ describe('modeUtils', () => {
 
   describe('getModes', () => {
     it('should retrieve modes from localStorage', () => {
-      setCustomizedSettings({
-        modes: [TransportMode.Rail, TransportMode.Bus],
-      });
+      setCustomizedSettings({ modes: [TransportMode.Rail, TransportMode.Bus] });
 
       const modes = utils.getModes(config);
       expect(modes.length).toBe(2);
@@ -69,12 +54,7 @@ describe('modeUtils', () => {
 
     it('should filter out all unconfigured modes from localStorage', () => {
       setCustomizedSettings({
-        modes: [
-          TransportMode.Rail,
-          'FOO',
-          StreetMode.Walk,
-          StreetMode.ParkAndRide,
-        ],
+        modes: [TransportMode.Rail, 'FOO', StreetMode.Walk, StreetMode.ParkAndRide],
       });
 
       const modes = utils.getModes(config);
@@ -121,13 +101,7 @@ describe('modeUtils', () => {
     const nearYouConfig = {
       nearYouModes: ['favorite', 'citybike'],
       vehicleRental: {
-        networks: {
-          foo: {
-            enabled: true,
-            type: 'citybike',
-            season: { alwaysOn: true },
-          },
-        },
+        networks: { foo: { enabled: true, type: 'citybike', season: { alwaysOn: true } } },
       },
     };
     it('keeps favorite and citybike modes when both are available', () => {
@@ -163,18 +137,9 @@ describe('modeUtils', () => {
     it('should include only modes that are both available and default', () => {
       const modeConfig = {
         transportModes: {
-          d: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          e: {
-            availableForSelection: false,
-            defaultValue: true,
-          },
-          f: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
+          d: { availableForSelection: true, defaultValue: true },
+          e: { availableForSelection: false, defaultValue: true },
+          f: { availableForSelection: true, defaultValue: false },
         },
       };
       const result = utils.getTransitModes(modeConfig);
@@ -188,18 +153,9 @@ describe('modeUtils', () => {
     it('should include only modes that are both available and default', () => {
       const modeConfig = {
         transportModes: {
-          d: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          e: {
-            availableForSelection: false,
-            defaultValue: true,
-          },
-          f: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
+          d: { availableForSelection: true, defaultValue: true },
+          e: { availableForSelection: false, defaultValue: true },
+          f: { availableForSelection: true, defaultValue: false },
         },
       };
       const result = utils.getTransitModes(modeConfig);
@@ -213,14 +169,8 @@ describe('modeUtils', () => {
     it('should return true when there are multiple available transport modes', () => {
       const modeConfig = {
         transportModes: {
-          d: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          e: {
-            availableForSelection: true,
-            defaultValue: false,
-          },
+          d: { availableForSelection: true, defaultValue: true },
+          e: { availableForSelection: true, defaultValue: false },
         },
       };
 
@@ -230,14 +180,8 @@ describe('modeUtils', () => {
     it('should return false when there is only one available transport mode', () => {
       const modeConfig = {
         transportModes: {
-          d: {
-            availableForSelection: true,
-            defaultValue: true,
-          },
-          e: {
-            availableForSelection: false,
-            defaultValue: false,
-          },
+          d: { availableForSelection: true, defaultValue: true },
+          e: { availableForSelection: false, defaultValue: false },
         },
       };
 
@@ -247,9 +191,7 @@ describe('modeUtils', () => {
 
   describe('toggleTransportMode', () => {
     it('should return previous modes in addition to new mode', () => {
-      setCustomizedSettings({
-        modes: [TransportMode.Rail, StreetMode.Walk],
-      });
+      setCustomizedSettings({ modes: [TransportMode.Rail, StreetMode.Walk] });
 
       const result = utils.toggleTransportMode(TransportMode.Bus, config);
 
@@ -259,9 +201,7 @@ describe('modeUtils', () => {
     });
 
     it('should return previous modes minus toggled mode if it previously existed', () => {
-      setCustomizedSettings({
-        modes: [TransportMode.Rail, TransportMode.Bus, StreetMode.Walk],
-      });
+      setCustomizedSettings({ modes: [TransportMode.Rail, TransportMode.Bus, StreetMode.Walk] });
 
       const result = utils.toggleTransportMode(TransportMode.Rail, config);
 

@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import { coordsDiff } from '../../utils/shared/path';
-import {
-  useOrigin,
-  useDestination,
-  useItineraryLocationActions,
-} from './ItineraryLocationContext';
+import { useOrigin, useDestination, useItineraryLocationActions } from './ItineraryLocationContext';
 
 // Updates the origin or destination if it's currently set to follow the
 // current location. Origin/destination now live in ItineraryLocationContext
@@ -38,23 +34,14 @@ export default function useGeomoverSync({ locationState, startLocationWatch }) {
       target.type = undefined;
       target.address = undefined;
       setTarget(target);
-    } else if (
-      target.address !== locationState.address &&
-      locationState.address
-    ) {
+    } else if (target.address !== locationState.address && locationState.address) {
       newAddress = locationState.address;
     }
     if (locationState.hasLocation === false) {
-      if (
-        !locationState.isLocationingInProgress &&
-        locationState.status === 'no-location'
-      ) {
+      if (!locationState.isLocationingInProgress && locationState.status === 'no-location') {
         startLocationWatch();
       }
-    } else if (
-      locationState.hasLocation &&
-      !locationState.isReverseGeocodingInProgress
-    ) {
+    } else if (locationState.hasLocation && !locationState.isReverseGeocodingInProgress) {
       if (
         newAddress ||
         coordsDiff(target.lat, locationState.lat) ||

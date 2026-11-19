@@ -8,9 +8,7 @@ export default function PopupHeader({ header, subHeader, children }) {
       <div className="location-address">{header}</div>
       {(children || subHeader) && (
         <div className="location-place">
-          {!subHeader
-            ? intl.formatMessage({ id: 'zone', defaultMessage: 'Zone' })
-            : subHeader}
+          {!subHeader ? intl.formatMessage({ id: 'zone', defaultMessage: 'Zone' }) : subHeader}
           {children}
         </div>
       )}

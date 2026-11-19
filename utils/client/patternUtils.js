@@ -24,9 +24,7 @@ export const isActiveDate = pattern => {
  */
 export const getDepartureStoptimes = ({ pattern, stoptimes }) =>
   stoptimes.filter(
-    st =>
-      st.pickupType !== 'NONE' &&
-      st.stopPositionInPattern !== pattern.stops.length - 1,
+    st => st.pickupType !== 'NONE' && st.stopPositionInPattern !== pattern.stops.length - 1,
   );
 
 /**
@@ -34,8 +32,6 @@ export const getDepartureStoptimes = ({ pattern, stoptimes }) =>
  */
 export const getDepartureHeadsigns = stoptimeGroup => [
   ...new Set(
-    getDepartureStoptimes(stoptimeGroup).map(
-      st => st.headsign || stoptimeGroup.pattern.headsign,
-    ),
+    getDepartureStoptimes(stoptimeGroup).map(st => st.headsign || stoptimeGroup.pattern.headsign),
   ),
 ];

@@ -4,13 +4,11 @@ const translations = {
     translation: {
       'accessible-close': 'Schließe die Auswahl',
       'accessible-closed': 'Auswahl geschlossen',
-      'accessible-departure-now':
-        'Setzt die Abfahrtszeit auf jetzt und schließt die Auswahl.',
+      'accessible-departure-now': 'Setzt die Abfahrtszeit auf jetzt und schließt die Auswahl.',
       'accessible-open': 'Öffne die Auswahl',
       'accessible-opened': 'Auswahl geöffnet',
       'accessible-title': 'Datum und Uhrzeitauswahl',
-      'accessible-update-instructions':
-        'Das Ändern der Zeitparameter löst eine neue Suche aus.',
+      'accessible-update-instructions': 'Das Ändern der Zeitparameter löst eine neue Suche aus.',
       arrival: 'Ankunft',
       cancel: 'Abbrechen',
       'choose-time': 'Zeit wählen',
@@ -28,13 +26,11 @@ const translations = {
     translation: {
       'accessible-close': 'Close the picker',
       'accessible-closed': 'Timepicker closed',
-      'accessible-departure-now':
-        'Sets the departure time to now and closes the picker.',
+      'accessible-departure-now': 'Sets the departure time to now and closes the picker.',
       'accessible-open': 'Open the picker',
       'accessible-opened': 'Timepicker opened',
       'accessible-title': 'Date and timepicker',
-      'accessible-update-instructions':
-        'Changing time parameters will trigger a new search.',
+      'accessible-update-instructions': 'Changing time parameters will trigger a new search.',
       arrival: 'Arrival',
       cancel: 'Cancel',
       'choose-time': 'Choose time',
@@ -52,13 +48,11 @@ const translations = {
     translation: {
       'accessible-close': 'Sulje valitsin',
       'accessible-closed': 'Valitsin suljettu',
-      'accessible-departure-now':
-        'Asettaa lähtöajaksi nyt ja sulkee valitsimen.',
+      'accessible-departure-now': 'Asettaa lähtöajaksi nyt ja sulkee valitsimen.',
       'accessible-open': 'Avaa valitsin',
       'accessible-opened': 'Valitsin avattu',
       'accessible-title': 'Aika- ja päivämäärävalitsin',
-      'accessible-update-instructions':
-        'Aikavalintojen muuttaminen laukaisee uuden haun.',
+      'accessible-update-instructions': 'Aikavalintojen muuttaminen laukaisee uuden haun.',
       arrival: 'Perillä',
       cancel: 'Peruuta',
       'choose-time': 'Valitse aika',
@@ -76,8 +70,7 @@ const translations = {
     translation: {
       'accessible-close': 'Chiudi il selettore',
       'accessible-closed': 'Selettore dell’ora chiuso',
-      'accessible-departure-now':
-        'Imposta la partenza a ora e chiude il selettore.',
+      'accessible-departure-now': 'Imposta la partenza a ora e chiude il selettore.',
       'accessible-open': 'Apri il selettore',
       'accessible-opened': 'Selettore dell’ora aperto',
       'accessible-title': 'Selettore di data e ora',
@@ -104,8 +97,7 @@ const translations = {
       'accessible-open': 'Otwórz wybornik',
       'accessible-opened': 'Otwarto wybornik',
       'accessible-title': 'Wybór daty i godziny',
-      'accessible-update-instructions':
-        'Zmiana wybranej godziny wywoła nowe wyszukiwanie.',
+      'accessible-update-instructions': 'Zmiana wybranej godziny wywoła nowe wyszukiwanie.',
       arrival: 'Przyjazd',
       cancel: 'Anuluj',
       'choose-time': 'Wybierz godzinę',
@@ -123,13 +115,11 @@ const translations = {
     translation: {
       'accessible-close': 'Stäng väljaren',
       'accessible-closed': 'Väljaren stängde',
-      'accessible-departure-now':
-        'Ställer in avgångstiden på nu och stänger väljaren.',
+      'accessible-departure-now': 'Ställer in avgångstiden på nu och stänger väljaren.',
       'accessible-open': 'Öppna väljaren',
       'accessible-opened': 'Väljaren öppnade',
       'accessible-title': 'Tid- och datumväljaren',
-      'accessible-update-instructions':
-        'Om du ändrar tiderna, startas en ny sökning automatiskt.',
+      'accessible-update-instructions': 'Om du ändrar tiderna, startas en ny sökning automatiskt.',
       arrival: 'Anländer',
       cancel: 'Avbryt',
       'choose-time': 'Välj tid',

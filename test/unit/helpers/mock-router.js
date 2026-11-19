@@ -19,21 +19,11 @@ export const mockRouter = {
 };
 
 export const mockMatch = {
-  location: {
-    action: '',
-    pathname: '',
-    search: '',
-    hash: '',
-    index: 0,
-    delta: 0,
-    query: {},
-  },
+  location: { action: '', pathname: '', search: '', hash: '', index: 0, delta: 0, query: {} },
   routeIndices: [],
   routeParams: {},
   params: {},
   routes: [],
   router: mockRouter,
-  route: {
-    getComponent: () => {},
-  },
+  route: { getComponent: () => {} },
 };

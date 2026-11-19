@@ -3,10 +3,7 @@ import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import {
-  vehicleRentalStationShape,
-  rentalVehicleShape,
-} from '../../../utils/client/shapes';
+import { vehicleRentalStationShape, rentalVehicleShape } from '../../../utils/client/shapes';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
@@ -45,8 +42,7 @@ export default function VehicleRentalLeg({
   }
 
   const network =
-    vehicleRentalStation?.rentalNetwork.networkId ||
-    rentalVehicle?.rentalNetwork.networkId;
+    vehicleRentalStation?.rentalNetwork.networkId || rentalVehicle?.rentalNetwork.networkId;
 
   const rentMessageId = isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at';
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
@@ -65,17 +61,11 @@ export default function VehicleRentalLeg({
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
 
   const availabilityIndicatorColor = vehicleRentalStation
-    ? getVehicleAvailabilityIndicatorColor(
-        vehicleRentalStation.availableVehicles.total,
-        config,
-      )
+    ? getVehicleAvailabilityIndicatorColor(vehicleRentalStation.availableVehicles.total, config)
     : null;
 
   const availabilityTextColor = vehicleRentalStation
-    ? getVehicleAvailabilityTextColor(
-        vehicleRentalStation.availableVehicles.total,
-        config,
-      )
+    ? getVehicleAvailabilityTextColor(vehicleRentalStation.availableVehicles.total, config)
     : null;
 
   const mobileReturn = breakpoint === 'small' && returnBike;
@@ -103,11 +93,7 @@ export default function VehicleRentalLeg({
         <div className="itinerary-transit-leg-route-with-link">
           <div className="itinerary-with-link">
             <div
-              className={cx(
-                'citybike-icon',
-                { small: mobileReturn },
-                isScooter && 'scooter-icon',
-              )}
+              className={cx('citybike-icon', { small: mobileReturn }, isScooter && 'scooter-icon')}
             >
               <Icon
                 img={vehicleIcon}
@@ -116,9 +102,7 @@ export default function VehicleRentalLeg({
                 foreground={
                   <IconBadge
                     badgeText={
-                      vehicleRentalStation &&
-                      vehicleCapacity !== BIKEAVL_UNKNOWN &&
-                      !returnBike
+                      vehicleRentalStation && vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
                         ? vehicleRentalStation?.availableVehicles.total
                         : ''
                     }
@@ -131,10 +115,7 @@ export default function VehicleRentalLeg({
 
             <div className="itinerary-with-link-text-container">
               <span className={cx('headsign', isScooter && 'scooter-headsign')}>
-                <Link
-                  style={{ textDecoration: 'none', color: 'black' }}
-                  to={rentalStationLink}
-                >
+                <Link style={{ textDecoration: 'none', color: 'black' }} to={rentalStationLink}>
                   {stationName}
                 </Link>
               </span>
@@ -144,12 +125,11 @@ export default function VehicleRentalLeg({
                   id: 'citybike-station-no-id',
                   defaultMessage: 'Bike station',
                 })}
-                {vehicleRentalStation &&
-                  hasVehicleRentalCode(vehicleRentalStation.stationId) && (
-                    <span className="itinerary-stop-code">
-                      {splitGtfsId(vehicleRentalStation?.stationId).entityId}
-                    </span>
-                  )}
+                {vehicleRentalStation && hasVehicleRentalCode(vehicleRentalStation.stationId) && (
+                  <span className="itinerary-stop-code">
+                    {splitGtfsId(vehicleRentalStation?.stationId).entityId}
+                  </span>
+                )}
               </span>
             </div>
           </div>

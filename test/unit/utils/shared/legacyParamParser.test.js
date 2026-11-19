@@ -8,9 +8,7 @@ import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
 // stubbed below so no test touches the network.
 let getGeocodingResults;
 beforeEach(() => {
-  getGeocodingResults = vi
-    .spyOn(getGeocodingResultsModule, 'default')
-    .mockResolvedValue([]);
+  getGeocodingResults = vi.spyOn(getGeocodingResultsModule, 'default').mockResolvedValue([]);
 });
 
 const config = { ...defaultConfig, queryMaxAgeDays: 30 };
@@ -35,11 +33,7 @@ describe('legacyParamParser', () => {
       config,
     );
 
-    expect(url).toMatch(
-      new RegExp(
-        `^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+$`,
-      ),
-    );
+    expect(url).toMatch(new RegExp(`^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+$`));
   });
 
   it('appends "arriveBy=true" when timetype is "arrival"', async () => {
@@ -47,21 +41,12 @@ describe('legacyParamParser', () => {
     const daymonthyear = `${now.day}.${now.month}.${now.year}`;
 
     const url = await legacyParamParser(
-      {
-        from,
-        to,
-        daymonthyear,
-        hour: '10',
-        minute: '30',
-        timetype: 'arrival',
-      },
+      { from, to, daymonthyear, hour: '10', minute: '30', timetype: 'arrival' },
       config,
     );
 
     expect(url).toMatch(
-      new RegExp(
-        `^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+&arriveBy=true$`,
-      ),
+      new RegExp(`^/${PREFIX_ITINERARY_SUMMARY}/${encodedFromTo}/\\?time=\\d+&arriveBy=true$`),
     );
   });
 
@@ -72,18 +57,10 @@ describe('legacyParamParser', () => {
 
   it('geocodes free-text from_in/to_in against the configured Pelias URL', async () => {
     getGeocodingResults.mockImplementation(text =>
-      Promise.resolve([
-        {
-          properties: { label: text },
-          geometry: { coordinates: [24.9, 60.2] },
-        },
-      ]),
+      Promise.resolve([{ properties: { label: text }, geometry: { coordinates: [24.9, 60.2] } }]),
     );
 
-    const url = await legacyParamParser(
-      { from_in: 'Pasila', to_in: 'Kamppi' },
-      config,
-    );
+    const url = await legacyParamParser({ from_in: 'Pasila', to_in: 'Kamppi' }, config);
 
     expect(getGeocodingResults).toHaveBeenCalledWith(
       'Pasila',

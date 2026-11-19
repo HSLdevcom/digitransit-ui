@@ -17,9 +17,7 @@ const props = {
           headsign: 'Kamppi',
           stops: [{ gtfsId: `HSL:${stopIdNumber}` }, { gtfsId: 'HSL:last' }],
           route: {
-            agency: {
-              name: 'Helsingin seudun liikenne',
-            },
+            agency: { name: 'Helsingin seudun liikenne' },
             longName: 'Kamppi-Töölö-Pihlajamäki-Pukinmäki-Malmi',
             mode: 'BUS',
             shortName: '70',
@@ -32,9 +30,7 @@ const props = {
             realtimeState: 'CANCELED',
             scheduledDeparture: 32460,
             serviceDay: 1547071200,
-            stop: {
-              gtfsId: `HSL:${stopIdNumber}`,
-            },
+            stop: { gtfsId: `HSL:${stopIdNumber}` },
           },
         ],
       },
@@ -49,21 +45,12 @@ describe('<Timetable />', () => {
     const { container } = renderWithProviders(<Timetable {...props} />, {
       config: { CONFIG: 'default', URL: {} },
     });
-    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
-      1,
-    );
-    expect(
-      container.querySelectorAll('.timetablerow-linetime.canceled'),
-    ).toHaveLength(1);
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(1);
+    expect(container.querySelectorAll('.timetablerow-linetime.canceled')).toHaveLength(1);
   });
 
   it('uses stoptime headsigns and hides drop-off-only and last-stop times', () => {
-    const makeStoptime = (
-      headsign,
-      scheduledDeparture,
-      pickupType,
-      position = 0,
-    ) => ({
+    const makeStoptime = (headsign, scheduledDeparture, pickupType, position = 0) => ({
       headsign,
       pickupType,
       stopPositionInPattern: position,
@@ -87,13 +74,10 @@ describe('<Timetable />', () => {
         },
       ],
     };
-    const { container } = renderWithProviders(
-      <Timetable {...props} stop={stop} />,
-      { config: { CONFIG: 'default', URL: {} } },
-    );
-    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
-      2,
-    );
+    const { container } = renderWithProviders(<Timetable {...props} stop={stop} />, {
+      config: { CONFIG: 'default', URL: {} },
+    });
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(2);
     const text = container.textContent;
     expect(text).toContain('70* = Tuorsniemi');
     expect(text).toContain('70** = Leppäkorpi');

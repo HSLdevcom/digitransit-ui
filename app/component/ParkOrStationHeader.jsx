@@ -31,8 +31,7 @@ export default function ParkOrBikeStationHeader({
       zones: 1,
     };
     if (config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
+      searchParams['boundary.country'] = config.searchParams['boundary.country'];
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
@@ -59,9 +58,7 @@ export default function ParkOrBikeStationHeader({
       <div className="header-section">
         <h1>{name}</h1>
         <div className="station-sub-header">
-          <FormattedMessage
-            id={isRentalStation ? 'citybike-station-no-id' : parkHeaderId}
-          />
+          <FormattedMessage id={isRentalStation ? 'citybike-station-no-id' : parkHeaderId} />
           {isRentalStation && hasVehicleRentalCode(stationId) && (
             <StopCode code={splitGtfsId(stationId).entityId} />
           )}
@@ -73,9 +70,7 @@ export default function ParkOrBikeStationHeader({
         </div>
       </div>
       {isRentalStation && (
-        <FavouriteVehicleRentalStationContainer
-          vehicleRentalStation={parkOrStation}
-        />
+        <FavouriteVehicleRentalStationContainer vehicleRentalStation={parkOrStation} />
       )}
     </div>
   );

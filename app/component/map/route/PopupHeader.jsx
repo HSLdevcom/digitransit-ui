@@ -6,13 +6,7 @@ import { convertTo24HourFormat } from '../../../../utils/client/timeUtils';
 import RouteNumber from '../../RouteNumber';
 import { getRouteMode } from '../../../../utils/client/modeUtils';
 
-export default function PopupHeader({
-  route,
-  pattern,
-  card = false,
-  startTime,
-  className,
-}) {
+export default function PopupHeader({ route, pattern, card = false, startTime, className }) {
   const mode = getRouteMode(route);
 
   let startTimeEl;
@@ -28,9 +22,7 @@ export default function PopupHeader({
 
   const routeLine =
     startTime && pattern ? (
-      <Link to={routePagePath(route.gtfsId, PREFIX_STOPS, pattern.code)}>
-        {routeLineText}
-      </Link>
+      <Link to={routePagePath(route.gtfsId, PREFIX_STOPS, pattern.code)}>{routeLineText}</Link>
     ) : (
       routeLineText
     );

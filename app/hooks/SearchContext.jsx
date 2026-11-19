@@ -80,10 +80,7 @@ export function SearchProvider({
               {
                 type: 'CurrentLocation',
                 status: 'no-location',
-                address: intl.formatMessage({
-                  id: 'own-position',
-                  defaultMessage: 'Own Location',
-                }),
+                address: intl.formatMessage({ id: 'own-position', defaultMessage: 'Own Location' }),
               },
               id,
             );
@@ -116,13 +113,7 @@ export function SearchProvider({
         selectHandler(item, id);
       }
     },
-    [
-      embeddedSearch,
-      intl,
-      onGeolocationStart,
-      selectHandler,
-      startLocationWatch,
-    ],
+    [embeddedSearch, intl, onGeolocationStart, selectHandler, startLocationWatch],
   );
 
   // Only position updates complete a pending selection, not callback changes.
@@ -176,9 +167,7 @@ export function SearchProvider({
             onSuggestionSelected(item, id);
           });
       } else if (item.type === 'OldSearch' && item.properties.gid) {
-        getJson(config.URL.PELIAS_PLACE, {
-          ids: item.properties.gid,
-        })
+        getJson(config.URL.PELIAS_PLACE, { ids: item.properties.gid })
           .then(res => {
             const newItem = { ...item };
             let canSave = true;
@@ -188,10 +177,8 @@ export function SearchProvider({
               newItem.geometry.coordinates = geom.coordinates;
               if (
                 newItem.properties.name !== res.features[0].properties.name ||
-                newItem.properties.street !==
-                  res.features[0].properties.street ||
-                newItem.properties.housenumber !==
-                  res.features[0].properties.housenumber
+                newItem.properties.street !== res.features[0].properties.street ||
+                newItem.properties.housenumber !== res.features[0].properties.housenumber
               ) {
                 // Remove entries whose address details have changed.
                 canSave = false;
@@ -200,10 +187,7 @@ export function SearchProvider({
             if (canSave) {
               saveOldSearch(newItem, type, id);
             } else {
-              removeSearch({
-                item: newItem,
-                type,
-              });
+              removeSearch({ item: newItem, type });
             }
             onSuggestionSelected(item, id);
           })
@@ -255,9 +239,7 @@ export function SearchProvider({
     ],
   );
 
-  return (
-    <SearchContext.Provider value={value}>{children}</SearchContext.Provider>
-  );
+  return <SearchContext.Provider value={value}>{children}</SearchContext.Provider>;
 }
 
 SearchProvider.propTypes = {

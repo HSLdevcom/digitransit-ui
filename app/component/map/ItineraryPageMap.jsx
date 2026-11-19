@@ -3,11 +3,7 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { onLocationPopup } from '../../../utils/client/queryUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import {
-  itineraryShape,
-  locationShape,
-  planEdgeShape,
-} from '../../../utils/client/shapes';
+import { itineraryShape, locationShape, planEdgeShape } from '../../../utils/client/shapes';
 import BackButton from '../BackButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import ItineraryLine from './ItineraryLine';
@@ -50,9 +46,7 @@ export default function ItineraryPageMap({
   const leafletObjs = [];
 
   if (showVehicles) {
-    leafletObjs.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon topics={topics} />,
-    );
+    leafletObjs.push(<VehicleMarkerContainer key="vehicles" useLargeIcon topics={topics} />);
   }
 
   if (itinerary) {
@@ -72,12 +66,7 @@ export default function ItineraryPageMap({
       planEdges.forEach((edge, i) => {
         if (i !== active) {
           leafletObjs.push(
-            <ItineraryLine
-              key={`line_${i}`}
-              hash={i}
-              legs={edge.node.legs}
-              passive
-            />,
+            <ItineraryLine key={`line_${i}`} hash={i} legs={edge.node.legs} passive />,
           );
         }
       });
@@ -119,9 +108,7 @@ export default function ItineraryPageMap({
   }
 
   if (from.lat && from.lon) {
-    leafletObjs.push(
-      <LocationMarker key="fromMarker" position={from} type="from" />,
-    );
+    leafletObjs.push(<LocationMarker key="fromMarker" position={from} type="from" />);
   }
   if (to.lat && to.lon) {
     leafletObjs.push(<LocationMarker key="toMarker" position={to} type="to" />);
@@ -136,16 +123,7 @@ export default function ItineraryPageMap({
   if (isLocationPopupEnabled) {
     locationPopup = config.viaPointsEnabled ? 'all' : 'origindestination';
     onSelectLocation = (item, id) =>
-      onLocationPopup(
-        item,
-        id,
-        router,
-        match,
-        origin,
-        destination,
-        locationActions,
-        config,
-      );
+      onLocationPopup(item, id, router, match, origin, destination, locationActions, config);
   }
 
   return (
@@ -156,12 +134,8 @@ export default function ItineraryPageMap({
       zoom={POINT_FOCUS_ZOOM}
       {...rest}
     >
-      {showBackButton && breakpoint !== 'large' && (
-        <BackButton fallback="pop" />
-      )}
-      {breakpoint === 'large' && config.useCookiesPrompt && (
-        <CookieSettingsButton />
-      )}
+      {showBackButton && breakpoint !== 'large' && <BackButton fallback="pop" />}
+      {breakpoint === 'large' && config.useCookiesPrompt && <CookieSettingsButton />}
     </MapWithTracking>
   );
 }

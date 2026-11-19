@@ -20,11 +20,7 @@ export const getScooterNetworks = () => {
 };
 
 const addAnalytics = (action, name) => {
-  addAnalyticsEvent({
-    category: 'ItinerarySettings',
-    action,
-    name,
-  });
+  addAnalyticsEvent({ category: 'ItinerarySettings', action, name });
 };
 
 /** *

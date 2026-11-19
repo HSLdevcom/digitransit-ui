@@ -80,17 +80,13 @@ describe('scheduleDataUtils', () => {
     });
 
     it('should calculate dates relative to current week', () => {
-      const departures = {
-        wk1mon: [{ departureStoptime: { scheduledDeparture: 28800 } }],
-      };
+      const departures = { wk1mon: [{ departureStoptime: { scheduledDeparture: 28800 } }] };
 
       const result = buildAvailableDates(departures);
 
       expect(result).toHaveLength(1);
       const expectedDate = fixedNow.startOf('week');
-      expect(result[0].toFormat(DATE_FORMAT)).toBe(
-        expectedDate.toFormat(DATE_FORMAT),
-      );
+      expect(result[0].toFormat(DATE_FORMAT)).toBe(expectedDate.toFormat(DATE_FORMAT));
     });
 
     it('should return empty array when departures is null', () => {
@@ -117,10 +113,7 @@ describe('scheduleDataUtils', () => {
     });
 
     it('should handle all empty departure arrays', () => {
-      const departures = {
-        wk1mon: [],
-        wk1tue: [],
-      };
+      const departures = { wk1mon: [], wk1tue: [] };
 
       const result = buildAvailableDates(departures);
 
@@ -139,9 +132,7 @@ describe('scheduleDataUtils', () => {
       const result = buildAvailableDates(departures);
 
       expect(result).toHaveLength(2);
-      expect(result[0].toFormat(DATE_FORMAT)).not.toBe(
-        result[1].toFormat(DATE_FORMAT),
-      );
+      expect(result[0].toFormat(DATE_FORMAT)).not.toBe(result[1].toFormat(DATE_FORMAT));
     });
 
     it('should ignore invalid schedule keys', () => {

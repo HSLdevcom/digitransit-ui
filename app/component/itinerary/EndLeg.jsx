@@ -13,11 +13,7 @@ export default function EndLeg(props) {
   const match = useMatch();
   const intl = useIntl();
   const parsedAddress = parseLocation(match.params.to).address;
-  const [address, place] = getValidatedLegName(
-    props.to.name,
-    intl,
-    false,
-  ).split(/, (.+)/);
+  const [address, place] = getValidatedLegName(props.to.name, intl, false).split(/, (.+)/);
   // Below check is needed for unit tests
   const [addressFromUrl, placeFromUrl] = !parsedAddress
     ? [address, place]
@@ -31,10 +27,7 @@ export default function EndLeg(props) {
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
-          values={{
-            time,
-            destination: props.to.name,
-          }}
+          values={{ time, destination: props.to.name }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
@@ -58,10 +51,7 @@ export default function EndLeg(props) {
             <div className="address">{!stop ? address : addressFromUrl}</div>
             <div className="place">{place || placeFromUrl}</div>
           </div>
-          <ItineraryMapAction
-            target={props.to.name}
-            focusAction={props.focusAction}
-          />
+          <ItineraryMapAction target={props.to.name} focusAction={props.focusAction} />
         </div>
       </div>
     </div>

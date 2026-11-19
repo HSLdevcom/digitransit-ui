@@ -69,10 +69,7 @@ describe('GeoJSON hook helpers', () => {
 
     it('should retrieve the data only once', async () => {
       const url = 'https://localhost/data/cache';
-      const response = {
-        type: 'FeatureCollection',
-        features: [],
-      };
+      const response = { type: 'FeatureCollection', features: [] };
       fetchMock.get(url, response);
 
       const result1 = await getGeoJsonData(url, undefined, undefined);
@@ -83,10 +80,7 @@ describe('GeoJSON hook helpers', () => {
 
     it('should use the given name as the dataset name', async () => {
       const url = 'https://localhost/data/name';
-      const response = {
-        type: 'FeatureCollection',
-        features: [],
-      };
+      const response = { type: 'FeatureCollection', features: [] };
       fetchMock.get(url, response);
 
       const result = await getGeoJsonData(url, 'foo', undefined);
@@ -95,10 +89,7 @@ describe('GeoJSON hook helpers', () => {
 
     it('should use the url as the dataset name', async () => {
       const url = 'https://localhost/data/url-name';
-      const response = {
-        type: 'FeatureCollection',
-        features: [],
-      };
+      const response = { type: 'FeatureCollection', features: [] };
       fetchMock.get(url, response);
 
       const result = await getGeoJsonData(url, undefined, undefined);
@@ -112,22 +103,15 @@ describe('GeoJSON hook helpers', () => {
         features: [
           {
             type: 'Feature',
-            properties: {
-              foo: 'bar',
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [60, 25],
-            },
+            properties: { foo: 'bar' },
+            geometry: { type: 'Point', coordinates: [60, 25] },
           },
         ],
       };
       fetchMock.get(url, response);
 
       const result = await getGeoJsonData(url, undefined, { name: 'foo' });
-      expect(result.data.features[0].properties.name).toBe(
-        response.features[0].properties.foo,
-      );
+      expect(result.data.features[0].properties.name).toBe(response.features[0].properties.foo);
     });
   });
 
@@ -138,23 +122,13 @@ describe('GeoJSON hook helpers', () => {
         features: [
           {
             type: 'Feature',
-            properties: {
-              tekstielementti: 'this-text-is-visible',
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [24, 60],
-            },
+            properties: { tekstielementti: 'this-text-is-visible' },
+            geometry: { type: 'Point', coordinates: [24, 60] },
           },
           {
             type: 'Feature',
-            properties: {
-              tiedot: 'ponnahdusvalikko',
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [24.5, 60.1],
-            },
+            properties: { tiedot: 'ponnahdusvalikko' },
+            geometry: { type: 'Point', coordinates: [24.5, 60.1] },
           },
         ],
       };
@@ -170,9 +144,7 @@ describe('GeoJSON hook helpers', () => {
     it('can map custom properties to known properties', () => {
       const geoJsonSource = [
         {
-          name: {
-            en: 'external map data source',
-          },
+          name: { en: 'external map data source' },
           url: '/home.com',
           metadata: {
             // renders point as a plain text element if 'tekstielementti' contains a string
@@ -190,23 +162,13 @@ describe('GeoJSON hook helpers', () => {
         features: [
           {
             type: 'Feature',
-            properties: {
-              tekstielementti: 'this-text-is-visible',
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [24, 60],
-            },
+            properties: { tekstielementti: 'this-text-is-visible' },
+            geometry: { type: 'Point', coordinates: [24, 60] },
           },
           {
             type: 'Feature',
-            properties: {
-              tiedot: 'ponnahdusvalikko',
-            },
-            geometry: {
-              type: 'Point',
-              coordinates: [24.5, 60.1],
-            },
+            properties: { tiedot: 'ponnahdusvalikko' },
+            geometry: { type: 'Point', coordinates: [24.5, 60.1] },
           },
         ],
       };
@@ -236,23 +198,12 @@ describe('GeoJSON hook helpers', () => {
               type: 'LineString',
             },
             styles: [
-              {
-                color: 'black',
-                weight: 1,
-              },
-              {
-                color: 'gray',
-                weight: 5,
-              },
+              { color: 'black', weight: 1 },
+              { color: 'gray', weight: 5 },
             ],
             type: 'Feature',
           },
-          {
-            style: {
-              color: 'green',
-              weight: 4,
-            },
-          },
+          { style: { color: 'green', weight: 4 } },
         ],
       };
 
@@ -261,30 +212,15 @@ describe('GeoJSON hook helpers', () => {
       expect(output.features.length).toBe(3);
       expect(output.features.filter(feature => feature.styles)).toHaveLength(0);
       expect(output.features[0].geometry).toEqual(output.features[1].geometry);
-      expect(output.features[0].style).toEqual({
-        color: 'black',
-        type: 'line',
-        weight: 1,
-      });
-      expect(output.features[1].style).toEqual({
-        color: 'gray',
-        type: 'halo',
-        weight: 5,
-      });
+      expect(output.features[0].style).toEqual({ color: 'black', type: 'line', weight: 1 });
+      expect(output.features[1].style).toEqual({ color: 'gray', type: 'halo', weight: 5 });
       expect(output.features[0]).not.toBe(output.features[1]);
     });
 
     it('should return the same array if no styles exist', () => {
       const input = {
         type: 'FeatureCollection',
-        features: [
-          {
-            style: {
-              color: 'green',
-              weight: 4,
-            },
-          },
-        ],
+        features: [{ style: { color: 'green', weight: 4 } }],
       };
       const output = styleFeatures(input);
       expect(output).toBe(input);

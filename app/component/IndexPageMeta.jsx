@@ -7,9 +7,7 @@ export default function IndexPageMeta() {
   const link = [
     {
       rel: 'manifest',
-      href: generateManifestUrl(config, window.location, {
-        ignorePathname: true,
-      }),
+      href: generateManifestUrl(config, window.location, { ignorePathname: true }),
     },
   ];
 

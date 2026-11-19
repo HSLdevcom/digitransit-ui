@@ -16,11 +16,7 @@ export default function BoardingInformation({ leg }) {
   if (platformCode) {
     const comma = ', ';
     return (
-      <span
-        className={cx('platform-or-track', {
-          'platform-updated': platformChanged,
-        })}
-      >
+      <span className={cx('platform-or-track', { 'platform-updated': platformChanged })}>
         {comma}
         <PlatformNumber
           number={platformCode}
@@ -36,6 +32,4 @@ export default function BoardingInformation({ leg }) {
   return null;
 }
 
-BoardingInformation.propTypes = {
-  leg: legShape.isRequired,
-};
+BoardingInformation.propTypes = { leg: legShape.isRequired };

@@ -54,11 +54,7 @@ export default function CancellationContainer({ routeSummary, mode }) {
 CancellationContainer.propTypes = {
   routeSummary: PropTypes.shape({
     route: routeShape.isRequired,
-    patterns: PropTypes.arrayOf(
-      PropTypes.shape({
-        pattern: patternShape.isRequired,
-      }),
-    ).isRequired,
+    patterns: PropTypes.arrayOf(PropTypes.shape({ pattern: patternShape.isRequired })).isRequired,
   }).isRequired,
   mode: PropTypes.string.isRequired,
 };

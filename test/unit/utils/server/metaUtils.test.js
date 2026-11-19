@@ -1,10 +1,7 @@
 import { buildStaticMetaData } from '../../../../utils/server/metaUtils';
 
 describe('buildStaticMetaData', () => {
-  const config = {
-    title: 'Test title',
-    colors: { primary: '#000000' },
-  };
+  const config = { title: 'Test title', colors: { primary: '#000000' } };
 
   it('interpolates manifestName into every icon href', () => {
     const { link } = buildStaticMetaData(config, 'icons-test-abc123');

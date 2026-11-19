@@ -4,10 +4,7 @@ import Legs from '../../../app/component/itinerary/Legs';
 describe('<Legs />', () => {
   it("should not fail to render even if the itinerary's legs array is empty", () => {
     const props = {
-      itinerary: {
-        endTime: 1542814001000,
-        legs: [],
-      },
+      itinerary: { endTime: 1542814001000, legs: [] },
       toggleCanceledLegsBanner: () => {},
       waitThreshold: 180,
       focusToPoint: () => {},

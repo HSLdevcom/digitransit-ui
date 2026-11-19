@@ -24,29 +24,15 @@ export default function TerminalPageMeta({ station: stationRef }) {
   }
 
   const title = intl.formatMessage(
-    {
-      id: 'terminal-page.title',
-      defaultMessage: 'Terminal - {name}',
-    },
+    { id: 'terminal-page.title', defaultMessage: 'Terminal - {name}' },
     station,
   );
   const description = intl.formatMessage(
-    {
-      id: 'terminal-page.description',
-      defaultMessage: 'Terminal - {name} {code}, {desc}',
-    },
+    { id: 'terminal-page.description', defaultMessage: 'Terminal - {name} {code}, {desc}' },
     station,
   );
-  const props = generateMetaData(
-    {
-      description,
-      title,
-    },
-    config,
-  );
+  const props = generateMetaData({ description, title }, config);
   return <Helmet {...props} />;
 }
 
-TerminalPageMeta.propTypes = {
-  station: stationShape.isRequired,
-};
+TerminalPageMeta.propTypes = { station: stationShape.isRequired };

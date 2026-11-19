@@ -3,8 +3,7 @@ const translations = {
   de: {
     translation: {
       cancel: 'Abbrechen',
-      'cannot-save-place':
-        'Ein Ort ohne Adresse oder Symbol kann nicht gespeichert werden',
+      'cannot-save-place': 'Ein Ort ohne Adresse oder Symbol kann nicht gespeichert werden',
       'choose-icon': 'Wählen Sie ein Symbol für diesen Ort',
       'edit-place': 'Ort bearbeiten',
       home: 'Zuhause',
@@ -40,8 +39,7 @@ const translations = {
   fi: {
     translation: {
       cancel: 'Peruuta',
-      'cannot-save-place':
-        'Paikkaa ilman osoitetta tai ikonia ei voida tallentaa',
+      'cannot-save-place': 'Paikkaa ilman osoitetta tai ikonia ei voida tallentaa',
       'choose-icon': 'Valitse paikan kuvake',
       'edit-place': 'Muokkaa paikkaa',
       home: 'koti',
@@ -59,8 +57,7 @@ const translations = {
   it: {
     translation: {
       cancel: 'Annulla',
-      'cannot-save-place':
-        'Impossibile salvare un luogo senza indirizzo o icona',
+      'cannot-save-place': 'Impossibile salvare un luogo senza indirizzo o icona',
       'choose-icon': 'Seleziona l’icona del luogo',
       'edit-place': 'Modifica luogo',
       home: 'casa',
@@ -96,8 +93,7 @@ const translations = {
   sv: {
     translation: {
       cancel: 'Avbryt',
-      'cannot-save-place':
-        'Det går inte att spara en plats utan adress eller ikon',
+      'cannot-save-place': 'Det går inte att spara en plats utan adress eller ikon',
       'choose-icon': 'Välj platsens ikon',
       'edit-place': 'Redigera plats',
       home: 'hem',

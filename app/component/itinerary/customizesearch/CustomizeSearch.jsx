@@ -14,11 +14,7 @@ import CityBikes from './CityBikes';
 import Scooters from './Scooters';
 import TaxiOptions from './TaxiOptions';
 import RestoreDefaultSettings from './RestoreDefaultSettings';
-import {
-  showModeSettings,
-  hasCitybikes,
-  hasScooters,
-} from '../../../../utils/client/modeUtils';
+import { showModeSettings, hasCitybikes, hasScooters } from '../../../../utils/client/modeUtils';
 import { getSettings } from '../../../../utils/client/planParamUtil';
 import {
   getCustomizedSettings,
@@ -43,9 +39,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
 
   const closeSettings = () => {
     // Move focus back to the button that opened settings window
-    const openSettingsButton = document.querySelector(
-      '.open-advanced-settings-window-button',
-    );
+    const openSettingsButton = document.querySelector('.open-advanced-settings-window-button');
     if (openSettingsButton) {
       openSettingsButton.focus();
     }
@@ -79,10 +73,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
           )}
           <h1>{intl.formatMessage({ id: 'settings' })}</h1>
         </div>
-        <div
-          className="separator"
-          style={{ marginLeft: '-16px', width: 'calc(100% + 32px' }}
-        />
+        <div className="separator" style={{ marginLeft: '-16px', width: 'calc(100% + 32px' }} />
       </div>
       <ScrollableWrapper>
         <div className="settings-section">
@@ -90,16 +81,11 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
         </div>
         {config.personalization && (
           <div className="settings-section">
-            <Personalization
-              settings={settings}
-              updateSettings={updateSettings}
-            />
+            <Personalization settings={settings} updateSettings={updateSettings} />
           </div>
         )}
         <div className="settings-section">
-          {showModeSettings(config) && (
-            <TransportModes updateSettings={updateSettings} />
-          )}
+          {showModeSettings(config) && <TransportModes updateSettings={updateSettings} />}
           {config.minTransferTimeSelection && (
             <MinTransferTime
               minTransferTimeOptions={config.minTransferTimeSelection}
@@ -107,10 +93,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
               updateSettings={updateSettings}
             />
           )}
-          <TransferOptions
-            settings={settings}
-            updateSettings={updateSettings}
-          />
+          <TransferOptions settings={settings} updateSettings={updateSettings} />
         </div>
         {hasCitybikes(config.vehicleRental?.networks, config) && (
           <div className="settings-section">
@@ -118,16 +101,10 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
           </div>
         )}
         <div className="settings-section">
-          <StreetModeSelector
-            settings={settings}
-            updateSettings={updateSettings}
-          />
+          <StreetModeSelector settings={settings} updateSettings={updateSettings} />
         </div>
         <div className="settings-section">
-          <AccessibilityOptions
-            settings={settings}
-            updateSettings={updateSettings}
-          />
+          <AccessibilityOptions settings={settings} updateSettings={updateSettings} />
         </div>
         {hasScooters(config) && (
           <div className="settings-section">
@@ -137,10 +114,7 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
         {(config.flex.external.enabled || config.taxiZone.enabled) &&
           config.transportModes.taxi.availableForSelection && (
             <div className="settings-section">
-              <TaxiOptions
-                settings={settings}
-                updateSettings={updateSettings}
-              />
+              <TaxiOptions settings={settings} updateSettings={updateSettings} />
             </div>
           )}
         <RestoreDefaultSettings updateSettings={updateSettings} />
@@ -149,7 +123,4 @@ export default function CustomizeSearch({ onToggleClick, mobile = false }) {
   );
 }
 
-CustomizeSearch.propTypes = {
-  onToggleClick: PropTypes.func.isRequired,
-  mobile: PropTypes.bool,
-};
+CustomizeSearch.propTypes = { onToggleClick: PropTypes.func.isRequired, mobile: PropTypes.bool };

@@ -22,11 +22,7 @@ export default function FirstLegStartTime({
   if (hasCallAgencyLeg) {
     return (
       <div className={cx('itinerary-first-leg-start-time', { small })}>
-        <Icon
-          img="icon_alert-circle"
-          className="itinerary-summary-icon"
-          omitViewBox
-        />
+        <Icon img="icon_alert-circle" className="itinerary-summary-icon" omitViewBox />
         <FormattedMessage id="itinerary-summary-row.call-agency-description" />
       </div>
     );
@@ -39,23 +35,14 @@ export default function FirstLegStartTime({
           id={getFirstDepartureMessageId(firstDeparture, false)}
           values={{
             firstDepartureTime: (
-              <span
-                className={cx('start-time', {
-                  realtime: firstDeparture.realTime,
-                })}
-              >
+              <span className={cx('start-time', { realtime: firstDeparture.realTime })}>
                 {legTimeStr(firstDeparture.start)}
               </span>
             ),
-            firstDepartureStopType: getFirstDepartureStopTypeText(
-              intl,
-              firstDeparture.mode,
-            ),
+            firstDepartureStopType: getFirstDepartureStopTypeText(intl, firstDeparture.mode),
             // In case the first leg is a scooter leg, stopNames[0] is an empty string.
             firstDepartureStop: stopNames[0] || stopNames[1],
-            firstDeparturePlatform: (
-              <BoardingInformation leg={firstDeparture} />
-            ),
+            firstDeparturePlatform: <BoardingInformation leg={firstDeparture} />,
           }}
         />
       </div>

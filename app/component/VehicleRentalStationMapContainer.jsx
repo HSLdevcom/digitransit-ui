@@ -21,6 +21,4 @@ export default function VehicleRentalStationMapContainer({
   return <StopPageMap stop={vehicleRentalStation} citybike />;
 }
 
-VehicleRentalStationMapContainer.propTypes = {
-  vehicleRentalStation: fragmentRefShape,
-};
+VehicleRentalStationMapContainer.propTypes = { vehicleRentalStation: fragmentRefShape };

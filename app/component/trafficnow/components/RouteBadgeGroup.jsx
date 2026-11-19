@@ -41,9 +41,7 @@ export default function RouteBadgeGroup({
         height={2}
         width={2}
         iconScale={isStop ? STOP_SIGN_ICON_SCALE : NORMAL_ICON_SCALE}
-        background={
-          isStop && <IconBackground shape="stopsign" color="currentcolor" />
-        }
+        background={isStop && <IconBackground shape="stopsign" color="currentcolor" />}
       />
       <div className={cx('badges__headsign-group', headsignGroupClassName)}>
         {routes.map(route => {

@@ -3,54 +3,32 @@ import RouteNumber from '../../../app/component/RouteNumber';
 
 describe('<RouteNumber />', () => {
   it('should use an icon based on the mode', () => {
-    const props = {
-      mode: 'CITYBIKE',
-    };
+    const props = { mode: 'CITYBIKE' };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
-      '#icon_citybike',
-    );
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe('#icon_citybike');
   });
 
   it('should use the given icon', () => {
-    const props = {
-      icon: 'icon_scooter',
-      mode: 'CITYBIKE',
-    };
+    const props = { icon: 'icon_scooter', mode: 'CITYBIKE' };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
-      '#icon_scooter',
-    );
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe('#icon_scooter');
   });
 
   it('should use the given icon when there is a disruption', () => {
-    const props = {
-      hasDisruption: true,
-      icon: 'icon_scooter',
-      mode: 'CITYBIKE',
-    };
+    const props = { hasDisruption: true, icon: 'icon_scooter', mode: 'CITYBIKE' };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
-      '#icon_scooter',
-    );
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe('#icon_scooter');
   });
 
   it('should use the given icon when there is a call agency', () => {
-    const props = {
-      icon: 'icon_scooter',
-      isCallAgency: true,
-      mode: 'CITYBIKE',
-    };
+    const props = { icon: 'icon_scooter', isCallAgency: true, mode: 'CITYBIKE' };
     const { container } = renderWithProviders(<RouteNumber {...props} />);
-    expect(container.querySelector('use').getAttribute('xlink:href')).toBe(
-      '#icon_scooter',
-    );
+    expect(container.querySelector('use').getAttribute('xlink:href')).toBe('#icon_scooter');
   });
 
   describe('alert badge', () => {
     const renderBadge = props =>
-      renderWithProviders(<RouteNumber mode="BUS" isTransitLeg {...props} />)
-        .container;
+      renderWithProviders(<RouteNumber mode="BUS" isTransitLeg {...props} />).container;
 
     it('should not show a badge without an alert', () => {
       const container = renderBadge();

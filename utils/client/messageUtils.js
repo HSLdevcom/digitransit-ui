@@ -15,9 +15,7 @@ export const favouriteTypes = [
  */
 export function failedFavouriteMessage(type, isSave) {
   const t = favouriteTypes.includes(type) ? type : favouriteTypes[0];
-  const key = isSave
-    ? `add-favourite-${t}-failed-heading`
-    : 'delete-favourite-failed-heading';
+  const key = isSave ? `add-favourite-${t}-failed-heading` : 'delete-favourite-failed-heading';
   return {
     id: key,
     persistence: 'repeat',

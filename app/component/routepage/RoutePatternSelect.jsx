@@ -66,33 +66,20 @@ function PatternOption({
   if (option.stops) {
     // Option is a pattern
     const isSelected = option.code === currentPattern.code;
-    const selectedText = isSelected
-      ? intl.formatMessage({ id: 'route-page.pattern-chosen' })
-      : '';
+    const selectedText = isSelected ? intl.formatMessage({ id: 'route-page.pattern-chosen' }) : '';
     return (
       <li
         aria-label={
-          selectedText
-            ? `${patternOptionText(option)}, ${selectedText}`
-            : patternOptionText(option)
+          selectedText ? `${patternOptionText(option)}, ${selectedText}` : patternOptionText(option)
         }
         className={cx('suggestion', {
-          'suggestion--highlighted':
-            optionIndexTable[option.code] === highlightedIndex,
+          'suggestion--highlighted': optionIndexTable[option.code] === highlightedIndex,
         })}
-        {...getItemProps({
-          item: option,
-          index: optionIndexTable[option.code],
-        })}
+        {...getItemProps({ item: option, index: optionIndexTable[option.code] })}
       >
         <span className="pattern-check">
           {isSelected ? (
-            <Icon
-              aria-hidden="true"
-              className="check"
-              img="icon_check"
-              viewBox="0 0 15 11"
-            />
+            <Icon aria-hidden="true" className="check" img="icon_check" viewBox="0 0 15 11" />
           ) : (
             <span className="check-placeholder" />
           )}
@@ -107,18 +94,11 @@ function PatternOption({
     return (
       <li
         className={cx('suggestion', {
-          'suggestion--highlighted':
-            optionIndexTable[option.gtfsId] === highlightedIndex,
+          'suggestion--highlighted': optionIndexTable[option.gtfsId] === highlightedIndex,
         })}
-        {...getItemProps({
-          item: option,
-          index: optionIndexTable[option.gtfsId],
-        })}
+        {...getItemProps({ item: option, index: optionIndexTable[option.gtfsId] })}
       >
-        <Link
-          to={routePagePath(option.gtfsId)}
-          onClick={e => e.stopPropagation()}
-        >
+        <Link to={routePagePath(option.gtfsId)} onClick={e => e.stopPropagation()}>
           <div className="similar-route">
             <div className="icon-container">
               <Icon
@@ -132,10 +112,7 @@ function PatternOption({
               <span className="similar-route-longname">{option.longName}</span>
             </div>
             <div className="icon-container">
-              <Icon
-                className="similar-route-arrow"
-                img="icon_arrow-collapse--right"
-              />
+              <Icon className="similar-route-arrow" img="icon_arrow-collapse--right" />
             </div>
           </div>
         </Link>
@@ -177,12 +154,7 @@ function MobilePatternOption({ option, currentPattern, onSelect }) {
       >
         <span className="pattern-check">
           {isSelected ? (
-            <Icon
-              aria-hidden="true"
-              className="check"
-              img="icon_check"
-              viewBox="0 0 15 11"
-            />
+            <Icon aria-hidden="true" className="check" img="icon_check" viewBox="0 0 15 11" />
           ) : (
             <span className="check-placeholder" />
           )}
@@ -220,10 +192,7 @@ function MobilePatternOption({ option, currentPattern, onSelect }) {
             <span className="similar-route-longname">{option.longName}</span>
           </div>
           <div className="icon-container">
-            <Icon
-              className="similar-route-arrow"
-              img="icon_arrow-collapse--right"
-            />
+            <Icon className="similar-route-arrow" img="icon_arrow-collapse--right" />
           </div>
         </div>
       </li>
@@ -276,8 +245,7 @@ export default function RoutePatternSelect({
 
   // Flatten option groups into a single ordered list (used by downshift for item indices)
   const flatOptions = optionArray.flatMap(group => group.options);
-  const optionCount =
-    flatOptions.length > 1 ? flatOptions.length - 1 : flatOptions.length; // Exclude currently selected pattern from count but not if it's the only option
+  const optionCount = flatOptions.length > 1 ? flatOptions.length - 1 : flatOptions.length; // Exclude currently selected pattern from count but not if it's the only option
 
   // Lookup table: option identifier → flat index (for highlight tracking)
   const optionIndexTable = Object.fromEntries(
@@ -305,11 +273,7 @@ export default function RoutePatternSelect({
     },
     onIsOpenChange: changes => {
       if (changes.isOpen) {
-        addAnalyticsEvent({
-          category: 'Route',
-          action: 'OpenDirectionMenu',
-          name: null,
-        });
+        addAnalyticsEvent({ category: 'Route', action: 'OpenDirectionMenu', name: null });
       }
     },
     labelId: 'route-pattern-select-label',
@@ -319,11 +283,7 @@ export default function RoutePatternSelect({
 
   const handleMobileOpen = () => {
     setMobileModalOpen(true);
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'OpenDirectionMenu',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Route', action: 'OpenDirectionMenu', name: null });
   };
 
   const handleMobileSelect = item => {
@@ -338,13 +298,8 @@ export default function RoutePatternSelect({
   return (
     <div className={`route-pattern-select ${className}`} aria-atomic="true">
       <div
-        className={cx('pattern-select-container', {
-          'pattern-select-container--open': isOpen,
-        })}
-        style={{
-          '--mode-color': iconColor,
-          '--mode-color-raw': rawIconColor || iconColor,
-        }}
+        className={cx('pattern-select-container', { 'pattern-select-container--open': isOpen })}
+        style={{ '--mode-color': iconColor, '--mode-color-raw': rawIconColor || iconColor }}
       >
         <label {...getLabelProps()}>
           <span className="sr-only">
@@ -392,9 +347,7 @@ export default function RoutePatternSelect({
 
         {/* Desktop dropdown — hidden on mobile */}
         <div
-          className={cx('suggestions-container', {
-            'suggestions-container--open': isOpen,
-          })}
+          className={cx('suggestions-container', { 'suggestions-container--open': isOpen })}
           hidden={!isOpen}
           {...getMenuProps({})}
         >
@@ -443,9 +396,7 @@ export default function RoutePatternSelect({
               className="pattern-select-sheet"
               role="dialog"
               aria-modal="true"
-              aria-label={intl.formatMessage({
-                id: 'route-page.pattern-select-title',
-              })}
+              aria-label={intl.formatMessage({ id: 'route-page.pattern-select-title' })}
             >
               <div className="pattern-select-sheet-header">
                 <button
@@ -459,20 +410,14 @@ export default function RoutePatternSelect({
               </div>
               <div
                 className="route-pattern-select"
-                style={{
-                  '--mode-color': iconColor,
-                  '--mode-color-raw': rawIconColor || iconColor,
-                }}
+                style={{ '--mode-color': iconColor, '--mode-color-raw': rawIconColor || iconColor }}
               >
                 {optionArray.map((section, sectionIndex) => (
                   <div
                     key={`mobile-section-${section.name || sectionIndex}`}
                     className="section-container"
                   >
-                    <ul
-                      aria-labelledby={`mobile-section-${sectionIndex}`}
-                      role="listbox"
-                    >
+                    <ul aria-labelledby={`mobile-section-${sectionIndex}`} role="listbox">
                       {section.name && (
                         <li
                           id={`mobile-section-${sectionIndex}`}

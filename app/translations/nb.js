@@ -11,8 +11,7 @@ export default {
     airplane: 'Fly',
     'airport-check-in': 'Bagasje kan sjekkes inn hos {agency}',
     'airport-collect-luggage': 'Hent eventuell bagasje',
-    'airport-security-check-go-to-gate':
-      'Passer sikkerhetskontrollen og fortsett til gate',
+    'airport-security-check-go-to-gate': 'Passer sikkerhetskontrollen og fortsett til gate',
     'arriving-at': 'Ankomst',
     'arriving-soon': 'Nå',
     'avoid-transfers': 'Unngå bytter',
@@ -46,13 +45,11 @@ export default {
     'field-optional': 'valgfritt',
     'field-required': 'påkrevd',
     frontpage: 'Forside',
-    'geolocation-denied-heading':
-      'Tjenesten fungerer best når du oppgir din posisjon',
+    'geolocation-denied-heading': 'Tjenesten fungerer best når du oppgir din posisjon',
     'geolocation-denied-text':
       'Lokalisering er ikke tillatt. Sjekk innstillingene for nettleseren din.',
     'geolocation-failed-heading': 'Lokalisering fungerer ikke',
-    'geolocation-failed-text':
-      'Nettleseren din har ikke støtte for lokalisering.',
+    'geolocation-failed-text': 'Nettleseren din har ikke støtte for lokalisering.',
     'geolocation-prompt-text': 'Vennligst aksepter lokalisering.',
     'geolocation-timeout-heading': 'Lokalisering tar lengre tid enn forventet.',
     'geolocation-timeout-text': 'Velg startsted og prøv igjen.',
@@ -77,8 +74,7 @@ export default {
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-start-end': 'Vennligst velg avgangssted og destinasjon.',
-    'number-of-intermediate-stops':
-      '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
+    'number-of-intermediate-stops': '{number, plural, =0 {Ingen stopp} other {{number} stopp} }',
     or: 'eller',
     origin: 'Fra',
     'own-position': 'Min posisjon',

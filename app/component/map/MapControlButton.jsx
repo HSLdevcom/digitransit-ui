@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 
-export default function MapControlButton({
-  handleClick,
-  ariaLabel,
-  color,
-  img,
-}) {
+export default function MapControlButton({ handleClick, ariaLabel, color, img }) {
   return (
     <div
       className="map-control-button"

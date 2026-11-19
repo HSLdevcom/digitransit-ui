@@ -4,11 +4,7 @@ import { useFilterContext } from './FiltersContext';
 import { useFavourites } from '../../../hooks/FavouriteContext';
 
 const TOGGLEABLE_FILTERS = [
-  {
-    id: 'cancellations',
-    label: 'traffic-now_filters_toggles--cancellations-only',
-    fn: () => true,
-  },
+  { id: 'cancellations', label: 'traffic-now_filters_toggles--cancellations-only', fn: () => true },
   {
     id: 'favourites',
     label: 'traffic-now_filters_toggles--favourites-only',
@@ -33,10 +29,7 @@ export default function ToggleableFilters() {
       {TOGGLEABLE_FILTERS.map(f => (
         <div key={f.id} className={`traffic-now__filters-toggle--${f.id}`}>
           <label>
-            <Toggle
-              checked={!!selectedFilters[f.id]}
-              onChange={() => handleToggle(f)}
-            />
+            <Toggle checked={!!selectedFilters[f.id]} onChange={() => handleToggle(f)} />
             <FormattedMessage id={f.label}>
               {msg => <span className="input-label bold">{msg}</span>}
             </FormattedMessage>

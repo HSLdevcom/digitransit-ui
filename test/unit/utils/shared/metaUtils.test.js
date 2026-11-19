@@ -19,15 +19,9 @@ function createMockConfig(overrides = {}) {
 
 describe('getMetadata', () => {
   it('builds the base meta tags from config', () => {
-    const { meta } = getMetadata(
-      'fi',
-      'example.com',
-      'https://example.com/',
-      createMockConfig(),
-    );
+    const { meta } = getMetadata('fi', 'example.com', 'https://example.com/', createMockConfig());
 
-    const byName = key =>
-      meta.find(m => m.name === key || m.property === key).content;
+    const byName = key => meta.find(m => m.name === key || m.property === key).content;
 
     expect(byName('description')).toBe('A test app');
     expect(byName('og:title')).toBe('Test app');
@@ -42,12 +36,7 @@ describe('getMetadata', () => {
       },
     });
 
-    const { meta, link } = getMetadata(
-      'fi',
-      'example.com',
-      'https://example.com/',
-      config,
-    );
+    const { meta, link } = getMetadata('fi', 'example.com', 'https://example.com/', config);
 
     expect(meta.some(m => m.name === 'theme-color')).toBe(true);
     expect(link.some(l => l.rel === 'apple-touch-icon')).toBe(true);

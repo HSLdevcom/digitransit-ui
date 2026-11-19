@@ -4,10 +4,7 @@ import { useRef, Fragment } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
 import { geoJsonFeatureShape } from '../../../utils/client/shapes';
-import {
-  isMultiPointTypeGeometry,
-  isPointTypeGeometry,
-} from '../../../utils/shared/geo-utils';
+import { isMultiPointTypeGeometry, isPointTypeGeometry } from '../../../utils/shared/geo-utils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /**
@@ -21,18 +18,14 @@ export const getIcons = features => {
   }
 
   return features
-    .filter(
-      feature => feature.properties?.icon?.id && feature.properties.icon.svg,
-    )
+    .filter(feature => feature.properties?.icon?.id && feature.properties.icon.svg)
     .map(feature => feature.properties.icon)
     .reduce((icons, icon) => {
       /*
         For data URI SVG support in Firefox & IE it's necessary to URI encode the string
         & replace the '#' character with '%23'. `encodeURI()` won't do this.
       */
-      const url = `data:image/svg+xml;charset=utf-8,${encodeURI(
-        icon.svg,
-      ).replace(/#/g, '%23')}`;
+      const url = `data:image/svg+xml;charset=utf-8,${encodeURI(icon.svg).replace(/#/g, '%23')}`;
       icons[icon.id] = url; // eslint-disable-line no-param-reassign
       return icons;
     }, {});
@@ -53,18 +46,12 @@ export const getMarker = (feature, latlng, icons = {}) => {
 
   if (properties.icon) {
     marker = L.marker(latlng, {
-      icon: new L.Icon({
-        iconUrl: icons[properties.icon.id],
-        className: 'icon-zone',
-      }),
+      icon: new L.Icon({ iconUrl: icons[properties.icon.id], className: 'icon-zone' }),
       interactive,
       keyboard: false,
     });
   } else if (properties.textOnly) {
-    marker = L.circleMarker(latlng, {
-      interactive,
-      keyboard: false,
-    });
+    marker = L.circleMarker(latlng, { interactive, keyboard: false });
     marker.bindTooltip(properties.textOnly, {
       className: 'geoJsonText',
       direction: 'center',
@@ -80,36 +67,28 @@ export const getMarker = (feature, latlng, icons = {}) => {
 
 const addPopup = (feature, layer) => {
   if (feature.properties?.popupContent) {
-    layer.bindPopup(feature.properties.popupContent, {
-      className: 'geoJsonPopup',
-    });
+    layer.bindPopup(feature.properties.popupContent, { className: 'geoJsonPopup' });
   }
 };
 
 const lineArray = [
-  0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.55, 0.61, 0.69, 0.78, 0.89, 1.02, 1.17, 1.36,
-  1.58, 1.85, 2.17, 2.56, 3.02, 3.57, 4.24, 5.04, 6,
+  0.5, 0.5, 0.5, 0.5, 0.5, 0.5, 0.55, 0.61, 0.69, 0.78, 0.89, 1.02, 1.17, 1.36, 1.58, 1.85, 2.17,
+  2.56, 3.02, 3.57, 4.24, 5.04, 6,
 ];
 
 const haloArray = [
-  2, 2, 2, 2, 2, 2, 2.74, 3.62, 4.68, 5.95, 7.48, 9.31, 11.51, 14.05, 17.31,
-  21.11, 25.67, 31.14, 37.71, 45.59, 55.04, 66.39, 80,
+  2, 2, 2, 2, 2, 2, 2.74, 3.62, 4.68, 5.95, 7.48, 9.31, 11.51, 14.05, 17.31, 21.11, 25.67, 31.14,
+  37.71, 45.59, 55.04, 66.39, 80,
 ];
 
-export default function GeoJSON({
-  bounds,
-  data,
-  geoJsonZoomLevel = 0,
-  ...rest
-}) {
+export default function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
   const config = useConfigContext();
   const { colors, geoJsonSvgSize, language } = config;
   // cache dynamic icons to allow references by id without data duplication
   const icons = useRef(getIcons(data?.features));
 
   // add some custom rendering control by feature props
-  const pointToLayer = (feature, latlng) =>
-    getMarker(feature, latlng, icons.current);
+  const pointToLayer = (feature, latlng) => getMarker(feature, latlng, icons.current);
 
   const styler = feature => {
     const defaultLineStyle = {
@@ -139,31 +118,21 @@ export default function GeoJSON({
     const { geometry } = feature;
     if (isPointTypeGeometry(geometry) || isMultiPointTypeGeometry(geometry)) {
       if (feature.properties?.textOnly) {
-        return feature.style
-          ? { ...textMarkerStyle, ...feature.style }
-          : textMarkerStyle;
+        return feature.style ? { ...textMarkerStyle, ...feature.style } : textMarkerStyle;
       }
-      return feature.style
-        ? { ...defaultMarkerStyle, ...feature.style }
-        : defaultMarkerStyle;
+      return feature.style ? { ...defaultMarkerStyle, ...feature.style } : defaultMarkerStyle;
     }
 
-    if (
-      feature.style &&
-      (geometry.type === 'MultiLineString' || geometry.type === 'LineString')
-    ) {
+    if (feature.style && (geometry.type === 'MultiLineString' || geometry.type === 'LineString')) {
       const index = geoJsonZoomLevel;
       const newStyle = {
         ...feature.style,
-        weight:
-          feature.style.type === 'halo' ? haloArray[index] : lineArray[index],
+        weight: feature.style.type === 'halo' ? haloArray[index] : lineArray[index],
       };
       return { ...defaultLineStyle, ...newStyle };
     }
 
-    return feature.style
-      ? { ...defaultLineStyle, ...feature.style }
-      : defaultLineStyle;
+    return feature.style ? { ...defaultLineStyle, ...feature.style } : defaultLineStyle;
   };
 
   if (!icons.current || !data?.features) {
@@ -175,12 +144,7 @@ export default function GeoJSON({
   );
   if (!hasOnlyPointGeometries) {
     return (
-      <Geojson
-        data={data}
-        pointToLayer={pointToLayer}
-        style={styler}
-        onEachFeature={addPopup}
-      />
+      <Geojson data={data} pointToLayer={pointToLayer} style={styler} onEachFeature={addPopup} />
     );
   }
 
@@ -204,8 +168,6 @@ export default function GeoJSON({
 
 GeoJSON.propTypes = {
   bounds: PropTypes.shape({ contains: PropTypes.func.isRequired }),
-  data: PropTypes.shape({
-    features: PropTypes.arrayOf(geoJsonFeatureShape),
-  }).isRequired,
+  data: PropTypes.shape({ features: PropTypes.arrayOf(geoJsonFeatureShape) }).isRequired,
   geoJsonZoomLevel: PropTypes.number,
 };

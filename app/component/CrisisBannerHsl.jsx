@@ -22,11 +22,7 @@ export default function CrisisBannerHsl({ initialBanners = null }) {
   });
 
   useEffect(() => {
-    if (
-      initialBanners ||
-      config.showStaticCrisisBanners ||
-      !config.URL.BANNERS
-    ) {
+    if (initialBanners || config.showStaticCrisisBanners || !config.URL.BANNERS) {
       return;
     }
     getJson(`${config.URL.BANNERS}&language=${locale}`)
@@ -65,9 +61,6 @@ export default function CrisisBannerHsl({ initialBanners = null }) {
 
 CrisisBannerHsl.propTypes = {
   initialBanners: PropTypes.arrayOf(
-    PropTypes.shape({
-      body: PropTypes.string,
-      priority: PropTypes.string,
-    }),
+    PropTypes.shape({ body: PropTypes.string, priority: PropTypes.string }),
   ),
 };

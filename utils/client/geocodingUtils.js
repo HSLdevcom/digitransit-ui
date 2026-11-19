@@ -18,19 +18,17 @@ export function reverseGeocode(config, coords) {
     searchParams['boundary.country'] = config.searchParams['boundary.country'];
   }
 
-  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
-    data => {
-      if (data.features != null && data.features.length > 0) {
-        const match = data.features[0].properties;
-        return {
-          address: match.name,
-          gid: match.gid,
-          name: match.name,
-          layer: match.layer,
-          city: match.localadmin || match.locality,
-        };
-      }
-      return {};
-    },
-  );
+  return getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(data => {
+    if (data.features != null && data.features.length > 0) {
+      const match = data.features[0].properties;
+      return {
+        address: match.name,
+        gid: match.gid,
+        name: match.name,
+        layer: match.layer,
+        city: match.localadmin || match.locality,
+      };
+    }
+    return {};
+  });
 }

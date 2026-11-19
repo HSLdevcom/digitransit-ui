@@ -29,9 +29,7 @@ export default {
   favicon: './app/assets/images/default/default-favicon.png',
   textLogo: true,
   logo: null,
-  meta: {
-    description: APP_DESCRIPTION,
-  },
+  meta: { description: APP_DESCRIPTION },
   menu: {
     copyright: null,
     content: [
@@ -43,32 +41,15 @@ export default {
           en: 'https://www.digitransit.fi/en/accessibility',
         },
       },
-      {
-        name: 'about-these-pages',
-        href: '/tietoja-palvelusta',
-      },
+      { name: 'about-these-pages', href: '/tietoja-palvelusta' },
     ],
   },
-  carBoardingModes: {
-    FERRY: { showNotification: false },
-  },
+  carBoardingModes: { FERRY: { showNotification: false } },
   transportModes: {
-    citybike: {
-      availableForSelection: false,
-      default: false,
-    },
-    airplane: {
-      availableForSelection: false,
-      default: false,
-    },
-    walk: {
-      availableForSelection: false,
-      default: false,
-    },
-    car: {
-      availableForSelection: true,
-      default: false,
-    },
+    citybike: { availableForSelection: false, default: false },
+    airplane: { availableForSelection: false, default: false },
+    walk: { availableForSelection: false, default: false },
+    car: { availableForSelection: true, default: false },
   },
   suggestCarMinDistance: 0,
   showWeatherInformation: false,
@@ -86,23 +67,14 @@ export default {
   },
   mainMenu: {
     showDisruptions: false,
-    stopMonitor: {
-      show: false,
-    },
+    stopMonitor: { show: false },
     showEmbeddedSearch: false,
     countrySelection: [],
   },
 
-  socialMedia: {
-    title: APP_TITLE,
-    description: APP_DESCRIPTION,
-    locale: 'fi_FI',
-  },
+  socialMedia: { title: APP_TITLE, description: APP_DESCRIPTION, locale: 'fi_FI' },
 
-  colors: {
-    primary: '#003580',
-    bus: '#003580',
-  },
+  colors: { primary: '#003580', bus: '#003580' },
 
   redirectReittiopasParams: true,
   map: { minZoom: 5 },

@@ -5,10 +5,7 @@ import { fragmentRefShape } from '../../utils/client/shapes';
 import Icon from './Icon';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function DisruptionInfoButton({
-  openDisruptionInfo = () => {},
-  viewer: viewerRef,
-}) {
+export default function DisruptionInfoButton({ openDisruptionInfo = () => {}, viewer: viewerRef }) {
   const { disruption } = useConfigContext();
   const viewer = useFragment(
     graphql`

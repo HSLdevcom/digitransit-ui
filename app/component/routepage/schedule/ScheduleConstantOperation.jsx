@@ -3,16 +3,9 @@ import PropTypes from 'prop-types';
 /**
  * Shown for routes that operate 24/7 instead of a timetable list.
  */
-export default function ScheduleConstantOperation({
-  constantOperationInfo,
-  breakpoint,
-}) {
+export default function ScheduleConstantOperation({ constantOperationInfo, breakpoint }) {
   return (
-    <div
-      className={`route-schedule-container ${
-        breakpoint !== 'large' ? 'mobile' : ''
-      }`}
-    >
+    <div className={`route-schedule-container ${breakpoint !== 'large' ? 'mobile' : ''}`}>
       <div className="stop-constant-operation-container bottom-padding">
         <div className="constant-operation-content">
           {constantOperationInfo.text}

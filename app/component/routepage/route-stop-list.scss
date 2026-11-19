@@ -34,10 +34,7 @@
 }
 
 // To hide the line element in the last itinerary leg
-.route-stop-list
-  > .route-stop:last-of-type
-  > div.route-stop-now_circleline
-  > .route-stop-now_line {
+.route-stop-list > .route-stop:last-of-type > div.route-stop-now_circleline > .route-stop-now_line {
   display: none;
 }
 

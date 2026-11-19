@@ -48,10 +48,7 @@ import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 function getExtraProps(itinerary, intl) {
-  const compressedItinerary = {
-    ...itinerary,
-    legs: compressLegs(itinerary.legs),
-  };
+  const compressedItinerary = { ...itinerary, legs: compressLegs(itinerary.legs) };
   const walkingDistance = getTotalWalkingDistance(compressedItinerary);
   const walkingDuration = getTotalWalkingDuration(compressedItinerary);
   const bikingDistance = getTotalBikingDistance(compressedItinerary);
@@ -60,22 +57,11 @@ function getExtraProps(itinerary, intl) {
   const drivingDistance = getTotalDrivingDistance(compressedItinerary);
   const futureText = getFutureText(itinerary.start, intl);
   const isMultiRow =
-    walkingDistance > 0 &&
-    (bikingDistance > 0 || drivingDistance > 0) &&
-    futureText !== '';
+    walkingDistance > 0 && (bikingDistance > 0 || drivingDistance > 0) && futureText !== '';
   return {
-    walking: {
-      duration: walkingDuration,
-      distance: walkingDistance,
-    },
-    biking: {
-      duration: bikingDuration,
-      distance: bikingDistance,
-    },
-    driving: {
-      duration: drivingDuration,
-      distance: drivingDistance,
-    },
+    walking: { duration: walkingDuration, distance: walkingDistance },
+    biking: { duration: bikingDuration, distance: bikingDistance },
+    driving: { duration: drivingDuration, distance: drivingDistance },
     futureText,
     isMultiRow,
   };
@@ -115,9 +101,7 @@ export default function ItineraryDetails({
 
   const settings = getSettings(config);
   const shouldShowFeedback =
-    itinerary.legs.some(l => l.transitLeg) &&
-    config.personalization &&
-    settings.personalization; // user has not turned it off
+    itinerary.legs.some(l => l.transitLeg) && config.personalization && settings.personalization; // user has not turned it off
 
   const fares = getFaresFromLegs(itinerary.legs, config);
   const extraProps = getExtraProps(itinerary, intl);
@@ -147,12 +131,9 @@ export default function ItineraryDetails({
     driving.distance === 0;
   const containsBiking = biking.duration > 0 && biking.distance > 0;
   const showBikeBoardingInformation =
-    containsBiking &&
-    bikePublicItineraryCount > 0 &&
-    legswithBikePark.length === 0;
+    containsBiking && bikePublicItineraryCount > 0 && legswithBikePark.length === 0;
   const containsDriving = driving.duration > 0 && driving.distance > 0;
-  const showCarBoardingInformation =
-    containsDriving && carPublicItineraryCount > 0;
+  const showCarBoardingInformation = containsDriving && carPublicItineraryCount > 0;
   const rentalBikeNetworks = new Set();
   let showRentalBikeDurationWarning = false;
   if (legsWithRentalBike.length > 0) {
@@ -164,8 +145,7 @@ export default function ItineraryDetails({
         config.vehicleRental.networks[network].durationInstructions
       ) {
         const rentDurationOverSurchargeLimit =
-          leg.duration >
-          config.vehicleRental.networks[network].timeBeforeSurcharge;
+          leg.duration > config.vehicleRental.networks[network].timeBeforeSurcharge;
         if (rentDurationOverSurchargeLimit) {
           rentalBikeNetworks.add(network);
           showRentalBikeDurationWarning =
@@ -210,8 +190,7 @@ export default function ItineraryDetails({
       callAgencyInfo &&
       itinerary.legs.some(
         leg =>
-          isCallAgencyLeg(leg) &&
-          !config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
+          isCallAgencyLeg(leg) && !config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
       )
     ) {
       disclaimers.push(
@@ -251,21 +230,14 @@ export default function ItineraryDetails({
 
       if (isReplacementRoute || isReplacementTrip) {
         const notification =
-          isReplacementRoute &&
-          config.showRouteDescNotification &&
-          route.desc?.length
+          isReplacementRoute && config.showRouteDescNotification && route.desc?.length
             ? { content: route.desc, link: route.url }
             : {
-                content:
-                  config.replacementBusNotification?.content?.[language]?.join(
-                    ' ',
-                  ),
+                content: config.replacementBusNotification?.content?.[language]?.join(' '),
                 link: config.replacementBusNotification?.link?.[language],
               };
 
-        const key = `replacementBusNotification-${
-          route.gtfsId || trip?.gtfsId
-        }`;
+        const key = `replacementBusNotification-${route.gtfsId || trip?.gtfsId}`;
         if (!disclaimers.some(d => d.props?.text === notification.content)) {
           disclaimers.push(
             <RouteDisclaimer
@@ -284,12 +256,7 @@ export default function ItineraryDetails({
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only">
-        <FormattedMessage
-          id="summary-page.row-label"
-          values={{
-            number: itineraryIndex,
-          }}
-        />
+        <FormattedMessage id="summary-page.row-label" values={{ number: itineraryIndex }} />
         <FormattedMessage id="leaves">
           {msg => (
             <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(
@@ -322,9 +289,7 @@ export default function ItineraryDetails({
             futureText={futureText}
             isMultiRow={isMultiRow}
             isMobile={isMobile}
-            hideBottomDivider={
-              isMobile && shouldShowFarePurchaseInfo(config, breakpoint, fares)
-            }
+            hideBottomDivider={isMobile && shouldShowFarePurchaseInfo(config, breakpoint, fares)}
           />,
           showRentalBikeDurationWarning && (
             <VehicleRentalDurationInfo
@@ -350,26 +315,16 @@ export default function ItineraryDetails({
               />
             )),
 
-          showStartNavi && (
-            <StartNavi key="navigation" startNavigation={startNavigation} />
-          ),
+          showStartNavi && <StartNavi key="navigation" startNavigation={startNavigation} />,
           config.showCO2InItinerarySummary && !hasLegsWithScooter && (
-            <EmissionsInfo
-              key="emissionsummary"
-              itinerary={itinerary}
-              isMobile={isMobile}
-            />
+            <EmissionsInfo key="emissionsummary" itinerary={itinerary} isMobile={isMobile} />
           ),
           <div
-            className={cx('momentum-scroll itinerary-tabs__scroll', {
-              multirow: isMultiRow,
-            })}
+            className={cx('momentum-scroll itinerary-tabs__scroll', { multirow: isMultiRow })}
             key="legs"
           >
             <div
-              className={cx('itinerary-main', {
-                'bp-large': breakpoint === 'large',
-              })}
+              className={cx('itinerary-main', { 'bp-large': breakpoint === 'large' })}
               key="legwrapper"
             >
               {disclaimers}

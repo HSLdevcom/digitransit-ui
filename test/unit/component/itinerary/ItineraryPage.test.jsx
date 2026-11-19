@@ -27,9 +27,7 @@ const AlternativeItineraryBarStub = ({ walkPlan }) => (
 );
 const ItineraryListContainerStub = ({ planEdges, onEarlier, onLater }) => (
   <>
-    <div data-testid="itineraries">
-      {planEdges.map(edge => edge.node.id).join(',')}
-    </div>
+    <div data-testid="itineraries">{planEdges.map(edge => edge.node.id).join(',')}</div>
     <button type="button" onClick={onEarlier}>
       Earlier
     </button>
@@ -71,14 +69,7 @@ function plan(id) {
           id,
           start: '2026-10-19T10:00:00Z',
           end: '2026-10-19T11:00:00Z',
-          legs: [
-            {
-              mode: 'BUS',
-              from: {},
-              to: {},
-              legGeometry: { points: '' },
-            },
-          ],
+          legs: [{ mode: 'BUS', from: {}, to: {}, legGeometry: { points: '' } }],
         },
       },
     ],
@@ -97,73 +88,55 @@ describe('ItineraryPage lifecycle', () => {
       (_config, _match, type, relaxed) =>
         !relaxed && [PLANTYPE.TRANSIT, PLANTYPE.WALK].includes(type),
     );
-    vi.spyOn(planParamUtil, 'getPlanParams').mockImplementation(
-      (_config, match, type) => ({
-        destination: match.params.to,
-        type,
-        datetime: {},
-        modes: { directOnly: type === PLANTYPE.WALK },
-        numItineraries: 5,
-      }),
-    );
-    quitIteration = vi
-      .spyOn(ItineraryPageUtils, 'quitIteration')
-      .mockReturnValue(true);
-    stopClient = vi
-      .spyOn(ItineraryPageUtils, 'stopClient')
-      .mockImplementation(() => {});
+    vi.spyOn(planParamUtil, 'getPlanParams').mockImplementation((_config, match, type) => ({
+      destination: match.params.to,
+      type,
+      datetime: {},
+      modes: { directOnly: type === PLANTYPE.WALK },
+      numItineraries: 5,
+    }));
+    quitIteration = vi.spyOn(ItineraryPageUtils, 'quitIteration').mockReturnValue(true);
+    stopClient = vi.spyOn(ItineraryPageUtils, 'stopClient').mockImplementation(() => {});
     vi.spyOn(ItineraryPageUtils, 'settingsLimitRouting').mockReturnValue(false);
-    vi.spyOn(DesktopViewModule, 'default', 'get').mockReturnValue(
-      DesktopViewStub,
-    );
-    vi.spyOn(ItineraryPageMapModule, 'default', 'get').mockReturnValue(
-      EmptyStub,
-    );
-    vi.spyOn(ItineraryPageControlsModule, 'default', 'get').mockReturnValue(
-      EmptyStub,
-    );
+    vi.spyOn(DesktopViewModule, 'default', 'get').mockReturnValue(DesktopViewStub);
+    vi.spyOn(ItineraryPageMapModule, 'default', 'get').mockReturnValue(EmptyStub);
+    vi.spyOn(ItineraryPageControlsModule, 'default', 'get').mockReturnValue(EmptyStub);
     vi.spyOn(AlternativeItineraryBarModule, 'default', 'get').mockReturnValue(
       AlternativeItineraryBarStub,
     );
     vi.spyOn(ItineraryListContainerModule, 'default', 'get').mockReturnValue(
       ItineraryListContainerStub,
     );
-    vi.spyOn(relay, 'fetchQuery').mockImplementation(
-      (_environment, _query, variables) => ({
-        subscribe: sink => {
-          const request = { variables, cancelled: false };
-          request.resolve = data => {
-            if (!request.cancelled) {
-              sink.next(data);
-              sink.complete();
-            }
-          };
-          request.reject = error => {
-            if (!request.cancelled) {
-              sink.error(error);
-            }
-          };
-          requests.push(request);
-          sink.start({
-            unsubscribe: () => {
-              request.cancelled = true;
-            },
-          });
-        },
-      }),
-    );
+    vi.spyOn(relay, 'fetchQuery').mockImplementation((_environment, _query, variables) => ({
+      subscribe: sink => {
+        const request = { variables, cancelled: false };
+        request.resolve = data => {
+          if (!request.cancelled) {
+            sink.next(data);
+            sink.complete();
+          }
+        };
+        request.reject = error => {
+          if (!request.cancelled) {
+            sink.error(error);
+          }
+        };
+        requests.push(request);
+        sink.start({
+          unsubscribe: () => {
+            request.cancelled = true;
+          },
+        });
+      },
+    }));
   });
 
   async function finishSearch(destination) {
     await act(async () => {
       requests
-        .filter(request =>
-          request.variables.destination.startsWith(destination),
-        )
+        .filter(request => request.variables.destination.startsWith(destination))
         .forEach(request => {
-          request.resolve({
-            plan: plan(`${destination}-${request.variables.type}`),
-          });
+          request.resolve({ plan: plan(`${destination}-${request.variables.type}`) });
         });
     });
   }
@@ -182,23 +155,15 @@ describe('ItineraryPage lifecycle', () => {
     rerender(page('Hamina'));
     await finishSearch('Hamina');
 
-    expect(screen.getByTestId('itineraries').textContent).toBe(
-      `Hamina-${PLANTYPE.TRANSIT}`,
-    );
-    expect(screen.getByTestId('walking').textContent).toBe(
-      `Hamina-${PLANTYPE.WALK}`,
-    );
+    expect(screen.getByTestId('itineraries').textContent).toBe(`Hamina-${PLANTYPE.TRANSIT}`);
+    expect(screen.getByTestId('walking').textContent).toBe(`Hamina-${PLANTYPE.WALK}`);
 
     quitIteration.mockReturnValue(false);
     await finishSearch('Savukoski');
 
     expect(requests).toHaveLength(4);
-    expect(screen.getByTestId('itineraries').textContent).toBe(
-      `Hamina-${PLANTYPE.TRANSIT}`,
-    );
-    expect(screen.getByTestId('walking').textContent).toBe(
-      `Hamina-${PLANTYPE.WALK}`,
-    );
+    expect(screen.getByTestId('itineraries').textContent).toBe(`Hamina-${PLANTYPE.TRANSIT}`);
+    expect(screen.getByTestId('walking').textContent).toBe(`Hamina-${PLANTYPE.WALK}`);
   });
 
   it('ignores errors from an older search without clearing the latest results', async () => {
@@ -207,18 +172,12 @@ describe('ItineraryPage lifecycle', () => {
     await finishSearch('Hamina');
     await act(async () => {
       requests
-        .filter(request =>
-          request.variables.destination.startsWith('Savukoski'),
-        )
+        .filter(request => request.variables.destination.startsWith('Savukoski'))
         .forEach(request => request.reject(new Error('Old search failed')));
     });
 
-    expect(screen.getByTestId('itineraries').textContent).toBe(
-      `Hamina-${PLANTYPE.TRANSIT}`,
-    );
-    expect(screen.getByTestId('walking').textContent).toBe(
-      `Hamina-${PLANTYPE.WALK}`,
-    );
+    expect(screen.getByTestId('itineraries').textContent).toBe(`Hamina-${PLANTYPE.TRANSIT}`);
+    expect(screen.getByTestId('walking').textContent).toBe(`Hamina-${PLANTYPE.WALK}`);
   });
 
   it('keeps loading the new search when the old search finishes first', async () => {
@@ -228,17 +187,14 @@ describe('ItineraryPage lifecycle', () => {
 
     expect(screen.queryByTestId('itineraries')).toBeNull();
     await finishSearch('Hamina');
-    expect(screen.getByTestId('itineraries').textContent).toBe(
-      `Hamina-${PLANTYPE.TRANSIT}`,
-    );
+    expect(screen.getByTestId('itineraries').textContent).toBe(`Hamina-${PLANTYPE.TRANSIT}`);
   });
 
   it('cancels pending requests of the old search when the search changes', async () => {
     const { rerender } = render(page('Savukoski'));
     rerender(page('Hamina'));
 
-    const isOld = request =>
-      request.variables.destination.startsWith('Savukoski');
+    const isOld = request => request.variables.destination.startsWith('Savukoski');
     expect(requests.filter(isOld)).toHaveLength(2);
     expect(requests.filter(isOld).every(r => r.cancelled)).toBe(true);
     expect(requests.filter(r => !isOld(r)).some(r => r.cancelled)).toBe(false);
@@ -282,9 +238,7 @@ describe('ItineraryPage lifecycle', () => {
         pagination.resolve({ plan: plan('Old pagination') });
       });
 
-      expect(screen.getByTestId('itineraries').textContent).toBe(
-        `Hamina-${PLANTYPE.TRANSIT}`,
-      );
+      expect(screen.getByTestId('itineraries').textContent).toBe(`Hamina-${PLANTYPE.TRANSIT}`);
     },
   );
 });

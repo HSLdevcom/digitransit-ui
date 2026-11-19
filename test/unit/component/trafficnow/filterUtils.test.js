@@ -27,19 +27,13 @@ describe('filterAndSortAlerts', () => {
   describe('pastFilter — removes alerts whose end time has passed', () => {
     it('includes an alert when selectedFilters.now < effectiveEndDate * 1000', () => {
       const alert = makeAlert({ effectiveEndDate: 2000 }); // 2_000_000 ms
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        now: 1_000_000,
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, now: 1_000_000 });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('excludes an alert when selectedFilters.now >= effectiveEndDate * 1000', () => {
       const alert = makeAlert({ effectiveEndDate: 500 }); // 500_000 ms
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        now: 1_000_000,
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, now: 1_000_000 });
       expect(result).toEqual(expect.not.arrayContaining([alert]));
     });
   });
@@ -60,46 +54,25 @@ describe('filterAndSortAlerts', () => {
 
   describe('validityPeriodFilter', () => {
     it('includes all alerts when validityPeriod is ALL', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        validityPeriod: 'ALL',
-      });
+      const alert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, validityPeriod: 'ALL' });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('includes an active alert when validityPeriod is VALID', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        validityPeriod: 'VALID',
-      });
+      const alert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, validityPeriod: 'VALID' });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('excludes a future alert when validityPeriod is VALID', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 2000,
-        effectiveEndDate: 5000,
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        validityPeriod: 'VALID',
-      });
+      const alert = makeAlert({ effectiveStartDate: 2000, effectiveEndDate: 5000 });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, validityPeriod: 'VALID' });
       expect(result).toHaveLength(0);
     });
 
     it('excludes an already-ended alert when validityPeriod is VALID', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 100,
-        effectiveEndDate: 500,
-      });
+      const alert = makeAlert({ effectiveStartDate: 100, effectiveEndDate: 500 });
       const result = filterAndSortAlerts([alert], {
         ...defaultFilters,
         now: 100,
@@ -109,10 +82,7 @@ describe('filterAndSortAlerts', () => {
     });
 
     it('includes a future alert when validityPeriod is UPCOMING', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 2000,
-        effectiveEndDate: 5000,
-      });
+      const alert = makeAlert({ effectiveStartDate: 2000, effectiveEndDate: 5000 });
       const result = filterAndSortAlerts([alert], {
         ...defaultFilters,
         validityPeriod: 'UPCOMING',
@@ -121,10 +91,7 @@ describe('filterAndSortAlerts', () => {
     });
 
     it('excludes an active alert when validityPeriod is UPCOMING', () => {
-      const alert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
+      const alert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
       const result = filterAndSortAlerts([alert], {
         ...defaultFilters,
         validityPeriod: 'UPCOMING',
@@ -145,55 +112,37 @@ describe('filterAndSortAlerts', () => {
   describe('vehicleModesFilter', () => {
     it('includes all alerts when vehicleModes is empty', () => {
       const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: [],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: [] });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('includes an alert when a Stop entity vehicleMode matches a selected mode', () => {
       const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: ['BUS'],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['BUS'] });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('includes an alert when a Route entity mode matches a selected mode', () => {
       const alert = makeAlert({ entities: [{ mode: 'TRAM' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: ['TRAM'],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['TRAM'] });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('includes an alert when a StopOnRoute entity route.mode matches a selected mode', () => {
       const alert = makeAlert({ entities: [{ route: { mode: 'RAIL' } }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: ['RAIL'],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['RAIL'] });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
     it('excludes an alert when no entity matches any of the selected modes', () => {
       const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: ['TRAM'],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['TRAM'] });
       expect(result).toHaveLength(0);
     });
 
     it('is case-insensitive when comparing modes', () => {
       const alert = makeAlert({ entities: [{ vehicleMode: 'bus' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        vehicleModes: ['BUS'],
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['BUS'] });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
   });
@@ -253,19 +202,13 @@ describe('filterAndSortAlerts', () => {
   describe('cancellationsFilter', () => {
     it('includes non-Alert items when the cancellations filter is set', () => {
       const item = makeAlert({ __typename: 'CanceledTrip' });
-      const result = filterAndSortAlerts([item], {
-        ...defaultFilters,
-        cancellations: true,
-      });
+      const result = filterAndSortAlerts([item], { ...defaultFilters, cancellations: true });
       expect(result).toEqual(expect.arrayContaining([item]));
     });
 
     it('excludes Alert type items when the cancellations filter is set', () => {
       const alert = makeAlert({ __typename: 'Alert' });
-      const result = filterAndSortAlerts([alert], {
-        ...defaultFilters,
-        cancellations: true,
-      });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, cancellations: true });
       expect(result).toHaveLength(0);
     });
 

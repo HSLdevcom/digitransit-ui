@@ -31,9 +31,7 @@ describe('RealTimeInformationProvider', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     startMqttClient = vi.spyOn(mqttClient, 'startMqttClient');
-    changeTopics = vi
-      .spyOn(mqttClient, 'changeTopics')
-      .mockImplementation(() => {});
+    changeTopics = vi.spyOn(mqttClient, 'changeTopics').mockImplementation(() => {});
   });
 
   afterEach(() => {
@@ -66,12 +64,7 @@ describe('RealTimeInformationProvider', () => {
         { id: 'two', route: 'HSL:2' },
       ]),
     );
-    act(() =>
-      actions.setTopics({
-        topics: ['route/1'],
-        topicsByRoute: { 1: 'route/1' },
-      }),
-    );
+    act(() => actions.setTopics({ topics: ['route/1'], topicsByRoute: { 1: 'route/1' } }));
     expect(Object.keys(result.current.vehicles)).toEqual(['one']);
     act(() => actions.handleMessage({ id: 'two', route: 'HSL:2' }));
     act(() => {
@@ -181,14 +174,8 @@ describe('RealTimeInformationProvider', () => {
   it('closes an established client when replacing it and clears buffered updates', async () => {
     const firstClient = { end: vi.fn() };
     const secondClient = { end: vi.fn() };
-    startMqttClient.mockResolvedValueOnce({
-      client: firstClient,
-      topics: ['first'],
-    });
-    startMqttClient.mockResolvedValueOnce({
-      client: secondClient,
-      topics: ['second'],
-    });
+    startMqttClient.mockResolvedValueOnce({ client: firstClient, topics: ['first'] });
+    startMqttClient.mockResolvedValueOnce({ client: secondClient, topics: ['second'] });
     const { result } = renderHook(useRealTimeInformation, { wrapper });
     const { actions } = result.current;
     await act(() => actions.start({}));

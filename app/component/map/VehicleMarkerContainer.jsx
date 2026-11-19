@@ -40,23 +40,13 @@ function getVehicleIcon(mode, heading, vehicleNumber, color, useLargeIcon) {
 // if tripStartTime has been specified,
 // use only the updates for vehicles with matching startTime
 
-function shouldShowVehicle(
-  message,
-  direction,
-  tripStart,
-  pattern,
-  headsign,
-  trip,
-) {
+function shouldShowVehicle(message, direction, tripStart, pattern, headsign, trip) {
   const { entityId: tripId } = splitGtfsId(message.tripId);
   return (
     !Number.isNaN(parseFloat(message.lat)) &&
     !Number.isNaN(parseFloat(message.long)) &&
-    (pattern === undefined ||
-      pattern.substr(0, message.route.length) === message.route) &&
-    (headsign === undefined ||
-      message.headsign === undefined ||
-      headsign === message.headsign) &&
+    (pattern === undefined || pattern.substr(0, message.route.length) === message.route) &&
+    (headsign === undefined || message.headsign === undefined || headsign === message.headsign) &&
     (direction === undefined ||
       direction === -1 ||
       message.direction === undefined ||
@@ -81,8 +71,7 @@ export default function VehicleMarkerContainer({
   // if you keep the UI open for a long time then trips that have finsished accumulated on the screen
   // this removes anything that hasn't had an update in 3 minutes
   const vehiclesFiltered = Object.entries(vehicles).filter(([, message]) => {
-    const matchesMode =
-      !mode || message.mode.toLowerCase() === mode.toLowerCase();
+    const matchesMode = !mode || message.mode.toLowerCase() === mode.toLowerCase();
     const isRecent = message.receivedAt > Date.now() / 1000 - 180;
     return matchesMode && isRecent;
   });
@@ -112,9 +101,7 @@ export default function VehicleMarkerContainer({
 
   return visibleVehicles.map(([id, message]) => {
     const { entityId: routeId } = splitGtfsId(message.route);
-    const type = topics?.find(
-      t => t.shortName === message.shortName || t.route === routeId,
-    )?.type;
+    const type = topics?.find(t => t.shortName === message.shortName || t.route === routeId)?.type;
     let vehicleMode;
     if (type === ExtendedRouteTypes.BusExpress) {
       vehicleMode = 'bus-express';
@@ -137,10 +124,7 @@ export default function VehicleMarkerContainer({
     return (
       <IconMarker
         key={id}
-        position={{
-          lat: message.lat,
-          lon: message.long,
-        }}
+        position={{ lat: message.lat, lon: message.long }}
         zIndexOffset={10000}
         icon={getVehicleIcon(
           vehicleMode,

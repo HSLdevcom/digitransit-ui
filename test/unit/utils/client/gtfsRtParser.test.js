@@ -20,11 +20,7 @@ describe('gtfsRtParser', () => {
               {
                 id: vehicleId,
                 vehicle: {
-                  trip: {
-                    route_id: '20256',
-                    start_time: '11:45:00',
-                    start_date: '20261019',
-                  },
+                  trip: { route_id: '20256', start_time: '11:45:00', start_date: '20261019' },
                   vehicle: { id: vehicleId },
                   position: { latitude: 60.17455, longitude: 24.82836 },
                 },
@@ -40,10 +36,7 @@ describe('gtfsRtParser', () => {
         );
       });
 
-      expect(messages.map(message => message.id)).toEqual([
-        'MATKA:50/325',
-        'MATKA:50/323',
-      ]);
+      expect(messages.map(message => message.id)).toEqual(['MATKA:50/325', 'MATKA:50/323']);
       messages.forEach(message => {
         expect(message).toMatchObject({
           route: 'MATKA:20256',

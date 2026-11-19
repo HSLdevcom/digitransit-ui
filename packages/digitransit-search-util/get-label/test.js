@@ -21,11 +21,7 @@ describe('Testing @digitransit-search-util/digitransit-search-util-get-label mod
   });
 
   it('returns only the name for a favourite place', () => {
-    const label = getLabel({
-      layer: 'favouritePlace',
-      name: 'Home',
-      address: 'Home, Helsinki',
-    });
+    const label = getLabel({ layer: 'favouritePlace', name: 'Home', address: 'Home, Helsinki' });
     expect(label).toBe('Home');
   });
 });

@@ -10,21 +10,14 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 // The functions below compute plain values (icon name, route number markup,
 // visibility) with no Leaflet dependency. They are exported for unit testing
 // and can be reused as-is if the underlying map engine changes.
-export const getLegMarkerIconName = mode =>
-  mode === 'bus-express' ? 'icon_bus' : `icon_${mode}`;
+export const getLegMarkerIconName = mode => (mode === 'bus-express' ? 'icon_bus' : `icon_${mode}`);
 
 // Do not display route number if it is an external route and the route number is empty.
 export const shouldDisplayLegRouteNumber = (config, mode, legName) =>
-  !(
-    config.externalFeedIds !== undefined &&
-    mode.includes('external') &&
-    legName === ''
-  );
+  !(config.externalFeedIds !== undefined && mode.includes('external') && legName === '');
 
 export const getLegRouteNumberHtml = (mode, legName, displayRouteNumber) =>
-  displayRouteNumber
-    ? `<span class="map-route-number ${mode}">${legName}</span>`
-    : '';
+  displayRouteNumber ? `<span class="map-route-number ${mode}">${legName}</span>` : '';
 
 // An arrow marker will be displayed if the normal marker can't fit
 export default function LegMarker({
@@ -39,27 +32,18 @@ export default function LegMarker({
   const config = useConfigContext();
   const className = wide ? 'wide' : '';
   const iconName = getLegMarkerIconName(mode);
-  const displayRouteNumber = shouldDisplayLegRouteNumber(
-    config,
-    mode,
-    leg.name,
-  );
+  const displayRouteNumber = shouldDisplayLegRouteNumber(config, mode, leg.name);
   const routeNumber = getLegRouteNumberHtml(mode, leg.name, displayRouteNumber);
 
   return (
     <Marker
       key={`${leg.name}_text`}
-      position={{
-        lat: leg.lat,
-        lng: leg.lon,
-      }}
+      position={{ lat: leg.lat, lng: leg.lon }}
       interactive={false}
       icon={L.divIcon({
         html: `
           <div class="${className}" style="--background-color: ${color}">
-          ${renderAsString(
-            <Icon img={iconName} className="map-route-icon" color={color} />,
-          )}
+          ${renderAsString(<Icon img={iconName} className="map-route-icon" color={color} />)}
             ${routeNumber}
           </div>`,
         className: cx(

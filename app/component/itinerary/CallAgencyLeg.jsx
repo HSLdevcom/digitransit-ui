@@ -20,10 +20,7 @@ export default function CallAgencyLeg({ leg, ...props }) {
     route.desc?.length &&
     config.flex.infoLanguage === config.language // No translations available in the data at the moment
       ? { content: route.desc, link: route.url }
-      : {
-          content: intl.formatMessage({ id: 'call-agency-disclaimer' }),
-          link: '',
-        };
+      : { content: intl.formatMessage({ id: 'call-agency-disclaimer' }), link: '' };
   const key = `callAgencyNotification-${route.gtfsId}`;
   const routeNumber = (
     <RouteNumberContainer
@@ -38,13 +35,7 @@ export default function CallAgencyLeg({ leg, ...props }) {
     />
   );
   return (
-    <TransitLeg
-      mode={modeClassName}
-      leg={leg}
-      mobile={mobile}
-      omitDivider
-      {...props}
-    >
+    <TransitLeg mode={modeClassName} leg={leg} mobile={mobile} omitDivider {...props}>
       <CallAgencyDisclaimer
         key={key}
         text={notification.content}

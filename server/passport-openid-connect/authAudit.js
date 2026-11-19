@@ -10,10 +10,7 @@ const enabled = process.env.AUTH_AUDIT === 'true';
 // Remembers the last device seen for each session so that we can flag a
 // session being used from more than one kind of device. Bounded in size and
 // time so it can't grow unbounded on a long-running server.
-const lastDeviceBySession = new LRU({
-  max: 20000,
-  maxAge: 24 * 60 * 60 * 1000,
-});
+const lastDeviceBySession = new LRU({ max: 20000, maxAge: 24 * 60 * 60 * 1000 });
 
 // Coarse device classification, good enough to tell "a different device"
 // from "the same browser that auto-updated". Not meant to be a precise UA
@@ -72,13 +69,10 @@ const detectDeviceChange = (req, sid) => {
     return null;
   }
 
-  const sameBuild =
-    previous.engineBuild !== null && previous.engineBuild === engineBuild;
+  const sameBuild = previous.engineBuild !== null && previous.engineBuild === engineBuild;
 
   return {
-    event: sameBuild
-      ? 'device_class_changed_same_build'
-      : 'device_class_changed_diff_build',
+    event: sameBuild ? 'device_class_changed_same_build' : 'device_class_changed_diff_build',
     extra: {
       previousDeviceClass: previous.deviceClass,
       deviceClass,
@@ -89,19 +83,11 @@ const detectDeviceChange = (req, sid) => {
 };
 
 export const hash = value =>
-  value
-    ? crypto
-        .createHmac('sha256', key)
-        .update(String(value))
-        .digest('hex')
-        .slice(0, 12)
-    : '-';
+  value ? crypto.createHmac('sha256', key).update(String(value)).digest('hex').slice(0, 12) : '-';
 
 // Mobile IPs change often, so only a coarse prefix is logged
 const coarseIp = req => {
-  const ip = (req.headers['x-forwarded-for'] || req.ip || '')
-    .split(',')[0]
-    .trim();
+  const ip = (req.headers['x-forwarded-for'] || req.ip || '').split(',')[0].trim();
   if (ip.includes(':')) {
     return `${ip.split(':').slice(0, 3).join(':')}::/48`;
   }

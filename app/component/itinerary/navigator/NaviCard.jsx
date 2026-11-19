@@ -1,24 +1,15 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import {
-  isAnyLegPropertyIdentical,
-  isRental,
-} from '../../../../utils/client/legUtils';
-import {
-  getTripOrRouteMode,
-  transitIconName,
-} from '../../../../utils/client/modeUtils';
+import { isAnyLegPropertyIdentical, isRental } from '../../../../utils/client/legUtils';
+import { getTripOrRouteMode, transitIconName } from '../../../../utils/client/modeUtils';
 import { legShape } from '../../../../utils/client/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import {
-  IndoorLegType,
-  NaviCardType,
-} from '../../../../utils/shared/constants';
+import { IndoorLegType, NaviCardType } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
@@ -76,11 +67,7 @@ export default function NaviCard({
     }
   }, [cardExpanded, currentCard]);
 
-  if (
-    (!leg && !nextLeg) ||
-    legType === LEGTYPE.PENDING ||
-    legType === LEGTYPE.END
-  ) {
+  if ((!leg && !nextLeg) || legType === LEGTYPE.PENDING || legType === LEGTYPE.END) {
     return null;
   }
 
@@ -119,9 +106,7 @@ export default function NaviCard({
     iconName = iconMap.WAIT_IN_VEHICLE;
   }
 
-  const maxHeight = cardExpanded
-    ? `${contentRef.current?.scrollHeight}px`
-    : '0px';
+  const maxHeight = cardExpanded ? `${contentRef.current?.scrollHeight}px` : '0px';
 
   return (
     <button
@@ -131,9 +116,7 @@ export default function NaviCard({
       aria-expanded={cardExpanded}
       aria-controls={`navi-card-content-${leg?.legId}`}
     >
-      <div
-        className={cx('main-card', `${currentCard.toLowerCase()}-card-type`)}
-      >
+      <div className={cx('main-card', `${currentCard.toLowerCase()}-card-type`)}>
         <div className="content">
           <Icon img={iconName} className="mode" color={iconColor} omitViewBox />
           <div className={`instructions ${cardExpanded ? 'expanded' : ''}`}>
@@ -163,9 +146,7 @@ export default function NaviCard({
         <div
           id={`navi-card-content-${leg?.legId}`}
           className="extension-container"
-          style={{
-            maxHeight,
-          }}
+          style={{ maxHeight }}
           ref={contentRef}
           aria-hidden={!cardExpanded}
         >
@@ -193,10 +174,7 @@ NaviCard.propTypes = {
   nextLeg: legShape,
   legType: PropTypes.string.isRequired,
   time: PropTypes.number.isRequired,
-  position: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  position: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }),
   tailLength: PropTypes.number.isRequired,
   cardAnimation: PropTypes.string.isRequired,
   platformUpdated: PropTypes.bool,

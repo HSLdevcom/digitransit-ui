@@ -26,21 +26,12 @@ export default function ScrollableWrapper({
   return (
     <>
       {scrollable && (
-        <div
-          className={cx('before-scrollable-area', {
-            scrolled: scrollable && scrolledState,
-          })}
-        />
+        <div className={cx('before-scrollable-area', { scrolled: scrollable && scrolledState })} />
       )}
       <div
-        className={cx(
-          'scrollable-content-wrapper',
-          'scroll-target',
-          className,
-          {
-            'momentum-scroll': scrollable,
-          },
-        )}
+        className={cx('scrollable-content-wrapper', 'scroll-target', className, {
+          'momentum-scroll': scrollable,
+        })}
         id={id}
         tabIndex={scrollable ? -1 : undefined} // Prevents browser from making overflow containers tab stops, which causes screen readers to announce all child content at once.
         onScroll={scrollable ? handleScroll : () => {}}

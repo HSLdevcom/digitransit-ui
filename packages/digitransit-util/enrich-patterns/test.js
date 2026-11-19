@@ -7,18 +7,10 @@ const DATE_FORMAT = 'yyyyLLdd';
 describe('Testing @digitransit-util/digitransit-util-enrich-patterns module', () => {
   const nextFridaysAndSaturdays = [];
   nextFridaysAndSaturdays.push(
-    JSON.parse(
-      `{ "day": ["${DateTime.now()
-        .set({ weekday: 5 })
-        .toFormat(DATE_FORMAT)}"] }`,
-    ),
+    JSON.parse(`{ "day": ["${DateTime.now().set({ weekday: 5 }).toFormat(DATE_FORMAT)}"] }`),
   );
   nextFridaysAndSaturdays.push(
-    JSON.parse(
-      `{ "day": ["${DateTime.now()
-        .set({ weekday: 6 })
-        .toFormat(DATE_FORMAT)}"] }`,
-    ),
+    JSON.parse(`{ "day": ["${DateTime.now().set({ weekday: 6 }).toFormat(DATE_FORMAT)}"] }`),
   );
   nextFridaysAndSaturdays.push(
     JSON.parse(

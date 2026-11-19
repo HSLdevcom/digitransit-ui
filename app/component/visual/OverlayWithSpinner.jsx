@@ -7,10 +7,7 @@ export default function OverlayWithSpinner() {
       <div>
         <Loading />
       </div>
-      <FormattedMessage
-        id="searching-position"
-        defaultMessage="Detecting location..."
-      />
+      <FormattedMessage id="searching-position" defaultMessage="Detecting location..." />
     </div>
   );
 }

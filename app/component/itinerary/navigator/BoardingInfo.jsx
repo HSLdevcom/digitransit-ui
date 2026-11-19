@@ -25,9 +25,7 @@ export default function BoardingInfo({
       role="status"
     >
       <div className="route-info">
-        {withExpandIcon && (
-          <Icon img="navi-expand" className="icon-expand-small" />
-        )}
+        {withExpandIcon && <Icon img="navi-expand" className="icon-expand-small" />}
         <RouteNumberContainer
           className={cx('line', mode)}
           route={route}

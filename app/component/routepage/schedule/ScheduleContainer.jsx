@@ -40,11 +40,7 @@ const openRoutePDF = (e, routePDFUrl) => {
 const printRouteTimetable = e => {
   e.stopPropagation();
   window.print();
-  addAnalyticsEvent({
-    category: 'Route',
-    action: 'PrintTimetable',
-    name: null,
-  });
+  addAnalyticsEvent({ category: 'Route', action: 'PrintTimetable', name: null });
 };
 
 /**
@@ -60,10 +56,7 @@ export default function ScheduleContainer({
   const breakpoint = useBreakpoint();
   const pattern = useFragment(SchedulePatternFragment, patternRef);
   const route = useFragment(ScheduleRouteFragment, routeRef);
-  const firstDepartures = useFragment(
-    ScheduleFirstDeparturesFragment,
-    firstDeparturesRef,
-  );
+  const firstDepartures = useFragment(ScheduleFirstDeparturesFragment, firstDeparturesRef);
 
   const intl = useIntl();
   const config = useConfigContext();
@@ -76,27 +69,17 @@ export default function ScheduleContainer({
   const serviceDayString = query.serviceDay;
   const wantedDay = useMemo(
     () =>
-      serviceDayString
-        ? DateTime.fromFormat(serviceDayString, DATE_FORMAT)
-        : DateTime.local(),
+      serviceDayString ? DateTime.fromFormat(serviceDayString, DATE_FORMAT) : DateTime.local(),
     [serviceDayString],
   );
 
-  const availableDates = useMemo(
-    () => buildAvailableDates(firstDepartures),
-    [firstDepartures],
-  );
+  const availableDates = useMemo(() => buildAvailableDates(firstDepartures), [firstDepartures]);
 
   const patternCode = pattern.code;
   const patternWithTrips = route.patterns?.find(p => p.code === patternCode);
 
   const tripsResult = useMemo(
-    () =>
-      getTripsList({
-        patternWithTrips,
-        intl,
-        wantedDay,
-      }),
+    () => getTripsList({ patternWithTrips, intl, wantedDay }),
     [patternWithTrips, wantedDay],
   );
 
@@ -105,9 +88,7 @@ export default function ScheduleContainer({
   const { locale } = intl;
 
   const constantOperationInfo =
-    routeId && constantOperationRoutes?.[routeId]
-      ? constantOperationRoutes[routeId][locale]
-      : null;
+    routeId && constantOperationRoutes?.[routeId] ? constantOperationRoutes[routeId][locale] : null;
 
   const redirectDecision = calculateRedirectDecision({
     wantedDay,
@@ -117,11 +98,7 @@ export default function ScheduleContainer({
     hasTrips: !!tripsResult.trips,
   });
 
-  const {
-    shouldRedirect,
-    redirectPath,
-    query: redirectQuery,
-  } = redirectDecision;
+  const { shouldRedirect, redirectPath, query: redirectQuery } = redirectDecision;
 
   useEffect(() => {
     if (shouldRedirect) {
@@ -129,10 +106,7 @@ export default function ScheduleContainer({
         ? { ...match.location, pathname: redirectPath }
         : match.location;
 
-      router.replace({
-        ...basePath,
-        query: { ...basePath.query, ...redirectQuery },
-      });
+      router.replace({ ...basePath, query: { ...basePath.query, ...redirectQuery } });
     }
   }, [shouldRedirect, redirectPath, redirectQuery?.serviceDay, match.location]);
 
@@ -153,37 +127,19 @@ export default function ScheduleContainer({
       }
       return Math.min(fromValue + 1, pattern.stops.length - 1);
     });
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'ChangeTimetableStartPoint',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Route', action: 'ChangeTimetableStartPoint', name: null });
   };
 
   // Handler for timetable destination stop selection
   const onToSelectChange = selectTo => {
     setTo(Number(selectTo));
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'ChangeTimetableEndPoint',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Route', action: 'ChangeTimetableEndPoint', name: null });
   };
 
   const changeDate = newServiceDay => {
     const { location } = match;
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'ChangeTimetableDay',
-      name: null,
-    });
-    const newPath = {
-      ...location,
-      query: {
-        ...location.query,
-        serviceDay: newServiceDay,
-      },
-    };
+    addAnalyticsEvent({ category: 'Route', action: 'ChangeTimetableDay', name: null });
+    const newPath = { ...location, query: { ...location.query, serviceDay: newServiceDay } };
     router.replace(newPath);
   };
 
@@ -209,11 +165,7 @@ export default function ScheduleContainer({
       locale,
     );
     openRoutePDF(e, routeTimetableUrl);
-    addAnalyticsEvent({
-      category: 'Route',
-      action: 'PrintWeeklyTimetable',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Route', action: 'PrintWeeklyTimetable', name: null });
   };
 
   if (constantOperationInfo) {
@@ -242,9 +194,7 @@ export default function ScheduleContainer({
       aria-labelledby="route-timetable-tab"
     >
       <ScrollableWrapper
-        className={cx('route-schedule-container', {
-          mobile: breakpoint !== 'large',
-        })}
+        className={cx('route-schedule-container', { mobile: breakpoint !== 'large' })}
       >
         <div className="route-schedule-grouped-date-select">
           <DateSelectGrouped
@@ -257,9 +207,7 @@ export default function ScheduleContainer({
         {!shouldRedirect && tripsResult.noTripsMessage}
         {pattern && (
           <div
-            className={cx('route-schedule-list-wrapper', {
-              'bp-large': breakpoint === 'large',
-            })}
+            className={cx('route-schedule-list-wrapper', { 'bp-large': breakpoint === 'large' })}
           >
             <ScheduleHeader
               stops={pattern.stops}
@@ -268,11 +216,7 @@ export default function ScheduleContainer({
               onFromSelectChange={onFromSelectChange}
               onToSelectChange={onToSelectChange}
             />
-            <div
-              className="route-schedule-list momentum-scroll"
-              role="list"
-              aria-live="off"
-            >
+            <div className="route-schedule-list momentum-scroll" role="list" aria-live="off">
               {Array.isArray(showTrips) && (
                 <ScheduleTripList trips={showTrips} fromIdx={from} toIdx={to} />
               )}

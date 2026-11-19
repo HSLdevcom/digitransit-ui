@@ -36,9 +36,7 @@ describe('suggestionUtils', () => {
 
     it('should include agency in the plaintext for routes', () => {
       const properties = {
-        agency: {
-          name: 'Tampereen joukkoliikenne',
-        },
+        agency: { name: 'Tampereen joukkoliikenne' },
         layer: 'route-BUS',
         longName: 'TAYS - Hervanta - Hatanpää-Tampella',
         shortName: '32',
@@ -61,11 +59,7 @@ describe('suggestionUtils', () => {
       };
 
       const label = getNameLabel(properties, true);
-      expect(label).toEqual([
-        '32',
-        'TAYS - Hervanta - Hatanpää-Tampella',
-        undefined,
-      ]);
+      expect(label).toEqual(['32', 'TAYS - Hervanta - Hatanpää-Tampella', undefined]);
     });
   });
 });

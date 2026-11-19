@@ -3,22 +3,18 @@ import fetchCitybikeConfigurations, {
   handleCitybikeSeasonConfigurations,
 } from '../../../../server/services/citybikeSeasons';
 
-const {
-  fetchAll,
-  loadAllRawConfigurations,
-  setAvailableCitybikeConfigurations,
-} = vi.hoisted(() => ({
-  fetchAll: vi.fn(),
-  loadAllRawConfigurations: vi.fn(),
-  setAvailableCitybikeConfigurations: vi.fn(),
-}));
+const { fetchAll, loadAllRawConfigurations, setAvailableCitybikeConfigurations } = vi.hoisted(
+  () => ({
+    fetchAll: vi.fn(),
+    loadAllRawConfigurations: vi.fn(),
+    setAvailableCitybikeConfigurations: vi.fn(),
+  }),
+);
 vi.mock('@azure/cosmos', () => ({
   CosmosClient: class {
     // eslint-disable-next-line class-methods-use-this
     database() {
-      return {
-        container: () => ({ items: { query: () => ({ fetchAll }) } }),
-      };
+      return { container: () => ({ items: { query: () => ({ fetchAll }) } }) };
     }
   },
 }));
@@ -49,11 +45,7 @@ describe('citybikeSeasons', () => {
         configName: 'hsl',
         networkName: 'helsinki',
         enabled: true,
-        season: {
-          preSeasonStart: '03-15',
-          start: '04.01',
-          end: '10.31',
-        },
+        season: { preSeasonStart: '03-15', start: '04.01', end: '10.31' },
       });
     });
   });
@@ -109,18 +101,8 @@ describe('citybikeSeasons', () => {
       stubDatabaseEnv();
       fetchAll.mockResolvedValue({
         resources: [
-          {
-            schedules: [
-              schedule('hsl', 'smoove'),
-              schedule('tampere', 'inurba'),
-            ],
-          },
-          {
-            schedules: [
-              schedule('waltti', 'inurba'),
-              schedule('matka', 'matka-bikes'),
-            ],
-          },
+          { schedules: [schedule('hsl', 'smoove'), schedule('tampere', 'inurba')] },
+          { schedules: [schedule('waltti', 'inurba'), schedule('matka', 'matka-bikes')] },
         ],
       });
       loadAllRawConfigurations.mockResolvedValue([
@@ -133,10 +115,7 @@ describe('citybikeSeasons', () => {
       await fetchCitybikeConfigurations();
 
       const [definitions] = setAvailableCitybikeConfigurations.mock.calls[0];
-      expect(definitions.map(def => def.networkName)).toEqual([
-        'smoove',
-        'inurba',
-      ]);
+      expect(definitions.map(def => def.networkName)).toEqual(['smoove', 'inurba']);
     });
 
     it('logs and resolves when the database query fails', async () => {

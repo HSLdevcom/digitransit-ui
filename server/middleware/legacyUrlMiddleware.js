@@ -24,15 +24,10 @@ export function validateParams(req, config) {
   const { time: timeParam, ...query } = req.query;
   const timeNow = Date.now() / 1000; // Convert to seconds
   const isStale =
-    config.queryMaxAgeDays &&
-    timeParam &&
-    timeNow - timeParam > config.queryMaxAgeDays * 24 * 3600;
-  const isInvalid =
-    timeParam !== undefined && !Number.isFinite(Number(timeParam));
+    config.queryMaxAgeDays && timeParam && timeNow - timeParam > config.queryMaxAgeDays * 24 * 3600;
+  const isInvalid = timeParam !== undefined && !Number.isFinite(Number(timeParam));
 
-  return isStale || isInvalid
-    ? `${normalizePath(req.path)}${formatQuery(query)}`
-    : undefined;
+  return isStale || isInvalid ? `${normalizePath(req.path)}${formatQuery(query)}` : undefined;
 }
 
 const fixLocaleParam = (req, lang) => {
@@ -74,12 +69,7 @@ export default function legacyUrlMiddleware(req, res, next) {
         path: '/',
       });
     }
-    if (
-      req.query.from ||
-      req.query.to ||
-      req.query.from_in ||
-      req.query.to_in
-    ) {
+    if (req.query.from || req.query.to || req.query.from_in || req.query.to_in) {
       legacyParamParser(req.query, config).then(url => res.redirect(url));
     } else if (LEGACY_LOCALES.includes(lang)) {
       dropPathLanguageAndRedirect(req, res, lang);

@@ -4,21 +4,13 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { stopShape } from '../../utils/client/shapes';
 import Favourite from './Favourite';
 import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
-import {
-  useFavourites,
-  useFavouriteStatus,
-  useFavouriteActions,
-} from '../hooks/FavouriteContext';
+import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { useMessageActions } from '../hooks/MessageContext';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { failedFavouriteMessage } from '../../utils/client/messageUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function FavouriteStopContainer({
-  stop,
-  isTerminal = false,
-  ...rest
-}) {
+export default function FavouriteStopContainer({ stop, isTerminal = false, ...rest }) {
   const [isFetching, setIsFetching] = useState(false);
   const config = useConfigContext();
   const favourites = useFavourites();
@@ -74,23 +66,12 @@ export default function FavouriteStopContainer({
           });
       }}
       delFavourite={() => {
-        const stopToDelete = getFavouriteByGtfsId(
-          stop.gtfsId,
-          favouriteType,
-          favourites,
-        );
+        const stopToDelete = getFavouriteByGtfsId(stop.gtfsId, favouriteType, favourites);
         deleteFavourite(stopToDelete);
-        addAnalyticsEvent({
-          category: 'Stop',
-          action: 'MarkStopAsFavourite',
-          name: !favourite,
-        });
+        addAnalyticsEvent({ category: 'Stop', action: 'MarkStopAsFavourite', name: !favourite });
       }}
     />
   );
 }
 
-FavouriteStopContainer.propTypes = {
-  stop: stopShape.isRequired,
-  isTerminal: PropTypes.bool,
-};
+FavouriteStopContainer.propTypes = { stop: stopShape.isRequired, isTerminal: PropTypes.bool };

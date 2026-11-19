@@ -40,9 +40,7 @@ describe('<AirportCollectLuggageLeg />', () => {
       </AirportCollectLuggageLeg>,
       { config: baseConfig },
     );
-    expect(container.querySelector('.stop-code-container').textContent).toBe(
-      'M2',
-    );
+    expect(container.querySelector('.stop-code-container').textContent).toBe('M2');
   });
 
   it('renders an empty stop code container when no children are given', () => {
@@ -50,9 +48,7 @@ describe('<AirportCollectLuggageLeg />', () => {
       <AirportCollectLuggageLeg {...baseProps} focusAction={() => {}} />,
       { config: baseConfig },
     );
-    expect(container.querySelector('.stop-code-container').textContent).toBe(
-      '',
-    );
+    expect(container.querySelector('.stop-code-container').textContent).toBe('');
   });
 
   it('calls focusAction when the leg row is clicked', () => {

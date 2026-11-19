@@ -13,18 +13,12 @@ describe('<ZoneIcon />', () => {
   });
 
   it('should not render unknown zone if the unknown zones should not be shown', () => {
-    const { container } = renderWithProviders(
-      <ZoneIcon zoneId="FOO" showUnknown={false} />,
-      opts,
-    );
+    const { container } = renderWithProviders(<ZoneIcon zoneId="FOO" showUnknown={false} />, opts);
     expect(container.querySelector('.zone-icon-container')).toBeNull();
   });
 
   it('should render a placeholder if the zone is unknown', () => {
-    const { container } = renderWithProviders(
-      <ZoneIcon zoneId="FOO" showUnknown />,
-      opts,
-    );
+    const { container } = renderWithProviders(<ZoneIcon zoneId="FOO" showUnknown />, opts);
     expect(container.querySelector('.unknown').textContent).toBe('?');
   });
 
@@ -45,10 +39,7 @@ describe('<ZoneIcon />', () => {
   });
 
   it('should add unknown-container class for unknown zone', () => {
-    const { container } = renderWithProviders(
-      <ZoneIcon zoneId="FOO" showUnknown />,
-      opts,
-    );
+    const { container } = renderWithProviders(<ZoneIcon zoneId="FOO" showUnknown />, opts);
     expect(container.querySelector('.unknown-container')).not.toBeNull();
   });
 
@@ -58,20 +49,12 @@ describe('<ZoneIcon />', () => {
   });
 
   it('should render screen reader text for unknown zone', () => {
-    const { container } = renderWithProviders(
-      <ZoneIcon zoneId="FOO" showUnknown />,
-      opts,
-    );
-    expect(container.querySelector('.sr-only').textContent).toBe(
-      'Unknown zone',
-    );
+    const { container } = renderWithProviders(<ZoneIcon zoneId="FOO" showUnknown />, opts);
+    expect(container.querySelector('.sr-only').textContent).toBe('Unknown zone');
   });
 
   it('should apply custom className', () => {
-    const { container } = renderWithProviders(
-      <ZoneIcon zoneId="A" className="my-custom" />,
-      opts,
-    );
+    const { container } = renderWithProviders(<ZoneIcon zoneId="A" className="my-custom" />, opts);
     const root = container.querySelector('.zone-icon-container');
     expect(root.classList.contains('my-custom')).toBe(true);
   });

@@ -36,12 +36,7 @@ describe('timetableConfigUtils', () => {
       const stop = { gtfsId: 'HSL:1122127' };
       const date = '20231031';
       const lang = 'en';
-      const url = timetableHandler.stopTimetableUrlResolver(
-        hslStopTimetableURL,
-        stop,
-        date,
-        lang,
-      );
+      const url = timetableHandler.stopTimetableUrlResolver(hslStopTimetableURL, stop, date, lang);
       expect(url.href).toBe(
         `${hslStopTimetableURL}&props%5BisSummerTimetable%5D=false&props%5BprintTimetablesAsA4%5D=true&props%5BprintTimetablesAsGreyscale%5D=false&props%5Btemplate%5D=default&props%5BshowAddressInfo%5D=false&props%5BshowPrintButton%5D=true&props%5Bredirect%5D=false&template=default&props%5BstopId%5D=1122127&props%5Bdate%5D=2023-10-31&props%5Blang%5D=en`,
       );
@@ -50,10 +45,7 @@ describe('timetableConfigUtils', () => {
       const baseTimetableURL = 'https://timetabletest.com/timetables/';
       const timetableHandler = timetables.default.tampere;
       const stop = { gtfsId: 'tampere:0053' };
-      const url = timetableHandler.stopTimetableUrlResolver(
-        baseTimetableURL,
-        stop,
-      );
+      const url = timetableHandler.stopTimetableUrlResolver(baseTimetableURL, stop);
       expect(url.href).toBe(`${baseTimetableURL}53.pdf`);
     });
   });

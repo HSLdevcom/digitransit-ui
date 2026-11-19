@@ -20,11 +20,7 @@ export default function ValidityPeriodFilter({ filterId }) {
         {msg => <legend className="input-legend">{msg}</legend>}
       </FormattedMessage>
       {FILTER_OPTIONS.map(option => (
-        <label
-          className="input-label"
-          key={option.value}
-          htmlFor={`period-${option.labelId}`}
-        >
+        <label className="input-label" key={option.value} htmlFor={`period-${option.labelId}`}>
           <input
             id={`period-${option.labelId}`}
             type="radio"
@@ -40,6 +36,4 @@ export default function ValidityPeriodFilter({ filterId }) {
   );
 }
 
-ValidityPeriodFilter.propTypes = {
-  filterId: PropTypes.string.isRequired,
-};
+ValidityPeriodFilter.propTypes = { filterId: PropTypes.string.isRequired };
