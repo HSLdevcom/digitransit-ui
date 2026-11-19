@@ -1,6 +1,6 @@
 {
   "name": "@digitransit-search-util/digitransit-search-util-distance",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "digitransit-search-util distance module",
   "type": "module",
   "main": "index.js",
