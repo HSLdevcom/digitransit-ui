@@ -43,17 +43,12 @@ describe('static asset references', () => {
   });
 
   it('has no unreferenced files under static/assets', () => {
-    const referenced = new Set(
-      assetsByConfig.flatMap(([, assetPaths]) => assetPaths),
-    );
+    const referenced = new Set(assetsByConfig.flatMap(([, assetPaths]) => assetPaths));
     const files = fs
       .readdirSync(assetsDir, { recursive: true, withFileTypes: true })
       .filter(entry => entry.isFile())
       .map(entry =>
-        path
-          .relative(staticDir, path.join(entry.parentPath, entry.name))
-          .split(path.sep)
-          .join('/'),
+        path.relative(staticDir, path.join(entry.parentPath, entry.name)).split(path.sep).join('/'),
       )
       .filter(file => !IGNORED_FILES.test(path.basename(file)));
 

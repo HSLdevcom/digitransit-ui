@@ -23,9 +23,7 @@ describe('<CardHeader />', () => {
       stop: {},
     };
     const { container } = renderWithProviders(<CardHeader {...props} />);
-    expect(container.querySelector('.itinerary-stop-code').textContent).toBe(
-      '7528',
-    );
+    expect(container.querySelector('.itinerary-stop-code').textContent).toBe('7528');
   });
   it('should  render the virtual monitor if so configured', () => {
     const props = {
@@ -35,10 +33,7 @@ describe('<CardHeader />', () => {
       code: '7528',
       network: 'citybike',
       externalLink: (
-        <ExternalLink
-          name="Virtual monitor"
-          href="http://foo.com/virtualmonitor/HSL:1130181"
-        />
+        <ExternalLink name="Virtual monitor" href="http://foo.com/virtualmonitor/HSL:1130181" />
       ),
       stop: {},
     };

@@ -1,26 +1,17 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import RouteAlertsContainer from '../../../app/component/routepage/RouteAlertsContainer';
 
-const defaultRoute = {
-  gtfsId: 'HSL:1063',
-  mode: 'BUS',
-  shortName: '63',
-};
+const defaultRoute = { gtfsId: 'HSL:1063', mode: 'BUS', shortName: '63' };
 
 const defaultStops = [{ name: 'First stop' }, { name: 'Last stop' }];
 
-const renderContainer = props =>
-  renderWithProviders(<RouteAlertsContainer {...props} />).container;
+const renderContainer = props => renderWithProviders(<RouteAlertsContainer {...props} />).container;
 
 describe('<RouteAlertsContainer />', () => {
   it('should pass empty arrays when there are no alerts or cancelations', () => {
     const container = renderContainer({
       route: defaultRoute,
-      pattern: {
-        alerts: [],
-        stops: defaultStops,
-        canceledTrips: [],
-      },
+      pattern: { alerts: [], stops: defaultStops, canceledTrips: [] },
     });
     expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
     expect(container.textContent).toContain('Services normal');
@@ -56,12 +47,7 @@ describe('<RouteAlertsContainer />', () => {
 
   it('should pass service alerts from the pattern', () => {
     const container = renderContainer({
-      route: {
-        gtfsId: 'HSL:2335',
-        color: null,
-        mode: 'BUS',
-        shortName: '335',
-      },
+      route: { gtfsId: 'HSL:2335', color: null, mode: 'BUS', shortName: '335' },
       pattern: {
         stops: defaultStops,
         alerts: [

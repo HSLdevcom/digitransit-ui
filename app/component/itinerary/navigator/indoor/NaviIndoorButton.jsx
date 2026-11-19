@@ -5,10 +5,7 @@ import Icon from '../../../Icon';
 import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
 import { NaviCardType } from '../../../../../utils/shared/constants';
 
-export default function NaviIndoorButton({
-  currentCard = NaviCardType.Default,
-  setCurrentCard,
-}) {
+export default function NaviIndoorButton({ currentCard = NaviCardType.Default, setCurrentCard }) {
   return (
     <div
       role="button"
@@ -17,18 +14,14 @@ export default function NaviIndoorButton({
       onClick={e => {
         e.stopPropagation();
         setCurrentCard(
-          currentCard === NaviCardType.Indoor
-            ? NaviCardType.Default
-            : NaviCardType.Indoor,
+          currentCard === NaviCardType.Indoor ? NaviCardType.Default : NaviCardType.Indoor,
         );
       }}
       onKeyPress={e => {
         if (isKeyboardSelectionEvent(e)) {
           e.stopPropagation();
           setCurrentCard(
-            currentCard === NaviCardType.Indoor
-              ? NaviCardType.Default
-              : NaviCardType.Indoor,
+            currentCard === NaviCardType.Indoor ? NaviCardType.Default : NaviCardType.Indoor,
           );
         }
       }}
@@ -39,19 +32,13 @@ export default function NaviIndoorButton({
             <Icon img="icon_arrow-collapse--right" className="open" />
           </div>
           <div className="indoor-text">
-            <FormattedMessage
-              id="itinerary-hide-indoor-route"
-              defaultMessage="Hide indoor route"
-            />
+            <FormattedMessage id="itinerary-hide-indoor-route" defaultMessage="Hide indoor route" />
           </div>
         </>
       ) : (
         <>
           <div className="indoor-text">
-            <FormattedMessage
-              id="itinerary-indoor-route"
-              defaultMessage="Indoor route"
-            />
+            <FormattedMessage id="itinerary-indoor-route" defaultMessage="Indoor route" />
           </div>
           <div className="indoor-arrow-icon">
             <Icon img="icon_arrow-collapse--right" />

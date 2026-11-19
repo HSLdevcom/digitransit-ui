@@ -11,9 +11,7 @@ export default graphql`
     $fetchFerry: Boolean!
   ) {
     bus: canceledTripsSummary(
-      filters: {
-        include: { modes: [BUS], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [BUS], runningTimeRanges: $runningTimeRanges } }
     ) @include(if: $fetchBus) {
       routes {
         cancellationCount
@@ -26,17 +24,14 @@ export default graphql`
         patterns {
           cancellationCount
           pattern {
-            ...CanceledDeparturesFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
     }
 
     tram: canceledTripsSummary(
-      filters: {
-        include: { modes: [TRAM], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [TRAM], runningTimeRanges: $runningTimeRanges } }
     ) @include(if: $fetchTram) {
       routes {
         cancellationCount
@@ -49,17 +44,14 @@ export default graphql`
         patterns {
           cancellationCount
           pattern {
-            ...CanceledDeparturesFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
     }
 
     rail: canceledTripsSummary(
-      filters: {
-        include: { modes: [RAIL], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [RAIL], runningTimeRanges: $runningTimeRanges } }
     ) @include(if: $fetchRail) {
       routes {
         cancellationCount
@@ -72,17 +64,14 @@ export default graphql`
         patterns {
           cancellationCount
           pattern {
-            ...CanceledDeparturesFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
     }
 
     subway: canceledTripsSummary(
-      filters: {
-        include: { modes: [SUBWAY], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [SUBWAY], runningTimeRanges: $runningTimeRanges } }
     ) @include(if: $fetchSubway) {
       routes {
         cancellationCount
@@ -95,17 +84,14 @@ export default graphql`
         patterns {
           cancellationCount
           pattern {
-            ...CanceledDeparturesFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }
     }
 
     ferry: canceledTripsSummary(
-      filters: {
-        include: { modes: [FERRY], runningTimeRanges: $runningTimeRanges }
-      }
+      filters: { include: { modes: [FERRY], runningTimeRanges: $runningTimeRanges } }
     ) @include(if: $fetchFerry) {
       routes {
         cancellationCount
@@ -118,8 +104,7 @@ export default graphql`
         patterns {
           cancellationCount
           pattern {
-            ...CanceledDeparturesFragment
-              @arguments(runningTimeRanges: $runningTimeRanges)
+            ...CanceledDeparturesFragment @arguments(runningTimeRanges: $runningTimeRanges)
           }
         }
       }

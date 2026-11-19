@@ -15,25 +15,22 @@ describe('toHaveNoA11yViolations', () => {
 
   it('reports violations with the rule and the offending node', async () => {
     document.body.innerHTML = '<button type="button"></button>';
-    await expect(
-      expect(document.body).toHaveNoA11yViolations(),
-    ).rejects.toThrow(/button-name.*\n\s+.*<button/);
+    await expect(expect(document.body).toHaveNoA11yViolations()).rejects.toThrow(
+      /button-name.*\n\s+.*<button/,
+    );
   });
 
   it('runs best-practice rules', async () => {
     document.body.innerHTML = '<div role="dialog">x</div>';
-    await expect(
-      expect(document.body).toHaveNoA11yViolations(),
-    ).rejects.toThrow(/aria-dialog-name/);
+    await expect(expect(document.body).toHaveNoA11yViolations()).rejects.toThrow(
+      /aria-dialog-name/,
+    );
   });
 
   it('skips violations matched by an allow entry', async () => {
-    document.body.innerHTML =
-      '<div id="legacy"><button type="button"></button></div>';
+    document.body.innerHTML = '<div id="legacy"><button type="button"></button></div>';
     await expect(document.body).toHaveNoA11yViolations({
-      allow: [
-        { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
-      ],
+      allow: [{ rule: 'button-name', selector: '#legacy', reason: 'known issue' }],
     });
   });
 
@@ -41,23 +38,17 @@ describe('toHaveNoA11yViolations', () => {
     document.body.innerHTML = '<button id="other" type="button"></button>';
     await expect(
       expect(document.body).toHaveNoA11yViolations({
-        allow: [
-          { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
-        ],
+        allow: [{ rule: 'button-name', selector: '#legacy', reason: 'known issue' }],
       }),
     ).rejects.toThrow(/button-name/);
   });
 
   it('scopes allow entries across shadow roots', async () => {
     document.body.innerHTML = '<div id="legacy"><span id="host"></span></div>';
-    const shadow = document
-      .getElementById('host')
-      .attachShadow({ mode: 'open' });
+    const shadow = document.getElementById('host').attachShadow({ mode: 'open' });
     shadow.innerHTML = '<button type="button"></button>';
     await expect(document.body).toHaveNoA11yViolations({
-      allow: [
-        { rule: 'button-name', selector: '#legacy', reason: 'known issue' },
-      ],
+      allow: [{ rule: 'button-name', selector: '#legacy', reason: 'known issue' }],
     });
   });
 
@@ -80,9 +71,7 @@ describe('toHaveNoA11yViolations', () => {
 
   it('requires a reason for every allow entry', async () => {
     await expect(
-      expect(document.body).toHaveNoA11yViolations({
-        allow: [{ rule: 'button-name' }],
-      }),
+      expect(document.body).toHaveNoA11yViolations({ allow: [{ rule: 'button-name' }] }),
     ).rejects.toThrow(/needs a rule and a reason/);
   });
 
@@ -95,9 +84,9 @@ describe('toHaveNoA11yViolations', () => {
   });
 
   it('does not support .not', async () => {
-    await expect(
-      expect(document.body).not.toHaveNoA11yViolations(),
-    ).rejects.toThrow(/not supported/);
+    await expect(expect(document.body).not.toHaveNoA11yViolations()).rejects.toThrow(
+      /not supported/,
+    );
   });
 
   // The matcher fails the test when it is not awaited.
@@ -151,14 +140,11 @@ describe('automatic scan', () => {
     renderReact(createElement('button', { type: 'button' }));
   });
 
-  it.fails(
-    'fails on allowA11y entries in a test that runs the full check',
-    async () => {
-      render('<button type="button">Go</button>');
-      allowA11y([{ rule: 'button-name', reason: 'known issue' }]);
-      await expect(document.body).toHaveNoA11yViolations();
-    },
-  );
+  it.fails('fails on allowA11y entries in a test that runs the full check', async () => {
+    render('<button type="button">Go</button>');
+    allowA11y([{ rule: 'button-name', reason: 'known issue' }]);
+    await expect(document.body).toHaveNoA11yViolations();
+  });
 
   it('skips tests that ran the full check', async () => {
     render('<button type="button"></button>');

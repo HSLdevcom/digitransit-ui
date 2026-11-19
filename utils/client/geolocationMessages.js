@@ -1,10 +1,6 @@
 const events = {
   timeout: { type: 'info', persistence: 'repeat', priority: 2 },
-  denied: {
-    type: 'info',
-    persistence: 'repeat',
-    priority: 3,
-  },
+  denied: { type: 'info', persistence: 'repeat', priority: 3 },
   failed: { type: 'error', persistence: 'repeat', priority: 4 },
   prompt: { type: 'info', persistence: 'repeat', priority: 2 },
 };
@@ -20,10 +16,7 @@ export const geolocationMessages = Object.fromEntries(
       icon: 'caution_white_exclamation',
       iconColor: '#dc0451',
       backgroundColor: '#fdf0f5',
-      content: sections.map(s => ({
-        type: s,
-        content: `geolocation-${e}-${s}`,
-      })),
+      content: sections.map(s => ({ type: s, content: `geolocation-${e}-${s}` })),
     },
   ]),
 );

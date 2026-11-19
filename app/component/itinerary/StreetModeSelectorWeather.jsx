@@ -7,9 +7,7 @@ import WeatherDetailsPopup from './WeatherDetailsPopup';
 
 const EMPTY_WEATHER_DATA = {};
 
-export default function StreetModeSelectorWeather({
-  weatherData = EMPTY_WEATHER_DATA,
-}) {
+export default function StreetModeSelectorWeather({ weatherData = EMPTY_WEATHER_DATA }) {
   const [popupOpen, changeOpen] = useState(false);
   if (typeof weatherData.temperature === 'number') {
     const { temperature, iconId } = weatherData;
@@ -28,19 +26,13 @@ export default function StreetModeSelectorWeather({
               <FormattedMessage id={`weather-icon-${iconMsgId}`} /> {tempLabel}
             </span>
             <Icon img={`icon_weather_${iconId}`} />
-            <div
-              className="street-mode-selector-panel-weather-text"
-              aria-hidden="true"
-            >
+            <div className="street-mode-selector-panel-weather-text" aria-hidden="true">
               {tempLabel}
             </div>
           </div>
         </button>
         {popupOpen && (
-          <WeatherDetailsPopup
-            weatherData={weatherData}
-            onClose={() => changeOpen(false)}
-          />
+          <WeatherDetailsPopup weatherData={weatherData} onClose={() => changeOpen(false)} />
         )}
       </>
     );

@@ -4,18 +4,9 @@ import { DateTime } from 'luxon';
 import groupBy from 'lodash/groupBy';
 import { fragmentRefShape } from '../../../utils/client/shapes';
 import DisruptionList from '../DisruptionList';
-import {
-  getAlertsForObject,
-  setEntityForAlert,
-} from '../../../utils/client/alertUtils';
-import {
-  getStartTime,
-  convertTo24HourFormat,
-} from '../../../utils/client/timeUtils';
-import {
-  AlertSeverityLevelType,
-  AlertEntityType,
-} from '../../../utils/shared/constants';
+import { getAlertsForObject, setEntityForAlert } from '../../../utils/client/alertUtils';
+import { getStartTime, convertTo24HourFormat } from '../../../utils/client/timeUtils';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import RouteAlertsContainerFragment from './queries/RouteAlertsContainerFragment';
 
@@ -24,16 +15,11 @@ const getCancelations = (route, pattern, entity, intl) => {
     return null;
   }
 
-  const canceledTripsByDate = groupBy(
-    pattern.canceledTrips,
-    ({ serviceDate }) => serviceDate,
-  );
+  const canceledTripsByDate = groupBy(pattern.canceledTrips, ({ serviceDate }) => serviceDate);
 
   return Object.entries(canceledTripsByDate).map(([date, canceledTrips]) => {
     const sortedCanceledTrips = [...canceledTrips].sort(
-      (a, b) =>
-        a.trip.stoptimes[0].scheduledDeparture -
-        b.trip.stoptimes[0].scheduledDeparture,
+      (a, b) => a.trip.stoptimes[0].scheduledDeparture - b.trip.stoptimes[0].scheduledDeparture,
     );
     return {
       alertDescriptionText: intl.formatMessage(
@@ -43,11 +29,7 @@ const getCancelations = (route, pattern, entity, intl) => {
           route: route.shortName,
           headsign: sortedCanceledTrips[0].trip.tripHeadsign,
           times: sortedCanceledTrips
-            .map(st =>
-              convertTo24HourFormat(
-                getStartTime(st.trip.stoptimes[0].scheduledDeparture),
-              ),
-            )
+            .map(st => convertTo24HourFormat(getStartTime(st.trip.stoptimes[0].scheduledDeparture)))
             .join(', '),
         },
       ),
@@ -65,10 +47,7 @@ const getCancelations = (route, pattern, entity, intl) => {
   });
 };
 
-export default function RouteAlertsContainer({
-  route: routeRef,
-  pattern: patternRef,
-}) {
+export default function RouteAlertsContainer({ route: routeRef, pattern: patternRef }) {
   const intl = useIntl();
 
   const route = useFragment(RouteAlertsContainerFragment.route, routeRef);
@@ -100,10 +79,7 @@ export default function RouteAlertsContainer({
       role="tabpanel"
       aria-labelledby="route-disruption-tab"
     >
-      <DisruptionList
-        cancelations={cancelations}
-        serviceAlerts={serviceAlerts}
-      />
+      <DisruptionList cancelations={cancelations} serviceAlerts={serviceAlerts} />
     </div>
   );
 }

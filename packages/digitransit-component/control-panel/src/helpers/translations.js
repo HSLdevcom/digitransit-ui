@@ -43,8 +43,7 @@ const translations = {
       citybike: 'Nearest city bike stations',
       citybike_short: 'City bike',
       close: 'Close',
-      description:
-        'The Near You view shows all stops and routes near you at a glance.',
+      description: 'The Near You view shows all stops and routes near you at a glance.',
       favorite: 'Nearest favorites',
       favorite_short: 'Favorites',
       ferry: 'Nearest ferry piers',
@@ -73,8 +72,7 @@ const translations = {
       citybike: 'Lähimmät kaupunkipyöräasemat',
       citybike_short: 'Kaupunkipyörä',
       close: 'Sulje',
-      description:
-        'Lähelläsi-näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi.',
+      description: 'Lähelläsi-näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi.',
       favorite: 'Lähimmät suosikit',
       favorite_short: 'Suosikit',
       ferry: 'Lähimmät lauttalaiturit',
@@ -148,8 +146,7 @@ const translations = {
       citybike: 'Närmaste stadscykelstationer',
       citybike_short: 'Stadscykel',
       close: 'Stäng',
-      description:
-        'I vyn Nära dig kan du se hållplatserna och linjerna nära dig.',
+      description: 'I vyn Nära dig kan du se hållplatserna och linjerna nära dig.',
       favorite: 'Närmaste favoriter',
       favorite_short: 'Favoriter',
       ferry: 'Närmaste färjekajer',

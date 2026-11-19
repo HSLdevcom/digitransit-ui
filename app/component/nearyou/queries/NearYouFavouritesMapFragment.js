@@ -21,8 +21,7 @@ export default {
     }
   `,
   stations: graphql`
-    fragment NearYouFavouritesMapFragment_stations on Stop
-    @relay(plural: true) {
+    fragment NearYouFavouritesMapFragment_stations on Stop @relay(plural: true) {
       gtfsId
       lat
       lon

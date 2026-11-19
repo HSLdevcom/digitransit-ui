@@ -12,9 +12,7 @@ describe('CookieSettingsButton', () => {
 
   it('renders the button with mobile class when isMobile is true', () => {
     vi.stubGlobal('CookieConsent', { renew: undefined });
-    const { container } = renderWithProviders(
-      <CookieSettingsButton isMobile />,
-    );
+    const { container } = renderWithProviders(<CookieSettingsButton isMobile />);
     const btn = container.querySelector('button');
     expect(btn.classList.contains('cookie-settings-button-mobile')).toBe(true);
   });

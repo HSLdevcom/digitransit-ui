@@ -22,8 +22,7 @@ export default function CanceledTripsContainer({ mode, isMobile, dateTime }) {
 
   const filteredRoutes = canceledTripsSummary.routes.filter(
     route =>
-      (!selectedFeeds?.length &&
-        feedIds.includes(splitGtfsId(route.route.gtfsId)?.feedId)) ||
+      (!selectedFeeds?.length && feedIds.includes(splitGtfsId(route.route.gtfsId)?.feedId)) ||
       selectedFeeds?.includes(splitGtfsId(route.route.gtfsId)?.feedId),
   );
 

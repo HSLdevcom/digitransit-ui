@@ -10,8 +10,7 @@ export default function ZoneIcon({ className, zoneId, showUnknown = true }) {
     return null;
   }
 
-  const zoneUnknown =
-    Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
+  const zoneUnknown = Array.isArray(config.unknownZones) && config.unknownZones.includes(zoneId);
 
   if (!showUnknown && zoneUnknown) {
     return null;
@@ -22,19 +21,13 @@ export default function ZoneIcon({ className, zoneId, showUnknown = true }) {
       className={cx(
         'zone-icon-container',
         className,
-        {
-          'multi-letter-container': !zoneUnknown && zoneId.length > 1,
-        },
-        {
-          'unknown-container': zoneUnknown,
-        },
+        { 'multi-letter-container': !zoneUnknown && zoneId.length > 1 },
+        { 'unknown-container': zoneUnknown },
       )}
     >
       {zoneUnknown && (
         <>
-          <p className="sr-only">
-            {intl.formatMessage({ id: 'zone-unknown' })}
-          </p>
+          <p className="sr-only">{intl.formatMessage({ id: 'zone-unknown' })}</p>
           <div aria-hidden className="unknown">
             ?
           </div>
@@ -42,17 +35,8 @@ export default function ZoneIcon({ className, zoneId, showUnknown = true }) {
       )}
       {!zoneUnknown && (
         <>
-          <p className="sr-only">
-            {intl.formatMessage({ id: 'zone-info' }, { zone: zoneId })}
-          </p>
-          <div
-            aria-hidden
-            className={cx(
-              'circle',
-              { 'multi-letter': zoneId.length > 1 },
-              zoneId,
-            )}
-          >
+          <p className="sr-only">{intl.formatMessage({ id: 'zone-info' }, { zone: zoneId })}</p>
+          <div aria-hidden className={cx('circle', { 'multi-letter': zoneId.length > 1 }, zoneId)}>
             {zoneId}
           </div>
         </>

@@ -13,10 +13,7 @@ export default function LogoSmall({ logo }) {
   }
 
   return (
-    <div
-      className="logo"
-      style={{ backgroundImage: logo ? `url(${logo})` : 'none' }}
-    >
+    <div className="logo" style={{ backgroundImage: logo ? `url(${logo})` : 'none' }}>
       {config.textLogo && title && (
         <span className="title" role="heading" aria-level="1">
           {title}
@@ -26,6 +23,4 @@ export default function LogoSmall({ logo }) {
   );
 }
 
-LogoSmall.propTypes = {
-  logo: PropTypes.string,
-};
+LogoSmall.propTypes = { logo: PropTypes.string };

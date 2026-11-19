@@ -30,26 +30,10 @@ describe('<RouteControlPanel />', () => {
         type: 0,
         patterns: [
           {
-            alerts: [
-              {
-                trip: {
-                  pattern: {
-                    code: 'HSL:1063:0:01',
-                  },
-                },
-              },
-            ],
+            alerts: [{ trip: { pattern: { code: 'HSL:1063:0:01' } } }],
             code: 'HSL:1063:0:01',
             stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    realtimeState: 'SCHEDULED',
-                  },
-                ],
-              },
-            ],
+            trips: [{ stoptimes: [{ realtimeState: 'SCHEDULED' }] }],
           },
         ],
       },
@@ -59,10 +43,7 @@ describe('<RouteControlPanel />', () => {
           ...mockMatch.location,
           pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
         },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
+        params: { routeId: 'HSL:1063', patternId: 'HSL:1063:0:01' },
       },
     };
     expect(renderView(props).querySelector('.activeAlert')).not.toBeNull();
@@ -76,12 +57,7 @@ describe('<RouteControlPanel />', () => {
         mode: 'BUS',
         type: 3,
         agency: { name: 'mock' },
-        patterns: [
-          {
-            code: 'tampere:32:1:01',
-            stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
-          },
-        ],
+        patterns: [{ code: 'tampere:32:1:01', stops: [{ name: 'Stop A' }, { name: 'Stop B' }] }],
       },
       match: {
         ...mockMatch,
@@ -89,20 +65,12 @@ describe('<RouteControlPanel />', () => {
           ...mockMatch.location,
           pathname: `/${PREFIX_ROUTES}/tampere:32/${PREFIX_STOPS}/tampere:32:1:01`,
         },
-        params: {
-          patternId: 'tampere:32:1:01',
-        },
+        params: { patternId: 'tampere:32:1:01' },
       },
     };
     const config = {
       ...baseConfig,
-      realTime: {
-        tampere: {
-          gtfsRt: 'foobar',
-          routeSelector: () => '32',
-          active: false,
-        },
-      },
+      realTime: { tampere: { gtfsRt: 'foobar', routeSelector: () => '32', active: false } },
     };
     renderView(props, config);
   });
@@ -118,15 +86,7 @@ describe('<RouteControlPanel />', () => {
             alerts: [],
             code: 'HSL:1063:0:01',
             stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
-            trips: [
-              {
-                stoptimes: [
-                  {
-                    realtimeState: 'CANCELED',
-                  },
-                ],
-              },
-            ],
+            trips: [{ stoptimes: [{ realtimeState: 'CANCELED' }] }],
           },
         ],
         type: 3,
@@ -138,10 +98,7 @@ describe('<RouteControlPanel />', () => {
           ...mockMatch.location,
           pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
         },
-        params: {
-          routeId: 'HSL:1063',
-          patternId: 'HSL:1063:0:01',
-        },
+        params: { routeId: 'HSL:1063', patternId: 'HSL:1063:0:01' },
       },
     };
     expect(renderView(props).querySelector('.activeAlert')).not.toBeNull();
@@ -154,12 +111,7 @@ describe('<RouteControlPanel />', () => {
         route: {
           gtfsId: 'HSL:1063',
           mode: 'BUS',
-          patterns: [
-            {
-              code: 'HSL:1063:0:01',
-              stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
-            },
-          ],
+          patterns: [{ code: 'HSL:1063:0:01', stops: [{ name: 'Stop A' }, { name: 'Stop B' }] }],
           type: 3,
           agency: { name: 'mock' },
         },
@@ -169,16 +121,10 @@ describe('<RouteControlPanel />', () => {
             ...mockMatch.location,
             pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:02`,
           },
-          params: {
-            routeId: 'HSL:1063',
-            patternId: 'HSL:1063:0:02',
-          },
+          params: { routeId: 'HSL:1063', patternId: 'HSL:1063:0:02' },
         },
       };
-      const config = {
-        ...baseConfig,
-        realTime: { HSL: { active: true } },
-      };
+      const config = { ...baseConfig, realTime: { HSL: { active: true } } };
       // Renders without throwing even when patternId does not match any pattern
       renderView(props, config);
     });
@@ -191,12 +137,7 @@ describe('<RouteControlPanel />', () => {
         route: {
           gtfsId: 'HSL:1063',
           mode: 'BUS',
-          patterns: [
-            {
-              code: 'HSL:1063:0:01',
-              stops: [{ name: 'Stop A' }, { name: 'Stop B' }],
-            },
-          ],
+          patterns: [{ code: 'HSL:1063:0:01', stops: [{ name: 'Stop A' }, { name: 'Stop B' }] }],
           type: 3,
           agency: { name: 'mock' },
         },
@@ -206,10 +147,7 @@ describe('<RouteControlPanel />', () => {
             ...mockMatch.location,
             pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:02`,
           },
-          params: {
-            routeId: 'HSL:1063',
-            patternId: 'HSL:1063:0:01',
-          },
+          params: { routeId: 'HSL:1063', patternId: 'HSL:1063:0:01' },
         },
       };
       const config = {
@@ -242,10 +180,7 @@ describe('<RouteControlPanel />', () => {
         ...mockMatch.location,
         pathname: `/${PREFIX_ROUTES}/HSL:1063/${PREFIX_STOPS}/HSL:1063:0:01`,
       },
-      params: {
-        routeId: 'HSL:1063',
-        patternId: 'HSL:1063:0:01',
-      },
+      params: { routeId: 'HSL:1063', patternId: 'HSL:1063:0:01' },
     };
 
     it('should mark the disruptions tab with .active-service-alert for INFO level', () => {
@@ -269,9 +204,7 @@ describe('<RouteControlPanel />', () => {
         },
         baseConfig,
       );
-      expect(
-        container.querySelector('.active-disruption-alert'),
-      ).not.toBeNull();
+      expect(container.querySelector('.active-disruption-alert')).not.toBeNull();
     });
 
     it('should mark the disruptions tab with .active-disruption-alert for SEVERE level', () => {
@@ -283,9 +216,7 @@ describe('<RouteControlPanel />', () => {
         },
         baseConfig,
       );
-      expect(
-        container.querySelector('.active-disruption-alert'),
-      ).not.toBeNull();
+      expect(container.querySelector('.active-disruption-alert')).not.toBeNull();
     });
   });
 });

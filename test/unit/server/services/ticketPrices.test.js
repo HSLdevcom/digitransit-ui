@@ -6,9 +6,7 @@ const { retryFetch } = vi.hoisted(() => ({ retryFetch: vi.fn() }));
 vi.mock('../../../../utils/shared/fetchUtils', () => ({ retryFetch }));
 
 const ticketTypesResponse = {
-  json: async () => ({
-    data: { ticketTypes: [{ fareId: 'HSL:esim', price: 2.8, zones: ['A'] }] },
-  }),
+  json: async () => ({ data: { ticketTypes: [{ fareId: 'HSL:esim', price: 2.8, zones: ['A'] }] } }),
 };
 
 describe('ticketPrices', () => {
@@ -46,10 +44,7 @@ describe('ticketPrices', () => {
   });
 
   describe('fetchTicketPrices (default export)', () => {
-    const config = () => ({
-      URL: { OTP: 'https://otp/' },
-      availableTickets: {},
-    });
+    const config = () => ({ URL: { OTP: 'https://otp/' }, availableTickets: {} });
 
     beforeEach(() => {
       vi.spyOn(console, 'log').mockImplementation(() => {});
@@ -100,9 +95,7 @@ describe('ticketPrices', () => {
         expect.any(Object),
       );
       resolveBackgroundRetry(ticketTypesResponse);
-      await vi.waitFor(() =>
-        expect(conf.availableTickets.HSL['HSL:esim'].price).toBe(2.8),
-      );
+      await vi.waitFor(() => expect(conf.availableTickets.HSL['HSL:esim'].price).toBe(2.8));
     });
   });
 });

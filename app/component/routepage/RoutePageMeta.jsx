@@ -23,30 +23,16 @@ export default function RoutePageMeta({ route: routeRef }) {
   }
 
   const title = intl.formatMessage(
-    {
-      id: 'route-page.title',
-      defaultMessage: 'Route - {shortName}',
-    },
+    { id: 'route-page.title', defaultMessage: 'Route - {shortName}' },
     route,
   );
   const description = intl.formatMessage(
-    {
-      id: 'route-page.description',
-      defaultMessage: 'Route - {shortName}, {longName}',
-    },
+    { id: 'route-page.description', defaultMessage: 'Route - {shortName}, {longName}' },
     route,
   );
-  const props = generateMetaData(
-    {
-      description,
-      title,
-    },
-    config,
-  );
+  const props = generateMetaData({ description, title }, config);
 
   return <Helmet {...props} />;
 }
 
-RoutePageMeta.propTypes = {
-  route: fragmentRefShape.isRequired,
-};
+RoutePageMeta.propTypes = { route: fragmentRefShape.isRequired };

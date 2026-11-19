@@ -28,28 +28,18 @@ export default function IconWithIcon({
           omitViewBox={backgroundShape ? undefined : omitViewBox}
           foreground={
             (badgeFill || badgeText) && (
-              <IconBadge
-                badgeFill={badgeFill}
-                badgeText={badgeText}
-                textFill={badgeTextFill}
-              />
+              <IconBadge badgeFill={badgeFill} badgeText={badgeText} textFill={badgeTextFill} />
             )
           }
           background={
             backgroundShape && (
-              <IconBackground
-                shape={backgroundShape}
-                color={color || 'currentColor'}
-              />
+              <IconBackground shape={backgroundShape} color={color || 'currentColor'} />
             )
           }
         />
       </span>
       {subIcon && (
-        <span
-          className={subIconClassName}
-          title={intl.formatMessage({ id: 'disruption' })}
-        >
+        <span className={subIconClassName} title={intl.formatMessage({ id: 'disruption' })}>
           <Icon
             img={subIcon}
             omitViewBox={omitViewBox}

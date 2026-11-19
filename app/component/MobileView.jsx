@@ -108,8 +108,7 @@ const MobileView = forwardRef(
 
     useImperativeHandle(ref, () => ({
       setBottomSheet: (pos, slowly) => {
-        const pad =
-          pos === 'middle' ? getMiddlePosition() : BOTTOM_SHEET_OFFSET;
+        const pad = pos === 'middle' ? getMiddlePosition() : BOTTOM_SHEET_OFFSET;
         changeBottomPadding(pad, slowly);
       },
     }));
@@ -159,17 +158,11 @@ const MobileView = forwardRef(
             <MapBottomsheetContext.Provider value={bottomPadding}>
               {map}
             </MapBottomsheetContext.Provider>
-            <div
-              className="drawer-container"
-              onScroll={onScroll}
-              ref={scrollRef}
-              role="main"
-            >
+            <div className="drawer-container" onScroll={onScroll} ref={scrollRef} role="main">
               <div className="drawer-padding" />
               <div
                 className={cx('drawer-content', {
-                  'fit-content':
-                    !enableBottomScroll || fitContentPages.includes(pagePrefix),
+                  'fit-content': !enableBottomScroll || fitContentPages.includes(pagePrefix),
                 })}
                 ref={contentRef}
               >

@@ -30,15 +30,7 @@ export default function StopPageMapContainer({ stop: stopRef }) {
       ? getStopAlertEffects(stop.alerts, nowUnixTime)
       : null;
 
-  return (
-    <StopPageMap
-      stop={stop}
-      stopStatus={stopStatus}
-      stopAlertEffects={stopAlertEffects}
-    />
-  );
+  return <StopPageMap stop={stop} stopStatus={stopStatus} stopAlertEffects={stopAlertEffects} />;
 }
 
-StopPageMapContainer.propTypes = {
-  stop: fragmentRefShape,
-};
+StopPageMapContainer.propTypes = { stop: fragmentRefShape };

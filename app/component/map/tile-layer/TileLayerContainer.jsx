@@ -44,11 +44,7 @@ const POPUP_FADE_OUT_MS = 250;
 
 let selectionCounter = 0;
 
-const POPUP_OPTIONS = {
-  offset: [0, 0],
-  autoPanPaddingTopLeft: [5, 125],
-  autoPan: false,
-};
+const POPUP_OPTIONS = { offset: [0, 0], autoPanPaddingTopLeft: [5, 125], autoPan: false };
 
 /**
  * Send an analytics event on opening popup
@@ -76,13 +72,7 @@ export function sendSelectionAnalytics(selectableTargets, config) {
   const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
   const prefix = pathPrefixMatch?.[1];
   const context = prefix && prefix !== config.indexPath ? prefix : 'index';
-  addAnalyticsEvent({
-    action: 'SelectMapPoint',
-    category: 'Map',
-    name,
-    type,
-    source: context,
-  });
+  addAnalyticsEvent({ action: 'SelectMapPoint', category: 'Map', name, type, source: context });
 }
 
 /**
@@ -109,41 +99,27 @@ function onSelectableTargetClicked(
   const single = selectableTargets.length === 1 ? selectableTargets[0] : null;
   // navigate to citybike stop page if single stop is clicked
   if (single?.layer === 'citybike') {
-    router.push(
-      `/${PREFIX_BIKESTATIONS}/${encodeURIComponent(
-        single.feature.properties.id,
-      )}`,
-    );
+    router.push(`/${PREFIX_BIKESTATIONS}/${encodeURIComponent(single.feature.properties.id)}`);
     return;
   }
   if (
     single?.layer === 'scooter' ||
-    (selectableTargets.length > 1 &&
-      selectableTargets.every(target => target.layer === 'scooter'))
+    (selectableTargets.length > 1 && selectableTargets.every(target => target.layer === 'scooter'))
     // scooters are not shown in the selection popup as there can be too many.
     // Instead, the user is directed to the scooter cluster view or the first one in a group of singles.
   ) {
-    const cluster = selectableTargets.find(
-      target => target.feature.properties.cluster,
-    );
+    const cluster = selectableTargets.find(target => target.feature.properties.cluster);
     const networks = cluster?.feature.properties.networks ?? '';
     const id = cluster
       ? cluster.feature.properties.scooterId
       : selectableTargets[0].feature.properties.id;
     // adding networks directs to scooter cluster view
-    router.push(
-      `/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[...networks]}`,
-    );
+    router.push(`/${PREFIX_RENTALVEHICLES}/${encodeURIComponent(id)}/${[...networks]}`);
     return;
   }
   // ... Or to stop page
   if (single?.layer === 'stop') {
-    router.push(
-      stopPagePath(
-        single.feature.properties.stops,
-        single.feature.properties.gtfsId,
-      ),
-    );
+    router.push(stopPagePath(single.feature.properties.stops, single.feature.properties.gtfsId));
     return;
   }
 
@@ -208,10 +184,7 @@ function createTile(tileCoords, done, latest, setSelection) {
 
 function getLayerOptions(props, leaflet) {
   const { map } = leaflet;
-  const options = {
-    tileSize: props.tileSize,
-    zoomOffset: props.zoomOffset,
-  };
+  const options = { tileSize: props.tileSize, zoomOffset: props.zoomOffset };
   const pane = props.pane ?? leaflet.pane;
   if (pane != null) {
     options.pane = pane;
@@ -226,8 +199,7 @@ function getLayerOptions(props, leaflet) {
 }
 
 export default function TileLayerContainer(props) {
-  const { locationPopup, onSelectLocation, mapLayers, highlightedStops } =
-    props;
+  const { locationPopup, onSelectLocation, mapLayers, highlightedStops } = props;
   const { vehicles } = useRealTimeInformation();
   const currentTime = useCurrentTime();
   const config = useConfigContext();
@@ -255,12 +227,8 @@ export default function TileLayerContainer(props) {
   const instance = useRef(null);
   if (instance.current === null) {
     const layer = new L.GridLayer(getLayerOptions(props, leaflet));
-    layer.createTile = (tileCoords, done) =>
-      createTile(tileCoords, done, latest, setSelection);
-    instance.current = {
-      layer,
-      merc: new SphericalMercator({ size: props.tileSize || 256 }),
-    };
+    layer.createTile = (tileCoords, done) => createTile(tileCoords, done, latest, setSelection);
+    instance.current = { layer, merc: new SphericalMercator({ size: props.tileSize || 256 }) };
   }
   const { layer, merc } = instance.current;
 
@@ -297,10 +265,7 @@ export default function TileLayerContainer(props) {
   useEffect(() => {
     const prev = previous.current;
     previous.current = { mapLayers, highlightedStops, currentTime };
-    if (
-      !isEqual(prev.mapLayers, mapLayers) ||
-      !isEqual(prev.highlightedStops, highlightedStops)
-    ) {
+    if (!isEqual(prev.mapLayers, mapLayers) || !isEqual(prev.highlightedStops, highlightedStops)) {
       layer.redraw();
     }
     if (prev.currentTime !== currentTime) {
@@ -324,10 +289,7 @@ export default function TileLayerContainer(props) {
   }, []);
   const onPopupOpen = useCallback(
     () =>
-      sendSelectionAnalytics(
-        latest.current.selection?.selectableTargets,
-        latest.current.config,
-      ),
+      sendSelectionAnalytics(latest.current.selection?.selectableTargets, latest.current.config),
     [],
   );
   const selectRow = useCallback(
@@ -340,14 +302,9 @@ export default function TileLayerContainer(props) {
   }
 
   const { selectableTargets, coords, zoom } = selection;
-  const popupOptions = {
-    ...POPUP_OPTIONS,
-    onClose: closePopup,
-    onOpen: onPopupOpen,
-  };
+  const popupOptions = { ...POPUP_OPTIONS, onClose: closePopup, onOpen: onPopupOpen };
   const smallScreenPopupHidden =
-    !config.map.showStopMarkerPopupOnMobile &&
-    getClientBreakpoint() === 'small';
+    !config.map.showStopMarkerPopupOnMobile && getClientBreakpoint() === 'small';
 
   if (selectableTargets.length === 1) {
     const target = selectableTargets[0];
@@ -355,22 +312,14 @@ export default function TileLayerContainer(props) {
     let contents;
     let latlng = coords;
     const isVehicle = target.layer === 'realTimeVehicle';
-    if (
-      PARKING_LAYERS.includes(target.layer) &&
-      getHubParking(target)?.length > 1
-    ) {
+    if (PARKING_LAYERS.includes(target.layer) && getHubParking(target)?.length > 1) {
       id = `parkAndRide_${target.feature.properties.vehicleParking[0].id}`;
-      contents = (
-        <MarkerSelectPopup selectRow={selectRow} options={selectableTargets} />
-      );
+      contents = <MarkerSelectPopup selectRow={selectRow} options={selectableTargets} />;
     } else if (isVehicle) {
       const { vehicle } = target.feature;
       const realTimeInfoVehicle = vehicles[vehicle.id];
       if (realTimeInfoVehicle) {
-        latlng = {
-          lat: realTimeInfoVehicle.lat,
-          lng: realTimeInfoVehicle.long,
-        };
+        latlng = { lat: realTimeInfoVehicle.lat, lng: realTimeInfoVehicle.long };
       }
       contents = <SelectVehicleContainer vehicle={vehicle} />;
     }
@@ -379,9 +328,7 @@ export default function TileLayerContainer(props) {
         {...popupOptions}
         key={`${selection.id}:${id ?? 'single'}`}
         position={latlng}
-        className={
-          isVehicle ? 'vehicle-popup single-popup' : 'popup choice-popup'
-        }
+        className={isVehicle ? 'vehicle-popup single-popup' : 'popup choice-popup'}
       >
         {contents}
       </Popup>
@@ -401,11 +348,7 @@ export default function TileLayerContainer(props) {
         maxWidth="300px"
         className="popup choice-popup"
       >
-        <MarkerSelectPopup
-          selectRow={selectRow}
-          options={selectableTargets}
-          zoom={zoom}
-        />
+        <MarkerSelectPopup selectRow={selectRow} options={selectableTargets} zoom={zoom} />
       </Popup>
     );
   }
@@ -419,9 +362,7 @@ export default function TileLayerContainer(props) {
       {...popupOptions}
       maxWidth="auto"
       position={coords}
-      className={`popup ${
-        locationPopup === 'all' ? 'single-popup' : 'narrow-popup'
-      }`}
+      className={`popup ${locationPopup === 'all' ? 'single-popup' : 'narrow-popup'}`}
     >
       <LocationPopup
         lat={coords.lat}

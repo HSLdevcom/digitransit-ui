@@ -12,11 +12,7 @@ export default function getVehicleState(
   last,
 ) {
   let vehicleState;
-  if (
-    distanceToStop > maxDistance &&
-    vehicleTime < arrivalTimeToStop &&
-    !first
-  ) {
+  if (distanceToStop > maxDistance && vehicleTime < arrivalTimeToStop && !first) {
     vehicleState = VEHICLE_ARRIVING;
   } else if (
     (vehicleTime >= arrivalTimeToStop && vehicleTime < departureTimeFromStop) ||

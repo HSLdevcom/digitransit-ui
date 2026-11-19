@@ -29,9 +29,7 @@ export default function ItineraryTabs({
           tabIndex={i}
           recommended={i === recommendedIndex}
           feedback={feedback[i]}
-          giveFeedback={
-            giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined
-          }
+          giveFeedback={giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined}
           {...rest}
         />
       </div>

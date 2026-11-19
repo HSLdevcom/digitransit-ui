@@ -10,10 +10,7 @@ export default function NetworkError({ retry }) {
     <div className="page-not-found">
       <Icon img="icon_error_page_not_found" />
       <p>
-        <FormattedMessage
-          id="network-error"
-          defaultMessage="There was a network error"
-        />
+        <FormattedMessage id="network-error" defaultMessage="There was a network error" />
       </p>
       <p>
         <Link to={match.location} onClick={retry}>

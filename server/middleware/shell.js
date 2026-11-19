@@ -21,10 +21,7 @@ export function resolveLocale(config, req, res) {
 }
 
 function getAssetContext() {
-  return {
-    ASSET_URL: process.env.ASSET_URL || '',
-    mainAssets: getMainAssets(),
-  };
+  return { ASSET_URL: process.env.ASSET_URL || '', mainAssets: getMainAssets() };
 }
 
 function buildHead(config, req, locale) {
@@ -50,11 +47,7 @@ function buildHead(config, req, locale) {
     const themeCssPath = getAssetPath(`${config.CONFIG}_theme.css`);
     const preloads = [
       { as: 'style', href: config.URL.FONT },
-      {
-        as: 'style',
-        href: `${ASSET_URL}/${themeCssPath}`,
-        crossorigin: true,
-      },
+      { as: 'style', href: `${ASSET_URL}/${themeCssPath}`, crossorigin: true },
       ...mainAssets.map(asset => ({
         as: asset.endsWith('.css') ? 'style' : 'script',
         href: `${ASSET_URL}/${asset}`,
@@ -69,14 +62,10 @@ function buildHead(config, req, locale) {
     html.push(getAnalyticsInitCode(config, req));
     preloads.forEach(({ as, href, crossorigin }) =>
       html.push(
-        `<link rel="preload" as="${as}" ${
-          crossorigin ? 'crossorigin' : ''
-        } href="${href}">\n`,
+        `<link rel="preload" as="${as}" ${crossorigin ? 'crossorigin' : ''} href="${href}">\n`,
       ),
     );
-    preconnects.forEach(href =>
-      html.push(`<link rel="preconnect" crossorigin href="${href}">\n`),
-    );
+    preconnects.forEach(href => html.push(`<link rel="preconnect" crossorigin href="${href}">\n`));
     // First stylesheet in the document: it declares the cascade layer order.
     html.push(
       `<link rel="stylesheet" type="text/css" crossorigin href="${ASSET_URL}/${themeCssPath}"/>\n`,
@@ -90,9 +79,7 @@ function buildHead(config, req, locale) {
       );
   }
 
-  html.push(
-    `<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`,
-  );
+  html.push(`<link rel="stylesheet" type="text/css" href="${config.URL.FONT}"/>\n`);
   html.push(`<script>\nwindow.config=${serialize(config)};\n</script>\n`);
 
   html.push('</head>\n');
@@ -120,20 +107,13 @@ function buildBody(config) {
     html.push('</script>\n');
     html.push('<div id="app" />');
     html.push('<script>');
-    html.push(
-      getManifestScript().replace(
-        /\/\/# sourceMappingURL=/g,
-        `$&${ASSET_URL}/js/`,
-      ),
-    );
+    html.push(getManifestScript().replace(/\/\/# sourceMappingURL=/g, `$&${ASSET_URL}/js/`));
     html.push('\n</script>\n');
     html.push(`<script>window.ASSET_URL="${ASSET_URL}/"</script>\n`);
     mainAssets
       .filter(asset => !asset.endsWith('.css'))
       .forEach(asset =>
-        html.push(
-          `<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`,
-        ),
+        html.push(`<script src="${ASSET_URL}/${asset}" crossorigin defer></script>\n`),
       );
   }
 

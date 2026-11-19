@@ -16,14 +16,8 @@ import {
 } from '../../../utils/shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
-import {
-  getRouteMode,
-  modeToTranslationId,
-} from '../../../utils/client/modeUtils';
-import {
-  getModeIconColor,
-  ensureColorAccessibleOnWhite,
-} from '../../../utils/shared/colorUtils';
+import { getRouteMode, modeToTranslationId } from '../../../utils/client/modeUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -41,10 +35,7 @@ function resolveHeadsign(pattern) {
   return pattern.stops[pattern.stops.length - 1].name;
 }
 
-export default function RoutePage({
-  route: routeRef = null,
-  error = undefined,
-}) {
+export default function RoutePage({ route: routeRef = null, error = undefined }) {
   const TABS = [PREFIX_STOPS, PREFIX_TIMETABLE, PREFIX_DISRUPTION];
   const intl = useIntl();
   const config = useConfigContext();
@@ -72,17 +63,12 @@ export default function RoutePage({
     return null;
   }
   const mode = getRouteMode(route, config);
-  const rawRouteColor = route.color
-    ? `#${route.color}`
-    : getModeIconColor(config, mode);
+  const rawRouteColor = route.color ? `#${route.color}` : getModeIconColor(config, mode);
   const shortNameColor = ensureColorAccessibleOnWhite(rawRouteColor);
   const label = route.shortName ? route.shortName : route.longName || '';
-  const selectedPattern =
-    patternId && route.patterns.find(p => p.code === patternId);
+  const selectedPattern = patternId && route.patterns.find(p => p.code === patternId);
   const headsign = resolveHeadsign(selectedPattern || null);
-  const matchingNotification = config.routeNotifications?.find(n =>
-    n.showForRoute?.(route),
-  );
+  const matchingNotification = config.routeNotifications?.find(n => n.showForRoute?.(route));
   const localCallAgency = isLocalCallAgency({ route }, config);
 
   return (
@@ -94,11 +80,7 @@ export default function RoutePage({
           <FormattedMessage id="route-guide" defaultMessage="Route guide" />
         </h1>
       </div>
-      <div
-        className={cx('route-container', {
-          'bp-large': breakpoint === 'large',
-        })}
-      >
+      <div className={cx('route-container', { 'bp-large': breakpoint === 'large' })}>
         <div className="route-header">
           {breakpoint === 'large' && <BackButton />}
           <div aria-hidden="true">
@@ -112,9 +94,7 @@ export default function RoutePage({
           </div>
           <div className="route-info">
             <h1
-              className={cx('route-short-name', mode, {
-                'call-local': localCallAgency,
-              })}
+              className={cx('route-short-name', mode, { 'call-local': localCallAgency })}
               ref={headingRef}
               tabIndex={-1}
               style={{ color: shortNameColor }}
@@ -140,16 +120,11 @@ export default function RoutePage({
             <div className="route-header-actions">
               {matchingNotification?.closeButtonLabel?.[intl.locale] && (
                 <>
-                  <RouteNotificationButton
-                    notification={matchingNotification}
-                  />
+                  <RouteNotificationButton notification={matchingNotification} />
                   <span className="route-header-divider" aria-hidden="true" />
                 </>
               )}
-              <FavouriteRouteContainer
-                className="route-page-header"
-                gtfsId={route.gtfsId}
-              />
+              <FavouriteRouteContainer className="route-page-header" gtfsId={route.gtfsId} />
             </div>
           )}
         </div>
@@ -162,7 +137,4 @@ export default function RoutePage({
   );
 }
 
-RoutePage.propTypes = {
-  route: fragmentRefShape,
-  error: errorShape,
-};
+RoutePage.propTypes = { route: fragmentRefShape, error: errorShape };

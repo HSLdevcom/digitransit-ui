@@ -4,10 +4,7 @@ import { createPaginationContainer, graphql } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { relayShape } from '../../../utils/client/shapes';
 import StopNearYou from './StopNearYou';
-import {
-  sortNearYouRentalStations,
-  sortNearYouStops,
-} from '../../../utils/client/sortUtils';
+import { sortNearYouRentalStations, sortNearYouStops } from '../../../utils/client/sortUtils';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import ParkNearYou from './ParkNearYou';
 import Loading from '../Loading';
@@ -35,10 +32,7 @@ function NearYouContainer({
   const [loading, setLoading] = useState(0);
 
   const updatePosition = () => {
-    const variables = {
-      ...position,
-      startTime: currentTime,
-    };
+    const variables = { ...position, startTime: currentTime };
     setLoading(1);
     relay.refetchConnection(
       stopCount.current,
@@ -76,19 +70,15 @@ function NearYouContainer({
   useEffect(() => {
     const { edges } = places.nearest;
     const fetchMore =
-      edges.filter(
-        stop => !(stop.node.place.stoptimesWithoutPatterns?.length === 0),
-      ).length < 5 && refetches.current < config.maxNearYouRefetches;
+      edges.filter(stop => !(stop.node.place.stoptimesWithoutPatterns?.length === 0)).length < 5 &&
+      refetches.current < config.maxNearYouRefetches;
     if (fetchMore) {
       showMore(true);
     }
   }, [places]);
 
   useEffect(() => {
-    if (
-      position.lat !== searchPos.current.lat ||
-      position.lon !== searchPos.current.lon
-    ) {
+    if (position.lat !== searchPos.current.lat || position.lon !== searchPos.current.lon) {
       updatePosition();
     }
   }, [position.lat, position.lon]);
@@ -106,9 +96,7 @@ function NearYouContainer({
     } else if (mode === 'BIKEPARK' || mode === 'CARPARK') {
       sorted = edges;
     } else {
-      sorted = edges
-        .slice()
-        .sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
+      sorted = edges.slice().sort(sortNearYouStops(favouriteIds, walkRoutingThreshold));
     }
 
     const stops = sorted.map(({ node }) => {
@@ -158,10 +146,7 @@ function NearYouContainer({
     .flatMap(stop => stop?.props?.stop?.routes || [])
     .flatMap(route => route?.alerts || [])
     .filter(alert => alert.alertSeverityLevel === 'SEVERE');
-  const noStopsFound =
-    !items.length &&
-    refetches.current >= config.maxNearYouRefetches &&
-    !loading;
+  const noStopsFound = !items.length && refetches.current >= config.maxNearYouRefetches && !loading;
   return (
     <>
       {alerts?.length ? <DisruptionBanner alerts={alerts} mode={mode} /> : null}
@@ -213,10 +198,7 @@ NearYouContainer.propTypes = {
   places: PropTypes.object,
   currentTime: PropTypes.number.isRequired,
   relay: relayShape.isRequired,
-  position: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }).isRequired,
+  position: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }).isRequired,
   withSeparator: PropTypes.bool,
   prioritizedStops: PropTypes.arrayOf(PropTypes.string).isRequired,
   mode: PropTypes.string.isRequired,
@@ -272,17 +254,11 @@ const refetchContainer = createPaginationContainer(
                 }
                 ... on Stop {
                   ...StopNearYouFragment_stop
-                    @arguments(
-                      startTime: $startTime
-                      omitNonPickups: $omitNonPickups
-                    )
+                    @arguments(startTime: $startTime, omitNonPickups: $omitNonPickups)
                   id
                   name
                   gtfsId
-                  stoptimesWithoutPatterns(
-                    startTime: $startTime
-                    omitNonPickups: $omitNonPickups
-                  ) {
+                  stoptimesWithoutPatterns(startTime: $startTime, omitNonPickups: $omitNonPickups) {
                     scheduledArrival
                   }
                   routes {
@@ -321,17 +297,10 @@ const refetchContainer = createPaginationContainer(
       return props.places?.nearest;
     },
     getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        first: totalCount,
-      };
+      return { ...prevVars, first: totalCount };
     },
     getVariables(props, pagevars, fragmentVariables) {
-      return {
-        ...fragmentVariables,
-        first: pagevars.count,
-        after: pagevars.cursor,
-      };
+      return { ...fragmentVariables, first: pagevars.count, after: pagevars.cursor };
     },
     query: graphql`
       query NearYouContainerRefetchQuery(

@@ -193,15 +193,7 @@ const iconMap = {
  *    ariaLabel="Closed" // Accessible name for an icon that carries information. Without it the icon is decorative and hidden from assistive technology, optional
  * />
  */
-export default function Icon({
-  className,
-  color,
-  img,
-  height,
-  width,
-  rotate,
-  ariaLabel,
-}) {
+export default function Icon({ className, color, img, height, width, rotate, ariaLabel }) {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,

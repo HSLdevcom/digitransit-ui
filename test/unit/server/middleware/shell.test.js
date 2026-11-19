@@ -18,16 +18,10 @@ function createMockReq(cookies = {}) {
 
 function createMockRes() {
   const cookieCalls = [];
-  return {
-    cookie: (...args) => cookieCalls.push(args),
-    cookieCalls,
-  };
+  return { cookie: (...args) => cookieCalls.push(args), cookieCalls };
 }
 
-const config = {
-  defaultLanguage: 'fi',
-  availableLanguages: ['fi', 'sv', 'en'],
-};
+const config = { defaultLanguage: 'fi', availableLanguages: ['fi', 'sv', 'en'] };
 
 describe('resolveLocale', () => {
   it('uses the cookie locale when it is valid', () => {

@@ -10,10 +10,7 @@ import { useBreakpoint } from '../../hooks/BreakpointContext';
 import ScrollableWrapper from '../ScrollableWrapper';
 import TripStopsContainerFragment from './queries/TripStopsContainerFragment';
 
-const TripStopsContainer = memo(function TripStopsContainer({
-  trip: tripRef,
-  route: routeRef,
-}) {
+const TripStopsContainer = memo(function TripStopsContainer({ trip: tripRef, route: routeRef }) {
   const breakpoint = useBreakpoint();
   const trip = useFragment(TripStopsContainerFragment.trip, tripRef);
   const route = useFragment(TripStopsContainerFragment.route, routeRef);
@@ -28,9 +25,7 @@ const TripStopsContainer = memo(function TripStopsContainer({
     return null;
   }
 
-  const tripStartTime = getStartTime(
-    trip.stoptimesForDate[0].scheduledDeparture,
-  );
+  const tripStartTime = getStartTime(trip.stoptimesForDate[0].scheduledDeparture);
 
   const handleScroll = () => {
     if (humanScrolling.current && keepTracking) {
@@ -40,18 +35,12 @@ const TripStopsContainer = memo(function TripStopsContainer({
 
   return (
     <ScrollableWrapper
-      className={cx('route-page-content', {
-        'bp-large': breakpoint === 'large',
-      })}
+      className={cx('route-page-content', { 'bp-large': breakpoint === 'large' })}
       id="trip-route-page-content"
       onScroll={debounce(handleScroll, 100, { leading: true })}
     >
       {route && route.patterns && (
-        <RouteControlPanel
-          route={route}
-          breakpoint={breakpoint}
-          tripStartTime={tripStartTime}
-        />
+        <RouteControlPanel route={route} breakpoint={breakpoint} tripStartTime={tripStartTime} />
       )}
       <TripStopListContainer
         key="list"
@@ -64,10 +53,7 @@ const TripStopsContainer = memo(function TripStopsContainer({
   );
 });
 
-TripStopsContainer.propTypes = {
-  trip: fragmentRefShape,
-  route: fragmentRefShape,
-};
+TripStopsContainer.propTypes = { trip: fragmentRefShape, route: fragmentRefShape };
 
 export default TripStopsContainer;
 export { TripStopsContainer as Component };

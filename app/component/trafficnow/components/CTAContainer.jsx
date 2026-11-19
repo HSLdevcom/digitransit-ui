@@ -24,6 +24,4 @@ export default function CTAContainer({ isMobile = false }) {
   );
 }
 
-CTAContainer.propTypes = {
-  isMobile: PropTypes.bool,
-};
+CTAContainer.propTypes = { isMobile: PropTypes.bool };

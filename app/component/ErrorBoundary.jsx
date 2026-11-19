@@ -42,10 +42,7 @@ export default class ErrorBoundary extends Component {
         <div className="page-not-found">
           <Icon img="icon_error_page_not_found" />
           <p>
-            <FormattedMessage
-              id="generic-error"
-              defaultMessage="There was an error"
-            />
+            <FormattedMessage id="generic-error" defaultMessage="There was an error" />
           </p>
           <p>
             <button type="button" onClick={this.resetState}>

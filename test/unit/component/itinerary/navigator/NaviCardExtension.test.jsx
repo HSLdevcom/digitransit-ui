@@ -14,10 +14,7 @@ const transitLeg = {
   trip: { tripHeadsign: 'Keskusta' },
   headsign: 'Keskusta',
   stopCalls: [{}, {}, {}],
-  to: {
-    name: 'Stop A',
-    stop: { parentStation: null, name: 'Stop A', vehicleMode: 'BUS' },
-  },
+  to: { name: 'Stop A', stop: { parentStation: null, name: 'Stop A', vehicleMode: 'BUS' } },
   from: {},
 };
 
@@ -33,22 +30,18 @@ const extensionBaseProps = {
 
 describe('<NaviCardExtension />', () => {
   it('shows how many stops remain for a transit leg', () => {
-    const { container } = renderWithProviders(
-      <NaviCardExtension {...extensionBaseProps} />,
-      { config: baseConfig },
-    );
+    const { container } = renderWithProviders(<NaviCardExtension {...extensionBaseProps} />, {
+      config: baseConfig,
+    });
     expect(container.textContent).toContain('1');
     expect(container.textContent).toContain('intermediate stop');
   });
 
   it('applies the configured color for the transit mode icon', () => {
-    const { container } = renderWithProviders(
-      <NaviCardExtension {...extensionBaseProps} />,
-      { config: baseConfig },
-    );
-    expect(container.querySelector('.stop-count svg')?.style.fill).toBe(
-      baseConfig.colors.bus,
-    );
+    const { container } = renderWithProviders(<NaviCardExtension {...extensionBaseProps} />, {
+      config: baseConfig,
+    });
+    expect(container.querySelector('.stop-count svg')?.style.fill).toBe(baseConfig.colors.bus);
   });
 });
 
@@ -63,10 +56,9 @@ const interlineBaseProps = {
 };
 
 function renderWaitInVehicleCard(nextLeg) {
-  return renderWithProviders(
-    <NaviCardExtension {...interlineBaseProps} nextLeg={nextLeg} />,
-    { config },
-  );
+  return renderWithProviders(<NaviCardExtension {...interlineBaseProps} nextLeg={nextLeg} />, {
+    config,
+  });
 }
 
 describe('<NaviCardExtension /> interline wait-in-vehicle messaging', () => {

@@ -29,10 +29,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
   const highlightedGtfsId = selectedFilters.entity?.gtfsId;
-  const cancellationCount = routes.reduce(
-    (sum, { cancellationCount: count }) => sum + count,
-    0,
-  );
+  const cancellationCount = routes.reduce((sum, { cancellationCount: count }) => sum + count, 0);
   const cancellations = intl.formatMessage(
     { id: 'traffic-now_canceled-trips--simple' },
     { amount: cancellationCount },
@@ -50,11 +47,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
           {!isMobile && (
             <>
               <div className="separator vertical" />
-              <DisruptionStatus
-                active
-                showDates={false}
-                variant="text-xs-bold"
-              />
+              <DisruptionStatus active showDates={false} variant="text-xs-bold" />
             </>
           )}
         </span>
@@ -80,9 +73,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
                 mode={mode}
                 departureLimit={5}
                 patterns={routes
-                  .find(
-                    routeSummary => routeSummary.route.gtfsId === route.gtfsId,
-                  )
+                  .find(routeSummary => routeSummary.route.gtfsId === route.gtfsId)
                   .patterns.map(p => p.pattern)}
               />
             ) : null
@@ -91,9 +82,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
             routes.length > trafficNowMaxRoutesPerCard ? (
               <EntityBadge
                 className="more-routes"
-                entity={{
-                  name: `+${routes.length - trafficNowMaxRoutesPerCard}`,
-                }}
+                entity={{ name: `+${routes.length - trafficNowMaxRoutesPerCard}` }}
                 mode={mode}
                 ariaLabel={intl.formatMessage(
                   { id: 'traffic-now_more-routes' },
@@ -104,9 +93,7 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
           }
         />
       </div>
-      {isMobile && (
-        <DisruptionStatus active showDates={false} variant="text-xs-bold" />
-      )}
+      {isMobile && <DisruptionStatus active showDates={false} variant="text-xs-bold" />}
     </Card>
   );
 }

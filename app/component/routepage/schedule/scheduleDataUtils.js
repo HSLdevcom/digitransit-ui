@@ -1,14 +1,6 @@
 import { DateTime } from 'luxon';
 
-const WEEKDAY_MAP = {
-  mon: 1,
-  tue: 2,
-  wed: 3,
-  thu: 4,
-  fri: 5,
-  sat: 6,
-  sun: 7,
-};
+const WEEKDAY_MAP = { mon: 1, tue: 2, wed: 3, thu: 4, fri: 5, sat: 6, sun: 7 };
 
 const parseScheduleKey = key => {
   const match = /^wk(\d+)(mon|tue|wed|thu|fri|sat|sun)$/.exec(key);
@@ -16,10 +8,7 @@ const parseScheduleKey = key => {
     return null;
   }
 
-  return {
-    weekIndex: Number(match[1]),
-    dayIndex: WEEKDAY_MAP[match[2]],
-  };
+  return { weekIndex: Number(match[1]), dayIndex: WEEKDAY_MAP[match[2]] };
 };
 
 /**
@@ -38,11 +27,7 @@ export const buildAvailableDates = departures => {
 
   Object.entries(departures).forEach(([key, dayDepartures]) => {
     const parsed = parseScheduleKey(key);
-    if (
-      !parsed ||
-      !Array.isArray(dayDepartures) ||
-      dayDepartures.length === 0
-    ) {
+    if (!parsed || !Array.isArray(dayDepartures) || dayDepartures.length === 0) {
       return;
     }
 

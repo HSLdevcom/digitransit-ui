@@ -16,22 +16,11 @@ import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../hooks/BreakpointContext';
-import {
-  addAnalyticsEvent,
-  handleUserAnalytics,
-} from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent, handleUserAnalytics } from '../../utils/shared/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function TopLevel({
-  children,
-  header,
-  map,
-  content,
-  title,
-  meta,
-  match,
-}) {
+export default function TopLevel({ children, header, map, content, title, meta, match }) {
   const origin = useOrigin();
   const config = useConfigContext();
   const prevMatchRef = useRef(match);
@@ -49,10 +38,7 @@ export default function TopLevel({
     const newLocation = match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
       handleUserAnalytics(config);
-      addAnalyticsEvent({
-        event: 'Pageview',
-        url: newLocation,
-      });
+      addAnalyticsEvent({ event: 'Pageview', url: newLocation });
     }
 
     // send tracking calls when visiting a new stop or route
@@ -65,11 +51,7 @@ export default function TopLevel({
             match.params.routeId &&
             prevMatch.params.routeId !== match.params.routeId)
         ) {
-          addAnalyticsEvent({
-            category: 'Route',
-            action: 'OpenRoute',
-            name: match.params.routeId,
-          });
+          addAnalyticsEvent({ category: 'Route', action: 'OpenRoute', name: match.params.routeId });
         }
         break;
 
@@ -84,15 +66,12 @@ export default function TopLevel({
           (prevMatch.params.terminalId &&
             match.params.terminalId &&
             prevMatch.params.terminalId !== match.params.terminalId) ||
-          (prevMatch.params.id &&
-            match.params.id &&
-            prevMatch.params.id !== match.params.id)
+          (prevMatch.params.id && match.params.id && prevMatch.params.id !== match.params.id)
         ) {
           addAnalyticsEvent({
             category: 'Stop',
             action: 'OpenStop',
-            name:
-              match.params.stopId || match.params.terminalId || match.params.id,
+            name: match.params.stopId || match.params.terminalId || match.params.id,
           });
         }
         break;
@@ -101,14 +80,8 @@ export default function TopLevel({
     }
   }, [match]);
 
-  const topBarOptions = Object.assign(
-    {},
-    ...match.routes.map(route => route.topBarOptions),
-  );
-  const disableMapOnMobile = some(
-    match.routes,
-    route => route.disableMapOnMobile,
-  );
+  const topBarOptions = Object.assign({}, ...match.routes.map(route => route.topBarOptions));
+  const disableMapOnMobile = some(match.routes, route => route.disableMapOnMobile);
 
   let renderedContent;
 
@@ -119,11 +92,7 @@ export default function TopLevel({
     renderedContent = (
       <DesktopOrMobile
         mobile={() => (
-          <MobileView
-            map={disableMapOnMobile ? null : map}
-            content={content}
-            header={header}
-          />
+          <MobileView map={disableMapOnMobile ? null : map} content={content} header={header} />
         )}
         desktop={() => (
           <DesktopView

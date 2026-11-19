@@ -32,9 +32,7 @@ export function createPositionService(config, dispatch, getPosition) {
       .catch(() => dispatch({ type: 'address-found', location: {} }));
   }
 
-  const debouncedReverseGeocoding = debounce(reverseGeocodeAddress, 10000, {
-    leading: true,
-  });
+  const debouncedReverseGeocoding = debounce(reverseGeocodeAddress, 10000, { leading: true });
 
   function geoCallback(pos) {
     dispatch({ type: 'reverse-geocoding-started' });
@@ -104,12 +102,7 @@ export function createPositionService(config, dispatch, getPosition) {
             watchTimeout = undefined;
           }
           const { latitude: lat, longitude: lon } = position.coords;
-          if (
-            lat !== undefined &&
-            !Number.isNaN(lat) &&
-            lon !== undefined &&
-            !Number.isNaN(lon)
-          ) {
+          if (lat !== undefined && !Number.isNaN(lat) && lon !== undefined && !Number.isNaN(lon)) {
             geoCallback(position);
           }
         },
@@ -157,11 +150,7 @@ export function createPositionService(config, dispatch, getPosition) {
             permissionStatus.onchange = function permissionChanged() {
               if (this.state === 'granted') {
                 dispatch({ type: 'geolocation-search' });
-                addAnalyticsEvent({
-                  category: 'Map',
-                  action: 'AllowGeolocation',
-                  name: null,
-                });
+                addAnalyticsEvent({ category: 'Map', action: 'AllowGeolocation', name: null });
                 permissionStatus.onchange = null;
               }
             };

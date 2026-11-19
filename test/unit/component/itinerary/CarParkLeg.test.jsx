@@ -46,10 +46,9 @@ describe('<CarParkLeg />', () => {
   });
 
   it('hides the walk distance notice when noWalk is set', () => {
-    const { container } = renderWithProviders(
-      <CarParkLeg {...baseProps} noWalk />,
-      { config: baseConfig },
-    );
+    const { container } = renderWithProviders(<CarParkLeg {...baseProps} noWalk />, {
+      config: baseConfig,
+    });
     expect(container.textContent).not.toContain('Walk');
   });
 

@@ -11,35 +11,28 @@ const baseConfig = createTestConfig({
   availableTickets: {},
 });
 
-const baseProps = {
-  fares: [{ ticketName: 'AB', price: 3.1, isUnknown: false }],
-};
+const baseProps = { fares: [{ ticketName: 'AB', price: 3.1, isUnknown: false }] };
 
 describe('<MobileTicketPurchaseInformation />', () => {
   it('shows the required ticket name and price', () => {
-    const { container } = renderWithProviders(
-      <MobileTicketPurchaseInformation {...baseProps} />,
-      { config: baseConfig },
-    );
+    const { container } = renderWithProviders(<MobileTicketPurchaseInformation {...baseProps} />, {
+      config: baseConfig,
+    });
     expect(container.textContent).toContain('AB');
     expect(container.textContent).toContain('3,10');
   });
 
   it('hides the price when config.showTicketPrice is false', () => {
-    const { container } = renderWithProviders(
-      <MobileTicketPurchaseInformation {...baseProps} />,
-      { config: createTestConfig({ ...baseConfig, showTicketPrice: false }) },
-    );
+    const { container } = renderWithProviders(<MobileTicketPurchaseInformation {...baseProps} />, {
+      config: createTestConfig({ ...baseConfig, showTicketPrice: false }),
+    });
     expect(container.textContent).not.toContain('3,10');
   });
 
   it('links to the configured ticket purchase URL', () => {
-    const { container } = renderWithProviders(
-      <MobileTicketPurchaseInformation {...baseProps} />,
-      { config: baseConfig },
-    );
-    expect(container.querySelector('a.ticket-link')?.href).toBe(
-      'https://example.com/',
-    );
+    const { container } = renderWithProviders(<MobileTicketPurchaseInformation {...baseProps} />, {
+      config: baseConfig,
+    });
+    expect(container.querySelector('a.ticket-link')?.href).toBe('https://example.com/');
   });
 });

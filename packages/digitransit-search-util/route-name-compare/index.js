@@ -30,14 +30,8 @@
  * //= 0
  */
 export default function routeNameCompare(a, b) {
-  const a1 =
-    a.shortName ||
-    a.longName ||
-    (a.agency && a.agency.name ? a.agency.name : '');
-  const b1 =
-    b.shortName ||
-    b.longName ||
-    (b.agency && b.agency.name ? b.agency.name : '');
+  const a1 = a.shortName || a.longName || (a.agency && a.agency.name ? a.agency.name : '');
+  const b1 = b.shortName || b.longName || (b.agency && b.agency.name ? b.agency.name : '');
 
   const aNum = parseInt(a1, 10);
   const bNum = parseInt(b1, 10);

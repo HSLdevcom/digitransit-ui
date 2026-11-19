@@ -5,23 +5,15 @@ import data from '../test-data/dt2720';
 
 describe('<TimetableRow />', () => {
   it('should not show stoptimes whose routes have been filtered out', () => {
-    const props = {
-      ...data.matchingFilteredRoutes,
-    };
+    const props = { ...data.matchingFilteredRoutes };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
-      2,
-    );
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(2);
   });
 
   it('should apply style "display: none" when no suitable departure times exist for the filtered routes', () => {
-    const props = {
-      ...data.nonMatchingFilteredRoutes,
-    };
+    const props = { ...data.nonMatchingFilteredRoutes };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(container.querySelector('.timetable-row').style.display).toBe(
-      'none',
-    );
+    expect(container.querySelector('.timetable-row').style.display).toBe('none');
   });
 
   it('should apply className canceled if a stoptime has been canceled', () => {
@@ -55,11 +47,7 @@ describe('<TimetableRow />', () => {
       timerows: [],
     };
     const { container } = renderWithProviders(<TimetableRow {...props} />);
-    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(
-      2,
-    );
-    expect(
-      container.querySelectorAll('.timetablerow-linetime.canceled'),
-    ).toHaveLength(1);
+    expect(container.querySelectorAll('.timetablerow-linetime')).toHaveLength(2);
+    expect(container.querySelectorAll('.timetablerow-linetime.canceled')).toHaveLength(1);
   });
 });

@@ -5,21 +5,14 @@ import Icon from '../Icon';
 import IconMarker from './IconMarker';
 import ViaPointPopup from './popups/ViaPointPopup';
 
-export const getIconMarkerOptions = ({
-  className,
-  disabled,
-  isLarge,
-  type,
-}) => {
+export const getIconMarkerOptions = ({ className, disabled, isLarge, type }) => {
   const validType = type === 'from' || type === 'to' ? type : 'via';
   const sideLength = isLarge ? 30 : 24;
   const isFrom = validType === 'from';
   const iconImg = isFrom ? 'icon_origin-ellipse-map' : 'icon_mapMarker-map';
   const fromSize = isLarge ? 24 : 20;
   const iconSize = isFrom ? [fromSize, fromSize] : [sideLength, sideLength];
-  const iconAnchor = isFrom
-    ? [fromSize / 2, fromSize / 2]
-    : [sideLength / 2, sideLength];
+  const iconAnchor = isFrom ? [fromSize / 2, fromSize / 2] : [sideLength / 2, sideLength];
 
   return {
     className: cx(validType, className),
@@ -46,12 +39,7 @@ export default function LocationMarker({
     validType,
   } = getIconMarkerOptions({ className, disabled, isLarge, type });
   return (
-    <IconMarker
-      position={position}
-      className={markerClassName}
-      icon={icon}
-      zIndexOffset={12000}
-    >
+    <IconMarker position={position} className={markerClassName} icon={icon} zIndexOffset={12000}>
       {validType === 'via' && (
         <ViaPointPopup
           lat={position.lat}

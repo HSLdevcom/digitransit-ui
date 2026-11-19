@@ -22,10 +22,7 @@ export default function ItineraryCircleLineLong({
     if (isFirstChild() && top) {
       return (
         <div className="itinerary-icon-container start">
-          <Icon
-            img="icon_origin-ellipse"
-            className="itinerary-icon from from-it"
-          />
+          <Icon img="icon_origin-ellipse" className="itinerary-icon from from-it" />
         </div>
       );
     }
@@ -60,14 +57,10 @@ export default function ItineraryCircleLineLong({
   const topMarker = getMarker(true);
   const bottomMarker = getMarker(false);
   const legBeforeLineStyle = { color };
-  const carBoardingRouteNumber = (
-    <RouteNumber mode="car" icon="icon_car" vertical />
-  );
+  const carBoardingRouteNumber = <RouteNumber mode="car" icon="icon_car" vertical />;
   return (
     <div
-      className={cx('leg-before long', modeClassName, {
-        first: index === 0,
-      })}
+      className={cx('leg-before long', modeClassName, { first: index === 0 })}
       aria-hidden="true"
     >
       {topMarker}
@@ -80,18 +73,11 @@ export default function ItineraryCircleLineLong({
           'default-dotted-line',
         )}
       />
-      <div
-        className={cx(
-          'itinerary-route-number',
-          'first',
-          positionRelativeToTransit,
-        )}
-      >
+      <div className={cx('itinerary-route-number', 'first', positionRelativeToTransit)}>
         {modeClassName === 'bicycle' ? (
           <RouteNumber mode={firstModeClassName} vertical />
         ) : (
-          positionRelativeToTransit === 'before-transit' &&
-          carBoardingRouteNumber
+          positionRelativeToTransit === 'before-transit' && carBoardingRouteNumber
         )}
       </div>
       <div
@@ -103,13 +89,7 @@ export default function ItineraryCircleLineLong({
           'default-dotted-line',
         )}
       />
-      <div
-        className={cx(
-          'itinerary-route-number',
-          'second',
-          positionRelativeToTransit,
-        )}
-      >
+      <div className={cx('itinerary-route-number', 'second', positionRelativeToTransit)}>
         {modeClassName === 'bicycle' ? (
           <RouteNumber mode={secondModeClassName} vertical />
         ) : (
@@ -129,18 +109,11 @@ export default function ItineraryCircleLineLong({
           )}
         />
       )}
-      {positionRelativeToTransit === 'between-transit' &&
-        modeClassName === 'bicycle' && (
-          <div
-            className={cx(
-              'itinerary-route-number',
-              'third',
-              positionRelativeToTransit,
-            )}
-          >
-            <RouteNumber mode={firstModeClassName} vertical />
-          </div>
-        )}
+      {positionRelativeToTransit === 'between-transit' && modeClassName === 'bicycle' && (
+        <div className={cx('itinerary-route-number', 'third', positionRelativeToTransit)}>
+          <RouteNumber mode={firstModeClassName} vertical />
+        </div>
+      )}
 
       <div
         style={legBeforeLineStyle}

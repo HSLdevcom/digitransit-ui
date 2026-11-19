@@ -16,9 +16,7 @@ const Title = ({ msgId }) => (
     <FormattedMessage id={msgId} defaultMessage="" />
   </div>
 );
-Title.propTypes = {
-  msgId: PropTypes.string.isRequired,
-};
+Title.propTypes = { msgId: PropTypes.string.isRequired };
 export default function ErrorCard({
   msgId,
   titleId,
@@ -30,9 +28,7 @@ export default function ErrorCard({
 
   return (
     <div className="summary-list-container summary-no-route-found">
-      <div
-        className={cx('flex-horizontal', 'summary-notification', background)}
-      >
+      <div className={cx('flex-horizontal', 'summary-notification', background)}>
         <Icon
           className={cx('no-route-icon', iconType)}
           img={iconImg}

@@ -42,11 +42,7 @@ export default function ItineraryListContainer({
           img="icon_arrow-collapse"
           className={`cursor-pointer back ${reversed ? 'arrow-up' : ''}`}
         />
-        <FormattedMessage
-          id="later"
-          defaultMessage="Later"
-          className="time-navigation-text"
-        />
+        <FormattedMessage id="later" defaultMessage="Later" className="time-navigation-text" />
       </button>
     );
   }
@@ -68,11 +64,7 @@ export default function ItineraryListContainer({
           img="icon_arrow-collapse"
           className={`cursor-pointer ${reversed ? '' : 'arrow-up'}`}
         />
-        <FormattedMessage
-          id="earlier"
-          defaultMessage="Earlier"
-          className="time-navigation-text"
-        />
+        <FormattedMessage id="earlier" defaultMessage="Earlier" className="time-navigation-text" />
       </button>
     );
   }
@@ -86,8 +78,7 @@ export default function ItineraryListContainer({
 
   const { location } = match;
   const arriveBy = location.query.arriveBy === 'true';
-  const showEarlierLaterButtons =
-    transitEdges(planEdges).length > 0 && !match.params.hash;
+  const showEarlierLaterButtons = transitEdges(planEdges).length > 0 && !match.params.hash;
   return (
     <div className="summary">
       <h2 className="sr-only">

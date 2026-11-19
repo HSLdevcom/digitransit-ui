@@ -31,11 +31,7 @@ export const getStopCode = ({ id, code }) => {
   if (code) {
     return code;
   }
-  if (
-    id === undefined ||
-    typeof id.indexOf === 'undefined' ||
-    id.indexOf('#') === -1
-  ) {
+  if (id === undefined || typeof id.indexOf === 'undefined' || id.indexOf('#') === -1) {
     return undefined;
   }
   // id from pelias
@@ -80,11 +76,7 @@ export const getNameLabel = (suggestion, plain = false) => {
     case 'route-FUNICULAR':
     case 'route-AIRPLANE':
       return !plain && suggestion.shortName
-        ? [
-            suggestion.gtfsId,
-            suggestion.mode.toLowerCase(),
-            suggestion.longName,
-          ]
+        ? [suggestion.gtfsId, suggestion.mode.toLowerCase(), suggestion.longName]
         : [
             suggestion.shortName,
             suggestion.longName,
@@ -95,10 +87,7 @@ export const getNameLabel = (suggestion, plain = false) => {
     case 'street':
       return [
         suggestion.name,
-        suggestion.label.replace(
-          new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`),
-          '',
-        ),
+        suggestion.label.replace(new RegExp(`${escapeRegExp(suggestion.name)}(,)?( )?`), ''),
       ];
     case 'favouriteStop':
     case 'stop':
@@ -109,12 +98,7 @@ export const getNameLabel = (suggestion, plain = false) => {
               (suggestion.address && suggestion.address.split(',')[0]),
             getLocaladmin(suggestion),
           ]
-        : [
-            suggestion.name,
-            suggestion.id,
-            getStopCode(suggestion),
-            getLocaladmin(suggestion),
-          ];
+        : [suggestion.name, suggestion.id, getStopCode(suggestion), getLocaladmin(suggestion)];
     case 'favouriteStation':
     case 'station':
     default:

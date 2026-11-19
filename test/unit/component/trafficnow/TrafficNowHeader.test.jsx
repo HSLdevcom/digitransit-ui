@@ -10,9 +10,7 @@ import * as assetUrl from '../../../../app/assets/assetUrl';
 const baseConfig = createTestConfig({
   trafficNowHeaderGraphic: null,
   colors: { primary: '#007ac9' },
-  URL: {
-    HOLIDAYS_AND_EXCEPTIONS: { fi: 'https://example.com/holidays' },
-  },
+  URL: { HOLIDAYS_AND_EXCEPTIONS: { fi: 'https://example.com/holidays' } },
   language: 'fi',
 });
 
@@ -32,17 +30,13 @@ describe('<TrafficNowHeader />', () => {
   describe('Desktop vs mobile class', () => {
     it('does not apply --mobile modifier on large breakpoint', () => {
       const { container } = renderHeader();
-      expect(
-        container.querySelector('.traffic-now__header--mobile'),
-      ).toBeNull();
+      expect(container.querySelector('.traffic-now__header--mobile')).toBeNull();
     });
 
     it('applies --mobile modifier on small breakpoint', () => {
       breakpointContext.useBreakpoint.mockReturnValue('small');
       const { container } = renderHeader();
-      expect(
-        container.querySelector('.traffic-now__header--mobile'),
-      ).not.toBeNull();
+      expect(container.querySelector('.traffic-now__header--mobile')).not.toBeNull();
     });
   });
 
@@ -70,9 +64,7 @@ describe('<TrafficNowHeader />', () => {
   describe('Breadcrumb link', () => {
     it('falls back to the "/" Link (no href to assert) when trafficNowRootPath is not defined', () => {
       const { container } = renderHeader();
-      const breadcrumb = container.querySelector(
-        '.traffic-now__header-breadcrumb',
-      );
+      const breadcrumb = container.querySelector('.traffic-now__header-breadcrumb');
       // No trafficNowRootPath => the plain <a> branch is skipped and the
       // (globally stubbed) found Link branch renders instead, so no <a> exists.
       expect(breadcrumb.querySelector('a')).toBeNull();
@@ -83,20 +75,12 @@ describe('<TrafficNowHeader />', () => {
       const { container } = renderHeader({
         ...baseConfig,
         CONFIG: 'hsl',
-        trafficNowRootPath: {
-          fi: '/matkustaminen',
-          sv: '/sv/att-resa',
-          en: '/en/travelling',
-        },
+        trafficNowRootPath: { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' },
         URL: { ...baseConfig.URL, ROOTLINK: 'https://www.hsl.fi' },
       });
-      const breadcrumb = container.querySelector(
-        '.traffic-now__header-breadcrumb a',
-      );
+      const breadcrumb = container.querySelector('.traffic-now__header-breadcrumb a');
       expect(breadcrumb).not.toBeNull();
-      expect(breadcrumb.getAttribute('href')).toBe(
-        'https://www.hsl.fi/matkustaminen',
-      );
+      expect(breadcrumb.getAttribute('href')).toBe('https://www.hsl.fi/matkustaminen');
     });
 
     it('links using the localized path for the current language', () => {
@@ -104,37 +88,25 @@ describe('<TrafficNowHeader />', () => {
         ...baseConfig,
         CONFIG: 'hsl',
         language: 'sv',
-        trafficNowRootPath: {
-          fi: '/matkustaminen',
-          sv: '/sv/att-resa',
-          en: '/en/travelling',
-        },
+        trafficNowRootPath: { fi: '/matkustaminen', sv: '/sv/att-resa', en: '/en/travelling' },
         URL: { ...baseConfig.URL, ROOTLINK: 'https://www.hsl.fi' },
       });
-      const breadcrumb = container.querySelector(
-        '.traffic-now__header-breadcrumb a',
-      );
+      const breadcrumb = container.querySelector('.traffic-now__header-breadcrumb a');
       expect(breadcrumb).not.toBeNull();
-      expect(breadcrumb.getAttribute('href')).toBe(
-        'https://www.hsl.fi/sv/att-resa',
-      );
+      expect(breadcrumb.getAttribute('href')).toBe('https://www.hsl.fi/sv/att-resa');
     });
   });
 
   describe('HSL-specific AdditionalDescription', () => {
     it('renders AdditionalDescription when CONFIG is hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'hsl' });
-      const textArea = container.querySelector(
-        '.traffic-now__header-text-area p',
-      );
+      const textArea = container.querySelector('.traffic-now__header-text-area p');
       expect(textArea.querySelector('a')).not.toBeNull();
     });
 
     it('does not render AdditionalDescription when CONFIG is not hsl', () => {
       const { container } = renderHeader({ ...baseConfig, CONFIG: 'default' });
-      const textArea = container.querySelector(
-        '.traffic-now__header-text-area p',
-      );
+      const textArea = container.querySelector('.traffic-now__header-text-area p');
       expect(textArea.querySelector('a')).toBeNull();
     });
   });

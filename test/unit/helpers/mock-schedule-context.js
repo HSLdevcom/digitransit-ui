@@ -41,16 +41,8 @@ export const createScheduleTestContext = (overrides = {}) => {
         {
           id: 'trip-1',
           stoptimes: [
-            {
-              serviceDay: 1547503200,
-              scheduledDeparture: 28080,
-              scheduledArrival: 28080,
-            },
-            {
-              serviceDay: 1547503200,
-              scheduledDeparture: 30060,
-              scheduledArrival: 30060,
-            },
+            { serviceDay: 1547503200, scheduledDeparture: 28080, scheduledArrival: 28080 },
+            { serviceDay: 1547503200, scheduledDeparture: 30060, scheduledArrival: 30060 },
           ],
         },
       ],
@@ -64,18 +56,14 @@ export const createScheduleTestContext = (overrides = {}) => {
   // already stubs react-relay's useFragment globally with the same
   // pass-through behavior.
   const stubs = {
-    useConfigContext: vi
-      .spyOn(ConfigContext, 'useConfigContext')
-      .mockReturnValue(mocks.config),
+    useConfigContext: vi.spyOn(ConfigContext, 'useConfigContext').mockReturnValue(mocks.config),
     calculateRedirectDecision: vi
       .spyOn(scheduleParamUtils, 'calculateRedirectDecision')
       .mockReturnValue(mocks.redirectDecision),
     buildAvailableDates: vi
       .spyOn(scheduleDataUtils, 'buildAvailableDates')
       .mockReturnValue(mocks.availableDates),
-    getTripsList: vi
-      .spyOn(scheduleTripsUtils, 'getTripsList')
-      .mockReturnValue(mocks.tripsResult),
+    getTripsList: vi.spyOn(scheduleTripsUtils, 'getTripsList').mockReturnValue(mocks.tripsResult),
   };
 
   return { mocks, stubs };

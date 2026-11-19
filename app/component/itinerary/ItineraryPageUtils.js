@@ -3,10 +3,7 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 import polyline from 'polyline-encoded';
 import SunCalc from 'suncalc';
-import {
-  PlannerMessageType,
-  ExtendedRouteTypes,
-} from '../../../utils/shared/constants';
+import { PlannerMessageType, ExtendedRouteTypes } from '../../../utils/shared/constants';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
 import {
@@ -15,10 +12,7 @@ import {
   isDirectItineraryWithAllowedRouteTypes,
 } from '../../../utils/client/legUtils';
 import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import {
-  getDefaultSettings,
-  getSettings,
-} from '../../../utils/client/planParamUtil';
+import { getDefaultSettings, getSettings } from '../../../utils/client/planParamUtil';
 import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
@@ -32,10 +26,7 @@ import { splitGtfsId } from '../../../utils/shared/gtfs';
  * @param {*} edges the itineraries retrieved from OTP.
  * @param {number} defaultValue the default value, defaults to 0.
  */
-export function getSelectedItineraryIndex(
-  { pathname, state } = {},
-  edges = [],
-) {
+export function getSelectedItineraryIndex({ pathname, state } = {}, edges = []) {
   // path defines the selection in detail view
   const lastURLSegment = pathname?.split('/').pop();
   if (lastURLSegment !== '') {
@@ -97,9 +88,7 @@ export function getTopics(legs, config) {
             feedId,
             mode: leg.mode.toLowerCase(),
             direction: Number(leg.trip.directionId),
-            tripStartTime: getStartTimeWithColon(
-              leg.trip.stoptimesForDate[0].scheduledDeparture,
-            ),
+            tripStartTime: getStartTimeWithColon(leg.trip.stoptimesForDate[0].scheduledDeparture),
             tripId,
           });
         }
@@ -121,9 +110,7 @@ export function getBounds(edges, from, to, viaPoints) {
     bounds
       .concat(
         ...edges.map(e =>
-          [].concat(
-            ...e.node.legs.map(leg => polyline.decode(leg.legGeometry.points)),
-          ),
+          [].concat(...e.node.legs.map(leg => polyline.decode(leg.legGeometry.points))),
         ),
       )
       .filter(a => a[0] && a[1]),
@@ -151,9 +138,7 @@ function hasSameLegs(a, b) {
   const legsB = b.node.legs;
   return (
     legsA.length === legsB.length &&
-    legsA.every((leg, i) =>
-      isEqual(pick(leg, legProperties), pick(legsB[i], legProperties)),
-    )
+    legsA.every((leg, i) => isEqual(pick(leg, legProperties), pick(legsB[i], legProperties)))
   );
 }
 
@@ -241,10 +226,7 @@ export function setCurrentTimeToURL(config, match) {
   if (!match.location?.query?.time) {
     const newLocation = {
       ...match.location,
-      query: {
-        ...match.location.query,
-        time: Math.floor(Date.now() / 1000).toString(),
-      },
+      query: { ...match.location.query, time: Math.floor(Date.now() / 1000).toString() },
     };
     match.router.replace(newLocation);
   }
@@ -252,9 +234,7 @@ export function setCurrentTimeToURL(config, match) {
 
 function configClient(itineraryTopics, config) {
   const { realTime } = config;
-  const feedIds = Array.from(
-    new Set(itineraryTopics.map(topic => topic.feedId)),
-  );
+  const feedIds = Array.from(new Set(itineraryTopics.map(topic => topic.feedId)));
   let feedId;
   /* handle multiple feedid case */
   feedIds.forEach(fId => {
@@ -264,11 +244,7 @@ function configClient(itineraryTopics, config) {
   });
   const source = feedId && realTime[feedId];
   if (source && source.active) {
-    return {
-      ...source,
-      feedId,
-      options: itineraryTopics.length ? itineraryTopics : null,
-    };
+    return { ...source, feedId, options: itineraryTopics.length ? itineraryTopics : null };
   }
   return null;
 }
@@ -296,11 +272,7 @@ export function updateClient(itineraryTopics, actions, config) {
   if (client) {
     const clientConfig = configClient(itineraryTopics, config);
     if (clientConfig) {
-      actions.changeTopics({
-        ...clientConfig,
-        client,
-        oldTopics: topics,
-      });
+      actions.changeTopics({ ...clientConfig, client, oldTopics: topics });
       return;
     }
     stopClient(actions);
@@ -322,10 +294,7 @@ export function addBikeStationMapForRentalVehicleItineraries() {
  * @param {Boolean} hasVehicleRentalStation if there are rental stations.
  * @param {*} selectedItinerary itinerary which can contain rental stations.
  */
-export function getRentalStationsToHideOnMap(
-  hasVehicleRentalStation,
-  selectedItinerary,
-) {
+export function getRentalStationsToHideOnMap(hasVehicleRentalStation, selectedItinerary) {
   const objectsToHide = { vehicleRentalStations: [] };
   if (hasVehicleRentalStation) {
     objectsToHide.vehicleRentalStations = selectedItinerary?.legs
@@ -359,9 +328,7 @@ export function transitEdges(edges) {
   if (!edges) {
     return [];
   }
-  return edges.filter(
-    edge => !edge.node.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)),
-  );
+  return edges.filter(edge => !edge.node.legs.every(leg => STREET_LEG_MODES.includes(leg.mode)));
 }
 
 /**
@@ -413,9 +380,7 @@ export function filterWalk(edges) {
   if (!edges) {
     return [];
   }
-  return edges.filter(
-    edge => !edge.node.legs.every(leg => leg.mode === 'WALK'),
-  );
+  return edges.filter(edge => !edge.node.legs.every(leg => leg.mode === 'WALK'));
 }
 
 /**
@@ -425,18 +390,14 @@ export function filterItineraries(edges, modes) {
   if (!edges) {
     return [];
   }
-  return edges.filter(edge =>
-    edge.node.legs.some(leg => modes.includes(leg.mode)),
-  );
+  return edges.filter(edge => edge.node.legs.some(leg => modes.includes(leg.mode)));
 }
 
 export function filterItinerariesByRouteType(edges, types) {
   if (!edges) {
     return [];
   }
-  return edges.filter(edge =>
-    edge.node.legs.some(leg => types.includes(leg.route?.type)),
-  );
+  return edges.filter(edge => edge.node.legs.some(leg => types.includes(leg.route?.type)));
 }
 
 /**
@@ -486,17 +447,9 @@ export function mergeBikeTransitPlans(bikeParkPlan, bikeTransitPlan) {
   }
   return {
     searchDateTime: bikeParkPlan.searchDateTime,
-    edges: [...bikeParkEdges.slice(0, n1), ...bikePublicEdges.slice(0, 3)].map(
-      edge => {
-        return {
-          ...edge,
-          node: {
-            ...edge.node,
-            legs: compressLegs(edge.node.legs),
-          },
-        };
-      },
-    ),
+    edges: [...bikeParkEdges.slice(0, n1), ...bikePublicEdges.slice(0, 3)].map(edge => {
+      return { ...edge, node: { ...edge.node, legs: compressLegs(edge.node.legs) } };
+    }),
     bikeParkItineraryCount: n1,
     bikePublicItineraryCount: n2,
   };
@@ -570,13 +523,7 @@ function sortAndMergePlans(additionalEdges, transitPlan, arriveBy) {
       [...additionalEdges, ...transitPlanEdges.slice(0, maxTransitEdges)],
       arriveBy,
     ).map(edge => {
-      return {
-        ...edge,
-        node: {
-          ...edge.node,
-          legs: compressLegs(edge.node.legs),
-        },
-      };
+      return { ...edge, node: { ...edge.node, legs: compressLegs(edge.node.legs) } };
     }),
   };
 }
@@ -590,10 +537,7 @@ export function mergeScooterTransitPlan(
   arriveBy,
   allowDirectScooterJourneys,
 ) {
-  const filteredScooterEdges = filterScooterEdges(
-    scooterPlan.edges,
-    allowDirectScooterJourneys,
-  );
+  const filteredScooterEdges = filterScooterEdges(scooterPlan.edges, allowDirectScooterJourneys);
   const selectedScooterEdges = filteredScooterEdges.slice(0, 1);
   return sortAndMergePlans(selectedScooterEdges, transitPlan, arriveBy);
 }
@@ -621,12 +565,7 @@ export function mergeExternalFlexPlan(
 }
 
 /** Combine an internal flex plan with the main transit plan. */
-export function mergeInternalFlexPlan(
-  flexPlan,
-  plan,
-  arriveBy,
-  showBothDirectAndTransitResults,
-) {
+export function mergeInternalFlexPlan(flexPlan, plan, arriveBy, showBothDirectAndTransitResults) {
   const allowedInternalFlexRouteTypes = [ExtendedRouteTypes.CallAgency];
   const filteredInternalFlexEdges = filterItinerariesByRouteType(
     flexPlan.edges,
@@ -648,10 +587,7 @@ export function mergeTaxiZonePlan(
   showBothDirectAndTransitResults,
   allowedTaxiZoneRouteTypes,
 ) {
-  const filteredEdges = filterItinerariesByRouteType(
-    taxiZonePlan.edges,
-    allowedTaxiZoneRouteTypes,
-  );
+  const filteredEdges = filterItinerariesByRouteType(taxiZonePlan.edges, allowedTaxiZoneRouteTypes);
   const selectedEdges = selectEdgesWithAllowedRouteTypes(
     filteredEdges,
     allowedTaxiZoneRouteTypes,
@@ -663,25 +599,14 @@ export function mergeTaxiZonePlan(
 /**
  * Combine two sets of external plans.
  */
-export function sortAndMergeExternalPlans(
-  plan,
-  planToMerge,
-  arriveBy,
-  maxTotalEdges = 5,
-) {
+export function sortAndMergeExternalPlans(plan, planToMerge, arriveBy, maxTotalEdges = 5) {
   const edges = plan.edges || [];
   const edgesToMerge = planToMerge.edges || [];
   return {
     edges: getSortedEdges([...edges, ...edgesToMerge], arriveBy)
       .slice(0, maxTotalEdges)
       .map(edge => {
-        return {
-          ...edge,
-          node: {
-            ...edge.node,
-            legs: compressLegs(edge.node.legs),
-          },
-        };
+        return { ...edge, node: { ...edge.node, legs: compressLegs(edge.node.legs) } };
       }),
   };
 }
@@ -691,16 +616,11 @@ const ITERATION_CANCEL_TIME = 20000; // ms, stop looking for more if something w
 export function quitIteration(plan, newPlan, planParams, startTime) {
   if (
     plan.edges.length >= planParams.numItineraries ||
-    (plan.edges.length &&
-      plan.edges.length * (Date.now() - startTime) > ITERATION_CANCEL_TIME)
+    (plan.edges.length && plan.edges.length * (Date.now() - startTime) > ITERATION_CANCEL_TIME)
   ) {
     return true;
   }
-  if (
-    plan.routingErrors?.some(
-      err => err.code === PlannerMessageType.WalkingBetterThanTransit,
-    )
-  ) {
+  if (plan.routingErrors?.some(err => err.code === PlannerMessageType.WalkingBetterThanTransit)) {
     return true;
   }
   if (!plan.edges.length && planParams.noIterationsForShortTrips) {
@@ -797,9 +717,7 @@ export function applyFeedback(weights, itinerary, positive) {
   const updated = { ...weights };
 
   const modes = new Set(
-    itinerary.legs
-      .filter(leg => leg.transitLeg)
-      .map(leg => leg.mode.toLowerCase()),
+    itinerary.legs.filter(leg => leg.transitLeg).map(leg => leg.mode.toLowerCase()),
   );
 
   modes.forEach(mode => {

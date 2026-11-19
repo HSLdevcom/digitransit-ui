@@ -65,34 +65,19 @@ export default function TrafficNow({ dateTime }) {
       <Gutterer
         maxWidth="1440px"
         className={mobile ? 'traffic-now__content--mobile' : undefined}
-        leftGutterStyles={{
-          backgroundColor: 'var(--white)',
-        }}
-        rightGutterStyles={{
-          backgroundColor: 'var(--background-color-lighter)',
-        }}
+        leftGutterStyles={{ backgroundColor: 'var(--white)' }}
+        rightGutterStyles={{ backgroundColor: 'var(--background-color-lighter)' }}
       >
-        <div
-          className={cx('traffic-now__body', {
-            'traffic-now__body--mobile': mobile,
-          })}
-        >
+        <div className={cx('traffic-now__body', { 'traffic-now__body--mobile': mobile })}>
           <FilterContextProvider>
             {alertId && (
               <Suspense fallback={<Loading />}>
-                <DisruptionDetailsContainer
-                  alertId={alertId}
-                  isMobile={mobile}
-                />
+                <DisruptionDetailsContainer alertId={alertId} isMobile={mobile} />
               </Suspense>
             )}
             {!alertId && mode && (
               <Suspense fallback={<Loading />}>
-                <CanceledTripsContainer
-                  mode={mode}
-                  dateTime={dateTime}
-                  isMobile={mobile}
-                />
+                <CanceledTripsContainer mode={mode} dateTime={dateTime} isMobile={mobile} />
               </Suspense>
             )}
             {!alertId && !mode && (
@@ -102,12 +87,7 @@ export default function TrafficNow({ dateTime }) {
                     <Filters />
                   </div>
                 ) : (
-                  <div
-                    className={cx(
-                      'traffic-now__filters-button-container',
-                      !top && 'scrolled',
-                    )}
-                  >
+                  <div className={cx('traffic-now__filters-button-container', !top && 'scrolled')}>
                     <FiltersModal
                       isOpen={showFiltersModal}
                       onClose={() => setShowFiltersModal(false)}
@@ -118,10 +98,7 @@ export default function TrafficNow({ dateTime }) {
                       expandOnMobile
                       onClick={() => setShowFiltersModal(true)}
                     >
-                      {intl.formatMessage({
-                        id: 'filters',
-                        defaultMessage: 'Filters',
-                      })}
+                      {intl.formatMessage({ id: 'filters', defaultMessage: 'Filters' })}
                     </Button>
                   </div>
                 )}
@@ -138,6 +115,4 @@ export default function TrafficNow({ dateTime }) {
   );
 }
 
-TrafficNow.propTypes = {
-  dateTime: PropTypes.string.isRequired,
-};
+TrafficNow.propTypes = { dateTime: PropTypes.string.isRequired };

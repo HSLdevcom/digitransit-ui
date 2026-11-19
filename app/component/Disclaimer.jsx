@@ -33,21 +33,9 @@ export default function Disclaimer({
     }
   };
 
-  const title = headerId ? (
-    <FormattedMessage id={headerId} values={values} />
-  ) : (
-    header
-  );
-  const content = textId ? (
-    <FormattedMessage id={textId} values={values} />
-  ) : (
-    text
-  );
-  const label = linkLabelId ? (
-    <FormattedMessage id={linkLabelId} values={values} />
-  ) : (
-    linkLabel
-  );
+  const title = headerId ? <FormattedMessage id={headerId} values={values} /> : header;
+  const content = textId ? <FormattedMessage id={textId} values={values} /> : text;
+  const label = linkLabelId ? <FormattedMessage id={linkLabelId} values={values} /> : linkLabel;
 
   // Note's link prop cannot open a new tab, so the link is part of the description
   const description = (
@@ -85,9 +73,7 @@ Disclaimer.propTypes = {
   textId: PropTypes.string,
   linkLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   linkLabelId: PropTypes.string,
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  ),
+  values: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.node])),
   href: PropTypes.string,
   closable: PropTypes.bool,
   onClose: PropTypes.func,

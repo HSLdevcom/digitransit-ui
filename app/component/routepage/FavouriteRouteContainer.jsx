@@ -22,25 +22,15 @@ export default function FavouriteRouteContainer({ gtfsId, ...rest }) {
       isFetching={favouriteStatus === 'fetching'}
       addFavourite={() => {
         saveFavourite({ type: 'route', gtfsId });
-        addAnalyticsEvent({
-          category: 'Route',
-          action: 'MarkRouteAsFavourite',
-          name: !favourite,
-        });
+        addAnalyticsEvent({ category: 'Route', action: 'MarkRouteAsFavourite', name: !favourite });
       }}
       delFavourite={() => {
         const route = getFavouriteByGtfsId(gtfsId, 'route', favourites);
         deleteFavourite(route);
-        addAnalyticsEvent({
-          category: 'Route',
-          action: 'MarkRouteAsFavourite',
-          name: !favourite,
-        });
+        addAnalyticsEvent({ category: 'Route', action: 'MarkRouteAsFavourite', name: !favourite });
       }}
     />
   );
 }
 
-FavouriteRouteContainer.propTypes = {
-  gtfsId: PropTypes.string.isRequired,
-};
+FavouriteRouteContainer.propTypes = { gtfsId: PropTypes.string.isRequired };

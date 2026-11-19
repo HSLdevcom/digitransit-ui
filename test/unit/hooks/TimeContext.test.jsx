@@ -1,11 +1,7 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import {
-  TimeProvider,
-  useCurrentTime,
-  TWICE_PER_MINUTE,
-} from '../../../app/hooks/TimeContext';
+import { TimeProvider, useCurrentTime, TWICE_PER_MINUTE } from '../../../app/hooks/TimeContext';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,
@@ -46,9 +42,7 @@ const TimeConsumer = ({ controlRef }) => {
   return <div data-current-time={currentTime} />;
 };
 
-TimeConsumer.propTypes = {
-  controlRef: PropTypes.shape({ current: PropTypes.number }),
-};
+TimeConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.number }) };
 
 /**
  * A component that deliberately uses useCurrentTime outside a provider to
@@ -81,9 +75,7 @@ describe('TimeContext', () => {
         </TimeProvider>,
       );
       unmount = result.unmount;
-      expect(result.container.firstChild.dataset.currentTime).toBe(
-        String(Math.floor(now / 1000)),
-      );
+      expect(result.container.firstChild.dataset.currentTime).toBe(String(Math.floor(now / 1000)));
     });
 
     it('propagates current-time updates to consumers every 30 seconds', () => {
@@ -96,9 +88,7 @@ describe('TimeContext', () => {
         </TimeProvider>,
       );
       unmount = result.unmount;
-      const initialTime = Number(
-        result.container.firstChild.dataset.currentTime,
-      );
+      const initialTime = Number(result.container.firstChild.dataset.currentTime);
 
       act(() => {
         vi.advanceTimersByTime(TWICE_PER_MINUTE);
@@ -153,9 +143,7 @@ describe('TimeContext', () => {
       // synchronous throw below; suppress that duplicate console.error so it
       // doesn't surface as an unhandled exception (the global setup makes
       // console.error throw).
-      const consoleErrorSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       suppressUncaughtError(() => {
         expect(() => render(<OutsideConsumer />)).toThrow(

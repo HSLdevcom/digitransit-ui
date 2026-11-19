@@ -4,16 +4,10 @@ import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import {
-  hasCustomizedSettings,
-  getSettings,
-} from '../../../utils/client/planParamUtil';
+import { hasCustomizedSettings, getSettings } from '../../../utils/client/planParamUtil';
 import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
 import Popover from '../Popover';
-import {
-  getDialogState,
-  setDialogState,
-} from '../../../utils/client/localStorage';
+import { getDialogState, setDialogState } from '../../../utils/client/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {
@@ -21,25 +15,20 @@ export default function SettingsButton({ onToggleClick }) {
   const config = useConfigContext();
   const settings = getSettings(config);
   const userHasCustomizedSettings = hasCustomizedSettings(config);
-  const [isSettingChangeInfoDismissed, setSettingChangeInfoDismissed] =
-    useState(getDialogState('setting-change-acknowledged', config));
-  const [isPersonalizationInfoDismissed, setPersonalizationInfoDismissed] =
-    useState(getDialogState('personalization-acknowledged', config));
+  const [isSettingChangeInfoDismissed, setSettingChangeInfoDismissed] = useState(
+    getDialogState('setting-change-acknowledged', config),
+  );
+  const [isPersonalizationInfoDismissed, setPersonalizationInfoDismissed] = useState(
+    getDialogState('personalization-acknowledged', config),
+  );
   const buttonRef = useRef(null);
 
   const label = userHasCustomizedSettings
-    ? formatMessage({
-        id: 'settings-changed-by-you',
-        defaultMessage: 'Settings changed',
-      })
-    : formatMessage({
-        id: 'settings-label-change',
-        defaultMessage: 'Change settings',
-      });
+    ? formatMessage({ id: 'settings-changed-by-you', defaultMessage: 'Settings changed' })
+    : formatMessage({ id: 'settings-label-change', defaultMessage: 'Change settings' });
 
   const personalizationEnabled = isPersonalizationEnabled(config, settings);
-  const showPrPopover =
-    config.personalization && !isPersonalizationInfoDismissed;
+  const showPrPopover = config.personalization && !isPersonalizationInfoDismissed;
 
   const dismissTarget = showPrPopover
     ? 'personalization-acknowledged'
@@ -64,23 +53,19 @@ export default function SettingsButton({ onToggleClick }) {
           targetRef={buttonRef}
           onClose={dismissPopover}
           header={
-            personalizationEnabled
-              ? formatMessage({ id: 'personalization-new-header' })
-              : null
+            personalizationEnabled ? formatMessage({ id: 'personalization-new-header' }) : null
           }
           message={formatMessage({ id: 'personalization-new-feature' })}
         />
       )}
-      {userHasCustomizedSettings &&
-        !isSettingChangeInfoDismissed &&
-        !showPrPopover && (
-          <Popover
-            targetRef={buttonRef}
-            icon={<Icon img="icon_checkmark" className="checkmark" />}
-            onClose={dismissPopover}
-            message={formatMessage({ id: 'settings-changed-by-you' })}
-          />
-        )}
+      {userHasCustomizedSettings && !isSettingChangeInfoDismissed && !showPrPopover && (
+        <Popover
+          targetRef={buttonRef}
+          icon={<Icon img="icon_checkmark" className="checkmark" />}
+          onClose={dismissPopover}
+          message={formatMessage({ id: 'settings-changed-by-you' })}
+        />
+      )}
       <div
         ref={buttonRef}
         role="button"
@@ -89,11 +74,7 @@ export default function SettingsButton({ onToggleClick }) {
         onKeyPress={e => isKeyboardSelectionEvent(e) && onToggleClick()}
         aria-label={label}
         title={label}
-        className={cx(
-          'noborder',
-          'cursor-pointer',
-          'open-advanced-settings-window-button',
-        )}
+        className={cx('noborder', 'cursor-pointer', 'open-advanced-settings-window-button')}
       >
         <div className="icon-holder">
           <Icon img="icon_settings" />

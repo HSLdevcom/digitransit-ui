@@ -9,25 +9,19 @@ const StopPageMapStub = ({ stopName }) => <div>{stopName}</div>;
 
 describe('<RentalVehiclePageMapContainer />', () => {
   beforeEach(() => {
-    vi.spyOn(StopPageMapModule, 'default', 'get').mockReturnValue(
-      StopPageMapStub,
-    );
+    vi.spyOn(StopPageMapModule, 'default', 'get').mockReturnValue(StopPageMapStub);
   });
 
   it('shows a translated name for a scooter', () => {
     renderWithProviders(
-      <RentalVehiclePageMapContainer
-        rentalVehicle={{ lat: 60.17, lon: 24.94, name: 'scooter' }}
-      />,
+      <RentalVehiclePageMapContainer rentalVehicle={{ lat: 60.17, lon: 24.94, name: 'scooter' }} />,
     );
     expect(screen.getByText('Electric scooter')).toBeTruthy();
   });
 
   it('shows the vehicle name for other vehicles', () => {
     renderWithProviders(
-      <RentalVehiclePageMapContainer
-        rentalVehicle={{ lat: 60.17, lon: 24.94, name: 'Voi' }}
-      />,
+      <RentalVehiclePageMapContainer rentalVehicle={{ lat: 60.17, lon: 24.94, name: 'Voi' }} />,
     );
     expect(screen.getByText('Voi')).toBeTruthy();
   });

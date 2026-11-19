@@ -10,12 +10,7 @@ describe('<ScheduleDropdown />', () => {
   const messages = { 'test-dropdown': 'Test dropdown' };
   const renderDropdown = props =>
     renderWithProviders(
-      <ScheduleDropdown
-        id="test-dropdown"
-        title="Title"
-        list={list}
-        {...props}
-      />,
+      <ScheduleDropdown id="test-dropdown" title="Title" list={list} {...props} />,
       { messages },
     );
 
@@ -45,10 +40,7 @@ describe('<ScheduleDropdown />', () => {
 
   it('should call onSelectChange with the original option value', () => {
     const onSelectChange = vi.fn();
-    const { getByRole } = renderDropdown({
-      value: 0,
-      onSelectChange,
-    });
+    const { getByRole } = renderDropdown({ value: 0, onSelectChange });
     fireEvent.keyDown(getByRole('combobox'), { key: 'Enter' });
     fireEvent.click(getByRole('option', { name: 'Rautatientori' }));
     expect(onSelectChange).toHaveBeenCalledWith(1);

@@ -45,21 +45,14 @@ export default function FiltersModal({ isOpen, onClose }) {
       isOpen={isOpen}
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
-      contentLabel={intl.formatMessage({
-        id: 'filters',
-        defaultMessage: 'Filters',
-      })}
+      contentLabel={intl.formatMessage({ id: 'filters', defaultMessage: 'Filters' })}
       onRequestClose={handleClose}
       variant="large"
       className="traffic-now traffic-now__modal design-system"
     >
       <header className="traffic-now__modal-header bordered">
         <FormattedMessage id="filter" defaultMessage="Filter">
-          {msg => (
-            <h3 className="heading-xs traffic-now__modal-header__label">
-              {msg}
-            </h3>
-          )}
+          {msg => <h3 className="heading-xs traffic-now__modal-header__label">{msg}</h3>}
         </FormattedMessage>
         <CloseButton lang={hslfiLocale} onClick={handleClose} />
       </header>
@@ -68,7 +61,4 @@ export default function FiltersModal({ isOpen, onClose }) {
   );
 }
 
-FiltersModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
+FiltersModal.propTypes = { isOpen: PropTypes.bool.isRequired, onClose: PropTypes.func.isRequired };

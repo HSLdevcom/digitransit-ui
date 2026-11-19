@@ -9,16 +9,12 @@ describe('<ServiceAlertIcon />', () => {
   });
 
   it('should render empty if the severity is falsy', () => {
-    const { container } = render(
-      <ServiceAlertIcon severityLevel={undefined} />,
-    );
+    const { container } = render(<ServiceAlertIcon severityLevel={undefined} />);
     expect(container.querySelector('.icon')).toBeNull();
   });
 
   it('should render an info icon', () => {
-    const { container } = render(
-      <ServiceAlertIcon severityLevel={AlertSeverityLevelType.Info} />,
-    );
+    const { container } = render(<ServiceAlertIcon severityLevel={AlertSeverityLevelType.Info} />);
     expect(container.querySelector('.info')).not.toBeNull();
   });
 

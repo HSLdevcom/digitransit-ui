@@ -38,9 +38,7 @@ export default {
       intermediatePlace: false,
       route: null,
       trip: null,
-      __fragments__: {
-        '10::client': [{}],
-      },
+      __fragments__: { '10::client': [{}] },
     },
   ],
   legObj: {

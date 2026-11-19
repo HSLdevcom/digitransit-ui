@@ -5,15 +5,9 @@ import Icon from '../Icon';
 import { itineraryShape } from '../../../utils/client/shapes';
 import getCo2Value from '../../../utils/client/emissions';
 
-export default function Emissions({
-  itinerary,
-  carEmissions,
-  emissionsInfolink,
-}) {
+export default function Emissions({ itinerary, carEmissions, emissionsInfolink }) {
   const co2value = getCo2Value(itinerary);
-  const itineraryIsCar = itinerary.legs.every(
-    leg => leg.mode === 'CAR' || leg.mode === 'WALK',
-  );
+  const itineraryIsCar = itinerary.legs.every(leg => leg.mode === 'CAR' || leg.mode === 'WALK');
   const carCo2Value = itineraryIsCar ? null : carEmissions;
   const useCo2SimpleDesc = !carCo2Value || itineraryIsCar;
   const co2DescriptionId = useCo2SimpleDesc
@@ -29,29 +23,19 @@ export default function Emissions({
           <div className="co2-container">
             <div className="co2-description-container">
               <Icon img="icon_co2_leaf" className="co2-leaf" />
-              <span
-                className={cx('itinerary-co2-description', {
-                  simple: useCo2SimpleDesc,
-                })}
-              >
+              <span className={cx('itinerary-co2-description', { simple: useCo2SimpleDesc })}>
                 <span aria-hidden="true">
                   <FormattedMessage
                     id={co2DescriptionId}
                     defaultMessage={`CO₂ emissions for this route: ${co2value} g`}
-                    values={{
-                      co2value,
-                      carCo2Value,
-                    }}
+                    values={{ co2value, carCo2Value }}
                   />
                 </span>
                 <span className="sr-only">
                   <FormattedMessage
                     id={`${co2DescriptionId}-sr`}
                     defaultMessage={`Carbondioxide emissions for this route: ${co2value} g`}
-                    values={{
-                      co2value,
-                      carCo2Value,
-                    }}
+                    values={{ co2value, carCo2Value }}
                   />
                 </span>
                 {emissionsInfolink && (

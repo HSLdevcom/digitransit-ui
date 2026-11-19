@@ -56,10 +56,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
     const { onEditSelected } = renderModal();
     fireEvent.click(screen.getByLabelText('Edit place: Home'));
     expect(onEditSelected).toHaveBeenCalledTimes(1);
-    expect(onEditSelected.mock.calls[0][0]).toMatchObject({
-      favouriteId: 'fav1',
-      name: 'Home',
-    });
+    expect(onEditSelected.mock.calls[0][0]).toMatchObject({ favouriteId: 'fav1', name: 'Home' });
   });
 
   it('reorders the list when the move-down control is used', () => {
@@ -81,10 +78,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
 
     expect(handleClose).toHaveBeenCalledTimes(1);
     expect(updateFavourites).toHaveBeenCalledTimes(1);
-    expect(updateFavourites.mock.calls[0][0].map(f => f.favouriteId)).toEqual([
-      'fav2',
-      'fav1',
-    ]);
+    expect(updateFavourites.mock.calls[0][0].map(f => f.favouriteId)).toEqual(['fav2', 'fav1']);
   });
 
   it('does not save when the order is unchanged', () => {
@@ -106,9 +100,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-editing
     const [deleteButton] = screen.getAllByRole('button', { name: 'Delete' });
     fireEvent.click(deleteButton);
     expect(deleteFavourite).toHaveBeenCalledTimes(1);
-    expect(deleteFavourite.mock.calls[0][0]).toMatchObject({
-      favouriteId: 'fav1',
-    });
+    expect(deleteFavourite.mock.calls[0][0]).toMatchObject({ favouriteId: 'fav1' });
   });
 
   it('returns to the list when deleting is cancelled', () => {

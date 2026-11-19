@@ -20,8 +20,7 @@ export default function Personalization({ settings, updateSettings }) {
   const [loginPromptOpen, setLoginPromptOpen] = useState(false);
   const [againModalOpen, setAgainModalOpen] = useState(false);
   const [showSnackbar, setShowSnackbar] = useState(null);
-  const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] =
-    useState('');
+  const [snackbarLiveRegionMessage, setSnackBarLiveRegionMessage] = useState('');
   const snackbarTimeout = useRef(null);
   const settingsToggleRef = useRef(null);
   const wasAnyModalOpenRef = useRef(null);
@@ -53,9 +52,7 @@ export default function Personalization({ settings, updateSettings }) {
     updateSettings({ personalization: newState });
     if (newState) {
       setShowSnackbar(true);
-      setSnackBarLiveRegionMessage(
-        intl.formatMessage({ id: 'personalization-activated' }),
-      );
+      setSnackBarLiveRegionMessage(intl.formatMessage({ id: 'personalization-activated' }));
       snackbarTimeout.current = setTimeout(() => {
         setSnackBarLiveRegionMessage('');
         setShowSnackbar(false);
@@ -69,10 +66,7 @@ export default function Personalization({ settings, updateSettings }) {
       setLoginPromptOpen(true);
     } else {
       const newState = !personalization;
-      if (
-        newState &&
-        Object.keys(personalizationPreferences.weights || {}).length
-      ) {
+      if (newState && Object.keys(personalizationPreferences.weights || {}).length) {
         setAgainModalOpen(true);
       } else {
         changePersonalization(newState);
@@ -108,12 +102,7 @@ export default function Personalization({ settings, updateSettings }) {
         labelId="personal-itineraries"
         labelStyle="mode-label-upper"
         leftElement={
-          <Icon
-            img="icon_star-with-circle"
-            className="selected-fav"
-            height={2}
-            width={2}
-          />
+          <Icon img="icon_star-with-circle" className="selected-fav" height={2} width={2} />
         }
         toggled={personalization}
         onToggle={onToggle}

@@ -24,9 +24,7 @@ export default function AlternativeItineraryBar({
       <StreetModeSelectorShimmer loading={loading} />
       {!loading && (
         <div className="street-mode-button-row">
-          {weatherData && (
-            <StreetModeSelectorWeather weatherData={weatherData} />
-          )}
+          {weatherData && <StreetModeSelectorWeather weatherData={weatherData} />}
           {walkPlan?.edges?.length > 0 && (
             <StreetModeSelectorButton
               icon="icon_walk"
@@ -78,10 +76,7 @@ export default function AlternativeItineraryBar({
           )}
           {config.emphasizeOneWayJourney && (
             <div style={{ alignSelf: 'center' }}>
-              <FormattedMessage
-                id="one-way-journey"
-                defaultMessage="One way journey"
-              />
+              <FormattedMessage id="one-way-journey" defaultMessage="One way journey" />
             </div>
           )}
         </div>

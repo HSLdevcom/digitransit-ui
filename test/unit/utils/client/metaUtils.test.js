@@ -1,6 +1,4 @@
-import defaultGenerateMetaData, {
-  generateMetaData,
-} from '../../../../utils/client/metaUtils';
+import defaultGenerateMetaData, { generateMetaData } from '../../../../utils/client/metaUtils';
 
 describe('metaUtils', () => {
   it('exports the same metadata function through default and named imports', () => {
@@ -15,26 +13,11 @@ describe('metaUtils', () => {
       expect(result).toEqual({
         title,
         meta: [
-          {
-            name: 'description',
-            content: description,
-          },
-          {
-            property: 'og:title',
-            content: title,
-          },
-          {
-            property: 'og:description',
-            content: description,
-          },
-          {
-            property: 'twitter:title',
-            content: title,
-          },
-          {
-            property: 'twitter:description',
-            content: description,
-          },
+          { name: 'description', content: description },
+          { property: 'og:title', content: title },
+          { property: 'og:description', content: description },
+          { property: 'twitter:title', content: title },
+          { property: 'twitter:description', content: description },
         ],
       });
     });

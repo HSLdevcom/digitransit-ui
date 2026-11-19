@@ -7,9 +7,7 @@ import i18n from './helpers/i18n';
 const DEFAULT_CHILDREN = [];
 
 function SeparatorLine({ usePaddingBottom20 = false }) {
-  const className = usePaddingBottom20
-    ? styles['separator-div2']
-    : styles['separator-div'];
+  const className = usePaddingBottom20 ? styles['separator-div2'] : styles['separator-div'];
   return (
     <div className={className}>
       <div className={styles['separator-line']} />
@@ -17,9 +15,7 @@ function SeparatorLine({ usePaddingBottom20 = false }) {
   );
 }
 
-SeparatorLine.propTypes = {
-  usePaddingBottom20: PropTypes.bool,
-};
+SeparatorLine.propTypes = { usePaddingBottom20: PropTypes.bool };
 
 /**
  * CtrlPanel gathers multiple components to same area (desktop-size: left or mobile-size: bottom)
@@ -37,8 +33,7 @@ SeparatorLine.propTypes = {
  *  </CtrlPanel>
  */
 export default function CtrlPanel({ children = DEFAULT_CHILDREN, position }) {
-  const className =
-    position === 'bottom' ? styles['main-bottom'] : styles['main-left'];
+  const className = position === 'bottom' ? styles['main-bottom'] : styles['main-left'];
   return (
     <I18nextProvider i18n={i18n}>
       <div className={className}>{children}</div>
@@ -78,7 +73,4 @@ export default function CtrlPanel({ children = DEFAULT_CHILDREN, position }) {
 CtrlPanel.NearStopsAndRoutes = NearStopsAndRoutes;
 CtrlPanel.SeparatorLine = SeparatorLine;
 
-CtrlPanel.propTypes = {
-  children: PropTypes.node,
-  position: PropTypes.string.isRequired,
-};
+CtrlPanel.propTypes = { children: PropTypes.node, position: PropTypes.string.isRequired };

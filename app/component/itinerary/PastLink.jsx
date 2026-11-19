@@ -6,10 +6,7 @@ export default function PastLink() {
   const match = useMatch();
   return (
     <div>
-      <a
-        className={cx('no-decoration', 'medium')}
-        href={match.location.pathname}
-      >
+      <a className={cx('no-decoration', 'medium')} href={match.location.pathname}>
         <FormattedMessage id="itinerary-in-the-past-link" defaultMessage="" />
       </a>
     </div>

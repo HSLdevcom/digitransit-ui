@@ -29,12 +29,7 @@ export const isLayerEnabled = (layerName, mapLayers) => {
  * @param {*} layerName The name of the layer.
  * @param {*} mapLayers The map layer configuration.
  */
-export const isFeatureLayerEnabled = (
-  feature,
-  layerName,
-  mapLayers,
-  isHybridStation = false,
-) => {
+export const isFeatureLayerEnabled = (feature, layerName, mapLayers, isHybridStation = false) => {
   if (!feature || !layerName || !mapLayers) {
     return false;
   }
@@ -44,9 +39,7 @@ export const isFeatureLayerEnabled = (
   const featureType = (feature.properties.type || '').toLocaleLowerCase();
   if (isHybridStation) {
     const featureTypes = feature.properties.type.split(',');
-    return featureTypes.some(type =>
-      Boolean(mapLayers[layerName][type.toLocaleLowerCase()]),
-    );
+    return featureTypes.some(type => Boolean(mapLayers[layerName][type.toLocaleLowerCase()]));
   }
   if (featureType) {
     if (layerName === 'stop' && feature.properties.stops) {
@@ -59,66 +52,22 @@ export const isFeatureLayerEnabled = (
 
 export const getMapLayerOptions = (options = {}) => {
   const layerOptions = {
-    parkAndRide: {
-      isLocked: false,
-      isSelected: false,
-    },
-    parkAndRideForBikes: {
-      isLocked: false,
-      isSelected: false,
-    },
+    parkAndRide: { isLocked: false, isSelected: false },
+    parkAndRideForBikes: { isLocked: false, isSelected: false },
     stop: {
-      bus: {
-        isLocked: false,
-        isSelected: false,
-      },
-      ferry: {
-        isLocked: false,
-        isSelected: false,
-      },
-      rail: {
-        isLocked: false,
-        isSelected: false,
-      },
-      subway: {
-        isLocked: false,
-        isSelected: false,
-      },
-      tram: {
-        isLocked: false,
-        isSelected: false,
-      },
-      funicular: {
-        isLocked: false,
-        isSelected: false,
-      },
-      airplane: {
-        isLocked: false,
-        isSelected: false,
-      },
+      bus: { isLocked: false, isSelected: false },
+      ferry: { isLocked: false, isSelected: false },
+      rail: { isLocked: false, isSelected: false },
+      subway: { isLocked: false, isSelected: false },
+      tram: { isLocked: false, isSelected: false },
+      funicular: { isLocked: false, isSelected: false },
+      airplane: { isLocked: false, isSelected: false },
     },
-    vehicles: {
-      isLocked: false,
-      isSelected: false,
-    },
-    citybike: {
-      isLocked: false,
-      isSelected: false,
-    },
-    scooter: {
-      isLocked: false,
-      isSelected: false,
-    },
+    vehicles: { isLocked: false, isSelected: false },
+    citybike: { isLocked: false, isSelected: false },
+    scooter: { isLocked: false, isSelected: false },
   };
-  const allModes = [
-    'bus',
-    'tram',
-    'rail',
-    'subway',
-    'ferry',
-    'funicular',
-    'airplane',
-  ];
+  const allModes = ['bus', 'tram', 'rail', 'subway', 'ferry', 'funicular', 'airplane'];
   const { lockedMapLayers, selectedMapLayers } = {
     lockedMapLayers: [],
     selectedMapLayers: [],
@@ -131,8 +80,7 @@ export const getMapLayerOptions = (options = {}) => {
         if (layerOptions[key][subKey]) {
           layerOptions[key][subKey].isLocked = true;
           layerOptions[key][subKey].isSelected =
-            selectedMapLayers.includes(subKey) ||
-            selectedMapLayers.includes(key);
+            selectedMapLayers.includes(subKey) || selectedMapLayers.includes(key);
         }
       });
     } else if (layerOptions.stop[key] && allModes.includes(key)) {
@@ -155,7 +103,5 @@ export const getMapLayerOptions = (options = {}) => {
  * @param {String} lang The preferred language.
  */
 export const getLayerBaseUrl = (urlOrUrlMap, lang) => {
-  return urlOrUrlMap instanceof String
-    ? urlOrUrlMap
-    : urlOrUrlMap[lang] || urlOrUrlMap.default;
+  return urlOrUrlMap instanceof String ? urlOrUrlMap : urlOrUrlMap[lang] || urlOrUrlMap.default;
 };

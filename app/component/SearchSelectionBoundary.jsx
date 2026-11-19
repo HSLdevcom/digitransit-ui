@@ -6,8 +6,7 @@ import SelectFromMapModal from './SelectFromMapModal';
 
 export default function SearchSelectionBoundary({ children = null }) {
   const intl = useIntl();
-  const { fromMap, closeMapSelection, confirmMapSelection } =
-    useSearchContext();
+  const { fromMap, closeMapSelection, confirmMapSelection } = useSearchContext();
 
   if (fromMap === undefined) {
     return children;
@@ -25,15 +24,10 @@ export default function SearchSelectionBoundary({ children = null }) {
   }
 
   return (
-    <SelectFromMapModal
-      title={intl.formatMessage({ id: titleId })}
-      onClose={closeMapSelection}
-    >
+    <SelectFromMapModal title={intl.formatMessage({ id: titleId })} onClose={closeMapSelection}>
       <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
     </SelectFromMapModal>
   );
 }
 
-SearchSelectionBoundary.propTypes = {
-  children: PropTypes.node,
-};
+SearchSelectionBoundary.propTypes = { children: PropTypes.node };

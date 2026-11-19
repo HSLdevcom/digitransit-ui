@@ -11,11 +11,10 @@
 }
 
 $zindex:
-  base, map-container, map-gradient, map-fullscreen-toggle, map-buttons,
-  context-panel, search-panel, search-overlay, stop-route-station-input,
-  destination-input, viapoint-input-5, viapoint-input-4, viapoint-input-3,
-  viapoint-input-2, viapoint-input-1, origin-input, search-input-focus,
-  search-input-icon, autosuggest-suggestion-container, front;
+  base, map-container, map-gradient, map-fullscreen-toggle, map-buttons, context-panel,
+  search-panel, search-overlay, stop-route-station-input, destination-input, viapoint-input-5,
+  viapoint-input-4, viapoint-input-3, viapoint-input-2, viapoint-input-1, origin-input,
+  search-input-focus, search-input-icon, autosuggest-suggestion-container, front;
 
 .sr-only:not(:focus, :active) {
   clip: rect(0 0 0 0);

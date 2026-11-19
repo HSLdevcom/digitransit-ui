@@ -22,33 +22,18 @@ export default function PrModal({ closeModal }) {
         title={formatMessage({ id: 'personalization-modal-header' })}
         lang={hslfiLocale}
       >
-        <div
-          className={cx('pr-info-modal', {
-            'pr-info-mobile': breakpoint !== 'large',
-          })}
-        >
+        <div className={cx('pr-info-modal', { 'pr-info-mobile': breakpoint !== 'large' })}>
           <div className="pr-info-content">
-            <Icon
-              img="icon_star-with-circle"
-              color="#666"
-              height={2}
-              width={2}
-            />
+            <Icon img="icon_star-with-circle" color="#666" height={2} width={2} />
             <div className="pr-info-text-area">
               <Text variant="text-m-bold">
                 {formatMessage({ id: 'personalization-modal-highlight' })}
               </Text>
               <Text variant="text-s">
-                {formatMessage({
-                  id: 'personalization-modal-highlight-details',
-                })}
+                {formatMessage({ id: 'personalization-modal-highlight-details' })}
               </Text>
               {config.favouriteLink[language] && (
-                <ArrowLink
-                  href={config.favouriteLink[language]}
-                  target="_blank"
-                  rel="noreferrer"
-                >
+                <ArrowLink href={config.favouriteLink[language]} target="_blank" rel="noreferrer">
                   {formatMessage({ id: 'personalization-modal-link' })}
                 </ArrowLink>
               )}
@@ -61,9 +46,7 @@ export default function PrModal({ closeModal }) {
                 <FormattedMessage id="personalization-modal-feedback" />
               </Text>
               <Text variant="text-s">
-                {formatMessage({
-                  id: 'personalization-modal-feedback-details',
-                })}
+                {formatMessage({ id: 'personalization-modal-feedback-details' })}
               </Text>
             </div>
           </div>
@@ -79,15 +62,9 @@ export default function PrModal({ closeModal }) {
                 />
               </div>
             )}
-            <div
-              className={cx('beta-desc', {
-                'beta-desc-mobile': breakpoint !== 'large',
-              })}
-            >
+            <div className={cx('beta-desc', { 'beta-desc-mobile': breakpoint !== 'large' })}>
               <span className="beta-label">Beta</span>
-              <Text variant="text-xs">
-                {formatMessage({ id: 'personalization-beta' })}
-              </Text>
+              <Text variant="text-xs">{formatMessage({ id: 'personalization-beta' })}</Text>
               <Spacer size="xxs" />
               {config.personalizationSurveyLinks[language] && (
                 <div>

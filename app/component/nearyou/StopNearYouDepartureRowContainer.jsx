@@ -12,12 +12,7 @@ export default function StopNearYouDepartureRowContainer({
 }) {
   const sortedStopTimes = stopTimes
     .slice()
-    .sort(
-      (a, b) =>
-        a.serviceDay +
-        a.realtimeDeparture -
-        (b.serviceDay + b.realtimeDeparture),
-    );
+    .sort((a, b) => a.serviceDay + a.realtimeDeparture - (b.serviceDay + b.realtimeDeparture));
   const departures = sortedStopTimes.map(row => {
     const departureTime = row.serviceDay + row.realtimeDeparture;
     const key = row.trip.gtfsId;
@@ -61,11 +56,7 @@ export default function StopNearYouDepartureRowContainer({
 }
 
 StopNearYouDepartureRowContainer.propTypes = {
-  stopTimes: PropTypes.arrayOf(
-    PropTypes.shape({
-      distance: PropTypes.number,
-    }),
-  ).isRequired,
+  stopTimes: PropTypes.arrayOf(PropTypes.shape({ distance: PropTypes.number })).isRequired,
   mode: PropTypes.string.isRequired,
   isStation: PropTypes.bool.isRequired,
   currentTime: PropTypes.number.isRequired,

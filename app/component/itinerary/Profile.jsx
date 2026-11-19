@@ -26,17 +26,10 @@ export default function Profile({ itinerary, small = false }) {
     <div className={cx('itinerary-profile-container', { small })}>
       <div className="itinerary-profile-item">
         <div className="itinerary-profile-item-title">
-          {`${intl.formatMessage({
-            id: 'distance-total',
-            defaultMessage: 'Distance',
-          })}:`}
+          {`${intl.formatMessage({ id: 'distance-total', defaultMessage: 'Distance' })}:`}
         </div>
         <div className="itinerary-profile-item-value">
-          {displayDistance(
-            getTotalDistance(itinerary),
-            config,
-            intl.formatNumber,
-          )}
+          {displayDistance(getTotalDistance(itinerary), config, intl.formatNumber)}
         </div>
       </div>
       {printItinerary && (
@@ -52,7 +45,4 @@ export default function Profile({ itinerary, small = false }) {
   );
 }
 
-Profile.propTypes = {
-  itinerary: itineraryShape.isRequired,
-  small: PropTypes.bool,
-};
+Profile.propTypes = { itinerary: itineraryShape.isRequired, small: PropTypes.bool };

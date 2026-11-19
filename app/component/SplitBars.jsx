@@ -10,6 +10,4 @@ export default function SplitBars({ children }) {
   return <div className="split-bars">{splits}</div>;
 }
 
-SplitBars.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+SplitBars.propTypes = { children: PropTypes.node.isRequired };

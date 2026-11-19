@@ -13,10 +13,7 @@ describe('TileContainer', () => {
     geom: { x: 800, y: 800 }, // (x, y) / ratio(16) === clickPoint
     properties: { stops: true }, // skip icon-style-based hitbox adjustment
   };
-  const mockLayer = {
-    features: [feature],
-    constructor: { getName: () => 'stop' },
-  };
+  const mockLayer = { features: [feature], constructor: { getName: () => 'stop' } };
 
   beforeEach(() => {
     // jsdom does not implement canvas

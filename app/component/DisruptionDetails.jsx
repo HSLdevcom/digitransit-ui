@@ -16,10 +16,8 @@ export default function DisruptionDetails({
   currentTime,
 }) {
   const checkedUrl =
-    alertUrl &&
-    (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
-  const validityLabelId =
-    effectiveStartDate > currentTime ? 'upcoming' : 'valid';
+    alertUrl && (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
+  const validityLabelId = effectiveStartDate > currentTime ? 'upcoming' : 'valid';
 
   return (
     <div className="alert-details">

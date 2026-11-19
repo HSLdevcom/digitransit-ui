@@ -19,10 +19,7 @@ export default function ItineraryPageControls({ toggleSettings }) {
       {isMobile && (
         <BackButton
           title={
-            <FormattedMessage
-              id="summary-page.title"
-              defaultMessage="Itinerary suggestions"
-            />
+            <FormattedMessage id="summary-page.title" defaultMessage="Itinerary suggestions" />
           }
           fallback={
             params.hash === streetHash.bikeAndVehicle ||
@@ -48,6 +45,4 @@ export default function ItineraryPageControls({ toggleSettings }) {
   );
 }
 
-ItineraryPageControls.propTypes = {
-  toggleSettings: PropTypes.func.isRequired,
-};
+ItineraryPageControls.propTypes = { toggleSettings: PropTypes.func.isRequired };

@@ -16,10 +16,7 @@ const babelPresets = [
   ['@babel/preset-env', { bugfixes: true, modules: 'auto' }],
   [
     '@babel/preset-react',
-    {
-      development: process.env.NODE_ENV === 'development',
-      runtime: 'automatic',
-    },
+    { development: process.env.NODE_ENV === 'development', runtime: 'automatic' },
   ],
 ];
 
@@ -28,17 +25,9 @@ const babelPlugins = [
   'babel-plugin-optimize-clsx',
   '@babel/plugin-transform-class-properties',
   '@babel/plugin-transform-object-rest-spread',
-  [
-    '@babel/plugin-transform-runtime',
-    { helpers: true, regenerator: true, useESModules: true },
-  ],
+  ['@babel/plugin-transform-runtime', { helpers: true, regenerator: true, useESModules: true }],
   ...(isProduction
-    ? [
-        [
-          'babel-plugin-transform-react-remove-prop-types',
-          { mode: 'unsafe-wrap' },
-        ],
-      ]
+    ? [['babel-plugin-transform-react-remove-prop-types', { mode: 'unsafe-wrap' }]]
     : []),
 ];
 
@@ -65,8 +54,7 @@ const globals = {
   '@digitransit-component/digitransit-component-icon': 'Icon',
   '@digitransit-component/digitransit-component-autosuggest': 'DTAutosuggest',
   '@digitransit-component/digitransit-component-dialog-modal': 'DialogModal',
-  '@digitransit-component/digitransit-component-suggestion-item':
-    'SuggestionItem',
+  '@digitransit-component/digitransit-component-suggestion-item': 'SuggestionItem',
   lodash: 'lodash',
   'lodash/omit': 'omit',
   'lodash/sortBy': 'sortBy',
@@ -189,19 +177,9 @@ export default () => {
     ],
     context: 'self',
     plugins: [
-      peerDepsExternal({
-        packageJsonPath: path.join(pkg.location, 'package.json'),
-      }),
-      nodeResolve({
-        browser: true,
-        extensions: ['.mjs', '.js', '.jsx', '.json', '.node'],
-      }),
-      svgr({
-        svgo: false,
-        ref: false,
-        titleProp: false,
-        jsxRuntime: 'classic',
-      }),
+      peerDepsExternal({ packageJsonPath: path.join(pkg.location, 'package.json') }),
+      nodeResolve({ browser: true, extensions: ['.mjs', '.js', '.jsx', '.json', '.node'] }),
+      svgr({ svgo: false, ref: false, titleProp: false, jsxRuntime: 'classic' }),
       babel({
         babelHelpers: 'runtime',
         configFile: false,
@@ -210,11 +188,7 @@ export default () => {
         plugins: babelPlugins,
         exclude: /node_modules/,
       }),
-      commonjs({
-        ignoreGlobal: true,
-        include: /node_modules/,
-        sourceMap: true,
-      }),
+      commonjs({ ignoreGlobal: true, include: /node_modules/, sourceMap: true }),
       postcss({
         extract: false,
         plugins: [autoprefixer()],
@@ -228,10 +202,7 @@ export default () => {
         // same scoped name and collide once bundled together in the app.
         // Passing a per-package hashPrefix (forwarded straight into that
         // hash input) restores uniqueness across packages.
-        modules: {
-          generateScopedName: '[name]_[local]__[hash:base64:5]',
-          hashPrefix: pkg.name,
-        },
+        modules: { generateScopedName: '[name]_[local]__[hash:base64:5]', hashPrefix: pkg.name },
         // rollup-plugin-postcss only honours a custom `modules` object (as
         // opposed to treating every matched file as a CSS module) when
         // `autoModules` isn't left to its filename-based default (which
@@ -244,11 +215,7 @@ export default () => {
             'sass',
             {
               quietDeps: true,
-              silenceDeprecations: [
-                'import',
-                'global-builtin',
-                'color-functions',
-              ],
+              silenceDeprecations: ['import', 'global-builtin', 'color-functions'],
             },
           ],
         ],

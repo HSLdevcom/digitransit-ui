@@ -22,10 +22,7 @@ describe('<ScheduleTripList />', () => {
   });
 
   const defaultProps = {
-    trips: [
-      createTrip('trip-1', 28080, 30060),
-      createTrip('trip-2', 29080, 31060),
-    ],
+    trips: [createTrip('trip-1', 28080, 30060), createTrip('trip-2', 29080, 31060)],
     fromIdx: 0,
     toIdx: 1,
   };
@@ -33,9 +30,7 @@ describe('<ScheduleTripList />', () => {
   describe('Conditional rendering', () => {
     it('should render null when trips array is empty', () => {
       const props = { ...defaultProps, trips: [] };
-      const { container } = renderWithProviders(
-        <ScheduleTripList {...props} />,
-      );
+      const { container } = renderWithProviders(<ScheduleTripList {...props} />);
       expect(container.firstChild).toBeNull();
     });
   });
@@ -95,10 +90,7 @@ describe('<ScheduleTripList />', () => {
     it('should filter out trips with empty stoptimes array', () => {
       const trips = [
         createTrip('valid-trip', 28080, 30060),
-        {
-          id: 'no-stoptimes-trip',
-          stoptimes: [],
-        },
+        { id: 'no-stoptimes-trip', stoptimes: [] },
       ];
 
       const { container } = renderWithProviders(
@@ -204,9 +196,7 @@ describe('<ScheduleTripList />', () => {
     });
 
     it('should not mark trip as canceled for SCHEDULED state', () => {
-      const { container } = renderWithProviders(
-        <ScheduleTripList {...defaultProps} />,
-      );
+      const { container } = renderWithProviders(<ScheduleTripList {...defaultProps} />);
       expect(container.querySelector('.trip-from.canceled')).toBeNull();
       expect(container.querySelector('.trip-to.canceled')).toBeNull();
     });
@@ -224,9 +214,7 @@ describe('<ScheduleTripList />', () => {
 
   describe('Data transformation', () => {
     it('should pass formatted departure and arrival times to ScheduleTripRow', () => {
-      const { container } = renderWithProviders(
-        <ScheduleTripList {...defaultProps} />,
-      );
+      const { container } = renderWithProviders(<ScheduleTripList {...defaultProps} />);
       expect(container.textContent).toContain('07:48');
       expect(container.textContent).toContain('08:21');
     });

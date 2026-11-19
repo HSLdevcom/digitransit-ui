@@ -3,10 +3,7 @@ import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import { unixTime } from '../../utils/client/timeUtils';
-import {
-  getOldSearchesStorage,
-  setOldSearchesStorage,
-} from '../../utils/client/localStorage';
+import { getOldSearchesStorage, setOldSearchesStorage } from '../../utils/client/localStorage';
 
 /**
  * The current version number of this store.
@@ -123,9 +120,7 @@ export const saveSearch = search => {
   const { items } = getStorageObject();
 
   const key = getItemKey(search.item.properties);
-  const matches = items.filter(oldItem =>
-    isEqual(key, getItemKey(oldItem.item.properties)),
-  );
+  const matches = items.filter(oldItem => isEqual(key, getItemKey(oldItem.item.properties)));
 
   const timestamp = unixTime();
   let updatedItems;
@@ -133,15 +128,8 @@ export const saveSearch = search => {
     // Keep the entry with the highest count and discard duplicates.
     const best = matches.reduce((a, b) => (b.count > a.count ? b : a));
     updatedItems = [
-      ...items.filter(
-        oldItem => !isEqual(key, getItemKey(oldItem.item.properties)),
-      ),
-      {
-        ...best,
-        count: best.count + 1,
-        lastUpdated: timestamp,
-        item: cloneDeep(search.item),
-      },
+      ...items.filter(oldItem => !isEqual(key, getItemKey(oldItem.item.properties))),
+      { ...best, count: best.count + 1, lastUpdated: timestamp, item: cloneDeep(search.item) },
     ];
   } else {
     updatedItems = [...items, { count: 1, lastUpdated: timestamp, ...search }];
@@ -154,9 +142,7 @@ export const removeSearch = search => {
   const { items } = getStorageObject();
 
   const key = getItemKey(search.item.properties);
-  const remaining = items.filter(
-    item => !isEqual(key, getItemKey(item.item.properties)),
-  );
+  const remaining = items.filter(item => !isEqual(key, getItemKey(item.item.properties)));
   if (remaining.length !== items.length) {
     persist(remaining);
   }

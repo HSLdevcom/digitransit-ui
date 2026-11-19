@@ -15,19 +15,12 @@ function parkFilter(parks, mode) {
 function StopRouteSearch({ mode, ...rest }) {
   const transportMode = `route-${mode}`;
   const { router } = useRouter();
-  const {
-    getAutoSuggestIcons,
-    colors,
-    iconModeSet,
-    language,
-    stopSearchFilter,
-  } = useConfigContext();
+  const { getAutoSuggestIcons, colors, iconModeSet, language, stopSearchFilter } =
+    useConfigContext();
 
   let filter = stopSearchFilter
     ? (results, transportmode, type) =>
-        filterSearchResultsByMode(results, transportmode, type).filter(
-          stopSearchFilter,
-        )
+        filterSearchResultsByMode(results, transportmode, type).filter(stopSearchFilter)
     : filterSearchResultsByMode;
   const selectHandler = item => {
     router.push(getStopRoutePath(item));
@@ -71,8 +64,6 @@ function StopRouteSearch({ mode, ...rest }) {
   );
 }
 
-StopRouteSearch.propTypes = {
-  mode: PropTypes.string.isRequired,
-};
+StopRouteSearch.propTypes = { mode: PropTypes.string.isRequired };
 
 export default memo(StopRouteSearch);
