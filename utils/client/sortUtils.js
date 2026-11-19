@@ -8,11 +8,9 @@ export const sortNearYouRentalStations = favouriteRentalStationsIds => {
     const firstIsClose = first.node.distance < 1500;
     const secondIsClose = second.node.distance < 1500;
     const firstIsFavourite =
-      favouriteRentalStationsIds.has(first.node.place.stationId) &&
-      firstIsClose;
+      favouriteRentalStationsIds.has(first.node.place.stationId) && firstIsClose;
     const secondIsFavourite =
-      favouriteRentalStationsIds.has(second.node.place.stationId) &&
-      secondIsClose;
+      favouriteRentalStationsIds.has(second.node.place.stationId) && secondIsClose;
     if (firstIsFavourite === secondIsFavourite) {
       return 0;
     }

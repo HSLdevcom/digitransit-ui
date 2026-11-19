@@ -44,9 +44,7 @@ const AdditionalDescription = () => {
       values={links.reduce(
         (acc, link) => ({
           ...acc,
-          [link.key]: (
-            <a href={link.href}>{intl.formatMessage(link.message)}</a>
-          ),
+          [link.key]: <a href={link.href}>{intl.formatMessage(link.message)}</a>,
         }),
         { amount: links.length },
       )}
@@ -68,18 +66,10 @@ export default function TrafficNowHeader() {
   const logo = getAssetUrl(trafficNowHeaderGraphic);
   const desktop = breakpoint === 'large';
   const localizedRootPath = trafficNowRootPath && trafficNowRootPath[language];
-  const breadcrumbHref = localizedRootPath
-    ? `${ROOTLINK}${localizedRootPath}`
-    : undefined;
-  const breadcrumbLabel = (
-    <Text>{formatMessage({ id: 'traffic-now_bread' })}</Text>
-  );
+  const breadcrumbHref = localizedRootPath ? `${ROOTLINK}${localizedRootPath}` : undefined;
+  const breadcrumbLabel = <Text>{formatMessage({ id: 'traffic-now_bread' })}</Text>;
   return (
-    <header
-      className={cx('traffic-now__header', {
-        'traffic-now__header--mobile': !desktop,
-      })}
-    >
+    <header className={cx('traffic-now__header', { 'traffic-now__header--mobile': !desktop })}>
       <span className="traffic-now__header-breadcrumb">
         {breadcrumbHref ? (
           <a href={breadcrumbHref}>{breadcrumbLabel}</a>
@@ -98,9 +88,7 @@ export default function TrafficNowHeader() {
           <span>{formatMessage({ id: 'traffic-now_description' })}</span>
           {CONFIG === 'hsl' && <AdditionalDescription />}
         </Text>
-        {logo && desktop && (
-          <img src={logo} alt="" className="traffic-now__header-image" />
-        )}
+        {logo && desktop && <img src={logo} alt="" className="traffic-now__header-image" />}
       </div>
     </header>
   );

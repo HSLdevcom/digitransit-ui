@@ -17,11 +17,7 @@ export default function NaviIndoorButtonContainer({
   nextLeg,
   focusToPoint,
 }) {
-  const indoorSteps = getIndoorStepsWithVerticalTransportation(
-    previousLeg,
-    leg,
-    nextLeg,
-  );
+  const indoorSteps = getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg);
   if (indoorSteps.length === 1) {
     return (
       <div className="navi-indoor-one-step-info-container">
@@ -31,22 +27,13 @@ export default function NaviIndoorButtonContainer({
           type={indoorSteps[0].feature?.__typename}
           verticalDirection={indoorSteps[0].feature?.verticalDirection}
           toLevelName={indoorSteps[0].feature?.to?.name}
-          focusAction={getStepFocusAction(
-            indoorSteps[0].lat,
-            indoorSteps[0].lon,
-            focusToPoint,
-          )}
+          focusAction={getStepFocusAction(indoorSteps[0].lat, indoorSteps[0].lon, focusToPoint)}
         />
       </div>
     );
   }
   if (indoorSteps.length > 1) {
-    return (
-      <NaviIndoorButton
-        currentCard={currentCard}
-        setCurrentCard={setCurrentCard}
-      />
-    );
+    return <NaviIndoorButton currentCard={currentCard} setCurrentCard={setCurrentCard} />;
   }
   return null;
 }

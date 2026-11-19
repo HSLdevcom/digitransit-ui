@@ -80,11 +80,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
           <span>{constantOperationStops[stopId][locale].text}</span>
           {/* Next span inline-block so that the link doesn't render on multiple lines */}
           <span style={{ display: 'inline-block' }}>
-            <a
-              href={constantOperationStops[stopId][locale].link}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={constantOperationStops[stopId][locale].link} target="_blank" rel="noreferrer">
               {constantOperationStops[stopId][locale].link}
             </a>
           </span>
@@ -95,13 +91,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
   const vehicleMode = stop.vehicleMode || 'BUS';
   // `mode` is the icon mode (derived from routes, may differ from vehicleMode for multi-mode stops).
   // `vehicleMode` is used for track text and the departure list.
-  const mode = getPrimaryStopMode(
-    stop.routes,
-    vehicleMode,
-    stop.code,
-    config,
-    isTerminal,
-  );
+  const mode = getPrimaryStopMode(stop.routes, vehicleMode, stop.code, config, isTerminal);
   const modeColor = getModeIconColor(config, mode);
   if (!stoptimes || stoptimes.length === 0) {
     return (
@@ -126,10 +116,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
           alerts={stop.alerts}
         />
         {isTerminal && (
-          <div
-            className="departure-list-header row padding-vertical-normal"
-            aria-hidden="true"
-          >
+          <div className="departure-list-header row padding-vertical-normal" aria-hidden="true">
             <span className="route-number-header">
               <FormattedMessage id="route" defaultMessage="Route" />
             </span>
@@ -139,9 +126,7 @@ export default function StopPageContent({ stop: stopRef, error }) {
             <span className="time-header">
               <FormattedMessage id="leaving-at" defaultMessage="Leaves" />
             </span>
-            <span className="track-header">
-              {getTrackOrPierOrPlatformText(intl, vehicleMode)}
-            </span>
+            <span className="track-header">{getTrackOrPierOrPlatformText(intl, vehicleMode)}</span>
           </div>
         )}
         <DepartureListContainer
@@ -157,7 +142,4 @@ export default function StopPageContent({ stop: stopRef, error }) {
     </ScrollableWrapper>
   );
 }
-StopPageContent.propTypes = {
-  stop: fragmentRefShape.isRequired,
-  error: errorShape,
-};
+StopPageContent.propTypes = { stop: fragmentRefShape.isRequired, error: errorShape };

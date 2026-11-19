@@ -23,28 +23,18 @@ describe('LegMarker', () => {
 
     it('should display the route number when the name is not empty even for external routes', () => {
       expect(
-        shouldDisplayLegRouteNumber(
-          { externalFeedIds: ['foo'] },
-          'bus-external',
-          '55',
-        ),
+        shouldDisplayLegRouteNumber({ externalFeedIds: ['foo'] }, 'bus-external', '55'),
       ).to.equal(true);
     });
 
     it('should hide an empty route number for an external route', () => {
       expect(
-        shouldDisplayLegRouteNumber(
-          { externalFeedIds: ['foo'] },
-          'bus-external',
-          '',
-        ),
+        shouldDisplayLegRouteNumber({ externalFeedIds: ['foo'] }, 'bus-external', ''),
       ).to.equal(false);
     });
 
     it('should display an empty route number when externalFeedIds is not configured', () => {
-      expect(shouldDisplayLegRouteNumber({}, 'bus-external', '')).to.equal(
-        true,
-      );
+      expect(shouldDisplayLegRouteNumber({}, 'bus-external', '')).to.equal(true);
     });
   });
 

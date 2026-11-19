@@ -6,10 +6,7 @@ export default function ChangeDepartureTimeLink() {
   const match = useMatch();
   return (
     <div>
-      <a
-        className={cx('no-decoration', 'medium')}
-        href={match.location.pathname}
-      >
+      <a className={cx('no-decoration', 'medium')} href={match.location.pathname}>
         <FormattedMessage id="router-change-departure-time" defaultMessage="" />
       </a>
     </div>

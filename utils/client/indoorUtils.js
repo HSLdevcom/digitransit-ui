@@ -1,16 +1,11 @@
-import {
-  IndoorLegType,
-  IndoorStepType,
-  VerticalDirection,
-} from '../shared/constants';
+import { IndoorLegType, IndoorStepType, VerticalDirection } from '../shared/constants';
 import { addAnalyticsEvent } from '../shared/analyticsUtils';
 
 export function subwayTransferUsesSameStation(previousLeg, nextLeg) {
   return (
     previousLeg?.mode === 'SUBWAY' &&
     nextLeg?.mode === 'SUBWAY' &&
-    previousLeg.to.stop.parentStation?.gtfsId ===
-      nextLeg.from.stop.parentStation?.gtfsId
+    previousLeg.to.stop.parentStation?.gtfsId === nextLeg.from.stop.parentStation?.gtfsId
   );
 }
 
@@ -31,24 +26,16 @@ const iconMappings = {
   'escalator-up-filled': 'icon_escalator_up_arrow_filled',
 };
 
-export function getVerticalTransportationUseIconId(
-  verticalDirection,
-  type,
-  filled,
-) {
+export function getVerticalTransportationUseIconId(verticalDirection, type, filled) {
   if (
     verticalDirection === undefined ||
     verticalDirection === VerticalDirection.Unknown ||
     type === IndoorStepType.ElevatorUse
   ) {
-    return iconMappings[
-      `${type?.toLowerCase().replace('use', '')}${filled ? '-filled' : ''}`
-    ];
+    return iconMappings[`${type?.toLowerCase().replace('use', '')}${filled ? '-filled' : ''}`];
   }
   return iconMappings[
-    `${type
-      ?.toLowerCase()
-      .replace('use', '')}-${verticalDirection.toLowerCase()}${
+    `${type?.toLowerCase().replace('use', '')}-${verticalDirection.toLowerCase()}${
       filled ? '-filled' : ''
     }`
   ];
@@ -110,8 +97,7 @@ export function getIndoorLegType(previousLeg, leg, nextLeg) {
   // Indoor routing starts from an entrance if the leg ends in the subway.
   if (
     entranceObject &&
-    ((leg.mode === 'WALK' && nextLeg?.mode === 'SUBWAY') ||
-      leg.to.stop?.vehicleMode === 'SUBWAY')
+    ((leg.mode === 'WALK' && nextLeg?.mode === 'SUBWAY') || leg.to.stop?.vehicleMode === 'SUBWAY')
   ) {
     return IndoorLegType.StepsAfterEntranceInside;
   }
@@ -144,11 +130,7 @@ export function isVerticalTransportationUse(type) {
 /**
  * @return a filtered array of only indoor steps with vertical transportation or an empty array
  */
-export function getIndoorStepsWithVerticalTransportation(
-  previousLeg,
-  leg,
-  nextLeg,
-) {
+export function getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg) {
   return getIndoorSteps(previousLeg, leg, nextLeg).filter(step =>
     // eslint-disable-next-line no-underscore-dangle
     isVerticalTransportationUse(step.feature?.__typename),
@@ -173,10 +155,6 @@ export function getStepFocusAction(lat, lon, focusToPoint) {
   return e => {
     e.stopPropagation();
     focusToPoint(lat, lon);
-    addAnalyticsEvent({
-      category: 'Itinerary',
-      action: 'ZoomMapToStep',
-      name: null,
-    });
+    addAnalyticsEvent({ category: 'Itinerary', action: 'ZoomMapToStep', name: null });
   };
 }

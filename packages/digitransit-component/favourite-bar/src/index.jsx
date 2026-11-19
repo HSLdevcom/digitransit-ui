@@ -4,9 +4,7 @@ import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import Shimmer from '@hsl-fi/shimmer';
 import SuggestionItem from '@digitransit-component/digitransit-component-suggestion-item';
-import Icon, {
-  defaultColors,
-} from '@digitransit-component/digitransit-component-icon';
+import Icon, { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import { formatFavouritePlaceLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
 import styles from './helpers/styles.scss';
 import i18n from './helpers/i18n';
@@ -48,20 +46,9 @@ const formatFavourite = favourite =>
     ? formatFavouritePlaceLabel(favourite.name, favourite.address)
     : [];
 
-const FavouriteLocation = ({
-  clickItem,
-  iconId,
-  text,
-  label,
-  isLoading = false,
-  color,
-  lang,
-}) => {
+const FavouriteLocation = ({ clickItem, iconId, text, label, isLoading = false, color, lang }) => {
   const [t] = useTranslation('translation', { i18n });
-  const ariaLabel =
-    label === ''
-      ? text
-      : `${text} ${label} ${t('add-destination', { lng: lang })}`;
+  const ariaLabel = label === '' ? text : `${text} ${label} ${t('add-destination', { lng: lang })}`;
   return (
     <button
       type="button"
@@ -158,12 +145,7 @@ export default function FavouriteBar({
       const list = suggestionListRef.current;
       if (list) {
         const { top } = list.getBoundingClientRect();
-        setListMaxHeight(
-          Math.max(
-            window.innerHeight - top - LIST_BOTTOM_MARGIN,
-            MIN_LIST_HEIGHT,
-          ),
-        );
+        setListMaxHeight(Math.max(window.innerHeight - top - LIST_BOTTOM_MARGIN, MIN_LIST_HEIGHT));
       }
     };
     updateListMaxHeight();
@@ -193,22 +175,11 @@ export default function FavouriteBar({
   };
 
   const getCustomSuggestions = () => {
-    const customSuggestions = [
-      {
-        name: translate('add-place'),
-        selectedIconId: 'favourite',
-      },
-    ];
+    const customSuggestions = [{ name: translate('add-place'), selectedIconId: 'favourite' }];
     if (favourites.length === 0) {
       return customSuggestions;
     }
-    return [
-      ...customSuggestions,
-      {
-        name: translate('edit'),
-        selectedIconId: 'edit',
-      },
-    ];
+    return [...customSuggestions, { name: translate('edit'), selectedIconId: 'edit' }];
   };
 
   const suggestionSelected = index => {
@@ -258,9 +229,7 @@ export default function FavouriteBar({
           ref={index === 0 ? firstItemRef : undefined}
           // eslint-disable-next-line jsx-a11y/no-autofocus
           autoFocus={index === 0}
-          aria-label={`${item?.name || ''} ${
-            item?.address || ''
-          } ${ariaLabelSuffix}`}
+          aria-label={`${item?.name || ''} ${item?.address || ''} ${ariaLabelSuffix}`}
         >
           <SuggestionItem item={item} colors={colors} />
         </div>
@@ -280,9 +249,7 @@ export default function FavouriteBar({
         <FavouriteLocation
           text={name1 || translate('add-home')}
           label={address1 || ''}
-          clickItem={() =>
-            firstFavourite ? onClickFavourite(firstFavourite) : onAddHome()
-          }
+          clickItem={() => (firstFavourite ? onClickFavourite(firstFavourite) : onAddHome())}
           iconId={
             firstFavourite && firstFavourite.selectedIconId
               ? FAVOURITE_ICON_ID_TO_NAME[firstFavourite.selectedIconId]
@@ -295,9 +262,7 @@ export default function FavouriteBar({
         <FavouriteLocation
           text={name2 || translate('add-work')}
           label={address2 || ''}
-          clickItem={() =>
-            secondFavourite ? onClickFavourite(secondFavourite) : onAddWork()
-          }
+          clickItem={() => (secondFavourite ? onClickFavourite(secondFavourite) : onAddWork())}
           iconId={
             secondFavourite && secondFavourite.selectedIconId
               ? FAVOURITE_ICON_ID_TO_NAME[secondFavourite.selectedIconId]
@@ -307,12 +272,9 @@ export default function FavouriteBar({
           color={primary}
           lang={lang}
         />
-        {/* eslint-disable jsx-a11y/role-supports-aria-props */}
         <button
           type="button"
-          className={cx(styles.expandButton, styles[expandIcon], {
-            [styles.rotate]: listOpen,
-          })}
+          className={cx(styles.expandButton, styles[expandIcon], { [styles.rotate]: listOpen })}
           ref={expandListRef}
           id="favourite-expand-button"
           onKeyDown={e => handleKeyDown(e)}
@@ -324,7 +286,6 @@ export default function FavouriteBar({
             <Icon img={expandIcon} color={primary} />
           </Shimmer>
         </button>
-        {/* eslint-enable jsx-a11y/role-supports-aria-props */}
       </div>
       <div className={styles['favourite-suggestion-container']}>
         {listOpen && (
@@ -336,24 +297,16 @@ export default function FavouriteBar({
             aria-label={translate('favourites-list')}
           >
             {listFavourites.map((item, index) => {
-              const favouriteLabel = formatFavouritePlaceLabel(
-                item.name,
-                item.address,
-              );
+              const favouriteLabel = formatFavouritePlaceLabel(item.name, item.address);
               const address = favouriteLabel[1];
 
               return renderSuggestion(
-                {
-                  ...item,
-                  address,
-                },
+                { ...item, address },
                 index,
                 `, ${translate('add-destination')}`,
               );
             })}
-            {listFavourites.length > 0 && (
-              <div aria-hidden className={styles.divider} />
-            )}
+            {listFavourites.length > 0 && <div aria-hidden className={styles.divider} />}
             {getCustomSuggestions().map((item, index) =>
               renderSuggestion(item, listFavourites.length + index, undefined),
             )}

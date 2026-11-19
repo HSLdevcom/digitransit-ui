@@ -1,7 +1,4 @@
-import {
-  groupEntitiesByMode,
-  buildDisruptionCards,
-} from '../../../app/component/trafficnow/utils';
+import { groupEntitiesByMode, buildDisruptionCards } from '../../../app/component/trafficnow/utils';
 import { stopPagePath, routePagePath } from '../../../utils/shared/path';
 
 const mocks = {
@@ -164,12 +161,9 @@ describe('trafficNowUtil', () => {
   });
 
   it('should group tram and bus stops and a rail platform under different groups', () => {
-    const grouped = groupEntitiesByMode(
-      [mocks.busStop, mocks.tramStop, mocks.railStop],
-      {
-        useExtendedRouteTypes: false,
-      },
-    );
+    const grouped = groupEntitiesByMode([mocks.busStop, mocks.tramStop, mocks.railStop], {
+      useExtendedRouteTypes: false,
+    });
 
     expect(grouped).toEqual(expected.stops);
   });
@@ -221,9 +215,7 @@ describe('trafficNowUtil', () => {
   });
 
   it('should handle station entities correctly', () => {
-    const grouped = groupEntitiesByMode([mocks.station], {
-      useExtendedRouteTypes: false,
-    });
+    const grouped = groupEntitiesByMode([mocks.station], { useExtendedRouteTypes: false });
     expect(grouped.rail_stop.entities[0]).toMatchObject({
       id: 'STATION_1',
       name: 'Steissi',
@@ -246,9 +238,7 @@ describe('trafficNowUtil', () => {
       shortName: 'X',
       __isNode: 'Route',
     };
-    const grouped = groupEntitiesByMode([entity], {
-      useExtendedRouteTypes: false,
-    });
+    const grouped = groupEntitiesByMode([entity], { useExtendedRouteTypes: false });
     expect(grouped).toBeInstanceOf(Object);
   });
 });

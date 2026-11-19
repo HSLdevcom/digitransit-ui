@@ -12,37 +12,18 @@ export default configMerger(walttiConfig, {
     name: 'Waltti',
     href: 'https://waltti.fi/',
     altLink: {
-      sv: {
-        name: 'Waltti',
-        href: 'https://waltti.fi/sv/',
-      },
-      en: {
-        name: 'Waltti',
-        href: 'https://waltti.fi/en/',
-      },
+      sv: { name: 'Waltti', href: 'https://waltti.fi/sv/' },
+      en: { name: 'Waltti', href: 'https://waltti.fi/en/' },
     },
   },
 
-  colors: {
-    primary: '#5959a8',
-    topBarColor: '#17083b',
-    bus: '#5959a8',
-  },
-  transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-  },
+  colors: { primary: '#5959a8', topBarColor: '#17083b', bus: '#5959a8' },
+  transportModes: { bus: { availableForSelection: true, defaultValue: true } },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/walttiOpas/social-share.png',
-      width: 1795,
-      height: 1313,
-    },
+    image: { url: 'assets/walttiOpas/social-share.png', width: 1795, height: 1313 },
   },
 
   title: APP_TITLE,
@@ -54,19 +35,12 @@ export default configMerger(walttiConfig, {
 
   feedIds: ['Salo', 'Kajaani'],
 
-  defaultEndpoint: {
-    address: 'Helsinki-Vantaan Lentoasema',
-    lat: 60.317429,
-    lon: 24.9690395,
-  },
+  defaultEndpoint: { address: 'Helsinki-Vantaan Lentoasema', lat: 60.317429, lon: 24.9690395 },
 
   menu: {
     copyright: { label: `© Waltti Solutions Oy ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -110,16 +84,8 @@ export default configMerger(walttiConfig, {
   viaPointsEnabled: false,
 
   sourceForAlertsAndDisruptions: {
-    Kajaani: {
-      fi: 'Kajaani',
-      sv: 'Kajana',
-      en: 'Kajaani',
-    },
-    Salo: {
-      fi: 'Salo',
-      sv: 'Salo',
-      en: 'Salo',
-    },
+    Kajaani: { fi: 'Kajaani', sv: 'Kajana', en: 'Kajaani' },
+    Salo: { fi: 'Salo', sv: 'Salo', en: 'Salo' },
   },
 
   useSearchPolygon: true,
@@ -168,9 +134,7 @@ export default configMerger(walttiConfig, {
     [23.11, 60.58],
   ],
 
-  map: {
-    minZoom: 6,
-  },
+  map: { minZoom: 6 },
 
   showDisclaimer: true,
 });

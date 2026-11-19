@@ -56,14 +56,7 @@ const AppProviders = props => {
   const providers = [
     [ConfigProvider, { value: props.config }],
     [BreakpointProvider],
-    [
-      IntlProvider,
-      {
-        locale: props.language,
-        messages: props.messages,
-        textComponent: 'span',
-      },
-    ],
+    [IntlProvider, { locale: props.language, messages: props.messages, textComponent: 'span' }],
     [RelayEnvironmentProvider, { environment: props.environment }],
     [MessageProvider],
     [FavouriteProvider],
@@ -100,19 +93,11 @@ async function init() {
   initHslfiLocale(language, translations.default[language]);
 
   const network = new RelayNetworkLayer([
-    cacheMiddleware({
-      size: 200,
-      ttl: 60 * 60 * 1000,
-    }),
-    urlMiddleware({
-      url: () => Promise.resolve(`${config.URL.OTP}gtfs/v1${queryParameters}`),
-    }),
+    cacheMiddleware({ size: 200, ttl: 60 * 60 * 1000 }),
+    urlMiddleware({ url: () => Promise.resolve(`${config.URL.OTP}gtfs/v1${queryParameters}`) }),
     errorMiddleware(),
-    retryMiddleware({
-      fetchTimeout: config.OTPTimeout + 1000,
-    }),
+    retryMiddleware({ fetchTimeout: config.OTPTimeout + 1000 }),
     next => async req => {
-      // eslint-disable-next-line no-param-reassign
       req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
       req.fetchOpts.headers['Accept-Language'] = language;
       return next(req);
@@ -151,10 +136,7 @@ async function init() {
 
   // send tracking call for initial page load.
   // tracking page changes is done in TopLevel component
-  addAnalyticsEvent({
-    event: 'Pageview',
-    url: path,
-  });
+  addAnalyticsEvent({ event: 'Pageview', url: path });
 
   // fetch Userdata and favourites
   favouriteStore.init(config);
@@ -173,10 +155,7 @@ async function init() {
       .finally(() => {
         addAnalyticsEvent({
           event: 'personalization_status',
-          personalization_setting: isPersonalizationEnabled(
-            config,
-            getSettings(config),
-          )
+          personalization_setting: isPersonalizationEnabled(config, getSettings(config))
             ? 'on'
             : 'off',
         });
@@ -192,14 +171,7 @@ async function init() {
     >
       <ErrorBoundary>
         <Fragment>
-          <Helmet
-            {...getMetadata(
-              language,
-              window.location.host,
-              window.location.href,
-              config,
-            )}
-          />
+          <Helmet {...getMetadata(language, window.location.host, window.location.href, config)} />
           <Router resolver={resolver} />
         </Fragment>
       </ErrorBoundary>

@@ -28,51 +28,27 @@ describe('vehiclerental', () => {
     it('should default to a default config', () => {
       expect(getRentalNetworkConfig(undefined, {})).toBe(defaultNetworkConfig);
       expect(getRentalNetworkConfig('Smoove', {})).toBe(defaultNetworkConfig);
-      expect(getRentalNetworkConfig('Smoove', { vehicleRental: {} })).toBe(
+      expect(getRentalNetworkConfig('Smoove', { vehicleRental: {} })).toBe(defaultNetworkConfig);
+      expect(getRentalNetworkConfig('Smoove', { vehicleRental: { networks: {} } })).toBe(
         defaultNetworkConfig,
       );
       expect(
-        getRentalNetworkConfig('Smoove', {
-          vehicleRental: { networks: {} },
-        }),
-      ).toBe(defaultNetworkConfig);
-      expect(
-        getRentalNetworkConfig('Smoove', {
-          vehicleRental: { networks: { smoove: {} } },
-        }),
+        getRentalNetworkConfig('Smoove', { vehicleRental: { networks: { smoove: {} } } }),
       ).toBe(defaultNetworkConfig);
     });
 
     it('should return the configuration by the given network id', () => {
       const config = {
-        vehicleRental: {
-          networks: {
-            foobar: {
-              icon: 'citybike',
-              type: 'scooter',
-            },
-          },
-        },
+        vehicleRental: { networks: { foobar: { icon: 'citybike', type: 'scooter' } } },
       };
-      expect(getRentalNetworkConfig('foobar', config)).toBe(
-        config.vehicleRental.networks.foobar,
-      );
+      expect(getRentalNetworkConfig('foobar', config)).toBe(config.vehicleRental.networks.foobar);
     });
 
     it('should convert networkId to lowercase', () => {
       const config = {
-        vehicleRental: {
-          networks: {
-            foobar: {
-              icon: 'citybike',
-              type: 'scooter',
-            },
-          },
-        },
+        vehicleRental: { networks: { foobar: { icon: 'citybike', type: 'scooter' } } },
       };
-      expect(getRentalNetworkConfig('Foobar', config)).toBe(
-        config.vehicleRental.networks.foobar,
-      );
+      expect(getRentalNetworkConfig('Foobar', config)).toBe(config.vehicleRental.networks.foobar);
     });
   });
 
@@ -83,17 +59,13 @@ describe('vehiclerental', () => {
     });
 
     it('should default to "icon_citybike" if no icon has been defined', () => {
-      const networkConfig = {
-        icon: undefined,
-      };
+      const networkConfig = { icon: undefined };
       const result = getRentalNetworkIcon(networkConfig);
       expect(result).toBe('icon_citybike');
     });
 
     it('should return the given icon', () => {
-      const networkConfig = {
-        icon: 'foobar',
-      };
+      const networkConfig = { icon: 'foobar' };
       const result = getRentalNetworkIcon(networkConfig);
       expect(result).toBe('icon_foobar');
     });

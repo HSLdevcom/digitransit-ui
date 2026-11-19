@@ -51,7 +51,6 @@ describe('localStorage', () => {
   describe('getReadMessageIds', () => {
     it('result should be empty array', () => {
       const result = getReadMessageIds();
-      // eslint-disable-next-line no-unused-expressions
       expect(Object.keys(result)).toHaveLength(0);
     });
     it('result should be "1"', () => {

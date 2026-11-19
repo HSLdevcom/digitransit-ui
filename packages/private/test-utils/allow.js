@@ -57,9 +57,7 @@ export function applyAllow(violations, allow) {
     });
 
   const failures = violations.flatMap(violation =>
-    violation.nodes
-      .filter(node => !isAllowed(violation, node))
-      .map(node => ({ violation, node })),
+    violation.nodes.filter(node => !isAllowed(violation, node)).map(node => ({ violation, node })),
   );
   const unused = allow.filter((_, i) => !used.has(i));
   return { failures, unused };

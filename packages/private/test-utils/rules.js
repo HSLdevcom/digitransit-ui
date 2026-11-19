@@ -14,15 +14,7 @@ const DISABLED_RULES = [
 export const AXE_OPTIONS = {
   runOnly: {
     type: 'tag',
-    values: [
-      'wcag2a',
-      'wcag2aa',
-      'wcag21a',
-      'wcag21aa',
-      'wcag22a',
-      'wcag22aa',
-      'best-practice',
-    ],
+    values: ['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22a', 'wcag22aa', 'best-practice'],
   },
   rules: Object.fromEntries(DISABLED_RULES.map(id => [id, { enabled: false }])),
   // Only violations are read; element refs allow scoping allow entries.
@@ -50,5 +42,4 @@ export const SCAN_OPTIONS = {
  * @param {import('axe-core').NodeResult} node
  */
 export const isOrphanListItem = (violation, node) =>
-  violation.id === 'aria-required-parent' &&
-  node.element.getAttribute('role') === 'listitem';
+  violation.id === 'aria-required-parent' && node.element.getAttribute('role') === 'listitem';

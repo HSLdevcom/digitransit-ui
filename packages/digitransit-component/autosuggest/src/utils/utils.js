@@ -7,8 +7,7 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import { DateTime } from 'luxon';
 
 // The scrolling element is the menu's wrapper, outside downshift's menu node.
-export const scrollItemIntoView = node =>
-  node.scrollIntoView({ block: 'nearest' });
+export const scrollItemIntoView = node => node.scrollIntoView({ block: 'nearest' });
 
 export const isKeyboardSelectionEvent = event => {
   const space = [13, ' ', 'Spacebar'];
@@ -23,10 +22,7 @@ export const isKeyboardSelectionEvent = event => {
 };
 
 export const isPOISearch = id =>
-  id === 'origin' ||
-  id === 'destination' ||
-  id === 'via-point' ||
-  id === 'origin-stop-near-you';
+  id === 'origin' || id === 'destination' || id === 'via-point' || id === 'origin-stop-near-you';
 
 export const getPlatform = (addendum, lng, t) => {
   // check if i81n is initialized
@@ -37,8 +33,7 @@ export const getPlatform = (addendum, lng, t) => {
     return undefined;
   }
   const { modes, platform } = addendum.GTFS;
-  const type =
-    modes && modes[0] === 'RAIL' ? t('track', { lng }) : t('platform', { lng });
+  const type = modes && modes[0] === 'RAIL' ? t('track', { lng }) : t('platform', { lng });
   return [type, platform];
 };
 
@@ -80,10 +75,7 @@ export function getSuggestionContent(item, lng, t) {
     }
 
     if (item.properties.mode) {
-      suggestionType = t(
-        item.properties.mode.toLowerCase().replace('favourite', ''),
-        { lng },
-      );
+      suggestionType = t(item.properties.mode.toLowerCase().replace('favourite', ''), { lng });
     } else {
       const layer = item.properties.layer
         .replace('route-', '')
@@ -99,19 +91,9 @@ export function getSuggestionContent(item, lng, t) {
       const stopCode = getStopCode(item.properties);
       const mode = item.properties.addendum?.GTFS.modes;
       const platform = getPlatform(item.properties.addendum, lng, t);
-      return [
-        suggestionType,
-        getStopName(name, stopCode),
-        label,
-        stopCode,
-        mode,
-        platform,
-      ];
+      return [suggestionType, getStopName(name, stopCode), label, stopCode, mode, platform];
     }
-    if (
-      item.properties.layer === 'favouriteStop' ||
-      item.properties.layer === 'favouriteStation'
-    ) {
+    if (item.properties.layer === 'favouriteStop' || item.properties.layer === 'favouriteStation') {
       const { address, code } = item.properties;
       const stoName = address ? getStopName(address.split(',')[0], code) : name;
       const platform = getPlatform(item.properties.addendum, lng);
@@ -126,9 +108,7 @@ export function getSuggestionContent(item, lng, t) {
   const name2 = destination.name;
   return [
     t('future-route', { lng }),
-    `${t('origin', { lng })} ${name1}${tail1} ${t('destination', {
-      lng,
-    })} ${name2}${tail2}`,
+    `${t('origin', { lng })} ${name1}${tail1} ${t('destination', { lng })} ${name2}${tail2}`,
     item.translatedText,
   ];
 }
@@ -140,9 +120,7 @@ export function translateFutureRouteSuggestionTime(item, lng, t) {
   }
   const time = DateTime.fromSeconds(Number(item.properties.time));
   const now = DateTime.now();
-  let str = item.properties.arriveBy
-    ? t('arrival', { lng })
-    : t('departure', { lng });
+  let str = item.properties.arriveBy ? t('arrival', { lng }) : t('departure', { lng });
   if (time.hasSame(now, 'day')) {
     str = `${str} ${t('today-at')}`;
   } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
@@ -155,10 +133,7 @@ export function translateFutureRouteSuggestionTime(item, lng, t) {
 }
 
 export const getSuggestionValue = suggestion => {
-  if (
-    suggestion.type === 'SelectFromOwnLocations' ||
-    suggestion.type === 'back'
-  ) {
+  if (suggestion.type === 'SelectFromOwnLocations' || suggestion.type === 'back') {
     return '';
   }
   return getLabel(suggestion.properties);

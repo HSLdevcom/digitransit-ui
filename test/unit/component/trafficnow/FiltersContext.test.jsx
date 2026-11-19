@@ -52,9 +52,7 @@ const FilterConsumer = ({ controlRef }) => {
   );
 };
 
-FilterConsumer.propTypes = {
-  controlRef: PropTypes.shape({ current: PropTypes.shape({}) }),
-};
+FilterConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.shape({}) }) };
 
 /**
  * A component that deliberately uses useFilterContext outside a provider to
@@ -209,9 +207,7 @@ describe('FiltersContext', () => {
       // synchronous throw below; suppress that duplicate console.error so it
       // doesn't surface as an unhandled exception (the global setup makes
       // console.error throw).
-      const consoleErrorSpy = vi
-        .spyOn(console, 'error')
-        .mockImplementation(() => {});
+      const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation(() => {});
 
       suppressUncaughtError(() => {
         expect(() => render(<OutsideConsumer />)).toThrow(

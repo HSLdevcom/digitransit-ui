@@ -82,10 +82,7 @@ $icon-size-small: 18px;
   color: var(--color-icon-accent, #0074bf);
   border: solid 1px var(--color-border-weak, #ddd);
   border-left: none;
-  transition: var(
-    --touchable-background-color-transition,
-    background-color 0.2s ease
-  );
+  transition: var(--touchable-background-color-transition, background-color 0.2s ease);
 
   &:first-child {
     border-left: solid 1px var(--color-border-weak, #ddd);

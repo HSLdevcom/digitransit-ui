@@ -22,9 +22,7 @@ const baseProps = {
 
 describe('<ViaLeg />', () => {
   it('renders the via-point address', () => {
-    const { container } = renderWithProviders(<ViaLeg {...baseProps} />, {
-      config: baseConfig,
-    });
+    const { container } = renderWithProviders(<ViaLeg {...baseProps} />, { config: baseConfig });
     expect(container.textContent).toContain('Via Street 1');
   });
 
@@ -47,23 +45,19 @@ describe('<ViaLeg />', () => {
 
   it('calls focusAction when the via-point map action is clicked', () => {
     const focusAction = vi.fn();
-    const { container } = renderWithProviders(
-      <ViaLeg {...baseProps} focusAction={focusAction} />,
-      { config: baseConfig },
-    );
-    const [viaPointMapAction] = container.querySelectorAll(
-      '.itinerary-map-action',
-    );
+    const { container } = renderWithProviders(<ViaLeg {...baseProps} focusAction={focusAction} />, {
+      config: baseConfig,
+    });
+    const [viaPointMapAction] = container.querySelectorAll('.itinerary-map-action');
     fireEvent.click(viaPointMapAction);
     expect(focusAction).toHaveBeenCalledTimes(1);
   });
 
   it('calls focusToLeg when the leg-description map action is clicked', () => {
     const focusToLeg = vi.fn();
-    const { container } = renderWithProviders(
-      <ViaLeg {...baseProps} focusToLeg={focusToLeg} />,
-      { config: baseConfig },
-    );
+    const { container } = renderWithProviders(<ViaLeg {...baseProps} focusToLeg={focusToLeg} />, {
+      config: baseConfig,
+    });
     const mapActions = container.querySelectorAll('.itinerary-map-action');
     fireEvent.click(mapActions[mapActions.length - 1]);
     expect(focusToLeg).toHaveBeenCalledTimes(1);

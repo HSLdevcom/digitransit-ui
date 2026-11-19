@@ -5,12 +5,7 @@ import NavigatorIntroFeature from './NavigatorIntroFeature';
 import Icon from '../../../Icon';
 import { useConfigContext } from '../../../../hooks/ConfigContext';
 
-export default function NavigatorIntro({
-  logo,
-  onPrimaryClick,
-  onClose,
-  onOpenGeolocationInfo,
-}) {
+export default function NavigatorIntro({ logo, onPrimaryClick, onClose, onOpenGeolocationInfo }) {
   const intl = useIntl();
   const config = useConfigContext();
 
@@ -57,12 +52,7 @@ export default function NavigatorIntro({
         </div>
       </div>
       <div className="intro-buttons">
-        <Button
-          size="l"
-          expand
-          variant="primary"
-          onClick={onPrimaryClick || onClose}
-        >
+        <Button size="l" expand variant="primary" onClick={onPrimaryClick || onClose}>
           {intl.formatMessage({ id: 'navigation-intro-begin' })}
         </Button>
         <Button size="l" expand variant="plain" onClick={onClose}>

@@ -28,14 +28,7 @@ describe('<TripMarkerPopup />', () => {
         pattern: {
           code: 'OULU:15:0:01',
           headsign: 'Keskusta (Kuvernööri)',
-          stops: [
-            {
-              name: 'Koulutie',
-            },
-            {
-              name: 'Kuvernööri',
-            },
-          ],
+          stops: [{ name: 'Koulutie' }, { name: 'Kuvernööri' }],
         },
         route: {
           gtfsId: 'OULU:15',

@@ -10,19 +10,13 @@ export default function LocationMarkerWithPermanentTooltip(props) {
       <Marker
         zIndexOffset={1000}
         position={props.position}
-        icon={L.divIcon({
-          iconSize: [0, 0],
-        })}
+        icon={L.divIcon({ iconSize: [0, 0] })}
         opacity={0.01}
         keyboard={false}
       >
         <Tooltip permanent direction="top" offset={L.point(0, -25)}>
-          <div style={{ fontSize: 13, letterSpacing: -0.52, color: '#333333' }}>
-            {address[0]}
-          </div>
-          <div style={{ fontSize: 11, letterSpacing: -0.44, color: '#666666' }}>
-            {address[1]}
-          </div>
+          <div style={{ fontSize: 13, letterSpacing: -0.52, color: '#333333' }}>{address[0]}</div>
+          <div style={{ fontSize: 11, letterSpacing: -0.44, color: '#666666' }}>{address[1]}</div>
         </Tooltip>
       </Marker>
     );

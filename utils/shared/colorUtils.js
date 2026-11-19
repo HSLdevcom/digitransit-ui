@@ -1,5 +1,4 @@
 /* eslint no-bitwise: ["error", { "allow": [">>", "&", "|", "<<"] }] */
-// eslint-disable-next-line
 export function LightenDarkenColor(color, amt) {
   /* https://css-tricks.com/snippets/javascript/lighten-darken-color/ */
 
@@ -38,8 +37,7 @@ export function LightenDarkenColor(color, amt) {
   }
 
   return (
-    (usePound ? '#' : '') +
-    String(`000000${(g | (b << 8) | (r << 16)).toString(16)}`).slice(-6)
+    (usePound ? '#' : '') + String(`000000${(g | (b << 8) | (r << 16)).toString(16)}`).slice(-6)
   );
 }
 

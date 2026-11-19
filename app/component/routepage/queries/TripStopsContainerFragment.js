@@ -11,10 +11,7 @@ export default {
         scheduledDeparture
       }
       ...TripStopListContainerFragment_trip
-        @arguments(
-          startOfDay: $startOfDay
-          showStopStatusMarkers: $showStopStatusMarkers
-        )
+        @arguments(startOfDay: $startOfDay, showStopStatusMarkers: $showStopStatusMarkers)
     }
   `,
   pattern: graphql`
@@ -78,9 +75,7 @@ export default {
           day: activeDates
         }
         canceledTrips(
-          runningTimeRanges: [
-            { start: $cancelationStartDate, end: $cancelationEndDate }
-          ]
+          runningTimeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
         ) {
           serviceDate
           trip {

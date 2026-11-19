@@ -9,30 +9,12 @@ import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
 
 const showParking = 15;
 const iconSizeMap = {
-  12: {
-    width: 12,
-    height: 12,
-  },
-  13: {
-    width: 12,
-    height: 12,
-  },
-  14: {
-    width: 18,
-    height: 18,
-  },
-  15: {
-    width: 24,
-    height: 24,
-  },
-  16: {
-    width: 28,
-    height: 28,
-  },
-  17: {
-    width: 30,
-    height: 30,
-  },
+  12: { width: 12, height: 12 },
+  13: { width: 12, height: 12 },
+  14: { width: 18, height: 18 },
+  15: { width: 24, height: 24 },
+  16: { width: 28, height: 28 },
+  17: { width: 30, height: 30 },
 };
 
 export default class ParkAndRide {
@@ -88,20 +70,13 @@ export default class ParkAndRide {
             if (vt.layers.vehicleParkingGroups != null) {
               for (let i = 0; i < vt.layers.vehicleParkingGroups.length; i++) {
                 const feature = vt.layers.vehicleParkingGroups.feature(i);
-                feature.properties.vehicleParking = feature.properties
-                  .vehicleParking
+                feature.properties.vehicleParking = feature.properties.vehicleParking
                   ? JSON.parse(feature.properties.vehicleParking)
                   : undefined;
                 if (hubHasSpaces(parkType, feature)) {
                   [[feature.geom]] = feature.loadGeometry();
                   this.features.push(pick(feature, ['geom', 'properties']));
-                  drawParkAndRideIcon(
-                    parkType,
-                    this.tile,
-                    feature.geom,
-                    this.width,
-                    this.height,
-                  );
+                  drawParkAndRideIcon(parkType, this.tile, feature.geom, this.width, this.height);
                 }
               }
             }

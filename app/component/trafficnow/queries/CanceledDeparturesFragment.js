@@ -3,9 +3,7 @@ import { graphql } from 'react-relay';
 export default graphql`
   fragment CanceledDeparturesFragment on Pattern
   @relay(plural: true)
-  @argumentDefinitions(
-    runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }
-  ) {
+  @argumentDefinitions(runningTimeRanges: { type: "[OffsetDateTimeRangeInput!]" }) {
     code
     headsign
     stops {

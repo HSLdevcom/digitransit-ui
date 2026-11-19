@@ -10,9 +10,7 @@ import {
   PREFIX_DISRUPTION,
 } from '../../../utils/shared/path';
 
-const baseConfig = createTestConfig({
-  colors: { primary: '#007ac9' },
-});
+const baseConfig = createTestConfig({ colors: { primary: '#007ac9' } });
 
 const routeEntity = (overrides = {}) => ({
   __typename: AlertEntityType.Route,
@@ -35,15 +33,11 @@ const stopEntity = (overrides = {}) => ({
 });
 
 const renderDisruption = props =>
-  renderWithProviders(<Disruption {...props} />, { config: baseConfig })
-    .container;
+  renderWithProviders(<Disruption {...props} />, { config: baseConfig }).container;
 
 describe('<Disruption />', () => {
   it('should return null when both alertDescriptionText and alertHeaderText are missing', () => {
-    const container = renderDisruption({
-      id: 'alert-null',
-      entities: [routeEntity()],
-    });
+    const container = renderDisruption({ id: 'alert-null', entities: [routeEntity()] });
     expect(container.querySelectorAll('.alert-row')).toHaveLength(0);
   });
 
@@ -66,9 +60,7 @@ describe('<Disruption />', () => {
       toggleDetails,
       entities: [routeEntity()],
     });
-    fireEvent.click(
-      screen.getByRole('button', { name: 'Alert, View details' }),
-    );
+    fireEvent.click(screen.getByRole('button', { name: 'Alert, View details' }));
     expect(toggleDetails).toHaveBeenCalledTimes(1);
   });
 
@@ -145,9 +137,7 @@ describe('<Disruption />', () => {
     });
     const link = container.querySelector('.mode-badge');
     expect(link).not.toBeNull();
-    expect(link.getAttribute('href')).toBe(
-      `/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`,
-    );
+    expect(link.getAttribute('href')).toBe(`/${PREFIX_STOPS}/${encodeURIComponent('HSL:1234')}`);
     expect(link.querySelector('span').textContent).toBe('Test Stop');
   });
 
@@ -171,9 +161,7 @@ describe('<Disruption />', () => {
       alertSeverityLevel: 'WARNING',
       entities: [routeEntity()],
     });
-    expect(container.querySelector('.alert-row-title').textContent).toBe(
-      'Detour on route 97N',
-    );
+    expect(container.querySelector('.alert-row-title').textContent).toBe('Detour on route 97N');
   });
 
   it('should render canceled departure times', () => {
@@ -181,10 +169,7 @@ describe('<Disruption />', () => {
       id: 'cancelation-times-1',
       alertHeaderText: 'Cancelation',
       alertSeverityLevel: 'WARNING',
-      canceledDepartures: [
-        { scheduledDeparture: 36000 },
-        { scheduledDeparture: 39600 },
-      ],
+      canceledDepartures: [{ scheduledDeparture: 36000 }, { scheduledDeparture: 39600 }],
       entities: [routeEntity()],
     });
     expect(container.querySelectorAll('.canceled-departures')).toHaveLength(1);

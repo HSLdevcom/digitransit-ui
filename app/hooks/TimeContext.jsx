@@ -27,9 +27,7 @@ export function TimeProvider({ children }) {
     return () => clearInterval(intervalId);
   }, []);
 
-  return (
-    <TimeContext.Provider value={currentTime}>{children}</TimeContext.Provider>
-  );
+  return <TimeContext.Provider value={currentTime}>{children}</TimeContext.Provider>;
 }
 
 export function useCurrentTime() {
@@ -40,6 +38,4 @@ export function useCurrentTime() {
   return context;
 }
 
-TimeProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+TimeProvider.propTypes = { children: PropTypes.node.isRequired };

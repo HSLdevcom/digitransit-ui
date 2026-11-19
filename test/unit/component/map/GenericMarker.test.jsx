@@ -13,52 +13,29 @@ describe('<GenericMarker />', () => {
       on: () => {},
       removeLayer: () => {},
     };
-    const props = {
-      getIcon,
-      position: {
-        lat: 60,
-        lon: 25,
-      },
-    };
+    const props = { getIcon, position: { lat: 60, lon: 25 } };
     renderWithProviders(
       <LeafletProvider value={{ map }}>
         <GenericMarker {...props} />
       </LeafletProvider>,
-      {
-        config: {
-          ...mockContext.config,
-          map: { genericMarker: { popup: {} } },
-        },
-      },
+      { config: { ...mockContext.config, map: { genericMarker: { popup: {} } } } },
     );
     expect(getIcon.mock.calls.length).toBe(1);
     expect(getIcon.mock.calls[0][0]).toBe(12);
   });
 
   it('should render empty if shouldRender returns false for the current zoom level', () => {
-    const map = {
-      getZoom: () => 10,
-      off: () => {},
-      on: () => {},
-    };
+    const map = { getZoom: () => 10, off: () => {}, on: () => {} };
     const props = {
       getIcon: () => {},
-      position: {
-        lat: 60,
-        lon: 25,
-      },
+      position: { lat: 60, lon: 25 },
       shouldRender: zoom => zoom !== 10,
     };
     const { container } = renderWithProviders(
       <LeafletProvider value={{ map }}>
         <GenericMarker {...props} />
       </LeafletProvider>,
-      {
-        config: {
-          ...mockContext.config,
-          map: { genericMarker: { popup: {} } },
-        },
-      },
+      { config: { ...mockContext.config, map: { genericMarker: { popup: {} } } } },
     );
     expect(container.innerHTML).toBe('');
   });

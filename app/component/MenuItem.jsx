@@ -28,9 +28,7 @@ const mapToRoute = (router, route, children, onClick) => (
 export default function MenuItem({ name, href, label, route, onClick }) {
   const intl = useIntl();
   const { router } = useRouter();
-  const displayLabel = label || (
-    <FormattedMessage id={name} defaultMessage={name} />
-  );
+  const displayLabel = label || <FormattedMessage id={name} defaultMessage={name} />;
   let item = <span id={name}>{displayLabel}</span>;
   if (href) {
     if (typeof href === 'object') {
@@ -48,10 +46,7 @@ export default function MenuItem({ name, href, label, route, onClick }) {
 
 MenuItem.propTypes = {
   name: PropTypes.string,
-  href: PropTypes.oneOfType([
-    PropTypes.objectOf(PropTypes.string),
-    PropTypes.string,
-  ]),
+  href: PropTypes.oneOfType([PropTypes.objectOf(PropTypes.string), PropTypes.string]),
   route: PropTypes.string,
   label: PropTypes.string,
   onClick: PropTypes.func,

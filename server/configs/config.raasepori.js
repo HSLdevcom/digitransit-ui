@@ -22,19 +22,12 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: '#5B7B32',
-    bus: '#5B7B32',
-  },
+  colors: { primary: '#5B7B32', bus: '#5B7B32' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/raasepori/social-share.png',
-      width: 1528,
-      height: 650,
-    },
+    image: { url: 'assets/raasepori/social-share.png', width: 1528, height: 650 },
   },
 
   title: APP_TITLE,
@@ -64,11 +57,7 @@ export default configMerger(walttiConfig, {
     [22.798050591810124, 60.02068257376368],
   ],
 
-  defaultEndpoint: {
-    address: 'Bockbodantie, Raasepori',
-    lat: 60.03,
-    lon: 23.57,
-  },
+  defaultEndpoint: { address: 'Bockbodantie, Raasepori', lat: 60.03, lon: 23.57 },
   defaultMapZoom: 11,
 
   menu: {
@@ -82,10 +71,7 @@ export default configMerger(walttiConfig, {
           en: 'https://www.raseborg.fi/boende-och-miljo/trafik-och-batliv/kollektivtrafikens-kontaktuppgifter/',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {

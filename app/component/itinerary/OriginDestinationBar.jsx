@@ -5,14 +5,8 @@ import { useRouter } from 'found';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { SearchAutosuggestPanel } from '../SearchAutosuggest';
 import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
-import {
-  setIntermediatePlaces,
-  updateItinerarySearch,
-} from '../../../utils/client/queryUtils';
-import {
-  getIntermediatePlaces,
-  locationToOTP,
-} from '../../../utils/shared/otpStrings';
+import { setIntermediatePlaces, updateItinerarySearch } from '../../../utils/client/queryUtils';
+import { getIntermediatePlaces, locationToOTP } from '../../../utils/shared/otpStrings';
 import { parseLocation, sameLocations } from '../../../utils/shared/path';
 import { getRefPoint } from '../../../utils/client/apiUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -61,10 +55,7 @@ export default function OriginDestinationBar({ isMobile = false }) {
 
     if (contextChanged) {
       lastSyncedLocationsRef.current = { origin, destination };
-      if (
-        !sameLocations(origin, urlOrigin) ||
-        !sameLocations(destination, urlDestination)
-      ) {
+      if (!sameLocations(origin, urlOrigin) || !sameLocations(destination, urlDestination)) {
         updateItinerarySearch(origin, destination, router, match.location);
       }
       return;
@@ -72,16 +63,10 @@ export default function OriginDestinationBar({ isMobile = false }) {
 
     const urlChanged =
       !sameLocations(urlOrigin, lastSyncedLocationsRef.current.origin) ||
-      !sameLocations(
-        urlDestination,
-        lastSyncedLocationsRef.current.destination,
-      );
+      !sameLocations(urlDestination, lastSyncedLocationsRef.current.destination);
 
     if (urlChanged) {
-      lastSyncedLocationsRef.current = {
-        origin: urlOrigin,
-        destination: urlDestination,
-      };
+      lastSyncedLocationsRef.current = { origin: urlOrigin, destination: urlDestination };
       setOrigin(urlOrigin);
       setDestination(urlDestination);
     }
@@ -127,11 +112,7 @@ export default function OriginDestinationBar({ isMobile = false }) {
       setDestination(item);
     }
 
-    addAnalyticsEvent({
-      action,
-      category: 'ItinerarySettings',
-      name: item.type,
-    });
+    addAnalyticsEvent({ action, category: 'ItinerarySettings', name: item.type });
   };
 
   const refPoint = getRefPoint(origin, destination, locationState);
@@ -141,11 +122,7 @@ export default function OriginDestinationBar({ isMobile = false }) {
     : undefined;
 
   return (
-    <div
-      className={cx('origin-destination-bar', 'flex-horizontal', {
-        'bp-large': !isMobile,
-      })}
-    >
+    <div className={cx('origin-destination-bar', 'flex-horizontal', { 'bp-large': !isMobile })}>
       <SearchAutosuggestPanel
         appElement="#app"
         origin={origin}
@@ -175,6 +152,4 @@ export default function OriginDestinationBar({ isMobile = false }) {
   );
 }
 
-OriginDestinationBar.propTypes = {
-  isMobile: PropTypes.bool,
-};
+OriginDestinationBar.propTypes = { isMobile: PropTypes.bool };

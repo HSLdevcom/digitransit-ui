@@ -33,23 +33,14 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: '#000a8c',
-    bus: '#000a8c',
-  },
+  colors: { primary: '#000a8c', bus: '#000a8c' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/vaasa/social-share.png',
-      width: 1280,
-      height: 400,
-    },
+    image: { url: 'assets/vaasa/social-share.png', width: 1280, height: 400 },
 
-    twitter: {
-      site: '@vaasavasa',
-    },
+    twitter: { site: '@vaasavasa' },
   },
 
   title: APP_TITLE,
@@ -73,11 +64,7 @@ export default configMerger(walttiConfig, {
     [maxLon, minLat],
   ],
 
-  defaultEndpoint: {
-    address: 'Kauppatori',
-    lat: 63.096,
-    lon: 21.616,
-  },
+  defaultEndpoint: { address: 'Kauppatori', lat: 63.096, lon: 21.616 },
 
   menu: {
     copyright: { label: `© Vaasa ${walttiConfig.YEAR}` },
@@ -90,10 +77,7 @@ export default configMerger(walttiConfig, {
           en: 'https://kartta.vaasa.fi/eFeedback/fi/Feedback/6-Joukkoliikenne',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -140,38 +124,18 @@ export default configMerger(walttiConfig, {
     ],
   },
 
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
+  stopCard: { header: { virtualMonitorBaseUrl } },
 
-  mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: `${virtualMonitorBaseUrl}/createview`,
-    },
-  },
+  mainMenu: { stopMonitor: { show: true, url: `${virtualMonitorBaseUrl}/createview` } },
 
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/vaasa/zone_lines_20231220.geojson',
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C' },
+  zones: { stops: true, itinerary: true },
 });

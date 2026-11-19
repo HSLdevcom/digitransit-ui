@@ -28,9 +28,7 @@ const baseProps = {
 };
 
 function renderCard(props) {
-  return renderWithProviders(<NaviCard {...baseProps} {...props} />, {
-    config,
-  });
+  return renderWithProviders(<NaviCard {...baseProps} {...props} />, { config });
 }
 
 describe('<NaviCard />', () => {
@@ -53,11 +51,7 @@ describe('<NaviCard />', () => {
   });
 
   it('renders nothing when there is neither a current nor a next leg', () => {
-    const { container } = renderCard({
-      legType: LEGTYPE.WAIT,
-      leg: undefined,
-      nextLeg: undefined,
-    });
+    const { container } = renderCard({ legType: LEGTYPE.WAIT, leg: undefined, nextLeg: undefined });
     expect(container.textContent).toBe('');
   });
 
@@ -86,12 +80,7 @@ describe('<NaviCard />', () => {
       const { container } = renderCard({
         legType: LEGTYPE.WAIT,
         leg: undefined,
-        nextLeg: {
-          mode: 'WALK',
-          transitLeg: false,
-          to: { name: 'Home' },
-          from: {},
-        },
+        nextLeg: { mode: 'WALK', transitLeg: false, to: { name: 'Home' }, from: {} },
       });
       expect(container.textContent.trim()).not.toBe('');
       expect(container.textContent).toContain('Walk to');
@@ -110,9 +99,7 @@ describe('<NaviCard />', () => {
         trip: { tripHeadsign: 'Keskusta' },
         start: at(NOW),
         end: at(NOW + 8 * 60000),
-        from: {
-          stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' },
-        },
+        from: { stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' } },
         to: { stop: { name: 'Center stop', vehicleMode: 'BUS' } },
       },
       nextLeg: undefined,
@@ -131,33 +118,19 @@ describe('<NaviCard />', () => {
         trip: { tripHeadsign: 'Keskusta' },
         start: at(NOW),
         end: at(NOW + 8 * 60000),
-        from: {
-          stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' },
-        },
+        from: { stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' } },
         to: { stop: { name: 'Center stop', vehicleMode: 'BUS' } },
       },
       nextLeg: undefined,
     });
-    expect(container.querySelector('.mode')?.style.fill).toBe(
-      config.colors.bus,
-    );
+    expect(container.querySelector('.mode')?.style.fill).toBe(config.colors.bus);
   });
 
   it('collapses an expanded card back to the default view once the current leg changes', () => {
-    const walkLeg = {
-      legId: 'walk-1',
-      mode: 'WALK',
-      transitLeg: false,
-      to: {},
-    };
+    const walkLeg = { legId: 'walk-1', mode: 'WALK', transitLeg: false, to: {} };
     // Must differ in both legId and mode: isAnyLegPropertyIdentical treats
     // legs sharing even one of ['legId', 'mode'] as "the same leg".
-    const bikeLeg = {
-      legId: 'bike-1',
-      mode: 'BICYCLE',
-      transitLeg: false,
-      to: {},
-    };
+    const bikeLeg = { legId: 'bike-1', mode: 'BICYCLE', transitLeg: false, to: {} };
 
     const { container, rerender } = renderCard({
       legType: LEGTYPE.MOVE,
@@ -169,17 +142,8 @@ describe('<NaviCard />', () => {
     fireEvent.click(button);
     expect(button.getAttribute('aria-expanded')).toBe('true');
 
-    rerender(
-      <NaviCard
-        {...baseProps}
-        legType={LEGTYPE.MOVE}
-        leg={bikeLeg}
-        nextLeg={undefined}
-      />,
-    );
+    rerender(<NaviCard {...baseProps} legType={LEGTYPE.MOVE} leg={bikeLeg} nextLeg={undefined} />);
 
-    expect(
-      container.querySelector('.navi-top-card').getAttribute('aria-expanded'),
-    ).toBe('false');
+    expect(container.querySelector('.navi-top-card').getAttribute('aria-expanded')).toBe('false');
   });
 });

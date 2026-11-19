@@ -15,11 +15,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(
-    parseInt(leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start);
   return (
@@ -59,10 +55,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
               <div className="address">
                 <FormattedMessage id="bike-park" />
                 {leg.isViaPoint && (
-                  <Icon
-                    img="icon_mapMarker"
-                    className="itinerary-mapmarker-icon"
-                  />
+                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                 )}
                 {bikePark && (
                   <Icon
@@ -75,27 +68,15 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
             </Link>
             <div className="place">{bikePark.name}</div>
           </div>
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
         </div>
-        <div
-          className={cx(
-            'itinerary-leg-action',
-            'bike',
-            'itinerary-leg-action-content',
-          )}
-        >
+        <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
           <FormattedMessage
             id="walk-distance-duration"
             values={{ distance, duration }}
             defaultMessage="Walk {distance} ({duration})"
           />
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
         </div>
       </div>
     </div>

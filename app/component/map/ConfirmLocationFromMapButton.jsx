@@ -39,13 +39,8 @@ export default function ConfirmLocationFromMapButton({
         ref={setButtonRef}
         disabled={!isEnabled}
         onClick={isEnabled ? redirect : undefined}
-        className={cx('select-from-map-confirm-button', {
-          disabled: !isEnabled,
-        })}
-        style={{
-          '--color': `${color}`,
-          '--hover-color': `${hoverColor}`,
-        }}
+        className={cx('select-from-map-confirm-button', { disabled: !isEnabled })}
+        style={{ '--color': `${color}`, '--hover-color': `${hoverColor}` }}
         key="confirmLocation"
       >
         {title}

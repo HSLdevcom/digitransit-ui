@@ -75,9 +75,7 @@ describe('reverseGeocode', () => {
       ],
     });
 
-    await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
-    ).resolves.toEqual({
+    await expect(reverseGeocode(createGeocoderConfig(), coords)).resolves.toEqual({
       address: 'Mannerheimintie 1',
       gid: 'openaddresses:address:1',
       name: 'Mannerheimintie 1',
@@ -88,9 +86,7 @@ describe('reverseGeocode', () => {
 
   it('prefers localadmin over locality as the city', async () => {
     fetchMock.get(matcher, {
-      features: [
-        { properties: { name: 'A', localadmin: 'Espoo', locality: 'Tapiola' } },
-      ],
+      features: [{ properties: { name: 'A', localadmin: 'Espoo', locality: 'Tapiola' } }],
     });
 
     const address = await reverseGeocode(createGeocoderConfig(), coords);
@@ -114,9 +110,7 @@ describe('reverseGeocode', () => {
   ])('resolves to an empty object when %s', async (_, response) => {
     fetchMock.get(matcher, response);
 
-    await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
-    ).resolves.toEqual({});
+    await expect(reverseGeocode(createGeocoderConfig(), coords)).resolves.toEqual({});
   });
 
   it.each([
@@ -125,8 +119,6 @@ describe('reverseGeocode', () => {
   ])('rejects when %s', async (_, response) => {
     fetchMock.get(matcher, response);
 
-    await expect(
-      reverseGeocode(createGeocoderConfig(), coords),
-    ).rejects.toBeDefined();
+    await expect(reverseGeocode(createGeocoderConfig(), coords)).rejects.toBeDefined();
   });
 });

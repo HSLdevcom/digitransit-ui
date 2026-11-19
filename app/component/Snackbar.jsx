@@ -42,18 +42,11 @@ export default function Snackbar({
         <button
           type="button"
           className="close-button"
-          aria-label={intl.formatMessage({
-            id: 'close',
-            defaultMessage: 'Close notification',
-          })}
+          aria-label={intl.formatMessage({ id: 'close', defaultMessage: 'Close notification' })}
           onClick={onClose}
           tabIndex="-1"
         >
-          <Icon
-            id="close-icon"
-            img="notification-close"
-            color={config.colors.primary}
-          />
+          <Icon id="close-icon" img="notification-close" color={config.colors.primary} />
         </button>
       </div>
       {/* .sr-only relies on position: absolute with no top/left, so its
@@ -81,9 +74,7 @@ export default function Snackbar({
   // apply *within* that ancestor's stacking context, so it could still be
   // rendered behind unrelated elements (like the header) that live in a
   // higher outer stacking context.
-  return typeof document !== 'undefined'
-    ? ReactDOM.createPortal(content, document.body)
-    : content;
+  return typeof document !== 'undefined' ? ReactDOM.createPortal(content, document.body) : content;
 }
 
 Snackbar.propTypes = {

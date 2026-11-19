@@ -33,10 +33,7 @@ export default function CanceledDepartures({
         hiddenDepartureCount: inline
           ? Math.max(pattern.canceledTrips.length - departureLimit, 0)
           : 0,
-        canceledTripsByDate: groupBy(
-          visibleCanceledTrips,
-          ({ serviceDate }) => serviceDate,
-        ),
+        canceledTripsByDate: groupBy(visibleCanceledTrips, ({ serviceDate }) => serviceDate),
       };
     })
     .filter(pattern => !inline || pattern.canceledTrips.length);
@@ -48,62 +45,52 @@ export default function CanceledDepartures({
           {(patterns.length > 1 || inline) && (
             <EntityBadge entity={pattern} isPattern mode={mode} />
           )}
-          {Object.entries(pattern.canceledTripsByDate).map(
-            ([serviceDate, canceledTrips]) => (
-              <div
-                className={cx('badges__departure-group__date-group', {
-                  inline,
-                })}
-                key={`${pattern.code}-${serviceDate}`}
-              >
-                {serviceDate !== DateTime.now().toISODate() && (
-                  <div className="departures-date-badge">
-                    <Icon img="icon_calendar" />
-                    <Text variant="routes-s-bold" as="div">
-                      {serviceDate ===
-                      DateTime.now().plus({ days: 1 }).toISODate()
-                        ? formatMessage({ id: 'tomorrow' })
-                        : DateTime.fromISO(serviceDate).toFormat('d.L.')}
-                    </Text>
-                  </div>
-                )}
-                <div className="departuretimes">
-                  {canceledTrips
-                    .filter(
-                      (_, i) =>
-                        inline ||
-                        i < departureLimit ||
-                        expandedDates.includes(serviceDate),
-                    )
-                    .map(({ trip }) => (
-                      <span
-                        key={`${trip.gtfsId}-${trip.stoptimes[0].scheduledDeparture}`}
-                        className="badges__departure-time"
-                      >
-                        <Text variant="routes-s-narrow" as="span">
-                          {DateTime.fromISO(serviceDate)
-                            .plus(trip.stoptimes[0].scheduledDeparture * 1000)
-                            .toFormat(' HH:mm ')}
-                        </Text>
-                      </span>
-                    ))}
+          {Object.entries(pattern.canceledTripsByDate).map(([serviceDate, canceledTrips]) => (
+            <div
+              className={cx('badges__departure-group__date-group', { inline })}
+              key={`${pattern.code}-${serviceDate}`}
+            >
+              {serviceDate !== DateTime.now().toISODate() && (
+                <div className="departures-date-badge">
+                  <Icon img="icon_calendar" />
+                  <Text variant="routes-s-bold" as="div">
+                    {serviceDate === DateTime.now().plus({ days: 1 }).toISODate()
+                      ? formatMessage({ id: 'tomorrow' })
+                      : DateTime.fromISO(serviceDate).toFormat('d.L.')}
+                  </Text>
                 </div>
-                {canceledTrips.length > departureLimit &&
-                  !expandedDates.includes(serviceDate) &&
-                  !inline && (
-                    <button
-                      type="button"
-                      className="show-departures-button"
-                      onClick={() =>
-                        setExpandedDates([...expandedDates, serviceDate])
-                      }
+              )}
+              <div className="departuretimes">
+                {canceledTrips
+                  .filter(
+                    (_, i) => inline || i < departureLimit || expandedDates.includes(serviceDate),
+                  )
+                  .map(({ trip }) => (
+                    <span
+                      key={`${trip.gtfsId}-${trip.stoptimes[0].scheduledDeparture}`}
+                      className="badges__departure-time"
                     >
-                      {formatMessage({ id: 'show-all' })}
-                    </button>
-                  )}
+                      <Text variant="routes-s-narrow" as="span">
+                        {DateTime.fromISO(serviceDate)
+                          .plus(trip.stoptimes[0].scheduledDeparture * 1000)
+                          .toFormat(' HH:mm ')}
+                      </Text>
+                    </span>
+                  ))}
               </div>
-            ),
-          )}
+              {canceledTrips.length > departureLimit &&
+                !expandedDates.includes(serviceDate) &&
+                !inline && (
+                  <button
+                    type="button"
+                    className="show-departures-button"
+                    onClick={() => setExpandedDates([...expandedDates, serviceDate])}
+                  >
+                    {formatMessage({ id: 'show-all' })}
+                  </button>
+                )}
+            </div>
+          ))}
           {inline && pattern.hiddenDepartureCount > 0 && (
             <span className="badges__departure-time badges__departure-time--show-more">
               <Text variant="routes-s-narrow" as="span">

@@ -2,24 +2,20 @@ import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
 import AlternativeItineraryBar from '../../../../app/component/itinerary/AlternativeItineraryBar';
 
-const baseProps = {
-  selectStreetMode: () => {},
-};
+const baseProps = { selectStreetMode: () => {} };
 
 describe('<AlternativeItineraryBar />', () => {
   it('renders the one-way-journey notice when config.emphasizeOneWayJourney is set', () => {
-    const { container } = renderWithProviders(
-      <AlternativeItineraryBar {...baseProps} />,
-      { config: createTestConfig({ emphasizeOneWayJourney: true }) },
-    );
+    const { container } = renderWithProviders(<AlternativeItineraryBar {...baseProps} />, {
+      config: createTestConfig({ emphasizeOneWayJourney: true }),
+    });
     expect(container.textContent).toContain('one-way journey');
   });
 
   it('does not render the one-way-journey notice by default', () => {
-    const { container } = renderWithProviders(
-      <AlternativeItineraryBar {...baseProps} />,
-      { config: createTestConfig() },
-    );
+    const { container } = renderWithProviders(<AlternativeItineraryBar {...baseProps} />, {
+      config: createTestConfig(),
+    });
     expect(container.textContent).not.toContain('one-way journey');
   });
 
@@ -31,9 +27,7 @@ describe('<AlternativeItineraryBar />', () => {
       />,
       { config: createTestConfig() },
     );
-    expect(
-      container.querySelector('.street-mode-selector-weather-container'),
-    ).not.toBeNull();
+    expect(container.querySelector('.street-mode-selector-weather-container')).not.toBeNull();
   });
 
   it('hides the content row and shows the active shimmer while loading', () => {
@@ -45,11 +39,7 @@ describe('<AlternativeItineraryBar />', () => {
       />,
       { config: createTestConfig() },
     );
-    expect(
-      container.querySelector('.street-mode-selector-shimmer-active'),
-    ).not.toBeNull();
-    expect(
-      container.querySelector('.street-mode-selector-weather-container'),
-    ).toBeNull();
+    expect(container.querySelector('.street-mode-selector-shimmer-active')).not.toBeNull();
+    expect(container.querySelector('.street-mode-selector-weather-container')).toBeNull();
   });
 });

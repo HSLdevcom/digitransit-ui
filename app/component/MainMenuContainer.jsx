@@ -8,10 +8,7 @@ export default function MainMenuContainer({ breakpoint, closeMenu, ...rest }) {
   return (
     <MenuDrawer
       open
-      label={intl.formatMessage({
-        id: 'main-menu',
-        defaultMessage: 'Main menu',
-      })}
+      label={intl.formatMessage({ id: 'main-menu', defaultMessage: 'Main menu' })}
       onRequestChange={closeMenu}
       breakpoint={breakpoint}
       closeLabel={intl.formatMessage({

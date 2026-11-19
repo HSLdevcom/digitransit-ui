@@ -3,8 +3,7 @@ import ScheduleTripRow from './ScheduleTripRow';
 import { getFormattedTimeDate } from '../../../../utils/client/timeUtils';
 
 const isTripCanceled = trip =>
-  trip.stoptimes.length > 0 &&
-  trip.stoptimes.every(st => st.realtimeState === 'CANCELED');
+  trip.stoptimes.length > 0 && trip.stoptimes.every(st => st.realtimeState === 'CANCELED');
 
 /**
  * Pure presentational component that returns a list of trip rows.

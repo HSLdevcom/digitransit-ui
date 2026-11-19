@@ -15,9 +15,7 @@ export default function BikingSpeed({ bikeSpeed, updateSettings }) {
   const currentSelection =
     options.find(option => option.value === bikeSpeed) ||
     options.find(
-      option =>
-        option.value ===
-        findNearestOption(bikeSpeed, config.defaultOptions.bikeSpeed),
+      option => option.value === findNearestOption(bikeSpeed, config.defaultOptions.bikeSpeed),
     );
 
   return (
@@ -25,9 +23,7 @@ export default function BikingSpeed({ bikeSpeed, updateSettings }) {
       name="bike-speed-selector"
       currentSelection={currentSelection}
       onOptionSelected={value => {
-        updateSettings({
-          bikeSpeed: value,
-        });
+        updateSettings({ bikeSpeed: value });
         addAnalyticsEvent({
           category: 'ItinerarySettings',
           action: 'ChangeBikingSpeed',

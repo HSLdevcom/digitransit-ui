@@ -24,28 +24,14 @@ export default function StopPageMeta({ stop: stopRef }) {
   }
 
   const title = intl.formatMessage(
-    {
-      id: 'stop-page.title',
-      defaultMessage: 'Stop - {name} {code}',
-    },
+    { id: 'stop-page.title', defaultMessage: 'Stop - {name} {code}' },
     stop,
   );
   const description = intl.formatMessage(
-    {
-      id: 'stop-page.description',
-      defaultMessage: 'Stop - {name} {code}, {desc}',
-    },
+    { id: 'stop-page.description', defaultMessage: 'Stop - {name} {code}, {desc}' },
     stop,
   );
-  const props = generateMetaData(
-    {
-      description,
-      title,
-    },
-    config,
-  );
+  const props = generateMetaData({ description, title }, config);
   return <Helmet {...props} />;
 }
-StopPageMeta.propTypes = {
-  stop: stopShape.isRequired,
-};
+StopPageMeta.propTypes = { stop: stopShape.isRequired };

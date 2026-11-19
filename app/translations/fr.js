@@ -6,8 +6,7 @@ export default {
     'accessibility-limited': 'Fauteuil roulant',
     'accessibility-nolimit': 'Aucune limite',
     'add-itinerary-via-point': 'Ajouter une étape au trajet',
-    'add-location-to-favourites':
-      "Ajouter vos lieux importants à l'onglet favoris",
+    'add-location-to-favourites': "Ajouter vos lieux importants à l'onglet favoris",
     address: 'Adresse',
     'address-or-stop': 'Adresse ou arrêt',
     agency: 'Transporteur',
@@ -41,8 +40,7 @@ export default {
     'clear-button-label': 'Effacer',
     close: 'Fermer',
     'cycle-distance-duration': 'Pédaler {duration} ({distance})',
-    'cyclewalk-distance-duration':
-      'Avancer pied à terre sur {duration} ({distance})',
+    'cyclewalk-distance-duration': 'Avancer pied à terre sur {duration} ({distance})',
     date: 'Date',
     delete: 'Supprimer',
     'departure-time-in-minutes': '{minutes} min',
@@ -68,14 +66,10 @@ export default {
     'geolocation-denied-text':
       "La géolocalisation n'est pas autorisée. Merci de vérifier votre navigateur/téléphone",
     'geolocation-failed-heading': 'Géolocalisation échouée',
-    'geolocation-failed-text':
-      'Votre navigateur ne supporte pas le positionnement',
-    'geolocation-prompt-text':
-      "Merci d'autoriser l'utilisation de votre position.",
-    'geolocation-timeout-heading':
-      'Le positionnement prend plus de temps que prévu.',
-    'geolocation-timeout-text':
-      'Merci de sélectionner une origine ou réessayer plus tard.',
+    'geolocation-failed-text': 'Votre navigateur ne supporte pas le positionnement',
+    'geolocation-prompt-text': "Merci d'autoriser l'utilisation de votre position.",
+    'geolocation-timeout-heading': 'Le positionnement prend plus de temps que prévu.',
+    'geolocation-timeout-text': 'Merci de sélectionner une origine ou réessayer plus tard.',
     'itinerary-hide-stops': 'Cacher les arrêts',
     'itinerary-page.title': 'Itinéraire',
     'itinerary-summary-page.description': 'Trajet recommandé',
@@ -180,7 +174,6 @@ export default {
     'walking-speed': 'Vitesse de marche',
     'warning-call-agency':
       "La ligne {routeName} est à la demande, et doit être réservée à l'avance",
-    'warning-call-agency-no-route':
-      "Uniquement à la demande. Doit être réservé à l'avance",
+    'warning-call-agency-no-route': "Uniquement à la demande. Doit être réservé à l'avance",
   },
 };

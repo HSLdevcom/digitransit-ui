@@ -42,10 +42,7 @@ const LayerType = {
   BikePark: 'bikepark',
 };
 export const isStop = ({ layer, type }) =>
-  layer === 'stop' ||
-  layer === 'favouriteStop' ||
-  type === 'stop' ||
-  type === 'favouriteStop';
+  layer === 'stop' || layer === 'favouriteStop' || type === 'stop' || type === 'favouriteStop';
 
 const DEFAULT_ROUTES_PREFIX = 'linjat';
 const DEFAULT_STOPS_PREFIX = 'pysakit';
@@ -60,19 +57,11 @@ export const mapRoute = (item, pathOpts) => {
   const routesPrefix = opts.routesPrefix || DEFAULT_ROUTES_PREFIX;
   const stopsPrefix = opts.stopsPrefix || DEFAULT_STOPS_PREFIX;
 
-  const link = `/${routesPrefix}/${encodeURIComponent(
-    item.gtfsId,
-  )}/${stopsPrefix}`;
+  const link = `/${routesPrefix}/${encodeURIComponent(item.gtfsId)}/${stopsPrefix}`;
   return {
     type: 'Route',
-    properties: {
-      ...item,
-      layer: `route-${item.mode}`,
-      link,
-    },
-    geometry: {
-      coordinates: null,
-    },
+    properties: { ...item, layer: `route-${item.mode}`, link },
+    geometry: { coordinates: null },
   };
 };
 
@@ -115,10 +104,7 @@ export const match = (normalizedTerm, resultProperties) => {
       // the longer the matching string, the better confidence, max being 0.5
       return (0.5 * normalizedTerm.length) / (normalizedTerm.length + 1);
     })
-    .reduce(
-      (previous, current) => (current > previous ? current : previous),
-      0,
-    );
+    .reduce((previous, current) => (current > previous ? current : previous), 0);
 };
 
 /**
@@ -184,8 +170,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
   if (!Array.isArray(results) || !results.length) {
     return results;
   }
-  const isLineIdentifier = value =>
-    isString(value) && lineRegexp && lineRegexp.test(value);
+  const isLineIdentifier = value => isString(value) && lineRegexp && lineRegexp.test(value);
 
   const normalizedTerm = normalize(term);
   const isLineSearch = isLineIdentifier(normalizedTerm);
@@ -213,10 +198,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
         // Normal confidence range from geocoder is about 0.3 .. 1
         if (!confidence) {
           // not from geocoder, estimate confidence ourselves
-          return (
-            getLayerRank(layer, source) +
-            match(normalizedTerm, result.properties)
-          );
+          return getLayerRank(layer, source) + match(normalizedTerm, result.properties);
         }
         // geocoded items with confidence, just adjust a little
         switch (layer) {
@@ -238,9 +220,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
       },
       result => {
         if (result.properties.shortName) {
-          return testShortNameMatchesLineWithNumbersAndLetters(
-            result.properties.shortName,
-          )
+          return testShortNameMatchesLineWithNumbersAndLetters(result.properties.shortName)
             ? splitShortNameAtLetters(result.properties.shortName)[0]
             : result.properties.shortName;
         }
@@ -248,9 +228,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
       },
       result => {
         if (result.properties.shortName) {
-          return testShortNameMatchesLineWithNumbersAndLetters(
-            result.properties.shortName,
-          )
+          return testShortNameMatchesLineWithNumbersAndLetters(result.properties.shortName)
             ? splitShortNameAtLetters(result.properties.shortName)[1]
             : result.properties.shortName;
         }
@@ -271,11 +249,7 @@ export const sortSearchResults = (lineRegexp, results, term = '') => {
  * @param {string} stopCode stop code.
  */
 export const getStopName = (name, stopCode) => {
-  if (
-    stopCode !== undefined &&
-    stopCode !== null &&
-    name.lastIndexOf(stopCode) !== -1
-  ) {
+  if (stopCode !== undefined && stopCode !== null && name.lastIndexOf(stopCode) !== -1) {
     return name.substring(0, name.lastIndexOf(stopCode) - 1);
   }
   return name;

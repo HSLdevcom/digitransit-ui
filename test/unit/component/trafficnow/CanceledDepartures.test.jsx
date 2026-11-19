@@ -4,10 +4,7 @@ import CanceledDepartures from '../../../../app/component/trafficnow/components/
 
 const makeCanceledTrip = (serviceDate, scheduledDeparture, gtfsId) => ({
   serviceDate,
-  trip: {
-    gtfsId,
-    stoptimes: [{ scheduledDeparture }],
-  },
+  trip: { gtfsId, stoptimes: [{ scheduledDeparture }] },
 });
 
 const makePattern = canceledTrips => ({
@@ -20,9 +17,7 @@ const makePattern = canceledTrips => ({
 describe('<CanceledDepartures />', () => {
   const departureTimes = container =>
     Array.from(
-      container.querySelectorAll(
-        '.badges__departure-time [class*="routes-s-narrow"]',
-      ),
+      container.querySelectorAll('.badges__departure-time [class*="routes-s-narrow"]'),
     ).map(node => node.textContent.trim());
 
   const renderCanceledDepartures = props => {
@@ -45,9 +40,7 @@ describe('<CanceledDepartures />', () => {
   it('splits departures per date and applies the limit per date', () => {
     const container = renderCanceledDepartures();
 
-    expect(
-      container.querySelectorAll('.badges__departure-group__date-group'),
-    ).toHaveLength(2);
+    expect(container.querySelectorAll('.badges__departure-group__date-group')).toHaveLength(2);
     expect(departureTimes(container)).toEqual(['08:00', '09:00']);
   });
 

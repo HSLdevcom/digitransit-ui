@@ -17,9 +17,7 @@ describe('<ConfirmLocationFromMapButton />', () => {
 
   it('calls onConfirm when clicked', () => {
     const props = getProps();
-    const { getByText } = renderWithProviders(
-      <ConfirmLocationFromMapButton {...props} />,
-    );
+    const { getByText } = renderWithProviders(<ConfirmLocationFromMapButton {...props} />);
     fireEvent.click(getByText('Confirm selection'));
     expect(props.onConfirm).toHaveBeenCalledTimes(1);
   });
@@ -35,9 +33,7 @@ describe('<ConfirmLocationFromMapButton />', () => {
     // the flag `disableClickPropagation` sets on a node's click handler -
     // so asserting that flag is the direct, canonical way to verify the fix.
     const props = getProps();
-    const { getByText } = renderWithProviders(
-      <ConfirmLocationFromMapButton {...props} />,
-    );
+    const { getByText } = renderWithProviders(<ConfirmLocationFromMapButton {...props} />);
     fireEvent.click(getByText('Confirm selection'));
     expect(props.onConfirm).toHaveBeenCalledTimes(1);
     expect(DomEvent.skipped({ type: 'click' })).toBe(true);
@@ -45,9 +41,7 @@ describe('<ConfirmLocationFromMapButton />', () => {
 
   it('does not call onConfirm when disabled', () => {
     const props = getProps({ isEnabled: false, address: undefined });
-    const { getByText } = renderWithProviders(
-      <ConfirmLocationFromMapButton {...props} />,
-    );
+    const { getByText } = renderWithProviders(<ConfirmLocationFromMapButton {...props} />);
     fireEvent.click(getByText('Confirm selection'));
     expect(props.onConfirm).not.toHaveBeenCalled();
   });

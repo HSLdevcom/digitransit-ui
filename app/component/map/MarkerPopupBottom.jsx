@@ -44,20 +44,11 @@ export default function MarkerPopupBottom({
   return (
     <div className="bottom location">
       <div onClick={() => routeFrom()} className="route cursor-pointer">
-        <FormattedMessage
-          id="route-from-here"
-          defaultMessage="Route from here"
-        />
+        <FormattedMessage id="route-from-here" defaultMessage="Route from here" />
       </div>
       {locationPopup === 'all' && (
-        <div
-          onClick={() => routeAddViaPoint()}
-          className="route cursor-pointer route-add-viapoint"
-        >
-          <FormattedMessage
-            id="route-add-viapoint"
-            defaultMessage="Via point"
-          />
+        <div onClick={() => routeAddViaPoint()} className="route cursor-pointer route-add-viapoint">
+          <FormattedMessage id="route-add-viapoint" defaultMessage="Via point" />
         </div>
       )}
       <div onClick={() => routeTo()} className="route cursor-pointer">

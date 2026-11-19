@@ -34,22 +34,14 @@ export default function DisruptionStatus({
 
   const startDate =
     effectiveStartDate &&
-    getFormattedTimeDate(
-      effectiveStartDate * 1000,
-      hideStartYear ? 'd.L.' : DATE_FORMAT,
-    );
-  const endDate =
-    effectiveEndDate &&
-    getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT);
+    getFormattedTimeDate(effectiveStartDate * 1000, hideStartYear ? 'd.L.' : DATE_FORMAT);
+  const endDate = effectiveEndDate && getFormattedTimeDate(effectiveEndDate * 1000, DATE_FORMAT);
 
   const dates = showDates && startDate;
 
   return (
     <span className="disruption-status">
-      <Icon
-        img={isValid ? 'icon_status' : 'icon_calendar'}
-        color={primaryColor}
-      />
+      <Icon img={isValid ? 'icon_status' : 'icon_calendar'} color={primaryColor} />
       <Text variant={variant}>
         {`${formatMessage({
           id: isValid ? 'valid' : 'upcoming',
@@ -58,9 +50,7 @@ export default function DisruptionStatus({
       </Text>
       {dates && (
         <Text variant="routes-s">
-          {`${startDate}${
-            endDate && startDate !== endDate ? ` - ${endDate}` : ''
-          }`}
+          {`${startDate}${endDate && startDate !== endDate ? ` - ${endDate}` : ''}`}
         </Text>
       )}
     </span>

@@ -30,8 +30,7 @@ function renderPicker(props) {
   );
   // The toggle button's accessible name is the visible summary followed by
   // the action, e.g. "Departure Wed 15.11. 00:13. Open the picker".
-  const openButton = () =>
-    screen.getByRole('button', { name: /Open the picker$/ });
+  const openButton = () => screen.getByRole('button', { name: /Open the picker$/ });
   return { ...result, calls, openButton };
 }
 
@@ -73,9 +72,7 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
   it('moves focus to the close button on open and back to the open button on close', () => {
     const { openButton } = renderPicker();
     fireEvent.click(openButton());
-    const closeButton = screen.getByRole('button', {
-      name: 'Close the picker',
-    });
+    const closeButton = screen.getByRole('button', { name: 'Close the picker' });
     expect(document.activeElement).toBe(closeButton);
     fireEvent.click(closeButton);
     expect(document.activeElement).toBe(openButton());
@@ -84,13 +81,9 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
   it('puts the close button before the other open picker controls in DOM order', () => {
     const { container, openButton } = renderPicker();
     fireEvent.click(openButton());
-    const closeButton = screen.getByRole('button', {
-      name: 'Close the picker',
-    });
+    const closeButton = screen.getByRole('button', { name: 'Close the picker' });
     const controls = Array.from(
-      container
-        .querySelectorAll('.datetimepicker-top-row')[1]
-        .querySelectorAll('button, input'),
+      container.querySelectorAll('.datetimepicker-top-row')[1].querySelectorAll('button, input'),
     );
     expect(controls[0]).toBe(closeButton);
   });
@@ -99,12 +92,8 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     const { openButton } = renderPicker();
     fireEvent.click(openButton());
     const nowButton = screen.getByRole('button', { name: 'Leaving now' });
-    const description = document.getElementById(
-      nowButton.getAttribute('aria-describedby'),
-    );
-    expect(description.textContent).toBe(
-      'Sets the departure time to now and closes the picker.',
-    );
+    const description = document.getElementById(nowButton.getAttribute('aria-describedby'));
+    expect(description.textContent).toBe('Sets the departure time to now and closes the picker.');
   });
 
   it('adds the "new search" instruction only when showUpdateInstructions is set', () => {

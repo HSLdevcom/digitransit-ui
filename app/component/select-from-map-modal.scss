@@ -70,8 +70,8 @@
     // fixedSize desktop), so it needs 20px of padding above it to center
     // on that same 32px mark.
     > :first-child {
-      padding: calc(var(--space-fixed-s) + 4px) var(--space-fixed-xl)
-        var(--space-fixed-xs) var(--space-fixed-xl);
+      padding: calc(var(--space-fixed-s) + 4px) var(--space-fixed-xl) var(--space-fixed-xs)
+        var(--space-fixed-xl);
 
       h1 {
         text-align: center;

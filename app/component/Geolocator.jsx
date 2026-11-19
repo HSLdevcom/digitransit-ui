@@ -32,18 +32,9 @@ export default function Geolocator({ createReturnPath, path, match, router }) {
           save = '3'; // save destination only
         }
       }
-      const returnPath = createReturnPath(
-        path,
-        newFrom,
-        newTo,
-        hash,
-        secondHash,
-      );
+      const returnPath = createReturnPath(path, newFrom, newTo, hash, secondHash);
 
-      const newLocation = {
-        ...match.location,
-        pathname: returnPath,
-      };
+      const newLocation = { ...match.location, pathname: returnPath };
       if (save) {
         newLocation.query.save = save;
       }
@@ -54,16 +45,10 @@ export default function Geolocator({ createReturnPath, path, match, router }) {
       redirect();
     }
     if (locationState.hasLocation === false) {
-      if (
-        !locationState.isLocationingInProgress &&
-        locationState.status === 'no-location'
-      ) {
+      if (!locationState.isLocationingInProgress && locationState.status === 'no-location') {
         startLocationWatch();
       }
-    } else if (
-      locationState.hasLocation &&
-      !locationState.isReverseGeocodingInProgress
-    ) {
+    } else if (locationState.hasLocation && !locationState.isReverseGeocodingInProgress) {
       redirect();
     }
   }, [

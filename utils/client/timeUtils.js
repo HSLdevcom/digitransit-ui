@@ -59,10 +59,7 @@ export function isToday(startTime, refTime) {
 export function isTomorrow(startTime, refTime) {
   const now = refTime ? DateTime.fromMillis(refTime) : DateTime.now();
   const start = DateTime.fromMillis(startTime);
-  return (
-    now.plus({ days: 1 }).hasSame(start, 'day') &&
-    DateTime.now().hasSame(now, 'day')
-  );
+  return now.plus({ days: 1 }).hasSame(start, 'day') && DateTime.now().hasSame(now, 'day');
 }
 
 /**
@@ -76,15 +73,9 @@ export function durationToString(intl, durationMs) {
   const hours = Math.floor(dur / 3600000);
   const mins = Math.floor(dur / 60000 - hours * 60);
   if (hours >= 1) {
-    return intl.formatMessage(
-      { id: 'travel-time-with-hours' },
-      { h: hours, min: mins },
-    );
+    return intl.formatMessage({ id: 'travel-time-with-hours' }, { h: hours, min: mins });
   }
-  return intl.formatMessage(
-    { id: 'travel-time' },
-    { min: mins === 0 ? '<1' : mins },
-  );
+  return intl.formatMessage({ id: 'travel-time' }, { min: mins === 0 ? '<1' : mins });
 }
 
 /**
@@ -127,9 +118,7 @@ export function getFutureText(itineraryStart, intl) {
     return '';
   }
   if (isTomorrow(startTime, refTime)) {
-    return intl.formatMessage({
-      id: 'tomorrow',
-    });
+    return intl.formatMessage({ id: 'tomorrow' });
   }
   return getFormattedTimeDate(startTime, 'ccc d.L.', intl.locale);
 }
@@ -155,9 +144,7 @@ export function convertTo24HourFormat(time) {
  * @returns {string} time in 'hh:mm'
  */
 export function epochToTime(ms, config) {
-  const time = new Date(ms).toLocaleTimeString('en-GB', {
-    timeZone: config.timeZone,
-  });
+  const time = new Date(ms).toLocaleTimeString('en-GB', { timeZone: config.timeZone });
   const parts = time.split(':');
   return `${parts[0]}:${parts[1]}`;
 }
@@ -179,9 +166,7 @@ export function unixTime(ms) {
  * @returns {string} date in 'YYYYMMDD'
  */
 export function unixToYYYYMMDD(s, config) {
-  const date = new Date(s * 1000).toLocaleDateString('en-GB', {
-    timeZone: config.timeZone,
-  });
+  const date = new Date(s * 1000).toLocaleDateString('en-GB', { timeZone: config.timeZone });
   const parts = date.split('/');
   return `${parts[2]}${parts[1]}${parts[0]}`;
 }

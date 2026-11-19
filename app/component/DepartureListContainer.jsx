@@ -9,10 +9,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { useRealTimeActions } from '../hooks/RealTimeInformationContext';
-import {
-  getHeadsignFromRouteLongName,
-  isPlatformChanged,
-} from '../../utils/client/legUtils';
+import { getHeadsignFromRouteLongName, isPlatformChanged } from '../../utils/client/legUtils';
 import { splitGtfsId } from '../../utils/shared/gtfs';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
@@ -43,13 +40,10 @@ const asDepartures = stoptimes =>
          * EXCEPT when state is CANCELLED, then it returns -1 for realtime  */
         const canceled = stoptime.realtimeState === 'CANCELED';
         const arrivalTime =
-          stoptime.serviceDay +
-          (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
+          stoptime.serviceDay + (!canceled ? stoptime.realtimeArrival : stoptime.scheduledArrival);
         const departureTime =
           stoptime.serviceDay +
-          (!canceled
-            ? stoptime.realtimeDeparture
-            : stoptime.scheduledDeparture);
+          (!canceled ? stoptime.realtimeDeparture : stoptime.scheduledDeparture);
         const time = isArrival ? arrivalTime : departureTime;
 
         const { pattern } = stoptime.trip;
@@ -93,10 +87,7 @@ const getHeadsign = (departure, intl) => {
     return (
       departure.headsign ||
       departure.trip?.tripHeadsign ||
-      intl.formatMessage({
-        id: 'route-destination-arrives',
-        defaultMessage: 'Drop-off only',
-      })
+      intl.formatMessage({ id: 'route-destination-arrives', defaultMessage: 'Drop-off only' })
     );
   }
   const headsign =
@@ -115,14 +106,9 @@ const getRealtimeClientConfig = (departures, config) => {
   const trips = departures
     .filter(departure => departure.realtime)
     .filter(
-      departure =>
-        departure.pattern.stops
-          .map(stop => stop.code)
-          .indexOf(departure.stop.code) >= 0,
+      departure => departure.pattern.stops.map(stop => stop.code).indexOf(departure.stop.code) >= 0,
     )
-    .map(departure => ({
-      tripId: splitGtfsId(departure.trip.gtfsId).entityId,
-    }));
+    .map(departure => ({ tripId: splitGtfsId(departure.trip.gtfsId).entityId }));
 
   const { realTime } = config;
   let feedId;
@@ -135,11 +121,7 @@ const getRealtimeClientConfig = (departures, config) => {
   });
   const source = feedId && realTime[feedId];
   if (source && source.active) {
-    return {
-      ...source,
-      feedId,
-      options: trips,
-    };
+    return { ...source, feedId, options: trips };
   }
   return null;
 };
@@ -275,52 +257,32 @@ export default function DepartureListContainer({
         config,
       );
       if (clientConfig) {
-        realTime.changeTopics({
-          ...clientConfig,
-          client,
-          oldTopics: topics,
-        });
+        realTime.changeTopics({ ...clientConfig, client, oldTopics: topics });
       }
     }
   }, [stoptimes, currentTime, isTerminal, vehiclesEnabled]);
 
   const departureObjs = [];
 
-  let serviceDayCutoff = DateTime.fromSeconds(currentTime)
-    .startOf('day')
-    .toUnixInteger();
-  let dayCutoff = DateTime.fromSeconds(currentTime)
-    .startOf('day')
-    .toUnixInteger();
-  const departures = getUpcomingDepartures(
-    stoptimes,
-    isTerminal,
-    currentTime,
-  ).slice(0, limit);
+  let serviceDayCutoff = DateTime.fromSeconds(currentTime).startOf('day').toUnixInteger();
+  let dayCutoff = DateTime.fromSeconds(currentTime).startOf('day').toUnixInteger();
+  const departures = getUpcomingDepartures(stoptimes, isTerminal, currentTime).slice(0, limit);
 
   // Add day dividers when day changes and add service day divider after service day changes.
   // If day divider and service day dividers are added with same departure only show day divider.
   const departuresWithDayDividers = departures.map(departure => {
-    const serviceDate = DateTime.fromSeconds(departure.serviceDay).toFormat(
-      'ddLLyyyy',
-    );
+    const serviceDate = DateTime.fromSeconds(departure.serviceDay).toFormat('ddLLyyyy');
     const dayCutoffDate = DateTime.fromSeconds(dayCutoff).toFormat('ddLLyyyy');
     const date = DateTime.fromSeconds(departure.time).toFormat('ddLLyyyy');
-    const serviceDayCutoffDate =
-      DateTime.fromSeconds(serviceDayCutoff).toFormat('ddLLyyyy');
+    const serviceDayCutoffDate = DateTime.fromSeconds(serviceDayCutoff).toFormat('ddLLyyyy');
 
     if (date !== dayCutoffDate && departure.time > dayCutoff) {
-      dayCutoff = DateTime.fromSeconds(departure.time)
-        .startOf('day')
-        .toUnixInteger();
+      dayCutoff = DateTime.fromSeconds(departure.time).startOf('day').toUnixInteger();
       // eslint-disable-next-line no-param-reassign
       departure.addDayDivider = true;
     }
 
-    if (
-      serviceDate !== serviceDayCutoffDate &&
-      departure.serviceDay > serviceDayCutoff
-    ) {
+    if (serviceDate !== serviceDayCutoffDate && departure.serviceDay > serviceDayCutoff) {
       // eslint-disable-next-line no-param-reassign
       departure.addServiceDayDivider = true;
       const daysAdd = serviceDate === serviceDayCutoffDate ? 1 : 0;
@@ -334,12 +296,8 @@ export default function DepartureListContainer({
 
   let firstDayDepartureCount = 0;
   departuresWithDayDividers.forEach((departure, index) => {
-    const departureDate = DateTime.fromSeconds(departure.time).toFormat(
-      'ddLLyyyy',
-    );
-    const nextDay = DateTime.fromSeconds(currentTime)
-      .plus({ days: 1 })
-      .toUnixInteger();
+    const departureDate = DateTime.fromSeconds(departure.time).toFormat('ddLLyyyy');
+    const nextDay = DateTime.fromSeconds(currentTime).plus({ days: 1 }).toUnixInteger();
     if (departure.time < nextDay) {
       firstDayDepartureCount += 1;
     }
@@ -370,10 +328,7 @@ export default function DepartureListContainer({
     }
 
     const id = `${departure.pattern.code}:${departure.time}:${departure.trip.gtfsId}:${departure.stop.gtfsId}`;
-    const dropoffMessage = getDropoffMessage(
-      departure.hasOnlyDropoff,
-      departure.hasNoStop,
-    );
+    const dropoffMessage = getDropoffMessage(departure.hasOnlyDropoff, departure.hasNoStop);
     const row = {
       headsign: getHeadsign(departure, intl),
       trip: { ...departure.trip, ...{ route: departure.trip.pattern.route } },
@@ -382,10 +337,7 @@ export default function DepartureListContainer({
       bottomRow: dropoffMessage ? (
         <div className="drop-off-container">
           <Icon img="icon_info" color={config.colors.primary} />
-          <FormattedMessage
-            id={dropoffMessage}
-            defaultMessage="Drop-off only"
-          />
+          <FormattedMessage id={dropoffMessage} defaultMessage="Drop-off only" />
         </div>
       ) : null,
     };
@@ -401,9 +353,7 @@ export default function DepartureListContainer({
         showPlatformCode={isTerminal}
         canceled={departure.canceled}
         className={
-          nextDeparture &&
-          nextDeparture.addServiceDayDivider &&
-          !nextDeparture.addDayDivider
+          nextDeparture && nextDeparture.addServiceDayDivider && !nextDeparture.addDayDivider
             ? 'no-border'
             : ''
         }

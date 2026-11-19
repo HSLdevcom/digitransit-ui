@@ -13,11 +13,7 @@ export default function RoutePatternHeader({
   const intl = useIntl();
 
   return (
-    <div
-      className={cx('route-pattern-header', {
-        'route-pattern-header--no-swap': !canSwap,
-      })}
-    >
+    <div className={cx('route-pattern-header', { 'route-pattern-header--no-swap': !canSwap })}>
       <div className="route-pattern-endpoint">
         <Icon
           className="route-pattern-header-icon route-pattern-origin-icon"

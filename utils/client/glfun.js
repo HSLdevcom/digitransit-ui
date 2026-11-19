@@ -17,10 +17,7 @@ function findStopLessThanOrEqualTo(stops, input) {
     currentIndex = Math.floor((lowerIndex + upperIndex) / 2);
     [currentValue] = stops[currentIndex];
     [upperValue] = stops[currentIndex + 1];
-    if (
-      input === currentValue ||
-      (input > currentValue && input < upperValue)
-    ) {
+    if (input === currentValue || (input > currentValue && input < upperValue)) {
       // Search complete
       return currentIndex;
     }

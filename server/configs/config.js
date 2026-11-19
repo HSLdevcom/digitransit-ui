@@ -62,17 +62,13 @@ function addMetaData(config) {
   // eslint-disable-next-line no-param-reassign
   config.metaData = buildStaticMetaData(config, manifestName);
   if (process.env.NOINDEX) {
-    config.metaData.meta.push({
-      name: 'robots',
-      content: 'noindex,nofollow',
-    });
+    config.metaData.meta.push({ name: 'robots', content: 'noindex,nofollow' });
   }
 }
 
 function mapGeoJsonPaths(url, config) {
   const appPathPrefix = config.URL.ASSET_URL || '';
-  const mapUrl = u =>
-    u.startsWith('http') || u.startsWith('//') ? u : appPathPrefix + u;
+  const mapUrl = u => (u.startsWith('http') || u.startsWith('//') ? u : appPathPrefix + u);
   return typeof url === 'string' ? mapUrl(url) : url.map(u => mapUrl(u));
 }
 
@@ -109,9 +105,7 @@ export function getNamedConfiguration(configName) {
 
     if (config.useSearchPolygon && config.areaPolygon) {
       // pass poly as 'lon lat, lon lat, lon lat ...' sequence
-      const pointsParam = config.areaPolygon
-        .map(p => `${p[0]} ${p[1]}`)
-        .join(',');
+      const pointsParam = config.areaPolygon.map(p => `${p[0]} ${p[1]}`).join(',');
 
       config.searchParams = config.searchParams || {};
       config.searchParams['boundary.polygon'] = pointsParam;
@@ -185,10 +179,7 @@ export function getNamedConfiguration(configName) {
     }
   }
   if (!process.env.OIDC_CLIENT_ID && conf.allowLogin) {
-    return {
-      ...conf,
-      allowLogin: false,
-    };
+    return { ...conf, allowLogin: false };
   }
   return conf;
 }
@@ -199,8 +190,7 @@ export function getConfiguration(req) {
 
   if (req) {
     host =
-      (req.headers['x-forwarded-host'] &&
-        req.headers['x-forwarded-host'].split(':')[0]) ||
+      (req.headers['x-forwarded-host'] && req.headers['x-forwarded-host'].split(':')[0]) ||
       (req.headers.host && req.headers.host.split(':')[0]) ||
       'localhost';
   }

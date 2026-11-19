@@ -30,6 +30,4 @@ export default function NoFavourites({ breakpoint }) {
   );
 }
 
-NoFavourites.propTypes = {
-  breakpoint: PropTypes.string.isRequired,
-};
+NoFavourites.propTypes = { breakpoint: PropTypes.string.isRequired };

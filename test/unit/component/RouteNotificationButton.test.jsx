@@ -14,25 +14,18 @@ const baseNotification = {
 
 describe('<RouteNotificationButton />', () => {
   const renderNotification = (notification = baseNotification) =>
-    renderWithProviders(
-      <RouteNotificationButton notification={notification} />,
-    );
+    renderWithProviders(<RouteNotificationButton notification={notification} />);
 
   it('renders the trigger button with the close button label', () => {
     const { container } = renderNotification();
-    expect(
-      container.querySelectorAll('.route-notification-trigger'),
-    ).toHaveLength(1);
-    expect(
-      container.querySelector('.route-notification-trigger span').textContent,
-    ).toBe('Close info');
+    expect(container.querySelectorAll('.route-notification-trigger')).toHaveLength(1);
+    expect(container.querySelector('.route-notification-trigger span').textContent).toBe(
+      'Close info',
+    );
   });
 
   it('renders nothing when closeButtonLabel is missing for the locale', () => {
-    const notification = {
-      ...baseNotification,
-      closeButtonLabel: { fi: 'Sulje' },
-    };
+    const notification = { ...baseNotification, closeButtonLabel: { fi: 'Sulje' } };
     const { container } = renderNotification(notification);
     expect(container.innerHTML).toBe('');
   });

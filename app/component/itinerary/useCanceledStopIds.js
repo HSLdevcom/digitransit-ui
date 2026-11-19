@@ -24,9 +24,9 @@ const hasStoptimesForServiceDate = (leg, timeZone) => {
   const first = leg.trip.stoptimesForDate?.[0];
   return (
     !!first &&
-    DateTime.fromSeconds(first.serviceDay + HALF_DAY_SECONDS, {
-      zone: timeZone,
-    }).toFormat('yyyyLLdd') === leg.serviceDate
+    DateTime.fromSeconds(first.serviceDay + HALF_DAY_SECONDS, { zone: timeZone }).toFormat(
+      'yyyyLLdd',
+    ) === leg.serviceDate
   );
 };
 
@@ -45,9 +45,7 @@ export default function useCanceledStopIds(legs, enabled = true) {
   const [fetched, setFetched] = useState({ key: '', ids: NO_CANCELATIONS });
 
   const transitLegs = legs.filter(leg => leg.trip?.gtfsId && leg.serviceDate);
-  const loadedLegs = transitLegs.filter(leg =>
-    hasStoptimesForServiceDate(leg, timeZone),
-  );
+  const loadedLegs = transitLegs.filter(leg => hasStoptimesForServiceDate(leg, timeZone));
   // primitive keys keep the memo and the effect stable over new legs array identities
   const loadedKey = JSON.stringify(
     loadedLegs.flatMap(leg => toCanceledStopIds(leg.trip.stoptimesForDate)),

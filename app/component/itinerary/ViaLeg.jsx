@@ -44,32 +44,19 @@ const getDescription = (mode, distance, duration) => {
   );
 };
 
-export default function ViaLeg({
-  leg,
-  arrival,
-  index,
-  children,
-  focusAction,
-  focusToLeg,
-}) {
+export default function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(
-    parseInt(leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const [name, place] = splitStringToAddressAndPlace(
     getValidatedLegName(leg.from.name, intl, true),
   );
-  const address =
-    leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const startTime = legTimeStr(leg.start);
   const arrivalMs = legTime(arrival);
   const arrivalTime = legTimeStr(arrival);
   const duration = durationToString(intl, leg.duration * 1000);
   const stayDuration = legTime(leg.start) - arrivalMs;
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -99,19 +86,12 @@ export default function ViaLeg({
           }}
         />
       </span>
-      <div
-        className="small-2 columns itinerary-time-column via-time-column"
-        aria-hidden="true"
-      >
-        <div className="itinerary-time-column-time via-arrival-time">
-          {arrivalTime}
-        </div>
+      <div className="small-2 columns itinerary-time-column via-time-column" aria-hidden="true">
+        <div className="itinerary-time-column-time via-arrival-time">{arrivalTime}</div>
         <div className="itinerary-time-column-time via-divider">
           <div className="via-divider-line" />
         </div>
-        <div className="itinerary-time-column-time via-departure-time">
-          {startTime}
-        </div>
+        <div className="itinerary-time-column-time via-departure-time">{startTime}</div>
       </div>
       <ItineraryCircleLineWithIcon
         viaType={leg.from.viaLocationType}
@@ -136,19 +116,14 @@ export default function ViaLeg({
               <div className="itinerary-via-leg-duration">
                 <FormattedMessage
                   id="via-leg-stop-duration"
-                  values={{
-                    stayDuration: durationToString(intl, stayDuration),
-                  }}
+                  values={{ stayDuration: durationToString(intl, stayDuration) }}
                   defaultMessage="At via point {stayDuration}"
                 />
               </div>
             )}
             {children}
           </div>
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
           {getDescription(leg.mode, distance, duration)}

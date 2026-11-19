@@ -5,11 +5,7 @@ import FavouriteModal from './src/index';
 const place = { address: 'Mannerheimintie 1', lat: 60.2, lon: 24.9 };
 
 function renderModal(props = {}) {
-  const handlers = {
-    handleClose: vi.fn(),
-    saveFavourite: vi.fn(),
-    cancelSelected: vi.fn(),
-  };
+  const handlers = { handleClose: vi.fn(), saveFavourite: vi.fn(), cancelSelected: vi.fn() };
   const view = render(
     <FavouriteModal
       isModalOpen
@@ -23,8 +19,7 @@ function renderModal(props = {}) {
   return { ...handlers, ...view };
 }
 
-const saveButton = () =>
-  screen.getByRole('button', { name: /save a place|save place/i });
+const saveButton = () => screen.getByRole('button', { name: /save a place|save place/i });
 
 describe('Testing @digitransit-component/digitransit-component-favourite-modal module', () => {
   it('renders nothing when closed', () => {
@@ -71,9 +66,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     const { saveFavourite } = renderModal({
       favourite: { ...place, defaultName: 'Mannerheimintie' },
     });
-    fireEvent.change(screen.getByPlaceholderText(/name a place/i), {
-      target: { value: 'Home' },
-    });
+    fireEvent.change(screen.getByPlaceholderText(/name a place/i), { target: { value: 'Home' } });
     fireEvent.click(screen.getByLabelText('home'));
     fireEvent.click(saveButton());
     expect(saveFavourite.mock.calls[0][0].name).toBe('Home');
@@ -89,9 +82,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
 
   it('keeps the typed name and icon when the location changes', () => {
     const { rerender, saveFavourite, ...handlers } = renderModal();
-    fireEvent.change(screen.getByPlaceholderText(/name a place/i), {
-      target: { value: 'Home' },
-    });
+    fireEvent.change(screen.getByPlaceholderText(/name a place/i), { target: { value: 'Home' } });
     fireEvent.click(screen.getByLabelText('home'));
     rerender(
       <FavouriteModal
@@ -125,9 +116,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     };
     rerender(<FavouriteModal isModalOpen={false} {...props} />);
     rerender(<FavouriteModal isModalOpen {...props} />);
-    expect(screen.getByLabelText('home').getAttribute('aria-pressed')).toBe(
-      'false',
-    );
+    expect(screen.getByLabelText('home').getAttribute('aria-pressed')).toBe('false');
   });
 
   it('calls handleClose when the dialog close button is pressed', () => {
@@ -148,9 +137,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
       renderModal({ favourite });
       expect(screen.getByRole('heading', { name: 'Edit place' })).toBeTruthy();
       expect(screen.getByDisplayValue('Work')).toBeTruthy();
-      expect(screen.getByLabelText('work').getAttribute('aria-pressed')).toBe(
-        'true',
-      );
+      expect(screen.getByLabelText('work').getAttribute('aria-pressed')).toBe('true');
       expect(screen.getByText('Cancel')).toBeTruthy();
     });
 
@@ -162,9 +149,7 @@ describe('Testing @digitransit-component/digitransit-component-favourite-modal m
     });
 
     it('calls cancelSelected instead of handleClose after saving', () => {
-      const { saveFavourite, cancelSelected, handleClose } = renderModal({
-        favourite,
-      });
+      const { saveFavourite, cancelSelected, handleClose } = renderModal({ favourite });
       fireEvent.click(saveButton());
       expect(saveFavourite.mock.calls[0][0]).toMatchObject({
         favouriteId: 'fav1',

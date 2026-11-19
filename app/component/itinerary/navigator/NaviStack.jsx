@@ -4,11 +4,7 @@ import NaviMessage from './NaviMessage';
 
 export default function NaviStack({ messages, handleRemove, cardAnimation }) {
   return (
-    <div
-      className={cx('info-stack', cardAnimation)}
-      aria-live="polite"
-      role="status"
-    >
+    <div className={cx('info-stack', cardAnimation)} aria-live="polite" role="status">
       {messages.map((notification, index) => (
         <NaviMessage
           key={notification.id}
@@ -30,10 +26,7 @@ export default function NaviStack({ messages, handleRemove, cardAnimation }) {
 
 NaviStack.propTypes = {
   messages: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.string.isRequired,
-      severity: PropTypes.string.isRequired,
-    }),
+    PropTypes.shape({ id: PropTypes.string.isRequired, severity: PropTypes.string.isRequired }),
   ).isRequired,
   handleRemove: PropTypes.func.isRequired,
   cardAnimation: PropTypes.string.isRequired,

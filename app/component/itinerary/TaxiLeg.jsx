@@ -8,11 +8,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import {
-  legTimeStr,
-  legDestination,
-  getValidatedLegName,
-} from '../../../utils/client/legUtils';
+import { legTimeStr, legDestination, getValidatedLegName } from '../../../utils/client/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
@@ -29,19 +25,11 @@ export default function TaxiLeg(props) {
   const addedPixels = alternativeOperators.length * (41 + 8); // 41px is the height of the TaxiLinkContainer and 8px is the margin
   const topBottomRatio = 0.6; // The ratio of the top and bottom portions of the vertical leg line
   const style = {
-    '--taxi-leg-line-top': addedPixels
-      ? `${addedPixels * topBottomRatio}px`
-      : '0px',
-    '--taxi-leg-line-bottom': addedPixels
-      ? `${addedPixels * (1 - topBottomRatio)}px`
-      : '0px',
+    '--taxi-leg-line-top': addedPixels ? `${addedPixels * topBottomRatio}px` : '0px',
+    '--taxi-leg-line-bottom': addedPixels ? `${addedPixels * (1 - topBottomRatio)}px` : '0px',
   };
 
-  const distance = displayDistance(
-    parseInt(props.leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(props.leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, props.leg.duration * 1000);
   const firstLegClassName = props.index === 0 ? 'first' : '';
   const lowerCaseLegMode = props.leg.mode.toLowerCase();
@@ -49,10 +37,7 @@ export default function TaxiLeg(props) {
 
   const legDescription = (
     <span className={cx('leg-header')}>
-      <FormattedMessage
-        id="book-a-lift"
-        defaultMessage="Use an app to book a taxi"
-      />
+      <FormattedMessage id="book-a-lift" defaultMessage="Use an app to book a taxi" />
     </span>
   );
 
@@ -60,22 +45,14 @@ export default function TaxiLeg(props) {
     getValidatedLegName(props.leg.from.name, intl, true),
   );
   const address =
-    props.leg.from.viaLocationType && props.leg.viaAddress
-      ? props.leg.viaAddress
-      : name;
-  const { bookingUrl, infoUrl } =
-    props.leg.pickupBookingInfo?.contactInfo ?? {};
+    props.leg.from.viaLocationType && props.leg.viaAddress ? props.leg.viaAddress : name;
+  const { bookingUrl, infoUrl } = props.leg.pickupBookingInfo?.contactInfo ?? {};
   return (
     <>
       {isFirstLeg(index) && (
         <div key="taxi-start" className="row itinerary-row">
-          <div
-            className="small-2 columns itinerary-time-column"
-            aria-hidden="true"
-          >
-            <div className="itinerary-time-column-time">
-              {legTimeStr(props.leg.start)}
-            </div>
+          <div className="small-2 columns itinerary-time-column" aria-hidden="true">
+            <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
           </div>
           <ItineraryCircleLine
             index={index}
@@ -120,13 +97,8 @@ export default function TaxiLeg(props) {
             }}
           />
         </span>
-        <div
-          className="small-2 columns itinerary-time-column"
-          aria-hidden="true"
-        >
-          <div className="itinerary-time-column-time">
-            {legTimeStr(props.leg.start)}
-          </div>
+        <div className="small-2 columns itinerary-time-column" aria-hidden="true">
+          <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
         </div>
         <ItineraryCircleLineWithIcon
           index={props.index}

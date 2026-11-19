@@ -9,9 +9,7 @@ i18n.use(initReactI18next).init({
     escapeValue: false, // not needed for react as it escapes by default
   },
   resources: {},
-  react: {
-    useSuspense: true,
-  },
+  react: { useSuspense: true },
 });
 
 export default i18n;

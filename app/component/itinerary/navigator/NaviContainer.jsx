@@ -4,10 +4,7 @@ import { useRouter } from 'found';
 import { relayShape } from '../../../../utils/client/shapes';
 import { useMessages } from '../../../hooks/MessageContext';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
-import {
-  usePosition,
-  usePositionActions,
-} from '../../../hooks/PositionContext';
+import { usePosition, usePositionActions } from '../../../hooks/PositionContext';
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
@@ -87,12 +84,7 @@ export default function NaviContainer({
     nextLeg,
     startItinerary,
     loading,
-  } = useRealtimeLegs(
-    relayEnvironment,
-    position,
-    vehicles,
-    simulateTransferProblem,
-  );
+  } = useRealtimeLegs(relayEnvironment, position, vehicles, simulateTransferProblem);
 
   useEffect(() => {
     setTimeout(() => mapRef?.enableMapTracking(), 10); // try always, shows annoying notifier
@@ -102,10 +94,7 @@ export default function NaviContainer({
 
   useEffect(() => {
     if (position && prevPos.current) {
-      if (
-        prevPos.current.lat === position.lat &&
-        prevPos.current.lon === position.lon
-      ) {
+      if (prevPos.current.lat === position.lat && prevPos.current.lon === position.lon) {
         posFrozen.current += 1;
         if (posFrozen.current === 3) {
           stopLocationWatch();
@@ -136,27 +125,18 @@ export default function NaviContainer({
     (currentLeg === lastLeg || params.updatedAt > arrivalTime) &&
     position &&
     tailLength <= DESTINATION_RADIUS;
-  const arrivalMargin = position
-    ? 10 * ADDITIONAL_ARRIVAL_TIME
-    : ADDITIONAL_ARRIVAL_TIME;
+  const arrivalMargin = position ? 10 * ADDITIONAL_ARRIVAL_TIME : ADDITIONAL_ARRIVAL_TIME;
   const isPastExpectedArrival = params.updatedAt > arrivalTime + arrivalMargin;
   const isJourneyCompleted = isDestinationReached || isPastExpectedArrival;
 
   if (LEGLOG) {
-    // eslint-disable-next-line
+    // eslint-disable-next-line no-console
     console.log(
-      ...summaryString(
-        itinerary.legs,
-        params.updatedAt,
-        previousLeg,
-        currentLeg,
-        nextLeg,
-      ),
+      ...summaryString(itinerary.legs, params.updatedAt, previousLeg, currentLeg, nextLeg),
     );
   }
 
-  const isPastStart =
-    params.updatedAt >= legTime(firstLeg.start) || !!firstLeg.forceStart;
+  const isPastStart = params.updatedAt >= legTime(firstLeg.start) || !!firstLeg.forceStart;
 
   const handleNavigatorEndClick = () => {
     addAnalyticsEvent({
@@ -194,10 +174,7 @@ export default function NaviContainer({
         />
       )}
       {isJourneyCompleted && isNavigatorIntroDismissed && (
-        <NavigatorOutroModal
-          destination={lastLeg.to.name}
-          onClose={handleNavigatorEndClick}
-        />
+        <NavigatorOutroModal destination={lastLeg.to.name} onClose={handleNavigatorEndClick} />
       )}
       {!isJourneyCompleted && (
         <NaviBottom
@@ -217,10 +194,9 @@ NaviContainer.propTypes = {
   relayEnvironment: relayShape.isRequired,
   setNavigation: PropTypes.func.isRequired,
   isNavigatorIntroDismissed: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   mapRef: PropTypes.object,
-  mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object])
-    .isRequired,
-  // eslint-disable-next-line
+  mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]).isRequired,
+  // eslint-disable-next-line react/forbid-prop-types
   settings: PropTypes.object.isRequired,
 };

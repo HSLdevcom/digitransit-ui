@@ -1,4 +1,3 @@
-/* eslint-disable react/no-multi-comp */
 import { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import throttle from 'lodash/throttle';
@@ -34,9 +33,7 @@ export function BreakpointProvider({ children }) {
     const updateBreakpoint = throttle(() => {
       const nextBreakpoint = getClientBreakpoint();
       setBreakpoint(currentBreakpoint =>
-        nextBreakpoint !== currentBreakpoint
-          ? nextBreakpoint
-          : currentBreakpoint,
+        nextBreakpoint !== currentBreakpoint ? nextBreakpoint : currentBreakpoint,
       );
     }, 100);
 
@@ -52,9 +49,7 @@ export function BreakpointProvider({ children }) {
   return <Provider value={breakpoint}>{children}</Provider>;
 }
 
-BreakpointProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+BreakpointProvider.propTypes = { children: PropTypes.node.isRequired };
 
 export const BreakpointConsumer = Consumer;
 

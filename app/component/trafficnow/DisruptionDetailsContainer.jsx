@@ -13,16 +13,11 @@ import AlertsQuery from './queries/AlertsQuery';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import CTAContainer from './components/CTAContainer';
 
-export default function DisruptionDetailsContainer({
-  alertId,
-  isMobile = false,
-}) {
+export default function DisruptionDetailsContainer({ alertId, isMobile = false }) {
   const config = useConfigContext();
   const { formatMessage } = useIntl();
   const { router } = useRouter();
-  const { alerts } = useLazyLoadQuery(AlertsQuery, {
-    feedIds: config.feedIds,
-  });
+  const { alerts } = useLazyLoadQuery(AlertsQuery, { feedIds: config.feedIds });
 
   const alert = alerts?.find(a => a.id === alertId);
 
@@ -48,17 +43,12 @@ export default function DisruptionDetailsContainer({
   } = alert;
 
   const checkedUrl =
-    alertUrl &&
-    (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
+    alertUrl && (alertUrl.match(/^[a-zA-Z]+:\/\//) ? alertUrl : `http://${alertUrl}`);
 
   const content = (
     <>
       <div className="disruption-details__header">
-        <DisruptionBadge
-          showIcon
-          variant={alertSeverityLevel}
-          label={alertEffect}
-        />
+        <DisruptionBadge showIcon variant={alertSeverityLevel} label={alertEffect} />
         {isMobile && (
           <div className="disruption-details__header-validity">
             <div className="separator vertical" />
@@ -84,18 +74,10 @@ export default function DisruptionDetailsContainer({
             <RouteBadges entities={entities} />
           </div>
         )}
-        <Text
-          variant="heading-xs"
-          as="h2"
-          className="disruption-details__title"
-        >
+        <Text variant="heading-xs" as="h2" className="disruption-details__title">
           {alertHeaderText}
         </Text>
-        <Text
-          variant="text-m"
-          as="p"
-          className="disruption-details__description"
-        >
+        <Text variant="text-m" as="p" className="disruption-details__description">
           {alertDescriptionText}
         </Text>
         {checkedUrl && (
@@ -106,14 +88,9 @@ export default function DisruptionDetailsContainer({
               target="_blank"
               rel="noopener noreferrer"
               variant="secondary"
-              style={{
-                minWidth: isMobile ? '100%' : 'none',
-              }}
+              style={{ minWidth: isMobile ? '100%' : 'none' }}
             >
-              {formatMessage({
-                id: 'extra-info',
-                defaultMessage: 'More info',
-              })}
+              {formatMessage({ id: 'extra-info', defaultMessage: 'More info' })}
             </ButtonLink>
           </div>
         )}
@@ -125,9 +102,7 @@ export default function DisruptionDetailsContainer({
     return (
       <>
         <CTAContainer isMobile />
-        <div className="disruption-details disruption-details--mobile">
-          {content}
-        </div>
+        <div className="disruption-details disruption-details--mobile">{content}</div>
       </>
     );
   }

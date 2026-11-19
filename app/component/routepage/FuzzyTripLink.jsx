@@ -26,18 +26,8 @@ function FuzzyTripLinkQuery({ vehicle, stopName, nextStopName, ...rest }) {
   );
   const { trip } = useLazyLoadQuery(
     graphql`
-      query FuzzyTripLinkQuery(
-        $route: String!
-        $direction: Int!
-        $time: Int!
-        $date: String!
-      ) {
-        trip: fuzzyTrip(
-          route: $route
-          direction: $direction
-          time: $time
-          date: $date
-        ) {
+      query FuzzyTripLinkQuery($route: String!, $direction: Int!, $time: Int!, $date: String!) {
+        trip: fuzzyTrip(route: $route, direction: $direction, time: $time, date: $date) {
           gtfsId
           tripShortName
           pattern {
@@ -77,34 +67,21 @@ function FuzzyTripLinkQuery({ vehicle, stopName, nextStopName, ...rest }) {
   const tripId = trip.gtfsId;
   const { mode } = vehicle;
   const { shortName } = vehicle;
-  const localizedMode = intl.formatMessage({
-    id: `${mode}`,
-    defaultMessage: `${mode}`,
-  });
+  const localizedMode = intl.formatMessage({ id: `${mode}`, defaultMessage: `${mode}` });
   const ariaMessage = !(rest.vehicleState === 'arrived')
     ? intl.formatMessage(
         {
           id: 'route-page-vehicle-position-between',
-          defaultMessage:
-            '{mode} {shortName} is between {stopName} and {nextStopName}',
+          defaultMessage: '{mode} {shortName} is between {stopName} and {nextStopName}',
         },
-        {
-          stopName,
-          nextStopName,
-          mode: localizedMode,
-          shortName: shortName?.toLowerCase(),
-        },
+        { stopName, nextStopName, mode: localizedMode, shortName: shortName?.toLowerCase() },
       )
     : intl.formatMessage(
         {
           id: 'route-page-vehicle-position',
           defaultMessage: '{mode} {shortName} is at {stopName}',
         },
-        {
-          stopName,
-          mode: localizedMode,
-          shortName: shortName?.toLowerCase(),
-        },
+        { stopName, mode: localizedMode, shortName: shortName?.toLowerCase() },
       );
 
   return (

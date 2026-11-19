@@ -24,16 +24,12 @@ export function normalizeLegLengths(
     ({ result: acc, carryOver }, leg, i) => {
       // Non-first interlining legs: their span is covered by the first leg.
       if (leg.interlineWithPreviousLeg) {
-        return {
-          result: [...acc, { leg, index: i, skipped: true }],
-          carryOver,
-        };
+        return { result: [...acc, { leg, index: i, skipped: true }], carryOver };
       }
 
       const startMs = legTime(leg.start);
       const endMs = legTime(leg.end);
-      const nextLeg =
-        i < compressedLegs.length - 1 ? compressedLegs[i + 1] : null;
+      const nextLeg = i < compressedLegs.length - 1 ? compressedLegs[i + 1] : null;
 
       let legLength = relativeLength(endMs - startMs);
       let waiting = false;
@@ -55,13 +51,9 @@ export function normalizeLegLengths(
       }
 
       if (isFirstInterliningLeg(compressedLegs, i)) {
-        const [interliningLines, interliningLegs] = getInterliningLegs(
-          compressedLegs,
-          i,
-        );
+        const [interliningLines, interliningLegs] = getInterliningLegs(compressedLegs, i);
         interliningWithRoute = interliningLines.join(' / ');
-        const lastLegWithInterline =
-          interliningLegs[interliningLegs.length - 1];
+        const lastLegWithInterline = interliningLegs[interliningLegs.length - 1];
         legLength = relativeLength(legTime(lastLegWithInterline.end) - startMs);
         if (
           compressedLegs.length - 2 === i + interliningLegs.length &&
@@ -70,10 +62,7 @@ export function normalizeLegLengths(
           // If the last leg is too short, add it to the interlining span.
           legLength += lastLegLength;
         }
-      } else if (
-        compressedLegs.length - 2 === i &&
-        lastLegLength < renderBarThreshold
-      ) {
+      } else if (compressedLegs.length - 2 === i && lastLegLength < renderBarThreshold) {
         // If the last leg is too short, add it to the previous leg's span.
         legLength += lastLegLength;
       }

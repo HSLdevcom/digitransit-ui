@@ -221,9 +221,7 @@ describe('dateSelectUtils', () => {
     });
 
     it('should normalize dates to start of day', () => {
-      const startDate = DateTime.fromISO('2024-01-15T15:30:00', {
-        zone: 'UTC',
-      });
+      const startDate = DateTime.fromISO('2024-01-15T15:30:00', { zone: 'UTC' });
       const numberOfDays = 2;
 
       const result = generateDateRange(startDate, numberOfDays, 'en');

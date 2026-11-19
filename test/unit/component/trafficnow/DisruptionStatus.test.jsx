@@ -3,9 +3,7 @@ import { createTestConfig } from '../../helpers/mock-context';
 import DisruptionStatus from '../../../../app/component/trafficnow/components/DisruptionStatus';
 import * as timeUtils from '../../../../utils/client/timeUtils';
 
-const baseConfig = createTestConfig({
-  colors: { primary: '#007ac9' },
-});
+const baseConfig = createTestConfig({ colors: { primary: '#007ac9' } });
 
 // NOW_MS = 1 000 000 ms (= 1 000 s).
 // effectiveStartDate / effectiveEndDate are passed in seconds; the component
@@ -31,10 +29,7 @@ describe('<DisruptionStatus />', () => {
 
   describe('isValid — timestamp-based', () => {
     it('shows icon_status (active) when now is between start and end', () => {
-      const container = renderDisruptionStatus({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
+      const container = renderDisruptionStatus({ effectiveStartDate: 500, effectiveEndDate: 2000 });
       expect(iconName(container)).toBe('icon_status');
     });
 
@@ -47,10 +42,7 @@ describe('<DisruptionStatus />', () => {
     });
 
     it('shows icon_calendar (ended) when end is in the past', () => {
-      const container = renderDisruptionStatus({
-        effectiveStartDate: 100,
-        effectiveEndDate: 500,
-      });
+      const container = renderDisruptionStatus({ effectiveStartDate: 100, effectiveEndDate: 500 });
       expect(iconName(container)).toBe('icon_calendar');
     });
   });
@@ -141,10 +133,7 @@ describe('<DisruptionStatus />', () => {
     });
 
     it('shows only startDate when effectiveEndDate is not provided', () => {
-      const container = renderDisruptionStatus({
-        effectiveStartDate: 1000,
-        showDates: true,
-      });
+      const container = renderDisruptionStatus({ effectiveStartDate: 1000, showDates: true });
       expect(dateSpan(container).textContent).not.toContain(' - ');
     });
   });

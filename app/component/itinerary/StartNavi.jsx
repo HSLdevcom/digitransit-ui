@@ -33,6 +33,4 @@ export default function StartNavi({ startNavigation }) {
   );
 }
 
-StartNavi.propTypes = {
-  startNavigation: PropTypes.func.isRequired,
-};
+StartNavi.propTypes = { startNavigation: PropTypes.func.isRequired };

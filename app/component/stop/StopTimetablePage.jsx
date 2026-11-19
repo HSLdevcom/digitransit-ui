@@ -16,6 +16,4 @@ export default function StopTimetablePage({ stop: stopRef }) {
   return <Timetable stop={stop} date={date} startDate={startDate} />;
 }
 
-StopTimetablePage.propTypes = {
-  stop: fragmentRefShape.isRequired,
-};
+StopTimetablePage.propTypes = { stop: fragmentRefShape.isRequired };

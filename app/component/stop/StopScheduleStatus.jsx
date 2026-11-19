@@ -29,8 +29,7 @@ export default function StopScheduleStatus({
   if (!status) {
     return null;
   }
-  const isAlertStatus =
-    status === STOP_STATUS.ALERT || status === STOP_STATUS.INFO;
+  const isAlertStatus = status === STOP_STATUS.ALERT || status === STOP_STATUS.INFO;
   const effects =
     isAlertStatus && alertEffects && alertEffects.length > 0
       ? [...new Set(alertEffects.map(e => e.toLowerCase()))]
@@ -41,15 +40,10 @@ export default function StopScheduleStatus({
   }
 
   return (
-    <span
-      className={cx('stop-schedule-status', { [status]: !effects }, className)}
-    >
+    <span className={cx('stop-schedule-status', { [status]: !effects }, className)}>
       {effects ? (
         effects.map(effect => (
-          <span
-            key={effect}
-            className={cx('stop-schedule-status__effect', status)}
-          >
+          <span key={effect} className={cx('stop-schedule-status__effect', status)}>
             <FormattedMessage
               id={`${DISRUPTION_BADGE_PREFIX}${effect}`}
               defaultMessage={capitalize(effect).replace(/_/g, ' ')}

@@ -16,9 +16,7 @@ describe('occupancyUtil', () => {
     });
 
     it('should map NOT_ACCEPTING_PASSENGERS to CRUSHED_STANDING_ROOM_ONLY', () => {
-      expect(mapStatus('NOT_ACCEPTING_PASSENGERS')).toBe(
-        'CRUSHED_STANDING_ROOM_ONLY',
-      );
+      expect(mapStatus('NOT_ACCEPTING_PASSENGERS')).toBe('CRUSHED_STANDING_ROOM_ONLY');
     });
 
     it('should map FULL to CRUSHED_STANDING_ROOM_ONLY', () => {
@@ -45,9 +43,7 @@ describe('occupancyUtil', () => {
 
   describe('capacityToTranslationId', () => {
     it('should map EMPTY and MANY_SEATS_AVAILABLE to many-seats', () => {
-      expect(capacityToTranslationId('EMPTY')).toBe(
-        'capacity-modal.many-seats-available',
-      );
+      expect(capacityToTranslationId('EMPTY')).toBe('capacity-modal.many-seats-available');
       expect(capacityToTranslationId('MANY_SEATS_AVAILABLE')).toBe(
         'capacity-modal.many-seats-available',
       );
@@ -69,18 +65,14 @@ describe('occupancyUtil', () => {
       expect(capacityToTranslationId('NOT_ACCEPTING_PASSENGERS')).toBe(
         'capacity-modal.crushed-standing-room-only',
       );
-      expect(capacityToTranslationId('FULL')).toBe(
-        'capacity-modal.crushed-standing-room-only',
-      );
+      expect(capacityToTranslationId('FULL')).toBe('capacity-modal.crushed-standing-room-only');
     });
 
     it('should default to few-seats', () => {
       expect(capacityToTranslationId('FEW_SEATS_AVAILABLE')).toBe(
         'capacity-modal.few-seats-available',
       );
-      expect(capacityToTranslationId('UNKNOWN')).toBe(
-        'capacity-modal.few-seats-available',
-      );
+      expect(capacityToTranslationId('UNKNOWN')).toBe('capacity-modal.few-seats-available');
     });
   });
 
@@ -140,15 +132,15 @@ describe('occupancyUtil', () => {
     };
 
     it('should return mapped status when all conditions are met', () => {
-      expect(
-        getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(5)),
-      ).toBe('FEW_SEATS_AVAILABLE');
+      expect(getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(5))).toBe(
+        'FEW_SEATS_AVAILABLE',
+      );
     });
 
     it('should return mapped status for departures up to the configured window', () => {
-      expect(
-        getCapacity(config, 'MANY_SEATS_AVAILABLE', minutesFromNow(14)),
-      ).toBe('MANY_SEATS_AVAILABLE');
+      expect(getCapacity(config, 'MANY_SEATS_AVAILABLE', minutesFromNow(14))).toBe(
+        'MANY_SEATS_AVAILABLE',
+      );
     });
 
     it('should respect a custom window from config', () => {
@@ -156,21 +148,16 @@ describe('occupancyUtil', () => {
         useRealtimeTravellerCapacities: true,
         realtimeTravellerCapacityWindowMinutes: 10,
       };
-      expect(
-        getCapacity(config10, 'FEW_SEATS_AVAILABLE', minutesFromNow(12)),
-      ).toBeNull();
-      expect(
-        getCapacity(config10, 'FEW_SEATS_AVAILABLE', minutesFromNow(8)),
-      ).toBe('FEW_SEATS_AVAILABLE');
+      expect(getCapacity(config10, 'FEW_SEATS_AVAILABLE', minutesFromNow(12))).toBeNull();
+      expect(getCapacity(config10, 'FEW_SEATS_AVAILABLE', minutesFromNow(8))).toBe(
+        'FEW_SEATS_AVAILABLE',
+      );
     });
 
     it('should return null when config flag is disabled', () => {
       expect(
         getCapacity(
-          {
-            useRealtimeTravellerCapacities: false,
-            realtimeTravellerCapacityWindowMinutes: 15,
-          },
+          { useRealtimeTravellerCapacities: false, realtimeTravellerCapacityWindowMinutes: 15 },
           'FEW_SEATS_AVAILABLE',
           minutesFromNow(5),
         ),
@@ -182,21 +169,15 @@ describe('occupancyUtil', () => {
     });
 
     it('should return null when occupancyStatus is NO_DATA_AVAILABLE', () => {
-      expect(
-        getCapacity(config, 'NO_DATA_AVAILABLE', minutesFromNow(5)),
-      ).toBeNull();
+      expect(getCapacity(config, 'NO_DATA_AVAILABLE', minutesFromNow(5))).toBeNull();
     });
 
     it('should return null when departure is beyond the configured window', () => {
-      expect(
-        getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(16)),
-      ).toBeNull();
+      expect(getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(16))).toBeNull();
     });
 
     it('should return null when departure is in the past', () => {
-      expect(
-        getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(-5)),
-      ).toBeNull();
+      expect(getCapacity(config, 'FEW_SEATS_AVAILABLE', minutesFromNow(-5))).toBeNull();
     });
   });
 
@@ -224,10 +205,7 @@ describe('occupancyUtil', () => {
     });
 
     it('should return null when the leg has no occupancy data', () => {
-      const leg = {
-        start: { scheduledTime: new Date(minutesFromNow(5)).toISOString() },
-        trip: {},
-      };
+      const leg = { start: { scheduledTime: new Date(minutesFromNow(5)).toISOString() }, trip: {} };
       expect(getCapacityForLeg(config, leg)).toBeNull();
     });
   });

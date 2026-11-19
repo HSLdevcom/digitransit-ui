@@ -28,9 +28,7 @@ function DenyLocationButton({ children }) {
     </>
   );
 }
-DenyLocationButton.propTypes = {
-  children: PropTypes.node,
-};
+DenyLocationButton.propTypes = { children: PropTypes.node };
 
 describe('<MapWithTracking />', () => {
   const originalGetContext = HTMLCanvasElement.prototype.getContext;
@@ -44,19 +42,16 @@ describe('<MapWithTracking />', () => {
   });
 
   it('should render', () => {
-    const { container } = renderWithProviders(
-      <MapWithTracking {...defaultProps} />,
-      {
-        config: {
-          ...mockContext.config,
-          realTime: {},
-          vehicles: false,
-          feedIds: [],
-          map: { ...mockContext.config.map, showZoomControl: true },
-          stopsMinZoom: 12,
-        },
+    const { container } = renderWithProviders(<MapWithTracking {...defaultProps} />, {
+      config: {
+        ...mockContext.config,
+        realTime: {},
+        vehicles: false,
+        feedIds: [],
+        map: { ...mockContext.config.map, showZoomControl: true },
+        stopsMinZoom: 12,
       },
-    );
+    });
     expect(container.innerHTML).not.toBe('');
   });
 
@@ -69,10 +64,7 @@ describe('<MapWithTracking />', () => {
           tram: { isLocked: false, isSelected: false },
         },
       }),
-    ).toEqual({
-      vehicles: false,
-      stop: { bus: true },
-    });
+    ).toEqual({ vehicles: false, stop: { bus: true } });
   });
 
   it('should show that tracking is off by default', () => {
@@ -90,15 +82,12 @@ describe('<MapWithTracking />', () => {
   });
 
   it('should show that tracking is on when enabled', () => {
-    const { getByRole } = renderWithProviders(
-      <MapWithTracking {...defaultProps} mapTracking />,
-      {
-        config: {
-          ...mockContext.config,
-          map: { ...mockContext.config.map, showLayerSelector: false },
-        },
+    const { getByRole } = renderWithProviders(<MapWithTracking {...defaultProps} mapTracking />, {
+      config: {
+        ...mockContext.config,
+        map: { ...mockContext.config.map, showLayerSelector: false },
       },
-    );
+    });
 
     expect(getByRole('button', { name: 'tracking on' })).not.to.equal(null);
   });
@@ -117,8 +106,6 @@ describe('<MapWithTracking />', () => {
     );
 
     fireEvent.click(getByRole('button', { name: 'deny location' }));
-    expect(
-      await findByRole('button', { name: 'tracking failed' }),
-    ).not.to.equal(null);
+    expect(await findByRole('button', { name: 'tracking failed' })).not.to.equal(null);
   });
 });

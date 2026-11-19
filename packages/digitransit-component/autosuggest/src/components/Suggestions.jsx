@@ -3,10 +3,7 @@ import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
 import cx from 'classnames';
-import {
-  getSuggestionContent,
-  translateFutureRouteSuggestionTime,
-} from '../utils/utils';
+import { getSuggestionContent, translateFutureRouteSuggestionTime } from '../utils/utils';
 
 const Suggestion = memo(function Suggestion({
   item,
@@ -20,10 +17,7 @@ const Suggestion = memo(function Suggestion({
   const [t] = useTranslation();
   const newItem =
     item.type === 'FutureRoute'
-      ? {
-          ...item,
-          translatedText: translateFutureRouteSuggestionTime(item, lng, t),
-        }
+      ? { ...item, translatedText: translateFutureRouteSuggestionTime(item, lng, t) }
       : item;
   const content = getSuggestionContent(item, lng, t);
   return (
@@ -53,14 +47,8 @@ const itemShape = PropTypes.shape({
     id: PropTypes.string,
     source: PropTypes.string,
     arrowClicked: PropTypes.bool,
-    destination: PropTypes.shape({
-      name: PropTypes.string,
-      localadmin: PropTypes.string,
-    }),
-    origin: PropTypes.shape({
-      name: PropTypes.string,
-      localadmin: PropTypes.string,
-    }),
+    destination: PropTypes.shape({ name: PropTypes.string, localadmin: PropTypes.string }),
+    origin: PropTypes.shape({ name: PropTypes.string, localadmin: PropTypes.string }),
   }),
 });
 

@@ -10,12 +10,7 @@ import { stopPagePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function AirportCollectLuggageLeg({
-  index,
-  leg,
-  focusAction,
-  children,
-}) {
+export default function AirportCollectLuggageLeg({ index, leg, focusAction, children }) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
   const { name } = leg.to;
@@ -51,10 +46,7 @@ export default function AirportCollectLuggageLeg({
 
         <div className="info-message">
           <Icon img="icon_info" />
-          <FormattedMessage
-            id="airport-collect-luggage"
-            defaultMessage="Collect your luggage"
-          />
+          <FormattedMessage id="airport-collect-luggage" defaultMessage="Collect your luggage" />
         </div>
       </div>
     </div>
