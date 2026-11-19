@@ -14,9 +14,7 @@ export default function Checkbox({
 }) {
   const intl = useIntl();
   const id = useMemo(() => uniqueId('checkbox-'), []);
-  const label = labelId
-    ? intl.formatMessage({ id: labelId, defaultMessage })
-    : defaultMessage;
+  const label = labelId ? intl.formatMessage({ id: labelId, defaultMessage }) : defaultMessage;
 
   return (
     <DsCheckbox

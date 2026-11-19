@@ -11,21 +11,13 @@ import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function AppBar({
-  showLogo = false,
-  homeUrl,
-  logo,
-  breakpoint,
-  titleClicked,
-}) {
+export default function AppBar({ showLogo = false, homeUrl, logo, breakpoint, titleClicked }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { user } = config;
   const { match } = useRouter();
   const { location } = match;
-  const [menuOpen, setMenuOpen] = useState(
-    window.sessionStorage.menuOpen === 'true',
-  );
+  const [menuOpen, setMenuOpen] = useState(window.sessionStorage.menuOpen === 'true');
   const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
   const params = location.search && location.search.substring(1);
 
@@ -46,18 +38,11 @@ export default function AppBar({
       <nav className={`top-bar ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <section className="title">
           <button
-            aria-label={intl.formatMessage({
-              id: 'to-frontpage',
-              defaultMessage: 'To frontpage',
-            })}
+            aria-label={intl.formatMessage({ id: 'to-frontpage', defaultMessage: 'To frontpage' })}
             type="button"
             onClick={e => {
               titleClicked(e);
-              addAnalyticsEvent({
-                category: 'Navigation',
-                action: 'Home',
-                name: null,
-              });
+              addAnalyticsEvent({ category: 'Navigation', action: 'Home', name: null });
             }}
           >
             <LogoSmall showLogo={showLogo} logo={logo} />

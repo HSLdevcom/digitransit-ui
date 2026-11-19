@@ -100,36 +100,28 @@ describe('stopStatusUtils', () => {
 
   describe('combineStopStatuses', () => {
     it('returns the shared status when both stops match', () => {
-      expect(
-        combineStopStatuses(
-          STOP_STATUS.NO_SERVICE_TODAY,
-          STOP_STATUS.NO_SERVICE_TODAY,
-        ),
-      ).toBe(STOP_STATUS.NO_SERVICE_TODAY);
+      expect(combineStopStatuses(STOP_STATUS.NO_SERVICE_TODAY, STOP_STATUS.NO_SERVICE_TODAY)).toBe(
+        STOP_STATUS.NO_SERVICE_TODAY,
+      );
     });
 
     it('returns ALERT when the statuses differ but both are red-level', () => {
-      expect(
-        combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT),
-      ).toBe(STOP_STATUS.ALERT);
+      expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.ALERT)).toBe(
+        STOP_STATUS.ALERT,
+      );
     });
 
     it('returns INFO when the statuses differ and are not both red-level', () => {
-      expect(
-        combineStopStatuses(
-          STOP_STATUS.OUT_OF_SERVICE,
-          STOP_STATUS.NO_SERVICE_TODAY,
-        ),
-      ).toBe(STOP_STATUS.INFO);
+      expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, STOP_STATUS.NO_SERVICE_TODAY)).toBe(
+        STOP_STATUS.INFO,
+      );
     });
 
     it('returns the non-null status when only one stop has a status', () => {
       expect(combineStopStatuses(STOP_STATUS.OUT_OF_SERVICE, null)).toBe(
         STOP_STATUS.OUT_OF_SERVICE,
       );
-      expect(combineStopStatuses(null, STOP_STATUS.ALERT)).toBe(
-        STOP_STATUS.ALERT,
-      );
+      expect(combineStopStatuses(null, STOP_STATUS.ALERT)).toBe(STOP_STATUS.ALERT);
     });
 
     it('returns null when both stops have no status', () => {
@@ -265,11 +257,7 @@ describe('stopStatusUtils', () => {
 
     it('returns all nulls when showStopStatusMarkers is false', () => {
       const result = resolveNoDeparturesBadge([], NOW, false, false);
-      expect(result).toEqual({
-        stopStatus: null,
-        badgeImg: null,
-        alertEffects: null,
-      });
+      expect(result).toEqual({ stopStatus: null, badgeImg: null, alertEffects: null });
     });
 
     it('returns OUT_OF_SERVICE for a NO_SERVICE alert', () => {
@@ -284,23 +272,13 @@ describe('stopStatusUtils', () => {
     });
 
     it('returns OUT_OF_SERVICE when a non-NO_SERVICE alert is active and no future service exists', () => {
-      const result = resolveNoDeparturesBadge(
-        [makeAlert('WARNING', 'DETOUR')],
-        NOW,
-        true,
-        false,
-      );
+      const result = resolveNoDeparturesBadge([makeAlert('WARNING', 'DETOUR')], NOW, true, false);
       expect(result.stopStatus).toBe(STOP_STATUS.OUT_OF_SERVICE);
       expect(result.alertEffects).toBe(null);
     });
 
     it('returns ALERT with severity-filtered effects when an ALERT-tier alert is active and future service exists', () => {
-      const result = resolveNoDeparturesBadge(
-        [makeAlert('WARNING', 'DETOUR')],
-        NOW,
-        true,
-        true,
-      );
+      const result = resolveNoDeparturesBadge([makeAlert('WARNING', 'DETOUR')], NOW, true, true);
       expect(result.stopStatus).toBe(STOP_STATUS.ALERT);
       expect(result.alertEffects).toEqual(['DETOUR']);
     });
@@ -391,22 +369,13 @@ describe('stopStatusUtils', () => {
     });
 
     it('excludes INFO-level effects when ALERT-tier alerts are also present', () => {
-      const alerts = [
-        makeAlert('WARNING', 'DETOUR'),
-        makeAlert('INFO', 'OTHER_EFFECT'),
-      ];
+      const alerts = [makeAlert('WARNING', 'DETOUR'), makeAlert('INFO', 'OTHER_EFFECT')];
       expect(getStopAlertEffects(alerts, NOW)).toEqual(['DETOUR']);
     });
 
     it('returns effects from all ALERT-tier alerts when no INFO alerts are present', () => {
-      const alerts = [
-        makeAlert('SEVERE', 'DETOUR'),
-        makeAlert('WARNING', 'REDUCED_SERVICE'),
-      ];
-      expect(getStopAlertEffects(alerts, NOW)).toEqual([
-        'DETOUR',
-        'REDUCED_SERVICE',
-      ]);
+      const alerts = [makeAlert('SEVERE', 'DETOUR'), makeAlert('WARNING', 'REDUCED_SERVICE')];
+      expect(getStopAlertEffects(alerts, NOW)).toEqual(['DETOUR', 'REDUCED_SERVICE']);
     });
   });
 });

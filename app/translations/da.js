@@ -11,8 +11,7 @@ export default {
     airplane: 'Fly',
     'airport-check-in': 'Bagage kan checkes ind hos {agency}',
     'airport-collect-luggage': 'Hent eventuel bagage',
-    'airport-security-check-go-to-gate':
-      'Passer sikkerhedskontrollen og fortsæt til gate',
+    'airport-security-check-go-to-gate': 'Passer sikkerhedskontrollen og fortsæt til gate',
     'arriving-at': 'Ankomst',
     'arriving-soon': 'Nu',
     'avoid-transfers': 'Undgå skift',
@@ -29,6 +28,7 @@ export default {
     'choose-stop-or-vehicle': 'Select vehicle or stop',
     'choose-vehicle': 'Select vehicle',
     citybike: 'Bycykel',
+    'clear-button-label': 'Ryd',
     close: 'Lukket',
     'cycle-distance-duration': 'Cykle {duration} ({distance})',
     'cyclewalk-distance-duration': 'Tril cyklen {duration} ({distance})',
@@ -42,17 +42,16 @@ export default {
     earlier: 'Tidligere',
     'extra-info': 'Mere info',
     ferry: 'Færge',
+    'field-optional': 'valgfri',
+    'field-required': 'påkrævet',
     frontpage: 'Forside',
-    'geolocation-denied-heading':
-      'Tjenesten fungerer bedst når du oplyser din position',
+    'geolocation-denied-heading': 'Tjenesten fungerer bedst når du oplyser din position',
     'geolocation-denied-text':
       'Lokalisering er ikke tilladt. Kontroller indstillingene for din browser.',
     'geolocation-failed-heading': 'Lokalisering fungerer ikke',
-    'geolocation-failed-text':
-      'Din browser har ikke understøttelse for lokalisering.',
+    'geolocation-failed-text': 'Din browser har ikke understøttelse for lokalisering.',
     'geolocation-prompt-text': 'Venligst accepter lokalisering.',
-    'geolocation-timeout-heading':
-      'Lokalisering tager længre tid end forventet.',
+    'geolocation-timeout-heading': 'Lokalisering tager længre tid end forventet.',
     'geolocation-timeout-text': 'Vælg udgangspunkt og prøv igen.',
     'itinerary-hide-stops': 'Skjul stop',
     'itinerary-page.title': 'Rejsebeskrivelse',
@@ -61,6 +60,7 @@ export default {
     leaves: 'Går',
     'leaving-at': 'Afgang',
     loading: 'indlæser',
+    'loading-please-wait': 'Indlæser, vent venligst',
     'location-from-map': 'Vælg position',
     login: 'Log ind',
     'main-menu-label-open': 'Åben hovedmenuen',
@@ -74,8 +74,7 @@ export default {
     'no-route-msg-with-changes':
       'Unfortunately no routes were found for your journey. Try changing your settings, origin or destination.',
     'no-route-start-end': 'Venligst vælg udgangspunkt og destination.',
-    'number-of-intermediate-stops':
-      '{number, plural, =0 {Ingen stop} other {{number} stop} }',
+    'number-of-intermediate-stops': '{number, plural, =0 {Ingen stop} other {{number} stop} }',
     or: 'eller',
     origin: 'Fra',
     'own-position': 'Min position',

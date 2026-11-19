@@ -13,8 +13,7 @@ export default {
     'add-via-duration-button-label': 'Aufenthaltszeit am Zwischenstopp {index}',
     'add-via-duration-button-label-close':
       'Schließe Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
-    'add-via-duration-button-label-open':
-      'Öffne Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
+    'add-via-duration-button-label-open': 'Öffne Aufenthaltszeit-Auswahl am Zwischenstopp {index}',
     'add-work': 'Arbeit setzen',
     address: 'Adresse',
     'address-or-stop': 'Adresse oder Haltestelle',
@@ -22,16 +21,13 @@ export default {
     airplane: 'Flug',
     'airport-check-in': 'Gepäck bei {agency} einchecken',
     'airport-collect-luggage': 'Falls vorhanden, Gepäck einsammeln',
-    'airport-security-check-go-to-gate':
-      'Gehen Sie durch die Sicherheitskontrolle zum Abfluggate',
+    'airport-security-check-go-to-gate': 'Gehen Sie durch die Sicherheitskontrolle zum Abfluggate',
     'all-routes': 'Alle Linien',
     'all-routes-disabled': 'Keine Linien',
     'aria-itinerary-summary':
       'Gesamtdauer {duration}. Route fährt ab {inFuture} {departureTime} mit Ankunft {arrivalTime}.',
-    'aria-itinerary-summary-bike-distance':
-      'Strecke per Rad {duration}, {distance} ',
-    'aria-itinerary-summary-walk-distance':
-      'Strecke zu Fuß {duration}, {distance} ',
+    'aria-itinerary-summary-bike-distance': 'Strecke per Rad {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Strecke zu Fuß {duration}, {distance} ',
     'arriving-at': 'Ankunft',
     'arriving-soon': 'Jetzt',
     'at-time': 'um',
@@ -86,6 +82,8 @@ export default {
     explanations: 'Erklärung',
     'extra-info': 'Mehr Infos',
     ferry: 'Fähre',
+    'field-optional': 'optional',
+    'field-required': 'erforderlich',
     'from-station': 'Bahnhof',
     'from-stop': 'Halt',
     frontpage: 'Startseite',
@@ -94,13 +92,10 @@ export default {
     'geolocation-denied-text':
       'Zugriff auf den Standort ist nicht erlaubt. Bitte prüfen Sie die Einstellungen Ihres Browsers.',
     'geolocation-failed-heading': 'Standortermittlung fehlgeschlagen',
-    'geolocation-failed-text':
-      'Ihr Browser unterstützt keinen Zugriff auf den Standort',
+    'geolocation-failed-text': 'Ihr Browser unterstützt keinen Zugriff auf den Standort',
     'geolocation-prompt-text': 'Bitte Zugriff auf den Standort erlauben',
-    'geolocation-timeout-heading':
-      'Standortermittlung dauert länger als erwartet.',
-    'geolocation-timeout-text':
-      'Abfahrtsort unten wählen, oder später versuchen.',
+    'geolocation-timeout-heading': 'Standortermittlung dauert länger als erwartet.',
+    'geolocation-timeout-text': 'Abfahrtsort unten wählen, oder später versuchen.',
     hour: 'Stunde',
     'itinerary-details.biking-leg':
       'Um {time} {distance} mit dem Rad von {origin} nach {destination} fahren. Geschätzte Dauer: {duration}',
@@ -122,8 +117,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Suchergebnisse geladen',
     'itinerary-page.loading-itineraries': 'Suchergebnisse werden geladen',
     'itinerary-page.show-details': 'Details zeigen',
-    'itinerary-page.show-details-label':
-      'Zeige Details zu Routenvorschlag {number}',
+    'itinerary-page.show-details-label': 'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
@@ -136,17 +130,13 @@ export default {
     'itinerary-summary-row.first-leg-start-time-sr':
       '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
     'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
-    'itinerary-summary-row.transfers':
-      'Umstieg auf {vehicle} an Halt {stopName}',
+    'itinerary-summary-row.transfers': 'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
       'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
-    'itinerary-summary.bikeAndPublic-rail-title':
-      'Nehmen Sie Ihr Rad mit in den Zug',
-    'itinerary-summary.bikeAndPublic-subway-title':
-      'Nehmen Sie Ihr Rad mit in die Bahn',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Nehmen Sie Ihr Rad mit in den Zug',
+    'itinerary-summary.bikeAndPublic-subway-title': 'Nehmen Sie Ihr Rad mit in die Bahn',
     'itinerary-summary.bikePark-title': 'Parken und Reisen',
-    'itinerary-summary.interline-wait':
-      'Warte auf den Umstieg in Fahrzeug ({time})',
+    'itinerary-summary.interline-wait': 'Warte auf den Umstieg in Fahrzeug ({time})',
     'itinerary-summary.show-on-map': 'Auf Karte zeigen {target}',
     'itinerary-ticket.title': 'Benötigte Fahrkarte',
     'itinerary-tickets.title': 'Benötigte Fahrkarten',
@@ -154,6 +144,7 @@ export default {
     leaves: 'Abfahrt',
     'leaving-at': 'Abfahrt',
     loading: 'laden',
+    'loading-please-wait': 'Wird geladen, bitte warten',
     'location-from-map': 'Gewählte Position',
     'location-from-map-confirm': 'Auswahl bestätigen',
     'location-home': 'Zuhause',
@@ -187,8 +178,7 @@ export default {
     'nearest-stops-subway': 'Nächstgelegene U-/Stadtbahn-Haltestelle',
     'nearest-stops-tram': 'Nächstgelegene Straßenbbahn-Haltestelle',
     'nearest-stops-update-location': 'Aktualisiere {mode}',
-    'nearest-stops-updated-location':
-      'Position auf der Karte hat sich geändert',
+    'nearest-stops-updated-location': 'Position auf der Karte hat sich geändert',
     'network-error': 'Ein Netzwerkfehler ist aufgetreten.',
     next: 'Nächste',
     'no-departures': 'Keine Abfahrten',
@@ -257,8 +247,7 @@ export default {
     'select-from-map-origin': 'Abfahrsort wählen',
     'select-from-map-viaPoint': 'Zwischenstopp wählen',
     'select-map-layers-header': 'Was soll auf der Karte angezeigt werden?',
-    'separate-ticket-required':
-      'Für einen Teil der Route ist ein seperates Ticket erforderlich.',
+    'separate-ticket-required': 'Für einen Teil der Route ist ein seperates Ticket erforderlich.',
     'separate-ticket-required-disclaimer':
       'Die Route umfasst einen oder mehrere Abschnitte, für die {agencyName} keine Tickets verkauft.',
     'set-time-earlier-button-label': 'Frühere Reisezeit wählen',
@@ -277,8 +266,7 @@ export default {
     'stop-near-you-modal-grant-permission': 'oder aktiviere die Ortsbestimmung',
     'stop-near-you-modal-grant-permission-info':
       'Sie können die Standortabfrage Ihres Smartphonse oder Browsers freigeben, so dass dieser Dienst Ihren aktuellen Standort verwenden kann.',
-    'stop-near-you-modal-header':
-      'Sie haben die Standortabfrage nicht freigegeben.',
+    'stop-near-you-modal-header': 'Sie haben die Standortabfrage nicht freigegeben.',
     'stop-near-you-modal-info':
       'Zur Nutzung der Suche nach Haltestellen in der Nähe wird Zugriff auf die Standortabfrage benötigt.',
     'stop-page.description': 'Haltestelle - {name} {code}, {desc}',
@@ -288,8 +276,7 @@ export default {
     stops: 'Haltestellen',
     'stops-near-you.description': 'Stop timetables and vehicles near your',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bike-aria':
-      'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
+    'street-mode-bike-aria': 'Zeige Fahrradroute. Dauer {duration}, Strecke {length}',
     'street-mode-bikeandvehicle-aria':
       'Zeige Kombination von Fahrrad und ÖPNV. Dauer {duration}, davon {length} per Rad',
     'street-mode-walk-aria': 'Zeige Fußweg. Dauer {duration}, Strecke {length}',
@@ -327,14 +314,11 @@ export default {
     'walk-bike-itinerary-1': 'Ihre Suche ergab nur Fußweg-Routen.',
     'walk-bike-itinerary-2': 'Ihre Suche ergab nur Fahrrad-Routen.',
     'walk-bike-itinerary-3': 'Ihre Suche ergab nur Fußweg- und Fahrrad-Routen.',
-    'walk-bike-itinerary-4':
-      'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
+    'walk-bike-itinerary-4': 'Ihre Suche ergab nur Fußweg- Fahrrad- und Auto-Routen.',
     'walk-distance-duration': 'Gehen {duration} ({distance})',
     'walking-speed': 'Laufgeschwindigkeit',
-    'warning-call-agency':
-      'Nur auf Nachfrage: {routeName}, muss vorher angefragt werden.',
-    'warning-call-agency-no-route':
-      'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
+    'warning-call-agency': 'Nur auf Nachfrage: {routeName}, muss vorher angefragt werden.',
+    'warning-call-agency-no-route': 'Nur auf Nachfrage. Diese Fahrt muss vorher angefragt werden.',
     weather: 'Wetter',
     'weather-data-source': 'Quelle: Finnish Meteorological Institute',
     'weather-detail-title': 'Wettervorhersage für das Reiseziel um ',

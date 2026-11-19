@@ -15,9 +15,7 @@ describe('itineraryPageUtils', () => {
 
     beforeEach(() => {
       mockStoredItinerary = {
-        itinerary: {
-          end: TEN_MINUTES_FROM_NOW,
-        },
+        itinerary: { end: TEN_MINUTES_FROM_NOW },
         params: {
           from: 'foo',
           to: 'bar',
@@ -36,9 +34,7 @@ describe('itineraryPageUtils', () => {
     });
 
     it('should return true for equal params', () => {
-      expect(isStoredItineraryRelevant(mockStoredItinerary, mockMatch)).toBe(
-        true,
-      );
+      expect(isStoredItineraryRelevant(mockStoredItinerary, mockMatch)).toBe(true);
     });
 
     it('should return true if stored index matches secondHash', () => {
@@ -57,25 +53,15 @@ describe('itineraryPageUtils', () => {
       itineraryWithoutArriveBy.params.arriveBy = undefined;
       matchWithoutArriveBy.location.query.arriveBy = undefined;
 
-      expect(
-        isStoredItineraryRelevant(
-          itineraryWithoutArriveBy,
-          matchWithoutArriveBy,
-        ),
-      ).toBe(true);
+      expect(isStoredItineraryRelevant(itineraryWithoutArriveBy, matchWithoutArriveBy)).toBe(true);
     });
 
     it('should return false for past itinerary', () => {
-      const TEN_MINUTES_IN_THE_PAST = new Date(
-        Date.now() + 600000,
-      ).toISOString();
+      const TEN_MINUTES_IN_THE_PAST = new Date(Date.now() + 600000).toISOString();
 
       expect(
         isStoredItineraryRelevant(
-          {
-            ...mockStoredItinerary,
-            itinerary: { end: TEN_MINUTES_IN_THE_PAST },
-          },
+          { ...mockStoredItinerary, itinerary: { end: TEN_MINUTES_IN_THE_PAST } },
           mockMatch,
         ),
       ).toBe(true);
@@ -86,9 +72,7 @@ describe('itineraryPageUtils', () => {
       matchWithDifferentHash.params.hash = '999';
       matchWithDifferentHash.params.secondHash = undefined;
 
-      expect(
-        isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash),
-      ).toBe(false);
+      expect(isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash)).toBe(false);
     });
 
     it('should return false on index and hash mismatch if hash and secondHash are undefined', () => {
@@ -96,15 +80,11 @@ describe('itineraryPageUtils', () => {
       matchWithDifferentHash.params.hash = undefined;
       matchWithDifferentHash.params.secondHash = undefined;
 
-      expect(
-        isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash),
-      ).toBe(false);
+      expect(isStoredItineraryRelevant(mockStoredItinerary, matchWithDifferentHash)).toBe(false);
     });
 
     it('should throw error if match is undefined', () => {
-      expect(() =>
-        isStoredItineraryRelevant(mockStoredItinerary, undefined),
-      ).toThrow(Error);
+      expect(() => isStoredItineraryRelevant(mockStoredItinerary, undefined)).toThrow(Error);
     });
 
     it('should not throw error if stored itinerary is empty object', () => {
@@ -114,31 +94,19 @@ describe('itineraryPageUtils', () => {
 
     it('should not throw error if stored itinerary is missing itinerary field', () => {
       expect(() =>
-        isStoredItineraryRelevant(
-          { ...mockStoredItinerary, itinerary: undefined },
-          mockMatch,
-        ),
+        isStoredItineraryRelevant({ ...mockStoredItinerary, itinerary: undefined }, mockMatch),
       ).not.toThrow(Error);
       expect(
-        isStoredItineraryRelevant(
-          { ...mockStoredItinerary, itinerary: undefined },
-          mockMatch,
-        ),
+        isStoredItineraryRelevant({ ...mockStoredItinerary, itinerary: undefined }, mockMatch),
       ).toBe(false);
     });
 
     it('should not throw error if stored itinerary is missing itinerary field', () => {
       expect(() =>
-        isStoredItineraryRelevant(
-          { ...mockStoredItinerary, params: undefined },
-          mockMatch,
-        ),
+        isStoredItineraryRelevant({ ...mockStoredItinerary, params: undefined }, mockMatch),
       ).not.toThrow(Error);
       expect(
-        isStoredItineraryRelevant(
-          { ...mockStoredItinerary, params: undefined },
-          mockMatch,
-        ),
+        isStoredItineraryRelevant({ ...mockStoredItinerary, params: undefined }, mockMatch),
       ).toBe(false);
     });
   });
@@ -170,10 +138,7 @@ describe('itineraryPageUtils', () => {
     });
 
     it('should keep the same trip on a different day', () => {
-      const result = removeDuplicateEdges(
-        [edge('t5', 't6', 'trip1')],
-        [edge('t1', 't2', 'trip1')],
-      );
+      const result = removeDuplicateEdges([edge('t5', 't6', 'trip1')], [edge('t1', 't2', 'trip1')]);
       expect(result).to.have.lengthOf(1);
     });
   });

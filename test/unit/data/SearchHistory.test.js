@@ -1,12 +1,8 @@
-/* eslint-disable no-unused-expressions */
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 
 import * as oldSearchesData from '../../../app/data/SearchHistory';
-import {
-  getOldSearchesStorage,
-  setOldSearchesStorage,
-} from '../../../utils/client/localStorage';
+import { getOldSearchesStorage, setOldSearchesStorage } from '../../../utils/client/localStorage';
 import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
 
 const { STORE_VERSION, STORE_MAX_ITEMS, STORE_KEEP_LATEST } = oldSearchesData;
@@ -93,12 +89,7 @@ describe('SearchHistory', () => {
     it('should update the local storage to the new version', () => {
       setOldSearchesStorage({
         version: STORE_VERSION - 1,
-        items: [
-          {
-            ...mockData.updated,
-            count: 1,
-          },
-        ],
+        items: [{ ...mockData.updated, count: 1 }],
       });
 
       const store = oldSearchesData;
@@ -166,10 +157,7 @@ describe('SearchHistory', () => {
       });
       setOldSearchesStorage({
         version: STORE_VERSION,
-        items: [
-          entry('fresh', now.minus({ days: 59 })),
-          entry('expired', now.minus({ days: 61 })),
-        ],
+        items: [entry('fresh', now.minus({ days: 59 })), entry('expired', now.minus({ days: 61 }))],
       });
 
       oldSearchesData.getStorageObject();
@@ -186,9 +174,7 @@ describe('SearchHistory', () => {
         count: i === 0 ? 5 : 1,
         type: 'endpoint',
         lastUpdated: now.minus({ seconds: total - i }).toUnixInteger(),
-        item: {
-          properties: { label: `place ${i}`, layer: 'address', name: `p${i}` },
-        },
+        item: { properties: { label: `place ${i}`, layer: 'address', name: `p${i}` } },
       }));
       setOldSearchesStorage({ version: STORE_VERSION, items });
 
@@ -205,34 +191,19 @@ describe('SearchHistory', () => {
     it('should never drop the latest searches to items with a higher count', () => {
       const now = DateTime.local(2018, 2, 18);
       MockDate.set(now);
-      const items = Array.from(
-        { length: STORE_MAX_ITEMS + STORE_KEEP_LATEST },
-        (_, i) => ({
-          count: i < STORE_MAX_ITEMS ? 3 : 1,
-          type: 'endpoint',
-          lastUpdated: now.minus({ days: 20 - i / 10 }).toUnixInteger(),
-          item: {
-            properties: {
-              label: `place ${i}`,
-              layer: 'address',
-              name: `p${i}`,
-            },
-          },
-        }),
-      );
+      const items = Array.from({ length: STORE_MAX_ITEMS + STORE_KEEP_LATEST }, (_, i) => ({
+        count: i < STORE_MAX_ITEMS ? 3 : 1,
+        type: 'endpoint',
+        lastUpdated: now.minus({ days: 20 - i / 10 }).toUnixInteger(),
+        item: { properties: { label: `place ${i}`, layer: 'address', name: `p${i}` } },
+      }));
       setOldSearchesStorage({ version: STORE_VERSION, items });
 
       oldSearchesData.getStorageObject();
 
-      const names = getOldSearchesStorage().items.map(
-        i => i.item.properties.name,
-      );
+      const names = getOldSearchesStorage().items.map(i => i.item.properties.name);
       expect(names).toHaveLength(STORE_MAX_ITEMS);
-      for (
-        let i = STORE_MAX_ITEMS;
-        i < STORE_MAX_ITEMS + STORE_KEEP_LATEST;
-        i++
-      ) {
+      for (let i = STORE_MAX_ITEMS; i < STORE_MAX_ITEMS + STORE_KEEP_LATEST; i++) {
         expect(names).toContain(`p${i}`);
       }
     });
@@ -244,8 +215,7 @@ describe('SearchHistory', () => {
       type: 'endpoint',
       item: { properties: { label: name, layer: 'address', name } },
     });
-    const names = () =>
-      oldSearchesData.getOldSearches().map(i => i.properties.name);
+    const names = () => oldSearchesData.getOldSearches().map(i => i.properties.name);
 
     it('should read the storage only once per session', () => {
       setOldSearchesStorage({ version: STORE_VERSION, items: [entry('a')] });
@@ -260,9 +230,7 @@ describe('SearchHistory', () => {
       expect(names()).toEqual(['a']);
 
       setOldSearchesStorage({ version: STORE_VERSION, items: [entry('b')] });
-      window.dispatchEvent(
-        new StorageEvent('storage', { key: 'saved-searches' }),
-      );
+      window.dispatchEvent(new StorageEvent('storage', { key: 'saved-searches' }));
       expect(names()).toEqual(['b']);
     });
 
@@ -282,9 +250,7 @@ describe('SearchHistory', () => {
         count: 3,
         type: 'endpoint',
         lastUpdated: now.minus({ days: 1, seconds: i }).toUnixInteger(),
-        item: {
-          properties: { label: `p${i}`, layer: 'address', name: `p${i}` },
-        },
+        item: { properties: { label: `p${i}`, layer: 'address', name: `p${i}` } },
       }));
       setOldSearchesStorage({ version: STORE_VERSION, items });
 
@@ -319,15 +285,7 @@ describe('SearchHistory', () => {
     });
 
     it('should ignore old version numbers from localStorage', () => {
-      setOldSearchesStorage({
-        version: 1,
-        items: [
-          {
-            ...mockData.updated,
-            count: 1,
-          },
-        ],
-      });
+      setOldSearchesStorage({ version: 1, items: [{ ...mockData.updated, count: 1 }] });
 
       const store = oldSearchesData;
       const oldSearches = store.getOldSearches();
@@ -356,35 +314,20 @@ describe('SearchHistory', () => {
         version: STORE_VERSION,
         items: [
           {
-            item: {
-              properties: { label: 'foo-bar' },
-              foo: 'bar',
-            },
+            item: { properties: { label: 'foo-bar' }, foo: 'bar' },
             lastUpdated: timestamp().toUnixInteger(),
           },
           {
-            item: {
-              properties: { label: 'foo-baz' },
-              foo: 'baz',
-            },
+            item: { properties: { label: 'foo-baz' }, foo: 'baz' },
             lastUpdated: timestamp().plus({ seconds: 1 }).toUnixInteger(),
           },
           {
-            item: {
-              properties: { label: 'foo-yes-filter' },
-              foo: 'yes_filter',
-            },
+            item: { properties: { label: 'foo-yes-filter' }, foo: 'yes_filter' },
             lastUpdated: timestamp().minus({ days: 60 }).toUnixInteger(),
           },
           {
-            item: {
-              properties: { label: 'foo-no-filter' },
-              foo: 'no_filter',
-            },
-            lastUpdated: timestamp()
-              .minus({ days: 60 })
-              .plus({ seconds: 1 })
-              .toUnixInteger(),
+            item: { properties: { label: 'foo-no-filter' }, foo: 'no_filter' },
+            lastUpdated: timestamp().minus({ days: 60 }).plus({ seconds: 1 }).toUnixInteger(),
           },
         ],
       });
@@ -394,9 +337,7 @@ describe('SearchHistory', () => {
       expect(Object.keys(oldSearches)).not.toHaveLength(0);
       expect(oldSearches.length).toBe(3);
       expect(oldSearches.filter(s => s.foo === 'yes_filter')).toHaveLength(0);
-      expect(oldSearches.filter(s => s.foo === 'no_filter')).not.toHaveLength(
-        0,
-      );
+      expect(oldSearches.filter(s => s.foo === 'no_filter')).not.toHaveLength(0);
     });
 
     it('should ignore a missing timestamp', () => {
@@ -444,26 +385,15 @@ describe('SearchHistory', () => {
           type: 'Route',
           properties: {
             gtfsId: 'tampere:32',
-            agency: {
-              name: 'Tampereen joukkoliikenne',
-            },
+            agency: { name: 'Tampereen joukkoliikenne' },
             shortName: '32',
             mode: 'BUS',
             longName: 'Old Name - Hervanta',
-            patterns: [
-              {
-                code: 'tampere:32:0:01',
-              },
-              {
-                code: 'tampere:32:1:01',
-              },
-            ],
+            patterns: [{ code: 'tampere:32:0:01' }, { code: 'tampere:32:1:01' }],
             layer: 'route-BUS',
             link: `/${PREFIX_ROUTES}/tampere:32/${PREFIX_STOPS}/tampere:32:0:01`,
           },
-          geometry: {
-            coordinates: null,
-          },
+          geometry: { coordinates: null },
         },
         type: 'search',
       };
@@ -472,26 +402,15 @@ describe('SearchHistory', () => {
           type: 'Route',
           properties: {
             gtfsId: 'tampere:32',
-            agency: {
-              name: 'Tampereen joukkoliikenne',
-            },
+            agency: { name: 'Tampereen joukkoliikenne' },
             shortName: '32',
             mode: 'BUS',
             longName: 'TAYS - Hervanta - Hatanpää-Tampella',
-            patterns: [
-              {
-                code: 'tampere:32:0:01',
-              },
-              {
-                code: 'tampere:32:1:01',
-              },
-            ],
+            patterns: [{ code: 'tampere:32:0:01' }, { code: 'tampere:32:1:01' }],
             layer: 'route-BUS',
             link: `/${PREFIX_ROUTES}/tampere:32/${PREFIX_STOPS}/tampere:32:0:01`,
           },
-          geometry: {
-            coordinates: null,
-          },
+          geometry: { coordinates: null },
         },
         type: 'search',
       };

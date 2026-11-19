@@ -29,8 +29,7 @@ const TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS = {
 
 export function getTrackOrPierOrPlatformText(intl, mode) {
   return intl.formatMessage(
-    TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS[mode] ??
-      TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS.default,
+    TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS[mode] ?? TRACK_OR_PIER_OR_PLATFORM_TEXT_MSGS.default,
   );
 }
 
@@ -49,40 +48,21 @@ export function getTrackOrPierOrPlatformWithNumText(intl, mode, platformCode) {
 }
 
 const TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS = {
-  [TransportMode.Rail]: {
-    id: 'navigation-track-change',
-    defaultMessage: 'Track change',
-  },
-  [TransportMode.Ferry]: {
-    id: 'navigation-pier-change',
-    defaultMessage: 'Pier change',
-  },
-  default: {
-    id: 'navigation-platform-change',
-    defaultMessage: 'Platform change',
-  },
+  [TransportMode.Rail]: { id: 'navigation-track-change', defaultMessage: 'Track change' },
+  [TransportMode.Ferry]: { id: 'navigation-pier-change', defaultMessage: 'Pier change' },
+  default: { id: 'navigation-platform-change', defaultMessage: 'Platform change' },
 };
 
 export function getTrackOrPierOrPlatformChangeText(intl, mode) {
   return intl.formatMessage(
-    TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS[mode] ??
-      TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS.default,
+    TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS[mode] ?? TRACK_OR_PIER_OR_PLATFORM_CHANGE_MSGS.default,
   );
 }
 
 const TRACK_OR_PIER_OR_PLATFORM_RESTORED_MSGS = {
-  [TransportMode.Rail]: {
-    id: 'navigation-track-restored',
-    defaultMessage: 'Track restored',
-  },
-  [TransportMode.Ferry]: {
-    id: 'navigation-pier-restored',
-    defaultMessage: 'Pier restored',
-  },
-  default: {
-    id: 'navigation-platform-restored',
-    defaultMessage: 'Platform restored',
-  },
+  [TransportMode.Rail]: { id: 'navigation-track-restored', defaultMessage: 'Track restored' },
+  [TransportMode.Ferry]: { id: 'navigation-pier-restored', defaultMessage: 'Pier restored' },
+  default: { id: 'navigation-platform-restored', defaultMessage: 'Platform restored' },
 };
 
 export function getTrackOrPierOrPlatformRestoredText(intl, mode) {
@@ -98,12 +78,7 @@ const TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS = {
   default: { id: 'navigation-platform-change-details' },
 };
 
-export function getTrackOrPierOrPlatformChangeDetailsText(
-  intl,
-  mode,
-  number,
-  routeName,
-) {
+export function getTrackOrPierOrPlatformChangeDetailsText(intl, mode, number, routeName) {
   return intl.formatMessage(
     TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS[mode] ??
       TRACK_OR_PIER_OR_PLATFORM_CHANGE_DETAILS_MSGS.default,
@@ -117,9 +92,7 @@ const TERMINAL_OR_STATION_MSGS = {
 };
 
 export function getTerminalOrStationText(intl, mode) {
-  return intl.formatMessage(
-    TERMINAL_OR_STATION_MSGS[mode] ?? TERMINAL_OR_STATION_MSGS.default,
-  );
+  return intl.formatMessage(TERMINAL_OR_STATION_MSGS[mode] ?? TERMINAL_OR_STATION_MSGS.default);
 }
 
 const FIRST_DEPARTURE_STOP_TYPE_MSGS = {
@@ -131,8 +104,7 @@ const FIRST_DEPARTURE_STOP_TYPE_MSGS = {
 
 export function getFirstDepartureStopTypeText(intl, mode) {
   return intl.formatMessage(
-    FIRST_DEPARTURE_STOP_TYPE_MSGS[mode] ??
-      FIRST_DEPARTURE_STOP_TYPE_MSGS.default,
+    FIRST_DEPARTURE_STOP_TYPE_MSGS[mode] ?? FIRST_DEPARTURE_STOP_TYPE_MSGS.default,
   );
 }
 
@@ -143,11 +115,7 @@ export function getFirstDepartureStopTypeText(intl, mode) {
  * @param {boolean} showPlatformChangeLabel - Whether to include a platform-change prefix.
  * @returns {string} The boarding information text.
  */
-export function getBoardingInformationText(
-  intl,
-  leg,
-  showPlatformChangeLabel = true,
-) {
+export function getBoardingInformationText(intl, leg, showPlatformChangeLabel = true) {
   if (!leg) {
     return '';
   }
@@ -157,20 +125,13 @@ export function getBoardingInformationText(
       showPlatformChangeLabel && isPlatformChanged(leg)
         ? `${getTrackOrPierOrPlatformChangeText(intl, leg.mode)}:`
         : '';
-    const platformLabel = getTrackOrPierOrPlatformWithNumText(
-      intl,
-      leg.mode,
-      platformCode,
-    );
+    const platformLabel = getTrackOrPierOrPlatformWithNumText(intl, leg.mode, platformCode);
     return `${platformChangeLabelText} ${platformLabel}`;
   }
   return '';
 }
 
-export function getFirstDepartureMessageId(
-  firstDepartureLeg,
-  isScreenReaderMessage,
-) {
+export function getFirstDepartureMessageId(firstDepartureLeg, isScreenReaderMessage) {
   if (isBikeOrScooterRentalLeg(firstDepartureLeg)) {
     return isScooterLeg(firstDepartureLeg)
       ? 'itinerary-summary-row.first-leg-start-time-scooter'
@@ -226,18 +187,11 @@ export function getSummaryDescriptionText(
   },
 ) {
   if (hasCallAgencyLeg) {
-    return intl.formatMessage({
-      id: 'itinerary-summary-row.call-agency-description',
-    });
+    return intl.formatMessage({ id: 'itinerary-summary-row.call-agency-description' });
   }
 
-  const firstDepartureTime = firstDeparture
-    ? legTimeStr(firstDeparture.start)
-    : '';
-  const firstDeparturePlatform = getBoardingInformationText(
-    intl,
-    firstDeparture,
-  );
+  const firstDepartureTime = firstDeparture ? legTimeStr(firstDeparture.start) : '';
+  const firstDeparturePlatform = getBoardingInformationText(intl, firstDeparture);
 
   const firstDepartureText = ensureSentence(
     vehicleNames.length && firstDeparture
@@ -247,10 +201,7 @@ export function getSummaryDescriptionText(
             vehicle: vehicleNames[0],
             firstDepartureTime,
             firstDepartureStop: stopNames[0],
-            firstDepartureStopType: getFirstDepartureStopTypeText(
-              intl,
-              firstDeparture.mode,
-            ),
+            firstDepartureStopType: getFirstDepartureStopTypeText(intl, firstDeparture.mode),
             firstDeparturePlatform,
           },
         )
@@ -269,10 +220,7 @@ export function getSummaryDescriptionText(
               ? 'itinerary-summary-row.transfers'
               : 'itinerary-summary-row.transfers-to-rental',
           },
-          {
-            vehicle: name,
-            stopName: stopNames[index],
-          },
+          { vehicle: name, stopName: stopNames[index] },
         ),
       );
     })

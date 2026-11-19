@@ -29,9 +29,7 @@ describe('<Disclaimer />', () => {
         linkLabelId="read-more"
       />,
     );
-    expect(
-      screen.getByText('Make electric scooters part of your routes!'),
-    ).toBeTruthy();
+    expect(screen.getByText('Make electric scooters part of your routes!')).toBeTruthy();
     expect(screen.getByText('payment info')).toBeTruthy();
     expect(screen.getByText('Read more').closest('a')).toBeTruthy();
   });

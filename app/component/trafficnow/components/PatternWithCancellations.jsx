@@ -8,11 +8,7 @@ import { patternShape } from '../../../../utils/client/shapes';
 import EntityBadge from './EntityBadge';
 import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
 
-export default function PatternWithCancellations({
-  routeId,
-  pattern: patternRef,
-  mode,
-}) {
+export default function PatternWithCancellations({ routeId, pattern: patternRef, mode }) {
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);
   const { router } = useRouter();
   const url = routePagePath(routeId, PREFIX_TIMETABLE, pattern.code);
@@ -27,10 +23,7 @@ export default function PatternWithCancellations({
     <div className="pattern-column">
       <EntityBadge
         mode={mode}
-        entity={{
-          __typename: 'Pattern',
-          ...pattern,
-        }}
+        entity={{ __typename: 'Pattern', ...pattern }}
         handleClick={handleClick}
         isPattern
       />

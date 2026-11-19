@@ -5,16 +5,12 @@ import { settingsShape } from '../../../../utils/client/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TransferOptions({ settings, updateSettings }) {
-  const { transferPenaltyHigh, minTransferTimeSelection, defaultSettings } =
-    useConfigContext();
-  const avoidTransfers =
-    settings.transferPenalty !== defaultSettings.transferPenalty;
+  const { transferPenaltyHigh, minTransferTimeSelection, defaultSettings } = useConfigContext();
+  const avoidTransfers = settings.transferPenalty !== defaultSettings.transferPenalty;
 
   const onToggle = () => {
     updateSettings({
-      transferPenalty: avoidTransfers
-        ? defaultSettings.transferPenalty
-        : transferPenaltyHigh,
+      transferPenalty: avoidTransfers ? defaultSettings.transferPenalty : transferPenaltyHigh,
     });
     addAnalyticsEvent({
       category: 'ItinerarySettings',
@@ -25,7 +21,6 @@ export default function TransferOptions({ settings, updateSettings }) {
 
   return (
     <SettingsToggle
-      id="settings-toggle-transfers"
       labelId="avoid-transfers"
       toggled={avoidTransfers}
       onToggle={onToggle}

@@ -14,19 +14,11 @@ import {
 } from '../../../utils/client/alertUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { unixTime } from '../../../utils/client/timeUtils';
-import {
-  PREFIX_DISRUPTION,
-  PREFIX_TIMETABLE,
-  stopPagePath,
-} from '../../../utils/shared/path';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE, stopPagePath } from '../../../utils/shared/path';
 import { filterCanceledCalls } from './Disruptions';
 import { StopPageTabsFragment } from './queries/StopPageTabsFragment';
 
-const Tab = {
-  RightNow: 1,
-  Timetable: 2,
-  Disruptions: 3,
-};
+const Tab = { RightNow: 1, Timetable: 2, Disruptions: 3 };
 
 const getActiveTab = pathname => {
   if (pathname.indexOf(PREFIX_DISRUPTION) > -1) {
@@ -60,14 +52,12 @@ function StopPageTabs({ stop }) {
 
   const canceledCallsByPattern = groupBy(
     canceledCalls,
-    ({ tripOnServiceDate }) =>
-      tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
+    ({ tripOnServiceDate }) => tripOnServiceDate.trip.pattern.code + tripOnServiceDate.serviceDate,
   );
 
   const maxAlertSeverity = getActiveAlertSeverityLevel(alerts, currentTime);
 
-  const alertsCount =
-    getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
+  const alertsCount = getUniqueAlerts(alerts).length + Object.keys(canceledCallsByPattern).length;
 
   let disruptionClassName;
   let disruptionIcon;
@@ -119,11 +109,7 @@ function StopPageTabs({ stop }) {
           className={cx({ 'is-active': activeTab === Tab.RightNow })}
           onClick={() => {
             router.replace(stopPagePath(isTerminal, stop.gtfsId, null, search));
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenRightNowTab',
-              name: null,
-            });
+            addAnalyticsEvent({ category: 'Stop', action: 'OpenRightNowTab', name: null });
           }}
           role="tab"
           ref={rightNowTabRef}
@@ -139,14 +125,8 @@ function StopPageTabs({ stop }) {
           type="button"
           className={cx({ 'is-active': activeTab === Tab.Timetable })}
           onClick={() => {
-            router.replace(
-              stopPagePath(isTerminal, stop.gtfsId, PREFIX_TIMETABLE, search),
-            );
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenTimetableTab',
-              name: null,
-            });
+            router.replace(stopPagePath(isTerminal, stop.gtfsId, PREFIX_TIMETABLE, search));
+            addAnalyticsEvent({ category: 'Stop', action: 'OpenTimetableTab', name: null });
           }}
           role="tab"
           ref={timetableTabRef}
@@ -163,18 +143,11 @@ function StopPageTabs({ stop }) {
           className={cx({
             'is-active': activeTab === Tab.Disruptions,
             'alert-active': disruptionClassName === 'active-disruption-alert',
-            'service-alert-active':
-              disruptionClassName === 'active-service-alert',
+            'service-alert-active': disruptionClassName === 'active-service-alert',
           })}
           onClick={() => {
-            router.replace(
-              stopPagePath(isTerminal, stop.gtfsId, PREFIX_DISRUPTION, search),
-            );
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'OpenDisruptionsTab',
-              name: null,
-            });
+            router.replace(stopPagePath(isTerminal, stop.gtfsId, PREFIX_DISRUPTION, search));
+            addAnalyticsEvent({ category: 'Stop', action: 'OpenDisruptionsTab', name: null });
           }}
           role="tab"
           ref={disruptionTabRef}
@@ -182,11 +155,7 @@ function StopPageTabs({ stop }) {
           aria-selected={activeTab === Tab.Disruptions}
           style={{ '--totalCount': '3' }}
         >
-          <div
-            className={`tab-route-disruption ${
-              disruptionClassName || 'no-alerts'
-            }`}
-          >
+          <div className={`tab-route-disruption ${disruptionClassName || 'no-alerts'}`}>
             {disruptionIcon}
             <FormattedMessage id="disruptions" />
           </div>
@@ -216,7 +185,4 @@ export default function StopPageTabsContainer({ children, stop: stopRef }) {
   );
 }
 
-StopPageTabsContainer.propTypes = {
-  children: PropTypes.node,
-  stop: fragmentRefShape,
-};
+StopPageTabsContainer.propTypes = { children: PropTypes.node, stop: fragmentRefShape };

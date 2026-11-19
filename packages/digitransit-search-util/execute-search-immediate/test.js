@@ -36,15 +36,8 @@ describe('Testing @digitransit-search-util/digitransit-search-util-execute-searc
   describe('executeSearch', () => {
     it('calls back synchronously with null to signal that a search has started', () => {
       const calls = [];
-      executeSearch(
-        [],
-        [],
-        undefined,
-        searchContext,
-        undefined,
-        undefined,
-        { input: '' },
-        arg => calls.push(arg),
+      executeSearch([], [], undefined, searchContext, undefined, undefined, { input: '' }, arg =>
+        calls.push(arg),
       );
       expect(calls).toEqual([null]);
     });

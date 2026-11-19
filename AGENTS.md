@@ -35,7 +35,10 @@ right one by *who consumes the code*, not just by convenience.
     of truth, keep sorted via `scripts/sort-translations.js` (`yarn format` runs this), and every
     key must also exist in `en.js`/`sv.js` (enforced by `test/unit/translations.test.js`). Some
     `digitransit-component` packages ship their own i18next translation bundles instead, sorted/
-    checked separately via `scripts/packages/sort-translations.js`.
+    checked separately via `scripts/packages/sort-translations.js`. Pass `lang` to `@hsl-fi/*`
+    components via `hslfiLocale` from `utils/client/hslfiLocale.js` (app) or the package's
+    `hslfiLocales` export (`translations.js`), which turn non-fi/sv/en languages into DS locale
+    objects; see `docs/Packages.md` "Design system strings".
 - `server/` — Express server, native-ESM, never bundled. `server.js` is the entrypoint;
   `app.js`'s `createApp()` builds the app without `.listen()`, so it's testable with supertest.
   `middleware/shell.js` renders only the HTML shell: no React runs server-side. `configs/` holds
@@ -189,8 +192,9 @@ All themes share `styles/main.scss`; a theme only sets CSS custom properties.
 
 - ES2015+ transpiled with Babel; Airbnb JS/React style guide (`.eslintrc.cjs`) with project
   overrides: prefer object spread over `Object.assign`; `no-console` is an error (except in
-  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config
-  is `singleQuote: true, trailingComma: 'all', arrowParens: 'avoid'`.
+  Node-only `server/**`, `utils/server/**`, `scripts/**`); Prettier config (`"prettier"` in
+  `package.json`) is `printWidth: 100, objectWrap: 'collapse', singleQuote: true,
+  trailingComma: 'all', arrowParens: 'avoid'`.
 - Keep comments and explanations concise, describing the current state rather than how it was
   reached; prefer one-line comments. Comment only where necessary; document functions with concise JSDoc (`/** ... */`).
 - JSX-containing files use the `.jsx` extension; plain `.js` never contains JSX.

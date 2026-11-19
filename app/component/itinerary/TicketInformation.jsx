@@ -4,10 +4,7 @@ import { useIntl } from 'react-intl';
 import { fareShape, legShape } from '../../../utils/client/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from '../Icon';
-import {
-  getAlternativeFares,
-  formatFare,
-} from '../../../utils/client/fareUtils';
+import { getAlternativeFares, formatFare } from '../../../utils/client/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];
@@ -42,25 +39,17 @@ export default function TicketInformation({
 
   const faresInfo = fares.map((fare, i) => {
     return (
-      <div
-        key={fare.fareProducts?.[0]?.id || fare.routeGtfsId}
-        className="ticket-container"
-      >
+      <div key={fare.fareProducts?.[0]?.id || fare.routeGtfsId} className="ticket-container">
         {i === 0 && (
           <div className="ticket-title">
             {`${intl.formatMessage({
-              id:
-                fares.length > 1
-                  ? 'itinerary-tickets.title'
-                  : 'itinerary-ticket.title',
+              id: fares.length > 1 ? 'itinerary-tickets.title' : 'itinerary-ticket.title',
               defaultMessage: 'Required tickets',
             })}:`}
           </div>
         )}
         <div
-          className={cx('ticket-type-zone', {
-            'multi-component': fares.length > 1,
-          })}
+          className={cx('ticket-type-zone', { 'multi-component': fares.length > 1 })}
           key={i} // eslint-disable-line react/no-array-index-key
         >
           {fare.isUnknown ? (
@@ -91,9 +80,7 @@ export default function TicketInformation({
                     : fare.ticketName}
                 </div>
                 {config.showTicketPrice && (
-                  <div className="ticket-description">
-                    {`${fare.price.toFixed(2)} €`}
-                  </div>
+                  <div className="ticket-description">{`${fare.price.toFixed(2)} €`}</div>
                 )}
               </div>
             )

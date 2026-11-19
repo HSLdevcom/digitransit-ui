@@ -26,11 +26,7 @@ function parseLocation(location, input, config) {
     if (parsedFrom) {
       const coords = kkj2ToWgs84([parsedFrom[2], parsedFrom[3]]);
       return Promise.resolve(
-        locationToOTP({
-          address: parsedFrom[1],
-          lon: coords[0],
-          lat: coords[1],
-        }),
+        locationToOTP({ address: parsedFrom[1], lon: coords[0], lat: coords[1] }),
       );
     }
 
@@ -71,42 +67,28 @@ function parseTime(query, config) {
   if (query.daymonthyear) {
     const dmy = query.daymonthyear.split('.');
     if (dmy.length === 3) {
-      time = time.set({
-        day: +dmy[0],
-        month: +dmy[1],
-        year: +dmy[2],
-      });
+      time = time.set({ day: +dmy[0], month: +dmy[1], year: +dmy[2] });
       hasTime = true;
     }
   }
   if (query.year) {
-    time = time.set({
-      year: +query.year,
-    });
+    time = time.set({ year: +query.year });
     hasTime = true;
   }
   if (query.month) {
-    time = time.set({
-      month: +query.month,
-    });
+    time = time.set({ month: +query.month });
     hasTime = true;
   }
   if (query.day) {
-    time = time.set({
-      day: +query.day,
-    });
+    time = time.set({ day: +query.day });
     hasTime = true;
   }
   if (query.hour) {
-    time = time.set({
-      hour: +query.hour,
-    });
+    time = time.set({ hour: +query.hour });
     hasTime = true;
   }
   if (query.minute) {
-    time = time.set({
-      minute: +query.minute,
-    });
+    time = time.set({ minute: +query.minute });
     hasTime = true;
   }
 

@@ -69,8 +69,7 @@ export default function StopCardHeader({
       size: 1,
     };
     if (config.searchParams?.['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
+      searchParams['boundary.country'] = config.searchParams['boundary.country'];
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
@@ -123,9 +122,7 @@ export default function StopCardHeader({
       showBackButton={breakpoint === 'large'}
       stop={stop}
       isTerminal={isTerminal}
-      favouriteContainer={
-        <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
-      }
+      favouriteContainer={<FavouriteStopContainer stop={stop} isTerminal={isTerminal} />}
     />
   );
 }

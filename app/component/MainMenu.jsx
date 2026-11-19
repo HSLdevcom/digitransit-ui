@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Link from 'found/Link';
 import { useRouter } from 'found';
+import { Toggle } from '@hsl-fi/form';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import Toggle from './Toggle';
 import { getCountries, setCountries } from '../../utils/client/localStorage';
 import { TRAFFICNOW } from '../../utils/shared/path';
 import { useConfigContext } from '../hooks/ConfigContext';
@@ -15,8 +15,7 @@ export default function MainMenu({ closeMenu, homeUrl }) {
   const config = useConfigContext();
   const { router } = useRouter();
   const countries = getCountries();
-  const appBarLink =
-    config.appBarLink?.altLink?.[config.language] || config.appBarLink;
+  const appBarLink = config.appBarLink?.altLink?.[config.language] || config.appBarLink;
 
   return (
     <div className="main-menu no-select" tabIndex={-1}>
@@ -30,11 +29,7 @@ export default function MainMenu({ closeMenu, homeUrl }) {
               id="frontpage"
               to={homeUrl}
               onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'Home',
-                  name: null,
-                });
+                addAnalyticsEvent({ category: 'Navigation', action: 'Home', name: null });
                 closeMenu();
               }}
             >
@@ -54,21 +49,14 @@ export default function MainMenu({ closeMenu, homeUrl }) {
         )}
         {config.mainMenu.stopMonitor.show && (
           <div className="offcanvas-section">
-            <a
-              href={config.mainMenu.stopMonitor.url}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={config.mainMenu.stopMonitor.url} target="_blank" rel="noreferrer">
               <FormattedMessage id="create-stop-monitor" />
             </a>
           </div>
         )}
         {config.mainMenu.showEmbeddedSearch && (
           <div className="offcanvas-section">
-            <Link
-              to={`${config.URL.EMBEDDED_SEARCH_GENERATION}`}
-              onClick={closeMenu}
-            >
+            <Link to={`${config.URL.EMBEDDED_SEARCH_GENERATION}`} onClick={closeMenu}>
               <FormattedMessage
                 id="create-embedded-search"
                 defaultMessage="Create a route search element"
@@ -77,22 +65,14 @@ export default function MainMenu({ closeMenu, homeUrl }) {
           </div>
         )}
         {config.mainMenu.countrySelection?.map(country => (
-          <div key={country} className="offcanvas-section">
-            <FormattedMessage
-              id={`include-${country}`}
-              defaultMessage={`include-${country}`}
-            />
-            <div style={{ float: 'right', display: 'inline-block' }}>
-              {/* eslint-disable jsx-a11y/label-has-associated-control */}
-              <label key={country} htmlFor={`toggle-${country}`}>
+          <div key={country} className="offcanvas-section country-toggle">
+            <FormattedMessage id={`include-${country}`} defaultMessage={`include-${country}`} />
+            <div>
+              <label key={country}>
                 <Toggle
-                  id={`toggle-${country}`}
-                  toggled={!!countries[country]}
-                  onToggle={() => {
-                    const newCountries = {
-                      ...countries,
-                      [country]: !countries[country],
-                    };
+                  checked={!!countries[country]}
+                  onChange={() => {
+                    const newCountries = { ...countries, [country]: !countries[country] };
                     setCountries(newCountries); // update localStorage
                     // On changing country filters, set sessionStorage menuOpen to true. This item is used in AppBar.js to initially open the menu after refresh for visual confirmation.
                     window.sessionStorage.setItem('menuOpen', true);
@@ -110,11 +90,7 @@ export default function MainMenu({ closeMenu, homeUrl }) {
               href={appBarLink.href}
               target="_blank"
               onClick={() => {
-                addAnalyticsEvent({
-                  category: 'Navigation',
-                  action: 'appBarLink',
-                  name: null,
-                });
+                addAnalyticsEvent({ category: 'Navigation', action: 'appBarLink', name: null });
               }}
               rel="noreferrer"
             >
@@ -131,14 +107,9 @@ export default function MainMenu({ closeMenu, homeUrl }) {
           closeMenu={closeMenu}
         />
       </section>
-      {config.menu?.copyright && (
-        <div className="copyright">{config.menu.copyright.label}</div>
-      )}
+      {config.menu?.copyright && <div className="copyright">{config.menu.copyright.label}</div>}
     </div>
   );
 }
 
-MainMenu.propTypes = {
-  closeMenu: PropTypes.func.isRequired,
-  homeUrl: PropTypes.string.isRequired,
-};
+MainMenu.propTypes = { closeMenu: PropTypes.func.isRequired, homeUrl: PropTypes.string.isRequired };

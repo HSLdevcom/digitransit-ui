@@ -90,9 +90,7 @@
     margin-top: 0;
 
     // mirrors the gap below the description, plus the description's line-height whitespace
-    margin-bottom: calc(
-      var(--space-s) + var(--space-fixed-xxs) - var(--space-fixed-m)
-    );
+    margin-bottom: calc(var(--space-s) + var(--space-fixed-xxs) - var(--space-fixed-m));
   }
 }
 

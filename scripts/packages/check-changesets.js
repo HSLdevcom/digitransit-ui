@@ -19,8 +19,7 @@ const colorsEnabled = !process.env.NO_COLOR;
 const red = text => (colorsEnabled ? `\x1b[31m${text}\x1b[0m` : text);
 const green = text => (colorsEnabled ? `\x1b[32m${text}\x1b[0m` : text);
 
-const run = (command, args) =>
-  execFileSync(command, args, { encoding: 'utf8' }).trim();
+const run = (command, args) => execFileSync(command, args, { encoding: 'utf8' }).trim();
 
 /** Packages changed since `base`, dependents included unless excluded. */
 function changedPackages(base, { excludeDependents = false } = {}) {
@@ -47,11 +46,9 @@ function plannedReleases(base) {
   const output = join(directory, 'status.json');
   try {
     try {
-      execFileSync(
-        'changeset',
-        ['status', `--since=${base}`, `--output=${output}`],
-        { stdio: ['ignore', 'inherit', 'inherit'] },
-      );
+      execFileSync('changeset', ['status', `--since=${base}`, `--output=${output}`], {
+        stdio: ['ignore', 'inherit', 'inherit'],
+      });
     } catch (error) {
       if (typeof error.status === 'number') {
         return null;
@@ -62,9 +59,7 @@ function plannedReleases(base) {
     // Dev dependents are listed with type "none": their range is updated, but
     // they aren't bumped or published.
     return new Set(
-      releases
-        .filter(release => release.type !== 'none')
-        .map(release => release.name),
+      releases.filter(release => release.type !== 'none').map(release => release.name),
     );
   } finally {
     rmSync(directory, { recursive: true, force: true });
@@ -75,24 +70,16 @@ function plannedReleases(base) {
 function findVersionEdits(changed, base) {
   return changed
     .filter(pkg => {
-      const packageJsonPath = join(
-        relative(process.cwd(), pkg.location),
-        'package.json',
-      );
+      const packageJsonPath = join(relative(process.cwd(), pkg.location), 'package.json');
       let previous;
       try {
-        previous = JSON.parse(
-          run('git', ['show', `${base}:${packageJsonPath}`]),
-        ).version;
+        previous = JSON.parse(run('git', ['show', `${base}:${packageJsonPath}`])).version;
       } catch {
         return false; // New package.
       }
       return previous !== pkg.version;
     })
-    .map(
-      pkg =>
-        `${pkg.name}: "version" was edited; the Version packages PR sets versions`,
-    );
+    .map(pkg => `${pkg.name}: "version" was edited; the Version packages PR sets versions`);
 }
 
 /**
@@ -101,30 +88,18 @@ function findVersionEdits(changed, base) {
  * reported once every directly changed package has a changeset.
  */
 function findUncoveredPackages(changed, base, released) {
-  const unreleased = changed.filter(
-    pkg => !pkg.private && !released.has(pkg.name),
-  );
+  const unreleased = changed.filter(pkg => !pkg.private && !released.has(pkg.name));
   const directlyChanged = new Set(
     changedPackages(base, { excludeDependents: true }).map(pkg => pkg.name),
   );
-  const unreleasedChanged = unreleased.filter(pkg =>
-    directlyChanged.has(pkg.name),
-  );
+  const unreleasedChanged = unreleased.filter(pkg => directlyChanged.has(pkg.name));
   if (unreleasedChanged.length > 0) {
-    return unreleasedChanged.map(
-      pkg => `${pkg.name}: changed but has no changeset`,
-    );
+    return unreleasedChanged.map(pkg => `${pkg.name}: changed but has no changeset`);
   }
-  return unreleased.map(
-    pkg => `${pkg.name}: depends on a changed package but has no changeset`,
-  );
+  return unreleased.map(pkg => `${pkg.name}: depends on a changed package but has no changeset`);
 }
 
-const base = run('git', [
-  'merge-base',
-  'HEAD',
-  `origin/${process.env.BASE_REF || 'v3'}`,
-]);
+const base = run('git', ['merge-base', 'HEAD', `origin/${process.env.BASE_REF || 'v3'}`]);
 const changed = changedPackages(base);
 
 if (changed.length === 0) {
@@ -141,9 +116,7 @@ const errors = [
 if (errors.length > 0) {
   errors.forEach(error => console.error(red(`✗ ${error}`)));
   console.error(
-    red(
-      '\nAdd changesets with `yarn packages-changeset`; never edit versions by hand.',
-    ),
+    red('\nAdd changesets with `yarn packages-changeset`; never edit versions by hand.'),
   );
 }
 if (errors.length > 0 || !released) {

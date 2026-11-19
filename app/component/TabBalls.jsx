@@ -21,13 +21,7 @@ function setDecreasingAttributes(tabBalls) {
   return newTabBalls;
 }
 
-export default function TabBalls({
-  tabIndex,
-  tabsLength,
-  onSwipe,
-  reactSwipeEl,
-  ariaRole,
-}) {
+export default function TabBalls({ tabIndex, tabsLength, onSwipe, reactSwipeEl, ariaRole }) {
   const intl = useIntl();
   const tabRefs = useRef([]);
   const lastKeyboardNav = useRef(false);
@@ -127,10 +121,7 @@ export default function TabBalls({
         aria-label={`${index + 1}.`}
         aria-selected={index === tabIndex}
         aria-roledescription={`${intl.formatMessage(
-          {
-            id: ariaRole,
-            defaultMessage: 'Tab {number}',
-          },
+          { id: ariaRole, defaultMessage: 'Tab {number}' },
           { number: undefined },
         )}`}
         aria-controls={`tabpanel-${index}`}

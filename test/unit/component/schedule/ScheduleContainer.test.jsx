@@ -14,10 +14,7 @@ describe('<ScheduleContainer />', () => {
   const mockMatchWithRouter = {
     ...mockMatch,
     router: mockRouter,
-    location: {
-      ...mockMatch.location,
-      query: {},
-    },
+    location: { ...mockMatch.location, query: {} },
   };
 
   const mockPattern = {
@@ -108,21 +105,14 @@ describe('<ScheduleContainer />', () => {
 
   beforeEach(() => {
     const testContext = createScheduleTestContext({
-      availableDates: [
-        DateTime.fromISO('2024-01-01'),
-        DateTime.fromISO('2024-01-02'),
-      ],
+      availableDates: [DateTime.fromISO('2024-01-01'), DateTime.fromISO('2024-01-02')],
       scheduleData: mockFirstDepartures,
     });
 
     mocks = testContext.mocks;
     stubs = testContext.stubs;
 
-    defaultProps = {
-      pattern: mockPattern,
-      route: mockRoute,
-      firstDepartures: mockFirstDepartures,
-    };
+    defaultProps = { pattern: mockPattern, route: mockRoute, firstDepartures: mockFirstDepartures };
   });
 
   const renderView = (props = {}, match = mockMatchWithRouter) =>
@@ -135,27 +125,21 @@ describe('<ScheduleContainer />', () => {
   it('should initialize from/to stops covering the whole pattern', () => {
     const { container } = renderView();
     expect(container.querySelector('.route-schedule-header')).not.toBeNull();
-    expect(container.querySelectorAll('.dd-container.withLabel')).toHaveLength(
-      2,
-    );
+    expect(container.querySelectorAll('.dd-container.withLabel')).toHaveLength(2);
     expect(container.querySelectorAll('.trip-column')).toHaveLength(1);
   });
 
   const selectStop = ({ container, getByRole }, id, name) => {
-    fireEvent.keyDown(container.querySelector(`#aria-input-${id}`), {
+    fireEvent.keyDown(container.querySelector(`#aria-input-${id}`), { key: 'Enter' });
+    fireEvent.click(getByRole('option', { name }));
+  };
+  const selectDate = ({ container, getByRole }, name) => {
+    fireEvent.keyDown(container.querySelector('#aria-input-route-schedule-grouped-datepicker'), {
       key: 'Enter',
     });
     fireEvent.click(getByRole('option', { name }));
   };
-  const selectDate = ({ container, getByRole }, name) => {
-    fireEvent.keyDown(
-      container.querySelector('#aria-input-route-schedule-grouped-datepicker'),
-      { key: 'Enter' },
-    );
-    fireEvent.click(getByRole('option', { name }));
-  };
-  const triggerText = (container, id) =>
-    container.querySelector(`#aria-input-${id}`).textContent;
+  const triggerText = (container, id) => container.querySelector(`#aria-input-${id}`).textContent;
 
   it('should update the selected destination stop', () => {
     const view = renderView({ pattern: patternWithFourStops });
@@ -179,31 +163,15 @@ describe('<ScheduleContainer />', () => {
         {
           id: 'trip-1',
           stoptimes: [
-            {
-              serviceDay: 1547503200,
-              scheduledArrival: 28080,
-              scheduledDeparture: 28080,
-            },
-            {
-              serviceDay: 1547503200,
-              scheduledArrival: 30060,
-              scheduledDeparture: 30060,
-            },
+            { serviceDay: 1547503200, scheduledArrival: 28080, scheduledDeparture: 28080 },
+            { serviceDay: 1547503200, scheduledArrival: 30060, scheduledDeparture: 30060 },
           ],
         },
         {
           id: 'trip-2',
           stoptimes: [
-            {
-              serviceDay: 1547503200,
-              scheduledArrival: 32040,
-              scheduledDeparture: 32040,
-            },
-            {
-              serviceDay: 1547503200,
-              scheduledArrival: 34020,
-              scheduledDeparture: 34020,
-            },
+            { serviceDay: 1547503200, scheduledArrival: 32040, scheduledDeparture: 32040 },
+            { serviceDay: 1547503200, scheduledArrival: 34020, scheduledDeparture: 34020 },
           ],
         },
       ],
@@ -232,10 +200,7 @@ describe('<ScheduleContainer />', () => {
     const routerReplaceSpy = vi.fn();
     const matchWithQuery = {
       ...mockMatchWithRouter,
-      location: {
-        ...mockMatchWithRouter.location,
-        query: { test: '1', someOtherParam: 'value' },
-      },
+      location: { ...mockMatchWithRouter.location, query: { test: '1', someOtherParam: 'value' } },
       router: { ...mockRouter, replace: routerReplaceSpy },
     };
 
@@ -251,15 +216,10 @@ describe('<ScheduleContainer />', () => {
   it('should parse serviceDay URL query param and keep it selected', () => {
     const matchWithServiceDay = {
       ...mockMatchWithRouter,
-      location: {
-        ...mockMatchWithRouter.location,
-        query: { serviceDay: '20240102' },
-      },
+      location: { ...mockMatchWithRouter.location, query: { serviceDay: '20240102' } },
     };
     const { container } = renderView({}, matchWithServiceDay);
-    expect(
-      container.querySelector('.route-schedule-grouped-date-select'),
-    ).not.toBeNull();
+    expect(container.querySelector('.route-schedule-grouped-date-select')).not.toBeNull();
   });
 
   it('should keep today selected when service starts in the future', () => {
@@ -268,18 +228,14 @@ describe('<ScheduleContainer />', () => {
     stubs.buildAvailableDates.mockReturnValue([nextMonday, nextTuesday]);
 
     const { container } = renderView();
-    const selectedDay = container.querySelector(
-      '#aria-input-route-schedule-grouped-datepicker',
-    );
+    const selectedDay = container.querySelector('#aria-input-route-schedule-grouped-datepicker');
 
     expect(selectedDay.textContent).not.toBe('');
   });
 
   it('should show constant operation view instead of timetable when route has constant operation', () => {
     mocks.config.constantOperationRoutes = {
-      'HSL:1001': {
-        en: { text: 'Always on', link: 'https://example.com' },
-      },
+      'HSL:1001': { en: { text: 'Always on', link: 'https://example.com' } },
     };
 
     const { container } = renderView();
@@ -301,9 +257,7 @@ describe('<ScheduleContainer />', () => {
     });
 
     const { container } = renderView();
-    expect(container.querySelector('.no-trips-test').textContent).toBe(
-      'No service today',
-    );
+    expect(container.querySelector('.no-trips-test').textContent).toBe('No service today');
   });
 
   it('should show timetable print button when route PDF config exists', () => {

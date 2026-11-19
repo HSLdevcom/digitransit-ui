@@ -16,13 +16,9 @@ export default function TimeSummary({
   const durationStr = durationToString(intl, duration * 1000);
   const startTimeStr = timeStr(startTime);
   const endTimeStr = timeStr(endTime);
-  const futureTextStr = futureText
-    ? futureText.charAt(0).toUpperCase() + futureText.slice(1)
-    : '';
+  const futureTextStr = futureText ? futureText.charAt(0).toUpperCase() + futureText.slice(1) : '';
 
-  const departureTime = futureTextStr
-    ? `${futureTextStr}, ${startTimeStr}`
-    : startTimeStr;
+  const departureTime = futureTextStr ? `${futureTextStr}, ${startTimeStr}` : startTimeStr;
   return (
     <span className={cx(className)}>
       <span className="sr-only">

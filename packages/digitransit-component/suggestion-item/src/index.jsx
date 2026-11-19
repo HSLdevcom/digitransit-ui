@@ -1,10 +1,7 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import { useState, memo } from 'react';
 import cx from 'classnames';
-import Icon, {
-  defaultColors,
-} from '@digitransit-component/digitransit-component-icon';
+import Icon, { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import styles from './helpers/styles.scss';
 
 const extendedModes = {
@@ -55,9 +52,7 @@ const iconProps = {
 };
 
 // geocoder categories that determine the icon, can be extended in the future
-const categoryIcons = {
-  'populated area': ['city'],
-};
+const categoryIcons = { 'populated area': ['city'] };
 
 function isFavourite(item) {
   return item.type?.includes('Favourite');
@@ -79,29 +74,20 @@ export const STOP_STATUS_BADGE_IMGS = {
 };
 
 // Layers eligible for a stop status badge in search suggestions.
-const STATUS_LAYERS = new Set([
-  'stop',
-  'favouriteStop',
-  'station',
-  'favouriteStation',
-]);
+const STATUS_LAYERS = new Set(['stop', 'favouriteStop', 'station', 'favouriteStation']);
 
 function hasGtfsId(item) {
-  return !!(
-    item.properties?.gtfsId ||
-    item.gtfsId ||
-    item.properties?.gid?.includes('GTFS:')
-  );
+  return !!(item.properties?.gtfsId || item.gtfsId || item.properties?.gid?.includes('GTFS:'));
 }
 
 /**
- * Resolves the sprite id of the stop status badge shown on a suggestion's
- * icon, based on the item's geocoding `addendum.GTFS` metadata.
+ * Resolves the stop status of a suggestion, based on the item's geocoding
+ * `addendum.GTFS` metadata.
  *
  * @param {object} item a search suggestion item
- * @returns {string|null} a badge sprite id, or null when no badge applies
+ * @returns {string|null} a STOP_STATUS value, or null when no status applies
  */
-export function getStopBadge(item) {
+export function getStopStatus(item) {
   if (!STATUS_LAYERS.has(item.properties?.layer)) {
     return null;
   }
@@ -110,21 +96,31 @@ export function getStopBadge(item) {
   }
   const gtfs = item.properties?.addendum?.GTFS;
   if (gtfs?.noService) {
-    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE];
+    return STOP_STATUS.OUT_OF_SERVICE;
   }
   if (gtfs?.noServiceToday) {
-    return STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY];
+    return STOP_STATUS.NO_SERVICE_TODAY;
   }
-  if (
-    gtfs?.alertSeverity === STOP_STATUS.ALERT ||
-    gtfs?.alertSeverity === STOP_STATUS.INFO
-  ) {
-    return STOP_STATUS_BADGE_IMGS[gtfs.alertSeverity];
+  if (gtfs?.alertSeverity === STOP_STATUS.ALERT || gtfs?.alertSeverity === STOP_STATUS.INFO) {
+    return gtfs.alertSeverity;
   }
   return null;
 }
 
+/**
+ * Resolves the sprite id of the stop status badge shown on a suggestion's
+ * icon.
+ *
+ * @param {object} item a search suggestion item
+ * @returns {string|null} a badge sprite id, or null when no badge applies
+ */
+export function getStopBadge(item) {
+  const status = getStopStatus(item);
+  return status ? STOP_STATUS_BADGE_IMGS[status] : null;
+}
+
 const noop = () => {};
+const NO_LABELS = {};
 
 const DEFAULT_AUTO_SUGGEST_ICONS = {
   citybikes: station => {
@@ -153,10 +149,7 @@ function getIconProps(mode, isStop, modeSet) {
   // is the icon theme specific
   const themePostfix = noTheme.includes(mode) ? '' : `-${modeSet}`;
   return (
-    iconProps[`${mode}${stopDesc}${themePostfix}`] || [
-      `${mode}${stopDesc}${themePostfix}`,
-      mode,
-    ]
+    iconProps[`${mode}${stopDesc}${themePostfix}`] || [`${mode}${stopDesc}${themePostfix}`, mode]
   );
 }
 
@@ -168,10 +161,7 @@ function getIconProperties(item, modeSet, stopCode, modes) {
   if (isFavourite(item)) {
     return ['star'];
   }
-  if (
-    item.type === 'Route' ||
-    (item.type === 'OldSearch' && item.properties?.mode)
-  ) {
+  if (item.type === 'Route' || (item.type === 'OldSearch' && item.properties?.mode)) {
     const mode = getRouteMode(item.properties, modeSet);
     return getIconProps(mode, false, modeSet);
   }
@@ -237,6 +227,7 @@ function hasVehicleStationCode(stationId) {
  *    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
  *    loading={false}
  *    showStopStatusMarkers={true}
+ *    stopStatusLabels={{ 'out-of-service': 'Stop out of service' }}
  * />
  */
 const SuggestionItem = memo(
@@ -251,16 +242,17 @@ const SuggestionItem = memo(
     getAutoSuggestIcons = DEFAULT_AUTO_SUGGEST_ICONS,
     modeSet = 'hsl',
     showStopStatusMarkers = false,
+    stopStatusLabels = NO_LABELS,
   }) => {
-    const [suggestionType, name, label, stopCode, modes, platform] =
-      content || ['', item.name, item.address];
+    const [suggestionType, name, label, stopCode, modes, platform] = content || [
+      '',
+      item.name,
+      item.address,
+    ];
 
     let iconId;
     let iconColor;
-    if (
-      item.properties?.layer &&
-      getAutoSuggestIcons?.[item.properties?.layer]
-    ) {
+    if (item.properties?.layer && getAutoSuggestIcons?.[item.properties?.layer]) {
       [iconId, iconColor] = getAutoSuggestIcons[item.properties.layer](item);
     } else {
       let colorId;
@@ -273,36 +265,32 @@ const SuggestionItem = memo(
         iconColor = colors?.[colorId] || defaultColors[colorId] || '#888';
       }
     }
-    const accessiblePrimary =
-      colors?.accessiblePrimary || defaultColors.accessiblePrimary;
+    const accessiblePrimary = colors?.accessiblePrimary || defaultColors.accessiblePrimary;
     // console.log(item, iconId, iconColor);
     // Arrow clicked is for street. Instead of selecting item when a user clicks on arrow,
     // It fills the input field.
     const [arrowClicked, setArrowClicked] = useState(false);
 
-    const stopStatusBadge = showStopStatusMarkers ? getStopBadge(item) : null;
+    const stopStatus = showStopStatusMarkers ? getStopStatus(item) : null;
+    const stopStatusBadge = stopStatus ? STOP_STATUS_BADGE_IMGS[stopStatus] : null;
+    const stopStatusLabel = stopStatus ? stopStatusLabels[stopStatus] : null;
     const icon = (
-      <span
-        className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}
-      >
+      <span className={`${styles['suggestion-icon-wrapper']} ${styles[iconId]}`}>
         <Icon color={iconColor} img={iconId} />
         {stopStatusBadge && (
-          <Icon
-            img={stopStatusBadge}
-            className={styles['suggestion-status-badge']}
-          />
+          <Icon img={stopStatusBadge} className={styles['suggestion-status-badge']} />
         )}
       </span>
     );
     let ariaParts;
     if (name !== stopCode) {
       ariaParts = isFavourite(item)
-        ? [ariaFavouriteString, suggestionType, name, stopCode, label]
-        : [suggestionType, name, stopCode, label];
+        ? [ariaFavouriteString, suggestionType, name, stopCode, label, stopStatusLabel]
+        : [suggestionType, name, stopCode, label, stopStatusLabel];
     } else {
       ariaParts = isFavourite(item)
-        ? [ariaFavouriteString, suggestionType, name, label]
-        : [suggestionType, name, label];
+        ? [ariaFavouriteString, suggestionType, name, label, stopStatusLabel]
+        : [suggestionType, name, label, stopStatusLabel];
     }
     const ariaDescription = getAriaDescription(ariaParts);
     const acri = (
@@ -315,35 +303,22 @@ const SuggestionItem = memo(
       item.properties?.layer === 'favouriteVehicleRentalStation' ||
       item.properties?.layer === 'bikestation';
     const isParkingArea =
-      item.properties?.layer === 'carpark' ||
-      item.properties?.layer === 'bikepark';
+      item.properties?.layer === 'carpark' || item.properties?.layer === 'bikepark';
     const labelWithLocationType =
       isVehicleRentalStation || isParkingArea
-        ? suggestionType.concat(
-            item.properties.localadmin ? `, ${item.properties.localadmin}` : '',
-          )
+        ? suggestionType.concat(item.properties.localadmin ? `, ${item.properties.localadmin}` : '')
         : label;
     const ri = (
       <div
         aria-hidden="true"
         className={cx(
           styles['search-result'],
-          {
-            loading,
-          },
-          {
-            [styles.futureroute]: isFutureRoute,
-          },
+          { loading },
+          { [styles.futureroute]: isFutureRoute },
         )}
       >
-        <span aria-label={suggestionType} className={styles['suggestion-icon']}>
-          {icon}
-        </span>
-        <div
-          className={cx(styles['suggestion-result'], {
-            [styles.futureroute]: isFutureRoute,
-          })}
-        >
+        <span className={styles['suggestion-icon']}>{icon}</span>
+        <div className={cx(styles['suggestion-result'], { [styles.futureroute]: isFutureRoute })}>
           {iconId !== 'future-route' &&
             item.selectedIconId !== 'favourite' &&
             iconId !== 'edit' && (
@@ -352,19 +327,11 @@ const SuggestionItem = memo(
                   {name}
                 </div>
                 <div className={styles['suggestion-label']}>
-                  {isVehicleRentalStation || isParkingArea
-                    ? labelWithLocationType
-                    : label}{' '}
-                  {((!isVehicleRentalStation &&
-                    stopCode &&
-                    stopCode !== name) ||
+                  {isVehicleRentalStation || isParkingArea ? labelWithLocationType : label}{' '}
+                  {((!isVehicleRentalStation && stopCode && stopCode !== name) ||
                     (isVehicleRentalStation &&
-                      hasVehicleStationCode(
-                        stopCode || item.properties.id,
-                      ))) && (
-                    <span className={styles['stop-code']}>
-                      {stopCode || item.properties.id}
-                    </span>
+                      hasVehicleStationCode(stopCode || item.properties.id))) && (
+                    <span className={styles['stop-code']}>{stopCode || item.properties.id}</span>
                   )}
                   {platform?.length === 2 && (
                     <>
@@ -382,44 +349,24 @@ const SuggestionItem = memo(
           )}
           {iconId === 'future-route' && (
             <div>
-              <div
-                className={cx(styles['suggestion-name'], styles.futureroute)}
-              >
+              <div className={cx(styles['suggestion-name'], styles.futureroute)}>
                 {item.properties.origin.name}
-                <span
-                  className={cx(
-                    styles['suggestion-name'],
-                    styles.futureroute,
-                    styles.normal,
-                  )}
-                >
+                <span className={cx(styles['suggestion-name'], styles.futureroute, styles.normal)}>
                   {item.properties.origin.localadmin
                     ? `, ${item.properties.origin.localadmin.split('*')[0]}`
                     : ''}
                 </span>
               </div>
-              <div
-                className={cx(styles['suggestion-name'], styles.futureroute)}
-              >
+              <div className={cx(styles['suggestion-name'], styles.futureroute)}>
                 {item.properties.destination.name}
-                <span
-                  className={cx(
-                    styles['suggestion-name'],
-                    styles.futureroute,
-                    styles.normal,
-                  )}
-                >
+                <span className={cx(styles['suggestion-name'], styles.futureroute, styles.normal)}>
                   {item.properties.destination.localadmin
-                    ? `, ${
-                        item.properties.destination.localadmin.split('*')[0]
-                      }`
+                    ? `, ${item.properties.destination.localadmin.split('*')[0]}`
                     : ''}
                 </span>
               </div>
               <div
-                className={cx(styles['suggestion-label'], {
-                  [styles.futureroute]: isFutureRoute,
-                })}
+                className={cx(styles['suggestion-label'], { [styles.futureroute]: isFutureRoute })}
               >
                 {item.translatedText}
               </div>
@@ -427,55 +374,42 @@ const SuggestionItem = memo(
           )}
         </div>
         {iconId !== 'arrow' &&
-          (item.properties?.layer !== 'street' ||
-            !isMobile ||
-            arrowClicked) && (
-            <span
-              className={cx(styles['arrow-icon'], {
-                [styles.mobile]: isMobile,
-              })}
-            >
+          (item.properties?.layer !== 'street' || !isMobile || arrowClicked) && (
+            <span className={cx(styles['arrow-icon'], { [styles.mobile]: isMobile })}>
               <Icon img="arrow" color={accessiblePrimary} />
             </span>
           )}
-        {iconId !== 'arrow' &&
-          item.properties?.layer === 'street' &&
-          !arrowClicked &&
-          isMobile && (
-            // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
-            <span
-              className={cx(styles['arrow-icon'], {
-                [styles.mobile]: isMobile,
-                [styles['fill-input']]: !arrowClicked,
-              })}
-              onClick={() => {
-                // Input is already filled for this item, no need
-                // To fill it again
-                if (arrowClicked) {
-                  return;
-                }
-                setArrowClicked(true);
-                // eslint-disable-next-line no-param-reassign
-                item.properties.arrowClicked = true;
-                fillInput(item);
-              }}
-            >
-              <Icon img="search-street-name" color={accessiblePrimary} />
-            </span>
-          )}
+        {iconId !== 'arrow' && item.properties?.layer === 'street' && !arrowClicked && isMobile && (
+          // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-static-element-interactions
+          <span
+            className={cx(styles['arrow-icon'], {
+              [styles.mobile]: isMobile,
+              [styles['fill-input']]: !arrowClicked,
+            })}
+            onClick={() => {
+              // Input is already filled for this item, no need
+              // To fill it again
+              if (arrowClicked) {
+                return;
+              }
+              setArrowClicked(true);
+              // eslint-disable-next-line no-param-reassign
+              item.properties.arrowClicked = true;
+              fillInput(item);
+            }}
+          >
+            <Icon img="search-street-name" color={accessiblePrimary} />
+          </span>
+        )}
       </div>
     );
     return (
       <div
         className={cx(
           styles['suggestion-item-container'],
-          {
-            [styles.mobile]: isMobile,
-          },
+          { [styles.mobile]: isMobile },
           styles[item.type],
-          {
-            [styles.futureroute]: isFutureRoute,
-          },
+          { [styles.futureroute]: isFutureRoute },
         )}
       >
         {acri}
@@ -500,17 +434,11 @@ SuggestionItem.propTypes = {
       id: PropTypes.string,
       source: PropTypes.string,
       arrowClicked: PropTypes.bool,
-      destination: PropTypes.shape({
-        name: PropTypes.string,
-        localadmin: PropTypes.string,
-      }),
-      origin: PropTypes.shape({
-        name: PropTypes.string,
-        localadmin: PropTypes.string,
-      }),
+      destination: PropTypes.shape({ name: PropTypes.string, localadmin: PropTypes.string }),
+      origin: PropTypes.shape({ name: PropTypes.string, localadmin: PropTypes.string }),
     }),
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.array,
   isMobile: PropTypes.bool,
   ariaFavouriteString: PropTypes.string,
@@ -520,6 +448,7 @@ SuggestionItem.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string),
   modeSet: PropTypes.string,
   showStopStatusMarkers: PropTypes.bool,
+  stopStatusLabels: PropTypes.objectOf(PropTypes.string),
 };
 
 export default SuggestionItem;

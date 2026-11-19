@@ -56,9 +56,5 @@ export const prepareWeekDays = params => {
   );
   // TODO remove this hack after hsl.fi has updated its vehicle park page addresses
   const id = params.id?.includes(':') ? params.id : `liipi:${params.id}`;
-  return {
-    ...params,
-    id,
-    dates: weekdays,
-  };
+  return { ...params, id, dates: weekdays };
 };

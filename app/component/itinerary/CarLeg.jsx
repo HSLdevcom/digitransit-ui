@@ -7,30 +7,15 @@ import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
 import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import {
-  legTimeStr,
-  legDestination,
-  getValidatedLegName,
-} from '../../../utils/client/legUtils';
+import { legTimeStr, legDestination, getValidatedLegName } from '../../../utils/client/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function CarLeg({
-  leg,
-  index,
-  focusAction,
-  focusToLeg,
-  children,
-  carBoardingLeg,
-}) {
+export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const distance = displayDistance(
-    parseInt(leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const firstLegClassName = index === 0 ? 'first' : '';
   const modeClassName = 'car';
@@ -54,10 +39,8 @@ export default function CarLeg({
   const [name, place] = splitStringToAddressAndPlace(
     getValidatedLegName(leg.from.name, intl, true),
   );
-  const address =
-    leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return (
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
@@ -74,9 +57,7 @@ export default function CarLeg({
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">
-          {legTimeStr(leg.start)}
-        </div>
+        <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
       </div>
       {circleLine}
       <div
@@ -86,12 +67,7 @@ export default function CarLeg({
           <div className="address-container">
             <div className="address">
               {address}
-              {leg.isViaPoint && (
-                <Icon
-                  img="icon_mapMarker"
-                  className="itinerary-mapmarker-icon"
-                />
-              )}
+              {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
               {leg.from.stop && (
                 <Icon
                   img="icon_arrow-collapse--right"
@@ -103,19 +79,10 @@ export default function CarLeg({
             <div className="place">{place}</div>
           </div>
           <div>{children}</div>
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {carBoardingLeg?.from.stop && (
-          <div
-            className={cx(
-              'itinerary-leg-action',
-              'car',
-              'itinerary-leg-action-content',
-            )}
-          >
+          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
             <FormattedMessage
               id="car-drive-from-transit-no-duration"
               values={{
@@ -126,10 +93,7 @@ export default function CarLeg({
                 ),
               }}
             />
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         <div className="itinerary-leg-action itinerary-leg-action-content">
@@ -142,19 +106,10 @@ export default function CarLeg({
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
-          <ItineraryMapAction
-            target={leg.from.name || ''}
-            focusAction={focusToLeg}
-          />
+          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusToLeg} />
         </div>
         {carBoardingLeg?.to.stop && (
-          <div
-            className={cx(
-              'itinerary-leg-action',
-              'car',
-              'itinerary-leg-action-content',
-            )}
-          >
+          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
             <FormattedMessage
               id="car-drive-to-transit-no-duration"
               values={{
@@ -165,10 +120,7 @@ export default function CarLeg({
                 ),
               }}
             />
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
       </div>

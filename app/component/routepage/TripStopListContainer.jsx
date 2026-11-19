@@ -29,9 +29,7 @@ export default function TripStopListContainer({
   const mode = getTripOrRouteMode(trip, trip.route, config);
 
   const vehiclesByStop = groupBy(
-    values(vehicles).filter(
-      vehicle => currentTime - vehicle.timestamp < 5 * 60,
-    ),
+    values(vehicles).filter(vehicle => currentTime - vehicle.timestamp < 5 * 60),
     vehicle => vehicle.next_stop,
   );
 
@@ -44,14 +42,8 @@ export default function TripStopListContainer({
         trip.pattern.directionId === -1 ||
         vehicle.direction === trip.pattern.directionId,
     )
-    .filter(
-      vehicle =>
-        vehicle.tripStartTime === undefined ||
-        vehicle.tripStartTime === tripStart,
-    )
-    .filter(
-      vehicle => vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId,
-    );
+    .filter(vehicle => vehicle.tripStartTime === undefined || vehicle.tripStartTime === tripStart)
+    .filter(vehicle => vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId);
 
   // selected vehicle
   const vehicle = matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
@@ -59,8 +51,7 @@ export default function TripStopListContainer({
   let stopPassed = true;
 
   const nextStopExistsOnRoute =
-    nextStop &&
-    trip.stoptimesForDate.some(stoptime => stoptime.stop.gtfsId === nextStop);
+    nextStop && trip.stoptimesForDate.some(stoptime => stoptime.stop.gtfsId === nextStop);
 
   return (
     <>

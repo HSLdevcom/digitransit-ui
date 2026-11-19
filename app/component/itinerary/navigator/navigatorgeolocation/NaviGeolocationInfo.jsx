@@ -16,7 +16,4 @@ export default function NaviGeolocationInfo({ logo, onClose }) {
   );
 }
 
-NaviGeolocationInfo.propTypes = {
-  logo: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-};
+NaviGeolocationInfo.propTypes = { logo: PropTypes.string, onClose: PropTypes.func.isRequired };

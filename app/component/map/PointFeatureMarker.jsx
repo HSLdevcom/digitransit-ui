@@ -108,10 +108,7 @@ export const getPopupHeaderValues = (feature, language) => {
   const address = getPropertyValueOrDefault(properties, 'address', language);
   const city = getPropertyValueOrDefault(properties, 'city', language);
   const description = city ? `${address}, ${city}` : address;
-  return {
-    header: header || description,
-    subHeader: header ? description : '',
-  };
+  return { header: header || description, subHeader: header ? description : '' };
 };
 
 export default function PointFeatureMarker({
@@ -141,23 +138,14 @@ export default function PointFeatureMarker({
           : getRoundIcon(zoom)
       }
       maxWidth={locationPopup === 'all' ? 320 : 250}
-      position={{
-        lat,
-        lon,
-      }}
-      shouldRender={zoom =>
-        isCustomIconVisible(zoom) || isRoundIconVisible(zoom)
-      }
+      position={{ lat, lon }}
+      shouldRender={zoom => isCustomIconVisible(zoom) || isRoundIconVisible(zoom)}
     >
       <Card>
         <PopupHeader header={header} subHeader={subHeader} />
         {(locationPopup === 'all' || locationPopup === 'origindestination') && (
           <MarkerPopupBottom
-            location={{
-              address,
-              lat,
-              lon,
-            }}
+            location={{ address, lat, lon }}
             locationPopup={locationPopup}
             onSelectLocation={onSelectLocation}
           />
@@ -170,21 +158,18 @@ export default function PointFeatureMarker({
 PointFeatureMarker.propTypes = {
   feature: PropTypes.shape({
     geometry: PropTypes.shape({
-      coordinates: PropTypes.arrayOf(
-        PropTypes.oneOfType([PropTypes.number, PropTypes.array]),
-      ).isRequired,
+      coordinates: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.number, PropTypes.array]))
+        .isRequired,
       type: PropTypes.string.isRequired,
     }).isRequired,
     properties: PropTypes.shape({
       address: PropTypes.string,
       city: PropTypes.string,
-      icon: PropTypes.shape({
-        id: PropTypes.string.isRequired,
-      }),
+      icon: PropTypes.shape({ id: PropTypes.string.isRequired }),
       name: PropTypes.string,
     }).isRequired,
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   icons: PropTypes.object,
   language: PropTypes.string.isRequired,
   locationPopup: PropTypes.string,

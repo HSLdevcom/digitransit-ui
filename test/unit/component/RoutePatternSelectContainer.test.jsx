@@ -42,16 +42,9 @@ const baseConfig = createTestConfig({
   showSimilarRoutesOnRouteDropDown: false,
 });
 
-const baseMatch = {
-  ...mockMatch,
-  params: { patternId: 'ROUTE:1:0:01' },
-};
+const baseMatch = { ...mockMatch, params: { patternId: 'ROUTE:1:0:01' } };
 
-const baseProps = {
-  className: 'bp-large',
-  onSelectChange: () => {},
-  gtfsId: 'ROUTE:1',
-};
+const baseProps = { className: 'bp-large', onSelectChange: () => {}, gtfsId: 'ROUTE:1' };
 
 function makeTwoDirectionRoute() {
   return {
@@ -68,18 +61,11 @@ function makeTwoDirectionRoute() {
 describe('<RoutePatternSelectContainer />', () => {
   it('should render a swap button for opposite-direction patterns', () => {
     const { container } = renderWithProviders(
-      <RoutePatternSelectContainer
-        {...baseProps}
-        route={makeTwoDirectionRoute()}
-      />,
+      <RoutePatternSelectContainer {...baseProps} route={makeTwoDirectionRoute()} />,
       { config: baseConfig, match: baseMatch },
     );
-    expect(
-      container.querySelector('.route-pattern-swap-button'),
-    ).not.toBeNull();
-    expect(
-      container.querySelector('.route-pattern-location-name').textContent,
-    ).toBe('Origin');
+    expect(container.querySelector('.route-pattern-swap-button')).not.toBeNull();
+    expect(container.querySelector('.route-pattern-location-name').textContent).toBe('Origin');
   });
 
   it('should select the other pattern when the swap button is clicked', () => {
@@ -120,9 +106,7 @@ describe('<RoutePatternSelectContainer />', () => {
       makePattern('ROUTE:1:0:02', 0, 'Via Downtown', [makeTripForDate()]),
     ];
     const options = getPatternOptions(patterns, 30);
-    expect(options.map(option => option.code)).toEqual(
-      patterns.map(pattern => pattern.code),
-    );
+    expect(options.map(option => option.code)).toEqual(patterns.map(pattern => pattern.code));
   });
 
   it('should redirect when the URL pattern is not available', () => {
@@ -138,15 +122,10 @@ describe('<RoutePatternSelectContainer />', () => {
       },
     };
     renderWithProviders(
-      <RoutePatternSelectContainer
-        {...baseProps}
-        route={makeTwoDirectionRoute()}
-      />,
+      <RoutePatternSelectContainer {...baseProps} route={makeTwoDirectionRoute()} />,
       { config: baseConfig, match, router: match.router },
     );
-    expect(replacedUrl).toBe(
-      routePagePath('ROUTE:1', PREFIX_STOPS, 'ROUTE:1:0:01'),
-    );
+    expect(replacedUrl).toBe(routePagePath('ROUTE:1', PREFIX_STOPS, 'ROUTE:1:0:01'));
   });
 
   it('should not redirect when the URL pattern is valid', () => {
@@ -162,10 +141,7 @@ describe('<RoutePatternSelectContainer />', () => {
       },
     };
     renderWithProviders(
-      <RoutePatternSelectContainer
-        {...baseProps}
-        route={makeTwoDirectionRoute()}
-      />,
+      <RoutePatternSelectContainer {...baseProps} route={makeTwoDirectionRoute()} />,
       { config: baseConfig, match, router: match.router },
     );
     expect(replacedUrl).toBeUndefined();
@@ -179,9 +155,7 @@ describe('<RoutePatternSelectContainer />', () => {
           shortName: '1',
           mode: 'BUS',
           gtfsId: 'ROUTE:1',
-          patterns: [
-            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
-          ],
+          patterns: [makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()])],
         }}
       />,
       { config: baseConfig, match: baseMatch },
@@ -202,9 +176,7 @@ describe('<RoutePatternSelectContainer />', () => {
           shortName: '1',
           mode: 'BUS',
           gtfsId: 'ROUTE:1',
-          patterns: [
-            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
-          ],
+          patterns: [makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()])],
         }}
       />,
       { config: baseConfig, match: baseMatch },
@@ -276,8 +248,6 @@ describe('<RoutePatternSelectContainer />', () => {
     // enrichPatterns returns fallback patterns ending in :01 when no trips found
     expect(options).not.toBeNull();
     const codes = options.map(o => o.code);
-    expect(codes).toEqual(
-      expect.arrayContaining(['ROUTE:1:0:01', 'ROUTE:1:1:01']),
-    );
+    expect(codes).toEqual(expect.arrayContaining(['ROUTE:1:0:01', 'ROUTE:1:1:01']));
   });
 });

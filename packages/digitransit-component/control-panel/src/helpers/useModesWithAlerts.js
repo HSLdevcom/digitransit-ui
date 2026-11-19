@@ -11,13 +11,11 @@ export default function useModesWithAlerts(alertsContext) {
       return undefined;
     }
     let cancelled = false;
-    alertsContext
-      .getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds)
-      .then(res => {
-        if (!cancelled) {
-          setModes(res);
-        }
-      });
+    alertsContext.getModesWithAlerts(alertsContext.currentTime, alertsContext.feedIds).then(res => {
+      if (!cancelled) {
+        setModes(res);
+      }
+    });
     return () => {
       cancelled = true;
     };

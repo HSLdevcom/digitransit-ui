@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Filters from './Filters';
 import { useFilterContext } from './FiltersContext';
+import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
 
 export default function FiltersModal({ isOpen, onClose }) {
   const { resetFilters, selectedFilters } = useFilterContext();
@@ -44,30 +45,20 @@ export default function FiltersModal({ isOpen, onClose }) {
       isOpen={isOpen}
       shouldCloseOnEsc
       shouldCloseOnOverlayClick
-      contentLabel={intl.formatMessage({
-        id: 'filters',
-        defaultMessage: 'Filters',
-      })}
+      contentLabel={intl.formatMessage({ id: 'filters', defaultMessage: 'Filters' })}
       onRequestClose={handleClose}
       variant="large"
       className="traffic-now traffic-now__modal design-system"
     >
       <header className="traffic-now__modal-header bordered">
         <FormattedMessage id="filter" defaultMessage="Filter">
-          {msg => (
-            <h3 className="heading-xs traffic-now__modal-header__label">
-              {msg}
-            </h3>
-          )}
+          {msg => <h3 className="heading-xs traffic-now__modal-header__label">{msg}</h3>}
         </FormattedMessage>
-        <CloseButton lang={intl.locale} onClick={handleClose} />
+        <CloseButton lang={hslfiLocale} onClick={handleClose} />
       </header>
       <Filters onApplyClick={handleClose} onResetClick={resetFilters} />
     </Modal>
   );
 }
 
-FiltersModal.propTypes = {
-  isOpen: PropTypes.bool.isRequired,
-  onClose: PropTypes.func.isRequired,
-};
+FiltersModal.propTypes = { isOpen: PropTypes.bool.isRequired, onClose: PropTypes.func.isRequired };

@@ -46,8 +46,7 @@ export default function MobilePickerModal({
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
 
-  const [departureOrArrivalCurrent, changeDepartureOrArrival] =
-    useState(departureOrArrival);
+  const [departureOrArrivalCurrent, changeDepartureOrArrival] = useState(departureOrArrival);
 
   function onArrivalClick() {
     changeDepartureOrArrival('arrival');
@@ -75,35 +74,26 @@ export default function MobilePickerModal({
       overlayClassName={styles['mobile-modal-overlay']}
       onAfterClose={onAfterClose}
     >
-      <div
-        id="digitransit-mobile-datetime"
-        style={{
-          '--color': `${color}`,
-        }}
-      >
+      <div id="digitransit-mobile-datetime" style={{ '--color': `${color}` }}>
         <div className={styles['top-row']}>
-          <h3 className={styles['modal-title']}>
-            {t('choose-time', translationSettings)}
-          </h3>
+          <h3 className={styles['modal-title']}>{t('choose-time', translationSettings)}</h3>
           <button
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
+            aria-describedby={`${htmlId}-now-description`}
           >
             {t('departure-now', translationSettings)}
           </button>
+          <span id={`${htmlId}-now-description`} className={styles['sr-only']}>
+            {t('accessible-departure-now', translationSettings)}
+          </span>
         </div>
         <div className={styles['tab-row']}>
           <label
             htmlFor={`${htmlId}-modal-departure`}
             className={`${styles['radio-tab-label']}
-                ${
-                  styles[
-                    departureOrArrivalCurrent === 'departure'
-                      ? 'active'
-                      : undefined
-                  ]
-                }`}
+                ${styles[departureOrArrivalCurrent === 'departure' ? 'active' : undefined]}`}
           >
             {t('departure', translationSettings)}
             <input
@@ -121,13 +111,7 @@ export default function MobilePickerModal({
           <label
             htmlFor={`${htmlId}-modal-arrival`}
             className={`${styles['radio-tab-label']}
-                ${
-                  styles[
-                    departureOrArrivalCurrent === 'arrival'
-                      ? 'active'
-                      : undefined
-                  ]
-                }`}
+                ${styles[departureOrArrivalCurrent === 'arrival' ? 'active' : undefined]}`}
           >
             {t('arrival', translationSettings)}
             <input
@@ -153,9 +137,7 @@ export default function MobilePickerModal({
             id={`${htmlId}-date`}
             label={t('date', translationSettings)}
             icon={
-              <span
-                className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}
-              >
+              <span className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}>
                 <Icon img="calendar" color={color} />
               </span>
             }
@@ -168,9 +150,7 @@ export default function MobilePickerModal({
             id={`${htmlId}-time`}
             label={t('time', translationSettings)}
             icon={
-              <span
-                className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}
-              >
+              <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
                 <Icon img="time" color={color} />
               </span>
             }
@@ -181,17 +161,11 @@ export default function MobilePickerModal({
           <button
             type="button"
             className={styles['ready-button']}
-            onClick={() =>
-              onSubmit(displayTimestamp, departureOrArrivalCurrent)
-            }
+            onClick={() => onSubmit(displayTimestamp, departureOrArrivalCurrent)}
           >
             {t('ready', translationSettings)}
           </button>
-          <button
-            type="button"
-            className={styles['cancel-button']}
-            onClick={onCancel}
-          >
+          <button type="button" className={styles['cancel-button']} onClick={onCancel}>
             {t('cancel', translationSettings)}
           </button>
         </div>

@@ -12,15 +12,8 @@ const useRoute = () => {
 };
 
 const RouteContextProvider = ({ value, children }) => {
-  const memoizedValue = useMemo(
-    () => value,
-    [value.match, value.props, value.error],
-  );
-  return (
-    <RouteContext.Provider value={memoizedValue}>
-      {children}
-    </RouteContext.Provider>
-  );
+  const memoizedValue = useMemo(() => value, [value.match, value.props, value.error]);
+  return <RouteContext.Provider value={memoizedValue}>{children}</RouteContext.Provider>;
 };
 
 const withRouteContext = render => args => {
@@ -29,11 +22,7 @@ const withRouteContext = render => args => {
     const value = { match, props, error };
     return (
       <RouteContextProvider value={value}>
-        {render ? (
-          render(args)
-        ) : (
-          <Component {...props} match={match} error={error} />
-        )}
+        {render ? render(args) : <Component {...props} match={match} error={error} />}
       </RouteContextProvider>
     );
   }

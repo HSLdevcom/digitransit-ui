@@ -29,15 +29,9 @@ const ICON_MAP = {
   FerryStop: { fallbackImg: 'icon_ferry-stop' },
   // TODO: use @hsl-fi/icons once it exports FerryExternalStop
   FerryExternalStop: { fallbackImg: 'icon_ferry-external-stop' },
-  CitybikeStation: {
-    hslFiIcon: CitybikeStation,
-    fallbackImg: 'icon_citybike-lollipop',
-  },
+  CitybikeStation: { hslFiIcon: CitybikeStation, fallbackImg: 'icon_citybike-lollipop' },
   ScooterStop: { hslFiIcon: Scooter, fallbackImg: 'icon_scooter-lollipop' },
-  SpeedtramStop: {
-    hslFiIcon: SpeedtramStop,
-    fallbackImg: 'icon_tram-lollipop',
-  },
+  SpeedtramStop: { hslFiIcon: SpeedtramStop, fallbackImg: 'icon_tram-lollipop' },
   GenericStop: { hslFiIcon: Stop, fallbackImg: 'icon_bus-lollipop' },
 };
 
@@ -51,14 +45,7 @@ const ICON_NAMES = Object.keys(ICON_MAP);
  * This component is the single place responsible for @hsl-fi/icons imports.
  * Usage sites should never import from @hsl-fi/icons directly.
  */
-export default function ThemedIcon({
-  name,
-  size,
-  customColor,
-  className,
-  style,
-  ...rest
-}) {
+export default function ThemedIcon({ name, size, customColor, className, style, ...rest }) {
   const config = useConfigContext();
   const { hslFiIcon, fallbackImg } = ICON_MAP[name];
 
@@ -67,12 +54,7 @@ export default function ThemedIcon({
     // or CSS-sized icons render the bare icon.
     if (size && !customColor) {
       return (
-        <HslFiIconWrapper
-          icon={hslFiIcon}
-          size={size}
-          iconProps={{ className, style }}
-          {...rest}
-        />
+        <HslFiIconWrapper icon={hslFiIcon} size={size} iconProps={{ className, style }} {...rest} />
       );
     }
     const HslIcon = hslFiIcon;
@@ -80,22 +62,13 @@ export default function ThemedIcon({
       <HslIcon
         className={className}
         color={customColor ? 'custom' : undefined}
-        style={
-          customColor ? { '--color-icon-custom': customColor, ...style } : style
-        }
+        style={customColor ? { '--color-icon-custom': customColor, ...style } : style}
         {...rest}
       />
     );
   }
 
-  return (
-    <SvgIcon
-      img={fallbackImg}
-      color={customColor}
-      className={className}
-      {...rest}
-    />
-  );
+  return <SvgIcon img={fallbackImg} color={customColor} className={className} {...rest} />;
 }
 
 ThemedIcon.propTypes = {
@@ -107,7 +80,5 @@ ThemedIcon.propTypes = {
   customColor: PropTypes.string,
   className: PropTypes.string,
   /** Inline style, applied only to @hsl-fi/icons */
-  style: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-  ),
+  style: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.number])),
 };

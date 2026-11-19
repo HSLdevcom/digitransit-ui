@@ -3,10 +3,7 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NetworkSelector from './NetworkSelector';
 import Disclaimer from '../../Disclaimer';
-import {
-  getReadMessageIds,
-  setReadMessageId,
-} from '../../../../utils/client/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../../../utils/client/localStorage';
 import { TransportMode } from '../../../../utils/shared/constants';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
@@ -30,19 +27,14 @@ export default function Scooters({ updateSettings }) {
         <Disclaimer
           headerId="settings-e-scooter-routes"
           textId="settings-e-scooter"
-          values={{
-            paymentInfo: <FormattedMessage id="payment-info-e-scooter" />,
-          }}
+          values={{ paymentInfo: <FormattedMessage id="payment-info-e-scooter" /> }}
           href={config.vehicleRental.scooterInfoLink?.[config.language].url}
           linkLabelId="read-more"
           closable
           onClose={handleEScooterDisclaimerClose}
         />
       )}
-      <NetworkSelector
-        type={TransportMode.Scooter}
-        updateSettings={updateSettings}
-      />
+      <NetworkSelector type={TransportMode.Scooter} updateSettings={updateSettings} />
     </>
   );
 }

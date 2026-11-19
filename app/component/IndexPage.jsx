@@ -9,9 +9,7 @@ import inside from 'point-in-polygon';
 import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
-import StopRouteSearch, {
-  SearchAutosuggestPanel as LocationSearch,
-} from './SearchAutosuggest';
+import StopRouteSearch, { SearchAutosuggestPanel as LocationSearch } from './SearchAutosuggest';
 import { getLocationSearchTargets } from '../../utils/client/searchUtils';
 import {
   getPathWithEndpointObjects,
@@ -28,15 +26,8 @@ import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../../utils/client/scroll';
 import { getRefPoint } from '../../utils/client/apiUtils';
 import { filterObject } from '../../utils/client/filterUtils';
-import {
-  getTransportModes,
-  getNearYouModes,
-  hasCitybikes,
-} from '../../utils/client/modeUtils';
-import {
-  countLocations,
-  STATUS_FETCHING_OR_UPDATING,
-} from '../data/FavouriteData';
+import { getTransportModes, getNearYouModes, hasCitybikes } from '../../utils/client/modeUtils';
+import { countLocations, STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import {
   useFavourites,
   useFavouriteStatus,
@@ -61,8 +52,7 @@ export default function IndexPage() {
   const config = useConfigContext();
   const currentTime = useCurrentTime();
   const locationState = usePosition();
-  const { checkPositioningPermission, startLocationWatch } =
-    usePositionActions();
+  const { checkPositioningPermission, startLocationWatch } = usePositionActions();
   const origin = useOrigin();
   const destination = useDestination();
   const { setOrigin, setDestination } = useItineraryLocationActions();
@@ -71,9 +61,7 @@ export default function IndexPage() {
   const hasOtpLocationFavourites = useHasOtpLocationFavourites();
   const { query } = match.location;
   const fromMap =
-    query.fromMap === 'origin' || query.fromMap === 'destination'
-      ? query.fromMap
-      : undefined;
+    query.fromMap === 'origin' || query.fromMap === 'destination' ? query.fromMap : undefined;
   const { colors, language, iconModeSet } = config;
 
   useGeomoverSync({ locationState, startLocationWatch });
@@ -96,10 +84,7 @@ export default function IndexPage() {
 
     if (config.startSearchFromUserLocation && !parsedOrigin.lat) {
       checkPositioningPermission().then(permission => {
-        if (
-          permission.state === 'granted' &&
-          locationState.status === 'no-location'
-        ) {
+        if (permission.state === 'granted' && locationState.status === 'no-location') {
           startLocationWatch();
         }
       });
@@ -113,10 +98,7 @@ export default function IndexPage() {
       pendingOriginRef.current = null;
     }
 
-    if (
-      pendingDestinationRef.current &&
-      isEqual(pendingDestinationRef.current, destination)
-    ) {
+    if (pendingDestinationRef.current && isEqual(pendingDestinationRef.current, destination)) {
       pendingDestinationRef.current = null;
     }
 
@@ -146,11 +128,7 @@ export default function IndexPage() {
     if (definesItinerarySearch(origin, destination)) {
       const newLocation = {
         ...location,
-        pathname: getPathWithEndpointObjects(
-          origin,
-          destination,
-          PREFIX_ITINERARY_SUMMARY,
-        ),
+        pathname: getPathWithEndpointObjects(origin, destination, PREFIX_ITINERARY_SUMMARY),
       };
 
       if (newLocation.query.time === undefined) {
@@ -160,19 +138,11 @@ export default function IndexPage() {
       delete newLocation.query.fromMap;
       router.push(newLocation);
     } else {
-      const path = getPathWithEndpointObjects(
-        origin,
-        destination,
-        config.indexPath,
-      );
+      const path = getPathWithEndpointObjects(origin, destination, config.indexPath);
 
       if (path !== location.pathname || location.query.fromMap) {
         // also replace when only the fromMap param needs to be dropped
-        const newLocation = {
-          ...location,
-          pathname: path,
-          query: { ...location.query },
-        };
+        const newLocation = { ...location, pathname: path, query: { ...location.query } };
         delete newLocation.query.fromMap;
         router.replace(newLocation);
       }
@@ -180,10 +150,7 @@ export default function IndexPage() {
   }, [origin, destination, locationState]);
 
   const onSelectStopRoute = item => {
-    addAnalyticsEvent({
-      event: 'route_search',
-      search_action: 'route_or_stop',
-    });
+    addAnalyticsEvent({ event: 'route_search', search_action: 'route_or_stop' });
     router.push(getStopRoutePath(item));
   };
 
@@ -199,15 +166,10 @@ export default function IndexPage() {
   };
 
   const onSelectLocation = (item, id) => {
-    addAnalyticsEvent({
-      event: 'itinerary_search',
-      search_action: item.type,
-    });
+    addAnalyticsEvent({ event: 'itinerary_search', search_action: item.type });
 
     if (item.type === 'FutureRoute') {
-      router.push(
-        createUrl(item, { itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY }),
-      );
+      router.push(createUrl(item, { itinerarySummaryPrefix: PREFIX_ITINERARY_SUMMARY }));
     } else if (id === 'origin') {
       setOrigin(item);
     } else {
@@ -216,10 +178,7 @@ export default function IndexPage() {
   };
 
   const clickFavourite = favourite => {
-    addAnalyticsEvent({
-      event: 'favorite_press',
-      favorite_type: 'place',
-    });
+    addAnalyticsEvent({ event: 'favorite_press', favorite_type: 'place' });
     setDestination(favourite);
   };
 
@@ -238,23 +197,11 @@ export default function IndexPage() {
     const modeArray =
       nearYouModes.length > 0
         ? nearYouModes
-        : Object.keys(
-            filterObject(
-              getTransportModes(config),
-              'availableForSelection',
-              true,
-            ),
-          );
+        : Object.keys(filterObject(getTransportModes(config), 'availableForSelection', true));
 
-    const alertsContext = {
-      currentTime,
-      getModesWithAlerts,
-      feedIds: config.feedIds,
-    };
+    const alertsContext = { currentTime, getModesWithAlerts, feedIds: config.feedIds };
 
-    const directionProps = config.narrowNearYouButtons
-      ? {}
-      : { horizontal: false };
+    const directionProps = config.narrowNearYouButtons ? {} : { horizontal: false };
 
     return config.showNearYouButtons ? (
       <CtrlPanel.NearStopsAndRoutes
@@ -274,10 +221,7 @@ export default function IndexPage() {
     ) : (
       <div className="stops-near-you-text">
         <h2>
-          {intl.formatMessage({
-            id: 'near-you-search',
-            defaultMessage: 'Search stops and routes',
-          })}
+          {intl.formatMessage({ id: 'near-you-search', defaultMessage: 'Search stops and routes' })}
         </h2>
       </div>
     );
@@ -308,14 +252,9 @@ export default function IndexPage() {
 
   const showSpinner =
     (visibleOrigin.type === 'CurrentLocation' && !visibleOrigin.address) ||
-    (visibleDestination.type === 'CurrentLocation' &&
-      !visibleDestination.address);
+    (visibleDestination.type === 'CurrentLocation' && !visibleDestination.address);
 
-  const refPoint = getRefPoint(
-    visibleOrigin,
-    visibleDestination,
-    locationState,
-  );
+  const refPoint = getRefPoint(visibleOrigin, visibleDestination, locationState);
 
   const locationSearchProps = {
     appElement: '#app',
@@ -325,10 +264,7 @@ export default function IndexPage() {
     sources: locationSources,
     targets,
     refPoint,
-    searchPanelText: intl.formatMessage({
-      id: 'where',
-      defaultMessage: 'Where to?',
-    }),
+    searchPanelText: intl.formatMessage({ id: 'where', defaultMessage: 'Where to?' }),
     originPlaceHolder: 'search-origin-index',
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
@@ -358,25 +294,17 @@ export default function IndexPage() {
   };
 
   if (config.stopSearchFilter) {
-    stopRouteSearchProps.filterResults = results =>
-      results.filter(config.stopSearchFilter);
+    stopRouteSearchProps.filterResults = results => results.filter(config.stopSearchFilter);
     // increase size to compensate filtering
     stopRouteSearchProps.geocodingSize = 40;
-    locationSearchProps.filterResults = results =>
-      results.filter(config.stopSearchFilter);
+    locationSearchProps.filterResults = results => results.filter(config.stopSearchFilter);
   }
 
-  /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
   return breakpoint === 'large' ? (
     <div
-      className={`front-page flex-vertical ${
-        showSpinner && `blurred`
-      } fullscreen bp-${breakpoint}`}
+      className={`front-page flex-vertical ${showSpinner && `blurred`} fullscreen bp-${breakpoint}`}
     >
-      <div
-        style={{ display: 'block' }}
-        className="scrollable-content-wrapper momentum-scroll"
-      >
+      <div style={{ display: 'block' }} className="scrollable-content-wrapper momentum-scroll">
         <h1 className="sr-only">
           <FormattedMessage id="index.title" default="Journey Planner" />
         </h1>
@@ -391,10 +319,7 @@ export default function IndexPage() {
           <DatetimepickerContainer realtime />
           {!config.hideFavourites && (
             <>
-              <FavouritesContainer
-                onClickFavourite={clickFavourite}
-                lang={language}
-              />
+              <FavouritesContainer onClickFavourite={clickFavourite} lang={language} />
               <CtrlPanel.SeparatorLine usePaddingBottom20 />
             </>
           )}
@@ -413,26 +338,13 @@ export default function IndexPage() {
       {(showSpinner && <OverlayWithSpinner />) || null}
     </div>
   ) : (
-    <div
-      className={`front-page flex-vertical ${
-        showSpinner && `blurred`
-      } bp-${breakpoint}`}
-    >
+    <div className={`front-page flex-vertical ${showSpinner && `blurred`} bp-${breakpoint}`}>
       {(showSpinner && <OverlayWithSpinner />) || null}
-      <div
-        style={{
-          display: 'block',
-          backgroundColor: '#ffffff',
-        }}
-      >
+      <div style={{ display: 'block', backgroundColor: '#ffffff' }}>
         <CtrlPanel position="bottom">
           <LocationSearch disableAutoFocus isMobile {...locationSearchProps} />
           <DatetimepickerContainer realtime />
-          <FavouritesContainer
-            onClickFavourite={clickFavourite}
-            lang={language}
-            isMobile
-          />
+          <FavouritesContainer onClickFavourite={clickFavourite} lang={language} isMobile />
           <CtrlPanel.SeparatorLine />
           <>{renderNearStops()}</>
           <div className="stop-route-search-container">

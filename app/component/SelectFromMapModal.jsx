@@ -1,6 +1,7 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 /**
  * Full-bleed wrapper around the HSL design system's Modal/ModalContent,
@@ -13,12 +14,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
  * with our own stable classnames (see select-from-map-modal.scss) the first
  * time the content mounts.
  */
-export default function SelectFromMapModal({
-  title,
-  lang,
-  onClose,
-  children = null,
-}) {
+export default function SelectFromMapModal({ title, onClose, children = null }) {
   const setContentRef = useCallback(node => {
     if (!node) {
       return;
@@ -31,7 +27,7 @@ export default function SelectFromMapModal({
 
   return (
     <Modal
-      lang={lang}
+      lang={hslfiLocale}
       open
       onOpenChange={open => {
         if (!open) {
@@ -42,7 +38,7 @@ export default function SelectFromMapModal({
       <ModalContent
         ref={setContentRef}
         title={title}
-        lang={lang}
+        lang={hslfiLocale}
         className="select-from-map-modal-content"
       >
         {children}
@@ -53,7 +49,6 @@ export default function SelectFromMapModal({
 
 SelectFromMapModal.propTypes = {
   title: PropTypes.string.isRequired,
-  lang: PropTypes.string.isRequired,
   onClose: PropTypes.func.isRequired,
   children: PropTypes.node,
 };

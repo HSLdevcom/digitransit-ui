@@ -41,10 +41,7 @@ export const TransportMode = Object.freeze({
 /**
  * Mode depicts different kinds of mode available as any kind of transportation.
  */
-export const Mode = Object.freeze({
-  ...StreetMode,
-  ...TransportMode,
-});
+export const Mode = Object.freeze({ ...StreetMode, ...TransportMode });
 
 /**
  * RealtimeStateType depicts different types of a trip's information state.
@@ -110,10 +107,7 @@ export const ExtendedRouteTypes = Object.freeze({
   ReplacementBus: 714,
 });
 
-export const ParkTypes = {
-  Bicycle: 'BICYCLE',
-  Car: 'CAR',
-};
+export const ParkTypes = { Bicycle: 'BICYCLE', Car: 'CAR' };
 
 /**
  * OpenTripPlanner (v2) plan message enumerations.
@@ -138,16 +132,9 @@ export const OtpCornerNamingPattern = Object.freeze({
 /**
  * OpenTripPlanner (v2) via point types.
  */
-export const ViaLocationType = Object.freeze({
-  PassThrough: 'PASS_THROUGH',
-  Visit: 'VISIT',
-});
+export const ViaLocationType = Object.freeze({ PassThrough: 'PASS_THROUGH', Visit: 'VISIT' });
 
-export const VerticalDirection = Object.freeze({
-  Up: 'UP',
-  Down: 'DOWN',
-  Unknown: 'UNKNOWN',
-});
+export const VerticalDirection = Object.freeze({ Up: 'UP', Down: 'DOWN', Unknown: 'UNKNOWN' });
 
 export const IndoorStepType = Object.freeze({
   Entrance: 'Entrance',
@@ -169,14 +156,8 @@ export const WheelchairBoarding = Object.freeze({
   Possible: 'POSSIBLE',
 });
 
-export const NaviCardType = Object.freeze({
-  Default: 'DEFAULT',
-  Indoor: 'INDOOR',
-});
-export const LocationTypes = Object.freeze({
-  STOP: 'STOP',
-  STATION: 'STATION',
-});
+export const NaviCardType = Object.freeze({ Default: 'DEFAULT', Indoor: 'INDOOR' });
+export const LocationTypes = Object.freeze({ STOP: 'STOP', STATION: 'STATION' });
 
 export const TrafficNowTransportModes = Object.freeze([
   TransportMode.Bus,
@@ -195,6 +176,4 @@ export const TrafficNowTransportModes = Object.freeze([
  * recognizing old links, not what's currently translated.
  */
 export const LEGACY_LOCALES = Object.freeze(['fi', 'en', 'sv', 'ru', 'slangi']);
-export const LEGACY_LOCALE_PATHS = Object.freeze(
-  LEGACY_LOCALES.map(locale => `/${locale}/`),
-);
+export const LEGACY_LOCALE_PATHS = Object.freeze(LEGACY_LOCALES.map(locale => `/${locale}/`));

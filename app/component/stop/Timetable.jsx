@@ -13,10 +13,7 @@ import Icon from '../Icon';
 import FilterTimeTableModal from './FilterTimeTableModal';
 import TimeTableOptionsPanel from './TimeTableOptionsPanel';
 import TimetableRow from './TimetableRow';
-import {
-  DATE_FORMAT,
-  RealtimeStateType,
-} from '../../../utils/shared/constants';
+import { DATE_FORMAT, RealtimeStateType } from '../../../utils/shared/constants';
 import SecondaryButton from '../SecondaryButton';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import DateSelect from './DateSelect';
@@ -46,9 +43,7 @@ const mapStopTimes = stoptimesObject =>
     .reduce((acc, val) => acc.concat(val), []);
 
 const groupArrayByHour = stoptimesArray =>
-  groupBy(stoptimesArray, stoptime =>
-    Math.floor(stoptime.scheduledDeparture / (60 * 60)),
-  );
+  groupBy(stoptimesArray, stoptime => Math.floor(stoptime.scheduledDeparture / (60 * 60)));
 
 const printStop = e => {
   e.stopPropagation();
@@ -62,16 +57,11 @@ const printStopPDF = (e, stopPDFURL) => {
 
 const getDuplicatedRoutes = stop => {
   const routesToCheck = mapStopTimes(stop.stoptimesForServiceDate)
-    .map(o => ({
-      shortName: o.name,
-      headsign: o.headsign,
-    }))
+    .map(o => ({ shortName: o.name, headsign: o.headsign }))
     .filter(
       (item, index, self) =>
         index ===
-        self.findIndex(
-          o => o.headsign === item.headsign && o.shortName === item.shortName,
-        ),
+        self.findIndex(o => o.headsign === item.headsign && o.shortName === item.shortName),
     );
 
   const routesWithDupes = [];
@@ -93,9 +83,7 @@ const dateForPrinting = date => {
         <div className="printable-date-header">
           <FormattedMessage id="date" defaultMessage="Date" />
         </div>
-        <div className="printable-date-content">
-          {selectedDate.toFormat('ccc dd.LL.yyyy')}
-        </div>
+        <div className="printable-date-content">{selectedDate.toFormat('ccc dd.LL.yyyy')}</div>
       </div>
     </div>
   );
@@ -110,9 +98,7 @@ const formTimeRow = (timetableMap, hour, showRoutes) => {
     .map(
       time =>
         showRoutes.filter(o => o === time.name || o === time.id).length > 0 &&
-        DateTime.fromSeconds(
-          time.serviceDay + time.scheduledDeparture,
-        ).toFormat('HH'),
+        DateTime.fromSeconds(time.serviceDay + time.scheduledDeparture).toFormat('HH'),
     )
     .filter(o => o === padStart(hour % 24, 2, '0'));
 
@@ -144,17 +130,12 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
   const [showFilterModal, setShowFilterModal] = useState(false);
 
   const setParams = (routes, newDate) => {
-    replaceQueryParams(router, match, {
-      routes,
-      date: newDate,
-    });
+    replaceQueryParams(router, match, { routes, date: newDate });
   };
 
   const setRouteVisibilityState = val => {
     setShowRoutes(val.showRoutes);
-    const showRoutesNew = val.showRoutes.length
-      ? val.showRoutes.join(',')
-      : undefined;
+    const showRoutesNew = val.showRoutes.length ? val.showRoutes.join(',') : undefined;
     setParams(showRoutesNew, date);
   };
 
@@ -180,11 +161,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
         <div style={{ width: '85%' }}>
           <span>{constantOperationStops[stopId][locale].text}</span>
           <span style={{ display: 'inline-block' }}>
-            <a
-              href={constantOperationStops[stopId][locale].link}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={constantOperationStops[stopId][locale].link} target="_blank" rel="noreferrer">
               {constantOperationStops[stopId][locale].link}
             </a>
           </span>
@@ -200,9 +177,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
   const variantList = groupBy(
     sortBy(
       uniqBy(
-        mapStopTimes(
-          stop.stoptimesForServiceDate.filter(o => o.pattern.route.shortName),
-        )
+        mapStopTimes(stop.stoptimesForServiceDate.filter(o => o.pattern.route.shortName))
           .map(o => {
             const obj = Object.assign(o);
             obj.groupId = `${o.name}-${o.headsign}`;
@@ -231,25 +206,20 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
 
   variantsWithMarks = [].concat(...variantsWithMarks);
 
-  const routesWithDetails = mapStopTimes(stop.stoptimesForServiceDate).map(
-    o => {
-      const obj = Object.assign(o);
-      const getDuplicate = variantsWithMarks.find(
-        o2 => o2.name === o.name && o2.headsign === o.headsign && o2.duplicate,
-      );
-      obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
-      return obj;
-    },
-  );
+  const routesWithDetails = mapStopTimes(stop.stoptimesForServiceDate).map(o => {
+    const obj = Object.assign(o);
+    const getDuplicate = variantsWithMarks.find(
+      o2 => o2.name === o.name && o2.headsign === o.headsign && o2.duplicate,
+    );
+    obj.duplicate = getDuplicate ? getDuplicate.duplicate : false;
+    return obj;
+  });
   const timetableMap = groupArrayByHour(routesWithDetails);
   const { locationType } = stop;
   const { feedId } = splitGtfsId(stop.gtfsId);
   const stopTimetableHandler = config.timetables && config.timetables[feedId];
   const stopPDFURL =
-    stopTimetableHandler &&
-    config.URL.STOP_TIMETABLES[feedId] &&
-    locationType !== 'STATION' &&
-    date
+    stopTimetableHandler && config.URL.STOP_TIMETABLES[feedId] && locationType !== 'STATION' && date
       ? stopTimetableHandler.stopTimetableUrlResolver(
           config.URL.STOP_TIMETABLES[feedId],
           stop,
@@ -259,13 +229,9 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
       : null;
   const virtualMonitorUrl =
     config.stopCard?.header?.virtualMonitorBaseUrl &&
-    `${
-      config.stopCard.header.virtualMonitorBaseUrl
-    }/${locationType.toLowerCase()}/${stop.gtfsId}`;
+    `${config.stopCard.header.virtualMonitorBaseUrl}/${locationType.toLowerCase()}/${stop.gtfsId}`;
   const timeTableRows = createTimeTableRows(timetableMap, showRoutes);
-  const timeDifferenceDays = DateTime.fromFormat(date, DATE_FORMAT).diffNow(
-    'days',
-  ).days;
+  const timeDifferenceDays = DateTime.fromFormat(date, DATE_FORMAT).diffNow('days').days;
   return (
     <>
       <ScrollableWrapper>
@@ -283,15 +249,9 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
               startDate={startDate}
               selectedDate={date}
               onDateChange={e => {
-                const showRoutesNew = showRoutes.length
-                  ? showRoutes.join(',')
-                  : undefined;
+                const showRoutesNew = showRoutes.length ? showRoutes.join(',') : undefined;
                 setParams(showRoutesNew, e);
-                addAnalyticsEvent({
-                  category: 'Stop',
-                  action: 'ChangeTimetableDay',
-                  name: null,
-                });
+                addAnalyticsEvent({ category: 'Stop', action: 'ChangeTimetableDay', name: null });
               }}
               dateFormat={DATE_FORMAT}
             />
@@ -310,10 +270,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
           {timeTableRows.length > 0 ? (
             <div className="timetable-note">
               <h2>
-                <FormattedMessage
-                  id="departures-by-hour"
-                  defaultMessage="Departures by hour"
-                />{' '}
+                <FormattedMessage id="departures-by-hour" defaultMessage="Departures by hour" />{' '}
                 <FormattedMessage
                   id="departures-by-hour-minutes-route"
                   defaultMessage="(minutes/route)"
@@ -323,13 +280,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
           ) : (
             <div className="no-timetable-found-container">
               <div className="no-timetable-found">
-                <div
-                  className={cx(
-                    'flex-horizontal',
-                    'timetable-notification',
-                    'info',
-                  )}
-                >
+                <div className={cx('flex-horizontal', 'timetable-notification', 'info')}>
                   <Icon
                     className={cx('no-timetable-icon', 'caution')}
                     img="icon_info"
@@ -357,28 +308,18 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
                 <FormattedMessage id="hour" defaultMessage="Hour" />
               </div>
               <div className="minutes-per-route">
-                <FormattedMessage
-                  id="minutes-or-route"
-                  defaultMessage="Min/Route"
-                />
+                <FormattedMessage id="minutes-or-route" defaultMessage="Min/Route" />
               </div>
             </div>
             {timeTableRows}
             <div
               className="route-remarks"
               style={{
-                display:
-                  variantsWithMarks.filter(o => o.duplicate).length > 0
-                    ? 'block'
-                    : 'none',
+                display: variantsWithMarks.filter(o => o.duplicate).length > 0 ? 'block' : 'none',
               }}
             >
               <h1>
-                <FormattedMessage
-                  id="explanations"
-                  defaultMessage="Explanations"
-                />
-                :
+                <FormattedMessage id="explanations" defaultMessage="Explanations" />:
               </h1>
               {variantsWithMarks.map(o => (
                 <div className="remark-row" key={`${o.id}-${o.headsign}`}>
@@ -397,11 +338,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
             buttonName="print"
             buttonClickAction={e => {
               printStop(e);
-              addAnalyticsEvent({
-                category: 'Stop',
-                action: 'PrintTimetable',
-                name: null,
-              });
+              addAnalyticsEvent({ category: 'Stop', action: 'PrintTimetable', name: null });
             }}
             buttonIcon="icon_print"
             smallSize
@@ -412,11 +349,7 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
               buttonName="print-timetable"
               buttonClickAction={e => {
                 printStopPDF(e, stopPDFURL);
-                addAnalyticsEvent({
-                  category: 'Stop',
-                  action: 'PrintWeeklyTimetable',
-                  name: null,
-                });
+                addAnalyticsEvent({ category: 'Stop', action: 'PrintWeeklyTimetable', name: null });
               }}
               buttonIcon="icon_print"
               smallSize
@@ -450,9 +383,7 @@ Timetable.propTypes = {
           route: PropTypes.shape({
             shortName: PropTypes.string,
             mode: PropTypes.string.isRequired,
-            agency: PropTypes.shape({
-              name: PropTypes.string.isRequired,
-            }).isRequired,
+            agency: PropTypes.shape({ name: PropTypes.string.isRequired }).isRequired,
           }).isRequired,
         }).isRequired,
         stoptimes: PropTypes.arrayOf(
@@ -460,9 +391,7 @@ Timetable.propTypes = {
             realtimeState: PropTypes.string.isRequired,
             scheduledDeparture: PropTypes.number.isRequired,
             serviceDay: PropTypes.number.isRequired,
-            stop: PropTypes.shape({
-              gtfsId: PropTypes.string.isRequired,
-            }).isRequired,
+            stop: PropTypes.shape({ gtfsId: PropTypes.string.isRequired }).isRequired,
           }),
         ).isRequired,
       }),

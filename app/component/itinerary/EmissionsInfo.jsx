@@ -10,11 +10,7 @@ export default function EmissionsInfo({ itinerary, isMobile }) {
   return (
     co2value !== null &&
     co2value >= 0 && (
-      <div
-        className={cx('itinerary-co2-information', {
-          mobile: isMobile,
-        })}
-      >
+      <div className={cx('itinerary-co2-information', { mobile: isMobile })}>
         <div className="itinerary-co2-line">
           <div className={cx('co2-container', { mobile: isMobile })}>
             <div className="co2-title-container">

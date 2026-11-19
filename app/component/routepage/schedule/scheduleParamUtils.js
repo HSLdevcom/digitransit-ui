@@ -9,9 +9,7 @@ const populateData = (params, match, noOfWeeks) => {
   // Seconds are dropped so that tab clicks within a minute reuse cached data.
   const minute = now.startOf('minute');
   const startOfWeek = now.startOf('week');
-  const date = query.serviceDay
-    ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT)
-    : null;
+  const date = query.serviceDay ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT) : null;
   const serviceDay =
     date && date.isValid && date.startOf('week') >= startOfWeek
       ? DateTime.fromFormat(query.serviceDay, DATE_FORMAT)
@@ -68,9 +66,7 @@ export const calculateRedirectDecision = ({
     return {
       shouldRedirect: true,
       redirectPath: null,
-      query: {
-        serviceDay: today.toFormat(DATE_FORMAT),
-      },
+      query: { serviceDay: today.toFormat(DATE_FORMAT) },
     };
   }
 
@@ -93,9 +89,5 @@ export const calculateRedirectDecision = ({
     }
   }
 
-  return {
-    shouldRedirect: false,
-    redirectPath: null,
-    query: {},
-  };
+  return { shouldRedirect: false, redirectPath: null, query: {} };
 };

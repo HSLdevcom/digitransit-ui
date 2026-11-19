@@ -1,41 +1,27 @@
-import { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { graphql, createRefetchContainer } from 'react-relay';
+import { useRefetchableFragment } from 'react-relay';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
 import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
-import {
-  vehicleRentalStationShape,
-  relayShape,
-} from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/client/shapes';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
+import useRefetchOnTick from '../../hooks/useRefetchOnTick';
+import VehicleRentalStationNearYouFragment from './queries/VehicleRentalStationNearYouFragment';
 
-const VehicleRentalStationNearYou = ({
-  station,
-  relay,
-  currentTime,
+export default function VehicleRentalStationNearYou({
+  station: stationRef,
   isParentTabActive = false,
-}) => {
-  const timeRef = useRef(currentTime);
+}) {
+  const [station, refetch] = useRefetchableFragment(
+    VehicleRentalStationNearYouFragment,
+    stationRef,
+  );
 
-  useEffect(() => {
-    const { stationId } = station;
-    if (isParentTabActive && currentTime - timeRef.current > 30) {
-      relay.refetch(
-        oldVariables => {
-          return { ...oldVariables, stationId };
-        },
-        null,
-        null,
-        { force: true }, // query variables stay the same between refetches
-      );
-      timeRef.current = currentTime;
-    }
-  }, [currentTime, isParentTabActive]);
+  useRefetchOnTick(refetch, VehicleRentalStationNearYouFragment, stationRef, isParentTabActive);
 
   return (
     <span role="listitem">
@@ -75,46 +61,9 @@ const VehicleRentalStationNearYou = ({
       </div>
     </span>
   );
-};
+}
 
 VehicleRentalStationNearYou.propTypes = {
-  station: vehicleRentalStationShape.isRequired,
-  currentTime: PropTypes.number,
+  station: fragmentRefShape.isRequired,
   isParentTabActive: PropTypes.bool,
-  relay: relayShape.isRequired,
-};
-
-const containerComponent = createRefetchContainer(
-  VehicleRentalStationNearYou,
-  {
-    station: graphql`
-      fragment VehicleRentalStationNearYou_station on VehicleRentalStation {
-        stationId
-        name
-        availableVehicles {
-          total
-        }
-        availableSpaces {
-          total
-        }
-        capacity
-        rentalNetwork {
-          networkId
-        }
-        operative
-      }
-    `,
-  },
-  graphql`
-    query VehicleRentalStationNearYouRefetchQuery($stationId: String!) {
-      vehicleRentalStation(id: $stationId) {
-        ...VehicleRentalStationNearYou_station
-      }
-    }
-  `,
-);
-
-export {
-  containerComponent as default,
-  VehicleRentalStationNearYou as Component,
 };

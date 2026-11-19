@@ -41,10 +41,7 @@ export default function RentalVehicleContent({
   const [isClient, setClient] = useState(false);
   const config = useConfigContext();
   const { match, router } = useRouter();
-  const rentalVehicle = useFragment(
-    RentalVehicleContentFragment,
-    rentalVehicleRef,
-  );
+  const rentalVehicle = useFragment(RentalVehicleContentFragment, rentalVehicleRef);
 
   useEffect(() => {
     setClient(true);
@@ -67,10 +64,7 @@ export default function RentalVehicleContent({
     return null;
   }
 
-  const networkConfig = getRentalNetworkConfig(
-    rentalVehicle.rentalNetwork.networkId,
-    config,
-  );
+  const networkConfig = getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config);
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
   const { language } = config;
 
@@ -89,10 +83,7 @@ export default function RentalVehicleContent({
               <Icon img={vehicleIcon} />
               <div className="scooter-header">
                 <div className="header">
-                  <h1>
-                    {networkConfig.name[language] ||
-                      rentalVehicle.rentalNetwork.networkId}
-                  </h1>
+                  <h1>{networkConfig.name[language] || rentalVehicle.rentalNetwork.networkId}</h1>
                   <div className="scooter-sub-header">
                     <FormattedMessage id="e-scooter" />
                   </div>
@@ -113,10 +104,7 @@ export default function RentalVehicleContent({
           <div className="scooter-header">
             {breakpoint === 'large' && <BackButton />}
             <div className="header">
-              <h1>
-                {networkConfig.name[language] ||
-                  rentalVehicle.rentalNetwork.networkId}
-              </h1>
+              <h1>{networkConfig.name[language] || rentalVehicle.rentalNetwork.networkId}</h1>
               <div className="scooter-sub-header">
                 <FormattedMessage id="e-scooter" />
               </div>
@@ -134,7 +122,5 @@ export default function RentalVehicleContent({
 
 RentalVehicleContent.propTypes = {
   rentalVehicle: fragmentRefShape,
-  error: PropTypes.shape({
-    message: PropTypes.string,
-  }),
+  error: PropTypes.shape({ message: PropTypes.string }),
 };

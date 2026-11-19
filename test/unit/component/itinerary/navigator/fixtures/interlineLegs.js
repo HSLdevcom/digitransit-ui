@@ -18,13 +18,7 @@ export const tram2 = {
   mode: 'TRAM',
   transitLeg: true,
   route: { shortName: '2', mode: 'TRAM' },
-  to: {
-    stop: {
-      name: 'Olympiaterminaali',
-      parentStation: null,
-      vehicleMode: 'TRAM',
-    },
-  },
+  to: { stop: { name: 'Olympiaterminaali', parentStation: null, vehicleMode: 'TRAM' } },
   end: tr(NOW + 5 * 60000),
 };
 
@@ -35,10 +29,7 @@ export const tram3 = {
   route: { shortName: '3', mode: 'TRAM' },
   trip: { tripHeadsign: 'Kauppatori' },
   start: tr(NOW + 8 * 60000),
-  from: {
-    name: 'Olympiaterminaali',
-    stop: { name: 'Olympiaterminaali', vehicleMode: 'TRAM' },
-  },
+  from: { name: 'Olympiaterminaali', stop: { name: 'Olympiaterminaali', vehicleMode: 'TRAM' } },
 };
 
 export const interlineTime = NOW;

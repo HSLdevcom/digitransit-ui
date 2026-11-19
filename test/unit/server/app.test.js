@@ -31,9 +31,7 @@ afterAll(() => {
 describe('server app', () => {
   const staticDir = path.join(process.cwd(), '_static', 'assets');
   const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
-  const staticDirPreexisted = fs.existsSync(
-    path.join(process.cwd(), '_static'),
-  );
+  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
   let app;
 
   beforeAll(() => {
@@ -47,10 +45,7 @@ describe('server app', () => {
   afterAll(() => {
     fs.rmSync(spriteFixturePath, { force: true });
     if (!staticDirPreexisted) {
-      fs.rmSync(path.join(process.cwd(), '_static'), {
-        recursive: true,
-        force: true,
-      });
+      fs.rmSync(path.join(process.cwd(), '_static'), { recursive: true, force: true });
     }
   });
 
@@ -77,9 +72,7 @@ describe('server app', () => {
     it('serves an uncached script that unregisters the old service worker', async () => {
       const response = await request(app).get('/sw.js');
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toContain(
-        'application/javascript',
-      );
+      expect(response.headers['content-type']).toContain('application/javascript');
       expect(response.headers['cache-control']).toContain('max-age=0');
       expect(response.text).toContain('self.registration.unregister()');
     });
@@ -103,9 +96,7 @@ describe('server app', () => {
       vi.stubEnv('CONFIG', 'tampere');
       const response = await request(app).get('/favicon.ico');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toMatch(
-        /^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/,
-      );
+      expect(response.headers.location).toMatch(/^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/);
     });
   });
 

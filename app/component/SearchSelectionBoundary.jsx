@@ -1,15 +1,12 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../hooks/ConfigContext';
 import { useSearchContext } from '../hooks/SearchContext';
 import SelectFromMap from './map/SelectFromMap';
 import SelectFromMapModal from './SelectFromMapModal';
 
 export default function SearchSelectionBoundary({ children = null }) {
   const intl = useIntl();
-  const config = useConfigContext();
-  const { fromMap, closeMapSelection, confirmMapSelection } =
-    useSearchContext();
+  const { fromMap, closeMapSelection, confirmMapSelection } = useSearchContext();
 
   if (fromMap === undefined) {
     return children;
@@ -27,16 +24,10 @@ export default function SearchSelectionBoundary({ children = null }) {
   }
 
   return (
-    <SelectFromMapModal
-      title={intl.formatMessage({ id: titleId })}
-      lang={config.language}
-      onClose={closeMapSelection}
-    >
+    <SelectFromMapModal title={intl.formatMessage({ id: titleId })} onClose={closeMapSelection}>
       <SelectFromMap type={fromMap} onConfirm={confirmMapSelection} />
     </SelectFromMapModal>
   );
 }
 
-SearchSelectionBoundary.propTypes = {
-  children: PropTypes.node,
-};
+SearchSelectionBoundary.propTypes = { children: PropTypes.node };

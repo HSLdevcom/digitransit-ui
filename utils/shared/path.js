@@ -50,13 +50,10 @@ export const buildQueryString = params => {
 };
 
 export const buildURL = (pathSegments = []) => {
-  const urlOrigin =
-    typeof window !== 'undefined'
-      ? window.location.origin // eslint-disable-line compat/compat
-      : 'url://builder/';
+  const urlOrigin = typeof window !== 'undefined' ? window.location.origin : 'url://builder/';
 
   // build valid url
-  const url = new URL(urlOrigin); // eslint-disable-line compat/compat
+  const url = new URL(urlOrigin);
   url.pathname = pathJoin(pathSegments);
   return url;
 };
@@ -95,19 +92,15 @@ export const getItineraryPagePath = (origin, destination) =>
     encodeURIComponent(decodeURIComponent(destination)),
   ].join('/');
 
-export const isEmpty = s =>
-  s === undefined || s === null || s.trim() === '' || s.trim() === '-';
+export const isEmpty = s => s === undefined || s === null || s.trim() === '' || s.trim() === '-';
 
 export const coordsDiff = (c1, c2) =>
-  Number.isNaN(c1) !== Number.isNaN(c2) ||
-  (!Number.isNaN(c1) && Math.abs(c1 - c2) > 0.0001);
+  Number.isNaN(c1) !== Number.isNaN(c2) || (!Number.isNaN(c1) && Math.abs(c1 - c2) > 0.0001);
 
 export const sameLocations = (l1, l2) => {
   return (
     (l1.type === 'CurrentLocation' && l2.type === 'CurrentLocation') ||
-    (l1.address === l2.address &&
-      !coordsDiff(l1.lat, l2.lat) &&
-      !coordsDiff(l1.lon, l2.lon))
+    (l1.address === l2.address && !coordsDiff(l1.lat, l2.lat) && !coordsDiff(l1.lon, l2.lon))
   );
 };
 
@@ -205,8 +198,7 @@ export function definesItinerarySearch(origin, destination) {
  * use objects instead of strings If both are set it's itinerary search...
  */
 export function getPathWithEndpointObjects(origin, destination, rootPath) {
-  return rootPath === PREFIX_ITINERARY_SUMMARY ||
-    definesItinerarySearch(origin, destination)
+  return rootPath === PREFIX_ITINERARY_SUMMARY || definesItinerarySearch(origin, destination)
     ? getItineraryPagePath(locationToUri(origin), locationToUri(destination))
     : getIndexPath(locationToOTP(origin), locationToOTP(destination), rootPath);
 }

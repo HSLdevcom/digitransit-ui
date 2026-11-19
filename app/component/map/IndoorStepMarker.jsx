@@ -12,19 +12,12 @@ import GenericMarker from './GenericMarker';
 import Card from '../Card';
 import PopupHeader from './PopupHeader';
 import Icon from '../Icon';
-import {
-  IndoorStepType,
-  VerticalDirection,
-} from '../../../utils/shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../utils/shared/constants';
 import { getVerticalTransportationUseIconId } from '../../../utils/client/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];
 
-export default function IndoorStepMarker({
-  position,
-  index,
-  indoorSteps = EMPTY_INDOOR_STEPS,
-}) {
+export default function IndoorStepMarker({ position, index, indoorSteps = EMPTY_INDOOR_STEPS }) {
   const intl = useIntl();
   const objs = [];
 
@@ -80,10 +73,7 @@ export default function IndoorStepMarker({
                   className="indoor-step-popup-icon"
                 />
                 {filteredObjs.length !== i + 1 ? (
-                  <Icon
-                    img="icon_arrow-right-long"
-                    className="arrow-popup-icon"
-                  />
+                  <Icon img="icon_arrow-right-long" className="arrow-popup-icon" />
                 ) : null}
               </Fragment>
             ))}
@@ -94,16 +84,10 @@ export default function IndoorStepMarker({
                 <Fragment
                   key={`indoorstepmarker_lat_${position.lat}_lon_${position.lon}_index_${i}`}
                 >
-                  <div
-                    className={cx('indoor-step-popup-line-circle', {
-                      selected: index === i,
-                    })}
-                  >
+                  <div className={cx('indoor-step-popup-line-circle', { selected: index === i })}>
                     <svg width={28} height={28}>
                       <circle
-                        className={cx('indoor-step-marker', {
-                          selected: index === i,
-                        })}
+                        className={cx('indoor-step-marker', { selected: index === i })}
                         width={28}
                         cx={14}
                         cy={14}

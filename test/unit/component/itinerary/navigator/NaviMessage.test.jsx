@@ -5,12 +5,7 @@ import NaviMessage from '../../../../../app/component/itinerary/navigator/NaviMe
 
 const baseConfig = createTestConfig();
 
-const baseProps = {
-  severity: 'INFO',
-  index: 0,
-  handleRemove: () => {},
-  cardAnimation: 'slide-in',
-};
+const baseProps = { severity: 'INFO', index: 0, handleRemove: () => {}, cardAnimation: 'slide-in' };
 
 describe('<NaviMessage />', () => {
   it('renders the message content', () => {
@@ -30,9 +25,7 @@ describe('<NaviMessage />', () => {
       </NaviMessage>,
       { config: baseConfig },
     );
-    expect(container.querySelector('svg')?.style.fill).toBe(
-      baseConfig.colors.caution,
-    );
+    expect(container.querySelector('svg')?.style.fill).toBe(baseConfig.colors.caution);
   });
 
   it('applies the configured primary color for a default severity icon', () => {
@@ -42,9 +35,7 @@ describe('<NaviMessage />', () => {
       </NaviMessage>,
       { config: baseConfig },
     );
-    expect(container.querySelector('svg')?.style.fill).toBe(
-      baseConfig.colors.primary,
-    );
+    expect(container.querySelector('svg')?.style.fill).toBe(baseConfig.colors.primary);
   });
 
   it('hides the close button when hideClose is set', () => {

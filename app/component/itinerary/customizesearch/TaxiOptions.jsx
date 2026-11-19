@@ -8,15 +8,10 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TaxiOptions({ settings, updateSettings }) {
   const config = useConfigContext();
-  const taxiLabelId =
-    config.flex.settingLabelOverride || 'taxis-and-ride-hailing';
-  const taxiRoutingState = settings.includeTaxiSuggestions
-    ? 'Disable'
-    : 'Enable';
+  const taxiLabelId = config.flex.settingLabelOverride || 'taxis-and-ride-hailing';
+  const taxiRoutingState = settings.includeTaxiSuggestions ? 'Disable' : 'Enable';
   const onToggle = () => {
-    updateSettings({
-      includeTaxiSuggestions: !settings.includeTaxiSuggestions,
-    });
+    updateSettings({ includeTaxiSuggestions: !settings.includeTaxiSuggestions });
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: `Settings${taxiRoutingState}Taxis`,
@@ -30,17 +25,9 @@ export default function TaxiOptions({ settings, updateSettings }) {
         <FormattedMessage id={taxiLabelId} />
       </div>
       <SettingsToggle
-        id="settings-toggle-taxi"
         labelId={taxiLabelId}
         labelStyle="mode-label"
-        leftElement={
-          <Icon
-            className="taxi-icon"
-            img="icon_taxi-external"
-            height={2}
-            width={2}
-          />
-        }
+        leftElement={<Icon className="taxi-icon" img="icon_taxi-external" height={2} width={2} />}
         toggled={!!settings.includeTaxiSuggestions}
         onToggle={onToggle}
       />

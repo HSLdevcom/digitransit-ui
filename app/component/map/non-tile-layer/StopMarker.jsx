@@ -14,10 +14,7 @@ import {
 import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../utils/shared/path';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import {
-  STOP_STATUS,
-  STOP_STATUS_BADGE_IMGS,
-} from '../../../../utils/client/stopStatusUtils';
+import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from '../../../../utils/client/stopStatusUtils';
 
 // Below this zoom the status badge is drawn as a plain colored dot.
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;
@@ -30,9 +27,7 @@ export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   }
   const pathPrefixMatch = pathname.match(/^\/([a-z]{2,})\//);
   const context =
-    pathPrefixMatch && pathPrefixMatch[1] !== indexPath
-      ? pathPrefixMatch[1]
-      : 'index';
+    pathPrefixMatch && pathPrefixMatch[1] !== indexPath ? pathPrefixMatch[1] : 'index';
   return {
     action: 'SelectMapPoint',
     category: 'Map',
@@ -42,8 +37,7 @@ export const getStopMarkerAnalytics = (pathname, indexPath, mode) => {
   };
 };
 
-export const getStopMarkerPath = gtfsId =>
-  `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
+export const getStopMarkerPath = gtfsId => `/${PREFIX_STOPS}/${encodeURIComponent(gtfsId)}`;
 
 // The functions below compute plain values (icon size, class names, SVG
 // markup) with no Leaflet dependency. They are exported for unit testing
@@ -58,13 +52,7 @@ export const getModeIconSize = (zoom, config, selected) => {
   return config.stopsIconSize.default;
 };
 
-export const getModeIconClassName = (
-  mode,
-  size,
-  config,
-  selected,
-  disableIconBorder,
-) =>
+export const getModeIconClassName = (mode, size, config, selected, disableIconBorder) =>
   cx('cursor-pointer', mode, {
     small: size === config.stopsIconSize.small,
     selected,
@@ -79,9 +67,7 @@ export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
     calcZoom = Math.min(zoom, limitZoom);
   } else {
     calcZoom =
-      transfer || selected
-        ? Math.max(zoom, MIN_ICON_SIZE_ZOOM)
-        : zoom || MIN_ICON_SIZE_ZOOM;
+      transfer || selected ? Math.max(zoom, MIN_ICON_SIZE_ZOOM) : zoom || MIN_ICON_SIZE_ZOOM;
   }
 
   const radius = getCaseRadius(calcZoom) * scale;
@@ -110,9 +96,7 @@ export const buildStopIconSvg = ({
   // 1px white outline hugging the outer edge of the stop ring, may extend past the icon bounds
   const haloRadius = inner + stroke / 2 + 1;
   return `
-      <svg viewBox="0 0 ${radius * 2} ${radius * 2}"${
-        withHalo ? ' style="overflow:visible"' : ''
-      }>
+      <svg viewBox="0 0 ${radius * 2} ${radius * 2}"${withHalo ? ' style="overflow:visible"' : ''}>
         ${
           withHalo
             ? `<circle class="stop-halo" cx="${radius}" cy="${radius}" r="${haloRadius}" />`
@@ -136,9 +120,7 @@ export const buildStopIconSvg = ({
 };
 
 export const getStopIconClassName = (mode, disableIconBorder) =>
-  cx(mode, 'cursor-pointer', {
-    'disable-icon-border': disableIconBorder,
-  });
+  cx(mode, 'cursor-pointer', { 'disable-icon-border': disableIconBorder });
 
 export default function StopMarker({
   stop,
@@ -156,11 +138,7 @@ export default function StopMarker({
   const { router } = useRouter();
 
   const redirectToStopPage = () => {
-    const analyticsEvent = getStopMarkerAnalytics(
-      window.location.pathname,
-      config.indexPath,
-      mode,
-    );
+    const analyticsEvent = getStopMarkerAnalytics(window.location.pathname, config.indexPath, mode);
     if (analyticsEvent) {
       addAnalyticsEvent(analyticsEvent);
     }
@@ -174,13 +152,7 @@ export default function StopMarker({
     return L.divIcon({
       html: renderAsString(<Icon img={iconId} className="mode-icon" />),
       iconSize: [size, size],
-      className: getModeIconClassName(
-        mode,
-        size,
-        config,
-        selected,
-        disableIconBorder,
-      ),
+      className: getModeIconClassName(mode, size, config, selected, disableIconBorder),
     });
   };
 
@@ -244,15 +216,8 @@ export default function StopMarker({
 
   return (
     <GenericMarker
-      position={{
-        lat: stop.lat,
-        lon: stop.lon,
-      }}
-      getIcon={
-        config.map.useModeIconsInNonTileLayer && !disableModeIcons
-          ? getModeIcon
-          : getIcon
-      }
+      position={{ lat: stop.lat, lon: stop.lon }}
+      getIcon={config.map.useModeIconsInNonTileLayer && !disableModeIcons ? getModeIcon : getIcon}
       id={stop.gtfsId}
       renderName={renderName}
       name={stop.name}

@@ -21,11 +21,7 @@ import {
   hasEntitiesOfType,
 } from '../../../utils/client/alertUtils';
 import { modeToTranslationId } from '../../../utils/client/modeUtils';
-import {
-  PREFIX_DISRUPTION,
-  routePagePath,
-  stopPagePath,
-} from '../../../utils/shared/path';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../utils/shared/path';
 import { durationToString } from '../../../utils/client/timeUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
@@ -42,10 +38,7 @@ import {
 } from '../../../utils/client/legUtils';
 import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
-import {
-  AlertEntityType,
-  AlertSeverityLevelType,
-} from '../../../utils/shared/constants';
+import { AlertEntityType, AlertSeverityLevelType } from '../../../utils/shared/constants';
 import { legShape } from '../../../utils/client/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
@@ -71,9 +64,7 @@ const filterNextLegs = l => {
   if (!l.nextLegs) {
     return [];
   }
-  return l.nextLegs.filter(
-    nextLeg => legTime(nextLeg.start) - legTime(l.start) < 12 * 3600 * 1000,
-  );
+  return l.nextLegs.filter(nextLeg => legTime(nextLeg.start) - legTime(l.start) < 12 * 3600 * 1000);
 };
 
 export default function TransitLeg({
@@ -95,25 +86,16 @@ export default function TransitLeg({
 
   const [showIntermediateStops, setShowIntermediateStops] = useState(() => {
     if (interliningLegs.length >= 1) {
-      return (
-        interliningLegs.reduce(
-          (sum, l) => sum + l.intermediatePlaces.length,
-          0,
-        ) < 2
-      );
+      return interliningLegs.reduce((sum, l) => sum + l.intermediatePlaces.length, 0) < 2;
     }
     return leg.intermediatePlaces.length < 2;
   });
 
-  const canceledStopIds = useCanceledStopIds(
-    [leg, ...interliningLegs],
-    showIntermediateStops,
-  );
+  const canceledStopIds = useCanceledStopIds([leg, ...interliningLegs], showIntermediateStops);
 
   const [showAlternativeLegs, setShowAlternativeLegs] = useState(false);
 
-  const isRouteConstantOperation =
-    config.constantOperationRoutes?.[leg.route.gtfsId];
+  const isRouteConstantOperation = config.constantOperationRoutes?.[leg.route.gtfsId];
 
   const isCallAgency = mode === 'call';
 
@@ -127,9 +109,7 @@ export default function TransitLeg({
     addAnalyticsEvent({
       event: 'sendMatomoEvent',
       category: 'Itinerary',
-      action: showIntermediateStops
-        ? 'HideIntermediateStops'
-        : 'ShowIntermediateStops',
+      action: showIntermediateStops ? 'HideIntermediateStops' : 'ShowIntermediateStops',
       name: null,
     });
 
@@ -142,9 +122,7 @@ export default function TransitLeg({
 
     const { feedId } = splitGtfsId(leg.from.stop.gtfsId);
     const renderZoneIcons =
-      config.zones.itinerary &&
-      leg.from.stop.gtfsId &&
-      config.feedIds.includes(feedId);
+      config.zones.itinerary && leg.from.stop.gtfsId && config.feedIds.includes(feedId);
 
     if (
       startZone !== endZone &&
@@ -154,11 +132,7 @@ export default function TransitLeg({
       return (
         <div className="time-column-zone-icons-container">
           <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
-          <ZoneIcon
-            zoneId={getZoneLabel(endZone, config)}
-            className="zone-delimiter"
-            showUnknown
-          />
+          <ZoneIcon zoneId={getZoneLabel(endZone, config)} className="zone-delimiter" showUnknown />
         </div>
       );
     }
@@ -184,10 +158,7 @@ export default function TransitLeg({
       if (interliningLegs) {
         let previousLeg = leg;
         interliningLegs.forEach(iLeg => {
-          places.push(
-            { ...previousLeg.to, arrival: previousLeg.end },
-            ...iLeg.intermediatePlaces,
-          );
+          places.push({ ...previousLeg.to, arrival: previousLeg.end }, ...iLeg.intermediatePlaces);
           previousLeg = iLeg;
         });
       }
@@ -198,17 +169,14 @@ export default function TransitLeg({
         const isCanceled = canceledStopIds.has(place.stop.gtfsId);
 
         const previousZoneId =
-          (array[i - 1] && array[i - 1].stop.zoneId) ||
-          (isFirstPlace && leg.from.stop.zoneId);
+          (array[i - 1] && array[i - 1].stop.zoneId) || (isFirstPlace && leg.from.stop.zoneId);
         const currentZoneId = place.stop.zoneId;
         const nextZoneId =
           (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace &&
-            interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
+          (isLastPlace && interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
           leg.to.stop.zoneId;
 
-        const previousZoneIdDiffers =
-          previousZoneId && previousZoneId !== currentZoneId;
+        const previousZoneIdDiffers = previousZoneId && previousZoneId !== currentZoneId;
         const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
         const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
 
@@ -226,20 +194,12 @@ export default function TransitLeg({
             showZoneLimits={config.zones.itinerary}
             showCurrentZoneDelimiter={previousZoneIdDiffers}
             previousZoneId={
-              (isFirstPlace &&
-                previousZoneIdDiffers &&
-                getZoneLabel(previousZoneId, config)) ||
+              (isFirstPlace && previousZoneIdDiffers && getZoneLabel(previousZoneId, config)) ||
               undefined
             }
-            currentZoneId={
-              (showCurrentZoneId && getZoneLabel(currentZoneId, config)) ||
-              undefined
-            }
+            currentZoneId={(showCurrentZoneId && getZoneLabel(currentZoneId, config)) || undefined}
             nextZoneId={
-              (isLastPlace &&
-                nextZoneIdDiffers &&
-                getZoneLabel(nextZoneId, config)) ||
-              undefined
+              (isLastPlace && nextZoneIdDiffers && getZoneLabel(nextZoneId, config)) || undefined
             }
             isViaPoint={place.isViaPoint}
             isLastPlace={isLastPlace}
@@ -255,11 +215,7 @@ export default function TransitLeg({
   };
 
   const renderFareDisclaimer = () => {
-    if (
-      leg.fare?.isUnknown &&
-      !config.hideUnknownFares &&
-      shouldShowFareInfo(config)
-    ) {
+    if (leg.fare?.isUnknown && !config.hideUnknownFares && shouldShowFareInfo(config)) {
       const modeDisclaimer = config.modeDisclaimers?.[mode]?.[language];
       if (modeDisclaimer) {
         return (
@@ -282,23 +238,17 @@ export default function TransitLeg({
               <FormattedMessage id="separate-ticket-required" />
             </div>
             <div className="ticket-info">
-              <div className="accent">
-                {leg.from.name.concat(' - ').concat(leg.to.name)}
-              </div>
-              {leg.fare.agency &&
-                !config.hideExternalOperator(leg.fare.agency) && (
-                  <>
-                    {leg.fare.agency.name}
-                    {leg.fare.agency.fareUrl && (
-                      <ExternalLink
-                        className="agency-link"
-                        href={leg.fare.agency.fareUrl}
-                      >
-                        <FormattedMessage id="extra-info" />
-                      </ExternalLink>
-                    )}
-                  </>
-                )}
+              <div className="accent">{leg.from.name.concat(' - ').concat(leg.to.name)}</div>
+              {leg.fare.agency && !config.hideExternalOperator(leg.fare.agency) && (
+                <>
+                  {leg.fare.agency.name}
+                  {leg.fare.agency.fareUrl && (
+                    <ExternalLink className="agency-link" href={leg.fare.agency.fareUrl}>
+                      <FormattedMessage id="extra-info" />
+                    </ExternalLink>
+                  )}
+                </>
+              )}
             </div>
           </div>
         );
@@ -316,10 +266,7 @@ export default function TransitLeg({
   const textVersionBeforeLink = (
     <FormattedMessage
       id="itinerary-details.transit-leg-part-1"
-      values={{
-        time,
-        realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '',
-      }}
+      values={{ time, realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '' }}
     />
   );
 
@@ -331,14 +278,8 @@ export default function TransitLeg({
         id="itinerary-details.transit-leg-part-2"
         values={{
           startStop: validatedFromLegName,
-          startZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.from.stop.zoneId },
-          ),
-          endZoneInfo: intl.formatMessage(
-            { id: 'zone-info' },
-            { zone: leg.to.stop.zoneId },
-          ),
+          startZoneInfo: intl.formatMessage({ id: 'zone-info' }, { zone: leg.from.stop.zoneId }),
+          endZoneInfo: intl.formatMessage({ id: 'zone-info' }, { zone: leg.to.stop.zoneId }),
           endStop: validatedToLegName,
           duration: durationToString(intl, leg.duration * 1000),
           trackInfo: getBoardingInformationText(intl, leg, false),
@@ -349,10 +290,7 @@ export default function TransitLeg({
   );
 
   const alerts = getActiveLegAlerts(leg, startMs / 1000);
-  const alert =
-    alerts && alerts.length > 0
-      ? alerts.sort(alertSeverityCompare)[0]
-      : undefined;
+  const alert = alerts && alerts.length > 0 ? alerts.sort(alertSeverityCompare)[0] : undefined;
   const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
 
   let alertSeverityDescription = null;
@@ -401,22 +339,11 @@ export default function TransitLeg({
   const createNotification = notification => (
     <>
       <div className="disruption-icon notification-icon">
-        <ServiceAlertIcon
-          className="inline-icon"
-          severityLevel={AlertSeverityLevelType.Info}
-        />
+        <ServiceAlertIcon className="inline-icon" severityLevel={AlertSeverityLevelType.Info} />
       </div>
-      <div
-        className={cx('info-notification', {
-          'no-header': !notification.header,
-        })}
-      >
-        {notification.header && (
-          <h3 className="info-header">{notification.header[language]}</h3>
-        )}
-        <div
-          className={cx('info-content', { 'no-header': !notification.header })}
-        >
+      <div className={cx('info-notification', { 'no-header': !notification.header })}>
+        {notification.header && <h3 className="info-header">{notification.header[language]}</h3>}
+        <div className={cx('info-content', { 'no-header': !notification.header })}>
           {notification.content[language].join(' ')}
         </div>
       </div>
@@ -524,9 +451,7 @@ export default function TransitLeg({
         />
 
         <div
-          style={{
-            color: leg.route?.color ? `#${leg.route.color}` : undefined,
-          }}
+          style={{ color: leg.route?.color ? `#${leg.route.color}` : undefined }}
           className={cx(
             'small-9 columns itinerary-instruction-column',
             { first: index === 0 },
@@ -540,11 +465,7 @@ export default function TransitLeg({
             />
           </span>
 
-          <div
-            className={cx('itinerary-leg-first-row', 'transit', {
-              first: index === 0,
-            })}
-          >
+          <div className={cx('itinerary-leg-first-row', 'transit', { first: index === 0 })}>
             <div className="itinerary-leg-row">
               {isCallAgency ? (
                 <span>
@@ -553,10 +474,7 @@ export default function TransitLeg({
                       <div className="address">
                         {flexOriginAddress}
                         {leg.from.viaLocationType && (
-                          <Icon
-                            img="icon_mapMarker"
-                            className="itinerary-mapmarker-icon"
-                          />
+                          <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                         )}
                       </div>
                       <div className="place">{flexOriginPlace}</div>
@@ -580,10 +498,7 @@ export default function TransitLeg({
                 >
                   {validatedFromLegName}
                   {leg.from.viaLocationType && (
-                    <Icon
-                      img="icon_mapMarker"
-                      className="itinerary-mapmarker-icon"
-                    />
+                    <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                   )}
                   <Icon
                     img="icon_arrow-collapse--right"
@@ -612,10 +527,7 @@ export default function TransitLeg({
               </div>
             </div>
 
-            <ItineraryMapAction
-              target={validatedFromLegName || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={validatedFromLegName || ''} focusAction={focusAction} />
           </div>
 
           <LegInfo
@@ -664,30 +576,17 @@ export default function TransitLeg({
               <Link
                 to={
                   (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                    routePagePath(
-                      leg.route.gtfsId,
-                      PREFIX_DISRUPTION,
-                      leg.trip.pattern.code,
-                    )) ||
+                    routePagePath(leg.route.gtfsId, PREFIX_DISRUPTION, leg.trip.pattern.code)) ||
                   (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                    stopPagePath(
-                      false,
-                      alert.entities[0].gtfsId,
-                      PREFIX_DISRUPTION,
-                    ))
+                    stopPagePath(false, alert.entities[0].gtfsId, PREFIX_DISRUPTION))
                 }
                 className="disruption-link"
               >
                 <div className="disruption-icon">
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={alertSeverityLevel}
-                  />
+                  <ServiceAlertIcon className="inline-icon" severityLevel={alertSeverityLevel} />
                 </div>
                 <div className="description">
-                  {config.showAlertHeader
-                    ? alert.alertHeaderText
-                    : alert.alertDescriptionText}
+                  {config.showAlertHeader ? alert.alertHeaderText : alert.alertDescriptionText}
                 </div>
                 <Icon
                   img="icon_arrow-collapse--right"
@@ -716,17 +615,15 @@ export default function TransitLeg({
           {children}
           {intermediateStopCount > 1 && (
             <div className="intermediate-stops-button-container">
-              {(leg.intermediatePlaces.length >= 2 ||
-                interliningLegs.length >= 2) && (
+              {(leg.intermediatePlaces.length >= 2 || interliningLegs.length >= 2) && (
                 <StopInfo
                   toggleFunction={toggleShowIntermediateStops}
                   leg={leg}
                   intermediateStopCount={intermediateStopCount}
                   duration={
                     interliningLegs.length > 0
-                      ? legTime(
-                          interliningLegs[interliningLegs.length - 1].end,
-                        ) - legTime(leg.start)
+                      ? legTime(interliningLegs[interliningLegs.length - 1].end) -
+                        legTime(leg.start)
                       : leg.duration * 1000
                   }
                   showIntermediateStops={showIntermediateStops}

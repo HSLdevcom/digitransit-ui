@@ -12,9 +12,6 @@ const Card = forwardRef(({ className = undefined, children, ...rest }, ref) => {
 
 Card.displayName = 'Card';
 
-Card.propTypes = {
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-};
+Card.propTypes = { className: PropTypes.string, children: PropTypes.node.isRequired };
 
 export default Card;

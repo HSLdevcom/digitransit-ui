@@ -19,15 +19,11 @@ export default function NavigatorIntroFeature({
           height={2}
           width={2}
           aria-hidden="true"
-          background={
-            <IconBackground color={iconBackgroundColor} shape="circle" />
-          }
+          background={<IconBackground color={iconBackgroundColor} shape="circle" />}
         />
       )}
       <div className="right-column">
-        <FormattedMessage id={header}>
-          {msg => <h3 role="presentation">{msg}</h3>}
-        </FormattedMessage>
+        <FormattedMessage id={header}>{msg => <h3 role="presentation">{msg}</h3>}</FormattedMessage>
         <FormattedMessage tagName="p" id={body} />
       </div>
     </div>

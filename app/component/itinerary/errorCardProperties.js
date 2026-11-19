@@ -1,9 +1,4 @@
-import {
-  ICON_CAUTION,
-  ICON_INFO,
-  ICON_TYPE_INFO,
-  ICON_TYPE_CAUTION,
-} from './ErrorCard';
+import { ICON_CAUTION, ICON_INFO, ICON_TYPE_INFO, ICON_TYPE_CAUTION } from './ErrorCard';
 import NationalServiceLink from './NationalServiceLink';
 import PastLink from './PastLink';
 import ChangeDepartureTimeLink from './ChangeDepartureTimeLink';
@@ -19,18 +14,11 @@ const caution = { iconImg: ICON_CAUTION, iconType: ICON_TYPE_CAUTION };
 const errorCardProps = [
   {
     id: 'no-route-already-at-destination',
-    props: {
-      bodyId: 'no-route-already-at-destination',
-      LinkComponent: null,
-      ...info,
-    },
+    props: { bodyId: 'no-route-already-at-destination', LinkComponent: null, ...info },
   },
   {
     id: 'no-route-origin-same-as-destination',
-    props: {
-      bodyId: 'no-route-origin-same-as-destination',
-      ...info,
-    },
+    props: { bodyId: 'no-route-origin-same-as-destination', ...info },
   },
   {
     id: 'itinerary-in-the-past',
@@ -79,11 +67,7 @@ const errorCardProps = [
   },
   {
     id: 'no-transit-connection',
-    props: {
-      titleId: 'no-route-msg',
-      bodyId: 'no-route-msg-with-changes',
-      ...info,
-    },
+    props: { titleId: 'no-route-msg', bodyId: 'no-route-msg-with-changes', ...info },
   },
   {
     id: 'location-not-found-1',
@@ -111,63 +95,23 @@ const errorCardProps = [
   },
   {
     id: 'no-stops-in-range-1',
-    props: {
-      titleId: 'router-unable',
-      bodyId: 'router-stops-in-range-1',
-      ...info,
-    },
+    props: { titleId: 'router-unable', bodyId: 'router-stops-in-range-1', ...info },
   },
   {
     id: 'no-stops-in-range-2',
-    props: {
-      titleId: 'router-unable',
-      bodyId: 'router-stops-in-range-2',
-      ...info,
-    },
+    props: { titleId: 'router-unable', bodyId: 'router-stops-in-range-2', ...info },
   },
   {
     id: 'no-stops-in-range-3',
-    props: {
-      titleId: 'router-unable',
-      bodyId: 'router-stops-in-range-3',
-      ...info,
-    },
+    props: { titleId: 'router-unable', bodyId: 'router-stops-in-range-3', ...info },
   },
-  {
-    id: 'walk-bike-itinerary-4',
-    props: {
-      bodyId: 'walk-bike-itinerary-4',
-      ...info,
-    },
-  },
-  {
-    id: 'walk-bike-itinerary-1',
-    props: {
-      bodyId: 'walk-bike-itinerary-1',
-      ...info,
-    },
-  },
-  {
-    id: 'walk-bike-itinerary-2',
-    props: {
-      bodyId: 'walk-bike-itinerary-2',
-      ...info,
-    },
-  },
-  {
-    id: 'walk-bike-itinerary-3',
-    props: {
-      bodyId: 'walk-bike-itinerary-3',
-      ...info,
-    },
-  },
+  { id: 'walk-bike-itinerary-4', props: { bodyId: 'walk-bike-itinerary-4', ...info } },
+  { id: 'walk-bike-itinerary-1', props: { bodyId: 'walk-bike-itinerary-1', ...info } },
+  { id: 'walk-bike-itinerary-2', props: { bodyId: 'walk-bike-itinerary-2', ...info } },
+  { id: 'walk-bike-itinerary-3', props: { bodyId: 'walk-bike-itinerary-3', ...info } },
   {
     id: 'walking-better-than-transit',
-    props: {
-      titleId: 'router-only-walk-title',
-      bodyId: 'router-only-walk',
-      ...info,
-    },
+    props: { titleId: 'router-only-walk-title', bodyId: 'router-only-walk', ...info },
   },
   {
     id: 'no-transit-connection-in-search-window',
@@ -180,34 +124,14 @@ const errorCardProps = [
   },
   {
     id: 'no-route-msg-with-changes',
-    props: {
-      titleId: 'no-route-msg',
-      bodyId: 'no-route-msg-with-changes',
-      ...info,
-    },
+    props: { titleId: 'no-route-msg', bodyId: 'no-route-msg-with-changes', ...info },
   },
   {
     id: 'system-error',
-    props: {
-      titleId: 'router-unable',
-      bodyId: 'router-system-error',
-      ...caution,
-    },
+    props: { titleId: 'router-unable', bodyId: 'router-system-error', ...caution },
   },
-  {
-    id: 'no-route-alternative-suggestion',
-    props: {
-      bodyId: 'e-scooter-alternative',
-      ...info,
-    },
-  },
-  {
-    id: 'no-route-msg',
-    props: {
-      bodyId: 'no-route-msg',
-      ...caution,
-    },
-  },
+  { id: 'no-route-alternative-suggestion', props: { bodyId: 'e-scooter-alternative', ...info } },
+  { id: 'no-route-msg', props: { bodyId: 'no-route-msg', ...caution } },
 ];
 
 export default errorCardProps;

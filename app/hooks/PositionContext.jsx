@@ -1,16 +1,6 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
-import {
-  getGeolocationState,
-  setGeolocationState,
-} from '../../utils/client/localStorage';
+import { getGeolocationState, setGeolocationState } from '../../utils/client/localStorage';
 import { useConfigContext } from './ConfigContext';
 import { createPositionService } from '../data/PositionService';
 import searchServices from '../data/SearchServices';
@@ -49,8 +39,7 @@ function createLocationState(fields) {
     locationCount: fields.locationCount,
     watchId: fields.watchId,
     hasLocation,
-    isLocationingInProgress:
-      fields.status === POSITION_STATUS.SEARCHING_LOCATION,
+    isLocationingInProgress: fields.status === POSITION_STATUS.SEARCHING_LOCATION,
     isReverseGeocodingInProgress:
       fields.reverseGeocodingStatus === REVERSE_GEOCODING_STATUS.IN_PROGRESS,
     locationingFailed:
@@ -139,9 +128,7 @@ export function positionReducer(state, action) {
         break;
       }
       if (location.address) {
-        fields.address = location.city
-          ? `${location.address}, ${location.city}`
-          : location.address;
+        fields.address = location.city ? `${location.address}, ${location.city}` : location.address;
       } else if (location.city) {
         fields.address = location.city;
       } else {
@@ -176,11 +163,7 @@ const PositionActionsContext = createContext(null);
 
 export function PositionProvider({ children = null }) {
   const config = useConfigContext();
-  const [state, dispatch] = useReducer(
-    positionReducer,
-    undefined,
-    createInitialPositionState,
-  );
+  const [state, dispatch] = useReducer(positionReducer, undefined, createInitialPositionState);
   const stateRef = useRef(state);
   stateRef.current = state;
 
@@ -191,8 +174,7 @@ export function PositionProvider({ children = null }) {
   }, [state.fields.savedState]);
 
   const service = useMemo(
-    () =>
-      createPositionService(config, dispatch, () => stateRef.current.position),
+    () => createPositionService(config, dispatch, () => stateRef.current.position),
     [],
   );
   const actions = useMemo(
@@ -216,16 +198,12 @@ export function PositionProvider({ children = null }) {
 
   return (
     <PositionActionsContext.Provider value={actions}>
-      <PositionContext.Provider value={state.position}>
-        {children}
-      </PositionContext.Provider>
+      <PositionContext.Provider value={state.position}>{children}</PositionContext.Provider>
     </PositionActionsContext.Provider>
   );
 }
 
-PositionProvider.propTypes = {
-  children: PropTypes.node,
-};
+PositionProvider.propTypes = { children: PropTypes.node };
 
 export function usePosition() {
   const position = useContext(PositionContext);

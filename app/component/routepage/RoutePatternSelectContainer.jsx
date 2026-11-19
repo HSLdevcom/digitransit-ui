@@ -1,11 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect, useContext } from 'react';
-import {
-  useFragment,
-  fetchQuery,
-  graphql,
-  ReactRelayContext,
-} from 'react-relay';
+import { useFragment, fetchQuery, graphql, ReactRelayContext } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
@@ -16,17 +11,12 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
-import {
-  getModeIconColor,
-  ensureColorAccessibleOnWhite,
-} from '../../../utils/shared/colorUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
 import { getRouteMode } from '../../../utils/client/modeUtils';
 import RoutePatternSelectContainerFragment from './queries/RoutePatternSelectContainerFragment';
 
 function filterSimilarRoutes(routes, currentRoute) {
-  const withoutCurrent = routes.filter(
-    r => r.shortName && r.gtfsId !== currentRoute.gtfsId,
-  );
+  const withoutCurrent = routes.filter(r => r.shortName && r.gtfsId !== currentRoute.gtfsId);
 
   let routeBasename = currentRoute.shortName;
   if (Number.isNaN(Number(routeBasename))) {
@@ -60,10 +50,7 @@ export function getPatternOptions(patterns, serviceTimeRange) {
     return null;
   }
   // Sort: active-today patterns first, then by trip count descending
-  return sortBy(
-    sortBy(enriched, 'inFuture').reverse(),
-    'countTripsForDate',
-  ).reverse();
+  return sortBy(sortBy(enriched, 'inFuture').reverse(), 'countTripsForDate').reverse();
 }
 
 export default function RoutePatternSelectContainer({
@@ -81,9 +68,7 @@ export default function RoutePatternSelectContainer({
   const { params } = match;
 
   const [similarRoutes, setSimilarRoutes] = useState([]);
-  const [loadingSimilar, setLoadingSimilar] = useState(
-    !!config.showSimilarRoutesOnRouteDropDown,
-  );
+  const [loadingSimilar, setLoadingSimilar] = useState(!!config.showSimilarRoutesOnRouteDropDown);
 
   // Fetch routes with similar names (numeric routes only)
   useEffect(() => {
@@ -104,12 +89,7 @@ export default function RoutePatternSelectContainer({
         if (!searchName) {
           setLoadingSimilar(false);
         } else {
-          fetchQuery(
-            relayEnvironment,
-            similarRoutesQuery,
-            { name: searchName },
-            { force: true },
-          )
+          fetchQuery(relayEnvironment, similarRoutesQuery, { name: searchName }, { force: true })
             .toPromise()
             .then(results => {
               if (!cancelled) {
@@ -126,10 +106,7 @@ export default function RoutePatternSelectContainer({
     };
   }, []);
 
-  const options = getPatternOptions(
-    route.patterns,
-    config.itinerary.serviceTimeRange,
-  );
+  const options = getPatternOptions(route.patterns, config.itinerary.serviceTimeRange);
 
   // Redirect to first available pattern if the URL pattern is no longer valid
   useEffect(() => {
@@ -149,10 +126,7 @@ export default function RoutePatternSelectContainer({
 
   // Take up to 2 candidate main routes; collapse to 1 if both go the same direction
   let mainRoutes = nonFutureOptions.slice(0, 2);
-  if (
-    mainRoutes.length === 2 &&
-    mainRoutes[0].directionId === mainRoutes[1].directionId
-  ) {
+  if (mainRoutes.length === 2 && mainRoutes[0].directionId === mainRoutes[1].directionId) {
     mainRoutes = [mainRoutes[0]];
   }
   const specialRoutes = nonFutureOptions.slice(mainRoutes.length);
@@ -160,34 +134,21 @@ export default function RoutePatternSelectContainer({
   const canSwapDirection = mainRoutes.length === 2;
   const otherPattern = canSwapDirection
     ? mainRoutes.find(
-        o =>
-          o.code !== params.patternId &&
-          o.directionId !== currentPattern?.directionId,
+        o => o.code !== params.patternId && o.directionId !== currentPattern?.directionId,
       )
     : undefined;
 
   const origin = currentPattern?.stops[0].name ?? '';
   const destination =
-    currentPattern?.headsign ||
-    currentPattern?.stops[currentPattern.stops.length - 1].name ||
-    '';
+    currentPattern?.headsign || currentPattern?.stops[currentPattern.stops.length - 1].name || '';
   const modeColor = getModeIconColor(config, getRouteMode(route, config));
   const rawIconColor = route.color ? `#${route.color}` : modeColor;
   const iconColor = ensureColorAccessibleOnWhite(rawIconColor);
   const msg = id => intl.formatMessage({ id });
   const optionArray = [
-    mainRoutes.length > 0 && {
-      options: mainRoutes,
-      name: msg('route-page.main-routes'),
-    },
-    specialRoutes.length > 0 && {
-      options: specialRoutes,
-      name: msg('route-page.special-routes'),
-    },
-    futureOptions.length > 0 && {
-      options: futureOptions,
-      name: msg('route-page.future-routes'),
-    },
+    mainRoutes.length > 0 && { options: mainRoutes, name: msg('route-page.main-routes') },
+    specialRoutes.length > 0 && { options: specialRoutes, name: msg('route-page.special-routes') },
+    futureOptions.length > 0 && { options: futureOptions, name: msg('route-page.future-routes') },
     config.showSimilarRoutesOnRouteDropDown &&
       !loadingSimilar &&
       similarRoutes.length > 0 && {
@@ -199,9 +160,7 @@ export default function RoutePatternSelectContainer({
   const hasExtraPatternOptions =
     specialRoutes.length > 0 ||
     futureOptions.length > 0 ||
-    (config.showSimilarRoutesOnRouteDropDown &&
-      !loadingSimilar &&
-      similarRoutes.length > 0);
+    (config.showSimilarRoutesOnRouteDropDown && !loadingSimilar && similarRoutes.length > 0);
 
   return (
     <div className={cx('route-pattern-select', className)}>
@@ -210,9 +169,7 @@ export default function RoutePatternSelectContainer({
         destination={destination}
         iconColor={rawIconColor}
         canSwap={canSwapDirection}
-        onSwap={
-          canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined
-        }
+        onSwap={canSwapDirection ? () => onSelectChange(otherPattern.code) : undefined}
       />
       {currentPattern && optionArray.length > 0 && hasExtraPatternOptions && (
         <RoutePatternSelect

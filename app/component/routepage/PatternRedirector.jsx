@@ -19,24 +19,15 @@ const PatternRedirector = ({ route }) => {
     ).reverse();
   }
   let pattern;
-  if (
-    Array.isArray(sortedPatternsByCountOfTrips) &&
-    sortedPatternsByCountOfTrips.length > 0
-  ) {
+  if (Array.isArray(sortedPatternsByCountOfTrips) && sortedPatternsByCountOfTrips.length > 0) {
     [pattern] = sortedPatternsByCountOfTrips;
   } else {
     pattern =
-      Array.isArray(route.patterns) && route.patterns.length > 0
-        ? route.patterns[0]
-        : undefined;
+      Array.isArray(route.patterns) && route.patterns.length > 0 ? route.patterns[0] : undefined;
   }
 
   const { routeId, type } = match.params;
-  const path = routePagePath(
-    routeId,
-    type || PREFIX_STOPS,
-    pattern?.code || `${routeId}:0:01`,
-  );
+  const path = routePagePath(routeId, type || PREFIX_STOPS, pattern?.code || `${routeId}:0:01`);
 
   useEffect(() => {
     router.replace(path);
@@ -45,26 +36,19 @@ const PatternRedirector = ({ route }) => {
   return null;
 };
 
-PatternRedirector.propTypes = {
-  route: routeShape.isRequired,
-};
+PatternRedirector.propTypes = { route: routeShape.isRequired };
 
 export default function PatternRedirectorGuard({ route: routeRef = null }) {
   const { match } = useRouter();
   const route = useFragment(PatternRedirectorFragment, routeRef);
   if (!route) {
     const oldItem = getOldSearches().find(
-      s =>
-        s.properties.layer.startsWith('route-') &&
-        s.properties.link === match.location.pathname,
+      s => s.properties.layer.startsWith('route-') && s.properties.link === match.location.pathname,
     );
     if (oldItem) {
       const error = {
         id: 'no-route-found',
-        values: {
-          shortName: oldItem.properties.shortName,
-          longName: oldItem.properties.longName,
-        },
+        values: { shortName: oldItem.properties.shortName, longName: oldItem.properties.longName },
       };
       removeSearch({ item: oldItem });
       return <Error404 error={error} />;
@@ -74,6 +58,4 @@ export default function PatternRedirectorGuard({ route: routeRef = null }) {
   return <PatternRedirector route={route} />;
 }
 
-PatternRedirectorGuard.propTypes = {
-  route: fragmentRefShape,
-};
+PatternRedirectorGuard.propTypes = { route: fragmentRefShape };

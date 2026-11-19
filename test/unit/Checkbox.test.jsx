@@ -25,11 +25,7 @@ describe('<Checkbox />', () => {
 
   it('Should work also without labelId', () => {
     const { container } = renderWithProviders(
-      <Checkbox
-        checked={false}
-        defaultMessage="ei tarvitse kääntää"
-        onChange={() => {}}
-      />,
+      <Checkbox checked={false} defaultMessage="ei tarvitse kääntää" onChange={() => {}} />,
     );
     expect(container.textContent).toContain('ei tarvitse kääntää');
   });

@@ -2,25 +2,17 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { waitFor, act } from '@testing-library/react';
 
-import MessageBar, {
-  getServiceAlertId,
-} from '../../../app/component/MessageBar';
+import MessageBar, { getServiceAlertId } from '../../../app/component/MessageBar';
 import { mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { setReadMessageIds } from '../../../utils/client/localStorage';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import { TimeContext, useCurrentTime } from '../../../app/hooks/TimeContext';
-import {
-  MessageProvider,
-  useMessageActions,
-} from '../../../app/hooks/MessageContext';
+import { MessageProvider, useMessageActions } from '../../../app/hooks/MessageContext';
 
 const CURRENT_TIME = 1558610379;
 
-const defaultProps = {
-  getServiceAlertsAsync: async () => [],
-  breakpoint: 'large',
-};
+const defaultProps = { getServiceAlertsAsync: async () => [], breakpoint: 'large' };
 
 const EMPTY_MESSAGES = [];
 
@@ -29,10 +21,7 @@ const createDeferredAlertFetch = () => {
   const promise = new Promise(resolve => {
     resolveAlerts = resolve;
   });
-  return {
-    getServiceAlertsAsync: vi.fn(() => promise),
-    resolve: alerts => resolveAlerts(alerts),
-  };
+  return { getServiceAlertsAsync: vi.fn(() => promise), resolve: alerts => resolveAlerts(alerts) };
 };
 
 const TimeUpdater = ({ children, onTimeSetter }) => {
@@ -41,9 +30,7 @@ const TimeUpdater = ({ children, onTimeSetter }) => {
   useEffect(() => {
     onTimeSetter(setCurrentTime);
   }, [onTimeSetter]);
-  return (
-    <TimeContext.Provider value={currentTime}>{children}</TimeContext.Provider>
-  );
+  return <TimeContext.Provider value={currentTime}>{children}</TimeContext.Provider>;
 };
 
 TimeUpdater.propTypes = {
@@ -70,18 +57,12 @@ MessageFixtures.propTypes = {
     PropTypes.shape({
       id: PropTypes.string,
       backgroundColor: PropTypes.string,
-      content: PropTypes.shape({
-        fi: PropTypes.arrayOf(messageContentItemPropType),
-      }),
+      content: PropTypes.shape({ fi: PropTypes.arrayOf(messageContentItemPropType) }),
     }),
   ).isRequired,
 };
 
-const renderMessageBar = (
-  props = {},
-  options = {},
-  wrap = children => children,
-) => {
+const renderMessageBar = (props = {}, options = {}, wrap = children => children) => {
   const { messages = EMPTY_MESSAGES, ...messageBarProps } = props;
   const ui = (
     <MessageProvider>
@@ -93,25 +74,14 @@ const renderMessageBar = (
   return renderWithProviders(wrap(ui), options);
 };
 
-const config = {
-  ...mockContext.config,
-  messageBarAlerts: true,
-};
+const config = { ...mockContext.config, messageBarAlerts: true };
 
 describe('<MessageBar />', () => {
   it('should render empty if there are no messages', async () => {
     const fetch = createDeferredAlertFetch();
-    const props = {
-      ...defaultProps,
-      getServiceAlertsAsync: fetch.getServiceAlertsAsync,
-    };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1),
-    );
+    const props = { ...defaultProps, getServiceAlertsAsync: fetch.getServiceAlertsAsync };
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1));
     await act(async () => {
       fetch.resolve([]);
     });
@@ -132,13 +102,8 @@ describe('<MessageBar />', () => {
         },
       ],
     };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
     expect(container.textContent).toContain('foo');
     expect(container.textContent).toContain('bar');
   });
@@ -169,17 +134,9 @@ describe('<MessageBar />', () => {
     expect(getServiceAlertId(alerts[0])).toBe(alertId);
     setReadMessageIds([alertId]);
 
-    const props = {
-      ...defaultProps,
-      getServiceAlertsAsync: async () => alerts,
-    };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    const props = { ...defaultProps, getServiceAlertsAsync: async () => alerts };
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
     expect(container.textContent).toContain('header');
     expect(container.textContent).toContain('text');
     expect(container.textContent).not.toContain('bar');
@@ -199,13 +156,8 @@ describe('<MessageBar />', () => {
         },
       ],
     };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
     expect(container.textContent).toContain('boundary alert');
   });
 
@@ -221,17 +173,9 @@ describe('<MessageBar />', () => {
       },
     ];
     const fetch = createDeferredAlertFetch();
-    const props = {
-      ...defaultProps,
-      getServiceAlertsAsync: fetch.getServiceAlertsAsync,
-    };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1),
-    );
+    const props = { ...defaultProps, getServiceAlertsAsync: fetch.getServiceAlertsAsync };
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1));
     await act(async () => {
       fetch.resolve(alerts);
     });
@@ -250,17 +194,9 @@ describe('<MessageBar />', () => {
       },
     ];
     const fetch = createDeferredAlertFetch();
-    const props = {
-      ...defaultProps,
-      getServiceAlertsAsync: fetch.getServiceAlertsAsync,
-    };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1),
-    );
+    const props = { ...defaultProps, getServiceAlertsAsync: fetch.getServiceAlertsAsync };
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(fetch.getServiceAlertsAsync).toHaveBeenCalledTimes(1));
     await act(async () => {
       fetch.resolve(alerts);
     });
@@ -294,14 +230,10 @@ describe('<MessageBar />', () => {
       updateCurrentTime = setter;
     };
     const props = { ...defaultProps, getServiceAlertsAsync };
-    const { container } = renderMessageBar(
-      props,
-      { config, currentTime: CURRENT_TIME },
-      ui => <TimeUpdater onTimeSetter={onTimeSetter}>{ui}</TimeUpdater>,
-    );
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME }, ui => (
+      <TimeUpdater onTimeSetter={onTimeSetter}>{ui}</TimeUpdater>
+    ));
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
 
     act(() => {
       container
@@ -332,28 +264,16 @@ describe('<MessageBar />', () => {
         feed: 'Foo',
       },
     ];
-    const props = {
-      ...defaultProps,
-      getServiceAlertsAsync: async () => alerts,
-    };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    const props = { ...defaultProps, getServiceAlertsAsync: async () => alerts };
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
 
     const closeButton = container.querySelector('#close-message-bar');
     act(() => {
-      closeButton.dispatchEvent(
-        new window.MouseEvent('click', { bubbles: true }),
-      );
+      closeButton.dispatchEvent(new window.MouseEvent('click', { bubbles: true }));
     });
 
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).toBeNull(),
-    );
+    await waitFor(() => expect(container.querySelector('.message-bar')).toBeNull());
   });
 
   it('should not render service alerts when messageBarAlerts is false', async () => {
@@ -373,9 +293,7 @@ describe('<MessageBar />', () => {
       messages: [
         {
           id: 'ordinary-message',
-          content: {
-            fi: [{ type: 'text', content: 'ordinary message' }],
-          },
+          content: { fi: [{ type: 'text', content: 'ordinary message' }] },
         },
       ],
     };
@@ -383,9 +301,7 @@ describe('<MessageBar />', () => {
       config: { ...config, messageBarAlerts: false },
       currentTime: CURRENT_TIME,
     });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
     expect(container.textContent).toContain('ordinary message');
     expect(container.textContent).not.toContain('service alert');
     expect(getServiceAlertsAsync).not.toHaveBeenCalled();
@@ -398,26 +314,12 @@ describe('<MessageBar />', () => {
         {
           id: '23072019_135154_87',
           backgroundColor: '#000000',
-          content: {
-            fi: [
-              {
-                type: 'text',
-                content: 'Test message',
-              },
-            ],
-          },
+          content: { fi: [{ type: 'text', content: 'Test message' }] },
         },
       ],
     };
-    const { container } = renderMessageBar(props, {
-      config,
-      currentTime: CURRENT_TIME,
-    });
-    await waitFor(() =>
-      expect(container.querySelector('.message-bar')).not.toBeNull(),
-    );
-    expect(container.querySelector('.message-bar').style.background).toBe(
-      'rgb(0, 0, 0)',
-    );
+    const { container } = renderMessageBar(props, { config, currentTime: CURRENT_TIME });
+    await waitFor(() => expect(container.querySelector('.message-bar')).not.toBeNull());
+    expect(container.querySelector('.message-bar').style.background).toBe('rgb(0, 0, 0)');
   });
 });

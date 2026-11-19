@@ -20,14 +20,7 @@ const NOW = Date.parse('2024-05-01T12:00:00Z');
 // interval's dispatch is driven purely by the polling logic under test.
 function buildLegs() {
   const t = ms => ({ scheduledTime: epochToIso(ms) });
-  return [
-    {
-      mode: 'WALK',
-      transitLeg: false,
-      start: t(NOW + 5 * 60000),
-      end: t(NOW + 10 * 60000),
-    },
-  ];
+  return [{ mode: 'WALK', transitLeg: false, start: t(NOW + 5 * 60000), end: t(NOW + 10 * 60000) }];
 }
 
 // Exposes the hook's return value via a ref, since this hook renders no DOM.
@@ -118,10 +111,7 @@ describe('useRealtimeLegs', () => {
       act(() => {
         result.rerender(
           <ItineraryContextProvider>
-            <Probe
-              vehicles={{ [`v${i}`]: { id: `v${i}` } }}
-              controlRef={controlRef}
-            />
+            <Probe vehicles={{ [`v${i}`]: { id: `v${i}` } }} controlRef={controlRef} />
           </ItineraryContextProvider>,
         );
       });
@@ -282,9 +272,7 @@ describe('useRealtimeLegs startItinerary', () => {
 
     expect(controlRef.current.firstLeg.forceStart).toBe(true);
     // the scheduled start time itself is left untouched for a transit leg.
-    expect(controlRef.current.firstLeg.start.scheduledTime).toBe(
-      epochToIso(NOW + 5 * 60000),
-    );
+    expect(controlRef.current.firstLeg.start.scheduledTime).toBe(epochToIso(NOW + 5 * 60000));
   });
 
   it('does nothing when the given start time is not earlier than the planned start', () => {

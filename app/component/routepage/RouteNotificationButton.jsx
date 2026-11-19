@@ -5,6 +5,7 @@ import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
+import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
 export default function RouteNotificationButton({ notification }) {
   const intl = useIntl();
@@ -60,11 +61,7 @@ export default function RouteNotificationButton({ notification }) {
         <ThemedIcon name="Question" size="s" />
       </button>
       <Modal open={open} onOpenChange={setOpen}>
-        <ModalContent
-          title={closeButtonLabel}
-          description={descriptionNode}
-          lang={lang}
-        />
+        <ModalContent title={closeButtonLabel} description={descriptionNode} lang={hslfiLocale} />
       </Modal>
     </>
   );

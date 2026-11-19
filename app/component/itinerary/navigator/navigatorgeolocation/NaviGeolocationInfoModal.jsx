@@ -15,6 +15,4 @@ export default function NaviGeolocationInfoModal({ onClose }) {
   );
 }
 
-NaviGeolocationInfoModal.propTypes = {
-  onClose: PropTypes.func.isRequired,
-};
+NaviGeolocationInfoModal.propTypes = { onClose: PropTypes.func.isRequired };

@@ -12,10 +12,7 @@ export default configMerger(walttiConfig, {
     name: 'Hämeenlinnan joukkoliikenne',
     href: 'https://hameenlinnanjoukkoliikenne.fi/',
     altLink: {
-      sv: {
-        name: 'Tavastehus kollektivtrafik',
-        href: 'https://hameenlinnanjoukkoliikenne.fi/en/',
-      },
+      sv: { name: 'Tavastehus kollektivtrafik', href: 'https://hameenlinnanjoukkoliikenne.fi/en/' },
       en: {
         name: 'Hämeenlinna public transport',
         href: 'https://hameenlinnanjoukkoliikenne.fi/en/',
@@ -23,29 +20,15 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: 'rgb(196,40,31)',
-    bus: 'rgb(196,40,31)',
-  },
+  colors: { primary: 'rgb(196,40,31)', bus: 'rgb(196,40,31)' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    twitter: {
-      site: '@hmlkaupunki',
-    },
-    image: {
-      url: 'assets/hameenlinna/social-share.png',
-      width: 800,
-      height: 352,
-    },
+    twitter: { site: '@hmlkaupunki' },
+    image: { url: 'assets/hameenlinna/social-share.png', width: 800, height: 352 },
   },
-  transportModes: {
-    rail: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-  },
+  transportModes: { rail: { availableForSelection: true, defaultValue: true } },
 
   title: APP_TITLE,
 
@@ -63,11 +46,7 @@ export default configMerger(walttiConfig, {
     noZoneSharing: true,
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/hameenlinna/zone_lines_20260417.geojson',
       },
     ],
@@ -100,10 +79,7 @@ export default configMerger(walttiConfig, {
           en: 'https://kartta.hameenlinna.fi/eFeedback/en/Feedback/35-Public%20transportation',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -143,18 +119,7 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-    5: 'E',
-    6: 'F',
-    7: 'G',
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C', 4: 'D', 5: 'E', 6: 'F', 7: 'G' },
 
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zones: { stops: true, itinerary: true },
 });

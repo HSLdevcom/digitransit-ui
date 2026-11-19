@@ -4,21 +4,18 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { RadioGroup } from '@hsl-fi/form';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
-import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useFavouriteActions } from '../../../hooks/FavouriteContext';
+import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
 
 export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   const intl = useIntl();
-  const config = useConfigContext();
   const { savePersonalizationPreferences } = useFavouriteActions();
   const [action, setAction] = useState();
 
   const ok = intl.formatMessage({ id: 'continue' });
   const cancel = intl.formatMessage({ id: 'cancel' });
   const title = intl.formatMessage({ id: 'personalization-continue-query' });
-  const description = intl.formatMessage({
-    id: 'personalization-continue-choices',
-  });
+  const description = intl.formatMessage({ id: 'personalization-continue-choices' });
   const select = intl.formatMessage({ id: 'choose' });
   const keep = intl.formatMessage({ id: 'personalization-history-keep' });
   const remove = intl.formatMessage({ id: 'personalization-history-remove' });
@@ -31,22 +28,14 @@ export default function PersonalizeAgainModal({ open, onClose, onContinue }) {
   };
 
   return (
-    <Modal lang={config.language} onOpenChange={onClose} open={open}>
+    <Modal lang={hslfiLocale} onOpenChange={onClose} open={open}>
       <ModalContent
         title={title}
         description={<Text variant="text-s">{description}</Text>}
-        lang={config.language}
+        lang={hslfiLocale}
         buttons={[
-          {
-            children: ok,
-            disabled: !action,
-            onClick: handlePrimaryClick,
-          },
-          {
-            children: cancel,
-            onClick: onClose,
-            variant: 'secondary',
-          },
+          { children: ok, disabled: !action, onClick: handlePrimaryClick },
+          { children: cancel, onClick: onClose, variant: 'secondary' },
         ]}
       >
         <RadioGroup

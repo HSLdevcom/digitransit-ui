@@ -1,8 +1,7 @@
 import { graphql } from 'react-relay';
 
 export const TimetableFragment = graphql`
-  fragment TimetableFragment on Stop
-  @argumentDefinitions(date: { type: "String" }) {
+  fragment TimetableFragment on Stop @argumentDefinitions(date: { type: "String" }) {
     gtfsId
     name
     url

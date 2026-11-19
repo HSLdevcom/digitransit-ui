@@ -7,11 +7,7 @@ export function formatFare(fare) {
 }
 
 export const getFaresFromLegs = (legs, config) => {
-  if (
-    !Array.isArray(legs) ||
-    legs.size === 0 ||
-    !config.showTicketInformation
-  ) {
+  if (!Array.isArray(legs) || legs.size === 0 || !config.showTicketInformation) {
     return null;
   }
   const availableTickets = Object.values(config.availableTickets)
@@ -19,9 +15,7 @@ export const getFaresFromLegs = (legs, config) => {
     .flat();
   const filteredLegs = legs.map(leg => ({
     ...leg,
-    fareProducts: leg.fareProducts.filter(fp =>
-      availableTickets.includes(fp.product.id),
-    ),
+    fareProducts: leg.fareProducts.filter(fp => availableTickets.includes(fp.product.id)),
   }));
 
   const knownFareLegs = uniqBy(
@@ -69,11 +63,7 @@ export const getAlternativeFares = (zones, currentFares, allFares) => {
       const ticketPrice = faresForFeed[fareId].price;
       Object.keys(faresForFeed).forEach(key => {
         const fareInfo = faresForFeed[key];
-        if (
-          key !== fareId &&
-          fareInfo.zones.includes(zones[0]) &&
-          fareInfo.price === ticketPrice
-        ) {
+        if (key !== fareId && fareInfo.zones.includes(zones[0]) && fareInfo.price === ticketPrice) {
           alternativeFares.push(key.split(':')[1]);
         }
       });
@@ -96,9 +86,7 @@ export const shouldShowFareInfo = (config, legs, fares) => {
   if (
     config.externalFareRouteIds &&
     legs?.some(
-      leg =>
-        leg.route &&
-        config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
+      leg => leg.route && config.externalFareRouteIds.includes(leg.route.gtfsId.split(':')[1]),
     )
   ) {
     return false;
@@ -117,9 +105,7 @@ export const shouldShowFareInfo = (config, legs, fares) => {
 
   return (
     (!config.showTicketLinkOnlyWhenTesting ||
-      window.localStorage
-        .getItem('favouriteStore')
-        ?.includes('Lippulinkkitestaus2025')) &&
+      window.localStorage.getItem('favouriteStore')?.includes('Lippulinkkitestaus2025')) &&
     config.showTicketInformation &&
     config.availableTickets &&
     Array.isArray(config.feedIds) &&
@@ -165,11 +151,7 @@ export const getTicketString = (legs, zones, config) => {
       : fares.map(fare => fare.ticketName).join(';');
 
   if (ticket) {
-    const alternativeTickets = getAlternativeFares(
-      zones,
-      fares,
-      config.availableTickets,
-    ).join(',');
+    const alternativeTickets = getAlternativeFares(zones, fares, config.availableTickets).join(',');
     if (alternativeTickets) {
       ticket += `,${alternativeTickets}`;
     }

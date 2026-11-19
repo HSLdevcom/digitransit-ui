@@ -5,11 +5,7 @@ import cx from 'classnames';
 import Link from 'found/Link';
 import { fetchQuery } from 'react-relay';
 import { legShape, relayShape } from '../../../utils/client/shapes';
-import {
-  legTimeStr,
-  legDestination,
-  getValidatedLegName,
-} from '../../../utils/client/legUtils';
+import { legTimeStr, legDestination, getValidatedLegName } from '../../../utils/client/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { displayDistance } from '../../../utils/shared/geo-utils';
@@ -45,11 +41,7 @@ export default function BicycleLeg({
   const intl = useIntl();
   let stopsDescription;
   let circleLine;
-  const distance = displayDistance(
-    parseInt(leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
+  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start); // hh:mm
   let { mode } = leg;
@@ -64,18 +56,12 @@ export default function BicycleLeg({
     leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
     leg.from.rentalVehicle?.rentalNetwork.networkId;
   const networkConfig =
-    leg.rentedBike &&
-    rentalVehicleNetwork &&
-    getRentalNetworkConfig(rentalVehicleNetwork, config);
+    leg.rentedBike && rentalVehicleNetwork && getRentalNetworkConfig(rentalVehicleNetwork, config);
   const isFirstLeg = i => i === 0;
-  const isScooter =
-    networkConfig && networkConfig.type === RentalNetworkType.Scooter;
+  const isScooter = networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
   const scooterSettingsOn = settings.scooterNetworks?.length > 0;
-  const LOADSTATE = {
-    UNSET: 'unset',
-    DONE: 'done',
-  };
+  const LOADSTATE = { UNSET: 'unset', DONE: 'done' };
   const [nearestScooterState, setNearestScooterState] = useState({
     nearest: [],
     loading: LOADSTATE.UNSET,
@@ -85,11 +71,7 @@ export default function BicycleLeg({
     modeClassName = leg.mode.toLowerCase();
     stopsDescription = (
       <FormattedMessage
-        id={
-          isScooter
-            ? 'scooterwalk-distance-duration'
-            : 'cyclewalk-distance-duration'
-        }
+        id={isScooter ? 'scooterwalk-distance-duration' : 'cyclewalk-distance-duration'}
         values={{ distance, duration }}
         defaultMessage="Walk your bike {distance} ({duration})"
       />
@@ -109,9 +91,7 @@ export default function BicycleLeg({
     legDescription = (
       <FormattedMessage
         id={isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at'}
-        values={{
-          station: leg.from.name,
-        }}
+        values={{ station: leg.from.name }}
         defaultMessage="Fetch a bike"
       />
     );
@@ -181,9 +161,7 @@ export default function BicycleLeg({
     bicycleWalkLeg?.from.stop && !bicycleWalkLeg?.from.viaLocationType
       ? bicycleWalkLeg.from.name
       : address;
-  const destination = bicycleWalkLeg?.to.stop
-    ? bicycleWalkLeg?.to.name
-    : leg.to.name;
+  const destination = bicycleWalkLeg?.to.stop ? bicycleWalkLeg?.to.name : leg.to.name;
 
   async function makeNearestScooterQuery(from) {
     const planParams = {
@@ -197,14 +175,9 @@ export default function BicycleLeg({
     };
 
     try {
-      const result = await fetchQuery(
-        relayEnvironment,
-        nearestQuery,
-        planParams,
-        {
-          force: true,
-        },
-      ).toPromise();
+      const result = await fetchQuery(relayEnvironment, nearestQuery, planParams, {
+        force: true,
+      }).toPromise();
       if (!result) {
         setNearestScooterState({ loading: LOADSTATE.DONE });
       } else {
@@ -220,16 +193,11 @@ export default function BicycleLeg({
           .filter(
             (n, i, self) =>
               self.findIndex(
-                t =>
-                  t.node.place.rentalNetwork.networkId ===
-                  n.node.place.rentalNetwork.networkId,
+                t => t.node.place.rentalNetwork.networkId === n.node.place.rentalNetwork.networkId,
               ) === i,
           );
 
-        setNearestScooterState({
-          nearest: filteredNearest,
-          loading: LOADSTATE.DONE,
-        });
+        setNearestScooterState({ nearest: filteredNearest, loading: LOADSTATE.DONE });
       }
     } catch (error) {
       setNearestScooterState({ nearest: [], loading: LOADSTATE.DONE });
@@ -243,22 +211,14 @@ export default function BicycleLeg({
     <div key={index} className="row itinerary-row">
       <span className="sr-only">
         {leg.rentedBike === true && <>{legDescription}. </>}
-        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') && (
-          <>{stopsDescription}. </>
-        )}
+        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') && <>{stopsDescription}. </>}
         <FormattedMessage
-          id={
-            isScooter
-              ? 'itinerary-details.scooter-leg'
-              : 'itinerary-details.biking-leg'
-          }
+          id={isScooter ? 'itinerary-details.scooter-leg' : 'itinerary-details.biking-leg'}
           values={{
             time,
             to: legDestination(intl, leg, bicycleWalkLeg?.to),
             distance,
-            origin: isScooter
-              ? intl.formatMessage({ id: 'from-scooter-location' })
-              : origin,
+            origin: isScooter ? intl.formatMessage({ id: 'from-scooter-location' }) : origin,
             destination,
             duration,
           }}
@@ -278,17 +238,12 @@ export default function BicycleLeg({
             values={{
               target:
                 leg.from.name?.toLowerCase() === 'scooter'
-                  ? intl.formatMessage({
-                      id: 'e-scooter',
-                      defaultMessage: 'scooter',
-                    })
+                  ? intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })
                   : leg.from.name || '',
             }}
           />
         </span>
-        {isFirstLeg(index) ||
-        bicycleWalkLeg?.from.stop ||
-        leg.from.viaLocationType ? (
+        {isFirstLeg(index) || bicycleWalkLeg?.from.stop || leg.from.viaLocationType ? (
           <>
             {leg.from.viaLocationType ? <div className="divider" /> : null}
             <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>
@@ -303,10 +258,7 @@ export default function BicycleLeg({
                     >
                       {origin}
                       {leg.isViaPoint && (
-                        <Icon
-                          img="icon_mapMarker"
-                          className="itinerary-mapmarker-icon"
-                        />
+                        <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                       )}
                       <Icon
                         img="icon_arrow-collapse--right"
@@ -330,10 +282,7 @@ export default function BicycleLeg({
                 )}
                 <div className="place">{place}</div>
               </div>
-              <ItineraryMapAction
-                target={leg.from.name || ''}
-                focusAction={focusAction}
-              />
+              <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
             </div>
           </>
         ) : (
@@ -349,13 +298,7 @@ export default function BicycleLeg({
           </div>
         )}
         {bicycleWalkLeg?.from.stop && (
-          <div
-            className={cx(
-              'itinerary-leg-action',
-              'bicycle',
-              'itinerary-leg-action-content',
-            )}
-          >
+          <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
             {bicycleWalkLeg.distance === -1 ? (
               <FormattedMessage
                 id="bicycle-walk-from-transit-no-duration"
@@ -376,10 +319,7 @@ export default function BicycleLeg({
                       id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
                     />
                   ),
-                  duration: durationToString(
-                    intl,
-                    bicycleWalkLeg.duration * 1000,
-                  ),
+                  duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),
                     config,
@@ -388,21 +328,12 @@ export default function BicycleLeg({
                 }}
               />
             )}
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         {isScooter && !scooterSettingsOn && (
           <div>
-            <div
-              className={cx(
-                'itinerary-leg-action',
-                'scooter',
-                'itinerary-leg-action-content',
-              )}
-            >
+            <div className={cx('itinerary-leg-action', 'scooter', 'itinerary-leg-action-content')}>
               <FormattedMessage
                 id="settings-e-scooter-on"
                 defaultMessage="Turn scooter settings on permanently"
@@ -417,18 +348,13 @@ export default function BicycleLeg({
               role="button"
               tabIndex="0"
               onClick={() => openSettings(true, true)}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && openSettings(true, true)
-              }
+              onKeyPress={e => isKeyboardSelectionEvent(e) && openSettings(true, true)}
               className="itinerary-transit-leg-route-with-link"
             >
               <div className="itinerary-with-link">
                 <div className="itinerary-with-link-text-container">
                   <span className={cx('settings')}>
-                    <FormattedMessage
-                      id="open-settings"
-                      defaultMessage="Go to settings"
-                    />
+                    <FormattedMessage id="open-settings" defaultMessage="Go to settings" />
                   </span>
                 </div>
               </div>
@@ -438,13 +364,7 @@ export default function BicycleLeg({
             </div>
           </div>
         )}
-        <div
-          className={cx(
-            'itinerary-leg-action',
-            'bike',
-            'itinerary-leg-action-content',
-          )}
-        >
+        <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
           {stopsDescription}
           <ItineraryMapAction
             target=""
@@ -453,13 +373,7 @@ export default function BicycleLeg({
           />
         </div>
         {bicycleWalkLeg && bicycleWalkLeg?.to.stop && (
-          <div
-            className={cx(
-              'itinerary-leg-action',
-              'bicycle',
-              'itinerary-leg-action-content',
-            )}
-          >
+          <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
             {bicycleWalkLeg.distance === -1 ? (
               <FormattedMessage
                 id="bicycle-walk-to-transit-no-duration"
@@ -480,10 +394,7 @@ export default function BicycleLeg({
                       id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
                     />
                   ),
-                  duration: durationToString(
-                    intl,
-                    bicycleWalkLeg.duration * 1000,
-                  ),
+                  duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),
                     config,
@@ -492,10 +403,7 @@ export default function BicycleLeg({
                 }}
               />
             )}
-            <ItineraryMapAction
-              target={leg.from.name || ''}
-              focusAction={focusAction}
-            />
+            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         {isScooter && (

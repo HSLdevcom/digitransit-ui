@@ -26,6 +26,4 @@ export default function RouteTitle({ route: routeRef = null }) {
   );
 }
 
-RouteTitle.propTypes = {
-  route: fragmentRefShape,
-};
+RouteTitle.propTypes = { route: fragmentRefShape };

@@ -24,10 +24,7 @@ export default class TileContainer {
     lang,
   ) {
     const markersMinZoom = Math.min(
-      getVehicleMinZoomOnStopsNearYou(
-        config,
-        props.mapLayers.citybikeOverrideMinZoom,
-      ),
+      getVehicleMinZoomOnStopsNearYou(config, props.mapLayers.citybikeOverrideMinZoom),
       config.stopsMinZoom,
       config.terminalStopsMinZoom,
     );
@@ -49,9 +46,7 @@ export default class TileContainer {
       events.on('vehiclesChanged', this.onVehiclesChange);
     }
 
-    const areaStopIsVisible = this.props.layers.some(
-      layer => layer.getName() === 'areaStop',
-    );
+    const areaStopIsVisible = this.props.layers.some(layer => layer.getName() === 'areaStop');
     let ignoreMinZoomLevel =
       (highlightedStops &&
         highlightedStops.length > 0 &&
@@ -63,10 +58,7 @@ export default class TileContainer {
       );
     }
 
-    if (
-      (!ignoreMinZoomLevel && this.coords.z < markersMinZoom) ||
-      !this.el.getContext
-    ) {
+    if ((!ignoreMinZoomLevel && this.coords.z < markersMinZoom) || !this.el.getContext) {
       setTimeout(() => done(null, this.el), 0);
       return;
     }
@@ -80,8 +72,7 @@ export default class TileContainer {
         // stops and terminals are drawn on same layer
         const isEnabled =
           isLayerEnabled(layerName, this.props.mapLayers) ||
-          (layerName === 'stop' &&
-            isLayerEnabled('terminal', this.props.mapLayers));
+          (layerName === 'stop' && isLayerEnabled('terminal', this.props.mapLayers));
 
         if (
           layerName === 'stop' &&
@@ -91,25 +82,18 @@ export default class TileContainer {
         ) {
           return isEnabled;
         }
-        if (
-          layerName === 'areaStop' &&
-          this.props.mapLayers.areaStop.routeGtfsId
-        ) {
+        if (layerName === 'areaStop' && this.props.mapLayers.areaStop.routeGtfsId) {
           return true;
         }
         if (
           (layerName === 'citybike' || layerName === 'scooter') &&
           this.coords.z >=
-            getVehicleMinZoomOnStopsNearYou(
-              config,
-              props.mapLayers.citybikeOverrideMinZoom,
-            )
+            getVehicleMinZoomOnStopsNearYou(config, props.mapLayers.citybikeOverrideMinZoom)
         ) {
           return isEnabled;
         }
         if (
-          (layerName === 'parkAndRide' ||
-            layerName === 'parkAndRideForBikes') &&
+          (layerName === 'parkAndRide' || layerName === 'parkAndRideForBikes') &&
           config.parkAndRide &&
           this.coords.z >= config.parkAndRide.parkAndRideMinZoom
         ) {
@@ -117,16 +101,7 @@ export default class TileContainer {
         }
         return false;
       })
-      .map(
-        Layer =>
-          new Layer(
-            this,
-            config,
-            this.props.mapLayers,
-            relayEnvironment,
-            mergeStops,
-          ),
-      );
+      .map(Layer => new Layer(this, config, this.props.mapLayers, relayEnvironment, mergeStops));
 
     this.el.layers = this.layers.map(layer => omit(layer, 'tile'));
     // After all layers' async drawing (including citybike badges) completes,
@@ -134,9 +109,7 @@ export default class TileContainer {
     Promise.all(this.layers.map(layer => layer.getPromise(lang)))
       .then(() =>
         Promise.all(
-          this.layers
-            .filter(l => l.drawHighlightedOnTop)
-            .map(l => l.drawHighlightedOnTop()),
+          this.layers.filter(l => l.drawHighlightedOnTop).map(l => l.drawHighlightedOnTop()),
         ),
       )
       .then(
@@ -152,8 +125,7 @@ export default class TileContainer {
   };
 
   project = point => {
-    const size =
-      this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
+    const size = this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
     const y1 = 180 - ((point.y + y0) * 360) / size;
@@ -164,8 +136,7 @@ export default class TileContainer {
   };
 
   latLngToPoint = (lat, lon) => {
-    const size =
-      this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
+    const size = this.extent * 2 ** (this.coords.z + (this.props.zoomOffset || 0));
 
     const x0 = this.extent * this.coords.x;
     const y0 = this.extent * this.coords.y;
@@ -173,8 +144,7 @@ export default class TileContainer {
     const x = ((lon + 180) * size) / 360;
     const pointX = x - x0;
 
-    const y1 =
-      180 * (Math.log(Math.tan(((lat + 90) * Math.PI) / 360)) / Math.PI);
+    const y1 = 180 * (Math.log(Math.tan(((lat + 90) * Math.PI) / 360)) / Math.PI);
     const y2 = Math.abs((y1 - 180) * size) / 360;
     const pointY = y2 - y0;
     return { x: pointX, y: pointY };
@@ -199,10 +169,7 @@ export default class TileContainer {
     const projectedVehicles = vehicleKeys.map(key => {
       const vehicle = this.vehicles[key];
       const pointGeom = this.latLngToPoint(vehicle.lat, vehicle.long);
-      return {
-        layer: 'realTimeVehicle',
-        feature: { geom: pointGeom, vehicle, properties: {} },
-      };
+      return { layer: 'realTimeVehicle', feature: { geom: pointGeom, vehicle, properties: {} } };
     });
 
     if (this.layers) {
@@ -219,10 +186,7 @@ export default class TileContainer {
           this.layers.map(
             layer =>
               layer.features &&
-              layer.features.map(feature => ({
-                layer: layer.constructor.getName(),
-                feature,
-              })),
+              layer.features.map(feature => ({ layer: layer.constructor.getName(), feature })),
           ),
         );
         features = projectedVehicles.concat(features);
@@ -261,15 +225,13 @@ export default class TileContainer {
               // features array is sorted by y coord so combo stops should be next to each other
               if (
                 index > 0 &&
-                features[index - 1]?.feature.properties.code ===
-                  feature.feature.properties.code
+                features[index - 1]?.feature.properties.code === feature.feature.properties.code
               ) {
                 isCombo = true;
               }
               if (
                 index < features.length - 1 &&
-                features[index + 1]?.feature.properties.code ===
-                  feature.feature.properties.code
+                features[index + 1]?.feature.properties.code === feature.feature.properties.code
               ) {
                 isCombo = true;
               }
@@ -278,16 +240,11 @@ export default class TileContainer {
               }
             }
           }
-          let dist = Math.sqrt(
-            (localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2,
-          );
+          let dist = Math.sqrt((localPoint[0] - featureX) ** 2 + (localPoint[1] - featureY) ** 2);
           if (isCombo) {
             dist = Math.min(
               dist,
-              Math.sqrt(
-                (localPoint[0] - featureX) ** 2 +
-                  (localPoint[1] - secondY) ** 2,
-              ),
+              Math.sqrt((localPoint[0] - featureX) ** 2 + (localPoint[1] - secondY) ** 2),
             );
           }
           if (dist < 22 * this.scaleratio) {

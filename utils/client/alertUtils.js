@@ -1,10 +1,6 @@
 import isNumber from 'lodash/isNumber';
 
-import {
-  RealtimeStateType,
-  AlertSeverityLevelType,
-  AlertEntityType,
-} from '../shared/constants';
+import { RealtimeStateType, AlertSeverityLevelType, AlertEntityType } from '../shared/constants';
 
 import { legTime } from './legUtils';
 
@@ -28,10 +24,7 @@ export const stoptimeHasCancelation = stoptime => {
  * @param { before: number, after: number } validityPeriod validity before/after current time.
  */
 export const tripHasCancelation = (trip, currentTime, validityPeriod) => {
-  if (
-    !trip ||
-    (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))
-  ) {
+  if (!trip || (!Array.isArray(trip.stoptimes) && !Array.isArray(trip.stoptimesForDate))) {
     return false;
   }
   const first = trip.stoptimes[0];
@@ -41,8 +34,7 @@ export const tripHasCancelation = (trip, currentTime, validityPeriod) => {
     validityPeriod &&
     currentTime &&
     (currentTime < departureTime - validityPeriod.before ||
-      currentTime >
-        last.serviceDay + last.scheduledArrival + validityPeriod.after)
+      currentTime > last.serviceDay + last.scheduledArrival + validityPeriod.after)
   ) {
     return false;
   }
@@ -93,8 +85,7 @@ export const isAlertValid = (
 
   return (
     effectiveStartDate <= referenceUnixTime &&
-    referenceUnixTime <=
-      (effectiveEndDate || effectiveStartDate + defaultValidity)
+    referenceUnixTime <= (effectiveEndDate || effectiveStartDate + defaultValidity)
   );
 };
 
@@ -108,10 +99,7 @@ export const currentAndFutureAlerts = (alerts, referenceTime) => {
   const currentAlerts = alerts.filter(alert => {
     const { effectiveStartDate, effectiveEndDate } = alert;
     const endDate = effectiveEndDate || effectiveStartDate + DEFAULT_VALIDITY;
-    return (
-      !effectiveStartDate ||
-      (effectiveStartDate <= referenceTime && endDate >= referenceTime)
-    );
+    return !effectiveStartDate || (effectiveStartDate <= referenceTime && endDate >= referenceTime);
   });
   const futureAlerts = alerts.filter(alert => {
     const { effectiveStartDate } = alert;
@@ -147,12 +135,7 @@ export const cancelationHasExpired = (
  * @param {number} currentTime the current unix time.
  * @param { before: number, after: number } validityPeriod validity before/after current time.
  */
-export const getCancelationsForRoute = (
-  route,
-  patternId,
-  currentTime,
-  validityPeriod,
-) => {
+export const getCancelationsForRoute = (route, patternId, currentTime, validityPeriod) => {
   if (!route || !Array.isArray(route.patterns)) {
     return [];
   }
@@ -160,9 +143,7 @@ export const getCancelationsForRoute = (
     .filter(pattern => (patternId ? pattern.code === patternId : true))
     .map(pattern =>
       Array.isArray(pattern.trips)
-        ? pattern.trips.filter(trip =>
-            tripHasCancelation(trip, currentTime, validityPeriod),
-          )
+        ? pattern.trips.filter(trip => tripHasCancelation(trip, currentTime, validityPeriod))
         : [],
     )
     .reduce((a, b) => a.concat(b), [])
@@ -182,10 +163,7 @@ export const getAlertsForObject = (object, includeChildStops = false) => {
   if (!includeChildStops) {
     return alerts;
   }
-  return [
-    ...alerts,
-    ...(object?.stops?.flatMap(stop => getAlertsForObject(stop)) ?? []),
-  ];
+  return [...alerts, ...(object?.stops?.flatMap(stop => getAlertsForObject(stop)) ?? [])];
 };
 
 export const getUniqueAlerts = alerts => {
@@ -242,9 +220,7 @@ export const getActiveAlertSeverityLevel = (alerts, referenceUnixTime) => {
     return undefined;
   }
   return getMaximumAlertSeverityLevel(
-    alerts
-      .filter(alert => !!alert)
-      .filter(alert => isAlertValid(alert, referenceUnixTime)),
+    alerts.filter(alert => !!alert).filter(alert => isAlertValid(alert, referenceUnixTime)),
   );
 };
 
@@ -265,16 +241,8 @@ export const isAlertActive = (referenceUnixTime, alert) => {
  * @param {*} cancelations the cancelations to check.
  * @param {*} alerts the alerts to check.
  */
-export const checkActiveDisruptions = (
-  referenceUnixTime,
-  cancelations = [],
-  alerts = [],
-) => {
-  if (
-    cancelations.some(
-      cancelation => !cancelationHasExpired(referenceUnixTime, cancelation),
-    )
-  ) {
+export const checkActiveDisruptions = (referenceUnixTime, cancelations = [], alerts = []) => {
+  if (cancelations.some(cancelation => !cancelationHasExpired(referenceUnixTime, cancelation))) {
     return true;
   }
 
@@ -297,8 +265,7 @@ export const alertSeverityCompare = (a, b) => {
   ];
 
   const severityLevelDifference =
-    severityLevels.indexOf(b.alertSeverityLevel) -
-    severityLevels.indexOf(a.alertSeverityLevel);
+    severityLevels.indexOf(b.alertSeverityLevel) - severityLevels.indexOf(a.alertSeverityLevel);
   return severityLevelDifference;
 };
 
@@ -364,9 +331,7 @@ export const getActiveLegAlerts = (leg, legStartTime) => {
   const legEndTime = leg.end ? legTime(leg.end) / 1000 : undefined;
 
   return [
-    ...getAlertsForObject(leg.route).map(
-      withEntitiesOf(AlertEntityType.Route, leg.route?.gtfsId),
-    ),
+    ...getAlertsForObject(leg.route).map(withEntitiesOf(AlertEntityType.Route, leg.route?.gtfsId)),
     ...getAlertsForObject(leg.from?.stop).map(
       withEntitiesOf(AlertEntityType.Stop, leg.from?.stop?.gtfsId),
     ),

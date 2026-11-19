@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../../utils/client/timeUtils';
-import {
-  getHeadsignFromRouteLongName,
-  legTime,
-} from '../../../utils/client/legUtils';
+import { getHeadsignFromRouteLongName, legTime } from '../../../utils/client/legUtils';
 import Icon from '../Icon';
 import { legShape } from '../../../utils/client/shapes';
 
@@ -36,21 +33,14 @@ export default function InterlineInfo({ legs, leg, usingOwnCarWholeTrip }) {
                 : 'itinerary-summary.interline-wait-same-route'
             }
             values={{
-              shortName: (
-                <span className="bold">{legs[0]?.route.shortName}</span>
-              ),
+              shortName: <span className="bold">{legs[0]?.route.shortName}</span>,
               destination: (
                 <span className="bold">
-                  {legs[0]?.trip.tripHeadsign ||
-                    getHeadsignFromRouteLongName(legs[0]?.route)}
+                  {legs[0]?.trip.tripHeadsign || getHeadsignFromRouteLongName(legs[0]?.route)}
                 </span>
               ),
               stop: leg.to.name,
-              time: (
-                <span className="bold no-wrap">
-                  {durationToString(intl, totalWait)}
-                </span>
-              ),
+              time: <span className="bold no-wrap">{durationToString(intl, totalWait)}</span>,
             }}
           />
         </>
@@ -65,16 +55,8 @@ export default function InterlineInfo({ legs, leg, usingOwnCarWholeTrip }) {
                 : 'itinerary-summary.interline-wait-multiple-legs-same-route'
             }
             values={{
-              time: (
-                <span className="bold no-wrap">
-                  {durationToString(intl, totalWait)}
-                </span>
-              ),
-              shortName: (
-                <span className="bold">
-                  {Array.from(new Set(routes)).join(', ')}
-                </span>
-              ),
+              time: <span className="bold no-wrap">{durationToString(intl, totalWait)}</span>,
+              shortName: <span className="bold">{Array.from(new Set(routes)).join(', ')}</span>,
             }}
           />
         </>

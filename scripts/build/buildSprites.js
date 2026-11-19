@@ -52,8 +52,7 @@ function toSymbol(id, file) {
   const source = fs.readFileSync(file, 'utf8');
   let root;
   try {
-    root = new JSDOM(source, { contentType: 'image/svg+xml' }).window.document
-      .documentElement;
+    root = new JSDOM(source, { contentType: 'image/svg+xml' }).window.document.documentElement;
   } catch (error) {
     throw new Error(`${file}: ${error.message}`);
   }
@@ -76,9 +75,7 @@ export function buildSprite(theme) {
   if (theme !== BASE_THEME) {
     listIcons(theme).forEach(([id, file]) => icons.set(id, file));
   }
-  const symbols = [...icons.keys()]
-    .sort()
-    .map(id => toSymbol(id, icons.get(id)));
+  const symbols = [...icons.keys()].sort().map(id => toSymbol(id, icons.get(id)));
   return [
     '<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" aria-hidden="true" style="position:absolute;width:0;height:0">',
     ' <defs>',
@@ -132,9 +129,7 @@ function watch() {
     });
     themes
       .filter(theme => !watchers.has(theme))
-      .forEach(theme =>
-        watchers.set(theme, fs.watch(path.join(iconsDir, theme), rebuild)),
-      );
+      .forEach(theme => watchers.set(theme, fs.watch(path.join(iconsDir, theme), rebuild)));
   }
 
   fs.watch(iconsDir, () => {

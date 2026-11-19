@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Note } from '@hsl-fi/notifications';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import { useConfigContext } from '../hooks/ConfigContext';
+import { hslfiLocale } from '../../utils/client/hslfiLocale';
 
 const EMPTY_VALUES = {};
 
@@ -20,7 +20,6 @@ export default function Disclaimer({
   closable,
   onClose, // hook e.g. for remembering closing
 }) {
-  const { language } = useConfigContext();
   const [showCard, setShowCard] = useState(true);
 
   if (!showCard) {
@@ -34,21 +33,9 @@ export default function Disclaimer({
     }
   };
 
-  const title = headerId ? (
-    <FormattedMessage id={headerId} values={values} />
-  ) : (
-    header
-  );
-  const content = textId ? (
-    <FormattedMessage id={textId} values={values} />
-  ) : (
-    text
-  );
-  const label = linkLabelId ? (
-    <FormattedMessage id={linkLabelId} values={values} />
-  ) : (
-    linkLabel
-  );
+  const title = headerId ? <FormattedMessage id={headerId} values={values} /> : header;
+  const content = textId ? <FormattedMessage id={textId} values={values} /> : text;
+  const label = linkLabelId ? <FormattedMessage id={linkLabelId} values={values} /> : linkLabel;
 
   // Note's link prop cannot open a new tab, so the link is part of the description
   const description = (
@@ -73,7 +60,7 @@ export default function Disclaimer({
       title={title}
       titleLevel={3}
       description={description}
-      lang={language}
+      lang={hslfiLocale}
       onClose={closable ? handleClose : undefined}
     />
   );
@@ -86,9 +73,7 @@ Disclaimer.propTypes = {
   textId: PropTypes.string,
   linkLabel: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   linkLabelId: PropTypes.string,
-  values: PropTypes.objectOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
-  ),
+  values: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.string, PropTypes.node])),
   href: PropTypes.string,
   closable: PropTypes.bool,
   onClose: PropTypes.func,

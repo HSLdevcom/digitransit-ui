@@ -6,10 +6,21 @@
 
 Maps each STOP_STATUS value to the sprite id of its corner badge icon.
 
+## getStopStatus
+
+Resolves the stop status of a suggestion, based on the item's geocoding
+`addendum.GTFS` metadata.
+
+### Parameters
+
+*   `item` **[object][1]** a search suggestion item
+
+Returns **([string][2] | null)** a STOP_STATUS value, or null when no status applies
+
 ## getStopBadge
 
 Resolves the sprite id of the stop status badge shown on a suggestion's
-icon, based on the item's geocoding `addendum.GTFS` metadata.
+icon.
 
 ### Parameters
 
@@ -39,6 +50,7 @@ SuggestionItem renders suggestions for digitransit-autosuggest component.
    content={['Pysäkki', 'Kuusitie', 'Helsinki', 'H1923']}
    loading={false}
    showStopStatusMarkers={true}
+   stopStatusLabels={{ 'out-of-service': 'Stop out of service' }}
 />
 ```
 

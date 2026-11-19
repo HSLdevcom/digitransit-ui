@@ -10,10 +10,8 @@ import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
 
 export function setFocusables() {
   // Set inactive tab focusables to unfocusable and for active tab set previously made unfocusable elements to focusable
-  const focusableTags =
-    'a, button, input, textarea, select, details, [tabindex="0"]';
-  const unFocusableTags =
-    'a, button, input, textarea, select, details, [tabindex="-2"]';
+  const focusableTags = 'a, button, input, textarea, select, details, [tabindex="0"]';
+  const unFocusableTags = 'a, button, input, textarea, select, details, [tabindex="-2"]';
   const swipeableTabs = document.getElementsByClassName('swipeable-tab');
   for (let i = 0; i < swipeableTabs.length; i++) {
     const focusables = swipeableTabs[i].querySelectorAll(focusableTags);
@@ -66,14 +64,10 @@ export default function SwipeableTabs({
     if (newIndex !== tabIndex) {
       swipeButtonNavRef.current = true;
       // Get the tab context text from the DOM because aria-live cannot handle aria-describedby reference well enough
-      const tabContextText =
-        document.getElementById(`tab-${newIndex}-context`)?.textContent || '';
+      const tabContextText = document.getElementById(`tab-${newIndex}-context`)?.textContent || '';
       setAnnounceTabLabel(
         `${intl.formatMessage(
-          {
-            id: ariaRole,
-            defaultMessage: 'Tab {number}',
-          },
+          { id: ariaRole, defaultMessage: 'Tab {number}' },
           { number: newIndex + 1 },
         )} ${tabContextText}`,
       );
@@ -89,17 +83,11 @@ export default function SwipeableTabs({
 
   const disabled = tabs.length < 2;
   const tabsWithId = tabs.map((tab, i) =>
-    cloneElement(tab, {
-      id: `tabpanel-${i}`,
-      role: 'tabpanel',
-      'aria-labelledby': `tab-${i}`,
-    }),
+    cloneElement(tab, { id: `tabpanel-${i}`, role: 'tabpanel', 'aria-labelledby': `tab-${i}` }),
   );
   return (
     <div
-      className={
-        classname === 'swipe-desktop-view' ? 'swipe-scroll-wrapper' : ''
-      }
+      className={classname === 'swipe-desktop-view' ? 'swipe-scroll-wrapper' : ''}
       role="tablist"
     >
       {navigationOnBottom && (
@@ -123,9 +111,7 @@ export default function SwipeableTabs({
         </ScrollableWrapper>
       )}
       <div className={`swipe-header-container ${classname}`}>
-        {classname === 'swipe-desktop-view' && (
-          <div className="desktop-view-divider" />
-        )}
+        {classname === 'swipe-desktop-view' && <div className="desktop-view-divider" />}
 
         <div className="sr-only" aria-live="polite">
           {swipeButtonNavRef.current && announceTabLabel}
@@ -133,11 +119,7 @@ export default function SwipeableTabs({
 
         <div className={`swipe-header ${classname}`}>
           {!hideArrows && (
-            <div
-              className={cx('swipe-button-container', {
-                active: !(disabled || tabIndex <= 0),
-              })}
-            >
+            <div className={cx('swipe-button-container', { active: !(disabled || tabIndex <= 0) })}>
               <button
                 type="button"
                 className="swipe-button"
@@ -156,9 +138,7 @@ export default function SwipeableTabs({
               >
                 <Icon
                   img="icon_arrow-collapse--left"
-                  className={`itinerary-arrow-icon ${
-                    disabled || tabIndex <= 0 ? 'disabled' : ''
-                  }`}
+                  className={`itinerary-arrow-icon ${disabled || tabIndex <= 0 ? 'disabled' : ''}`}
                 />
               </button>
             </div>

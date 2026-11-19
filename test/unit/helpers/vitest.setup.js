@@ -10,7 +10,13 @@ import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
+import { initHslfiLocale } from '../../../utils/client/hslfiLocale';
+import translations from '../../../app/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';
+
+// Components pass the design system locale to @hsl-fi components; the client
+// bootstrap sets it up in the browser.
+initHslfiLocale('en', translations.en);
 
 // Relay is stubbed here once, for both entry points, so components get the
 // same hooks whichever one they import from. The stubs read their behaviour
@@ -19,31 +25,22 @@ import { relayMock, withRelayStubs } from './mock-relay';
 // files: test files share one module registry per worker (vitest.config.js
 // `isolate: false`), so a mock must be the same for every file (see
 // docs/Tests.md).
-vi.mock('react-relay', async importOriginal =>
-  withRelayStubs(await importOriginal()),
-);
-vi.mock('react-relay/hooks', async importOriginal =>
-  withRelayStubs(await importOriginal()),
-);
+vi.mock('react-relay', async importOriginal => withRelayStubs(await importOriginal()));
+vi.mock('react-relay/hooks', async importOriginal => withRelayStubs(await importOriginal()));
 
 // getJson uses axios, which would use jsdom's XMLHttpRequest by default.
 // Route it through fetch so tests can keep mocking fetch.
 axios.defaults.adapter = 'fetch';
 
 // jsdom has no layout, so react-truncate-markup would cut the text.
-vi.mock('react-truncate-markup', () => ({
-  default: ({ children }) => children,
-}));
+vi.mock('react-truncate-markup', () => ({ default: ({ children }) => children }));
 
 // set up timezone in luxon; restored after every test (see afterEach below)
 const luxonDefaults = { zone: 'Europe/Helsinki', locale: 'fi' };
 Settings.defaultZone = luxonDefaults.zone;
 Settings.defaultLocale = luxonDefaults.locale;
 
-Object.defineProperty(window.navigator, 'userAgent', {
-  value: 'node.js',
-  configurable: true,
-});
+Object.defineProperty(window.navigator, 'userAgent', { value: 'node.js', configurable: true });
 
 // react-modal (used internally by @hsl-fi/modal, rendered for real now that
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
@@ -58,9 +55,7 @@ if (!appRoot) {
   document.body.appendChild(appRoot);
 }
 
-const config = {
-  useCookiesPrompt: false,
-};
+const config = { useCookiesPrompt: false };
 // For Google Tag Manager
 initAnalyticsClientSide(config);
 

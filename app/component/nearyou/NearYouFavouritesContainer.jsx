@@ -1,10 +1,12 @@
+import { Suspense } from 'react';
 import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
-import StopNearYouContainer from './StopNearYouContainer';
+import StopNearYou from './StopNearYou';
 import VehicleRentalStationNearYou from './VehicleRentalStationNearYou';
 import NoFavourites from './NoFavourites';
+import Loading from '../Loading';
 import NearYouFavouritesFragment from './queries/NearYouFavouritesFragment';
 
 export default function NearYouFavouritesContainer({
@@ -13,7 +15,6 @@ export default function NearYouFavouritesContainer({
   vehicleStations: vehicleStationsRef,
   searchPosition,
   isParentTabActive,
-  currentTime,
   breakpoint,
 }) {
   const stops = useFragment(NearYouFavouritesFragment.stops, stopsRef);
@@ -27,33 +28,21 @@ export default function NearYouFavouritesContainer({
     ...(stops || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'stop',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'stop', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.push(
     ...(stations || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'station',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'station', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.push(
     ...(vehicleStations || [])
       .filter(s => s)
       .map(stop => {
-        return {
-          type: 'vehicleRentalStation',
-          distance: distance(searchPosition, stop),
-          ...stop,
-        };
+        return { type: 'vehicleRentalStation', distance: distance(searchPosition, stop), ...stop };
       }),
   );
   stopList.sort((a, b) => a.distance - b.distance);
@@ -66,28 +55,20 @@ export default function NearYouFavouritesContainer({
     switch (stop.type) {
       case 'stop':
       case 'station':
-        return (
-          <StopNearYouContainer
-            key={stop.gtfsId}
-            stop={stop}
-            isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
-          />
-        );
+        return <StopNearYou key={stop.gtfsId} stop={stop} isParentTabActive={isParentTabActive} />;
       case 'vehicleRentalStation':
         return (
           <VehicleRentalStationNearYou
             key={stop.name}
             station={stop}
             isParentTabActive={isParentTabActive}
-            currentTime={currentTime}
           />
         );
       default:
         return null;
     }
   });
-  return stopElements;
+  return <Suspense fallback={<Loading />}>{stopElements}</Suspense>;
 }
 
 NearYouFavouritesContainer.propTypes = {
@@ -96,6 +77,5 @@ NearYouFavouritesContainer.propTypes = {
   vehicleStations: PropTypes.arrayOf(fragmentRefShape),
   searchPosition: locationShape,
   isParentTabActive: PropTypes.bool,
-  currentTime: PropTypes.number.isRequired,
   breakpoint: PropTypes.string,
 };

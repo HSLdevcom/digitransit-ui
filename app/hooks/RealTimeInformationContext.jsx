@@ -1,11 +1,4 @@
-import {
-  createContext,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
 import events from '../../utils/client/events';
 import { unixTime } from '../../utils/client/timeUtils';
@@ -42,10 +35,7 @@ export function RealTimeInformationProvider({ children }) {
       const receivedAt = unixTime();
       const messages = Array.isArray(message) ? message : [message];
       messages.forEach(msg => {
-        if (
-          !current.topicsByRoute ||
-          current.topicsByRoute[splitGtfsId(msg.route).entityId]
-        ) {
+        if (!current.topicsByRoute || current.topicsByRoute[splitGtfsId(msg.route).entityId]) {
           current.vehicles[msg.id] = { ...msg, receivedAt };
         }
       });
@@ -150,16 +140,12 @@ export function RealTimeInformationProvider({ children }) {
   );
 }
 
-RealTimeInformationProvider.propTypes = {
-  children: PropTypes.node.isRequired,
-};
+RealTimeInformationProvider.propTypes = { children: PropTypes.node.isRequired };
 
 export function useRealTimeInformation() {
   const value = useContext(RealTimeInformationContext);
   if (value === undefined) {
-    throw new Error(
-      'useRealTimeInformation must be used within a RealTimeInformationProvider',
-    );
+    throw new Error('useRealTimeInformation must be used within a RealTimeInformationProvider');
   }
   return value;
 }
@@ -167,9 +153,7 @@ export function useRealTimeInformation() {
 export function useRealTimeActions() {
   const actions = useContext(RealTimeActionsContext);
   if (actions === undefined) {
-    throw new Error(
-      'useRealTimeActions must be used within a RealTimeInformationProvider',
-    );
+    throw new Error('useRealTimeActions must be used within a RealTimeInformationProvider');
   }
   return actions;
 }

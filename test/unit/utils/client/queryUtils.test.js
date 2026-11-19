@@ -2,23 +2,11 @@ import { mockMatch } from '../../helpers/mock-router';
 
 import * as utils from '../../../../utils/client/queryUtils';
 
-const origin = {
-  address: 'Origin, Helsinki',
-  lat: 60.199,
-  lon: 24.934,
-};
+const origin = { address: 'Origin, Helsinki', lat: 60.199, lon: 24.934 };
 
-const destination = {
-  address: 'Destination, Helsinki',
-  lat: 60.17,
-  lon: 24.941,
-};
+const destination = { address: 'Destination, Helsinki', lat: 60.17, lon: 24.941 };
 
-const newOrigin = {
-  address: 'New origin, Helsinki',
-  lat: 60.201,
-  lon: 24.935,
-};
+const newOrigin = { address: 'New origin, Helsinki', lat: 60.201, lon: 24.935 };
 
 describe('queryUtils', () => {
   describe('onLocationPopup', () => {
@@ -51,12 +39,8 @@ describe('queryUtils', () => {
 
       expect(locationActions.setOrigin).toHaveBeenCalledWith(newOrigin);
       expect(locationActions.setDestination).not.toHaveBeenCalled();
-      expect(calledLocation.pathname).toContain(
-        encodeURIComponent(newOrigin.address),
-      );
-      expect(calledLocation.pathname).toContain(
-        encodeURIComponent(destination.address),
-      );
+      expect(calledLocation.pathname).toContain(encodeURIComponent(newOrigin.address));
+      expect(calledLocation.pathname).toContain(encodeURIComponent(destination.address));
     });
 
     it('does not revert the other endpoint when match.params is stale (race regression)', () => {
@@ -89,9 +73,7 @@ describe('queryUtils', () => {
         {},
       );
 
-      expect(calledLocation.pathname).toContain(
-        encodeURIComponent(destination.address),
-      );
+      expect(calledLocation.pathname).toContain(encodeURIComponent(destination.address));
       expect(calledLocation.pathname).not.toContain('Stale');
     });
 
@@ -148,16 +130,8 @@ describe('queryUtils', () => {
         },
       };
       const intermediatePlaces = [
-        {
-          lat: 60.217992,
-          lon: 24.75494,
-          address: 'Kera, Espoo',
-        },
-        {
-          lat: 60.219235,
-          lon: 24.81329,
-          address: 'Leppävaara, Espoo',
-        },
+        { lat: 60.217992, lon: 24.75494, address: 'Kera, Espoo' },
+        { lat: 60.219235, lon: 24.81329, address: 'Leppävaara, Espoo' },
       ];
 
       utils.setIntermediatePlaces(router, mockMatch, intermediatePlaces);
