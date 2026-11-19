@@ -20,17 +20,22 @@ export default function EntitySearch({ filterId }) {
   };
 
   return (
-    <fieldset>
+    <div>
       <FormattedMessage
         id="traffic-now_filters_entity-search"
         defaultMessage="Search for individual route or stop"
       >
-        {msg => <legend className="input-legend">{msg}</legend>}
+        {msg => (
+          <label id="entity-search-label" htmlFor="entity-search" className="input-legend">
+            {msg}
+          </label>
+        )}
       </FormattedMessage>
       <SearchAutosuggest
         appElement="#app"
         icon="search"
         id="entity-search"
+        externalLabelId="entity-search-label"
         inputClassName="traffic-now__filters-entity-search--input"
         placeholder={intl.formatMessage({
           id: 'traffic-now_filters_entity-search--placeholder',
@@ -46,7 +51,7 @@ export default function EntitySearch({ filterId }) {
         modeSet={iconModeSet}
         onClear={() => removeFilter(filterId)}
       />
-    </fieldset>
+    </div>
   );
 }
 

@@ -198,6 +198,7 @@ const getNewTargets = ({ targets, isLocationSearch, isMobile, ownPlaces, sources
  * @property {string} [inputClassName]
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
+ * @property {string} [externalLabelId] id of a visible <label for={id}> that names the input
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -235,6 +236,7 @@ function DTAutosuggest({
   inputClassName = '',
   translatedPlaceholder,
   required = false,
+  externalLabelId = undefined,
   ariaLabel,
   colors = defaultColors,
   modeSet,
@@ -406,7 +408,6 @@ function DTAutosuggest({
   const {
     isOpen,
     highlightedIndex,
-    getLabelProps,
     getMenuProps,
     getInputProps,
     getItemProps,
@@ -569,6 +570,11 @@ function DTAutosuggest({
     required,
   });
 
+  // Stable name; an external <label for={id}> takes its place when externalLabelId is given.
+  const accessibleName = externalLabelId
+    ? undefined
+    : ariaRequiredText.concat(' ').concat(SearchBarId).trim();
+
   const mobileClearOldSearches = () => {
     const { clearOldSearches, clearFutureRoutes } = searchContext;
     if (clearOldSearches) {
@@ -623,7 +629,11 @@ function DTAutosuggest({
           styles[id],
           state.renderMobile && 'hidden',
         ])}
-        style={{ '--color': colors.primary, '--hover-color': colors.hover }}
+        style={{
+          '--color': colors.primary,
+          '--accessible-primary-color': colors.accessiblePrimary,
+          '--hover-color': colors.hover,
+        }}
       >
         {icon && (
           <div
@@ -639,19 +649,14 @@ function DTAutosuggest({
         )}
         <Input
           inputClassName={inputClassName}
-          ariaLabel={ariaCurrentSuggestion
+          ariaLabel={accessibleName}
+          ariaDescription={t('search-autosuggest-label', { lng })
             .concat(' ')
-            .concat(ariaRequiredText)
-            .concat(' ')
-            .concat(SearchBarId)
-            .concat(' ')
-            .concat(t('search-autosuggest-label', { lng }))
-            .concat(' ')
-            .concat(ariaLabelText)}
+            .concat(ariaLabelText)
+            .trim()}
           id={id}
           lng={lng}
           getInputProps={getComboboxInputProps}
-          getLabelProps={getLabelProps}
           selectItem={selectItem}
           value={state.value}
           clearInput={clearInput}
@@ -671,6 +676,8 @@ function DTAutosuggest({
           highlightedIndex={highlightedIndex}
           getItemProps={getItemProps}
           getMenuProps={getMenuProps}
+          label={accessibleName}
+          labelledBy={externalLabelId}
           suggestions={state.suggestions}
           lng={lng}
           styles={styles}
@@ -720,6 +727,7 @@ DTAutosuggest.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,
+  externalLabelId: PropTypes.string,
   modeSet: PropTypes.string,
   showScroll: PropTypes.bool,
   isEmbedded: PropTypes.bool,

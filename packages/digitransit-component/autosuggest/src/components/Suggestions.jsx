@@ -64,6 +64,8 @@ Suggestion.propTypes = {
 export const Suggestions = memo(function Suggestions({
   suggestions,
   getMenuProps,
+  label = undefined,
+  labelledBy = undefined,
   getItemProps,
   lng,
   styles,
@@ -81,7 +83,14 @@ export const Suggestions = memo(function Suggestions({
         hidden && styles.hidden,
       ])}
     >
-      <ul className={styles.suggestionsList} {...getMenuProps()}>
+      <ul
+        className={styles.suggestionsList}
+        {...getMenuProps({
+          // Downshift would otherwise reference its own, unrendered label.
+          'aria-label': label,
+          'aria-labelledby': labelledBy,
+        })}
+      >
         {suggestions.map((suggestion, i) => {
           return (
             <Suggestion
@@ -120,6 +129,8 @@ export const Suggestions = memo(function Suggestions({
 Suggestions.propTypes = {
   suggestions: PropTypes.arrayOf(itemShape).isRequired,
   getMenuProps: PropTypes.func.isRequired,
+  label: PropTypes.string,
+  labelledBy: PropTypes.string,
   getItemProps: PropTypes.func.isRequired,
   lng: PropTypes.string.isRequired,
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
