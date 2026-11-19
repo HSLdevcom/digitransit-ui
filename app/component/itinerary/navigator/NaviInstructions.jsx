@@ -9,12 +9,7 @@ import {
   legTime,
   isLocalCallAgency,
 } from '../../../../utils/client/legUtils';
-import {
-  LEGTYPE,
-  getLocalizedMode,
-  getToLocalizedMode,
-  withRealTime,
-} from './NaviUtils';
+import { LEGTYPE, getLocalizedMode, getToLocalizedMode, withRealTime } from './NaviUtils';
 import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
 import BoardingInfo from './BoardingInfo';
 import { durationToString } from '../../../../utils/client/timeUtils';
@@ -49,12 +44,7 @@ export default function NaviInstructions({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { routeMode, route, hs, values } = getBoardingParams(
-    intl,
-    nextLeg,
-    time,
-    config,
-  );
+  const { routeMode, route, hs, values } = getBoardingParams(intl, nextLeg, time, config);
   const appendClass = isLocalCallAgency(nextLeg, config) ? 'call-local' : '';
   if (legType === LEGTYPE.MOVE) {
     return (
@@ -68,9 +58,7 @@ export default function NaviInstructions({
             <span className={cx({ realtime: !!position })}>
               {displayDistance(tailLength, config, intl.formatNumber)}&nbsp;
             </span>
-            {nextLeg?.transitLeg && (
-              <FormattedMessage id="navileg-hop-on" defaultMessage="by" />
-            )}
+            {nextLeg?.transitLeg && <FormattedMessage id="navileg-hop-on" defaultMessage="by" />}
           </div>
         )}
         {nextLeg?.transitLeg && (
@@ -129,20 +117,12 @@ export default function NaviInstructions({
     return (
       <>
         <div className="notification-header">
-          <FormattedMessage
-            id="wait-in-vehicle"
-            defaultMessage="Wait in the vehicle"
-          />
+          <FormattedMessage id="wait-in-vehicle" defaultMessage="Wait in the vehicle" />
         </div>
         <div className="wait-leg">
           <FormattedMessage
             id="navigation-interline-resume"
-            values={{
-              duration: withRealTime(
-                nextLeg.realtimeState === 'UPDATED',
-                totalWait,
-              ),
-            }}
+            values={{ duration: withRealTime(nextLeg.realtimeState === 'UPDATED', totalWait) }}
           />
         </div>
       </>
@@ -161,8 +141,7 @@ export default function NaviInstructions({
     const stopOrStation = intl.formatMessage({ id: destId });
 
     const sameRouteInterline =
-      nextLeg?.interlineWithPreviousLeg &&
-      leg.route?.shortName === nextLeg.route?.shortName;
+      nextLeg?.interlineWithPreviousLeg && leg.route?.shortName === nextLeg.route?.shortName;
     // eslint-disable-next-line no-nested-ternary
     const translationId = nextLeg?.interlineWithPreviousLeg
       ? sameRouteInterline
@@ -177,10 +156,7 @@ export default function NaviInstructions({
     const values2 = {
       stopOrStation,
       stop: leg.to.stop.name,
-      duration: withRealTime(
-        rt,
-        durationToString(intl, legTime(leg.end) - time),
-      ),
+      duration: withRealTime(rt, durationToString(intl, legTime(leg.end) - time)),
       legTime: withRealTime(rt, legTimeStr(leg.end)),
     };
 
@@ -212,10 +188,7 @@ NaviInstructions.propTypes = {
   instructions: PropTypes.string.isRequired,
   legType: PropTypes.string,
   time: PropTypes.number.isRequired,
-  position: PropTypes.shape({
-    lat: PropTypes.number,
-    lon: PropTypes.number,
-  }),
+  position: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }),
   tailLength: PropTypes.number.isRequired,
   showDestinationInfo: PropTypes.bool,
 };

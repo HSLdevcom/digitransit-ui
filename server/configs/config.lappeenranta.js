@@ -24,19 +24,12 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: '#d4007a',
-    bus: '#d4007a',
-  },
+  colors: { primary: '#d4007a', bus: '#d4007a' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/lappeenranta/social-share.jpg',
-      width: 591,
-      height: 591,
-    },
+    image: { url: 'assets/lappeenranta/social-share.jpg', width: 591, height: 591 },
   },
 
   title: APP_TITLE,
@@ -50,17 +43,10 @@ export default configMerger(walttiConfig, {
     networks: {
       donkey_lappeenranta: {
         enabled: true,
-        season: {
-          start: '1.4',
-          end: '30.11',
-        },
+        season: { start: '1.4', end: '30.11' },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
-        name: {
-          fi: 'Lappeenranta',
-          sv: 'Vilmanstrand',
-          en: 'Lappeenranta',
-        },
+        name: { fi: 'Lappeenranta', sv: 'Vilmanstrand', en: 'Lappeenranta' },
         type: 'citybike',
         url: {
           fi: 'https://kaakau.fi/lappeenranta/',
@@ -71,11 +57,7 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  transportModes: {
-    citybike: {
-      availableForSelection: true,
-    },
-  },
+  transportModes: { citybike: { availableForSelection: true } },
 
   nearYouModes: ['bus', 'citybike'],
 
@@ -158,19 +140,12 @@ export default configMerger(walttiConfig, {
     [28.3844, 61.2929],
   ],
 
-  defaultEndpoint: {
-    address: 'Oleksin ja Koulukadun risteys',
-    lat: 61.059097,
-    lon: 28.18572,
-  },
+  defaultEndpoint: { address: 'Oleksin ja Koulukadun risteys', lat: 61.059097, lon: 28.18572 },
 
   menu: {
     copyright: { label: `© Lappeenranta ${walttiConfig.YEAR}` },
     content: [
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -210,33 +185,17 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-    4: 'D',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C', 4: 'D' },
+  zones: { stops: true, itinerary: true },
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Pyöräilyreitit',
-          sv: 'Cykelrutter',
-          en: 'Bike routes',
-        },
+        name: { fi: 'Pyöräilyreitit', sv: 'Cykelrutter', en: 'Bike routes' },
         url: 'https://ckanlpr.meitademo.fi/geojson/pyorailyreitit_lpr.geojson',
         isOffByDefault: true,
       },
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/lappeenranta/zone_lines_20251009.geojson',
       },
     ],

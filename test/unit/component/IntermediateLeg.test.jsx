@@ -19,16 +19,10 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
-      config: {
-        CONFIG: 'default',
-        feedIds: ['foo'],
-        colors: { primary: '#007ac9' },
-      },
+      config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(1);
-    expect(
-      container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).toHaveLength(2);
+    expect(container.querySelectorAll('.time-column-zone-icons-container .circle')).toHaveLength(2);
   });
 
   it('should apply class zone-triple for triple zones', () => {
@@ -41,16 +35,10 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
-      config: {
-        CONFIG: 'default',
-        feedIds: ['foo'],
-        colors: { primary: '#007ac9' },
-      },
+      config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-triple')).toHaveLength(1);
-    expect(
-      container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).toHaveLength(3);
+    expect(container.querySelectorAll('.time-column-zone-icons-container .circle')).toHaveLength(3);
   });
 
   it('should not apply class zone-dual for triple zones', () => {
@@ -63,11 +51,7 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
-      config: {
-        CONFIG: 'default',
-        feedIds: ['foo'],
-        colors: { primary: '#007ac9' },
-      },
+      config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);
   });
@@ -81,16 +65,10 @@ describe('<IntermediateLeg />', () => {
       gtfsId: 'foo:1',
     };
     const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
-      config: {
-        CONFIG: 'default',
-        feedIds: ['foo'],
-        colors: { primary: '#007ac9' },
-      },
+      config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-previous')).toHaveLength(1);
-    expect(
-      container.querySelectorAll('.time-column-zone-icons-container .circle'),
-    ).toHaveLength(2);
+    expect(container.querySelectorAll('.time-column-zone-icons-container .circle')).toHaveLength(2);
   });
 
   it('should not show any zone limit information if disabled', () => {
@@ -107,8 +85,6 @@ describe('<IntermediateLeg />', () => {
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);
     expect(container.querySelectorAll('.zone-triple')).toHaveLength(0);
     expect(container.querySelectorAll('.zone-previous')).toHaveLength(0);
-    expect(
-      container.querySelectorAll('.time-column-zone-icons-container'),
-    ).toHaveLength(0);
+    expect(container.querySelectorAll('.time-column-zone-icons-container')).toHaveLength(0);
   });
 });

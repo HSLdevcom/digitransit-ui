@@ -3,10 +3,7 @@ import { default as L } from 'leaflet';
 
 import { locationShape } from '../../../utils/client/shapes';
 import GenericMarker from './GenericMarker';
-import {
-  renderAsString,
-  getIndexedIconFields,
-} from '../../../utils/client/mapIconUtils';
+import { renderAsString, getIndexedIconFields } from '../../../utils/client/mapIconUtils';
 import { WheelchairBoarding } from '../../../utils/shared/constants';
 import Icon from '../Icon';
 

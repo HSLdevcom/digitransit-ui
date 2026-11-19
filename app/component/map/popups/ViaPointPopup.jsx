@@ -5,15 +5,10 @@ import Popup from 'react-leaflet/es/Popup';
 import { setIntermediatePlaces } from '../../../../utils/client/queryUtils';
 import { locationToOTP } from '../../../../utils/shared/otpStrings';
 import Card from '../../Card';
-import {
-  useViaPoints,
-  useItineraryLocationActions,
-} from '../../../hooks/ItineraryLocationContext';
+import { useViaPoints, useItineraryLocationActions } from '../../../hooks/ItineraryLocationContext';
 
 const filterViaPoint = (allPoints, pointToRemove) => {
-  return allPoints.filter(
-    p => p.lat !== pointToRemove.lat && p.lon !== pointToRemove.lon,
-  );
+  return allPoints.filter(p => p.lat !== pointToRemove.lat && p.lon !== pointToRemove.lon);
 };
 
 export default function ViaPointPopup({ lat, lon }) {
@@ -61,7 +56,4 @@ export default function ViaPointPopup({ lat, lon }) {
   );
 }
 
-ViaPointPopup.propTypes = {
-  lat: PropTypes.number.isRequired,
-  lon: PropTypes.number.isRequired,
-};
+ViaPointPopup.propTypes = { lat: PropTypes.number.isRequired, lon: PropTypes.number.isRequired };

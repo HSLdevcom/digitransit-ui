@@ -77,10 +77,7 @@ const baseProps = {
 };
 
 function renderTransitCard(nextLeg) {
-  return renderWithProviders(
-    <NaviInstructions {...baseProps} nextLeg={nextLeg} />,
-    { config },
-  );
+  return renderWithProviders(<NaviInstructions {...baseProps} nextLeg={nextLeg} />, { config });
 }
 
 describe('<NaviInstructions /> interline messaging', () => {
@@ -192,10 +189,7 @@ describe('<NaviInstructions /> MOVE / WAIT / WAIT_IN_VEHICLE leg types', () => {
   });
 
   it('renders a "board" prompt with full boarding info while waiting for a transit leg', () => {
-    const { container } = renderCard({
-      legType: LEGTYPE.WAIT,
-      nextLeg: busNextLeg,
-    });
+    const { container } = renderCard({ legType: LEGTYPE.WAIT, nextLeg: busNextLeg });
     expect(container.textContent).toContain('Board');
     expect(container.textContent).toContain('55');
     expect(container.textContent).toContain('Downtown');

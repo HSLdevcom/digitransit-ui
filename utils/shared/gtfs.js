@@ -12,8 +12,5 @@ export function splitGtfsId(gtfsId) {
   if (i === -1) {
     throw new Error('GtfsId needs to be formatted as feedId:entityId');
   }
-  return {
-    feedId: gtfsId.slice(0, i),
-    entityId: gtfsId.slice(i + 1, gtfsId.length),
-  };
+  return { feedId: gtfsId.slice(0, i), entityId: gtfsId.slice(i + 1, gtfsId.length) };
 }

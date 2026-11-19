@@ -30,10 +30,7 @@ const INPUT_FIELD_TO = 'TO';
  * @returns {Number}
  */
 const getFieldNumerator = inputFields => {
-  return (
-    (inputFields[INPUT_FIELD_TO] ? 1 : 0) +
-    (inputFields[INPUT_FIELD_FROM] ? 2 : 0)
-  );
+  return (inputFields[INPUT_FIELD_TO] ? 1 : 0) + (inputFields[INPUT_FIELD_FROM] ? 2 : 0);
 };
 
 const asArray = value => {
@@ -55,10 +52,7 @@ const asArray = value => {
 const findRoutingErrors = routingErrors => {
   // build lookup object of errors to detect if concerns "from", "to" or "both"
   const errorLookup = routingErrors.reduce(
-    (acc, { code, inputField }) => ({
-      ...acc,
-      [code]: { ...acc[code], [inputField]: true },
-    }),
+    (acc, { code, inputField }) => ({ ...acc, [code]: { ...acc[code], [inputField]: true } }),
     {},
   );
 
@@ -88,8 +82,7 @@ const findRoutingErrors = routingErrors => {
   return msgIds;
 };
 
-const isLocationEqual = (loc1, loc2) =>
-  loc1.lat === loc2.lat && loc1.lon === loc2.lon;
+const isLocationEqual = (loc1, loc2) => loc1.lat === loc2.lat && loc1.lon === loc2.lon;
 
 /**
  * @typedef {Object} Location
@@ -127,24 +120,15 @@ const getOutsideBoundsNumerator = (polygon, from, to) => {
 
   const originPoint = [from.lon, from.lat];
   const destinationPoint = [to.lon, to.lat];
-  return (
-    (inside(destinationPoint, polygon) ? 0 : 1) +
-    (inside(originPoint, polygon) ? 0 : 2)
-  );
+  return (inside(destinationPoint, polygon) ? 0 : 1) + (inside(originPoint, polygon) ? 0 : 2);
 };
 
-const distanceTooShortMessage = (
-  query,
-  locationState,
-  minDistanceBetweenFromAndTo,
-) => {
+const distanceTooShortMessage = (query, locationState, minDistanceBetweenFromAndTo) => {
   const hasLocation = locationState && locationState.hasLocation;
   const userNearOrigin =
-    hasLocation &&
-    distance(query.from, locationState) < minDistanceBetweenFromAndTo;
+    hasLocation && distance(query.from, locationState) < minDistanceBetweenFromAndTo;
   const userNearDestination =
-    hasLocation &&
-    distance(query.to, locationState) < minDistanceBetweenFromAndTo;
+    hasLocation && distance(query.to, locationState) < minDistanceBetweenFromAndTo;
 
   if (userNearOrigin || userNearDestination) {
     return 'no-route-already-at-destination';
@@ -194,27 +178,15 @@ const findQueryError = (query, queryContext) => {
 
   if (query.from && query.to) {
     // test if query origin and/or destination are outside service area polygon
-    const outsideNumerator = getOutsideBoundsNumerator(
-      areaPolygon,
-      query.from,
-      query.to,
-    );
+    const outsideNumerator = getOutsideBoundsNumerator(areaPolygon, query.from, query.to);
 
     if (outsideNumerator > 0) {
       return `outside-bounds-${outsideNumerator}`;
     }
   }
 
-  if (
-    query.from &&
-    query.to &&
-    distance(query.from, query.to) < minDistanceBetweenFromAndTo
-  ) {
-    return distanceTooShortMessage(
-      query,
-      locationState,
-      minDistanceBetweenFromAndTo,
-    );
+  if (query.from && query.to && distance(query.from, query.to) < minDistanceBetweenFromAndTo) {
+    return distanceTooShortMessage(query, locationState, minDistanceBetweenFromAndTo);
   }
   const yesterday = currentTime - 24 * 60 * 60 * 1000;
   if (query.searchTime < yesterday) {
@@ -241,11 +213,7 @@ const findQueryError = (query, queryContext) => {
  *
  * @returns {string} Message ids
  */
-export default function findErrorMessageIds(
-  routingErrors = [],
-  query = {},
-  queryContext = {},
-) {
+export default function findErrorMessageIds(routingErrors = [], query = {}, queryContext = {}) {
   const routingErrorMessages = findRoutingErrors(routingErrors);
   let queryErrorMessage = findQueryError(query, queryContext);
 

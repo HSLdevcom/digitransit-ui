@@ -51,10 +51,7 @@ function buildLegs() {
         name: 'Bus stop',
         stop: { name: 'Bus stop', parentStation: null, vehicleMode: 'BUS' },
       },
-      to: {
-        name: 'Center stop',
-        stop: { name: 'Center stop', vehicleMode: 'BUS' },
-      },
+      to: { name: 'Center stop', stop: { name: 'Center stop', vehicleMode: 'BUS' } },
     },
     {
       legId: 'leg-walk-2',
@@ -97,10 +94,7 @@ describe('<NaviCardContainer />', () => {
     const [walk1, transit, walk2] = legs;
 
     const renderPhase = props =>
-      renderWithProviders(
-        <NaviCardContainer {...baseProps(legs)} {...props} />,
-        { config },
-      );
+      renderWithProviders(<NaviCardContainer {...baseProps(legs)} {...props} />, { config });
 
     // Phase 1: walking to the stop, bus is the next leg.
     const { container, rerender } = renderPhase({
@@ -190,8 +184,7 @@ describe('<NaviCardContainer />', () => {
         { config },
       );
 
-      const cardContainer = () =>
-        container.querySelector('.navi-card-container');
+      const cardContainer = () => container.querySelector('.navi-card-container');
       expect(cardContainer().className).toContain('show-card');
 
       // Current leg changes (walk1 -> gap): must hide immediately...
@@ -228,12 +221,7 @@ describe('<NaviCardContainer />', () => {
     it('still shows the card again when a time update arrives during the hide window', () => {
       const legs = buildLegs();
       const [walk1, transit] = legs;
-      const props = {
-        ...baseProps(legs),
-        nextLeg: transit,
-        firstLeg: walk1,
-        lastLeg: legs[2],
-      };
+      const props = { ...baseProps(legs), nextLeg: transit, firstLeg: walk1, lastLeg: legs[2] };
 
       const { container, rerender } = renderWithProviders(
         <NaviCardContainer
@@ -244,8 +232,7 @@ describe('<NaviCardContainer />', () => {
         />,
         { config },
       );
-      const cardContainer = () =>
-        container.querySelector('.navi-card-container');
+      const cardContainer = () => container.querySelector('.navi-card-container');
 
       act(() => {
         rerender(

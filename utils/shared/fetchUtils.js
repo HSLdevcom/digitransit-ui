@@ -8,8 +8,7 @@ const delay = ms =>
 const addSubscriptionHeader = (headers, config) => {
   const updatedHeaders = headers || {};
   if (config.hasAPISubscriptionHeader) {
-    updatedHeaders[config.API_SUBSCRIPTION_HEADER_NAME] =
-      config.API_SUBSCRIPTION_TOKEN;
+    updatedHeaders[config.API_SUBSCRIPTION_HEADER_NAME] = config.API_SUBSCRIPTION_TOKEN;
   }
   return updatedHeaders;
 };
@@ -34,19 +33,10 @@ const addLocaleParam = (url, lang) => {
 
 // Tries to fetch 1 + retryCount times until 200 is returned.
 // Uses retryDelay (ms) between requests. url and options are normal fetch parameters
-export const retryFetch = (
-  URL,
-  retryCount,
-  retryDelay,
-  options = {},
-  config = {},
-) => {
+export const retryFetch = (URL, retryCount, retryDelay, options = {}, config = {}) => {
   return new Promise((resolve, reject) => {
     const retry = retriesLeft => {
-      fetch(URL, {
-        ...options,
-        headers: addSubscriptionHeader(options.headers, config),
-      })
+      fetch(URL, { ...options, headers: addSubscriptionHeader(options.headers, config) })
         .then(res => {
           if (res.ok) {
             resolve(res);

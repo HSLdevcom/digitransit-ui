@@ -2,10 +2,7 @@ import Link from 'found/Link';
 import { renderWithProviders } from './helpers/mock-providers';
 import { mockRouter } from './helpers/mock-router';
 import WalkLeg from '../../app/component/itinerary/WalkLeg';
-import {
-  AlertSeverityLevelType,
-  ExtendedRouteTypes,
-} from '../../utils/shared/constants';
+import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../utils/shared/constants';
 
 const renderLink = Link.render;
 
@@ -53,9 +50,7 @@ describe('<WalkLeg />', () => {
         { router: { ...mockRouter, createHref: to => to } },
       );
 
-      expect(container.querySelector('.address').textContent).toBe(
-        'Testikatu 12',
-      );
+      expect(container.querySelector('.address').textContent).toBe('Testikatu 12');
       expect(container.querySelector('.place').textContent).toBe('Helsinki');
       expect(container.querySelector('a')).toBeNull();
       expect(container.querySelector('.itinerary-arrow-icon')).toBeNull();
@@ -73,14 +68,8 @@ describe('<WalkLeg />', () => {
       leg: {
         distance: 284.787,
         duration: 289,
-        from: {
-          name: 'Veturitori',
-          stop: null,
-        },
-        to: {
-          name: 'Testipaikka',
-          stop: null,
-        },
+        from: { name: 'Veturitori', stop: null },
+        to: { name: 'Testipaikka', stop: null },
         mode: 'WALK',
         rentedBike: false,
         start: { scheduledTime: new Date(1529589709000).toISOString() },
@@ -103,9 +92,7 @@ describe('<WalkLeg />', () => {
 
     const { container } = renderWithProviders(<WalkLeg {...props} />);
 
-    expect(container.querySelector('.itinerary-leg-row').textContent).toContain(
-      'Veturitori',
-    );
+    expect(container.querySelector('.itinerary-leg-row').textContent).toContain('Veturitori');
   });
 
   it('should tell the user to return a rented bike to the starting point station', () => {
@@ -117,14 +104,8 @@ describe('<WalkLeg />', () => {
       leg: {
         distance: 284.787,
         duration: 289,
-        from: {
-          name: 'Veturitori',
-          stop: null,
-        },
-        to: {
-          name: 'Testipaikka',
-          stop: null,
-        },
+        from: { name: 'Veturitori', stop: null },
+        to: { name: 'Testipaikka', stop: null },
         mode: 'WALK',
         rentedBike: false,
         start: { scheduledTime: new Date(1529589709000).toISOString() },
@@ -146,18 +127,12 @@ describe('<WalkLeg />', () => {
       previousLeg: {
         distance: 3297.017000000001,
         duration: 904,
-        from: {
-          name: 'Kaisaniemenpuisto',
-          stop: null,
-        },
+        from: { name: 'Kaisaniemenpuisto', stop: null },
         mode: 'BICYCLE',
         rentedBike: true,
         start: { scheduledTime: new Date(1529588805000).toISOString() },
         end: { scheduledTime: new Date(1529589701000).toISOString() },
-        to: {
-          name: 'Mannerheimin tie 1',
-          stop: null,
-        },
+        to: { name: 'Mannerheimin tie 1', stop: null },
       },
     };
 
@@ -190,10 +165,7 @@ describe('<WalkLeg />', () => {
             gtfsId: 'HSL:10000',
           },
         },
-        to: {
-          name: 'Testipaikka',
-          stop: null,
-        },
+        to: { name: 'Testipaikka', stop: null },
         mode: 'WALK',
         rentedBike: false,
         start: { scheduledTime: new Date(startTime).toISOString() },
@@ -228,20 +200,8 @@ describe('<WalkLeg />', () => {
       leg: {
         distance: 1.23,
         duration: 34,
-        from: {
-          name: 'Foo',
-          stop: {
-            gtfsId: 'foo',
-            vehicleMode: null,
-          },
-        },
-        to: {
-          name: 'Bar',
-          stop: {
-            gtfsId: 'bar',
-            vehicleMode: null,
-          },
-        },
+        from: { name: 'Foo', stop: { gtfsId: 'foo', vehicleMode: null } },
+        to: { name: 'Bar', stop: { gtfsId: 'bar', vehicleMode: null } },
         mode: 'WALK',
         rentedBike: false,
         start: { scheduledTime: new Date(1668600030868).toISOString() },

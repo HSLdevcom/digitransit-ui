@@ -1,17 +1,7 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useReducer,
-} from 'react';
+import { createContext, useCallback, useContext, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
-const initialState = {
-  origin: {},
-  destination: {},
-  viaPoints: [],
-};
+const initialState = { origin: {}, destination: {}, viaPoints: [] };
 
 function locationReducer(state, action) {
   switch (action.type) {
@@ -50,14 +40,11 @@ const ItineraryLocationContext = createContext({
 
 export const useOrigin = () => useContext(ItineraryLocationContext).origin;
 
-export const useDestination = () =>
-  useContext(ItineraryLocationContext).destination;
+export const useDestination = () => useContext(ItineraryLocationContext).destination;
 
-export const useViaPoints = () =>
-  useContext(ItineraryLocationContext).viaPoints;
+export const useViaPoints = () => useContext(ItineraryLocationContext).viaPoints;
 
-export const useItineraryLocationActions = () =>
-  useContext(ItineraryLocationContext).actions;
+export const useItineraryLocationActions = () => useContext(ItineraryLocationContext).actions;
 
 /**
  * Provides the itinerary search's geographic endpoints (origin, destination
@@ -68,10 +55,7 @@ export const useItineraryLocationActions = () =>
 export function ItineraryLocationProvider({ children = null }) {
   const [state, dispatch] = useReducer(locationReducer, initialState);
 
-  const setOrigin = useCallback(
-    origin => dispatch({ type: 'SET_ORIGIN', origin }),
-    [],
-  );
+  const setOrigin = useCallback(origin => dispatch({ type: 'SET_ORIGIN', origin }), []);
 
   const setDestination = useCallback(
     destination => dispatch({ type: 'SET_DESTINATION', destination }),
@@ -83,36 +67,20 @@ export function ItineraryLocationProvider({ children = null }) {
     [],
   );
 
-  const addViaPoint = useCallback(
-    point => dispatch({ type: 'ADD_VIA_POINT', point }),
-    [],
-  );
+  const addViaPoint = useCallback(point => dispatch({ type: 'ADD_VIA_POINT', point }), []);
 
-  const deleteViaPoint = useCallback(
-    point => dispatch({ type: 'DELETE_VIA_POINT', point }),
-    [],
-  );
+  const deleteViaPoint = useCallback(point => dispatch({ type: 'DELETE_VIA_POINT', point }), []);
 
   const actions = useMemo(
-    () => ({
-      setOrigin,
-      setDestination,
-      setViaPoints,
-      addViaPoint,
-      deleteViaPoint,
-    }),
+    () => ({ setOrigin, setDestination, setViaPoints, addViaPoint, deleteViaPoint }),
     [setOrigin, setDestination, setViaPoints, addViaPoint, deleteViaPoint],
   );
 
   const value = useMemo(() => ({ ...state, actions }), [state, actions]);
 
   return (
-    <ItineraryLocationContext.Provider value={value}>
-      {children}
-    </ItineraryLocationContext.Provider>
+    <ItineraryLocationContext.Provider value={value}>{children}</ItineraryLocationContext.Provider>
   );
 }
 
-ItineraryLocationProvider.propTypes = {
-  children: PropTypes.node,
-};
+ItineraryLocationProvider.propTypes = { children: PropTypes.node };

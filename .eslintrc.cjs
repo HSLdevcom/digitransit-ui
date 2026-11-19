@@ -20,10 +20,7 @@ module.exports = {
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
     // uuid has only an exports map, which eslint-import-resolver-node does not support
-    'import/no-unresolved': [
-      'error',
-      { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] },
-    ],
+    'import/no-unresolved': ['error', { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] }],
     'import/no-restricted-paths': [
       'error',
       {
@@ -90,9 +87,7 @@ module.exports = {
     // prettier
     'prettier/prettier': 'error', // options in package.json "prettier"
   },
-  env: {
-    browser: true,
-  },
+  env: { browser: true },
   plugins: ['react', 'react-hooks', 'compat', 'prettier', 'jsx-a11y'],
   overrides: [
     {
@@ -107,39 +102,23 @@ module.exports = {
         'webpack.config.js',
         'scripts/**/*.js',
       ],
-      rules: {
-        'import/extensions': ['error', 'always', { ignorePackages: true }],
-      },
+      rules: { 'import/extensions': ['error', 'always', { ignorePackages: true }] },
     },
     {
       // Server-only code and dev scripts run in Node: logging to the console
       // is legitimate there, and browser-compatibility checks don't apply.
       files: ['server/**/*.js', 'utils/server/**/*.js', 'scripts/**/*.js'],
-      rules: {
-        'no-console': 'off',
-        'compat/compat': 'off',
-      },
+      rules: { 'no-console': 'off', 'compat/compat': 'off' },
     },
-    {
-      files: ['*.js', '*.jsx'],
-      processor: '@graphql-eslint/graphql',
-    },
+    { files: ['*.js', '*.jsx'], processor: '@graphql-eslint/graphql' },
     {
       files: ['*.graphql'],
-      extends: [
-        'plugin:@graphql-eslint/operations-recommended',
-        'plugin:@graphql-eslint/relay',
-      ],
+      extends: ['plugin:@graphql-eslint/operations-recommended', 'plugin:@graphql-eslint/relay'],
       // Available rules can be found at https://the-guild.dev/graphql/eslint/rules/naming-convention
       rules: {
         '@graphql-eslint/no-deprecated': 'warn',
         // Recommended naming conventions have some clashes with relay conventions
-        '@graphql-eslint/naming-convention': [
-          'error',
-          {
-            VariableDefinition: 'camelCase',
-          },
-        ],
+        '@graphql-eslint/naming-convention': ['error', { VariableDefinition: 'camelCase' }],
         // Relay directives caused errors and ignoring them didn't work for some reason
         '@graphql-eslint/known-directives': 'off',
 
@@ -157,9 +136,7 @@ module.exports = {
         '@graphql-eslint/unique-fragment-name': 'off',
         '@graphql-eslint/unique-operation-name': 'off',
       },
-      parserOptions: {
-        schema: './packages/private/schema/schema.graphql',
-      },
+      parserOptions: { schema: './packages/private/schema/schema.graphql' },
     },
   ],
 };

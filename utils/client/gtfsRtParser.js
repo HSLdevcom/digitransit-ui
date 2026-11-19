@@ -32,27 +32,17 @@ export const parseFeedMQTT = (feedParser, data, topic) => {
         const vehicleIdParts = vehiclePos.vehicle?.id?.split('/') || [];
         const vehicleIdLength =
           vehicleIdParts.length > 0 &&
-          vehicleIdParts.every(
-            (part, index) => vehicleAndSuffix[index] === part,
-          )
+          vehicleIdParts.every((part, index) => vehicleAndSuffix[index] === part)
             ? vehicleIdParts.length
             : 1;
         const vehicleId = vehicleAndSuffix.slice(0, vehicleIdLength).join('/');
-        const [
-          geoHashDeg1,
-          geoHashDeg2,
-          geoHashDeg3,
-          geoHashDeg4,
-          shortName,
-          color,
-        ] = vehicleAndSuffix.slice(vehicleIdLength);
+        const [geoHashDeg1, geoHashDeg2, geoHashDeg3, geoHashDeg4, shortName, color] =
+          vehicleAndSuffix.slice(vehicleIdLength);
         const message = {
           id: `${feedId}:${vehicleId}`,
           route: `${feedId}:${routeId}`,
-          direction:
-            directionId === '' ? undefined : parseInt(directionId, 10) || 0,
-          tripStartTime:
-            startTime === '' ? undefined : startTime.replace(/:/g, ''),
+          direction: directionId === '' ? undefined : parseInt(directionId, 10) || 0,
+          tripStartTime: startTime === '' ? undefined : startTime.replace(/:/g, ''),
           operatingDay: trip.start_date,
           mode: mode === '' ? 'bus' : mode.toLowerCase(),
           next_stop: stopId === '' ? undefined : `${feedId}:${stopId}`,

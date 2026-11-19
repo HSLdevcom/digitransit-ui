@@ -27,8 +27,7 @@ describe('otpStrings', () => {
     });
 
     it('should parse a valid slack time', () => {
-      const input =
-        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::1000';
+      const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::1000';
       const location = utils.otpToLocation(input);
       expect(location.locationSlack).toBe(1000);
     });
@@ -42,18 +41,13 @@ describe('otpStrings', () => {
     it('should ignore a missing slack time', () => {
       const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365';
       const location = utils.otpToLocation(input);
-      expect(
-        Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
-      ).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(location, 'locationSlack')).toBe(false);
     });
 
     it('should ignore an invalid slack time', () => {
-      const input =
-        'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::foo';
+      const input = 'Kluuvi, luoteinen, Kluuvi, Helsinki::60.173123,24.948365::foo';
       const location = utils.otpToLocation(input);
-      expect(
-        Object.prototype.hasOwnProperty.call(location, 'locationSlack'),
-      ).toBe(false);
+      expect(Object.prototype.hasOwnProperty.call(location, 'locationSlack')).toBe(false);
     });
   });
   describe('getIntermediatePlaces', () => {
@@ -72,18 +66,14 @@ describe('otpStrings', () => {
     });
 
     it('should return an empty array for whitespace intermediatePlaces', () => {
-      const query = {
-        intermediatePlaces: ' ',
-      };
+      const query = { intermediatePlaces: ' ' };
       const result = utils.getIntermediatePlaces(query);
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBe(0);
     });
 
     it('should return a location parsed from a string-mode intermediatePlaces', () => {
-      const query = {
-        intermediatePlaces: 'Kera, Espoo::60.217992,24.75494',
-      };
+      const query = { intermediatePlaces: 'Kera, Espoo::60.217992,24.75494' };
       const result = utils.getIntermediatePlaces(query);
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBe(1);
@@ -111,9 +101,7 @@ describe('otpStrings', () => {
     });
 
     it('should return an empty array if intermediatePlaces is neither a string nor an array', () => {
-      const query = {
-        intermediatePlaces: {},
-      };
+      const query = { intermediatePlaces: {} };
       const result = utils.getIntermediatePlaces(query);
       expect(Array.isArray(result)).toBe(true);
       expect(result.length).toBe(0);

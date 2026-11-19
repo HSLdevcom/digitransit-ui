@@ -36,18 +36,11 @@ Probe.propTypes = {
   controlRef: PropTypes.object.isRequired,
 };
 
-Probe.defaultProps = {
-  simulateTransferProblem: false,
-};
+Probe.defaultProps = { simulateTransferProblem: false };
 
 function getProcessLegs(simulateTransferProblem = false) {
   const controlRef = { current: null };
-  render(
-    <Probe
-      simulateTransferProblem={simulateTransferProblem}
-      controlRef={controlRef}
-    />,
-  );
+  render(<Probe simulateTransferProblem={simulateTransferProblem} controlRef={controlRef} />);
   return controlRef;
 }
 
@@ -67,9 +60,7 @@ describe('useProcessLegs', () => {
     const [processed] = controlRef.current([leg], rtLegMap, NOW);
 
     expect(processed.realtimeState).toBe('UPDATED');
-    expect(processed.start.scheduledTime).toBe(
-      rtLegMap['leg-1'].start.scheduledTime,
-    );
+    expect(processed.start.scheduledTime).toBe(rtLegMap['leg-1'].start.scheduledTime);
     expect(processed.to.vehicleRentalStation).toEqual({ stationId: 'x' });
     // fields not present in the rt payload must still come from the original leg.
     expect(processed.to.name).toBe('Destination');
@@ -98,13 +89,7 @@ describe('useProcessLegs', () => {
   it('drops the real-time start time when the leg start is already frozen', () => {
     const controlRef = getProcessLegs();
     const leg = buildLeg({ freezeStart: true });
-    const rtLegMap = {
-      'leg-1': {
-        start: at(NOW + 60000),
-        end: at(NOW + 6 * 60000),
-        to: {},
-      },
-    };
+    const rtLegMap = { 'leg-1': { start: at(NOW + 60000), end: at(NOW + 6 * 60000), to: {} } };
 
     const [processed] = controlRef.current([leg], rtLegMap, NOW);
 
@@ -118,11 +103,7 @@ describe('useProcessLegs', () => {
     const controlRef = getProcessLegs();
     const legs = [
       buildLeg({ legId: 'past', start: at(NOW - 60000), end: at(NOW - 1000) }),
-      buildLeg({
-        legId: 'future',
-        start: at(NOW + 60000),
-        end: at(NOW + 5 * 60000),
-      }),
+      buildLeg({ legId: 'future', start: at(NOW + 60000), end: at(NOW + 5 * 60000) }),
     ];
 
     const [past, future] = controlRef.current(legs, {}, NOW);
@@ -136,12 +117,7 @@ describe('useProcessLegs', () => {
   it('applies simulated transfer-problem delays only when enabled, advancing on every call', () => {
     const controlRef = getProcessLegs(true);
     const legs = [
-      buildLeg({
-        legId: 'transit',
-        transitLeg: true,
-        start: at(NOW),
-        end: at(NOW + 5 * 60000),
-      }),
+      buildLeg({ legId: 'transit', transitLeg: true, start: at(NOW), end: at(NOW + 5 * 60000) }),
     ];
     const originalEnd = legTime(legs[0].end);
 
@@ -164,9 +140,7 @@ describe('useProcessLegs', () => {
     const controlRef = getProcessLegs();
     const leg = buildLeg();
     const originalStart = leg.start.scheduledTime;
-    const rtLegMap = {
-      'leg-1': { start: at(NOW + 60000), end: at(NOW + 6 * 60000), to: {} },
-    };
+    const rtLegMap = { 'leg-1': { start: at(NOW + 60000), end: at(NOW + 6 * 60000), to: {} } };
 
     controlRef.current([leg], rtLegMap, NOW);
 

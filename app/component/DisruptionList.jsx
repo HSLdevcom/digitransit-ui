@@ -31,17 +31,9 @@ export const EmptyDisruptions = () => {
     />
   ) : (
     <div className="no-alerts-container">
-      <Icon
-        img="icon_no-disruptions"
-        color={config.colors.primary}
-        height={3}
-        width={3}
-      />
+      <Icon img="icon_no-disruptions" color={config.colors.primary} height={3} width={3} />
       <h2>
-        <FormattedMessage
-          id="disruption-list-traffic-normal"
-          defaultMessage="Traffic normal"
-        />
+        <FormattedMessage id="disruption-list-traffic-normal" defaultMessage="Traffic normal" />
       </h2>
       <FormattedMessage
         id="disruption-info-no-alerts"
@@ -80,12 +72,8 @@ export default function DisruptionList({
     );
   }
 
-  const cancelationsByValidity = groupBy(
-    cancelations,
-    ({ effectiveStartDate }) =>
-      isToday(effectiveStartDate * 1000, currentTime * 1000)
-        ? 'ongoing'
-        : 'upcoming',
+  const cancelationsByValidity = groupBy(cancelations, ({ effectiveStartDate }) =>
+    isToday(effectiveStartDate * 1000, currentTime * 1000) ? 'ongoing' : 'upcoming',
   );
   const toggleDetails = id => {
     router.push({ pathname: match.location.pathname, query: { alertId: id } });
@@ -103,28 +91,16 @@ export default function DisruptionList({
     return <EmptyDisruptions />;
   }
 
-  const timetableUrl = match.location.pathname.replace(
-    PREFIX_DISRUPTION,
-    PREFIX_TIMETABLE,
-  );
+  const timetableUrl = match.location.pathname.replace(PREFIX_DISRUPTION, PREFIX_TIMETABLE);
   return (
     <div className="alerts-content-wrapper">
       <div
-        className={cx('alerts-list-wrapper', {
-          'bp-large': breakpoint === 'large',
-        })}
+        className={cx('alerts-list-wrapper', { 'bp-large': breakpoint === 'large' })}
         aria-live="polite"
       >
-        <div
-          className={cx('alerts-list', {
-            'momentum-scroll': !disableScrolling,
-          })}
-        >
+        <div className={cx('alerts-list', { 'momentum-scroll': !disableScrolling })}>
           <h2 className="alerts-list-section-header">
-            <FormattedMessage
-              id="disruption-list-active"
-              defaultMessage="Active"
-            />
+            <FormattedMessage id="disruption-list-active" defaultMessage="Active" />
           </h2>
           {current.length ? (
             <div role="list">
@@ -156,10 +132,7 @@ export default function DisruptionList({
             </p>
           )}
           <h2 className="alerts-list-section-header">
-            <FormattedMessage
-              id="disruption-list-upcoming"
-              defaultMessage="Upcoming"
-            />
+            <FormattedMessage id="disruption-list-upcoming" defaultMessage="Upcoming" />
           </h2>
           {future.length ? (
             <div role="list">

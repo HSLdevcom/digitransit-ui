@@ -31,10 +31,7 @@ export function displayImperialDistance(meters) {
  * @param {*} formatNumber
  */
 function displayDistanceWithLocale(meters, formatNumber) {
-  const opts = {
-    minimumFractionDigits: 1,
-    maximumFractionDigits: 1,
-  };
+  const opts = { minimumFractionDigits: 1, maximumFractionDigits: 1 };
   if (meters < 100) {
     return `${formatNumber((Math.round(meters / 10) * 10).toFixed(1))} m`; // Tens of meters
   }
@@ -42,18 +39,12 @@ function displayDistanceWithLocale(meters, formatNumber) {
     return `${formatNumber((Math.round(meters / 50) * 50).toFixed(1))} m`; // fifty meters
   }
   if (meters < 10000) {
-    return `${formatNumber(
-      ((Math.round(meters / 100) * 100) / 1000).toFixed(1),
-      opts,
-    )} km`; // hudreds of meters
+    return `${formatNumber(((Math.round(meters / 100) * 100) / 1000).toFixed(1), opts)} km`; // hudreds of meters
   }
   if (meters < 100000) {
     return `${formatNumber(Math.round(meters / 1000).toFixed(1), opts)} km`; // kilometers
   }
-  return `${formatNumber(
-    (Math.round(meters / 10000) * 10).toFixed(1),
-    opts,
-  )} km`; // tens of kilometers
+  return `${formatNumber((Math.round(meters / 10000) * 10).toFixed(1), opts)} km`; // tens of kilometers
 }
 
 export function displayDistance(meters, config, formatNumber) {
@@ -165,32 +156,20 @@ function calculateEllipsoidParams(ellipsoid) {
   extEllipsoid.A1 = (a / (1.0 + n)) * (1.0 + n ** 2 / 4.0 + n ** 4 / 64.0);
   extEllipsoid.e = Math.sqrt(2.0 * f - f ** 2);
   extEllipsoid.h1 =
-    (1.0 / 2.0) * n -
-    (2.0 / 3.0) * n ** 2 +
-    (37.0 / 96.0) * n ** 3 -
-    (1.0 / 360.0) * n ** 4;
-  extEllipsoid.h2 =
-    (1.0 / 48.0) * n ** 2 + (1.0 / 15.0) * n ** 3 - (437.0 / 1440.0) * n ** 4;
+    (1.0 / 2.0) * n - (2.0 / 3.0) * n ** 2 + (37.0 / 96.0) * n ** 3 - (1.0 / 360.0) * n ** 4;
+  extEllipsoid.h2 = (1.0 / 48.0) * n ** 2 + (1.0 / 15.0) * n ** 3 - (437.0 / 1440.0) * n ** 4;
   extEllipsoid.h3 = (17.0 / 480.0) * n ** 3 - (37.0 / 840.0) * n ** 4;
   extEllipsoid.h4 = (4397.0 / 161280.0) * n ** 4;
   extEllipsoid.h1p =
-    (1.0 / 2.0) * n -
-    (2.0 / 3.0) * n ** 2 +
-    (5.0 / 16.0) * n ** 3 +
-    (41.0 / 180.0) * n ** 4;
-  extEllipsoid.h2p =
-    (13.0 / 48.0) * n ** 2 - (3.0 / 5.0) * n ** 3 + (557.0 / 1440.0) * n ** 4;
+    (1.0 / 2.0) * n - (2.0 / 3.0) * n ** 2 + (5.0 / 16.0) * n ** 3 + (41.0 / 180.0) * n ** 4;
+  extEllipsoid.h2p = (13.0 / 48.0) * n ** 2 - (3.0 / 5.0) * n ** 3 + (557.0 / 1440.0) * n ** 4;
   extEllipsoid.h3p = (61.0 / 240.0) * n ** 3 - (103.0 / 140.0) * n ** 4;
   extEllipsoid.h4p = (49561.0 / 161280.0) * n ** 4;
 
   return extEllipsoid;
 }
 
-const kkjEllipsoid = calculateEllipsoidParams({
-  a: 6378388.0,
-  f: 1.0 / 297.0,
-  k0: 1.0,
-});
+const kkjEllipsoid = calculateEllipsoidParams({ a: 6378388.0, f: 1.0 / 297.0, k0: 1.0 });
 
 const wgsEllipsoid = calculateEllipsoidParams({
   a: 6378137.0,
@@ -286,16 +265,14 @@ export function kkj2ToWgs84(coords) {
  *
  * @param {{ type: string }} geometry the geometry object to check.
  */
-export const isMultiPointTypeGeometry = geometry =>
-  !!(geometry && geometry.type === 'MultiPoint');
+export const isMultiPointTypeGeometry = geometry => !!(geometry && geometry.type === 'MultiPoint');
 
 /**
  * Checks if the given geometry exists and has type 'Point'.
  *
  * @param {{ type: string }} geometry the geometry object to check.
  */
-export const isPointTypeGeometry = geometry =>
-  !!(geometry && geometry.type === 'Point');
+export const isPointTypeGeometry = geometry => !!(geometry && geometry.type === 'Point');
 
 /**
  * Caluclates itinerary distance as the crow flies

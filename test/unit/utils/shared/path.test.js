@@ -17,9 +17,7 @@ describe('path', () => {
 
     it('should join paths with slashes within segments', () => {
       expect(pathJoin(['my/path'])).toBe('my/path');
-      expect(pathJoin(['my', 'even/longer', 'path'])).toBe(
-        'my/even/longer/path',
-      );
+      expect(pathJoin(['my', 'even/longer', 'path'])).toBe('my/even/longer/path');
     });
 
     it('should join paths with leading slash', () => {

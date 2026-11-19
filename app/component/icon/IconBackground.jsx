@@ -27,13 +27,7 @@ export default function IconBackground({ shape, color = 'white' }) {
         r={shape === 'stopsign' ? '13.33' : '20'}
       />
       {shape === 'square' && (
-        <rect
-          className="icon-square"
-          width="40"
-          height="40"
-          fill={color}
-          rx="8"
-        />
+        <rect className="icon-square" width="40" height="40" fill={color} rx="8" />
       )}
     </>
   );

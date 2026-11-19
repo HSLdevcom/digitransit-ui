@@ -20,33 +20,18 @@ export default configMerger(walttiConfig, {
     name: 'Oulun seudun liikenne',
     href: 'https://www.osl.fi/',
     altLink: {
-      sv: {
-        name: 'Uleåborgsregionens Trafik',
-        href: 'https://www.osl.fi/en/',
-      },
-      en: {
-        name: 'Oulu Regional Transport',
-        href: 'https://www.osl.fi/en/',
-      },
+      sv: { name: 'Uleåborgsregionens Trafik', href: 'https://www.osl.fi/en/' },
+      en: { name: 'Oulu Regional Transport', href: 'https://www.osl.fi/en/' },
     },
   },
 
-  colors: {
-    primary: '#e10669',
-    bus: '#e10669',
-  },
+  colors: { primary: '#e10669', bus: '#e10669' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    twitter: {
-      site: '@oulunkaupunki',
-    },
-    image: {
-      url: 'assets/oulu/social-share.png',
-      width: 1181,
-      height: 472,
-    },
+    twitter: { site: '@oulunkaupunki' },
+    image: { url: 'assets/oulu/social-share.png', width: 1181, height: 472 },
   },
 
   title: APP_TITLE,
@@ -57,11 +42,7 @@ export default configMerger(walttiConfig, {
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',
 
-  transportModes: {
-    citybike: {
-      availableForSelection: false,
-    },
-  },
+  transportModes: { citybike: { availableForSelection: false } },
 
   useSearchPolygon: true,
 
@@ -79,11 +60,7 @@ export default configMerger(walttiConfig, {
     [24.362, 65.246],
   ],
 
-  defaultEndpoint: {
-    address: 'Keskusta',
-    lat: 65.0118,
-    lon: 25.4702,
-  },
+  defaultEndpoint: { address: 'Keskusta', lat: 65.0118, lon: 25.4702 },
 
   menu: {
     copyright: { label: `© Oulu ${walttiConfig.YEAR}` },
@@ -96,10 +73,7 @@ export default configMerger(walttiConfig, {
           en: 'https://www.osl.fi/asiakaspalvelu/#palaute',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -114,19 +88,11 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/oulu/zone_lines_20241011.geojson',
       },
       {
-        name: {
-          fi: 'Myyntipisteet',
-          sv: 'Servicekontorer',
-          en: 'Service points',
-        },
+        name: { fi: 'Myyntipisteet', sv: 'Servicekontorer', en: 'Service points' },
         url: `${CDN_URL}/oulu-assets/v1/lipunmyyntipisteet`,
       },
     ],
@@ -160,25 +126,11 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'OSL',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
+  zoneIdMapping: { 1: 'OSL' },
+  zones: { stops: true, itinerary: true },
+  stopCard: { header: { virtualMonitorBaseUrl } },
 
-  mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: `${virtualMonitorBaseUrl}/createview`,
-    },
-  },
+  mainMenu: { stopMonitor: { show: true, url: `${virtualMonitorBaseUrl}/createview` } },
 
   showTicketInformation: true,
   useTicketIcons: true,
@@ -191,8 +143,5 @@ export default configMerger(walttiConfig, {
   ticketLinkOperatorCode: 50229,
   appName: 'oslapp',
 
-  parkAndRide: {
-    showParkAndRide: true,
-    showParkAndRideForBikes: true,
-  },
+  parkAndRide: { showParkAndRide: true, showParkAndRideForBikes: true },
 });

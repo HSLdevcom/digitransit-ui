@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import {
-  transitIconName,
-  modeToTranslationId,
-} from '../../utils/client/modeUtils';
+import { transitIconName, modeToTranslationId } from '../../utils/client/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
@@ -62,23 +59,15 @@ export default function RouteNumber({
     textFieldIsText &&
     filteredText.length > config.shortenLongTextThreshold
   ) {
-    filteredText = `${filteredText.substring(
-      0,
-      config.shortenLongTextThreshold - 3,
-    )}...`;
+    filteredText = `${filteredText.substring(0, config.shortenLongTextThreshold - 3)}...`;
   }
 
   const longText =
-    filteredText &&
-    textFieldIsText &&
-    filteredText.length >= LONG_ROUTE_NUMBER_LENGTH;
+    filteredText && textFieldIsText && filteredText.length >= LONG_ROUTE_NUMBER_LENGTH;
   // Checks if route only has letters without identifying numbers and
   // length doesn't fit in the tab view
   const hasNoShortName =
-    filteredText &&
-    textFieldIsText &&
-    /^([^0-9]*)$/.test(filteredText) &&
-    filteredText.length > 3;
+    filteredText && textFieldIsText && /^([^0-9]*)$/.test(filteredText) && filteredText.length > 3;
 
   const getColor = () => color || (isTransitLeg ? 'currentColor' : null);
 
@@ -95,15 +84,8 @@ export default function RouteNumber({
             img={iconName}
             omitViewBox
           />
-          {withBicycle && (
-            <Icon
-              img="icon_bicycle_walk"
-              className="itinerary-icon_with-bicycle"
-            />
-          )}
-          {withCar && (
-            <Icon img="icon_car" className="itinerary-icon_with-car" />
-          )}
+          {withBicycle && <Icon img="icon_bicycle_walk" className="itinerary-icon_with-bicycle" />}
+          {withCar && <Icon img="icon_car" className="itinerary-icon_with-car" />}
         </Fragment>
       );
     }
@@ -117,8 +99,7 @@ export default function RouteNumber({
           className={cx(
             mode,
             {
-              [['secondary']]:
-                mode === 'citybike' && icon?.includes('secondary'), // Vantaa citybike station
+              [['secondary']]: mode === 'citybike' && icon?.includes('secondary'), // Vantaa citybike station
             },
             appendClass,
           )}
@@ -128,23 +109,14 @@ export default function RouteNumber({
           omitViewBox={!isCallAgency}
           backgroundShape={isCallAgency ? 'square' : undefined}
         />
-        {withBicycle && (
-          <Icon
-            img="icon_bicycle_walk"
-            className="itinerary-icon_with-bicycle"
-          />
-        )}
+        {withBicycle && <Icon img="icon_bicycle_walk" className="itinerary-icon_with-bicycle" />}
         {withCar && <Icon img="icon_car" className="itinerary-icon_with-car" />}
       </Fragment>
     );
   };
 
   const rNumber = (
-    <span
-      className={cx('route-number', {
-        vertical,
-      })}
-    >
+    <span className={cx('route-number', { vertical })}>
       <span
         className={cx('vcenter-children', className)}
         aria-label={intl.formatMessage({
@@ -163,46 +135,31 @@ export default function RouteNumber({
         )}
         {filteredText && (
           <div
-            className={cx(
-              'vehicle-number-container-v'.concat(card ? '-map' : ''),
-              {
-                long: hasNoShortName,
-              },
-            )}
+            className={cx('vehicle-number-container-v'.concat(card ? '-map' : ''), {
+              long: hasNoShortName,
+            })}
           >
             <span
               aria-hidden="true"
-              className={cx('vehicle-number'.concat(card ? '-map' : ''), mode, {
-                long: longText,
-              })}
+              className={cx('vehicle-number'.concat(card ? '-map' : ''), mode, { long: longText })}
               style={{ color: !withBar ? getColor() : null }}
             >
               {filteredText}
             </span>
-            {textFieldIsText && (
-              <span className="sr-only">{filteredText?.toLowerCase()}</span>
-            )}
+            {textFieldIsText && <span className="sr-only">{filteredText?.toLowerCase()}</span>}
           </div>
         )}
-        {((!config.hideWalkLegDurationSummary && isTransitLeg === false) ||
-          isTaxi) &&
+        {((!config.hideWalkLegDurationSummary && isTransitLeg === false) || isTaxi) &&
           duration > 0 && (
             <div className={`leg-duration-container ${mode} `}>
               <span className="leg-duration">{duration}</span>
             </div>
           )}
-        {isScooter && !vertical && (
-          <Icon img="icon_smartphone" className="phone-icon" />
-        )}
+        {isScooter && !vertical && <Icon img="icon_smartphone" className="phone-icon" />}
       </span>
       {occupancyStatus && (
         <span className="occupancy-icon-container">
-          <Icon
-            img={`icon_${occupancyStatus}`}
-            height={1.5}
-            width={1.5}
-            color="white"
-          />
+          <Icon img={`icon_${occupancyStatus}`} height={1.5} width={1.5} color="white" />
         </span>
       )}
     </span>
@@ -210,10 +167,7 @@ export default function RouteNumber({
 
   return withBar ? (
     <div className={cx('bar-container', { long: hasNoShortName })}>
-      <div
-        className={cx('bar', mode, appendClass)}
-        style={{ backgroundColor: getColor() }}
-      >
+      <div className={cx('bar', mode, appendClass)} style={{ backgroundColor: getColor() }}>
         {rNumber}
       </div>
     </div>

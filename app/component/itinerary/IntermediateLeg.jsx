@@ -94,18 +94,12 @@ export default function IntermediateLeg({
               <ZoneIcon
                 zoneId={currentZoneId}
                 className={cx({
-                  'zone-delimiter':
-                    showCurrentZoneDelimiter ||
-                    (previousZoneId && currentZoneId),
+                  'zone-delimiter': showCurrentZoneDelimiter || (previousZoneId && currentZoneId),
                 })}
                 showUnknown
               />
               {nextZoneId && (
-                <ZoneIcon
-                  zoneId={nextZoneId}
-                  className="zone-delimiter"
-                  showUnknown
-                />
+                <ZoneIcon zoneId={nextZoneId} className="zone-delimiter" showUnknown />
               )}
             </div>
           )}
@@ -128,12 +122,7 @@ export default function IntermediateLeg({
         <div style={{ color }} className={`leg-before-line ${modeClassName}`} />
         {isLastPlace && (
           <div className={`leg-before-circle circle ${modeClassName}`}>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width={28}
-              height={28}
-              style={{ fill: '#fff' }}
-            >
+            <svg xmlns="http://www.w3.org/2000/svg" width={28} height={28} style={{ fill: '#fff' }}>
               <circle strokeWidth="4" width={28} cx={11} cy={10} r={6} />
             </svg>
           </div>
@@ -150,21 +139,14 @@ export default function IntermediateLeg({
           }}
           to={stopPagePath(false, gtfsId)}
         >
-          <div
-            className="itinerary-leg-row-intermediate"
-            style={stationNameStyle()}
-          >
+          <div className="itinerary-leg-row-intermediate" style={stationNameStyle()}>
             <div className="itinerary-intermediate-stop-name">
               <span className={cx({ realtime: realTime })}>
-                <span className={cx({ canceled: isCanceled })}>
-                  {legTimeStr(arrival)}
-                </span>
+                <span className={cx({ canceled: isCanceled })}>{legTimeStr(arrival)}</span>
               </span>
               {` ${name}`}
             </div>
-            {isViaPoint && (
-              <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-            )}
+            {isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
             <Icon
               img="icon_arrow-collapse--right"
               className="itinerary-arrow-icon"

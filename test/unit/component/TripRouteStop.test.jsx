@@ -16,10 +16,7 @@ describe('<TripRouteStop />', () => {
       color: '#000000',
       stop: {
         alerts: [
-          {
-            alertSeverityLevel: AlertSeverityLevelType.Warning,
-            effectiveStartDate: 1471515615,
-          },
+          { alertSeverityLevel: AlertSeverityLevelType.Warning, effectiveStartDate: 1471515615 },
         ],
       },
       stoptime: {},
@@ -56,28 +53,21 @@ describe('<TripRouteStop />', () => {
   it('should not render a service alert icon when showStopStatusMarkers is enabled', () => {
     const stop = {
       alerts: [
-        {
-          alertSeverityLevel: AlertSeverityLevelType.Warning,
-          effectiveStartDate: 1471515600,
-        },
+        { alertSeverityLevel: AlertSeverityLevelType.Warning, effectiveStartDate: 1471515600 },
       ],
     };
-    const { container } = renderWithProviders(
-      <TripRouteStop {...statusProps} stop={stop} />,
-      { config: statusConfig },
-    );
+    const { container } = renderWithProviders(<TripRouteStop {...statusProps} stop={stop} />, {
+      config: statusConfig,
+    });
     expect(container.querySelector('.caution')).toBeNull();
   });
 
   it('should render the status badge icon instead of the SVG circle when the stop has no service', () => {
     const stop = { alerts: [], firstDeparture: [] };
-    const { container } = renderWithProviders(
-      <TripRouteStop {...statusProps} stop={stop} />,
-      { config: statusConfig },
-    );
+    const { container } = renderWithProviders(<TripRouteStop {...statusProps} stop={stop} />, {
+      config: statusConfig,
+    });
     expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
-    expect(
-      container.querySelector('.route-stop-now_circleline circle'),
-    ).toBeNull();
+    expect(container.querySelector('.route-stop-now_circleline circle')).toBeNull();
   });
 });

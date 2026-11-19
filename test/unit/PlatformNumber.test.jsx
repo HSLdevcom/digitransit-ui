@@ -55,28 +55,16 @@ describe('<PlatformNumber />', () => {
 
   it('should use plain class on outer span when plain is true', () => {
     const { container } = renderWithProviders(
-      <PlatformNumber
-        number="12"
-        short={false}
-        mode={TransportMode.Bus}
-        plain
-      />,
+      <PlatformNumber number="12" short={false} mode={TransportMode.Bus} plain />,
       opts,
     );
     expect(container.querySelector('.platform-number-plain')).not.toBeNull();
-    expect(
-      container.querySelector('.platform-number:not(.platform-number-plain)'),
-    ).toBeNull();
+    expect(container.querySelector('.platform-number:not(.platform-number-plain)')).toBeNull();
   });
 
   it('should show update icon and class when updated is true', () => {
     const { container } = renderWithProviders(
-      <PlatformNumber
-        number="12"
-        short={false}
-        mode={TransportMode.Bus}
-        updated
-      />,
+      <PlatformNumber number="12" short={false} mode={TransportMode.Bus} updated />,
       opts,
     );
     expect(container.querySelector('.platform-updated')).not.toBeNull();
@@ -85,12 +73,7 @@ describe('<PlatformNumber />', () => {
 
   it('should omit label text when withText is false', () => {
     const { container } = renderWithProviders(
-      <PlatformNumber
-        number="12"
-        short={false}
-        mode={TransportMode.Bus}
-        withText={false}
-      />,
+      <PlatformNumber number="12" short={false} mode={TransportMode.Bus} withText={false} />,
       opts,
     );
     expect(container.textContent).not.toContain('Platform');

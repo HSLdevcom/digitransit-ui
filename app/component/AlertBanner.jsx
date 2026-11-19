@@ -14,12 +14,8 @@ export default function AlertBanner({ alerts, linkAddress }) {
   if (!message && !header) {
     return null;
   }
-  const icon =
-    alert.alertSeverityLevel !== 'INFO'
-      ? 'icon_caution_white_exclamation'
-      : 'icon_info';
-  const iconColor =
-    alert.alertSeverityLevel !== 'INFO' ? colors.caution : '#888';
+  const icon = alert.alertSeverityLevel !== 'INFO' ? 'icon_caution_white_exclamation' : 'icon_info';
+  const iconColor = alert.alertSeverityLevel !== 'INFO' ? colors.caution : '#888';
   return (
     <Link
       className={`alert-banner-link ${alert.alertSeverityLevel.toLowerCase()}`}

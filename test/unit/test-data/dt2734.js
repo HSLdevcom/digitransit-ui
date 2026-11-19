@@ -4,11 +4,7 @@ export default {
       canceled: false,
       isArrival: false,
       stoptime: 1536747289,
-      stop: {
-        __dataID__: 'U3RvcDpLdW9waW86MjAxNDgw',
-        code: '1214',
-        platformCode: null,
-      },
+      stop: { __dataID__: 'U3RvcDpLdW9waW86MjAxNDgw', code: '1214', platformCode: null },
       realtime: true,
       pattern: {
         __dataID__: 'UGF0dGVybjpLdW9waW86MjE6MDowNA==',
@@ -20,17 +16,13 @@ export default {
           mode: 'BUS',
           color: null,
           alerts: [],
-          agency: {
-            __dataID__: 'QWdlbmN5OjQ0NTE3',
-            name: 'Kuopion Liikenne Oy',
-          },
+          agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
         },
         code: 'Kuopio:21:0:04',
       },
       headsign: null,
       trip: {
-        __dataID__:
-          'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMV8yMV84MjExXzFfTWEtUGVfMTIzOA==',
+        __dataID__: 'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMV8yMV84MjExXzFfTWEtUGVfMTIzOA==',
         gtfsId: 'Kuopio:Talvikausi_21_21_8211_1_Ma-Pe_1238',
         tripHeadsign: 'Pirttiniemi',
         pattern: {
@@ -43,10 +35,7 @@ export default {
             mode: 'BUS',
             color: null,
             alerts: [],
-            agency: {
-              __dataID__: 'QWdlbmN5OjQ0NTE3',
-              name: 'Kuopion Liikenne Oy',
-            },
+            agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
           },
           code: 'Kuopio:21:0:04',
         },
@@ -65,11 +54,7 @@ export default {
       canceled: false,
       isArrival: false,
       stoptime: 1536753120,
-      stop: {
-        __dataID__: 'U3RvcDpLdW9waW86MjAxMjgy',
-        code: '1909',
-        platformCode: null,
-      },
+      stop: { __dataID__: 'U3RvcDpLdW9waW86MjAxMjgy', code: '1909', platformCode: null },
       realtime: false,
       pattern: {
         __dataID__: 'UGF0dGVybjpLdW9waW86MjA6MDowMQ==',
@@ -81,17 +66,13 @@ export default {
           mode: 'BUS',
           color: null,
           alerts: [],
-          agency: {
-            __dataID__: 'QWdlbmN5OjQ0NTE3',
-            name: 'Kuopion Liikenne Oy',
-          },
+          agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
         },
         code: 'Kuopio:20:0:01',
       },
       headsign: 'Keskusta',
       trip: {
-        __dataID__:
-          'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMF8yMF84MjAxXzIwMTAyMDE0X01hLVBlXzE0NTA=',
+        __dataID__: 'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMF8yMF84MjAxXzIwMTAyMDE0X01hLVBlXzE0NTA=',
         gtfsId: 'Kuopio:Talvikausi_20_20_8201_20102014_Ma-Pe_1450',
         tripHeadsign: 'Keskusta',
         pattern: {
@@ -104,10 +85,7 @@ export default {
             mode: 'BUS',
             color: null,
             alerts: [],
-            agency: {
-              __dataID__: 'QWdlbmN5OjQ0NTE3',
-              name: 'Kuopion Liikenne Oy',
-            },
+            agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
           },
           code: 'Kuopio:20:0:01',
         },
@@ -126,11 +104,7 @@ export default {
       canceled: false,
       isArrival: false,
       stoptime: 1536747289,
-      stop: {
-        __dataID__: 'U3RvcDpLdW9waW86MjAxNDgw',
-        code: '1214',
-        platformCode: null,
-      },
+      stop: { __dataID__: 'U3RvcDpLdW9waW86MjAxNDgw', code: '1214', platformCode: null },
       realtime: true,
       pattern: {
         __dataID__: 'UGF0dGVybjpLdW9waW86MjE6MDowNA==',
@@ -142,17 +116,13 @@ export default {
           mode: 'BUS',
           color: null,
           alerts: [],
-          agency: {
-            __dataID__: 'QWdlbmN5OjQ0NTE3',
-            name: 'Kuopion Liikenne Oy',
-          },
+          agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
         },
         code: 'Kuopio:21:0:04',
       },
       headsign: null,
       trip: {
-        __dataID__:
-          'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMV8yMV84MjExXzFfTWEtUGVfMTIzOA==',
+        __dataID__: 'VHJpcDpLdW9waW86VGFsdmlrYXVzaV8yMV8yMV84MjExXzFfTWEtUGVfMTIzOA==',
         gtfsId: 'Kuopio:Talvikausi_21_21_8211_1_Ma-Pe_1238',
         tripHeadsign: null,
         pattern: {
@@ -165,10 +135,7 @@ export default {
             mode: 'BUS',
             color: null,
             alerts: [],
-            agency: {
-              __dataID__: 'QWdlbmN5OjQ0NTE3',
-              name: 'Kuopion Liikenne Oy',
-            },
+            agency: { __dataID__: 'QWdlbmN5OjQ0NTE3', name: 'Kuopion Liikenne Oy' },
           },
           code: 'Kuopio:21:0:04',
         },

@@ -18,11 +18,9 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
       getRentalNetworkConfig(vehicleRentalStationNetwork, config),
     );
     const vehicleRentalStationNetworkDurationInfoLink =
-      config.vehicleRental.networks[vehicleRentalStationNetwork]
-        .durationInstructions[lang];
+      config.vehicleRental.networks[vehicleRentalStationNetwork].durationInstructions[lang];
     const duration =
-      config.vehicleRental.networks[vehicleRentalStationNetwork]
-        .timeBeforeSurcharge / 60;
+      config.vehicleRental.networks[vehicleRentalStationNetwork].timeBeforeSurcharge / 60;
 
     return (
       <div className="citybike-duration-infobox">
@@ -38,17 +36,9 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
             />
           </span>
           <p>
-            <FormattedMessage
-              id="citybike-duration-info"
-              values={{ duration }}
-              defaultMessage=""
-            />
+            <FormattedMessage id="citybike-duration-info" values={{ duration }} defaultMessage="" />
             &nbsp;
-            <a
-              href={vehicleRentalStationNetworkDurationInfoLink}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={vehicleRentalStationNetworkDurationInfoLink} target="_blank" rel="noreferrer">
               <FormattedMessage id="read-more" defaultMessage="Read more" /> ›
             </a>
           </p>
@@ -57,9 +47,7 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
     );
   }
 
-  const citybikeIcon = getRentalNetworkIcon(
-    getRentalNetworkConfig(networks[0], config),
-  );
+  const citybikeIcon = getRentalNetworkIcon(getRentalNetworkConfig(networks[0], config));
 
   return (
     <div className="citybike-duration-infobox">
@@ -68,20 +56,13 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
       </div>
       <div className="right-column">
         <span>
-          <FormattedMessage
-            id="citybike-duration-general-header"
-            defaultMessage=""
-          />
+          <FormattedMessage id="citybike-duration-general-header" defaultMessage="" />
         </span>
         <p>
           {networks.map(value => (
             <Fragment key={value}>
               <a
-                href={
-                  config.vehicleRental.networks[value].durationInstructions[
-                    lang
-                  ]
-                }
+                href={config.vehicleRental.networks[value].durationInstructions[lang]}
                 target="_blank"
                 rel="noreferrer"
               >
@@ -99,8 +80,6 @@ export default function VehicleRentalDurationInfo({ networks, config }) {
 }
 
 VehicleRentalDurationInfo.propTypes = {
-  networks: PropTypes.arrayOf(
-    PropTypes.oneOfType([PropTypes.string, PropTypes.array]),
-  ).isRequired,
+  networks: PropTypes.arrayOf(PropTypes.oneOfType([PropTypes.string, PropTypes.array])).isRequired,
   config: configShape.isRequired,
 };

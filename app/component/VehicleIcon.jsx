@@ -35,17 +35,11 @@ const getTextOffSet = length => {
 };
 
 const getSvgContent = (rotate, useLargeIcon) => {
-  const transform = useLargeIcon
-    ? 'translate(24 24) scale(1.3)'
-    : 'translate(10 10) scale(0.7)';
+  const transform = useLargeIcon ? 'translate(24 24) scale(1.3)' : 'translate(10 10) scale(0.7)';
   return rotate ? (
     <g transform={`rotate(${(rotate || 0) + 180} 40 40)`}>
       <use
-        xlinkHref={
-          useLargeIcon
-            ? '#icon_vehicle-live-marker'
-            : '#icon_all-vehicles-small'
-        }
+        xlinkHref={useLargeIcon ? '#icon_vehicle-live-marker' : '#icon_all-vehicles-small'}
         transform={transform}
       />
     </g>

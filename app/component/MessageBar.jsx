@@ -41,9 +41,7 @@ const fetchServiceAlerts = async (feedids, relayEnvironment) => {
     }
   `;
 
-  const result = await fetchQuery(relayEnvironment, query, {
-    feedids,
-  }).toPromise();
+  const result = await fetchQuery(relayEnvironment, query, { feedids }).toPromise();
   return result && Array.isArray(result.alerts) ? result.alerts : [];
 };
 
@@ -63,16 +61,10 @@ const toMessage = (alert, intl, config, lang) => {
   content[lang] = [
     {
       type: 'heading',
-      content: source
-        ? source.concat(alert.alertHeaderText)
-        : alert.alertHeaderText,
+      content: source ? source.concat(alert.alertHeaderText) : alert.alertHeaderText,
     },
     { type: 'text', content: alert.alertDescriptionText },
-    {
-      type: 'a',
-      content: intl.formatMessage({ id: 'extra-info' }),
-      href: alert.alertUrl,
-    },
+    { type: 'a', content: intl.formatMessage({ id: 'extra-info' }), href: alert.alertUrl },
   ];
 
   return {
@@ -90,13 +82,8 @@ const toMessage = (alert, intl, config, lang) => {
 const resolveContent = (msg, lang, intl) => {
   if (Array.isArray(msg.content)) {
     return msg.content
-      .filter(
-        item => !item.content || intl.messages[item.content] !== undefined,
-      )
-      .map(item => ({
-        ...item,
-        content: intl.formatMessage({ id: item.content }),
-      }));
+      .filter(item => !item.content || intl.messages[item.content] !== undefined)
+      .map(item => ({ ...item, content: intl.formatMessage({ id: item.content }) }));
   }
   return msg.content[lang] || msg.content.fi;
 };
@@ -109,16 +96,11 @@ const resolveContent = (msg, lang, intl) => {
  * value is a non-empty array whose first item carries actual content text.
  */
 const hasContent = (el, lang) => {
-  const resolved = Array.isArray(el.content)
-    ? el.content
-    : el.content[lang] || el.content.fi;
+  const resolved = Array.isArray(el.content) ? el.content : el.content[lang] || el.content.fi;
   return Array.isArray(resolved) && resolved.length > 0 && resolved[0].content;
 };
 
-export default function MessageBar({
-  getServiceAlertsAsync = fetchServiceAlerts,
-  breakpoint,
-}) {
+export default function MessageBar({ getServiceAlertsAsync = fetchServiceAlerts, breakpoint }) {
   const currentTime = useCurrentTime();
   const intl = useIntl();
   const config = useConfigContext();
@@ -136,9 +118,7 @@ export default function MessageBar({
   // aren't part of MessageContext's own message state) reliably triggers a
   // re-render even when slideIndex doesn't change (e.g. closing the only/
   // last message, where setSlideIndex(0) would otherwise be a no-op).
-  const [readMessageIds, setReadMessageIds] = useState(() =>
-    getReadMessageIds(),
-  );
+  const [readMessageIds, setReadMessageIds] = useState(() => getReadMessageIds());
 
   const onSwipe = e => {
     setSlideIndex(e);
@@ -151,9 +131,7 @@ export default function MessageBar({
   // Runs once on mount; alert filtering captures the mount-time currentTime.
   useEffect(() => {
     const feedIds =
-      Array.isArray(config.feedIds) && config.feedIds.length > 0
-        ? config.feedIds
-        : null;
+      Array.isArray(config.feedIds) && config.feedIds.length > 0 ? config.feedIds : null;
     if (config.messageBarAlerts) {
       getServiceAlertsAsync(feedIds, relayEnvironment)
         .then(alerts => {
@@ -162,8 +140,7 @@ export default function MessageBar({
             uniqBy(
               alerts.filter(
                 alert =>
-                  alert.effectiveStartDate <= currentTime &&
-                  alert.effectiveEndDate >= currentTime,
+                  alert.effectiveStartDate <= currentTime && alert.effectiveEndDate >= currentTime,
               ),
               alert => alert.alertHash,
             ),
@@ -184,9 +161,7 @@ export default function MessageBar({
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
     return [
-      ...filteredServiceAlerts.map(alert =>
-        toMessage(alert, intl, config, lang),
-      ),
+      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config, lang)),
       ...messages,
     ].filter(el => hasContent(el, lang));
   };
@@ -211,9 +186,7 @@ export default function MessageBar({
 
     setSlideIndex(Math.max(0, index - 1));
     markMessageAsRead(msgId);
-    setReadMessageIds(prevIds =>
-      prevIds.indexOf(msgId) === -1 ? [...prevIds, msgId] : prevIds,
-    );
+    setReadMessageIds(prevIds => (prevIds.indexOf(msgId) === -1 ? [...prevIds, msgId] : prevIds));
   };
 
   if (!ready) {
@@ -247,9 +220,7 @@ export default function MessageBar({
   return (
     <>
       <span className="sr-only" role="alert">
-        {currentMessages.map(el =>
-          ariaContent(resolveContent(el, lang, intl), el.id),
-        )}
+        {currentMessages.map(el => ariaContent(resolveContent(el, lang, intl), el.id))}
       </span>
       <section
         key={duplicateMessageCounter}
@@ -257,25 +228,10 @@ export default function MessageBar({
         className="message-bar flex-horizontal"
         style={{ background: backgroundColor }}
       >
-        <div
-          className={cx('banner-container', {
-            'banner-disruption': isDisruption,
-          })}
-        >
-          <Icon
-            img={iconName}
-            color={iconColor}
-            dataURI={dataURI}
-            className="message-icon"
-          />
-          <div
-            className={`message-bar-content message-bar-container message-bar-${type}`}
-          >
-            <div
-              style={{
-                background: isDisruption ? 'inherit' : backgroundColor,
-              }}
-            >
+        <div className={cx('banner-container', { 'banner-disruption': isDisruption })}>
+          <Icon img={iconName} color={iconColor} dataURI={dataURI} className="message-icon" />
+          <div className={`message-bar-content message-bar-container message-bar-${type}`}>
+            <div style={{ background: isDisruption ? 'inherit' : backgroundColor }}>
               {currentMessages.length > 1 ? (
                 <SwipeableTabs
                   tabIndex={index}
@@ -286,9 +242,7 @@ export default function MessageBar({
                   ariaRole="swipe-message-bar-tab"
                 />
               ) : (
-                <div className="single-alert">
-                  {getTabContent(textColor, slideIndex)}
-                </div>
+                <div className="single-alert">{getTabContent(textColor, slideIndex)}</div>
               )}
             </div>
           </div>
@@ -315,7 +269,4 @@ export default function MessageBar({
   );
 }
 
-MessageBar.propTypes = {
-  getServiceAlertsAsync: PropTypes.func,
-  breakpoint: PropTypes.string,
-};
+MessageBar.propTypes = { getServiceAlertsAsync: PropTypes.func, breakpoint: PropTypes.string };

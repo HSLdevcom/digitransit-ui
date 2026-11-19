@@ -6,18 +6,11 @@ import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';
 
-export default function TaxiLinkContainer({
-  operatorName,
-  infoUrl,
-  bookingUrl,
-  icon,
-}) {
+export default function TaxiLinkContainer({ operatorName, infoUrl, bookingUrl, icon }) {
   const operatorAppText = (
     <FormattedMessage
       id="open-operator-app"
-      values={{
-        operator: operatorName,
-      }}
+      values={{ operator: operatorName }}
       defaultMessage="Open the app to use a taxi"
     />
   );
@@ -44,22 +37,14 @@ export default function TaxiLinkContainer({
           </div>
           <div className="itinerary-with-link-text-container">
             <span className={cx('headsign', 'scooter-headsign')}>
-              <ExternalLink
-                className="rental-vehicle-link"
-                href={url}
-                onClick={onClick}
-              >
+              <ExternalLink className="rental-vehicle-link" href={url} onClick={onClick}>
                 {operatorAppText}
               </ExternalLink>
             </span>
           </div>
         </div>
         <div className="link-to-e-scooter-operator">
-          <ExternalLink
-            className="rental-vehicle-link"
-            href={url}
-            onClick={onClick}
-          >
+          <ExternalLink className="rental-vehicle-link" href={url} onClick={onClick}>
             <Icon img="icon_external-link-box" height={1} width={1} />
           </ExternalLink>
         </div>

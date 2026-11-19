@@ -23,10 +23,7 @@ export default function configureCountry(config, selectedCountries) {
     if (!config.searchParams) {
       config.searchParams = {};
     }
-    config.searchParams = {
-      ...config.searchParams,
-      'boundary.country': boundaries,
-    };
+    config.searchParams = { ...config.searchParams, 'boundary.country': boundaries };
     config.feedIds = feedIds;
   }
 }

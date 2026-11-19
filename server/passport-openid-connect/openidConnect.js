@@ -41,12 +41,10 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
   const logoutCallbackPath = '/logout/callback';
   // Use Passport with OpenId Connect strategy to authenticate users
   const OIDCHost = process.env.OIDCHOST || 'https://hslid-dev.t5.fi';
-  const FavouriteHost =
-    process.env.FAVOURITE_HOST || 'https://dev-api.digitransit.fi/favourites';
+  const FavouriteHost = process.env.FAVOURITE_HOST || 'https://dev-api.digitransit.fi/favourites';
 
   const NotificationHost =
-    process.env.NOTIFICATION_HOST ||
-    'https://cms-test.hslfi.hsldev.com/user/api/v1/notifications';
+    process.env.NOTIFICATION_HOST || 'https://cms-test.hslfi.hsldev.com/user/api/v1/notifications';
 
   const RedisHost = process.env.REDIS_HOST || 'localhost';
   const RedisPort = process.env.REDIS_PORT || 6379;
@@ -59,19 +57,14 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     : redis.createClient(RedisPort, RedisHost);
 
   const redirectUris = hostnames.map(host => `${host}${callbackPath}`);
-  const postLogoutRedirectUris = hostnames.map(
-    host => `${host}${logoutCallbackPath}`,
-  );
+  const postLogoutRedirectUris = hostnames.map(host => `${host}${logoutCallbackPath}`);
   if (process.env.NODE_ENV === 'development') {
     redirectUris.push(`http://localhost:${port}${callbackPath}`);
-    postLogoutRedirectUris.push(
-      `http://localhost:${port}${logoutCallbackPath}`,
-    );
+    postLogoutRedirectUris.push(`http://localhost:${port}${logoutCallbackPath}`);
   }
 
   const oic = new LoginStrategy({
-    issuerHost:
-      process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
+    issuerHost: process.env.OIDC_ISSUER || `${OIDCHost}/.well-known/openid-configuration`,
     client_id: process.env.OIDC_CLIENT_ID,
     client_secret: process.env.OIDC_CLIENT_SECRET,
     redirect_uris: redirectUris,
@@ -105,8 +98,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
     // Query parameter is string type
     if (
       req.query.sso !== 'false' &&
-      (req.path === `/${indexPath}` ||
-        paths.some(path => req.path.includes(path))) &&
+      (req.path === `/${indexPath}` || paths.some(path => req.path.includes(path))) &&
       !req.isAuthenticated() &&
       ssoToken &&
       ssoValidTo &&
@@ -116,10 +108,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         .map(k => `${k}=${req.query[k]}`)
         .join('&');
       if (debugLogging) {
-        console.log(
-          'redirecting to login with sso token ',
-          JSON.stringify(ssoToken),
-        );
+        console.log('redirecting to login with sso token ', JSON.stringify(ssoToken));
       }
       res.set('Cache-Control', 'private, no-store');
       res.vary('Cookie');
@@ -271,8 +260,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
       audit('sso_set', req);
       req.session.ssoToken = req.query['sso-token'];
       req.session.ssoValidTo =
-        Number(req.query['sso-validity']) * 60 +
-        Math.floor(new Date().getTime() / 1000);
+        Number(req.query['sso-validity']) * 60 + Math.floor(new Date().getTime() / 1000);
       res.send();
     }
   });
@@ -310,10 +298,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         if (response && response.status && response.data) {
           const sessionSub = req.user?.data?.sub;
           const match = response.data.sub === sessionSub;
-          audit('api_user', req, {
-            idpSub: hash(response.data.sub),
-            match,
-          });
+          audit('api_user', req, { idpSub: hash(response.data.sub), match });
           if (!match) {
             console.error(
               `AUTH_AUDIT_MISMATCH sid=${hash(req.sessionID)} sessionSub=${hash(
@@ -327,10 +312,7 @@ export default function setUpOIDC(app, port, indexPath, hostnames) {
         }
       })
       .catch(function (err) {
-        audit('api_user_failed', req, {
-          status: err?.response?.status,
-          error: err?.message,
-        });
+        audit('api_user_failed', req, { status: err?.response?.status, error: err?.message });
         errorHandler(res, err);
       });
   });

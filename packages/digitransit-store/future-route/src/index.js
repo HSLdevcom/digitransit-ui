@@ -23,16 +23,10 @@ const DEFAULT_ITINERARY_PREFIX = 'reitti';
  */
 export function createUrl(item, pathOpts) {
   const props = item.properties;
-  if (
-    props.origin?.coordinates &&
-    props.destination?.coordinates &&
-    props.time
-  ) {
+  if (props.origin?.coordinates && props.destination?.coordinates && props.time) {
     const oLoc = props.origin.localadmin ? `, ${props.origin.localadmin}` : '';
     const oAddr = `${props.origin.name}${oLoc}`;
-    const dLoc = props.destination.localadmin
-      ? `, ${props.destination.localadmin}`
-      : '';
+    const dLoc = props.destination.localadmin ? `, ${props.destination.localadmin}` : '';
     const dAddr = `${props.destination.name}${dLoc}`;
 
     let prefix;
@@ -69,10 +63,7 @@ function createRouteLocation(location) {
     // array, so this reconstructs the original localadmin string regardless
     // of whether it itself contained a comma.
     localadmin: localadminParts.join(', '),
-    coordinates: {
-      lat: location.coordinates.lat,
-      lon: location.coordinates.lon,
-    },
+    coordinates: { lat: location.coordinates.lat, lon: location.coordinates.lon },
   };
 }
 
@@ -134,22 +125,14 @@ export function addFutureRoute(item, collection) {
   const newId = searchId(routeToAdd.properties);
 
   const futureRoutes = collection
-    ? collection.filter(
-        r =>
-          Number(r.properties.time) > future &&
-          searchId(r.properties) !== newId,
-      )
+    ? collection.filter(r => Number(r.properties.time) > future && searchId(r.properties) !== newId)
     : [];
   if (time <= future) {
     return futureRoutes;
   }
   const sortedItems = sortBy(
     [...futureRoutes, routeToAdd],
-    [
-      'properties.time',
-      'properties.origin.name',
-      'properties.destination.name',
-    ],
+    ['properties.time', 'properties.origin.name', 'properties.destination.name'],
   );
   return sortedItems;
 }

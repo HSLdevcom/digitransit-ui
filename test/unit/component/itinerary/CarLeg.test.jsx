@@ -22,9 +22,7 @@ const baseProps = {
 
 describe('<CarLeg />', () => {
   it('renders the origin address and the drive distance/duration', () => {
-    const { container } = renderWithProviders(<CarLeg {...baseProps} />, {
-      config: baseConfig,
-    });
+    const { container } = renderWithProviders(<CarLeg {...baseProps} />, { config: baseConfig });
     expect(container.textContent).toContain('Start Street');
     expect(container.textContent).toContain('Drive');
   });
@@ -49,23 +47,19 @@ describe('<CarLeg />', () => {
 
   it('calls focusAction when the address map action is clicked', () => {
     const focusAction = vi.fn();
-    const { container } = renderWithProviders(
-      <CarLeg {...baseProps} focusAction={focusAction} />,
-      { config: baseConfig },
-    );
-    const [addressMapAction] = container.querySelectorAll(
-      '.itinerary-map-action',
-    );
+    const { container } = renderWithProviders(<CarLeg {...baseProps} focusAction={focusAction} />, {
+      config: baseConfig,
+    });
+    const [addressMapAction] = container.querySelectorAll('.itinerary-map-action');
     fireEvent.click(addressMapAction);
     expect(focusAction).toHaveBeenCalledTimes(1);
   });
 
   it('calls focusToLeg when the drive summary map action is clicked', () => {
     const focusToLeg = vi.fn();
-    const { container } = renderWithProviders(
-      <CarLeg {...baseProps} focusToLeg={focusToLeg} />,
-      { config: baseConfig },
-    );
+    const { container } = renderWithProviders(<CarLeg {...baseProps} focusToLeg={focusToLeg} />, {
+      config: baseConfig,
+    });
     const mapActions = container.querySelectorAll('.itinerary-map-action');
     fireEvent.click(mapActions[mapActions.length - 1]);
     expect(focusToLeg).toHaveBeenCalledTimes(1);

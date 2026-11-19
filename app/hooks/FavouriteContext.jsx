@@ -1,20 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import PropTypes from 'prop-types';
-import favouriteStore, {
-  getPersonalizationPreferences,
-} from '../data/FavouriteData';
+import favouriteStore, { getPersonalizationPreferences } from '../data/FavouriteData';
 import { useMessageActions } from './MessageContext';
-import {
-  failedFavouriteMessage,
-  favouriteTypes,
-} from '../../utils/client/messageUtils';
+import { failedFavouriteMessage, favouriteTypes } from '../../utils/client/messageUtils';
 import { useConfigContext } from './ConfigContext';
 
 const FavouriteContext = createContext({
@@ -33,8 +21,7 @@ const FavouriteContext = createContext({
 
 export const useFavourites = () => useContext(FavouriteContext).favourites;
 
-export const useFavouriteStatus = () =>
-  useContext(FavouriteContext).favouriteStatus;
+export const useFavouriteStatus = () => useContext(FavouriteContext).favouriteStatus;
 
 /**
  * Whether any current stop/station/bikeStation favourite is available
@@ -53,8 +40,7 @@ export const useFavouriteActions = () => useContext(FavouriteContext).actions;
  * getPersonalizationPreferences() in data/FavouriteData.js), kept in sync
  * with the other favourites hooks above.
  */
-export const usePersonalizationPreferences = () =>
-  getPersonalizationPreferences(useFavourites());
+export const usePersonalizationPreferences = () => getPersonalizationPreferences(useFavourites());
 
 function resolveFavouriteType(data) {
   const item = Array.isArray(data) ? data[0] : data;
@@ -67,9 +53,7 @@ export function FavouriteProvider({ children = null }) {
   const config = useConfigContext();
   const { addMessage } = useMessageActions();
   const [favourites, setFavourites] = useState(favouriteStore.getFavourites());
-  const [favouriteStatus, setFavouriteStatus] = useState(
-    favouriteStore.getStatus(),
-  );
+  const [favouriteStatus, setFavouriteStatus] = useState(favouriteStore.getStatus());
   const [hasOtpLocationFavourites, setHasOtpLocationFavourites] = useState(
     favouriteStore.getHasOtpLocationFavourites(),
   );
@@ -103,9 +87,7 @@ export function FavouriteProvider({ children = null }) {
   const actions = useMemo(
     () => ({
       saveFavourite: data =>
-        favouriteStore.saveFavourite(data, () =>
-          notifyFailure(resolveFavouriteType(data), true),
-        ),
+        favouriteStore.saveFavourite(data, () => notifyFailure(resolveFavouriteType(data), true)),
       updateFavourites: newFavourites =>
         favouriteStore.updateFavourites(newFavourites, () =>
           notifyFailure(resolveFavouriteType(newFavourites), true),
@@ -130,13 +112,7 @@ export function FavouriteProvider({ children = null }) {
     [favourites, favouriteStatus, hasOtpLocationFavourites, actions],
   );
 
-  return (
-    <FavouriteContext.Provider value={value}>
-      {children}
-    </FavouriteContext.Provider>
-  );
+  return <FavouriteContext.Provider value={value}>{children}</FavouriteContext.Provider>;
 }
 
-FavouriteProvider.propTypes = {
-  children: PropTypes.node,
-};
+FavouriteProvider.propTypes = { children: PropTypes.node };

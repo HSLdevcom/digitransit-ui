@@ -54,9 +54,7 @@ function resolveRelative(fromFile, specifier) {
     ...['index.js', 'index.jsx'].map(index => path.join(base, index)),
   ].find(
     candidate =>
-      CODE_FILE.test(candidate) &&
-      fs.existsSync(candidate) &&
-      fs.statSync(candidate).isFile(),
+      CODE_FILE.test(candidate) && fs.existsSync(candidate) && fs.statSync(candidate).isFile(),
   );
 }
 
@@ -99,17 +97,13 @@ function collectJsSpecifiers(node, specifiers) {
 function importSpecifiers(file) {
   const source = fs.readFileSync(file, 'utf8');
   if (file.endsWith('.scss')) {
-    const withoutComments = source
-      .replace(/\/\*[\s\S]*?\*\//g, '')
-      .replace(/\/\/.*$/gm, '');
+    const withoutComments = source.replace(/\/\*[\s\S]*?\*\//g, '').replace(/\/\/.*$/gm, '');
     return [...withoutComments.matchAll(/@(?:import|use|forward)\s+([^;]+);/g)]
       .flatMap(([, list]) => [...list.matchAll(/['"]([^'"]+)['"]/g)])
       .map(([, specifier]) => specifier)
       .filter(specifier => !specifier.startsWith('sass:'))
       .map(specifier =>
-        specifier.startsWith('~')
-          ? specifier.slice(1)
-          : `./${specifier.replace(/^\.\//, '')}`,
+        specifier.startsWith('~') ? specifier.slice(1) : `./${specifier.replace(/^\.\//, '')}`,
       );
   }
   const ast = parseSync(source, {
@@ -159,9 +153,7 @@ function collectImports(entry) {
 function findPackages() {
   const { workspaces } = readJson(path.join(repoRoot, 'package.json'));
   return workspaces
-    .flatMap(pattern =>
-      fs.globSync(path.join(pattern, 'package.json'), { cwd: repoRoot }),
-    )
+    .flatMap(pattern => fs.globSync(path.join(pattern, 'package.json'), { cwd: repoRoot }))
     .map(packageJsonPath => ({
       directory: path.join(repoRoot, path.dirname(packageJsonPath)),
       packageJson: readJson(path.join(repoRoot, packageJsonPath)),
@@ -169,11 +161,7 @@ function findPackages() {
     .filter(({ packageJson }) => !packageJson.private);
 }
 
-function checkPackage(
-  { directory, packageJson },
-  packagesByName,
-  rootVersions,
-) {
+function checkPackage({ directory, packageJson }, packagesByName, rootVersions) {
   const dependencies = packageJson.dependencies || {};
   const peers = packageJson.peerDependencies || {};
   const entry = findEntryPoint(directory);
@@ -181,16 +169,12 @@ function checkPackage(
     return ['has no src/index.js(x) or index.js(x) entry point'];
   }
   const { imported, unresolved } = collectImports(entry);
-  const errors = unresolved.map(
-    specifier => `can't resolve relative import ${specifier}`,
-  );
+  const errors = unresolved.map(specifier => `can't resolve relative import ${specifier}`);
 
   const passThroughPeers = new Set(
     Object.keys(dependencies)
       .filter(name => packagesByName.has(name))
-      .flatMap(name =>
-        Object.keys(packagesByName.get(name).peerDependencies || {}),
-      ),
+      .flatMap(name => Object.keys(packagesByName.get(name).peerDependencies || {})),
   );
 
   imported.forEach(name => {
@@ -214,10 +198,7 @@ function checkPackage(
     if (name in peers) {
       errors.push(`"${name}" is both a dependency and a peerDependency`);
     }
-    if (
-      name.startsWith('@hsl-fi/') &&
-      !HSL_FI_DEPENDENCY_EXCEPTIONS.includes(name)
-    ) {
+    if (name.startsWith('@hsl-fi/') && !HSL_FI_DEPENDENCY_EXCEPTIONS.includes(name)) {
       errors.push(`"${name}" must be a peerDependency, not a dependency`);
     }
   });
@@ -231,9 +212,7 @@ function checkPackage(
     }
     const rootVersion = rootVersions[name];
     if (!rootVersion) {
-      errors.push(
-        `peerDependency "${name}" isn't in the root package.json's dependencies`,
-      );
+      errors.push(`peerDependency "${name}" isn't in the root package.json's dependencies`);
       return;
     }
     const expected = `^${rootVersion.replace(/^[\^~]/, '')}`;
@@ -251,9 +230,7 @@ function checkPackage(
 // dependencies count.
 const rootVersions = readJson(path.join(repoRoot, 'package.json')).dependencies;
 const packages = findPackages();
-const packagesByName = new Map(
-  packages.map(({ packageJson }) => [packageJson.name, packageJson]),
-);
+const packagesByName = new Map(packages.map(({ packageJson }) => [packageJson.name, packageJson]));
 
 let failed = false;
 packages.forEach(pkg => {
@@ -264,14 +241,8 @@ packages.forEach(pkg => {
 });
 
 if (failed) {
-  console.error(
-    red('\nSee "Dependency Classification" in docs/Packages.md for the rules.'),
-  );
+  console.error(red('\nSee "Dependency Classification" in docs/Packages.md for the rules.'));
   process.exit(1);
 }
 
-console.log(
-  green(
-    `✓ All ${packages.length} packages declare their dependencies correctly.`,
-  ),
-);
+console.log(green(`✓ All ${packages.length} packages declare their dependencies correctly.`));

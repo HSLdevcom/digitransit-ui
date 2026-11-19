@@ -20,51 +20,27 @@ describe('<ScheduleHeader />', () => {
   };
 
   it('should display the selected origin and destination names', () => {
-    const { container } = renderWithProviders(
-      <ScheduleHeader {...defaultProps} />,
-    );
-    expect(
-      container.querySelector('.printable-stop-header_from').textContent,
-    ).toBe('First Stop');
-    expect(
-      container.querySelector('.printable-stop-header_to').textContent,
-    ).toBe('Fourth Stop');
+    const { container } = renderWithProviders(<ScheduleHeader {...defaultProps} />);
+    expect(container.querySelector('.printable-stop-header_from').textContent).toBe('First Stop');
+    expect(container.querySelector('.printable-stop-header_to').textContent).toBe('Fourth Stop');
   });
 
   it('should update displayed names when the selected stops change', () => {
-    const { container } = renderWithProviders(
-      <ScheduleHeader {...defaultProps} from={2} to={3} />,
-    );
-    expect(
-      container.querySelector('.printable-stop-header_from').textContent,
-    ).toBe('Third Stop');
-    expect(
-      container.querySelector('.printable-stop-header_to').textContent,
-    ).toBe('Fourth Stop');
+    const { container } = renderWithProviders(<ScheduleHeader {...defaultProps} from={2} to={3} />);
+    expect(container.querySelector('.printable-stop-header_from').textContent).toBe('Third Stop');
+    expect(container.querySelector('.printable-stop-header_to').textContent).toBe('Fourth Stop');
   });
 
   it('should update only the origin display when origin changes', () => {
-    const { container } = renderWithProviders(
-      <ScheduleHeader {...defaultProps} from={2} />,
-    );
-    expect(
-      container.querySelector('.printable-stop-header_from').textContent,
-    ).toBe('Third Stop');
-    expect(
-      container.querySelector('.printable-stop-header_to').textContent,
-    ).toBe('Fourth Stop');
+    const { container } = renderWithProviders(<ScheduleHeader {...defaultProps} from={2} />);
+    expect(container.querySelector('.printable-stop-header_from').textContent).toBe('Third Stop');
+    expect(container.querySelector('.printable-stop-header_to').textContent).toBe('Fourth Stop');
   });
 
   it('should update only the destination display when destination changes', () => {
-    const { container } = renderWithProviders(
-      <ScheduleHeader {...defaultProps} to={1} />,
-    );
-    expect(
-      container.querySelector('.printable-stop-header_from').textContent,
-    ).toBe('First Stop');
-    expect(
-      container.querySelector('.printable-stop-header_to').textContent,
-    ).toBe('Second Stop');
+    const { container } = renderWithProviders(<ScheduleHeader {...defaultProps} to={1} />);
+    expect(container.querySelector('.printable-stop-header_from').textContent).toBe('First Stop');
+    expect(container.querySelector('.printable-stop-header_to').textContent).toBe('Second Stop');
   });
 
   it('should only offer origin stops before the destination', () => {
@@ -100,11 +76,7 @@ describe('<ScheduleHeader />', () => {
       id: `stop${i}`,
       name: `Stop ${i + 1}`,
     }));
-    const { fromOptions, toOptions } = getScheduleHeaderOptions(
-      manyStops,
-      0,
-      19,
-    );
+    const { fromOptions, toOptions } = getScheduleHeaderOptions(manyStops, 0, 19);
     expect(fromOptions).toHaveLength(19);
     expect(toOptions).toHaveLength(19);
   });

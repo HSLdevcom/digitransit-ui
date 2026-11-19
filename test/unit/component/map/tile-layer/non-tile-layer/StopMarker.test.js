@@ -94,11 +94,7 @@ describe('StopMarker', () => {
     });
 
     it('should cap the effective zoom to limitZoom when provided', () => {
-      const limited = getStopIconRadii(20, {
-        limitZoom: 12,
-        transfer: false,
-        selected: false,
-      });
+      const limited = getStopIconRadii(20, { limitZoom: 12, transfer: false, selected: false });
       const unlimited = getStopIconRadii(20, {
         limitZoom: undefined,
         transfer: false,
@@ -189,9 +185,7 @@ describe('StopMarker', () => {
     });
 
     it('should add disable-icon-border when requested', () => {
-      expect(getStopIconClassName('BUS', true)).to.equal(
-        'BUS cursor-pointer disable-icon-border',
-      );
+      expect(getStopIconClassName('BUS', true)).to.equal('BUS cursor-pointer disable-icon-border');
     });
   });
 });

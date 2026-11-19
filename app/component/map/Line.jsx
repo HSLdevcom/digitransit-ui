@@ -119,10 +119,7 @@ Line.propTypes = {
   color: PropTypes.string,
   mode: PropTypes.string.isRequired,
   geometry: PropTypes.arrayOf(
-    PropTypes.oneOfType([
-      PropTypes.object,
-      PropTypes.arrayOf(PropTypes.number),
-    ]),
+    PropTypes.oneOfType([PropTypes.object, PropTypes.arrayOf(PropTypes.number)]),
   ).isRequired,
   appendClass: PropTypes.string,
 };

@@ -14,11 +14,7 @@ import { hslfiLocale } from '../../utils/client/hslfiLocale';
  * with our own stable classnames (see select-from-map-modal.scss) the first
  * time the content mounts.
  */
-export default function SelectFromMapModal({
-  title,
-  onClose,
-  children = null,
-}) {
+export default function SelectFromMapModal({ title, onClose, children = null }) {
   const setContentRef = useCallback(node => {
     if (!node) {
       return;

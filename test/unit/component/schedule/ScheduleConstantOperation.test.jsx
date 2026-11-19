@@ -22,18 +22,14 @@ describe('<ScheduleConstantOperation />', () => {
   };
 
   it('should display constant operation text', () => {
-    const { container } = renderWithProviders(
-      <ScheduleConstantOperation {...defaultProps} />,
+    const { container } = renderWithProviders(<ScheduleConstantOperation {...defaultProps} />);
+    expect(container.querySelector('.constant-operation-content').textContent).toContain(
+      'This route operates continuously 24/7.',
     );
-    expect(
-      container.querySelector('.constant-operation-content').textContent,
-    ).toContain('This route operates continuously 24/7.');
   });
 
   it('should open link in new tab', () => {
-    const { container } = renderWithProviders(
-      <ScheduleConstantOperation {...defaultProps} />,
-    );
+    const { container } = renderWithProviders(<ScheduleConstantOperation {...defaultProps} />);
     const link = container.querySelector('a');
 
     expect(link.getAttribute('target')).toBe('_blank');
@@ -42,13 +38,9 @@ describe('<ScheduleConstantOperation />', () => {
 
   it('should apply mobile class when breakpoint is not large', () => {
     const props = { ...defaultProps, breakpoint: 'small' };
-    const { container } = renderWithProviders(
-      <ScheduleConstantOperation {...props} />,
+    const { container } = renderWithProviders(<ScheduleConstantOperation {...props} />);
+    expect(container.querySelector('.route-schedule-container').classList.contains('mobile')).toBe(
+      true,
     );
-    expect(
-      container
-        .querySelector('.route-schedule-container')
-        .classList.contains('mobile'),
-    ).toBe(true);
   });
 });

@@ -25,10 +25,7 @@ export default function ScheduleDropdown({
 
   return (
     <div className="dd-container withLabel" aria-live="off">
-      <label
-        className={cx('dd-header-title', { 'align-right': alignRight })}
-        htmlFor={inputId}
-      >
+      <label className={cx('dd-header-title', { 'align-right': alignRight })} htmlFor={inputId}>
         {intl.formatMessage({ id })}
       </label>
       <div className={cx('dd-select', { 'align-right': alignRight })}>
@@ -40,11 +37,7 @@ export default function ScheduleDropdown({
           onChange={onChange}
         >
           {list.map(option => (
-            <SelectOption
-              key={option.value}
-              value={String(option.value)}
-              label={option.label}
-            />
+            <SelectOption key={option.value} value={String(option.value)} label={option.label} />
           ))}
         </DsSelect>
       </div>

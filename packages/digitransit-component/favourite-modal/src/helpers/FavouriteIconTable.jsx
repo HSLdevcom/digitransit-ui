@@ -5,23 +5,12 @@ import Icon from '@digitransit-component/digitransit-component-icon';
 import styles from './styles.scss';
 import i18n from './i18n';
 
-export const FAVOURITE_ICON_NAMES = [
-  'place',
-  'home',
-  'work',
-  'sport',
-  'school',
-  'shopping',
-];
+export const FAVOURITE_ICON_NAMES = ['place', 'home', 'work', 'sport', 'school', 'shopping'];
 
 export const toFavouriteIconId = name => `icon-icon_${name}`;
 
 /** Icon picker: one toggle button per favourite icon. */
-export default function FavouriteIconTable({
-  selectedIconId = '',
-  onSelect,
-  lang,
-}) {
+export default function FavouriteIconTable({ selectedIconId = '', onSelect, lang }) {
   const { t } = useTranslation('translation', { i18n });
 
   return (
@@ -32,9 +21,7 @@ export default function FavouriteIconTable({
           <button
             key={name}
             type="button"
-            className={cx(styles.iconButton, styles[name], {
-              [styles.selected]: selected,
-            })}
+            className={cx(styles.iconButton, styles[name], { [styles.selected]: selected })}
             aria-pressed={selected}
             aria-label={t(name, { lng: lang })}
             onClick={() => onSelect(name)}

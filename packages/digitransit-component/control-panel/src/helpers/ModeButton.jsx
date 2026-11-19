@@ -30,8 +30,7 @@ export default function ModeButton({
   };
 
   if (inModal) {
-    const titleKey =
-      modeSet === 'hsl' && mode === 'rail' ? 'rail_local' : `${mode}_short`;
+    const titleKey = modeSet === 'hsl' && mode === 'rail' ? 'rail_local' : `${mode}_short`;
     buttonProps.title = t(titleKey, { lng: language });
     buttonProps.titleWeight = MODAL_FONT_WEIGHT;
     buttonProps.withArrow = true;

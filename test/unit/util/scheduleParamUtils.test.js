@@ -23,9 +23,7 @@ describe('scheduleParamUtils', () => {
       });
 
       expect(decision.shouldRedirect).toBe(true);
-      expect(decision.query.serviceDay).toBe(
-        fixedNow.startOf('day').toFormat(DATE_FORMAT),
-      );
+      expect(decision.query.serviceDay).toBe(fixedNow.startOf('day').toFormat(DATE_FORMAT));
       expect(decision.redirectPath).toBeNull();
     });
 
@@ -36,24 +34,17 @@ describe('scheduleParamUtils', () => {
       });
 
       expect(decision.shouldRedirect).toBe(true);
-      expect(decision.query.serviceDay).toBe(
-        fixedNow.startOf('day').toFormat(DATE_FORMAT),
-      );
+      expect(decision.query.serviceDay).toBe(fixedNow.startOf('day').toFormat(DATE_FORMAT));
       expect(decision.redirectPath).toBeNull();
     });
 
     it('should redirect to route timetable when pattern code is missing', () => {
       const routeId = 'HSL:1001';
-      const decision = calculateRedirectDecision({
-        wantedDay: undefined,
-        routeId,
-      });
+      const decision = calculateRedirectDecision({ wantedDay: undefined, routeId });
 
       expect(decision.shouldRedirect).toBe(true);
       expect(decision.query).toEqual({});
-      expect(decision.redirectPath).toBe(
-        routePagePath(routeId, PREFIX_TIMETABLE),
-      );
+      expect(decision.redirectPath).toBe(routePagePath(routeId, PREFIX_TIMETABLE));
     });
 
     it('should not redirect when conditions are valid', () => {
@@ -82,9 +73,7 @@ describe('scheduleParamUtils', () => {
 
       expect(decision.shouldRedirect).toBe(true);
       expect(decision.redirectPath).toBeNull();
-      expect(decision.query.serviceDay).toBe(
-        firstAvailable.toFormat(DATE_FORMAT),
-      );
+      expect(decision.query.serviceDay).toBe(firstAvailable.toFormat(DATE_FORMAT));
     });
 
     it('should not redirect when wantedDay already matches the first available date', () => {

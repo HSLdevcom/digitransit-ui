@@ -20,9 +20,7 @@ export default function VehicleParkMap({ vehicleParking: vehicleParkingRef }) {
   if (!vehicleParking) {
     return false;
   }
-  const type = match.location.pathname.includes(PREFIX_BIKEPARK)
-    ? PREFIX_BIKEPARK
-    : PREFIX_CARPARK;
+  const type = match.location.pathname.includes(PREFIX_BIKEPARK) ? PREFIX_BIKEPARK : PREFIX_CARPARK;
 
   return <StopPageMap stop={vehicleParking} parkType={type} />;
 }

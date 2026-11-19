@@ -41,9 +41,7 @@ describe('Testing @digitransit-util/digitransit-util-filter-matching-to-input mo
       geometry: { coordinates: [lon, lat] },
     };
     const list = [testObj, testObj2];
-    const retValue = filterMatchingToInput(list, 'steissi', [
-      'properties.label',
-    ]);
+    const retValue = filterMatchingToInput(list, 'steissi', ['properties.label']);
     expect(testObj2).toBe(retValue[0]);
   });
 });

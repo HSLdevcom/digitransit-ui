@@ -18,6 +18,4 @@ export default function RentalVehicle({ rentalVehicle }) {
   );
 }
 
-RentalVehicle.propTypes = {
-  rentalVehicle: rentalVehicleShape.isRequired,
-};
+RentalVehicle.propTypes = { rentalVehicle: rentalVehicleShape.isRequired };

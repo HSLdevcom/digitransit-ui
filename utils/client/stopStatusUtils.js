@@ -20,9 +20,7 @@ export function severityToStatus(alertSeverityLevel) {
   if (!alertSeverityLevel) {
     return null;
   }
-  return alertSeverityLevel === AlertSeverityLevelType.Info
-    ? STOP_STATUS.INFO
-    : STOP_STATUS.ALERT;
+  return alertSeverityLevel === AlertSeverityLevelType.Info ? STOP_STATUS.INFO : STOP_STATUS.ALERT;
 }
 
 /**
@@ -44,8 +42,7 @@ export function isStopOutOfService({
 }) {
   return (
     !!closedByServiceAlert ||
-    (servicesRunningInFuture === false &&
-      servicesRunningOnServiceDate === false)
+    (servicesRunningInFuture === false && servicesRunningOnServiceDate === false)
   );
 }
 
@@ -121,10 +118,7 @@ export function combineStopStatuses(statusA, statusB) {
   if (statusB === null) {
     return statusA;
   }
-  if (
-    RED_LEVEL_STATUSES.includes(statusA) &&
-    RED_LEVEL_STATUSES.includes(statusB)
-  ) {
+  if (RED_LEVEL_STATUSES.includes(statusA) && RED_LEVEL_STATUSES.includes(statusB)) {
     return STOP_STATUS.ALERT;
   }
   return STOP_STATUS.INFO;
@@ -141,15 +135,11 @@ export function combineStopStatuses(statusA, statusB) {
  * @returns {string[]} list of unique active alert effects at the dominant severity tier
  */
 export function getStopAlertEffects(alerts, nowUnixTime) {
-  const activeAlerts = (alerts || []).filter(
-    alert => alert && isAlertValid(alert, nowUnixTime),
-  );
+  const activeAlerts = (alerts || []).filter(alert => alert && isAlertValid(alert, nowUnixTime));
   const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
   const isAlertTier = maxSeverity !== AlertSeverityLevelType.Info;
   const relevantAlerts = isAlertTier
-    ? activeAlerts.filter(
-        a => a.alertSeverityLevel !== AlertSeverityLevelType.Info,
-      )
+    ? activeAlerts.filter(a => a.alertSeverityLevel !== AlertSeverityLevelType.Info)
     : activeAlerts;
   return [...new Set(relevantAlerts.map(a => a.alertEffect).filter(Boolean))];
 }
@@ -200,9 +190,7 @@ export function resolveNoDeparturesBadge(
   if (!showStopStatusMarkers) {
     return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
-  const activeAlerts = (alerts || []).filter(
-    a => a && isAlertValid(a, currentTime),
-  );
+  const activeAlerts = (alerts || []).filter(a => a && isAlertValid(a, currentTime));
   if (isClosedByServiceAlert(activeAlerts)) {
     return {
       stopStatus: STOP_STATUS.OUT_OF_SERVICE,
@@ -259,18 +247,12 @@ export function getServiceAvailability(firstDeparture, nowUnixTime) {
   }
   const stoptime = firstDeparture?.[0];
   if (!stoptime) {
-    return {
-      servicesRunningOnServiceDate: false,
-      servicesRunningInFuture: false,
-    };
+    return { servicesRunningOnServiceDate: false, servicesRunningInFuture: false };
   }
-  const startOfDay = DateTime.fromSeconds(nowUnixTime)
-    .startOf('day')
-    .toUnixInteger();
+  const startOfDay = DateTime.fromSeconds(nowUnixTime).startOf('day').toUnixInteger();
   return {
     servicesRunningOnServiceDate:
-      stoptime.serviceDay + stoptime.realtimeDeparture <
-      startOfDay + DAY_SECONDS,
+      stoptime.serviceDay + stoptime.realtimeDeparture < startOfDay + DAY_SECONDS,
     servicesRunningInFuture: true,
   };
 }

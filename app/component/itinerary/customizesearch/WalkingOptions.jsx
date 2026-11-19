@@ -12,13 +12,7 @@ const roundToOneDecimal = number => {
   return rounded.toFixed(1).replace('.', ',');
 };
 
-const title = [
-  'option-least',
-  'option-less',
-  'option-default',
-  'option-more',
-  'option-most',
-];
+const title = ['option-least', 'option-less', 'option-default', 'option-more', 'option-most'];
 
 export default function WalkingOptions({ settings, updateSettings }) {
   const { defaultOptions, defaultSettings } = useConfigContext();
@@ -33,9 +27,7 @@ export default function WalkingOptions({ settings, updateSettings }) {
   const currentWalkSelection =
     options.find(option => option.value === settings.walkSpeed) ||
     options.find(
-      option =>
-        option.value ===
-        findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
+      option => option.value === findNearestOption(settings.walkSpeed, defaultOptions.walkSpeed),
     );
   const onToggle = () => {
     const newValue =
@@ -46,8 +38,7 @@ export default function WalkingOptions({ settings, updateSettings }) {
     addAnalyticsEvent({
       category: 'ItinerarySettings',
       action: 'ChangeAmountOfWalking',
-      name:
-        newValue === defaultOptions.highWalkReluctance ? 'avoid' : 'default',
+      name: newValue === defaultOptions.highWalkReluctance ? 'avoid' : 'default',
     });
   };
 
@@ -56,9 +47,7 @@ export default function WalkingOptions({ settings, updateSettings }) {
       <SearchSettingsDropdown
         currentSelection={currentWalkSelection}
         onOptionSelected={value => {
-          updateSettings({
-            walkSpeed: value,
-          });
+          updateSettings({ walkSpeed: value });
           addAnalyticsEvent({
             category: 'ItinerarySettings',
             action: 'ChangeWalkingSpeed',

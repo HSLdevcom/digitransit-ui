@@ -9,9 +9,7 @@ export default function AccessibilityOptions({ settings, updateSettings }) {
   const onToggle = () => {
     addAnalyticsEvent({
       category: 'ItinerarySettings',
-      action: `Settings${
-        settings.accessibilityOption ? 'Disable' : 'Enable'
-      }WheelChair`,
+      action: `Settings${settings.accessibilityOption ? 'Disable' : 'Enable'}WheelChair`,
       name: null,
     });
     updateSettings({ accessibilityOption: !settings.accessibilityOption });

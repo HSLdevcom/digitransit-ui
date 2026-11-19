@@ -16,6 +16,4 @@ export default function LoginButton({ loginUrl }) {
   );
 }
 
-LoginButton.propTypes = {
-  loginUrl: PropTypes.string.isRequired,
-};
+LoginButton.propTypes = { loginUrl: PropTypes.string.isRequired };

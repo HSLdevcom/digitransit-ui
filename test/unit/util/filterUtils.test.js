@@ -77,34 +77,19 @@ describe('filterAndSortAlerts', () => {
     });
 
     it("'ALL' always passes alerts regardless of dates", () => {
-      const alert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        validityPeriod: 'ALL',
-      });
+      const alert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, validityPeriod: 'ALL' });
       expect(result).toHaveLength(1);
     });
 
     it("'VALID' keeps alerts where now is within the start-end range", () => {
-      const alert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        validityPeriod: 'VALID',
-      });
+      const alert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, validityPeriod: 'VALID' });
       expect(result).toHaveLength(1);
     });
 
     it("'VALID' excludes alerts that have not started yet", () => {
-      const futureAlert = makeAlert({
-        effectiveStartDate: 2000,
-        effectiveEndDate: 5000,
-      });
+      const futureAlert = makeAlert({ effectiveStartDate: 2000, effectiveEndDate: 5000 });
       const result = filterAndSortAlerts([futureAlert], {
         ...baseFilters,
         validityPeriod: 'VALID',
@@ -113,22 +98,13 @@ describe('filterAndSortAlerts', () => {
     });
 
     it("'VALID' keeps an alert whose range starts exactly at now (inclusive lower bound)", () => {
-      const startsNow = makeAlert({
-        effectiveStartDate: nowSec,
-        effectiveEndDate: 2000,
-      });
-      const result = filterAndSortAlerts([startsNow], {
-        ...baseFilters,
-        validityPeriod: 'VALID',
-      });
+      const startsNow = makeAlert({ effectiveStartDate: nowSec, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([startsNow], { ...baseFilters, validityPeriod: 'VALID' });
       expect(result).toHaveLength(1);
     });
 
     it("'UPCOMING' keeps alerts whose start date is in the future", () => {
-      const upcomingAlert = makeAlert({
-        effectiveStartDate: 2000,
-        effectiveEndDate: 5000,
-      });
+      const upcomingAlert = makeAlert({ effectiveStartDate: 2000, effectiveEndDate: 5000 });
       const result = filterAndSortAlerts([upcomingAlert], {
         ...baseFilters,
         validityPeriod: 'UPCOMING',
@@ -137,10 +113,7 @@ describe('filterAndSortAlerts', () => {
     });
 
     it("'UPCOMING' excludes alerts that have already started", () => {
-      const startedAlert = makeAlert({
-        effectiveStartDate: 500,
-        effectiveEndDate: 2000,
-      });
+      const startedAlert = makeAlert({ effectiveStartDate: 500, effectiveEndDate: 2000 });
       const result = filterAndSortAlerts([startedAlert], {
         ...baseFilters,
         validityPeriod: 'UPCOMING',
@@ -152,65 +125,37 @@ describe('filterAndSortAlerts', () => {
   describe('vehicleModesFilter', () => {
     it('passes all alerts when vehicleModes is empty', () => {
       const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: [],
-      });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: [] });
       expect(result).toHaveLength(1);
     });
 
     it('matches Stop entities via vehicleMode property', () => {
-      const alert = makeAlert({
-        entities: [{ vehicleMode: 'BUS' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: ['BUS'],
-      });
+      const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: ['BUS'] });
       expect(result).toHaveLength(1);
     });
 
     it('matches Route entities via mode property', () => {
-      const alert = makeAlert({
-        entities: [{ mode: 'RAIL' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: ['RAIL'],
-      });
+      const alert = makeAlert({ entities: [{ mode: 'RAIL' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: ['RAIL'] });
       expect(result).toHaveLength(1);
     });
 
     it('matches StopOnRoute entities via route.mode property', () => {
-      const alert = makeAlert({
-        entities: [{ route: { mode: 'TRAM' } }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: ['TRAM'],
-      });
+      const alert = makeAlert({ entities: [{ route: { mode: 'TRAM' } }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: ['TRAM'] });
       expect(result).toHaveLength(1);
     });
 
     it('rejects alerts when no entity matches the selected modes', () => {
-      const alert = makeAlert({
-        entities: [{ vehicleMode: 'BUS' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: ['RAIL'],
-      });
+      const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: ['RAIL'] });
       expect(result).toHaveLength(0);
     });
 
     it('is case-insensitive when matching vehicle modes', () => {
-      const alert = makeAlert({
-        entities: [{ vehicleMode: 'BUS' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        vehicleModes: ['bus'],
-      });
+      const alert = makeAlert({ entities: [{ vehicleMode: 'BUS' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, vehicleModes: ['bus'] });
       expect(result).toHaveLength(1);
     });
   });
@@ -218,32 +163,19 @@ describe('filterAndSortAlerts', () => {
   describe('entityFilter', () => {
     it('passes all alerts when no entity filter is set', () => {
       const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        entity: undefined,
-      });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, entity: undefined });
       expect(result).toHaveLength(1);
     });
 
     it('keeps an alert when one of its entities matches the filter gtfsId', () => {
-      const alert = makeAlert({
-        entities: [{ gtfsId: 'HSL:1' }, { gtfsId: 'HSL:2' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        entity: { gtfsId: 'HSL:1' },
-      });
+      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }, { gtfsId: 'HSL:2' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, entity: { gtfsId: 'HSL:1' } });
       expect(result).toHaveLength(1);
     });
 
     it('rejects an alert when no entity matches the filter gtfsId', () => {
-      const alert = makeAlert({
-        entities: [{ gtfsId: 'HSL:1' }],
-      });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        entity: { gtfsId: 'HSL:99' },
-      });
+      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, entity: { gtfsId: 'HSL:99' } });
       expect(result).toHaveLength(0);
     });
   });
@@ -251,17 +183,12 @@ describe('filterAndSortAlerts', () => {
   describe('favouriteFilter', () => {
     it('passes all alerts when no favourites filter is set', () => {
       const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        favourites: undefined,
-      });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, favourites: undefined });
       expect(result).toHaveLength(1);
     });
 
     it('keeps alerts when at least one entity gtfsId is in the favourites Set', () => {
-      const alert = makeAlert({
-        entities: [{ gtfsId: 'HSL:1' }, { gtfsId: 'HSL:2' }],
-      });
+      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }, { gtfsId: 'HSL:2' }] });
       const result = filterAndSortAlerts([alert], {
         ...baseFilters,
         favourites: new Set(['HSL:2', 'HSL:3']),
@@ -282,28 +209,19 @@ describe('filterAndSortAlerts', () => {
   describe('cancellationsFilter', () => {
     it('passes all alerts when cancellations filter is falsy', () => {
       const alert = makeAlert({ __typename: 'Alert' });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        cancellations: false,
-      });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, cancellations: false });
       expect(result).toHaveLength(1);
     });
 
     it("filters out '__typename: Alert' items when cancellations=true", () => {
       const alert = makeAlert({ __typename: 'Alert' });
-      const result = filterAndSortAlerts([alert], {
-        ...baseFilters,
-        cancellations: true,
-      });
+      const result = filterAndSortAlerts([alert], { ...baseFilters, cancellations: true });
       expect(result).toHaveLength(0);
     });
 
     it('keeps non-Alert items (e.g. cancelled trips) when cancellations=true', () => {
       const canceledTrip = makeAlert({ __typename: 'CancelledTrip' });
-      const result = filterAndSortAlerts([canceledTrip], {
-        ...baseFilters,
-        cancellations: true,
-      });
+      const result = filterAndSortAlerts([canceledTrip], { ...baseFilters, cancellations: true });
       expect(result).toHaveLength(1);
     });
   });
@@ -321,19 +239,12 @@ describe('filterAndSortAlerts', () => {
     it('returns an empty array when no alerts pass all filters', () => {
       const expiredAlert = makeAlert({ effectiveEndDate: 500 }); // fails pastFilter
       const noEffectAlert = makeAlert({ alertEffect: 'NO_EFFECT' }); // fails noEffectFilter
-      const result = filterAndSortAlerts(
-        [expiredAlert, noEffectAlert],
-        baseFilters,
-      );
+      const result = filterAndSortAlerts([expiredAlert, noEffectAlert], baseFilters);
       expect(result).toHaveLength(0);
     });
 
     it('applies multiple filters in combination, keeping only fully-passing alerts', () => {
-      const passing = makeAlert({
-        id: 'pass',
-        alertEffect: 'DELAY',
-        effectiveEndDate: 2000,
-      });
+      const passing = makeAlert({ id: 'pass', alertEffect: 'DELAY', effectiveEndDate: 2000 });
       const failsNoEffect = makeAlert({ id: 'fail', alertEffect: 'NO_EFFECT' });
 
       const result = filterAndSortAlerts([passing, failsNoEffect], baseFilters);

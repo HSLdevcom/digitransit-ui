@@ -28,19 +28,14 @@ export default function RouteStopListContainer({
   const isMountRef = useRef(true);
   const breakpoint = useBreakpoint();
   const { vehicles } = useRealTimeInformation();
-  const [pattern, refetch] = useRefetchableFragment(
-    RouteStopListContainerFragment,
-    patternRef,
-  );
+  const [pattern, refetch] = useRefetchableFragment(RouteStopListContainerFragment, patternRef);
 
   useEffect(() => {
     if (isMountRef.current) {
       isMountRef.current = false;
       return;
     }
-    const startOfDay = DateTime.fromSeconds(currentTime)
-      .startOf('day')
-      .toUnixInteger();
+    const startOfDay = DateTime.fromSeconds(currentTime).startOf('day').toUnixInteger();
     refetch({
       currentTime,
       patternId: match.params.patternId,
@@ -52,14 +47,11 @@ export default function RouteStopListContainer({
   const { stops } = pattern;
   const mode = getRouteMode(pattern.route, config);
   const vehiclesByStop = groupBy(
-    values(vehicles).filter(
-      vehicle => currentTime - vehicle.timestamp < 5 * 60,
-    ),
+    values(vehicles).filter(vehicle => currentTime - vehicle.timestamp < 5 * 60),
     vehicle => vehicle.next_stop,
   );
   const rowClassName = `bp-${breakpoint}`;
-  const loop =
-    stops.length && stops[0].gtfsId === stops[stops.length - 1].gtfsId;
+  const loop = stops.length && stops[0].gtfsId === stops[stops.length - 1].gtfsId;
   let singleLoop; // runs only once through the stop chain
   if (loop) {
     let i;
@@ -84,15 +76,11 @@ export default function RouteStopListContainer({
         {stops.map((stop, i) => {
           const nextStop = stops[i + 1];
           const prevStop = stops[i - 1];
-          const occurrence = stops
-            .slice(0, i)
-            .filter(s => s.gtfsId === stop.gtfsId).length;
+          const occurrence = stops.slice(0, i).filter(s => s.gtfsId === stop.gtfsId).length;
           return (
             <RouteStop
               color={
-                pattern.route?.color
-                  ? `#${pattern.route.color}`
-                  : getModeIconColor(config, mode)
+                pattern.route?.color ? `#${pattern.route.color}` : getModeIconColor(config, mode)
               }
               key={`${stop.gtfsId}-${occurrence}`}
               stop={stop}

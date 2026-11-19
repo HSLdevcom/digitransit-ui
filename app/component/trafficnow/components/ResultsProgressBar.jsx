@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 
 export default function ResultsProgressBar({ currentAmount, totalAmount }) {
-  const percentage =
-    totalAmount > 0 ? Math.min((currentAmount / totalAmount) * 100, 100) : 0;
+  const percentage = totalAmount > 0 ? Math.min((currentAmount / totalAmount) * 100, 100) : 0;
 
   return (
     <div

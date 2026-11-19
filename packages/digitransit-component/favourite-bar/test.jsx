@@ -20,11 +20,7 @@ function FavouriteBar(props) {
 const favourites = [
   { name: 'Home', address: 'Kotikatu 1, Helsinki', favouriteId: 'fav1' },
   { name: 'Work', address: 'Toimistotie 2, Helsinki', favouriteId: 'fav2' },
-  {
-    name: 'Gym',
-    address: 'Liikuntakuja 3, Helsinki',
-    favouriteId: 'fav3',
-  },
+  { name: 'Gym', address: 'Liikuntakuja 3, Helsinki', favouriteId: 'fav3' },
 ];
 
 describe('Testing @digitransit-component/digitransit-component-favourite-bar module', () => {
@@ -88,12 +84,9 @@ describe('Testing @digitransit-component/digitransit-component-favourite-bar mod
       />,
     );
     fireEvent.click(screen.getByLabelText('Open favourites'));
-    fireEvent.keyDown(
-      document.getElementById('favourite-suggestion-list--item-1'),
-      {
-        key: 'Enter',
-      },
-    );
+    fireEvent.keyDown(document.getElementById('favourite-suggestion-list--item-1'), {
+      key: 'Enter',
+    });
     expect(addPlaceCalled).toBe(true);
   });
 

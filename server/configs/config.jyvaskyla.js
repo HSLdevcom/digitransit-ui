@@ -36,10 +36,7 @@ export default configMerger(walttiConfig, {
     name: 'Jyväskylän seudun joukkoliikenne',
     href: 'https://linkki.jyvaskyla.fi/',
     altLink: {
-      sv: {
-        name: 'Kollektivtrafiken i Jyväskyläregionen',
-        href: 'https://linkki.jyvaskyla.fi/en',
-      },
+      sv: { name: 'Kollektivtrafiken i Jyväskyläregionen', href: 'https://linkki.jyvaskyla.fi/en' },
       en: {
         name: 'Public transportation in the Jyväskylä region',
         href: 'https://linkki.jyvaskyla.fi/en',
@@ -47,19 +44,12 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: '#7DC02D',
-    bus: '#7DC02D',
-  },
+  colors: { primary: '#7DC02D', bus: '#7DC02D' },
 
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    image: {
-      url: 'assets/jyvaskyla/social-share.png',
-      width: 443,
-      height: 443,
-    },
+    image: { url: 'assets/jyvaskyla/social-share.png', width: 443, height: 443 },
   },
 
   title: APP_TITLE,
@@ -70,12 +60,7 @@ export default configMerger(walttiConfig, {
   logo: 'jyvaskyla/jyvaskyla-favicon.png',
   secondaryLogo: 'jyvaskyla/jyvaskyla-favicon.png',
 
-  mainMenu: {
-    stopMonitor: {
-      show: true,
-      url: `${virtualMonitorBaseUrl}/createview`,
-    },
-  },
+  mainMenu: { stopMonitor: { show: true, url: `${virtualMonitorBaseUrl}/createview` } },
 
   menu: {
     copyright: { label: `© Jyvaskyla ${walttiConfig.YEAR}` },
@@ -88,10 +73,7 @@ export default configMerger(walttiConfig, {
           en: 'https://s-asiointi.jkl.fi/eFeedback/en/Feedback/38-Public%20transport',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -139,19 +121,11 @@ export default configMerger(walttiConfig, {
   geoJson: {
     layers: [
       {
-        name: {
-          fi: 'Vyöhykkeet',
-          sv: 'Zoner',
-          en: 'Zones',
-        },
+        name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
         url: '/assets/jyvaskyla/zone_lines_20240531.geojson',
       },
       {
-        name: {
-          fi: 'Myyntipisteet',
-          sv: 'Servicekontorer',
-          en: 'Service points',
-        },
+        name: { fi: 'Myyntipisteet', sv: 'Servicekontorer', en: 'Service points' },
         url: 'https://jakoon.jkl.fi/reittiopas/Asiakaspalvelupisteet/myyntipisteet090226.geojson',
       },
     ],
@@ -159,35 +133,20 @@ export default configMerger(walttiConfig, {
 
   geoJsonSvgSize: 30,
 
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-    3: 'C',
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B', 3: 'C' },
 
   showTicketInformation: true,
   useTicketIcons: true,
-  ticketLink: {
-    fi: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat',
-  },
+  ticketLink: { fi: 'https://linkki.jyvaskyla.fi/liput-ja-hinnat' },
   showTicketPrice: true,
 
   ticketLinkOperatorCode: 50209,
 
-  stopCard: {
-    header: {
-      virtualMonitorBaseUrl,
-    },
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  stopCard: { header: { virtualMonitorBaseUrl } },
+  zones: { stops: true, itinerary: true },
 
   sendAnalyticsCustomEventGoals: true,
 
-  defaultSettings: {
-    minTransferTime: 180,
-  },
+  defaultSettings: { minTransferTime: 180 },
   useRealtimeTravellerCapacities: true,
 });

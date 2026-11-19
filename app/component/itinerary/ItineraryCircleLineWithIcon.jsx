@@ -2,10 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import {
-  ViaLocationType,
-  IndoorLegType,
-} from '../../../utils/shared/constants';
+import { ViaLocationType, IndoorLegType } from '../../../utils/shared/constants';
 
 export default function ItineraryCircleLineWithIcon({
   index,
@@ -40,10 +37,7 @@ export default function ItineraryCircleLineWithIcon({
     if (!isNotFirstLeg && index === 0 && !viaType) {
       return (
         <div className="itinerary-icon-container start">
-          <Icon
-            img="icon_origin-ellipse"
-            className="itinerary-icon from from-it"
-          />
+          <Icon img="icon_origin-ellipse" className="itinerary-icon from from-it" />
         </div>
       );
     }
@@ -65,11 +59,7 @@ export default function ItineraryCircleLineWithIcon({
       return null;
     }
     return (
-      <div
-        className={`leg-before-circle circle ${modeClassName} ${
-          top ? 'top' : ''
-        }`}
-      >
+      <div className={`leg-before-circle circle ${modeClassName} ${top ? 'top' : ''}`}>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           width={28}
@@ -122,19 +112,9 @@ export default function ItineraryCircleLineWithIcon({
 
       <div
         style={legBeforeLineStyle}
-        className={cx(
-          'leg-before-line',
-          modeClassName,
-          appendClass,
-          topBackgroundClass,
-        )}
+        className={cx('leg-before-line', modeClassName, appendClass, topBackgroundClass)}
       />
-      <RouteNumber
-        appendClass={appendClass}
-        mode={modeClassName}
-        icon={icon}
-        vertical
-      />
+      <RouteNumber appendClass={appendClass} mode={modeClassName} icon={icon} vertical />
       <div
         style={legBeforeLineStyle}
         className={cx(
@@ -145,8 +125,7 @@ export default function ItineraryCircleLineWithIcon({
           bottomBackgroundClass,
         )}
       />
-      {(modeClassName === 'scooter' || modeClassName === 'taxi-external') &&
-        bottomMarker}
+      {(modeClassName === 'scooter' || modeClassName === 'taxi-external') && bottomMarker}
     </div>
   );
 }

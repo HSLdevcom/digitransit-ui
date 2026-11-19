@@ -1,7 +1,4 @@
-import {
-  changeTopics,
-  parseMessage,
-} from '../../../../utils/client/mqttClient';
+import { changeTopics, parseMessage } from '../../../../utils/client/mqttClient';
 
 describe('mqttClient', () => {
   it('unsubscribes old topics and reports new topics through a callback', () => {
@@ -25,12 +22,7 @@ describe('mqttClient', () => {
     expect(client.subscribe).toHaveBeenCalledWith(['1/+', '+/trip2']);
   });
 
-  const testMessage = {
-    VP: {
-      lat: 123.123456,
-      long: 123.123456,
-    },
-  };
+  const testMessage = { VP: { lat: 123.123456, long: 123.123456 } };
   const testTopic =
     '/hfp/v2/journey/ongoing/vp/bus/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
 
@@ -50,21 +42,13 @@ describe('mqttClient', () => {
     });
 
     it('should return undefined if long is null or undefined', () => {
-      const rawMessage = {
-        VP: {
-          lat: 123.123456,
-        },
-      };
+      const rawMessage = { VP: { lat: 123.123456 } };
       const message = parseMessage(testTopic, rawMessage, 'HSL');
       expect(message).toBeUndefined();
     });
 
     it('should return undefined if lat is null or undefined', () => {
-      const rawMessage = {
-        VP: {
-          long: 123.123456,
-        },
-      };
+      const rawMessage = { VP: { long: 123.123456 } };
       const message = parseMessage(testTopic, rawMessage, 'HSL');
       expect(message).toBeUndefined();
     });
@@ -107,13 +91,7 @@ describe('mqttClient', () => {
     it('should return message when message.seq is 1', () => {
       const metroTopic =
         '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
-      const seqOneMessage = {
-        VP: {
-          lat: 123.123456,
-          long: 123.123456,
-          seq: 1,
-        },
-      };
+      const seqOneMessage = { VP: { lat: 123.123456, long: 123.123456, seq: 1 } };
       const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
       expect(message).toBeDefined();
     });
@@ -121,13 +99,7 @@ describe('mqttClient', () => {
     it('should return undefined when message.seq is 2', () => {
       const metroTopic =
         '/hfp/v2/journey/ongoing/vp/metro/0018/00296/1064/1/Itä-Pakila/16:12/1250101/5/60;24/29/04/85';
-      const seqOneMessage = {
-        VP: {
-          lat: 123.123456,
-          long: 123.123456,
-          seq: 2,
-        },
-      };
+      const seqOneMessage = { VP: { lat: 123.123456, long: 123.123456, seq: 2 } };
       const message = parseMessage(metroTopic, seqOneMessage, 'HSL');
       expect(message).toBeUndefined();
     });

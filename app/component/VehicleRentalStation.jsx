@@ -12,10 +12,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function VehicleRentalStation({ vehicleRentalStation }) {
   const config = useConfigContext();
-  const vehicleCapacity = getVehicleCapacity(
-    config,
-    vehicleRentalStation.rentalNetwork.networkId,
-  );
+  const vehicleCapacity = getVehicleCapacity(config, vehicleRentalStation.rentalNetwork.networkId);
   if (vehicleCapacity === BIKEAVL_UNKNOWN) {
     return null;
   }
@@ -26,8 +23,7 @@ export default function VehicleRentalStation({ vehicleRentalStation }) {
   if (vehicleCapacity === BIKEAVL_WITHMAX) {
     totalSpaces =
       vehicleRentalStation.capacity ||
-      vehicleRentalStation.availableVehicles.total +
-        vehicleRentalStation.availableSpaces.total;
+      vehicleRentalStation.availableVehicles.total + vehicleRentalStation.availableSpaces.total;
     fewAvailableCount = Math.floor(totalSpaces / 3);
     fewerAvailableCount = Math.floor(totalSpaces / 6);
   }
@@ -53,6 +49,4 @@ export default function VehicleRentalStation({ vehicleRentalStation }) {
   );
 }
 
-VehicleRentalStation.propTypes = {
-  vehicleRentalStation: vehicleRentalStationShape.isRequired,
-};
+VehicleRentalStation.propTypes = { vehicleRentalStation: vehicleRentalStationShape.isRequired };

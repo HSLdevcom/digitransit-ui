@@ -21,12 +21,7 @@ export default function VehicleRentalStationNearYou({
     stationRef,
   );
 
-  useRefetchOnTick(
-    refetch,
-    VehicleRentalStationNearYouFragment,
-    stationRef,
-    isParentTabActive,
-  );
+  useRefetchOnTick(refetch, VehicleRentalStationNearYouFragment, stationRef, isParentTabActive);
 
   return (
     <span role="listitem">

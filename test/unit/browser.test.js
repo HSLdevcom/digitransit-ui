@@ -5,30 +5,21 @@ const noop = () => {};
 describe('browser', () => {
   describe('isKeyboardSelectionEvent', () => {
     it('should return true for space " "', () => {
-      const event = {
-        key: ' ',
-        preventDefault: noop,
-      };
+      const event = { key: ' ', preventDefault: noop };
 
       const result = utils.isKeyboardSelectionEvent(event);
       expect(result).toBe(true);
     });
 
     it('should return true for space "Spacebar"', () => {
-      const event = {
-        key: 'Spacebar',
-        preventDefault: noop,
-      };
+      const event = { key: 'Spacebar', preventDefault: noop };
 
       const result = utils.isKeyboardSelectionEvent(event);
       expect(result).toBe(true);
     });
 
     it('should return true for enter', () => {
-      const event = {
-        key: 'Enter',
-        preventDefault: noop,
-      };
+      const event = { key: 'Enter', preventDefault: noop };
 
       const result = utils.isKeyboardSelectionEvent(event);
       expect(result).toBe(true);

@@ -1,16 +1,11 @@
 import { CosmosClient } from '@azure/cosmos';
-import {
-  loadAllRawConfigurations,
-  setAvailableCitybikeConfigurations,
-} from '../configs/config.js';
+import { loadAllRawConfigurations, setAvailableCitybikeConfigurations } from '../configs/config.js';
 
 async function fetchCitybikeSeasons() {
   const client = new CosmosClient(process.env.CITYBIKE_DB_CONN_STRING);
   const database = client.database(process.env.CITYBIKE_DATABASE);
   const container = database.container('schedules');
-  const query = {
-    query: 'SELECT * FROM c',
-  };
+  const query = { query: 'SELECT * FROM c' };
 
   const { resources } = await container.items.query(query).fetchAll();
   console.log('citybike season configurations fetched from the database');
@@ -23,22 +18,14 @@ export function buildCitybikeConfig(seasonDef) {
     configName: seasonDef.configName,
     networkName: seasonDef.networkName,
     enabled: seasonDef.enabled,
-    season: {
-      preSeasonStart: seasonDef.preSeason,
-      start: inSeason[0],
-      end: inSeason[1],
-    },
+    season: { preSeasonStart: seasonDef.preSeason, start: inSeason[0], end: inSeason[1] },
   };
 }
 
 export function handleCitybikeSeasonConfigurations(schedules, configName) {
-  const seasonDefinitions = schedules.filter(
-    seasonDef => seasonDef.configName === configName,
-  );
+  const seasonDefinitions = schedules.filter(seasonDef => seasonDef.configName === configName);
   const configurations = [];
-  seasonDefinitions.forEach(def =>
-    configurations.push(buildCitybikeConfig(def)),
-  );
+  seasonDefinitions.forEach(def => configurations.push(buildCitybikeConfig(def)));
   return configurations;
 }
 
@@ -57,20 +44,11 @@ export default async function fetchCitybikeConfigurations() {
     const schedules = seasons.flatMap(seasonDef => seasonDef.schedules);
     const configs = await loadAllRawConfigurations();
     const seasonDefinitions = configs
-      .filter(
-        config =>
-          config.vehicleRental && Object.keys(config.vehicleRental).length > 0,
-      )
-      .flatMap(config =>
-        handleCitybikeSeasonConfigurations(schedules, config.CONFIG),
-      )
+      .filter(config => config.vehicleRental && Object.keys(config.vehicleRental).length > 0)
+      .flatMap(config => handleCitybikeSeasonConfigurations(schedules, config.CONFIG))
       // drop duplicates
-      .filter(
-        (v, i, a) => a.findIndex(v2 => v2.networkName === v.networkName) === i,
-      );
-    console.log(
-      `fetched: ${seasonDefinitions.length} citybike season configuration`,
-    );
+      .filter((v, i, a) => a.findIndex(v2 => v2.networkName === v.networkName) === i);
+    console.log(`fetched: ${seasonDefinitions.length} citybike season configuration`);
     console.log(seasonDefinitions);
     setAvailableCitybikeConfigurations(seasonDefinitions);
   } catch (err) {

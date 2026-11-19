@@ -3,10 +3,7 @@ import { createTestConfig } from '../../helpers/mock-context';
 import NoDisruptions from '../../../../app/component/trafficnow/components/NoDisruptions';
 import * as assetUrl from '../../../../app/assets/assetUrl';
 
-const baseConfig = createTestConfig({
-  notFoundGraphic: null,
-  colors: { primary: '#007ac9' },
-});
+const baseConfig = createTestConfig({ notFoundGraphic: null, colors: { primary: '#007ac9' } });
 
 describe('<NoDisruptions />', () => {
   let logoStub;
@@ -19,9 +16,7 @@ describe('<NoDisruptions />', () => {
 
   describe('Graphic rendering', () => {
     it('renders the fallback Icon when no logo is available', () => {
-      const { container } = renderWithProviders(<NoDisruptions />, {
-        config: baseConfig,
-      });
+      const { container } = renderWithProviders(<NoDisruptions />, { config: baseConfig });
       expect(container.querySelectorAll('svg')).toHaveLength(1);
       expect(container.querySelectorAll('img')).toHaveLength(0);
     });

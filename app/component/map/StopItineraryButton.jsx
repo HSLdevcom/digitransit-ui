@@ -32,11 +32,7 @@ export function getPlaceType(place, citybike, scooter) {
   return place?.vehicleMode === 'FERRY' ? 'ferry' : 'stop';
 }
 
-export default function StopItineraryButton({
-  stop,
-  citybike = false,
-  scooter = false,
-}) {
+export default function StopItineraryButton({ stop, citybike = false, scooter = false }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { router, match } = useRouter();
@@ -49,43 +45,26 @@ export default function StopItineraryButton({
   const time = Math.floor(Date.now() / 1000);
   const onSelectLocation = (item, id) => {
     const address =
-      item.name.toLowerCase() === 'scooter'
-        ? intl.formatMessage({ id: 'e-scooter' })
-        : item.name;
+      item.name.toLowerCase() === 'scooter' ? intl.formatMessage({ id: 'e-scooter' }) : item.name;
     let newLocation;
-    const place = {
-      ...item,
-      address,
-      gtfsId: match.params.stopId || match.params.terminalId,
-    };
+    const place = { ...item, address, gtfsId: match.params.stopId || match.params.terminalId };
     if (id === 'origin') {
       newLocation = {
         ...locationWithoutQuery,
-        pathname: getPathWithEndpointObjects(
-          place,
-          {},
-          PREFIX_ITINERARY_SUMMARY,
-        ),
+        pathname: getPathWithEndpointObjects(place, {}, PREFIX_ITINERARY_SUMMARY),
         query: { time },
       };
     } else if (id === 'destination') {
       newLocation = {
         ...locationWithoutQuery,
-        pathname: getPathWithEndpointObjects(
-          {},
-          place,
-          PREFIX_ITINERARY_SUMMARY,
-        ),
+        pathname: getPathWithEndpointObjects({}, place, PREFIX_ITINERARY_SUMMARY),
         query: { time },
       };
     } else {
       newLocation = {
         ...location,
         pathname: getItineraryPagePath(locationToUri({}), locationToUri({})),
-        query: {
-          intermediatePlaces: locationToOTP(item),
-          query: { time },
-        },
+        query: { intermediatePlaces: locationToOTP(item), query: { time } },
       };
     }
     router.push(newLocation);
@@ -101,10 +80,7 @@ export default function StopItineraryButton({
         }}
       >
         <Icon className="stop-itinerary-button-icon" img="icon_route" />
-        <FormattedMessage
-          id={`route-to-${placeType}`}
-          defaultMessage="Route to the stop"
-        />
+        <FormattedMessage id={`route-to-${placeType}`} defaultMessage="Route to the stop" />
       </button>
       {showModal && (
         <Modal lang={config.language} open onOpenChange={closeModal}>
@@ -117,26 +93,12 @@ export default function StopItineraryButton({
             className="stop-itinerary-modal-sheet"
           >
             <FlexColumn gap="xs">
-              <Button
-                variant="secondary"
-                expand
-                onClick={() => onSelectLocation(stop, 'origin')}
-              >
-                {intl.formatMessage({
-                  id: 'as-origin',
-                  defaultMessage: 'Route to stop',
-                })}
+              <Button variant="secondary" expand onClick={() => onSelectLocation(stop, 'origin')}>
+                {intl.formatMessage({ id: 'as-origin', defaultMessage: 'Route to stop' })}
               </Button>
               {config.viaPointsEnabled && (
-                <Button
-                  variant="secondary"
-                  expand
-                  onClick={() => onSelectLocation(stop, 'via')}
-                >
-                  {intl.formatMessage({
-                    id: 'as-viapoint',
-                    defaultMessage: 'Route to stop',
-                  })}
+                <Button variant="secondary" expand onClick={() => onSelectLocation(stop, 'via')}>
+                  {intl.formatMessage({ id: 'as-viapoint', defaultMessage: 'Route to stop' })}
                 </Button>
               )}
               <Button
@@ -144,10 +106,7 @@ export default function StopItineraryButton({
                 expand
                 onClick={() => onSelectLocation(stop, 'destination')}
               >
-                {intl.formatMessage({
-                  id: 'as-destination',
-                  defaultMessage: 'Route to stop',
-                })}
+                {intl.formatMessage({ id: 'as-destination', defaultMessage: 'Route to stop' })}
               </Button>
             </FlexColumn>
           </ModalContent>

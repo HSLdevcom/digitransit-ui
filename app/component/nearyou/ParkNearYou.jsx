@@ -8,11 +8,7 @@ import ParkAndRideContent from '../ParkAndRideContent';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import ParkNearYouFragment from './queries/ParkNearYouFragment';
 
-export default function ParkNearYou({
-  park: parkRef,
-  isParentTabActive = false,
-  mode,
-}) {
+export default function ParkNearYou({ park: parkRef, isParentTabActive = false, mode }) {
   const [park, refetch] = useRefetchableFragment(ParkNearYouFragment, parkRef);
 
   useRefetchOnTick(refetch, ParkNearYouFragment, parkRef, isParentTabActive);

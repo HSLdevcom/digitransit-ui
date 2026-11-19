@@ -17,9 +17,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const intl = useIntl();
   const { match } = useRouter();
 
-  const favIcon = recommended
-    ? 'icon_star-with-circle'
-    : 'icon_star-unselected';
+  const favIcon = recommended ? 'icon_star-with-circle' : 'icon_star-unselected';
   const iconMap = {
     'personalization-ask': {
       img: favIcon,
@@ -28,12 +26,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
       width: 1.7245,
       height: 1.7245,
     },
-    'personalization-liked': {
-      img: 'icon_thumb',
-      color: colors.primary,
-      width: 1.4,
-      height: 1.4,
-    },
+    'personalization-liked': { img: 'icon_thumb', color: colors.primary, width: 1.4, height: 1.4 },
     'personalization-disliked': {
       img: 'icon_thumb-down',
       color: colors.primary,
@@ -44,11 +37,8 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const iconProps = iconMap[status];
   const loginNeeded = config.allowLogin && !config.user.sub;
   const thumbColor = loginNeeded ? '#CCC' : colors.primary;
-  const statusStyle =
-    status === 'personalization-ask' ? 'routes-s-bold' : 'text-xs';
-  const statusText = (
-    <Text variant={statusStyle}>{intl.formatMessage({ id: status })}</Text>
-  );
+  const statusStyle = status === 'personalization-ask' ? 'routes-s-bold' : 'text-xs';
+  const statusText = <Text variant={statusStyle}>{intl.formatMessage({ id: status })}</Text>;
 
   const middleTexts = loginNeeded ? (
     <div>
@@ -80,32 +70,19 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
           <div className="feedback-section">
             <button
               type="button"
-              className={cx('thumb-button', {
-                'thumb-button-disabled': loginNeeded,
-              })}
+              className={cx('thumb-button', { 'thumb-button-disabled': loginNeeded })}
               onClick={() => giveFeedback(true)}
-              aria-label={intl.formatMessage({
-                id: 'personalization-aria-like',
-              })}
+              aria-label={intl.formatMessage({ id: 'personalization-aria-like' })}
             >
               <Icon img="icon_thumb" color={thumbColor} height={1} width={1} />
             </button>
             <button
               type="button"
-              className={cx('thumb-button', {
-                'thumb-button-disabled': loginNeeded,
-              })}
+              className={cx('thumb-button', { 'thumb-button-disabled': loginNeeded })}
               onClick={() => giveFeedback(false)}
-              aria-label={intl.formatMessage({
-                id: 'personalization-aria-dislike',
-              })}
+              aria-label={intl.formatMessage({ id: 'personalization-aria-dislike' })}
             >
-              <Icon
-                img="icon_thumb-down"
-                color={thumbColor}
-                height={1}
-                width={1}
-              />
+              <Icon img="icon_thumb-down" color={thumbColor} height={1} width={1} />
             </button>
           </div>
         )}
@@ -180,12 +157,7 @@ export default function Feedback({
           animationClass={isAnimating ? 'leave' : ''}
         />
       )}
-      <div
-        className="sr-only"
-        aria-live="polite"
-        aria-atomic="true"
-        role="status"
-      >
+      <div className="sr-only" aria-live="polite" aria-atomic="true" role="status">
         <FormattedMessage id={status} />
       </div>
     </div>

@@ -55,10 +55,7 @@ export default function isDuplicate(item1, item2) {
   if (item1.type === 'FutureRoute' || item2.type === 'FutureRoute') {
     return false;
   }
-  if (
-    vehicleRentalLayers.includes(props1.layer) &&
-    vehicleRentalLayers.includes(props2.layer)
-  ) {
+  if (vehicleRentalLayers.includes(props1.layer) && vehicleRentalLayers.includes(props2.layer)) {
     const id1 = props1.gid || labelIdToGid(props1.labelId);
     const id2 = props2.gid || labelIdToGid(props2.labelId);
     return id1 === id2;

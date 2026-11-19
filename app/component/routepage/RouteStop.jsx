@@ -2,11 +2,7 @@ import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import {
-  alertShape,
-  vehicleShape,
-  stopTimeShape,
-} from '../../../utils/client/shapes';
+import { alertShape, vehicleShape, stopTimeShape } from '../../../utils/client/shapes';
 import AddressRow from '../AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
@@ -61,8 +57,7 @@ export default function RouteStop({
     stop,
     nowUnixTime: currentTime,
     showStopStatusMarkers: config.showStopStatusMarkers,
-    ...(config.showStopStatusMarkers &&
-      getServiceAvailability(stop.firstDeparture, currentTime)),
+    ...(config.showStopStatusMarkers && getServiceAvailability(stop.firstDeparture, currentTime)),
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
   let firstDeparture;
@@ -80,28 +75,18 @@ export default function RouteStop({
         // check if first stop is already behind
         // we do not want to show arrival time to it
         const nextStopTime = nextStop?.stopTimesForPattern[0];
-        if (
-          (st1 && !nextStopTime) ||
-          getDepartureTime(st1) > getDepartureTime(nextStopTime)
-        ) {
+        if ((st1 && !nextStopTime) || getDepartureTime(st1) > getDepartureTime(nextStopTime)) {
           showDepartures = false;
         } else {
           firstDeparture = st1;
           // do not set nextDeparture, it is arrival back to start
         }
-      } else if (
-        st1?.pickupType === 'NONE' &&
-        st2 &&
-        st2.pickupType !== 'NONE'
-      ) {
+      } else if (st1?.pickupType === 'NONE' && st2 && st2.pickupType !== 'NONE') {
         firstDeparture = st2;
       }
     }
     if (last && loop) {
-      if (
-        (singleLoop && st2) ||
-        (st1?.pickupType !== 'NONE' && st2?.pickupType === 'NONE')
-      ) {
+      if ((singleLoop && st2) || (st1?.pickupType !== 'NONE' && st2?.pickupType === 'NONE')) {
         firstDeparture = st2;
       }
     }
@@ -117,19 +102,13 @@ export default function RouteStop({
     if (stoptime) {
       const departureTime = getDepartureTime(stoptime);
       const timeDiffInMinutes = Math.floor((departureTime - currentTime) / 60);
-      if (
-        timeDiffInMinutes < 0 ||
-        timeDiffInMinutes > config.minutesToDepartureLimit
-      ) {
+      if (timeDiffInMinutes < 0 || timeDiffInMinutes > config.minutesToDepartureLimit) {
         const date = new Date(departureTime * 1000);
         departureText = `${
           (date.getHours() < 10 ? '0' : '') + date.getHours()
         }:${date.getMinutes()}`;
       } else if (timeDiffInMinutes === 0) {
-        departureText = intl.formatMessage({
-          id: 'arriving-soon',
-          defaultMessage: 'Now',
-        });
+        departureText = intl.formatMessage({ id: 'arriving-soon', defaultMessage: 'Now' });
       } else {
         departureText = intl.formatMessage(
           { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
@@ -147,9 +126,7 @@ export default function RouteStop({
     text += `${stop.desc},`;
 
     if (getActiveAlertSeverityLevel(stop.alerts, currentTime)) {
-      text += `${intl.formatMessage({
-        id: 'disruptions-tab.sr-disruptions',
-      })},`;
+      text += `${intl.formatMessage({ id: 'disruptions-tab.sr-disruptions' })},`;
     }
 
     if (firstDeparture) {
@@ -164,17 +141,11 @@ export default function RouteStop({
       }
       if (displayNextDeparture) {
         text += `${intl.formatMessage({ id: 'next' })},`;
-        text += `${getDepartureText(
-          stop.stopTimesForPattern[1],
-          currentTime,
-        )},`;
+        text += `${getDepartureText(stop.stopTimesForPattern[1], currentTime)},`;
         if (nextDeparture?.realtime) {
           text += `${intl.formatMessage({ id: 'realtime' })},`;
         }
-        if (
-          stop.stopTimesForPattern[1] &&
-          stop.stopTimesForPattern[1].stop.platformCode
-        ) {
+        if (stop.stopTimesForPattern[1] && stop.stopTimesForPattern[1].stop.platformCode) {
           text += `${intl.formatMessage({ id: 'platform' })},`;
           text += `${stop.stopTimesForPattern[1].stop.platformCode}`;
         }
@@ -209,8 +180,7 @@ export default function RouteStop({
       const vehicleWithParsedShortname = {
         ...vehicle,
         shortName:
-          vehicle.shortName &&
-          config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
+          vehicle.shortName && config.realTime[feedId].vehicleNumberParser(vehicle.shortName),
       };
       vehicleTripLink = vehicle.tripId ? (
         <TripLink
@@ -222,20 +192,14 @@ export default function RouteStop({
       ) : (
         <FuzzyTripLink
           stopName={vehicleState === 'arriving' ? prevStop?.name : stop?.name}
-          nextStopName={
-            vehicleState === 'arriving' ? stop?.name : nextStop?.name
-          }
+          nextStopName={vehicleState === 'arriving' ? stop?.name : nextStop?.name}
           mode={mode}
           key={vehicle.id}
           vehicle={vehicleWithParsedShortname}
         />
       );
     }
-    return (
-      <div className={cx('route-stop-now', vehicleState)}>
-        {vehicleTripLink}
-      </div>
-    );
+    return <div className={cx('route-stop-now', vehicleState)}>{vehicleTripLink}</div>;
   };
   return (
     <li className={cx('route-stop location-details_container ', className)}>
@@ -261,10 +225,7 @@ export default function RouteStop({
             />
           </svg>
         )}
-        <div
-          className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: color }}
-        />
+        <div className={cx('route-stop-now_line', mode)} style={{ backgroundColor: color }} />
       </div>
       <div className="route-stop-row_content-container">
         <Link
@@ -272,11 +233,7 @@ export default function RouteStop({
           type="button"
           to={`/${PREFIX_STOPS}/${encodeURIComponent(stop.gtfsId)}`}
           onClick={() => {
-            addAnalyticsEvent({
-              category: 'Routes',
-              action: 'OpenStopViewFromRoute',
-              name: null,
-            });
+            addAnalyticsEvent({ category: 'Routes', action: 'OpenStopViewFromRoute', name: null });
           }}
           aria-label={getText()}
         >
@@ -291,29 +248,21 @@ export default function RouteStop({
                   {!config.showStopStatusMarkers && (
                     <ServiceAlertIcon
                       className="inline-icon"
-                      severityLevel={getActiveAlertSeverityLevel(
-                        stop.alerts,
-                        currentTime,
-                      )}
+                      severityLevel={getActiveAlertSeverityLevel(stop.alerts, currentTime)}
                     />
                   )}
                 </div>
                 <div className="platform-number-container">
                   <div
                     key={`${stop.scheduledDeparture}-platform-number`}
-                    className={`platform-code ${
-                      !stop.platformCode ? 'empty' : ''
-                    }`}
+                    className={`platform-code ${!stop.platformCode ? 'empty' : ''}`}
                   >
                     {stop.platformCode}
                   </div>
                 </div>
               </div>
               {firstDeparture && (
-                <div
-                  key={firstDeparture.scheduledDeparture}
-                  className="route-stop-time"
-                >
+                <div key={firstDeparture.scheduledDeparture} className="route-stop-time">
                   {!hideDepartures && fromStopTime(firstDeparture, currentTime)}
                 </div>
               )}
@@ -330,26 +279,17 @@ export default function RouteStop({
                 <div className="itinerary-zone-icon" />
               )}
               {nextDeparture && displayNextDeparture && (
-                <div
-                  key={nextDeparture.scheduledDeparture}
-                  className="route-stop-time"
-                >
-                  {!hideDepartures &&
-                    fromStopTime(nextDeparture, currentTime, true, true)}
+                <div key={nextDeparture.scheduledDeparture} className="route-stop-time">
+                  {!hideDepartures && fromStopTime(nextDeparture, currentTime, true, true)}
                 </div>
               )}
             </div>
-            {firstDeparture &&
-              stop.stopTimesForPattern[0].pickupType === 'NONE' &&
-              !last && (
-                <div className="drop-off-container">
-                  <Icon img="icon_info" color={config.colors.primary} />
-                  <FormattedMessage
-                    id="route-destination-arrives"
-                    defaultMessage="Drop-off only"
-                  />
-                </div>
-              )}
+            {firstDeparture && stop.stopTimesForPattern[0].pickupType === 'NONE' && !last && (
+              <div className="drop-off-container">
+                <Icon img="icon_info" color={config.colors.primary} />
+                <FormattedMessage id="route-destination-arrives" defaultMessage="Drop-off only" />
+              </div>
+            )}
           </div>
         </Link>
       </div>
@@ -371,19 +311,14 @@ RouteStop.propTypes = {
     alerts: PropTypes.arrayOf(alertShape),
     stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
     firstDeparture: PropTypes.arrayOf(
-      PropTypes.shape({
-        serviceDay: PropTypes.number,
-        realtimeDeparture: PropTypes.number,
-      }),
+      PropTypes.shape({ serviceDay: PropTypes.number, realtimeDeparture: PropTypes.number }),
     ),
   }).isRequired,
   nextStop: PropTypes.shape({
     name: PropTypes.string,
     stopTimesForPattern: PropTypes.arrayOf(stopTimeShape),
   }),
-  prevStop: PropTypes.shape({
-    name: PropTypes.string,
-  }),
+  prevStop: PropTypes.shape({ name: PropTypes.string }),
   mode: PropTypes.string,
   className: PropTypes.string,
   currentTime: PropTypes.number.isRequired,

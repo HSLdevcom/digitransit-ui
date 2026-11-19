@@ -7,47 +7,22 @@ describe('<TripStopListContainer />', () => {
     const serviceDay = 1551650400;
     const props = {
       locationState: {},
-      relay: {
-        forceFetch: () => {},
-      },
+      relay: { forceFetch: () => {} },
       trip: {
         gtfsId: 'feed:1',
-        pattern: {
-          code: 'foobar-1-1',
-          directionId: 1,
-        },
-        route: {
-          gtfsId: 'foobar:1',
-          mode: 'BUS',
-        },
+        pattern: { code: 'foobar-1-1', directionId: 1 },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
         stoptimesForDate: [
-          {
-            pattern: {},
-            realtimeDeparture: 1000,
-            serviceDay,
-            stop: {
-              gtfsId: 'stop:1',
-            },
-          },
-          {
-            pattern: {},
-            realtimeDeparture: 3000,
-            serviceDay,
-            stop: {
-              gtfsId: 'stop:2',
-            },
-          },
+          { pattern: {}, realtimeDeparture: 1000, serviceDay, stop: { gtfsId: 'stop:1' } },
+          { pattern: {}, realtimeDeparture: 3000, serviceDay, stop: { gtfsId: 'stop:2' } },
         ],
       },
       tripStart: '',
     };
-    const { container } = renderWithProviders(
-      <TripStopListContainer {...props} />,
-      {
-        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
-        currentTime: serviceDay + 2000,
-      },
-    );
+    const { container } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: serviceDay + 2000,
+    });
     const stops = container.querySelectorAll('.route-stop');
     expect(stops).toHaveLength(2);
     expect(stops[0].classList.contains('passed')).toBe(true);
@@ -58,15 +33,8 @@ describe('<TripStopListContainer />', () => {
     const props = {
       trip: {
         gtfsId: 'HSL:1',
-        pattern: {
-          code: 'HSL:6172:0:01',
-          directionId: 0,
-        },
-        route: {
-          mode: 'BUS',
-          gtfsId: 'HSL:6172',
-          color: null,
-        },
+        pattern: { code: 'HSL:6172:0:01', directionId: 0 },
+        route: { mode: 'BUS', gtfsId: 'HSL:6172', color: null },
         stoptimesForDate: [
           {
             stop: {
@@ -105,14 +73,11 @@ describe('<TripStopListContainer />', () => {
         heading: 140,
       },
     };
-    const { container } = renderWithProviders(
-      <TripStopListContainer {...props} />,
-      {
-        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
-        currentTime: 1554882006,
-        vehicles,
-      },
-    );
+    const { container } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: 1554882006,
+      vehicles,
+    });
     expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
     expect(container.querySelectorAll('.route-stop-now')).toHaveLength(1);
   });

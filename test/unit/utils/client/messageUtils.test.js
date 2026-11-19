@@ -11,9 +11,7 @@ describe('failedFavouriteMessage', () => {
     const stopMessage = failedFavouriteMessage('stop', true);
     expect(routeMessage.content[0].type).toBe('heading');
     expect(stopMessage.content[0].type).toBe('heading');
-    expect(routeMessage.content[0].content).not.toBe(
-      stopMessage.content[0].content,
-    );
+    expect(routeMessage.content[0].content).not.toBe(stopMessage.content[0].content);
   });
 
   it('should generate different message heading for save and deletion', async () => {
@@ -21,8 +19,6 @@ describe('failedFavouriteMessage', () => {
     const deleteMessage = failedFavouriteMessage('route', false);
     expect(saveMessage.content[0].type).toBe('heading');
     expect(deleteMessage.content[0].type).toBe('heading');
-    expect(saveMessage.content[0].content).not.toBe(
-      deleteMessage.content[0].content,
-    );
+    expect(saveMessage.content[0].content).not.toBe(deleteMessage.content[0].content);
   });
 });

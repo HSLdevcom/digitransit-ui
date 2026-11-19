@@ -17,17 +17,11 @@ export default function DatetimepickerContainer({
   const openPicker = !!match.location.query.setTime; // string to boolean
 
   const setParams = debounce((time, arriveBy, setTime) => {
-    replaceQueryParams(router, match, {
-      time: time?.toString(),
-      arriveBy,
-      setTime,
-    });
+    replaceQueryParams(router, match, { time: time?.toString(), arriveBy, setTime });
   }, 10);
 
   const setOpenParam = debounce(setTime => {
-    replaceQueryParams(router, match, {
-      setTime,
-    });
+    replaceQueryParams(router, match, { setTime });
   }, 10);
 
   const onClose = () => {
@@ -41,20 +35,12 @@ export default function DatetimepickerContainer({
   const onTimeChange = (time, arriveBy, onSubmit = false) => {
     const keepPickerOpen = onSubmit === false ? 'true' : undefined;
     setParams(time, arriveBy ? 'true' : undefined, keepPickerOpen);
-    addAnalyticsEvent({
-      action: 'EditJourneyTime',
-      category: 'ItinerarySettings',
-      name: null,
-    });
+    addAnalyticsEvent({ action: 'EditJourneyTime', category: 'ItinerarySettings', name: null });
   };
 
   const onDateChange = (time, arriveBy) => {
     setParams(time, arriveBy ? 'true' : undefined, 'true');
-    addAnalyticsEvent({
-      action: 'EditJourneyDate',
-      category: 'ItinerarySettings',
-      name: null,
-    });
+    addAnalyticsEvent({ action: 'EditJourneyDate', category: 'ItinerarySettings', name: null });
   };
 
   const onNowClick = time => {

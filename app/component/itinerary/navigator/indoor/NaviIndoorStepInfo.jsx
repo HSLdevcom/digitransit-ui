@@ -5,24 +5,12 @@ import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../../../../utils/client/indoorUtils';
-import {
-  IndoorStepType,
-  VerticalDirection,
-} from '../../../../../utils/shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../../../utils/shared/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
 import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
 
-export default function NaviIndoorStepInfo({
-  focusAction,
-  type,
-  verticalDirection,
-  toLevelName,
-}) {
-  const indoorTranslationId = getIndoorTranslationId(
-    type,
-    verticalDirection,
-    toLevelName,
-  );
+export default function NaviIndoorStepInfo({ focusAction, type, verticalDirection, toLevelName }) {
+  const indoorTranslationId = getIndoorTranslationId(type, verticalDirection, toLevelName);
 
   return (
     <div

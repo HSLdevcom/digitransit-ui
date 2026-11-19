@@ -3,11 +3,7 @@ import { render } from '@testing-library/react';
 import ScheduleTripRow from '../../../../app/component/routepage/schedule/ScheduleTripRow';
 
 describe('<ScheduleTripRow />', () => {
-  const defaultProps = {
-    departureTime: '08:00',
-    arrivalTime: '08:30',
-    isCanceled: false,
-  };
+  const defaultProps = { departureTime: '08:00', arrivalTime: '08:30', isCanceled: false };
 
   describe('Rendering times', () => {
     it('should display departure and arrival times', () => {
@@ -26,23 +22,15 @@ describe('<ScheduleTripRow />', () => {
     it('should apply canceled styling when trip is canceled', () => {
       const props = { ...defaultProps, isCanceled: true };
       const { container } = render(<ScheduleTripRow {...props} />);
-      expect(
-        container.querySelector('.trip-from').classList.contains('canceled'),
-      ).toBe(true);
-      expect(
-        container.querySelector('.trip-to').classList.contains('canceled'),
-      ).toBe(true);
+      expect(container.querySelector('.trip-from').classList.contains('canceled')).toBe(true);
+      expect(container.querySelector('.trip-to').classList.contains('canceled')).toBe(true);
     });
 
     it('should not apply canceled styling when isCanceled is false', () => {
       const props = { ...defaultProps, isCanceled: false };
       const { container } = render(<ScheduleTripRow {...props} />);
-      expect(
-        container.querySelector('.trip-from').classList.contains('canceled'),
-      ).toBe(false);
-      expect(
-        container.querySelector('.trip-to').classList.contains('canceled'),
-      ).toBe(false);
+      expect(container.querySelector('.trip-from').classList.contains('canceled')).toBe(false);
+      expect(container.querySelector('.trip-to').classList.contains('canceled')).toBe(false);
     });
   });
 

@@ -32,11 +32,7 @@ describe('<StopPageTabs />', () => {
 
   it('counts the stop alerts for a stop', () => {
     const { container } = renderTabs(
-      {
-        gtfsId: 'HSL:1',
-        alerts: [alert('a1', 'SEVERE')],
-        canceledCalls: [],
-      },
+      { gtfsId: 'HSL:1', alerts: [alert('a1', 'SEVERE')], canceledCalls: [] },
       stopMatch,
     );
     expect(container.querySelector('.alert-circle').textContent).toBe('1');

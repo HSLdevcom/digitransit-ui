@@ -7,26 +7,12 @@ describe('<AboutPage />', () => {
     URL: {},
     aboutThisService: {
       fi: [
-        {
-          header: 'header1',
-          paragraphs: ['foo1'],
-          link: 'foo1.com',
-        },
-        {
-          header: 'header2',
-          paragraphs: ['foo2'],
-        },
+        { header: 'header1', paragraphs: ['foo1'], link: 'foo1.com' },
+        { header: 'header2', paragraphs: ['foo2'] },
       ],
       sv: [
-        {
-          header: 'sv_header1',
-          paragraphs: ['sv_foo1'],
-          link: 'sv_foo1.com',
-        },
-        {
-          header: 'sv_header2',
-          paragraphs: ['sv_foo2'],
-        },
+        { header: 'sv_header1', paragraphs: ['sv_foo1'], link: 'sv_foo1.com' },
+        { header: 'sv_header2', paragraphs: ['sv_foo2'] },
       ],
     },
   };
@@ -54,9 +40,7 @@ describe('<AboutPage />', () => {
     const { container } = renderWithProviders(<AboutPage />, {
       config: { ...config, language: 'sv' },
     });
-    expect(container.querySelector('.about-header').textContent).toBe(
-      'sv_header1',
-    );
+    expect(container.querySelector('.about-header').textContent).toBe('sv_header1');
     expect(container.querySelector('p').textContent).toBe('sv_foo1');
   });
 });

@@ -20,12 +20,7 @@ describe('<LogoSmall />', () => {
 
   it('should show the given title text', () => {
     const { container } = renderWithProviders(<LogoSmall />, {
-      config: {
-        CONFIG: 'default',
-        URL: {},
-        textLogo: true,
-        title: 'Reittiopas',
-      },
+      config: { CONFIG: 'default', URL: {}, textLogo: true, title: 'Reittiopas' },
     });
     const titleElement = container.querySelector('span.title');
     expect(titleElement).not.toBeNull();

@@ -2,10 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { legShape } from '../../../utils/client/shapes';
 import RouteNumber from '../RouteNumber';
-import {
-  getLegBadgeProps,
-  isLocalCallAgency,
-} from '../../../utils/client/legUtils';
+import { getLegBadgeProps, isLocalCallAgency } from '../../../utils/client/legUtils';
 import {
   getRentalNetworkIcon,
   getRentalNetworkConfig,
@@ -22,17 +19,11 @@ export default function StreetBar({
 }) {
   const config = useConfigContext();
   let networkIcon;
-  if (
-    (mode === 'CITYBIKE' || mode === 'BICYCLE') &&
-    leg.from.vehicleRentalStation
-  ) {
+  if ((mode === 'CITYBIKE' || mode === 'BICYCLE') && leg.from.vehicleRentalStation) {
     networkIcon =
       leg.from.vehicleRentalStation &&
       getRentalNetworkIcon(
-        getRentalNetworkConfig(
-          leg.from.vehicleRentalStation.rentalNetwork.networkId,
-          config,
-        ),
+        getRentalNetworkConfig(leg.from.vehicleRentalStation.rentalNetwork.networkId, config),
       );
   } else if (mode === 'SCOOTER') {
     networkIcon = 'icon_scooter_rider';
@@ -40,11 +31,7 @@ export default function StreetBar({
 
   return (
     <div
-      className={cx(
-        'leg',
-        mode.toLowerCase(),
-        renderModeIcons ? 'render-icon' : '',
-      )}
+      className={cx('leg', mode.toLowerCase(), renderModeIcons ? 'render-icon' : '')}
       style={{ '--width': `${legLength}%` }}
     >
       <RouteNumber
