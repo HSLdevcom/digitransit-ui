@@ -10,25 +10,19 @@ describe('legUtils', () => {
     });
 
     it('should return undefined for a null mode', () => {
-      const leg = {
-        mode: null,
-      };
+      const leg = { mode: null };
       const mode = utils.getLegMode(leg);
       expect(mode).toBeUndefined();
     });
 
     it('should return undefined for an unknown mode', () => {
-      const leg = {
-        mode: 'invalid',
-      };
+      const leg = { mode: 'invalid' };
       const mode = utils.getLegMode(leg);
       expect(mode).toBeUndefined();
     });
 
     it('should be case-insensitive', () => {
-      const leg = {
-        mode: 'citybike',
-      };
+      const leg = { mode: 'citybike' };
       const mode = utils.getLegMode(leg);
       expect(mode).toBe(utils.LegMode.CityBike);
     });
@@ -49,9 +43,7 @@ describe('legUtils', () => {
 
   describe('getTotalWalkingDistance', () => {
     it('should return 0 if there are no legs available', () => {
-      const itinerary = {
-        legs: [],
-      };
+      const itinerary = { legs: [] };
       const distance = utils.getTotalWalkingDistance(itinerary);
       expect(distance).toBe(0);
     });
@@ -59,14 +51,8 @@ describe('legUtils', () => {
     it('should include only walking legs', () => {
       const itinerary = {
         legs: [
-          {
-            distance: 2,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            distance: 3,
-            mode: utils.LegMode.Bicycle,
-          },
+          { distance: 2, mode: utils.LegMode.Walk },
+          { distance: 3, mode: utils.LegMode.Bicycle },
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
@@ -76,18 +62,9 @@ describe('legUtils', () => {
     it('should include all walking legs', () => {
       const itinerary = {
         legs: [
-          {
-            distance: 2,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            distance: 3,
-            mode: utils.LegMode.Bicycle,
-          },
-          {
-            distance: 1,
-            mode: utils.LegMode.Walk,
-          },
+          { distance: 2, mode: utils.LegMode.Walk },
+          { distance: 3, mode: utils.LegMode.Bicycle },
+          { distance: 1, mode: utils.LegMode.Walk },
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
@@ -97,14 +74,8 @@ describe('legUtils', () => {
     it('should include bicycle_walk legs', () => {
       const itinerary = {
         legs: [
-          {
-            distance: 1,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            distance: 2,
-            mode: utils.LegMode.BicycleWalk,
-          },
+          { distance: 1, mode: utils.LegMode.Walk },
+          { distance: 2, mode: utils.LegMode.BicycleWalk },
         ],
       };
       const distance = utils.getTotalWalkingDistance(itinerary);
@@ -114,9 +85,7 @@ describe('legUtils', () => {
 
   describe('getTotalBikingDistance', () => {
     it('should return 0 if there are no legs available', () => {
-      const itinerary = {
-        legs: [],
-      };
+      const itinerary = { legs: [] };
       const distance = utils.getTotalBikingDistance(itinerary);
       expect(distance).toBe(0);
     });
@@ -124,14 +93,8 @@ describe('legUtils', () => {
     it('should include bicycle legs', () => {
       const itinerary = {
         legs: [
-          {
-            distance: 1,
-            mode: utils.LegMode.Bicycle,
-          },
-          {
-            distance: 2,
-            mode: utils.LegMode.Walk,
-          },
+          { distance: 1, mode: utils.LegMode.Bicycle },
+          { distance: 2, mode: utils.LegMode.Walk },
         ],
       };
       const distance = utils.getTotalBikingDistance(itinerary);
@@ -141,14 +104,8 @@ describe('legUtils', () => {
     it('should include citybike legs', () => {
       const itinerary = {
         legs: [
-          {
-            distance: 1,
-            mode: utils.LegMode.CityBike,
-          },
-          {
-            distance: 2,
-            mode: utils.LegMode.Walk,
-          },
+          { distance: 1, mode: utils.LegMode.CityBike },
+          { distance: 2, mode: utils.LegMode.Walk },
         ],
       };
       const distance = utils.getTotalBikingDistance(itinerary);
@@ -214,11 +171,7 @@ describe('legUtils', () => {
         stop: null,
         viaLocationType: 'VISIT',
       },
-      legGeometry: {
-        __dataID__: 'client:34101763480',
-        length: 5,
-        points: '_s`nJmsrtCOLGHCBPj@',
-      },
+      legGeometry: { __dataID__: 'client:34101763480', length: 5, points: '_s`nJmsrtCOLGHCBPj@' },
       intermediateStops: [],
       realTime: false,
       transitLeg: false,
@@ -251,11 +204,7 @@ describe('legUtils', () => {
         vehicleRentalStation: null,
         stop: null,
       },
-      legGeometry: {
-        __dataID__: 'client:34101763483',
-        length: 6,
-        points: 'is`nJeqrtCQk@??GJA@AB',
-      },
+      legGeometry: { __dataID__: 'client:34101763483', length: 6, points: 'is`nJeqrtCQk@??GJA@AB' },
       intermediateStops: [],
       realTime: false,
       transitLeg: false,
@@ -291,8 +240,7 @@ describe('legUtils', () => {
       legGeometry: {
         __dataID__: 'client:34101763486',
         length: 24,
-        points:
-          'gt`nJ_rrtCCl@h@hBlB|F@L?L?LC`@s@vFKp@HZFRdAdDL`@HNHHOh@AF@XLfATzBCZGh@I`@',
+        points: 'gt`nJ_rrtCCl@h@hBlB|F@L?L?LC`@s@vFKp@HZFRdAdDL`@HNHHOh@AF@XLfATzBCZGh@I`@',
       },
       intermediateStops: [],
       realTime: false,
@@ -350,31 +298,26 @@ describe('legUtils', () => {
     it('should compress walking legs when using own bicycle', () => {
       const compressedLegs = utils.compressLegs(originalLegs);
 
-      expect(
-        compressedLegs.filter(leg => leg.to.name === 'Jorvas, Kirkkonummi')[0]
-          .mode,
-      ).toBe('BICYCLE');
-      expect(
-        compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
-          .mode,
-      ).toBe('BICYCLE');
+      expect(compressedLegs.filter(leg => leg.to.name === 'Jorvas, Kirkkonummi')[0].mode).toBe(
+        'BICYCLE',
+      );
+      expect(compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0].mode).toBe(
+        'BICYCLE',
+      );
     });
 
     it('should not compress intermediate legs', () => {
       const compressedLegs = utils.compressLegs(originalLegs);
 
       expect(
-        compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0]
-          .from.viaLocationType === 'VISIT',
+        compressedLegs.filter(leg => leg.from.name === 'Jorvas, Kirkkonummi')[0].from
+          .viaLocationType === 'VISIT',
       ).toBe(true);
       expect(
-        compressedLegs.filter(
-          leg => leg.from.name === 'Elfvinginkuja 7, Kirkkonummi',
-        )[0].from.viaLocationType === 'VISIT',
+        compressedLegs.filter(leg => leg.from.name === 'Elfvinginkuja 7, Kirkkonummi')[0].from
+          .viaLocationType === 'VISIT',
       ).toBe(true);
-      expect(
-        compressedLegs.filter(leg => !!leg.from.viaLocationType).length,
-      ).toBe(2);
+      expect(compressedLegs.filter(leg => !!leg.from.viaLocationType).length).toBe(2);
     });
 
     it('preserves bicycle-walk legs before transit when requested', () => {
@@ -390,34 +333,21 @@ describe('legUtils', () => {
 
       expect(summaryLegs.map(leg => leg.mode)).toEqual(['BICYCLE', 'RAIL']);
       expect(summaryLegs[0]).toMatchObject({ distance: 2000, duration: 600 });
-      expect(displayLegs.map(leg => leg.mode)).toEqual([
-        'BICYCLE',
-        'BICYCLE_WALK',
-        'RAIL',
-      ]);
+      expect(displayLegs.map(leg => leg.mode)).toEqual(['BICYCLE', 'BICYCLE_WALK', 'RAIL']);
       expect(displayLegs[0]).toMatchObject({ distance: 1800, duration: 480 });
       expect(displayLegs[1]).toMatchObject({ distance: 200, duration: 120 });
-      expect(legs.map(leg => leg.mode)).toEqual([
-        'WALK',
-        'BICYCLE',
-        'WALK',
-        'RAIL',
-      ]);
+      expect(legs.map(leg => leg.mode)).toEqual(['WALK', 'BICYCLE', 'WALK', 'RAIL']);
     });
   });
 
   describe('getTotalDistance', () => {
     it('should calculate the total distance of all legs', () => {
-      const itinerary = {
-        legs: [{ distance: 1 }, { distance: 3 }, { distance: 5 }],
-      };
+      const itinerary = { legs: [{ distance: 1 }, { distance: 3 }, { distance: 5 }] };
       expect(utils.getTotalDistance(itinerary)).toBe(9);
     });
 
     it('should ignore a missing distance value', () => {
-      const itinerary = {
-        legs: [{ distance: 1 }, { distance: undefined }, { distance: 5 }],
-      };
+      const itinerary = { legs: [{ distance: 1 }, { distance: undefined }, { distance: 5 }] };
       expect(utils.getTotalDistance(itinerary)).toBe(6);
     });
   });
@@ -431,64 +361,22 @@ describe('legUtils', () => {
     });
 
     it('should ignore a missing "from" field', () => {
-      const legs = [
-        {
-          to: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-        },
-      ];
+      const legs = [{ to: { stop: { zoneId: 'A' } } }];
       expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should ignore a missing "to" field', () => {
-      const legs = [
-        {
-          from: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-        },
-      ];
+      const legs = [{ from: { stop: { zoneId: 'A' } } }];
       expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should retrieve the zone from "from"', () => {
-      const legs = [
-        {
-          from: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-          to: {
-            stop: {
-              zoneId: null,
-            },
-          },
-        },
-      ];
+      const legs = [{ from: { stop: { zoneId: 'A' } }, to: { stop: { zoneId: null } } }];
       expect(utils.getZones(legs)).toEqual(['A']);
     });
 
     it('should retrieve the zone from "to"', () => {
-      const legs = [
-        {
-          from: {
-            stop: {
-              zoneId: null,
-            },
-          },
-          to: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-        },
-      ];
+      const legs = [{ from: { stop: { zoneId: null } }, to: { stop: { zoneId: 'A' } } }];
       expect(utils.getZones(legs)).toEqual(['A']);
     });
 
@@ -496,19 +384,9 @@ describe('legUtils', () => {
       const legs = [
         {
           intermediatePlaces: [
-            {
-              stop: null,
-            },
-            {
-              stop: {
-                zoneId: null,
-              },
-            },
-            {
-              stop: {
-                zoneId: 'A',
-              },
-            },
+            { stop: null },
+            { stop: { zoneId: null } },
+            { stop: { zoneId: 'A' } },
           ],
         },
       ];
@@ -516,22 +394,7 @@ describe('legUtils', () => {
     });
 
     it('should add zone "B" if zones "A" and "C" already exist', () => {
-      const legs = [
-        {
-          from: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-        },
-        {
-          to: {
-            stop: {
-              zoneId: 'C',
-            },
-          },
-        },
-      ];
+      const legs = [{ from: { stop: { zoneId: 'A' } } }, { to: { stop: { zoneId: 'C' } } }];
       expect(utils.getZones(legs)).toEqual(['A', 'B', 'C']);
     });
 
@@ -539,48 +402,11 @@ describe('legUtils', () => {
       const legs = [
         {
           from: null,
-          intermediatePlaces: [
-            {
-              stop: {
-                zoneId: 'B',
-              },
-            },
-            {
-              stop: {
-                zoneId: 'A',
-              },
-            },
-          ],
-          to: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
+          intermediatePlaces: [{ stop: { zoneId: 'B' } }, { stop: { zoneId: 'A' } }],
+          to: { stop: { zoneId: 'A' } },
         },
-        {
-          from: {
-            stop: {
-              zoneId: 'A',
-            },
-          },
-          to: {
-            stop: {
-              zoneId: 'B',
-            },
-          },
-        },
-        {
-          from: {
-            stop: {
-              zoneId: 'C',
-            },
-          },
-          to: {
-            stop: {
-              zoneId: 'B',
-            },
-          },
-        },
+        { from: { stop: { zoneId: 'A' } }, to: { stop: { zoneId: 'B' } } },
+        { from: { stop: { zoneId: 'C' } }, to: { stop: { zoneId: 'B' } } },
       ];
       expect(utils.getZones(legs)).toEqual(['A', 'B', 'C']);
     });
@@ -588,9 +414,7 @@ describe('legUtils', () => {
 
   describe('getTotalWalkingDuration', () => {
     it('should return 0 if there are no legs available', () => {
-      const itinerary = {
-        legs: [],
-      };
+      const itinerary = { legs: [] };
       const duration = utils.getTotalWalkingDuration(itinerary);
       expect(duration).toBe(0);
     });
@@ -598,14 +422,8 @@ describe('legUtils', () => {
     it('should include only walking legs', () => {
       const itinerary = {
         legs: [
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            duration: 120,
-            mode: utils.LegMode.Bicycle,
-          },
+          { duration: 240, mode: utils.LegMode.Walk },
+          { duration: 120, mode: utils.LegMode.Bicycle },
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
@@ -615,18 +433,9 @@ describe('legUtils', () => {
     it('should include all walking legs', () => {
       const itinerary = {
         legs: [
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            duration: 120,
-            mode: utils.LegMode.Bicycle,
-          },
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
+          { duration: 240, mode: utils.LegMode.Walk },
+          { duration: 120, mode: utils.LegMode.Bicycle },
+          { duration: 240, mode: utils.LegMode.Walk },
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
@@ -636,14 +445,8 @@ describe('legUtils', () => {
     it('should include bicycle_walk legs', () => {
       const itinerary = {
         legs: [
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
-          {
-            duration: 120,
-            mode: utils.LegMode.BicycleWalk,
-          },
+          { duration: 240, mode: utils.LegMode.Walk },
+          { duration: 120, mode: utils.LegMode.BicycleWalk },
         ],
       };
       const duration = utils.getTotalWalkingDuration(itinerary);
@@ -653,9 +456,7 @@ describe('legUtils', () => {
 
   describe('getTotalBikingDuration', () => {
     it('should return 0 if there are no legs available', () => {
-      const itinerary = {
-        legs: [],
-      };
+      const itinerary = { legs: [] };
       const duration = utils.getTotalBikingDuration(itinerary);
       expect(duration).toBe(0);
     });
@@ -663,14 +464,8 @@ describe('legUtils', () => {
     it('should include bicycle legs', () => {
       const itinerary = {
         legs: [
-          {
-            duration: 120,
-            mode: utils.LegMode.Bicycle,
-          },
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
+          { duration: 120, mode: utils.LegMode.Bicycle },
+          { duration: 240, mode: utils.LegMode.Walk },
         ],
       };
       const duration = utils.getTotalBikingDuration(itinerary);
@@ -680,14 +475,8 @@ describe('legUtils', () => {
     it('should include citybike legs', () => {
       const itinerary = {
         legs: [
-          {
-            duration: 120,
-            mode: utils.LegMode.CityBike,
-          },
-          {
-            duration: 240,
-            mode: utils.LegMode.Walk,
-          },
+          { duration: 120, mode: utils.LegMode.CityBike },
+          { duration: 240, mode: utils.LegMode.Walk },
         ],
       };
       const duration = utils.getTotalBikingDuration(itinerary);
@@ -701,10 +490,7 @@ describe('legUtils', () => {
       ['sv', 'hörnet av Mannerheimvägen och Kajvägen'],
       ['en', 'corner of Mannerheimintie and Kaivokatu'],
     ])('should replace an OTP street corner name in %s: %s', (locale, name) => {
-      const intl = createTestIntl({
-        locale,
-        messages: { terminus: 'TERMINUS', origin: 'ORIGIN' },
-      });
+      const intl = createTestIntl({ locale, messages: { terminus: 'TERMINUS', origin: 'ORIGIN' } });
       expect(utils.getValidatedLegName(name, intl, true)).toBe('ORIGIN');
       expect(utils.getValidatedLegName(name, intl, false)).toBe('TERMINUS');
     });
@@ -722,15 +508,11 @@ describe('legUtils', () => {
 
   describe('getTripOrRouteText', () => {
     it('should combine the route and interlining route names', () => {
-      expect(utils.getTripOrRouteText({}, { shortName: '1' }, {}, '2')).toBe(
-        '1 / 2',
-      );
+      expect(utils.getTripOrRouteText({}, { shortName: '1' }, {}, '2')).toBe('1 / 2');
     });
 
     it('should fall back to the trip short name when interlining', () => {
-      expect(
-        utils.getTripOrRouteText({ tripShortName: 'T1' }, {}, {}, '2'),
-      ).toBe('T1 / 2');
+      expect(utils.getTripOrRouteText({ tripShortName: 'T1' }, {}, {}, '2')).toBe('T1 / 2');
     });
   });
 });

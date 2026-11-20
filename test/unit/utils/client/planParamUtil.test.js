@@ -4,44 +4,24 @@ import { setCustomizedSettings } from '../../../../utils/client/localStorage';
 
 const from = 'Kera, Espoo::60.217992,24.75494';
 const to = 'Leppävaara, Espoo::60.219235,24.81329';
-const defaultProps = {
-  params: { from, to },
-  location: { query: {} },
-};
+const defaultProps = { params: { from, to }, location: { query: {} } };
 
 const config = {
-  modeToOTP: {
-    bus: 'BUS',
-    walk: 'WALK',
-    citybike: 'BICYCLE_RENT',
-  },
+  modeToOTP: { bus: 'BUS', walk: 'WALK', citybike: 'BICYCLE_RENT' },
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    citybike: {
-      availableForSelection: true,
-      defaultValue: false,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
+    citybike: { availableForSelection: true, defaultValue: false },
   },
   vehicleRental: {
     networks: {
       smoove: {
         icon: 'citybike',
-        name: {
-          fi: 'Helsinki ja Espoo',
-          sv: 'Helsingfors och Esbo',
-          en: 'Helsinki and Espoo',
-        },
+        name: { fi: 'Helsinki ja Espoo', sv: 'Helsingfors och Esbo', en: 'Helsinki and Espoo' },
         type: 'citybike',
       },
     },
   },
-  defaultSettings: {
-    walkSpeed: 1.2,
-    bikeSpeed: 5.55,
-  },
+  defaultSettings: { walkSpeed: 1.2, bikeSpeed: 5.55 },
   defaultOptions: {
     walkSpeed: [0.69, 0.97, 1.2, 1.67, 2.22],
     bikeSpeed: [2.77, 4.15, 5.55, 6.94, 8.33],
@@ -52,38 +32,23 @@ const config = {
 describe('planParamUtil', () => {
   describe('getPlanParams', () => {
     it('should return mode defaults from config if modes are missing from the localStorage', () => {
-      const params = utils.getPlanParams(
-        config,
-        defaultProps,
-        utils.PLANTYPE.TRANSIT,
-      );
+      const params = utils.getPlanParams(config, defaultProps, utils.PLANTYPE.TRANSIT);
       const modes = params.modes.transit.transit;
       expect(modes).toEqual([{ mode: 'BUS' }]);
     });
 
     it('should ignore localstorage modes if useDefaultModes is true', () => {
       setCustomizedSettings({ modes: ['BUS', 'SUBWAY'] });
-      const params = utils.getPlanParams(
-        config,
-        defaultProps,
-        utils.PLANTYPE.TRANSIT,
-        true,
-      );
+      const params = utils.getPlanParams(config, defaultProps, utils.PLANTYPE.TRANSIT, true);
       const modes = params.modes.transit.transit;
       expect(modes).toEqual([{ mode: 'BUS' }]);
     });
 
     it('should use bikeSpeed from localStorage to find closest possible option in config', () => {
       setCustomizedSettings({ bikeSpeed: 20 });
-      const params = utils.getPlanParams(
-        defaultConfig,
-        defaultProps,
-        utils.PLANTYPE.TRANSIT,
-      );
+      const params = utils.getPlanParams(defaultConfig, defaultProps, utils.PLANTYPE.TRANSIT);
       const { bikeSpeed } = params;
-      expect(bikeSpeed).toBe(
-        Math.max(...defaultConfig.defaultOptions.bikeSpeed),
-      );
+      expect(bikeSpeed).toBe(Math.max(...defaultConfig.defaultOptions.bikeSpeed));
     });
 
     it('should contain all the default settings', () => {
@@ -91,10 +56,7 @@ describe('planParamUtil', () => {
       const paramsKeys = Object.keys(
         utils.getPlanParams(
           defaultConfig,
-          {
-            params: { from, to },
-            location: { query: {} },
-          },
+          { params: { from, to }, location: { query: {} } },
           utils.PLANTYPE.TRANSIT,
         ),
       );
@@ -103,20 +65,10 @@ describe('planParamUtil', () => {
     });
 
     it('should not include CITYBIKE in bikepark modes', () => {
-      setCustomizedSettings({
-        modes: ['CITYBIKE', 'BUS'],
-      });
+      setCustomizedSettings({ modes: ['CITYBIKE', 'BUS'] });
       const params = utils.getPlanParams(
         defaultConfig,
-        {
-          params: {
-            from,
-            to,
-          },
-          location: {
-            query: {},
-          },
-        },
+        { params: { from, to }, location: { query: {} } },
         utils.PLANTYPE.TRANSIT,
       );
       const modes = params.modes.transit.transit;
@@ -139,9 +91,7 @@ describe('planParamUtil', () => {
     });
 
     it('setting custom settings should make default settings differ from current settings', () => {
-      setCustomizedSettings({
-        modes: ['BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL', 'WALK'],
-      });
+      setCustomizedSettings({ modes: ['BUS', 'TRAM', 'FERRY', 'SUBWAY', 'RAIL', 'WALK'] });
 
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
       const currentSettings = utils.getSettings(defaultConfig);
@@ -150,17 +100,13 @@ describe('planParamUtil', () => {
 
     it('order of set custom settings should not affect default and current settings comparison', () => {
       const defaultSettings = utils.getDefaultSettings(defaultConfig);
-      setCustomizedSettings({
-        modes: defaultSettings.modes.slice().reverse(),
-      });
+      setCustomizedSettings({ modes: defaultSettings.modes.slice().reverse() });
       const currentSettings = utils.getSettings(defaultConfig);
       expect(defaultSettings).toEqual(currentSettings);
     });
 
     it('unavailable modes should not exist in current settings', () => {
-      setCustomizedSettings({
-        modes: ['BUS', 'WALK', 'FOO'],
-      });
+      setCustomizedSettings({ modes: ['BUS', 'WALK', 'FOO'] });
       const currentSettings = utils.getSettings(defaultConfig);
       expect(currentSettings.modes.length).toBe(1);
       expect(currentSettings.modes).not.toContain('FOO');
@@ -183,22 +129,16 @@ describe('planParamUtil', () => {
       [true, 'parkAndRide', true],
       [false, undefined, false],
       [false, 'walk', false],
-    ])(
-      'sets the disclaimer flag for config %s and hash %s',
-      (showDisclaimer, hash, expected) => {
-        expect(
-          utils.getItineraryDisplayFlags({
-            config: { ...enabledConfig, showDisclaimer },
-            legs: transitLegs,
-            hash,
-            settings: enabledSettings,
-          }),
-        ).toStrictEqual({
-          shouldShowDisclaimer: expected,
-          shouldShowFeedback: true,
-        });
-      },
-    );
+    ])('sets the disclaimer flag for config %s and hash %s', (showDisclaimer, hash, expected) => {
+      expect(
+        utils.getItineraryDisplayFlags({
+          config: { ...enabledConfig, showDisclaimer },
+          legs: transitLegs,
+          hash,
+          settings: enabledSettings,
+        }),
+      ).toStrictEqual({ shouldShowDisclaimer: expected, shouldShowFeedback: true });
+    });
 
     it.each([
       [false, false, false, false],
@@ -219,10 +159,7 @@ describe('planParamUtil', () => {
             hash: '0',
             settings: { personalization: userPersonalization },
           }),
-        ).toStrictEqual({
-          shouldShowDisclaimer: true,
-          shouldShowFeedback: expected,
-        });
+        ).toStrictEqual({ shouldShowDisclaimer: true, shouldShowFeedback: expected });
       },
     );
 
@@ -234,24 +171,13 @@ describe('planParamUtil', () => {
           hash: '0',
           settings: enabledSettings,
         }),
-      ).toStrictEqual({
-        shouldShowDisclaimer: true,
-        shouldShowFeedback: false,
-      });
+      ).toStrictEqual({ shouldShowDisclaimer: true, shouldShowFeedback: false });
     });
 
     it('preserves unset configuration flags', () => {
       expect(
-        utils.getItineraryDisplayFlags({
-          config: {},
-          legs: transitLegs,
-          hash: '0',
-          settings: {},
-        }),
-      ).toStrictEqual({
-        shouldShowDisclaimer: undefined,
-        shouldShowFeedback: undefined,
-      });
+        utils.getItineraryDisplayFlags({ config: {}, legs: transitLegs, hash: '0', settings: {} }),
+      ).toStrictEqual({ shouldShowDisclaimer: undefined, shouldShowFeedback: undefined });
     });
   });
 });

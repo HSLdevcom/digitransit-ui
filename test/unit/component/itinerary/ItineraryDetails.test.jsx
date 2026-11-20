@@ -19,18 +19,14 @@ vi.mock('../../../../app/component/itinerary/Legs', async () => {
         'data-own-car-whole-trip': String(!!props.usingOwnCarWholeTrip),
         'data-leg-modes': props.itinerary.legs.map(leg => leg.mode).join(','),
         'data-fares':
-          props.fares
-            ?.map(fare => (fare.isUnknown ? 'unknown' : fare.ticketName))
-            .join(',') ?? 'null',
+          props.fares?.map(fare => (fare.isUnknown ? 'unknown' : fare.ticketName)).join(',') ??
+          'null',
       }),
   };
 });
 
 const time = (hour, minute = 0) =>
-  `2026-10-30T${String(hour).padStart(2, '0')}:${String(minute).padStart(
-    2,
-    '0',
-  )}:00+02:00`;
+  `2026-10-30T${String(hour).padStart(2, '0')}:${String(minute).padStart(2, '0')}:00+02:00`;
 
 const makePlace = (overrides = {}) => ({
   lat: 60.2,
@@ -126,9 +122,7 @@ const renderDetails = ({
 
 const CALL_AGENCY_ROUTE_TYPE = 715;
 
-const knownFareProducts = [
-  { id: 'fp1', product: { id: 'HSL:AB', price: { amount: 3.1 } } },
-];
+const knownFareProducts = [{ id: 'fp1', product: { id: 'HSL:AB', price: { amount: 3.1 } } }];
 
 const makeFareConfig = (overrides = {}) => ({
   showTicketInformation: true,
@@ -174,9 +168,7 @@ const makeRentalLeg = (duration, networkId = 'smoove', overrides = {}) =>
     mode: 'BICYCLE',
     rentedBike: true,
     duration,
-    from: makePlace({
-      vehicleRentalStation: { rentalNetwork: { networkId } },
-    }),
+    from: makePlace({ vehicleRentalStation: { rentalNetwork: { networkId } } }),
     ...overrides,
   });
 
@@ -227,8 +219,7 @@ describe('<ItineraryDetails />', () => {
   });
 
   describe('itinerary number in the heading', () => {
-    const headingText = params =>
-      renderDetails({ params }).querySelector('h2.sr-only').textContent;
+    const headingText = params => renderDetails({ params }).querySelector('h2.sr-only').textContent;
 
     it('defaults to 1 without a hash', () => {
       expect(headingText({})).toContain('Itinerary suggestion 1');
@@ -240,12 +231,10 @@ describe('<ItineraryDetails />', () => {
     });
 
     it('prefers secondHash over hash', () => {
-      expect(
-        headingText({ hash: 'bikeAndVehicle', secondHash: '2' }),
-      ).toContain('Itinerary suggestion 3');
-      expect(headingText({ hash: '5', secondHash: '1' })).toContain(
-        'Itinerary suggestion 2',
+      expect(headingText({ hash: 'bikeAndVehicle', secondHash: '2' })).toContain(
+        'Itinerary suggestion 3',
       );
+      expect(headingText({ hash: '5', secondHash: '1' })).toContain('Itinerary suggestion 2');
     });
 
     it('falls back to 1 for street hashes', () => {
@@ -274,28 +263,15 @@ describe('<ItineraryDetails />', () => {
 
     it.each([
       ['walking only', [makeWalkLeg()]],
-      [
-        'own bike only',
-        [makeLeg({ mode: 'BICYCLE', transitLeg: false, rentedBike: false })],
-      ],
+      ['own bike only', [makeLeg({ mode: 'BICYCLE', transitLeg: false, rentedBike: false })]],
       [
         'a rented bike',
-        [
-          makeWalkLeg(),
-          makeLeg({ mode: 'BICYCLE', rentedBike: true }),
-          makeRailLeg(),
-        ],
+        [makeWalkLeg(), makeLeg({ mode: 'BICYCLE', rentedBike: true }), makeRailLeg()],
       ],
       ['car driving', [makeWalkLeg(), makeLeg({ mode: 'CAR' }), makeRailLeg()]],
       ['a taxi', [makeWalkLeg(), makeLeg({ mode: 'TAXI' }), makeRailLeg()]],
-      [
-        'a scooter',
-        [makeWalkLeg(), makeLeg({ mode: 'SCOOTER' }), makeRailLeg()],
-      ],
-      [
-        'an airplane',
-        [makeWalkLeg(), makeLeg({ mode: 'AIRPLANE' }), makeRailLeg()],
-      ],
+      ['a scooter', [makeWalkLeg(), makeLeg({ mode: 'SCOOTER' }), makeRailLeg()]],
+      ['an airplane', [makeWalkLeg(), makeLeg({ mode: 'AIRPLANE' }), makeRailLeg()]],
     ])('is not shown for %s', (_, legs) => {
       const container = renderDetails({
         itinerary: makeItinerary(legs),
@@ -314,9 +290,7 @@ describe('<ItineraryDetails />', () => {
             props: { startNavigation: () => {}, ...props },
             breakpoint,
           });
-          expect(
-            container.querySelector('.navi-start-container'),
-          ).not.toBeNull();
+          expect(container.querySelector('.navi-start-container')).not.toBeNull();
         },
       );
     });
@@ -325,8 +299,7 @@ describe('<ItineraryDetails />', () => {
   describe('vehicle rental duration warning', () => {
     const rentalItinerary = (...rentalLegs) =>
       makeItinerary([makeWalkLeg(), ...rentalLegs, makeWalkLeg()]);
-    const infobox = container =>
-      container.querySelector('.citybike-duration-infobox');
+    const infobox = container => container.querySelector('.citybike-duration-infobox');
 
     it('does not show a warning without rental bikes', () => {
       const container = renderDetails({ config: makeRentalConfig() });
@@ -339,9 +312,7 @@ describe('<ItineraryDetails />', () => {
         config: makeRentalConfig(),
       });
       expect(infobox(container)).not.toBeNull();
-      expect(infobox(container).querySelector('a').href).toBe(
-        'https://example.com/smoove',
-      );
+      expect(infobox(container).querySelector('a').href).toBe('https://example.com/smoove');
     });
 
     it('is not shown when the rental is exactly at the limit', () => {
@@ -372,9 +343,7 @@ describe('<ItineraryDetails />', () => {
         config: makeRentalConfig(),
       });
       expect(infobox(container)).not.toBeNull();
-      expect(infobox(container).querySelector('a').href).toBe(
-        'https://example.com/smoove',
-      );
+      expect(infobox(container).querySelector('a').href).toBe('https://example.com/smoove');
     });
 
     it('is not shown when the network has no duration instructions', () => {
@@ -412,13 +381,8 @@ describe('<ItineraryDetails />', () => {
         ]),
         config: makeRentalConfig(),
       });
-      const hrefs = [...infobox(container).querySelectorAll('a')].map(
-        a => a.href,
-      );
-      expect(hrefs).toEqual([
-        'https://example.com/smoove',
-        'https://example.com/vanderlande',
-      ]);
+      const hrefs = [...infobox(container).querySelectorAll('a')].map(a => a.href);
+      expect(hrefs).toEqual(['https://example.com/smoove', 'https://example.com/vanderlande']);
     });
 
     it('shows each qualifying network once in first-qualifying order', () => {
@@ -436,13 +400,8 @@ describe('<ItineraryDetails />', () => {
         ]),
         config: makeRentalConfig(),
       });
-      const hrefs = [...infobox(container).querySelectorAll('a')].map(
-        a => a.href,
-      );
-      expect(hrefs).toEqual([
-        'https://example.com/smoove',
-        'https://example.com/vanderlande',
-      ]);
+      const hrefs = [...infobox(container).querySelectorAll('a')].map(a => a.href);
+      expect(hrefs).toEqual(['https://example.com/smoove', 'https://example.com/vanderlande']);
     });
 
     describe('known quirks', () => {
@@ -451,9 +410,7 @@ describe('<ItineraryDetails />', () => {
         const container = renderDetails({
           itinerary: rentalItinerary(
             makeRentalLeg(7200, 'smoove', {
-              from: makePlace({
-                rentalVehicle: { rentalNetwork: { networkId: 'smoove' } },
-              }),
+              from: makePlace({ rentalVehicle: { rentalNetwork: { networkId: 'smoove' } } }),
             }),
           ),
           config: makeRentalConfig(),
@@ -464,14 +421,11 @@ describe('<ItineraryDetails />', () => {
   });
 
   describe('ticket information and fare disclaimers', () => {
-    const ticketBlock = container =>
-      container.querySelector('.itinerary-ticket-information');
+    const ticketBlock = container => container.querySelector('.itinerary-ticket-information');
     const purchaseBlock = container =>
       container.querySelector('.itinerary-ticket-information-purchase');
     const disclaimerTexts = container =>
-      [...container.querySelectorAll('.unknown-fare-disclaimer__top')].map(
-        el => el.textContent,
-      );
+      [...container.querySelectorAll('.unknown-fare-disclaimer__top')].map(el => el.textContent);
     const knownFareItinerary = (...extraLegs) =>
       makeItinerary([
         makeWalkLeg(),
@@ -481,17 +435,9 @@ describe('<ItineraryDetails />', () => {
 
     it.each([
       ['a mobile purchase', makePurchaseConfig(), knownFareItinerary()],
-      [
-        'an unknown fare',
-        makeFareConfig(),
-        makeItinerary([makeWalkLeg(), makeRailLeg()]),
-      ],
+      ['an unknown fare', makeFareConfig(), makeItinerary([makeWalkLeg(), makeRailLeg()])],
       ['no fares', makeFareConfig(), makeItinerary([makeWalkLeg()])],
-      [
-        'fare information is disabled',
-        { showTicketInformation: false },
-        knownFareItinerary(),
-      ],
+      ['fare information is disabled', { showTicketInformation: false }, knownFareItinerary()],
     ])('calculates fares once when %s', (_, config, itinerary) => {
       const getFaresFromLegs = vi.spyOn(fareUtils, 'getFaresFromLegs');
       renderDetails({ config, itinerary });
@@ -508,33 +454,25 @@ describe('<ItineraryDetails />', () => {
         isMobile: true,
         tabIndex: 0,
       };
-      const { container, rerender } = renderWithProviders(
-        <ItineraryDetails {...props} />,
-        {
-          config: createTestConfig({ language: 'en', ...makePurchaseConfig() }),
-          match: { ...mockMatch, params: {} },
-          breakpoint: 'small',
-        },
-      );
+      const { container, rerender } = renderWithProviders(<ItineraryDetails {...props} />, {
+        config: createTestConfig({ language: 'en', ...makePurchaseConfig() }),
+        match: { ...mockMatch, params: {} },
+        breakpoint: 'small',
+      });
 
       expect(purchaseBlock(container).textContent).toContain('AB');
       expect(container.querySelector('.divider-bottom')).toBeNull();
       expect(container.querySelector('.legs-stub').dataset.fares).toBe('AB');
 
       rerender(
-        <ItineraryDetails
-          {...props}
-          itinerary={makeItinerary([makeWalkLeg(), makeRailLeg()])}
-        />,
+        <ItineraryDetails {...props} itinerary={makeItinerary([makeWalkLeg(), makeRailLeg()])} />,
       );
 
       expect(purchaseBlock(container)).toBeNull();
       expect(container.querySelector('.unknown-fare-container')).not.toBeNull();
       expect(disclaimerTexts(container)).toHaveLength(1);
       expect(container.querySelector('.divider-bottom')).not.toBeNull();
-      expect(container.querySelector('.legs-stub').dataset.fares).toBe(
-        'unknown',
-      );
+      expect(container.querySelector('.legs-stub').dataset.fares).toBe('unknown');
     });
 
     it('renders without ticket information when it is disabled', () => {
@@ -585,9 +523,7 @@ describe('<ItineraryDetails />', () => {
       });
       expect(container.querySelector('.unknown-fare-container')).not.toBeNull();
       expect(disclaimerTexts(container)).toHaveLength(1);
-      expect(disclaimerTexts(container)[0]).toContain(
-        'Test Agency does not sell tickets',
-      );
+      expect(disclaimerTexts(container)[0]).toContain('Test Agency does not sell tickets');
     });
 
     it('hides tickets and disclaimers for unknown fares when configured', () => {
@@ -633,9 +569,9 @@ describe('<ItineraryDetails />', () => {
       });
       expect(disclaimerTexts(container)).toHaveLength(1);
       expect(disclaimerTexts(container)[0]).toContain('Rail disclaimer');
-      expect(
-        container.querySelector('.unknown-fare-disclaimer__top a').href,
-      ).toBe('https://example.com/rail');
+      expect(container.querySelector('.unknown-fare-disclaimer__top a').href).toBe(
+        'https://example.com/rail',
+      );
     });
 
     describe('call agency legs', () => {
@@ -649,10 +585,7 @@ describe('<ItineraryDetails />', () => {
           },
           flex: {
             ...mockContext.config.flex,
-            internal: {
-              ...mockContext.config.flex.internal,
-              agencies: internalAgencies,
-            },
+            internal: { ...mockContext.config.flex.internal, agencies: internalAgencies },
           },
         });
 
@@ -662,12 +595,10 @@ describe('<ItineraryDetails />', () => {
           config: callAgencyConfig(),
         });
         expect(disclaimerTexts(container)).toHaveLength(1);
-        expect(disclaimerTexts(container)[0]).toContain(
-          'demand responsive transport',
+        expect(disclaimerTexts(container)[0]).toContain('demand responsive transport');
+        expect(container.querySelector('.unknown-fare-disclaimer__top a').href).toBe(
+          'https://example.com/call',
         );
-        expect(
-          container.querySelector('.unknown-fare-disclaimer__top a').href,
-        ).toBe('https://example.com/call');
       });
 
       it('shows no fare information for an internal agency', () => {
@@ -689,9 +620,7 @@ describe('<ItineraryDetails />', () => {
           renderDetails({
             itinerary: makeItinerary([makeRailLeg()]),
             config: makeFareConfig({
-              modeDisclaimers: {
-                RAIL: { fi: { disclaimer: 'Vain suomeksi' } },
-              },
+              modeDisclaimers: { RAIL: { fi: { disclaimer: 'Vain suomeksi' } } },
             }),
           }),
         ).toThrow();
@@ -704,9 +633,9 @@ describe('<ItineraryDetails />', () => {
           itinerary: makeItinerary([makeRailLeg()]),
           config: makeFareConfig({ primaryAgencyName: undefined }),
         });
-        expect(
-          container.querySelector('.unknown-fare-disclaimer__top').textContent,
-        ).toMatch(/for which\s+does not sell tickets/);
+        expect(container.querySelector('.unknown-fare-disclaimer__top').textContent).toMatch(
+          /for which\s+does not sell tickets/,
+        );
       });
     });
   });
@@ -731,13 +660,9 @@ describe('<ItineraryDetails />', () => {
       });
       const [notification] = notifications(container);
       expect(notifications(container)).toHaveLength(1);
-      expect(notification.querySelector('h3').textContent).toBe(
-        'Replacement bus',
-      );
+      expect(notification.querySelector('h3').textContent).toBe('Replacement bus');
       expect(notification.textContent).toContain('Replacement service');
-      expect(notification.querySelector('a').href).toBe(
-        'https://example.com/replacement',
-      );
+      expect(notification.querySelector('a').href).toBe('https://example.com/replacement');
     });
 
     it('is shown for a route listed as a replacement route', () => {
@@ -753,19 +678,14 @@ describe('<ItineraryDetails />', () => {
         itinerary: makeItinerary([
           makeRailLeg({
             trip: replacementTrip,
-            route: makeRoute({
-              desc: 'Route description',
-              url: 'https://example.com/route',
-            }),
+            route: makeRoute({ desc: 'Route description', url: 'https://example.com/route' }),
           }),
         ]),
         config: replacementConfig({ showRouteDescNotification: true }),
       });
       const [notification] = notifications(container);
       expect(notification.textContent).toContain('Route description');
-      expect(notification.querySelector('a').href).toBe(
-        'https://example.com/route',
-      );
+      expect(notification.querySelector('a').href).toBe('https://example.com/route');
     });
 
     it('is shown once for several legs of the same route', () => {
@@ -782,10 +702,7 @@ describe('<ItineraryDetails />', () => {
     it('is shown once when different replacement routes share the same content', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
-          makeRailLeg({
-            route: makeRoute({ gtfsId: 'HSL:1' }),
-            trip: replacementTrip,
-          }),
+          makeRailLeg({ route: makeRoute({ gtfsId: 'HSL:1' }), trip: replacementTrip }),
           makeRailLeg({
             route: makeRoute({ gtfsId: 'HSL:2' }),
             trip: { ...replacementTrip, gtfsId: 'HSL:trip3' },
@@ -799,20 +716,13 @@ describe('<ItineraryDetails />', () => {
     it('renders fare disclaimers before replacement bus notices', () => {
       const container = renderDetails({
         itinerary: makeItinerary([makeRailLeg({ trip: replacementTrip })]),
-        config: {
-          ...makeFareConfig(),
-          ...replacementConfig(),
-        },
+        config: { ...makeFareConfig(), ...replacementConfig() },
       });
       const disclaimers = [
-        ...container.querySelectorAll(
-          '.unknown-fare-disclaimer__top, .route-disclaimer-container',
-        ),
+        ...container.querySelectorAll('.unknown-fare-disclaimer__top, .route-disclaimer-container'),
       ];
       expect(disclaimers).toHaveLength(2);
-      expect(disclaimers[0].className).toContain(
-        'unknown-fare-disclaimer__top',
-      );
+      expect(disclaimers[0].className).toContain('unknown-fare-disclaimer__top');
       expect(disclaimers[1].className).toBe('route-disclaimer-container');
     });
 
@@ -856,9 +766,7 @@ describe('<ItineraryDetails />', () => {
             },
           },
         });
-        expect(
-          container.querySelector('.unknown-fare-disclaimer__top'),
-        ).not.toBeNull();
+        expect(container.querySelector('.unknown-fare-disclaimer__top')).not.toBeNull();
         expect(notifications(container)).toHaveLength(0);
       });
 
@@ -890,28 +798,18 @@ describe('<ItineraryDetails />', () => {
 
     it('hides the bottom divider on mobile when the purchase block is shown', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeWalkLeg(),
-          makeRailLeg({ fareProducts: knownFareProducts }),
-        ]),
+        itinerary: makeItinerary([makeWalkLeg(), makeRailLeg({ fareProducts: knownFareProducts })]),
         config: makePurchaseConfig(),
       });
-      expect(
-        container.querySelector('.itinerary-ticket-information-purchase'),
-      ).not.toBeNull();
+      expect(container.querySelector('.itinerary-ticket-information-purchase')).not.toBeNull();
       expect(divider(container)).toBeNull();
     });
 
     it('shows the street summaries only for modes with distance', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeWalkLeg(),
-          makeLeg({ mode: 'CAR', distance: 3000 }),
-        ]),
+        itinerary: makeItinerary([makeWalkLeg(), makeLeg({ mode: 'CAR', distance: 3000 })]),
       });
-      const summaries = container.querySelectorAll(
-        '.distance--itinerary-summary',
-      );
+      const summaries = container.querySelectorAll('.distance--itinerary-summary');
       expect(summaries).toHaveLength(2);
       expect(
         container.querySelector('.distance--itinerary-summary.driving-summary'),
@@ -920,39 +818,28 @@ describe('<ItineraryDetails />', () => {
 
     it('shows the divider on mobile when fare info is hidden despite a purchase config', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeWalkLeg(),
-          makeRailLeg({ fareProducts: knownFareProducts }),
-        ]),
+        itinerary: makeItinerary([makeWalkLeg(), makeRailLeg({ fareProducts: knownFareProducts })]),
         config: makePurchaseConfig({ showTicketLinkOnlyWhenTesting: true }),
       });
-      expect(
-        container.querySelector('.itinerary-ticket-information-purchase'),
-      ).toBeNull();
+      expect(container.querySelector('.itinerary-ticket-information-purchase')).toBeNull();
       expect(divider(container)).not.toBeNull();
     });
 
     it('shows the divider on desktop with a purchase config', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeWalkLeg(),
-          makeRailLeg({ fareProducts: knownFareProducts }),
-        ]),
+        itinerary: makeItinerary([makeWalkLeg(), makeRailLeg({ fareProducts: knownFareProducts })]),
         config: makePurchaseConfig(),
         props: { isMobile: false },
         breakpoint: 'large',
       });
-      expect(
-        container.querySelector('.itinerary-ticket-information-purchase'),
-      ).toBeNull();
+      expect(container.querySelector('.itinerary-ticket-information-purchase')).toBeNull();
       expect(divider(container)).not.toBeNull();
     });
   });
 
   describe('boarding information flags for legs', () => {
     const legsStub = container => container.querySelector('.legs-stub');
-    const ownBikeLeg = overrides =>
-      makeLeg({ mode: 'BICYCLE', rentedBike: false, ...overrides });
+    const ownBikeLeg = overrides => makeLeg({ mode: 'BICYCLE', rentedBike: false, ...overrides });
 
     it('enables bike boarding information for a bike trip when public alternatives exist', () => {
       const container = renderDetails({
@@ -963,9 +850,7 @@ describe('<ItineraryDetails />', () => {
     });
 
     it('disables it without public alternatives', () => {
-      const container = renderDetails({
-        itinerary: makeItinerary([ownBikeLeg(), makeRailLeg()]),
-      });
+      const container = renderDetails({ itinerary: makeItinerary([ownBikeLeg(), makeRailLeg()]) });
       expect(legsStub(container).dataset.bikeBoarding).toBe('false');
     });
 
@@ -973,9 +858,7 @@ describe('<ItineraryDetails />', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
           ownBikeLeg({
-            to: makePlace({
-              vehicleParking: { name: 'Park', vehicleParkingId: 'p1' },
-            }),
+            to: makePlace({ vehicleParking: { name: 'Park', vehicleParkingId: 'p1' } }),
           }),
           makeWalkLeg(),
           makeRailLeg(),
@@ -986,33 +869,22 @@ describe('<ItineraryDetails />', () => {
     });
 
     it('enables car boarding information for a car trip when public alternatives exist', () => {
-      const itinerary = makeItinerary([
-        makeLeg({ mode: 'CAR' }),
-        makeRailLeg(),
-      ]);
+      const itinerary = makeItinerary([makeLeg({ mode: 'CAR' }), makeRailLeg()]);
       expect(
-        legsStub(
-          renderDetails({ itinerary, props: { carPublicItineraryCount: 1 } }),
-        ).dataset.carBoarding,
+        legsStub(renderDetails({ itinerary, props: { carPublicItineraryCount: 1 } })).dataset
+          .carBoarding,
       ).toBe('true');
-      expect(legsStub(renderDetails({ itinerary })).dataset.carBoarding).toBe(
-        'false',
-      );
+      expect(legsStub(renderDetails({ itinerary })).dataset.carBoarding).toBe('false');
     });
 
     it('flags a trip driven entirely with an own car', () => {
       expect(
-        legsStub(
-          renderDetails({
-            itinerary: makeItinerary([makeLeg({ mode: 'CAR' })]),
-          }),
-        ).dataset.ownCarWholeTrip,
+        legsStub(renderDetails({ itinerary: makeItinerary([makeLeg({ mode: 'CAR' })]) })).dataset
+          .ownCarWholeTrip,
       ).toBe('true');
       expect(
         legsStub(
-          renderDetails({
-            itinerary: makeItinerary([makeWalkLeg(), makeLeg({ mode: 'CAR' })]),
-          }),
+          renderDetails({ itinerary: makeItinerary([makeWalkLeg(), makeLeg({ mode: 'CAR' })]) }),
         ).dataset.ownCarWholeTrip,
       ).toBe('false');
     });
@@ -1020,17 +892,11 @@ describe('<ItineraryDetails />', () => {
 
   describe('footer blocks', () => {
     const itineraryDisclaimerTexts = container =>
-      [...container.querySelectorAll('.itinerary-disclaimer')].map(
-        el => el.textContent,
-      );
-    const feedbackBlock = container =>
-      container.querySelector('.itinerary-disclaimer .separator');
+      [...container.querySelectorAll('.itinerary-disclaimer')].map(el => el.textContent);
+    const feedbackBlock = container => container.querySelector('.itinerary-disclaimer .separator');
     const personalizationConfig = (overrides = {}) => ({
       personalization: true,
-      defaultSettings: {
-        ...mockContext.config.defaultSettings,
-        personalization: true,
-      },
+      defaultSettings: { ...mockContext.config.defaultSettings, personalization: true },
       ...overrides,
     });
 
@@ -1041,16 +907,11 @@ describe('<ItineraryDetails />', () => {
 
       it('is shown when configured', () => {
         const container = renderDetails({ config: { showDisclaimer: true } });
-        expect(itineraryDisclaimerTexts(container)[0]).toContain(
-          'estimated travel times',
-        );
+        expect(itineraryDisclaimerTexts(container)[0]).toContain('estimated travel times');
       });
 
       it.each(['walk', 'bike'])('is hidden for the %s street hash', hash => {
-        const container = renderDetails({
-          config: { showDisclaimer: true },
-          params: { hash },
-        });
+        const container = renderDetails({ config: { showDisclaimer: true }, params: { hash } });
         expect(itineraryDisclaimerTexts(container)).toEqual([]);
       });
 
@@ -1065,10 +926,7 @@ describe('<ItineraryDetails />', () => {
       it.each(['0', 'car', 'carAndVehicle', 'parkAndRide'])(
         'is shown for the %s hash when configured',
         hash => {
-          const container = renderDetails({
-            config: { showDisclaimer: true },
-            params: { hash },
-          });
+          const container = renderDetails({ config: { showDisclaimer: true }, params: { hash } });
           expect(itineraryDisclaimerTexts(container)).toHaveLength(1);
         },
       );
@@ -1119,10 +977,7 @@ describe('<ItineraryDetails />', () => {
         );
         const container = renderDetails({
           config: personalizationConfig({
-            defaultSettings: {
-              ...mockContext.config.defaultSettings,
-              personalization: false,
-            },
+            defaultSettings: { ...mockContext.config.defaultSettings, personalization: false },
           }),
           props: { giveFeedback: vi.fn() },
         });
@@ -1160,10 +1015,8 @@ describe('<ItineraryDetails />', () => {
     });
 
     describe('CO2 emissions', () => {
-      const co2Info = container =>
-        container.querySelector('.itinerary-co2-information');
-      const co2Comparison = container =>
-        container.querySelector('.itinerary-co2-comparison');
+      const co2Info = container => container.querySelector('.itinerary-co2-information');
+      const co2Comparison = container => container.querySelector('.itinerary-co2-comparison');
 
       it('is hidden unless configured', () => {
         const container = renderDetails();
@@ -1209,59 +1062,40 @@ describe('<ItineraryDetails />', () => {
     it.each([
       ['without transit', false],
       ['with transit', true],
-    ])(
-      'uses compressed cycling legs for the summary and navigation %s',
-      (_, hasTransit) => {
-        const legs = [
-          makeWalkLeg({ distance: 200, duration: 120 }),
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 1600,
-            duration: 360,
-          }),
-          makeWalkLeg({ distance: 200, duration: 120 }),
-        ];
-        if (hasTransit) {
-          legs.push(makeRailLeg());
-        }
-        const container = renderDetails({
-          itinerary: makeItinerary(legs),
-          props: {
-            startNavigation: vi.fn(),
-            bikePublicItineraryCount: 1,
-          },
-        });
-        const summaries = container.querySelectorAll(
-          '.distance--itinerary-summary',
-        );
-        expect(summaries).toHaveLength(1);
-        expect(summaries[0].querySelector('.bike')).not.toBeNull();
-        expect(summaries[0].querySelector('.sr-only').textContent.trim()).toBe(
-          'Total cycling 10 min, 2.0 km',
-        );
-        const legsStub = container.querySelector('.legs-stub');
-        expect(legsStub.dataset.bikeBoarding).toBe('true');
-        expect(legsStub.dataset.legModes).toBe(
-          hasTransit ? 'WALK,BICYCLE,WALK,RAIL' : 'WALK,BICYCLE,WALK',
-        );
-        expect(Boolean(container.querySelector('.navi-start-container'))).toBe(
-          hasTransit,
-        );
-      },
-    );
+    ])('uses compressed cycling legs for the summary and navigation %s', (_, hasTransit) => {
+      const legs = [
+        makeWalkLeg({ distance: 200, duration: 120 }),
+        makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 1600, duration: 360 }),
+        makeWalkLeg({ distance: 200, duration: 120 }),
+      ];
+      if (hasTransit) {
+        legs.push(makeRailLeg());
+      }
+      const container = renderDetails({
+        itinerary: makeItinerary(legs),
+        props: { startNavigation: vi.fn(), bikePublicItineraryCount: 1 },
+      });
+      const summaries = container.querySelectorAll('.distance--itinerary-summary');
+      expect(summaries).toHaveLength(1);
+      expect(summaries[0].querySelector('.bike')).not.toBeNull();
+      expect(summaries[0].querySelector('.sr-only').textContent.trim()).toBe(
+        'Total cycling 10 min, 2.0 km',
+      );
+      const legsStub = container.querySelector('.legs-stub');
+      expect(legsStub.dataset.bikeBoarding).toBe('true');
+      expect(legsStub.dataset.legModes).toBe(
+        hasTransit ? 'WALK,BICYCLE,WALK,RAIL' : 'WALK,BICYCLE,WALK',
+      );
+      expect(Boolean(container.querySelector('.navi-start-container'))).toBe(hasTransit);
+    });
   });
 
   describe('getExtraProps and distance/duration calculations', () => {
     it('correctly calculates walking distance and duration', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeLeg({ mode: 'WALK', distance: 1000, duration: 600 }),
-        ]),
+        itinerary: makeItinerary([makeLeg({ mode: 'WALK', distance: 1000, duration: 600 })]),
       });
-      const summaries = container.querySelectorAll(
-        '.distance--itinerary-summary',
-      );
+      const summaries = container.querySelectorAll('.distance--itinerary-summary');
       expect(summaries).toHaveLength(1);
       expect(summaries[0].querySelector('.walk')).not.toBeNull();
       expect(summaries[0].querySelector('.sr-only').textContent.trim()).toBe(
@@ -1272,17 +1106,10 @@ describe('<ItineraryDetails />', () => {
     it('correctly calculates biking distance and duration for own bike', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 5000,
-            duration: 1200,
-          }),
+          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 5000, duration: 1200 }),
         ]),
       });
-      const summaries = container.querySelectorAll(
-        '.distance--itinerary-summary',
-      );
+      const summaries = container.querySelectorAll('.distance--itinerary-summary');
       expect(summaries).toHaveLength(1);
       expect(summaries[0].querySelector('.bike')).not.toBeNull();
       expect(summaries[0].querySelector('.sr-only').textContent.trim()).toBe(
@@ -1292,13 +1119,9 @@ describe('<ItineraryDetails />', () => {
 
     it('correctly calculates driving distance and duration for car', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeLeg({ mode: 'CAR', distance: 10000, duration: 600 }),
-        ]),
+        itinerary: makeItinerary([makeLeg({ mode: 'CAR', distance: 10000, duration: 600 })]),
       });
-      const summary = container.querySelector(
-        '.distance--itinerary-summary.driving-summary',
-      );
+      const summary = container.querySelector('.distance--itinerary-summary.driving-summary');
       expect(summary).not.toBeNull();
       expect(summary.querySelector('.sr-only').textContent.trim()).toBe(
         'Total driving 10 min, 10.0 km',
@@ -1309,19 +1132,12 @@ describe('<ItineraryDetails />', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
           makeLeg({ mode: 'WALK', distance: 1000, duration: 600 }),
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 2000,
-            duration: 600,
-          }),
+          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 2000, duration: 600 }),
           makeLeg({ mode: 'CAR', distance: 3000, duration: 600 }),
           makeRailLeg(),
         ]),
       });
-      const summaries = container.querySelectorAll(
-        '.distance--itinerary-summary',
-      );
+      const summaries = container.querySelectorAll('.distance--itinerary-summary');
       expect(summaries.length).toBeGreaterThan(1);
     });
 
@@ -1332,9 +1148,7 @@ describe('<ItineraryDetails />', () => {
           makeRailLeg(),
         ]),
       });
-      expect(
-        container.querySelector('.distance--itinerary-summary.driving-summary'),
-      ).toBeNull();
+      expect(container.querySelector('.distance--itinerary-summary.driving-summary')).toBeNull();
     });
   });
 
@@ -1406,10 +1220,7 @@ describe('<ItineraryDetails />', () => {
 
     it('is false for transit with only walking', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeLeg({ mode: 'WALK', distance: 500 }),
-          makeRailLeg(),
-        ]),
+        itinerary: makeItinerary([makeLeg({ mode: 'WALK', distance: 500 }), makeRailLeg()]),
       });
       expect(container.querySelector('.multirow')).toBeNull();
     });
@@ -1434,9 +1245,7 @@ describe('<ItineraryDetails />', () => {
             makeLeg({ mode: 'CAR', distance: 5000, duration: 300 }),
           ]),
         });
-        expect(
-          container.querySelector('.momentum-scroll.multirow'),
-        ).not.toBeNull();
+        expect(container.querySelector('.momentum-scroll.multirow')).not.toBeNull();
       });
     });
 
@@ -1460,12 +1269,7 @@ describe('<ItineraryDetails />', () => {
     it('is false when biking but no walking or driving', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 2000,
-            duration: 600,
-          }),
+          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 2000, duration: 600 }),
           makeRailLeg(),
         ]),
       });
@@ -1533,10 +1337,7 @@ describe('<ItineraryDetails />', () => {
   describe('FareInfo component integration', () => {
     it('passes correct props to FareInfo component', () => {
       const container = renderDetails({
-        itinerary: makeItinerary([
-          makeWalkLeg(),
-          makeRailLeg({ fareProducts: knownFareProducts }),
-        ]),
+        itinerary: makeItinerary([makeWalkLeg(), makeRailLeg({ fareProducts: knownFareProducts })]),
         config: makeFareConfig(),
         props: { isMobile: true },
       });
@@ -1559,26 +1360,17 @@ describe('<ItineraryDetails />', () => {
 
   describe('desktop title rendering', () => {
     it('shows title on large breakpoint when not hidden', () => {
-      const container = renderDetails({
-        breakpoint: 'large',
-        props: { hideTitle: false },
-      });
+      const container = renderDetails({ breakpoint: 'large', props: { hideTitle: false } });
       expect(container.querySelector('.desktop-title')).not.toBeNull();
     });
 
     it('hides title on large breakpoint when hideTitle is true', () => {
-      const container = renderDetails({
-        breakpoint: 'large',
-        props: { hideTitle: true },
-      });
+      const container = renderDetails({ breakpoint: 'large', props: { hideTitle: true } });
       expect(container.querySelector('.desktop-title')).toBeNull();
     });
 
     it('does not show title on small breakpoint', () => {
-      const container = renderDetails({
-        breakpoint: 'small',
-        props: { hideTitle: false },
-      });
+      const container = renderDetails({ breakpoint: 'small', props: { hideTitle: false } });
       expect(container.querySelector('.desktop-title')).toBeNull();
     });
   });
@@ -1602,9 +1394,7 @@ describe('<ItineraryDetails />', () => {
 
   describe('emissionsInfo presence', () => {
     it('shows emissions info in summary when configured', () => {
-      const container = renderDetails({
-        config: { showCO2InItinerarySummary: true },
-      });
+      const container = renderDetails({ config: { showCO2InItinerarySummary: true } });
       const co2Info = container.querySelector('.itinerary-co2-information');
       expect(co2Info).not.toBeNull();
     });
@@ -1614,9 +1404,7 @@ describe('<ItineraryDetails />', () => {
         config: { showCO2InItinerarySummary: true },
         props: { carEmissions: 200 },
       });
-      expect(
-        container.querySelector('.itinerary-co2-comparison'),
-      ).not.toBeNull();
+      expect(container.querySelector('.itinerary-co2-comparison')).not.toBeNull();
     });
   });
 
@@ -1652,37 +1440,23 @@ describe('<ItineraryDetails />', () => {
     it('is false when biking duration is zero despite distance', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 1000,
-            duration: 0,
-          }),
+          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 1000, duration: 0 }),
           makeRailLeg(),
         ]),
         props: { bikePublicItineraryCount: 1 },
       });
-      expect(container.querySelector('.legs-stub').dataset.bikeBoarding).toBe(
-        'false',
-      );
+      expect(container.querySelector('.legs-stub').dataset.bikeBoarding).toBe('false');
     });
 
     it('is false when biking distance is zero despite duration', () => {
       const container = renderDetails({
         itinerary: makeItinerary([
-          makeLeg({
-            mode: 'BICYCLE',
-            rentedBike: false,
-            distance: 0,
-            duration: 600,
-          }),
+          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 0, duration: 600 }),
           makeRailLeg(),
         ]),
         props: { bikePublicItineraryCount: 1 },
       });
-      expect(container.querySelector('.legs-stub').dataset.bikeBoarding).toBe(
-        'false',
-      );
+      expect(container.querySelector('.legs-stub').dataset.bikeBoarding).toBe('false');
     });
   });
 
@@ -1695,9 +1469,7 @@ describe('<ItineraryDetails />', () => {
         ]),
         props: { carPublicItineraryCount: 1 },
       });
-      expect(container.querySelector('.legs-stub').dataset.carBoarding).toBe(
-        'false',
-      );
+      expect(container.querySelector('.legs-stub').dataset.carBoarding).toBe('false');
     });
 
     it('is false when driving distance is zero despite duration', () => {
@@ -1708,9 +1480,7 @@ describe('<ItineraryDetails />', () => {
         ]),
         props: { carPublicItineraryCount: 1 },
       });
-      expect(container.querySelector('.legs-stub').dataset.carBoarding).toBe(
-        'false',
-      );
+      expect(container.querySelector('.legs-stub').dataset.carBoarding).toBe('false');
     });
   });
 
@@ -1719,9 +1489,7 @@ describe('<ItineraryDetails />', () => {
       const container = renderDetails({
         itinerary: makeItinerary([makeLeg({ mode: 'CAR', distance: 5000 })]),
       });
-      expect(
-        container.querySelector('.legs-stub').dataset.ownCarWholeTrip,
-      ).toBe('true');
+      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('true');
     });
 
     it('is false when walking is present', () => {
@@ -1731,9 +1499,7 @@ describe('<ItineraryDetails />', () => {
           makeLeg({ mode: 'CAR', distance: 5000 }),
         ]),
       });
-      expect(
-        container.querySelector('.legs-stub').dataset.ownCarWholeTrip,
-      ).toBe('false');
+      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('false');
     });
 
     it('is false when biking is present', () => {
@@ -1743,9 +1509,7 @@ describe('<ItineraryDetails />', () => {
           makeLeg({ mode: 'CAR', distance: 5000 }),
         ]),
       });
-      expect(
-        container.querySelector('.legs-stub').dataset.ownCarWholeTrip,
-      ).toBe('false');
+      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('false');
     });
   });
 
@@ -1767,9 +1531,7 @@ describe('<ItineraryDetails />', () => {
           primaryAgencyName: 'Test',
         },
       });
-      const disclaimers = container.querySelectorAll(
-        '.route-disclaimer-container',
-      );
+      const disclaimers = container.querySelectorAll('.route-disclaimer-container');
       expect(disclaimers.length).toBeGreaterThanOrEqual(1);
     });
   });

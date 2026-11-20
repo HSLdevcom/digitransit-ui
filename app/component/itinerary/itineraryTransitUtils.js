@@ -34,16 +34,13 @@ export function getItineraryTransitPresentation({
     showTransitBar: hasRoute && !isTaxiLeg(leg),
     fitRouteNumber:
       !longName &&
-      (fitAllRouteNumbers ||
-        (legLength > ROUTE_NUMBER_THRESHOLD && legWithRouteCount < 7)),
+      (fitAllRouteNumbers || (legLength > ROUTE_NUMBER_THRESHOLD && legWithRouteCount < 7)),
     withBicycle:
       !!leg.route &&
       usingOwnBicycleWholeTrip &&
       config.bikeBoardingModes[leg.route.mode] !== undefined,
     withCar:
-      !!leg.route &&
-      usingOwnCarWholeTrip &&
-      config.carBoardingModes[leg.route.mode] !== undefined,
+      !!leg.route && usingOwnCarWholeTrip && config.carBoardingModes[leg.route.mode] !== undefined,
     showToViaPoint:
       hasRoute &&
       leg.to.viaLocationType === ViaLocationType.PassThrough &&

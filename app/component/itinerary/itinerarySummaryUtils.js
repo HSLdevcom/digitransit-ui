@@ -17,24 +17,16 @@ const getBikeParkedIndex = legs => {
   return index === -1 ? legs.length : index;
 };
 
-export function getItineraryLegSummary({
-  legs,
-  intermediatePlaces,
-  config,
-  breakpoint,
-  duration,
-}) {
+export function getItineraryLegSummary({ legs, intermediatePlaces, config, breakpoint, duration }) {
   const usingOwnBicycle = legs.some(
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
   );
-  const usingOwnBicycleWholeTrip =
-    usingOwnBicycle && legs.every(leg => !leg.to.vehicleParking);
+  const usingOwnBicycleWholeTrip = usingOwnBicycle && legs.every(leg => !leg.to.vehicleParking);
   const usingOwnCar = legs.some(isCarLeg);
-  const usingOwnCarWholeTrip =
-    usingOwnCar && legs.every(leg => !leg.to.vehicleParking);
-  const compressedLegs = compressLegs(
-    splitLegsAtViaPoints(legs, intermediatePlaces),
-  ).map(leg => ({ ...leg }));
+  const usingOwnCarWholeTrip = usingOwnCar && legs.every(leg => !leg.to.vehicleParking);
+  const compressedLegs = compressLegs(splitLegsAtViaPoints(legs, intermediatePlaces)).map(leg => ({
+    ...leg,
+  }));
 
   let intermediateSlack = 0;
   let legWithRouteCount = 0;
@@ -49,8 +41,7 @@ export function getItineraryLegSummary({
 
     nameLengthSum += 10;
     if (index > 0 && (leg.from.viaLocationType || leg.to.viaLocationType)) {
-      intermediateSlack +=
-        legTime(leg.start) - legTime(compressedLegs[index - 1].end);
+      intermediateSlack += legTime(leg.start) - legTime(compressedLegs[index - 1].end);
     }
     containsScooterLeg = leg.mode === 'SCOOTER' || containsScooterLeg;
   });
@@ -77,9 +68,7 @@ export function getItineraryLegSummary({
     shortenLabels: nameLengthSum > NAME_LENGTH_THRESHOLD,
     fitAllRouteNumbers: legWithRouteCount < 4,
     legWithRouteCount,
-    bikeParkedIndex: usingOwnBicycle
-      ? getBikeParkedIndex(compressedLegs)
-      : undefined,
+    bikeParkedIndex: usingOwnBicycle ? getBikeParkedIndex(compressedLegs) : undefined,
     renderModeIcons: compressedLegs.length < 10,
   };
 }

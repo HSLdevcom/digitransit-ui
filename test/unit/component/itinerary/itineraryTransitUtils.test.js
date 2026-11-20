@@ -3,12 +3,7 @@ import { mockContext } from '../../helpers/mock-context';
 
 const getPresentation = (overrides = {}) => {
   const defaults = {
-    leg: {
-      from: {},
-      to: {},
-      mode: 'BUS',
-      route: { mode: 'BUS' },
-    },
+    leg: { from: {}, to: {}, mode: 'BUS', route: { mode: 'BUS' } },
     legLength: 10,
     longName: false,
     fitAllRouteNumbers: true,
@@ -18,11 +13,7 @@ const getPresentation = (overrides = {}) => {
     nextLeg: null,
     usingOwnBicycleWholeTrip: false,
     usingOwnCarWholeTrip: false,
-    config: {
-      ...mockContext.config,
-      bikeBoardingModes: {},
-      carBoardingModes: {},
-    },
+    config: { ...mockContext.config, bikeBoardingModes: {}, carBoardingModes: {} },
     waiting: false,
     waitTime: 0,
     waitLength: 0,
@@ -33,11 +24,7 @@ const getPresentation = (overrides = {}) => {
 describe('getItineraryTransitPresentation', () => {
   it('identifies pass-through and via-stop-call markers unless a marker was added already', () => {
     const passThrough = getPresentation({
-      leg: {
-        from: { viaLocationType: 'PASS_THROUGH' },
-        to: {},
-        route: { mode: 'BUS' },
-      },
+      leg: { from: { viaLocationType: 'PASS_THROUGH' }, to: {}, route: { mode: 'BUS' } },
     });
     const viaStopCall = getPresentation({
       leg: { from: {}, to: {}, viaStopCall: true, route: { mode: 'BUS' } },
@@ -47,11 +34,7 @@ describe('getItineraryTransitPresentation', () => {
       viaPointAdded: true,
     });
     const markedStation = getPresentation({
-      leg: {
-        from: { viaLocationType: 'PASS_THROUGH' },
-        to: {},
-        route: { mode: 'BUS' },
-      },
+      leg: { from: { viaLocationType: 'PASS_THROUGH' }, to: {}, route: { mode: 'BUS' } },
       startsAtMarkedStation: true,
     });
 
@@ -62,11 +45,7 @@ describe('getItineraryTransitPresentation', () => {
   });
 
   it('shows a destination pass-through marker unless the next transit leg starts at a via point', () => {
-    const leg = {
-      from: {},
-      to: { viaLocationType: 'PASS_THROUGH' },
-      route: { mode: 'BUS' },
-    };
+    const leg = { from: {}, to: { viaLocationType: 'PASS_THROUGH' }, route: { mode: 'BUS' } };
 
     expect(getPresentation({ leg }).showToViaPoint).toBe(true);
     expect(
@@ -82,12 +61,7 @@ describe('getItineraryTransitPresentation', () => {
     expect(
       getPresentation({
         leg,
-        nextLeg: {
-          transitLeg: true,
-          interlineWithPreviousLeg: false,
-          from: {},
-          viaStopCall: true,
-        },
+        nextLeg: { transitLeg: true, interlineWithPreviousLeg: false, from: {}, viaStopCall: true },
       }).showToViaPoint,
     ).toBe(false);
     expect(
@@ -101,18 +75,15 @@ describe('getItineraryTransitPresentation', () => {
       }).showToViaPoint,
     ).toBe(true);
     expect(
-      getPresentation({
-        leg,
-        nextLeg: { transitLeg: false, from: { viaLocationType: 'VISIT' } },
-      }).showToViaPoint,
+      getPresentation({ leg, nextLeg: { transitLeg: false, from: { viaLocationType: 'VISIT' } } })
+        .showToViaPoint,
     ).toBe(true);
   });
 
   it('does not render a transit bar for a taxi leg with a route', () => {
     expect(
-      getPresentation({
-        leg: { from: {}, to: {}, mode: 'TAXI', route: { mode: 'BUS' } },
-      }).showTransitBar,
+      getPresentation({ leg: { from: {}, to: {}, mode: 'TAXI', route: { mode: 'BUS' } } })
+        .showTransitBar,
     ).toBe(false);
     expect(getPresentation().showTransitBar).toBe(true);
   });
@@ -120,31 +91,17 @@ describe('getItineraryTransitPresentation', () => {
   it('fits a route number only when the name or leg criteria allow it', () => {
     expect(getPresentation({ legLength: 13 }).fitRouteNumber).toBe(true);
     expect(
-      getPresentation({
-        fitAllRouteNumbers: false,
-        legLength: 13,
-        longName: true,
-      }).fitRouteNumber,
+      getPresentation({ fitAllRouteNumbers: false, legLength: 13, longName: true }).fitRouteNumber,
     ).toBe(false);
     expect(
-      getPresentation({
-        fitAllRouteNumbers: true,
-        legLength: 13,
-        longName: true,
-      }).fitRouteNumber,
+      getPresentation({ fitAllRouteNumbers: true, legLength: 13, longName: true }).fitRouteNumber,
     ).toBe(false);
+    expect(getPresentation({ fitAllRouteNumbers: false, legLength: 10 }).fitRouteNumber).toBe(
+      false,
+    );
     expect(
-      getPresentation({
-        fitAllRouteNumbers: false,
-        legLength: 10,
-      }).fitRouteNumber,
-    ).toBe(false);
-    expect(
-      getPresentation({
-        fitAllRouteNumbers: false,
-        legLength: 13,
-        legWithRouteCount: 7,
-      }).fitRouteNumber,
+      getPresentation({ fitAllRouteNumbers: false, legLength: 13, legWithRouteCount: 7 })
+        .fitRouteNumber,
     ).toBe(false);
   });
 
@@ -160,12 +117,8 @@ describe('getItineraryTransitPresentation', () => {
     'fits route numbers with fitAll=%s, longName=%s, length=%s, count=%s: %s',
     (fitAllRouteNumbers, longName, legLength, legWithRouteCount, expected) => {
       expect(
-        getPresentation({
-          fitAllRouteNumbers,
-          longName,
-          legLength,
-          legWithRouteCount,
-        }).fitRouteNumber,
+        getPresentation({ fitAllRouteNumbers, longName, legLength, legWithRouteCount })
+          .fitRouteNumber,
       ).toBe(expected);
     },
   );
@@ -196,11 +149,7 @@ describe('getItineraryTransitPresentation', () => {
     expect(
       getPresentation({
         usingOwnCarWholeTrip: false,
-        config: {
-          ...mockContext.config,
-          bikeBoardingModes: {},
-          carBoardingModes: { BUS: {} },
-        },
+        config: { ...mockContext.config, bikeBoardingModes: {}, carBoardingModes: { BUS: {} } },
       }).withCar,
     ).toBe(false);
   });

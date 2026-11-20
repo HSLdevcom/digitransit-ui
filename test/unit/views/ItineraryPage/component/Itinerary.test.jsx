@@ -1,23 +1,15 @@
 import { act, fireEvent } from '@testing-library/react';
 
 import Itinerary from '../../../../../app/component/itinerary/Itinerary';
-import {
-  AlertSeverityLevelType,
-  ExtendedRouteTypes,
-} from '../../../../../utils/shared/constants';
+import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../../../../utils/shared/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selector-warning';
 import dcw12 from '../../../test-data/dcw12';
 
-const defaultProps = {
-  hash: 1,
-  focusToHeader: () => {},
-  refTime: 0,
-};
+const defaultProps = { hash: 1, focusToHeader: () => {}, refTime: 0 };
 
-const timeAtMinute = minutes =>
-  new Date(1553769600000 + minutes * 60 * 1000).toISOString();
+const timeAtMinute = minutes => new Date(1553769600000 + minutes * 60 * 1000).toISOString();
 
 const makeTransitLeg = (mode, startMinute, endMinute) => ({
   from: {},
@@ -49,9 +41,7 @@ const classifyLeg = leg => {
   if (leg.classList.contains('via')) {
     return 'via';
   }
-  return STREET_LEG_CLASSES.some(cls => leg.classList.contains(cls))
-    ? 'street'
-    : 'transit';
+  return STREET_LEG_CLASSES.some(cls => leg.classList.contains(cls)) ? 'street' : 'transit';
 };
 
 const getLegTypes = container =>
@@ -62,13 +52,7 @@ describe('<Itinerary />', () => {
   // ignoreRelayModernSelectorWarning's own comment for why this is needed.
   ignoreRelayModernSelectorWarning();
 
-  const renderItinerary = (
-    props,
-    config,
-    router,
-    breakpoint = 'large',
-    options = {},
-  ) => {
+  const renderItinerary = (props, config, router, breakpoint = 'large', options = {}) => {
     const { match } = options;
     return renderWithProviders(<Itinerary {...defaultProps} {...props} />, {
       breakpoint,
@@ -81,8 +65,7 @@ describe('<Itinerary />', () => {
   it('should display both walking legs in the summary view', () => {
     const props = {
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-      intermediatePlaces:
-        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       passive: false,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
@@ -97,17 +80,13 @@ describe('<Itinerary />', () => {
   it('should display all city bike leg start stations in the summary view', () => {
     const props = {
       itinerary: dcw12.cityBikeRouteWithIntermediatePlaces.data,
-      intermediatePlaces:
-        dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
+      intermediatePlaces: dcw12.cityBikeRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
       refTime: dcw12.cityBikeRouteWithIntermediatePlaces.refTime,
     };
     const { container } = renderItinerary(props, {
       ...mockContext.config,
-      vehicleRental: {
-        ...mockContext.config.vehicleRental,
-        fewAvailableCount: 3,
-      },
+      vehicleRental: { ...mockContext.config.vehicleRental, fewAvailableCount: 3 },
     });
     const types = getLegTypes(container);
     expect(types.filter(t => t === 'street').length).toBeGreaterThan(3);
@@ -117,8 +96,7 @@ describe('<Itinerary />', () => {
   it('should hide short legs from the summary view for a non-transit itinerary', () => {
     const props = {
       itinerary: dcw12.bikingRouteWithIntermediatePlaces.data,
-      intermediatePlaces:
-        dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
+      intermediatePlaces: dcw12.bikingRouteWithIntermediatePlaces.intermediatePlaces,
       passive: false,
       refTime: dcw12.bikingRouteWithIntermediatePlaces.refTime,
     };
@@ -133,22 +111,17 @@ describe('<Itinerary />', () => {
     vi.spyOn(HTMLElement.prototype, 'scrollWidth', 'get').mockReturnValue(101);
     const { container } = renderItinerary({
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-      intermediatePlaces:
-        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     });
 
-    expect(
-      container.querySelector('.overflow-icon-container .overflow-icon'),
-    ).not.toBeNull();
+    expect(container.querySelector('.overflow-icon-container .overflow-icon')).not.toBeNull();
   });
 
   it('should show a connecting walk leg between via points for transit itinerary', () => {
     const props = {
       itinerary: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.data,
-      intermediatePlaces:
-        dcw12.transitRouteWithWalkConnectingIntermediatePlaces
-          .intermediatePlaces,
+      intermediatePlaces: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.intermediatePlaces,
       passive: false,
       refTime: dcw12.transitRouteWithWalkConnectingIntermediatePlaces.refTime,
     };
@@ -162,14 +135,11 @@ describe('<Itinerary />', () => {
 
   it('should show a connecting walk leg between last via point and end for transit itinerary', () => {
     const props = {
-      itinerary:
-        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
+      itinerary: dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.data,
       intermediatePlaces:
-        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace
-          .intermediatePlaces,
+        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.intermediatePlaces,
       passive: false,
-      refTime:
-        dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
+      refTime: dcw12.transitRouteWithShortWalkAtEndAfterIntermediatePlace.refTime,
     };
     const { container } = renderItinerary(props);
 
@@ -183,14 +153,11 @@ describe('<Itinerary />', () => {
 
   it('should show a connecting walk leg between start and first via point for transit itinerary', () => {
     const props = {
-      itinerary:
-        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
+      itinerary: dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.data,
       intermediatePlaces:
-        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace
-          .intermediatePlaces,
+        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.intermediatePlaces,
       passive: false,
-      refTime:
-        dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
+      refTime: dcw12.transitRouteWithShortWalkAtStartBeforeIntermediatePlace.refTime,
     };
     const { container } = renderItinerary(props);
 
@@ -203,8 +170,7 @@ describe('<Itinerary />', () => {
   it('should show a via point for transit itinerary when the via point is at a stop', () => {
     const props = {
       itinerary: dcw12.transitRouteWithIntermediatePlaceAtStop.data,
-      intermediatePlaces:
-        dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
+      intermediatePlaces: dcw12.transitRouteWithIntermediatePlaceAtStop.intermediatePlaces,
       passive: false,
       refTime: dcw12.transitRouteWithIntermediatePlaceAtStop.refTime,
     };
@@ -217,38 +183,25 @@ describe('<Itinerary />', () => {
     const firstLeg = {
       ...makeTransitLeg('WALK', 0, 10),
       route: null,
-      from: {
-        stop: { gtfsId: 'test:station' },
-        viaLocationType: 'VISIT',
-      },
+      from: { stop: { gtfsId: 'test:station' }, viaLocationType: 'VISIT' },
     };
     const secondLeg = {
       ...makeTransitLeg('WALK', 10, 20),
       route: null,
-      from: {
-        stop: { gtfsId: 'test:station' },
-        viaLocationType: 'VISIT',
-      },
+      from: { stop: { gtfsId: 'test:station' }, viaLocationType: 'VISIT' },
     };
     const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(20),
-        legs: [firstLeg, secondLeg],
-      },
+      itinerary: { start: timeAtMinute(0), end: timeAtMinute(20), legs: [firstLeg, secondLeg] },
     };
     const { container } = renderItinerary(props);
 
-    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
-      1,
-    );
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(1);
   });
 
   it('should show the really short first walking leg for a transit itinerary', () => {
     const props = {
       itinerary: dcw12.shortWalkingFirstLegWithMultipleViaPoints.data,
-      intermediatePlaces:
-        dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
+      intermediatePlaces: dcw12.shortWalkingFirstLegWithMultipleViaPoints.intermediatePlaces,
       passive: false,
       refTime: dcw12.shortWalkingFirstLegWithMultipleViaPoints.refTime,
     };
@@ -281,16 +234,8 @@ describe('<Itinerary />', () => {
               ],
               mode: 'RAIL',
             },
-            start: {
-              scheduledTime: new Date(
-                (alertEffectiveEndDate + 1) * 1000,
-              ).toISOString(),
-            },
-            end: {
-              scheduledTime: new Date(
-                (alertEffectiveEndDate + 100) * 1000,
-              ).toISOString(),
-            },
+            start: { scheduledTime: new Date((alertEffectiveEndDate + 1) * 1000).toISOString() },
+            end: { scheduledTime: new Date((alertEffectiveEndDate + 100) * 1000).toISOString() },
           },
         ],
       },
@@ -315,22 +260,14 @@ describe('<Itinerary />', () => {
                   alertSeverityLevel: AlertSeverityLevelType.Warning,
                   effectiveEndDate: 1553778000,
                   effectiveStartDate: 1553754595,
-                  trip: {
-                    pattern: {
-                      code: 'HSL:3001I:0:01',
-                    },
-                  },
+                  trip: { pattern: { code: 'HSL:3001I:0:01' } },
                 },
               ],
               mode: 'RAIL',
             },
             start: { scheduledTime: new Date(1553769600000).toISOString() },
             end: { scheduledTime: new Date(1553769601000).toISOString() },
-            trip: {
-              pattern: {
-                code: 'HSL:3001I:0:01',
-              },
-            },
+            trip: { pattern: { code: 'HSL:3001I:0:01' } },
           },
         ],
       },
@@ -389,10 +326,7 @@ describe('<Itinerary />', () => {
               },
             },
             mode: 'RAIL',
-            route: {
-              alerts: [],
-              mode: 'RAIL',
-            },
+            route: { alerts: [], mode: 'RAIL' },
             start: { scheduledTime: new Date(1553769600000).toISOString() },
             end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {},
@@ -413,10 +347,7 @@ describe('<Itinerary />', () => {
           {
             from: {},
             mode: 'RAIL',
-            route: {
-              alerts: [],
-              mode: 'RAIL',
-            },
+            route: { alerts: [], mode: 'RAIL' },
             start: { scheduledTime: new Date(1553769600000).toISOString() },
             end: { scheduledTime: new Date(1553769601000).toISOString() },
             to: {
@@ -448,11 +379,7 @@ describe('<Itinerary />', () => {
             from: {},
             to: {},
             intermediatePlaces: [
-              {
-                stop: {
-                  alerts: [],
-                },
-              },
+              { stop: { alerts: [] } },
               {
                 stop: {
                   alerts: [
@@ -464,15 +391,10 @@ describe('<Itinerary />', () => {
                   ],
                 },
               },
-              {
-                stop: {},
-              },
+              { stop: {} },
             ],
             mode: 'RAIL',
-            route: {
-              alerts: [],
-              mode: 'RAIL',
-            },
+            route: { alerts: [], mode: 'RAIL' },
             start: { scheduledTime: new Date(1553769600000).toISOString() },
             end: { scheduledTime: new Date(1553769601000).toISOString() },
           },
@@ -502,22 +424,14 @@ describe('<Itinerary />', () => {
       ...overrides,
     });
     const itineraryOf = (...legs) => ({
-      itinerary: {
-        start: iso(startMs),
-        end: iso(startMs + 3600000),
-        legs,
-      },
+      itinerary: { start: iso(startMs), end: iso(startMs + 3600000), legs },
     });
 
     it.each([AlertSeverityLevelType.Severe, AlertSeverityLevelType.Unknown])(
       'should show a caution badge for a %s alert',
       level => {
         const { container } = renderItinerary(
-          itineraryOf(
-            transitLeg(0, {
-              route: { alerts: [alertOf(level)], mode: 'RAIL' },
-            }),
-          ),
+          itineraryOf(transitLeg(0, { route: { alerts: [alertOf(level)], mode: 'RAIL' } })),
         );
         expect(container.querySelector('.subicon-caution')).not.toBeNull();
       },
@@ -527,10 +441,7 @@ describe('<Itinerary />', () => {
       const { container } = renderItinerary(
         itineraryOf(
           transitLeg(0, {
-            route: {
-              alerts: [alertOf(AlertSeverityLevelType.Info)],
-              mode: 'RAIL',
-            },
+            route: { alerts: [alertOf(AlertSeverityLevelType.Info)], mode: 'RAIL' },
           }),
         ),
       );
@@ -542,13 +453,8 @@ describe('<Itinerary />', () => {
       const { container } = renderItinerary(
         itineraryOf(
           transitLeg(0, {
-            route: {
-              alerts: [alertOf(AlertSeverityLevelType.Info)],
-              mode: 'RAIL',
-            },
-            from: {
-              stop: { alerts: [alertOf(AlertSeverityLevelType.Warning)] },
-            },
+            route: { alerts: [alertOf(AlertSeverityLevelType.Info)], mode: 'RAIL' },
+            from: { stop: { alerts: [alertOf(AlertSeverityLevelType.Warning)] } },
           }),
         ),
       );
@@ -605,22 +511,15 @@ describe('<Itinerary />', () => {
     it.each([
       ['from', 'from'],
       ['to', 'to'],
-    ])(
-      'should show an info badge for an info alert at the "%s" stop',
-      place => {
-        const { container } = renderItinerary(
-          itineraryOf(
-            transitLeg(0, {
-              [place]: {
-                stop: { alerts: [alertOf(AlertSeverityLevelType.Info)] },
-              },
-            }),
-          ),
-        );
-        expect(container.querySelector('.subicon-info')).not.toBeNull();
-        expect(container.querySelector('.subicon-caution')).toBeNull();
-      },
-    );
+    ])('should show an info badge for an info alert at the "%s" stop', place => {
+      const { container } = renderItinerary(
+        itineraryOf(
+          transitLeg(0, { [place]: { stop: { alerts: [alertOf(AlertSeverityLevelType.Info)] } } }),
+        ),
+      );
+      expect(container.querySelector('.subicon-info')).not.toBeNull();
+      expect(container.querySelector('.subicon-caution')).toBeNull();
+    });
 
     it('should ignore an alert that expired before the leg started', () => {
       const { container } = renderItinerary(
@@ -645,15 +544,9 @@ describe('<Itinerary />', () => {
       const { container } = renderItinerary(
         itineraryOf(
           transitLeg(0, {
-            start: {
-              scheduledTime: iso(startMs),
-              estimated: { time: iso(startMs + 7200000) },
-            },
+            start: { scheduledTime: iso(startMs), estimated: { time: iso(startMs + 7200000) } },
             end: { scheduledTime: iso(startMs + 7800000) },
-            route: {
-              alerts: [alertOf(AlertSeverityLevelType.Warning)],
-              mode: 'RAIL',
-            },
+            route: { alerts: [alertOf(AlertSeverityLevelType.Warning)], mode: 'RAIL' },
           }),
         ),
       );
@@ -670,14 +563,9 @@ describe('<Itinerary />', () => {
         route: { alerts: [alertOf(AlertSeverityLevelType.Info)], mode },
       });
       const { container } = renderItinerary(
-        itineraryOf(
-          transitLeg(0, warn('RAIL')),
-          transitLeg(1800000, info('BUS')),
-        ),
+        itineraryOf(transitLeg(0, warn('RAIL')), transitLeg(1800000, info('BUS'))),
       );
-      expect(
-        container.querySelector('.leg.rail .subicon-caution'),
-      ).not.toBeNull();
+      expect(container.querySelector('.leg.rail .subicon-caution')).not.toBeNull();
       expect(container.querySelector('.leg.bus .subicon-info')).not.toBeNull();
     });
 
@@ -687,18 +575,13 @@ describe('<Itinerary />', () => {
           transitLeg(0),
           transitLeg(1800000, {
             mode: 'BUS',
-            route: {
-              alerts: [alertOf(AlertSeverityLevelType.Warning)],
-              mode: 'BUS',
-            },
+            route: { alerts: [alertOf(AlertSeverityLevelType.Warning)], mode: 'BUS' },
           }),
         ),
       );
       expect(container.querySelectorAll('.subicon-caution')).toHaveLength(1);
       expect(container.querySelector('.leg.rail .subicon-caution')).toBeNull();
-      expect(
-        container.querySelector('.leg.bus .subicon-caution'),
-      ).not.toBeNull();
+      expect(container.querySelector('.leg.bus .subicon-caution')).not.toBeNull();
     });
   });
 
@@ -723,9 +606,7 @@ describe('<Itinerary />', () => {
     };
     const { container } = renderItinerary(props);
 
-    expect(
-      container.querySelector('.leg.car use')?.getAttribute('xlink:href'),
-    ).toBe('#icon_car');
+    expect(container.querySelector('.leg.car use')?.getAttribute('xlink:href')).toBe('#icon_car');
     expect(container.querySelectorAll('.leg.car_park')).toHaveLength(1);
   });
 
@@ -778,11 +659,7 @@ describe('<Itinerary />', () => {
       end: { scheduledTime: timeAtMinute(20) },
     };
     const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(20),
-        legs: [bicycleLeg, walkingLeg],
-      },
+      itinerary: { start: timeAtMinute(0), end: timeAtMinute(20), legs: [bicycleLeg, walkingLeg] },
     };
     const { container } = renderItinerary(props);
 
@@ -814,9 +691,7 @@ describe('<Itinerary />', () => {
       bikeBoardingModes: { RAIL: {} },
     });
 
-    expect(
-      container.querySelector('.leg.rail .itinerary-icon_with-bicycle'),
-    ).not.toBeNull();
+    expect(container.querySelector('.leg.rail .itinerary-icon_with-bicycle')).not.toBeNull();
   });
 
   it('should show the car-on-transit icon for an own-car itinerary', () => {
@@ -842,9 +717,7 @@ describe('<Itinerary />', () => {
       carBoardingModes: { RAIL: {} },
     });
 
-    expect(
-      container.querySelector('.leg.rail .itinerary-icon_with-car'),
-    ).not.toBeNull();
+    expect(container.querySelector('.leg.rail .itinerary-icon_with-car')).not.toBeNull();
   });
 
   it('should render a separate wait bar for a long transfer', () => {
@@ -878,14 +751,11 @@ describe('<Itinerary />', () => {
         legs: [carLeg, makeTransitLeg('RAIL', 20, 30)],
       },
     };
-    const { container } = renderItinerary(props, {
-      ...mockContext.config,
-      carBoardingModes: {},
-    });
+    const { container } = renderItinerary(props, { ...mockContext.config, carBoardingModes: {} });
 
-    expect(
-      container.querySelector('.leg.wait use')?.getAttribute('xlink:href'),
-    ).toBe('#icon_wait-car');
+    expect(container.querySelector('.leg.wait use')?.getAttribute('xlink:href')).toBe(
+      '#icon_wait-car',
+    );
   });
 
   it('should include a short transfer wait in the preceding leg instead of a wait bar', () => {
@@ -908,55 +778,31 @@ describe('<Itinerary />', () => {
     nextLeg.transitLeg = true;
     nextLeg.from = { viaLocationType: 'PASS_THROUGH' };
     const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(20),
-        legs: [firstLeg, nextLeg],
-      },
+      itinerary: { start: timeAtMinute(0), end: timeAtMinute(20), legs: [firstLeg, nextLeg] },
     };
     const { container } = renderItinerary(props);
 
-    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
-      1,
-    );
-    expect(
-      getLegTypes(container).filter(type => type === 'transit'),
-    ).toHaveLength(2);
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(1);
+    expect(getLegTypes(container).filter(type => type === 'transit')).toHaveLength(2);
   });
 
   it('should render a via marker for a transit leg with a via stop call', () => {
     const leg = makeTransitLeg('RAIL', 0, 10);
     leg.viaStopCall = true;
-    const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(10),
-        legs: [leg],
-      },
-    };
+    const props = { itinerary: { start: timeAtMinute(0), end: timeAtMinute(10), legs: [leg] } };
     const { container } = renderItinerary(props);
 
-    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
-      1,
-    );
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(1);
   });
 
   it('should render only one marker when a transit visit is also a via stop call', () => {
     const leg = makeTransitLeg('RAIL', 0, 10);
     leg.from = { viaLocationType: 'VISIT' };
     leg.viaStopCall = true;
-    const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(10),
-        legs: [leg],
-      },
-    };
+    const props = { itinerary: { start: timeAtMinute(0), end: timeAtMinute(10), legs: [leg] } };
     const { container } = renderItinerary(props);
 
-    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(
-      1,
-    );
+    expect(getLegTypes(container).filter(type => type === 'via')).toHaveLength(1);
   });
 
   it('should not render a wait bar before an interlined transit leg', () => {
@@ -964,18 +810,12 @@ describe('<Itinerary />', () => {
     const interlinedLeg = makeTransitLeg('BUS', 15, 25);
     interlinedLeg.interlineWithPreviousLeg = true;
     const props = {
-      itinerary: {
-        start: timeAtMinute(0),
-        end: timeAtMinute(25),
-        legs: [firstLeg, interlinedLeg],
-      },
+      itinerary: { start: timeAtMinute(0), end: timeAtMinute(25), legs: [firstLeg, interlinedLeg] },
     };
     const { container } = renderItinerary(props);
 
     expect(container.querySelectorAll('.leg.wait')).toHaveLength(0);
-    expect(
-      getLegTypes(container).filter(type => type === 'transit'),
-    ).toHaveLength(1);
+    expect(getLegTypes(container).filter(type => type === 'transit')).toHaveLength(1);
   });
 
   it('should render a taxi leg with the external taxi icon and skip the transit bar even when a route is present', () => {
@@ -1000,11 +840,9 @@ describe('<Itinerary />', () => {
     const { container } = renderItinerary(props);
 
     expect(getLegTypes(container).filter(t => t === 'transit')).toHaveLength(0);
-    expect(
-      container
-        .querySelector('.leg.taxi-external use')
-        ?.getAttribute('xlink:href'),
-    ).toBe(`#${mockContext.config.flex.taxiExternalIcon}`);
+    expect(container.querySelector('.leg.taxi-external use')?.getAttribute('xlink:href')).toBe(
+      `#${mockContext.config.flex.taxiExternalIcon}`,
+    );
   });
 
   it('should render a scooter leg and suppress the CO2 summary even when emissions data is present', () => {
@@ -1034,24 +872,15 @@ describe('<Itinerary />', () => {
       showCO2InItinerarySummary: true,
     });
 
-    expect(
-      container.querySelector('.leg.scooter use')?.getAttribute('xlink:href'),
-    ).not.toBeNull();
-    expect(
-      container.querySelectorAll('.itinerary-co2-value-container'),
-    ).toHaveLength(0);
+    expect(container.querySelector('.leg.scooter use')?.getAttribute('xlink:href')).not.toBeNull();
+    expect(container.querySelectorAll('.itinerary-co2-value-container')).toHaveLength(0);
   });
 
   it.each([
     ['below the surcharge limit', 599, 600, 'https://example.org/pricing'],
     ['at the surcharge limit', 600, 600, 'https://example.org/pricing'],
     ['without duration instructions', 900, 600, undefined],
-    [
-      'without a surcharge limit',
-      900,
-      undefined,
-      'https://example.org/pricing',
-    ],
+    ['without a surcharge limit', 900, undefined, 'https://example.org/pricing'],
   ])(
     'should use the rental vehicle network and omit the warning %s',
     (description, duration, timeBeforeSurcharge, durationInstructions) => {
@@ -1061,11 +890,7 @@ describe('<Itinerary />', () => {
           end: timeAtMinute(10),
           legs: [
             {
-              from: {
-                rentalVehicle: {
-                  rentalNetwork: { networkId: 'testnetwork' },
-                },
-              },
+              from: { rentalVehicle: { rentalNetwork: { networkId: 'testnetwork' } } },
               to: {},
               mode: 'BICYCLE',
               rentedBike: true,
@@ -1082,19 +907,12 @@ describe('<Itinerary />', () => {
         ...mockContext.config,
         vehicleRental: {
           ...mockContext.config.vehicleRental,
-          networks: {
-            testnetwork: {
-              timeBeforeSurcharge,
-              durationInstructions,
-            },
-          },
+          networks: { testnetwork: { timeBeforeSurcharge, durationInstructions } },
         },
       });
 
       expect(container.querySelector('.leg.citybike')).not.toBeNull();
-      expect(
-        container.querySelector('.citybike-duration-info-short'),
-      ).toBeNull();
+      expect(container.querySelector('.citybike-duration-info-short')).toBeNull();
     },
   );
 
@@ -1125,12 +943,8 @@ describe('<Itinerary />', () => {
     });
 
     expect(container.querySelectorAll('svg.co2-leaf')).toHaveLength(1);
-    expect(container.querySelector('.itinerary-co2-value').textContent).toBe(
-      '42 g',
-    );
-    expect(
-      container.querySelector('.itinerary-total-distance').textContent,
-    ).toBe('1.5 km');
+    expect(container.querySelector('.itinerary-co2-value').textContent).toBe('42 g');
+    expect(container.querySelector('.itinerary-total-distance').textContent).toBe('1.5 km');
   });
 
   it.each([1, 2])(
@@ -1141,11 +955,7 @@ describe('<Itinerary />', () => {
           start: new Date(1553769600000).toISOString(),
           end: timeAtMinute(15 * legCount),
           legs: Array.from({ length: legCount }, (_, index) => ({
-            from: {
-              vehicleRentalStation: {
-                rentalNetwork: { networkId: 'testnetwork' },
-              },
-            },
+            from: { vehicleRentalStation: { rentalNetwork: { networkId: 'testnetwork' } } },
             to: {},
             mode: 'CITYBIKE',
             rentedBike: true,
@@ -1184,11 +994,7 @@ describe('<Itinerary />', () => {
         end: new Date(1553771400000).toISOString(),
         legs: [
           {
-            from: {
-              vehicleRentalStation: {
-                rentalNetwork: { networkId: 'networka' },
-              },
-            },
+            from: { vehicleRentalStation: { rentalNetwork: { networkId: 'networka' } } },
             to: {},
             mode: 'CITYBIKE',
             rentedBike: true,
@@ -1199,11 +1005,7 @@ describe('<Itinerary />', () => {
             end: { scheduledTime: new Date(1553770500000).toISOString() },
           },
           {
-            from: {
-              vehicleRentalStation: {
-                rentalNetwork: { networkId: 'networkb' },
-              },
-            },
+            from: { vehicleRentalStation: { rentalNetwork: { networkId: 'networkb' } } },
             to: {},
             mode: 'CITYBIKE',
             rentedBike: true,
@@ -1235,9 +1037,7 @@ describe('<Itinerary />', () => {
 
     const warning = container.querySelector('.citybike-duration-info-short');
     expect(warning).not.toBeNull();
-    expect(warning.textContent).toContain(
-      'Extra charge applies to several sections',
-    );
+    expect(warning.textContent).toContain('Extra charge applies to several sections');
   });
 
   it('should render the Feedback component when feedback is requested for a recommended itinerary', () => {
@@ -1246,8 +1046,7 @@ describe('<Itinerary />', () => {
       recommended: true,
       feedback: true,
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-      intermediatePlaces:
-        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
     const { container } = renderItinerary(props);
@@ -1257,8 +1056,7 @@ describe('<Itinerary />', () => {
   it('should not render the Feedback component when feedback props are absent', () => {
     const props = {
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-      intermediatePlaces:
-        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
     };
     const { container } = renderItinerary(props);
@@ -1270,8 +1068,7 @@ describe('<Itinerary />', () => {
     try {
       const { container } = renderItinerary({
         itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-        intermediatePlaces:
-          dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+        intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
         recommended: true,
         giveFeedback: () => {},
       });
@@ -1311,12 +1108,10 @@ describe('<Itinerary />', () => {
     };
     const { container } = renderItinerary(props);
 
-    expect(
-      container.querySelector('.itinerary-start-time-and-end-time').textContent,
-    ).toContain('Estimate');
-    expect(container.querySelector('.itinerary-duration').textContent).toMatch(
-      /^~/,
+    expect(container.querySelector('.itinerary-start-time-and-end-time').textContent).toContain(
+      'Estimate',
     );
+    expect(container.querySelector('.itinerary-duration').textContent).toMatch(/^~/);
     expect(container.textContent).toContain('Dial-a-ride service');
   });
 
@@ -1324,8 +1119,7 @@ describe('<Itinerary />', () => {
     const buildProps = extra => ({
       hash: 2,
       itinerary: dcw12.walkingRouteWithIntermediatePlace.data,
-      intermediatePlaces:
-        dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
+      intermediatePlaces: dcw12.walkingRouteWithIntermediatePlace.intermediatePlaces,
       refTime: dcw12.walkingRouteWithIntermediatePlace.refTime,
       ...extra,
     });
@@ -1352,11 +1146,7 @@ describe('<Itinerary />', () => {
       const match = {
         ...mockContext.match,
         location: { ...mockContext.match.location, state: { existing: true } },
-        params: {
-          from: 'origin',
-          to: 'destination',
-          hash: 'bikeAndVehicle',
-        },
+        params: { from: 'origin', to: 'destination', hash: 'bikeAndVehicle' },
       };
       const { container } = renderItinerary(
         buildProps({ passive: false }),
@@ -1368,26 +1158,16 @@ describe('<Itinerary />', () => {
 
       fireEvent.click(container.querySelector('.summary-clickable-area'));
 
-      expect(replace.mock.calls[0][0].pathname).toBe(
-        '/reitti/origin/destination/bikeAndVehicle/',
-      );
-      expect(push.mock.calls[0][0].pathname).toBe(
-        '/reitti/origin/destination/bikeAndVehicle/2',
-      );
-      expect(push.mock.calls[0][0].state).toEqual({
-        existing: true,
-        selectedItineraryIndex: 2,
-      });
+      expect(replace.mock.calls[0][0].pathname).toBe('/reitti/origin/destination/bikeAndVehicle/');
+      expect(push.mock.calls[0][0].pathname).toBe('/reitti/origin/destination/bikeAndVehicle/2');
+      expect(push.mock.calls[0][0].state).toEqual({ existing: true, selectedItineraryIndex: 2 });
     });
 
     it('should only highlight the itinerary without navigating when passive on a large breakpoint', () => {
       const replace = vi.fn();
       const push = vi.fn();
       const focusToHeader = vi.fn();
-      const props = buildProps({
-        passive: true,
-        focusToHeader,
-      });
+      const props = buildProps({ passive: true, focusToHeader });
       const { container } = renderItinerary(props, undefined, {
         ...mockContext.router,
         replace,
@@ -1404,18 +1184,11 @@ describe('<Itinerary />', () => {
       const replace = vi.fn();
       const push = vi.fn();
       const focusToHeader = vi.fn();
-      const props = buildProps({
-        passive: true,
-        focusToHeader,
-      });
+      const props = buildProps({ passive: true, focusToHeader });
       const { container } = renderItinerary(
         props,
         undefined,
-        {
-          ...mockContext.router,
-          replace,
-          push,
-        },
+        { ...mockContext.router, replace, push },
         'small',
       );
       fireEvent.click(container.querySelector('.summary-clickable-area'));
@@ -1426,15 +1199,11 @@ describe('<Itinerary />', () => {
     it('should highlight the itinerary when selected with the keyboard', () => {
       const replace = vi.fn();
       const push = vi.fn();
-      const { container } = renderItinerary(
-        buildProps({ passive: true }),
-        undefined,
-        {
-          ...mockContext.router,
-          replace,
-          push,
-        },
-      );
+      const { container } = renderItinerary(buildProps({ passive: true }), undefined, {
+        ...mockContext.router,
+        replace,
+        push,
+      });
 
       fireEvent.keyPress(container.querySelector('.summary-clickable-area'), {
         key: 'Enter',

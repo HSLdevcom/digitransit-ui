@@ -1,11 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
-import {
-  hasScooterLegs,
-  hasTaxiLegs,
-  isCallAgencyLeg,
-} from '../../../utils/client/legUtils';
+import { hasScooterLegs, hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { fareShape, legShape } from '../../../utils/client/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -17,26 +13,21 @@ function getReplacementBusNotification(route, trip, config, language) {
     route &&
     (getTripOrRouteMode(trip, route, config)?.includes('replacement') ||
       config.replacementBusRoutes?.includes(route.gtfsId));
-  const isReplacementTrip =
-    trip?.submode?.includes('replacement') || trip?.submode?.includes(714);
+  const isReplacementTrip = trip?.submode?.includes('replacement') || trip?.submode?.includes(714);
 
   if (!isReplacementRoute && !isReplacementTrip) {
     return null;
   }
 
   const useRouteDescription =
-    isReplacementRoute &&
-    config.showRouteDescNotification &&
-    route.desc?.length;
+    isReplacementRoute && config.showRouteDescNotification && route.desc?.length;
 
   return {
     key: `replacementBusNotification-${route.gtfsId || trip?.gtfsId}`,
     content: useRouteDescription
       ? route.desc
       : config.replacementBusNotification?.content?.[language]?.join(' '),
-    link: useRouteDescription
-      ? route.url
-      : config.replacementBusNotification?.link?.[language],
+    link: useRouteDescription ? route.url : config.replacementBusNotification?.link?.[language],
   };
 }
 
@@ -46,8 +37,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
   const intl = useIntl();
   const disclaimers = [];
   const externalOperatorJourneys =
-    hasScooterLegs({ legs: compressedLegs }) ||
-    hasTaxiLegs({ legs: compressedLegs });
+    hasScooterLegs({ legs: compressedLegs }) || hasTaxiLegs({ legs: compressedLegs });
 
   if (
     shouldShowFareInfo(config, legs, fares) &&
@@ -74,8 +64,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
       callAgencyInfo &&
       legs.some(
         leg =>
-          isCallAgencyLeg(leg) &&
-          !config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
+          isCallAgencyLeg(leg) && !config.flex.internal.agencies.includes(leg.route.agency.gtfsId),
       )
     ) {
       disclaimers.push(
@@ -106,17 +95,10 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
 
   if (config.replacementBusNotification) {
     legs.forEach(({ route, trip }) => {
-      const notification = getReplacementBusNotification(
-        route,
-        trip,
-        config,
-        language,
-      );
+      const notification = getReplacementBusNotification(route, trip, config, language);
       if (
         notification &&
-        !disclaimers.some(
-          disclaimer => disclaimer.props?.text === notification.content,
-        )
+        !disclaimers.some(disclaimer => disclaimer.props?.text === notification.content)
       ) {
         disclaimers.push(
           <RouteDisclaimer

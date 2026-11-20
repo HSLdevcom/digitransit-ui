@@ -8,19 +8,10 @@ const makeLeg = (mode, startOffset, duration, overrides = {}) => ({
   duration,
   from: {},
   to: {},
-  start: {
-    scheduledTime: new Date(startTime + startOffset).toISOString(),
-  },
-  end: {
-    scheduledTime: new Date(
-      startTime + startOffset + duration * 1000,
-    ).toISOString(),
-  },
+  start: { scheduledTime: new Date(startTime + startOffset).toISOString() },
+  end: { scheduledTime: new Date(startTime + startOffset + duration * 1000).toISOString() },
   ...(mode === 'RAIL' || mode === 'BUS'
-    ? {
-        transitLeg: true,
-        route: { mode, shortName: mode, alerts: [] },
-      }
+    ? { transitLeg: true, route: { mode, shortName: mode, alerts: [] } }
     : {}),
   ...overrides,
 });
@@ -58,10 +49,7 @@ describe('getItineraryLegSummary', () => {
 
   it('reports own-bicycle and parking state from compressed legs', () => {
     const summary = getSummary([
-      makeLeg('BICYCLE', 0, 300, {
-        rentedBike: false,
-        to: { vehicleParking: true },
-      }),
+      makeLeg('BICYCLE', 0, 300, { rentedBike: false, to: { vehicleParking: true } }),
       makeLeg('RAIL', 300000, 300),
     ]);
 
@@ -73,11 +61,7 @@ describe('getItineraryLegSummary', () => {
   it('reports route label and route-number display settings', () => {
     const legs = Array.from({ length: 4 }, (_, index) =>
       makeLeg('RAIL', index * 600000, 600, {
-        route: {
-          mode: 'RAIL',
-          shortName: `Long route name ${index}`,
-          alerts: [],
-        },
+        route: { mode: 'RAIL', shortName: `Long route name ${index}`, alerts: [] },
       }),
     );
     const summary = getSummary(legs, { duration: 2400000 });

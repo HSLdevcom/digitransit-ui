@@ -11,11 +11,7 @@ import {
   isCallAgencyLeg,
   isBoardableLeg,
 } from '../../../utils/client/legUtils';
-import {
-  dateOrEmpty,
-  isTomorrow,
-  timeStr,
-} from '../../../utils/client/timeUtils';
+import { dateOrEmpty, isTomorrow, timeStr } from '../../../utils/client/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
 import { getSummaryDescriptionText } from '../../../utils/client/localeUtils';
@@ -133,16 +129,12 @@ export default function Itinerary({
     <FormattedMessage
       id="itinerary-co2.description-simple"
       defaultMessage="CO₂ emissions for this route"
-      values={{
-        co2value,
-      }}
+      values={{ co2value }}
     />
   );
 
   const ariaLabelMessage = intl.formatMessage(
-    {
-      id: 'itinerary-page.show-details-label',
-    },
+    { id: 'itinerary-page.show-details-label' },
     { number: props.hash + 1 },
   );
 
@@ -163,10 +155,7 @@ export default function Itinerary({
     date
   );
   const showCo2Info =
-    config.showCO2InItinerarySummary &&
-    co2value !== null &&
-    co2value >= 0 &&
-    !containsScooterLeg;
+    config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
 
   const gotFeedback = props.feedback !== undefined;
   const {
@@ -182,32 +171,19 @@ export default function Itinerary({
       role="listitem"
       className={cx([
         'itinerary-summary-row',
-        {
-          passive,
-          'bp-large': breakpoint === 'large',
-          'no-border': hideSelectionIndicator,
-        },
+        { passive, 'bp-large': breakpoint === 'large', 'no-border': hideSelectionIndicator },
       ])}
       aria-atomic="true"
     >
       <div className="sr-only">
-        <FormattedMessage
-          id="summary-page.row-label"
-          values={{
-            number: props.hash + 1,
-          }}
-        />{' '}
+        <FormattedMessage id="summary-page.row-label" values={{ number: props.hash + 1 }} />{' '}
         {summaryDescription}
         {showCo2Info && <> {co2summary}</>}
       </div>
       <div
         className="itinerary-summary-visible"
         style={{ display: 'flex' }}
-        data-ticket-type={`${getTicketString(
-          itinerary.legs,
-          getZones(itinerary.legs),
-          config,
-        )}`}
+        data-ticket-type={`${getTicketString(itinerary.legs, getZones(itinerary.legs), config)}`}
       >
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
             because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
@@ -276,8 +252,7 @@ export default function Itinerary({
                       id="citybike-duration-info-short"
                       values={{
                         duration:
-                          config.vehicleRental.networks[bikeNetwork]
-                            .timeBeforeSurcharge / 60,
+                          config.vehicleRental.networks[bikeNetwork].timeBeforeSurcharge / 60,
                       }}
                       defaultMessage=""
                     />
@@ -285,10 +260,7 @@ export default function Itinerary({
                 ) : (
                   <div className="citybike-duration-info-short">
                     <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage
-                      id="citybike-duration-general-header"
-                      defaultMessage=""
-                    />
+                    <FormattedMessage id="citybike-duration-general-header" defaultMessage="" />
                   </div>
                 ))}
             </div>
@@ -297,10 +269,7 @@ export default function Itinerary({
                 className={
                   gotFeedback
                     ? ''
-                    : cx('feedback-animated', {
-                        open: isExpanded,
-                        expanded: feedbackExpandDone,
-                      })
+                    : cx('feedback-animated', { open: isExpanded, expanded: feedbackExpandDone })
                 }
                 onTransitionEnd={handleFeedbackTransitionEnd}
               >
@@ -328,9 +297,7 @@ export default function Itinerary({
                 e.stopPropagation();
                 onSelectImmediately();
               }}
-              onKeyPress={e =>
-                isKeyboardSelectionEvent(e) && onSelectImmediately()
-              }
+              onKeyPress={e => isKeyboardSelectionEvent(e) && onSelectImmediately()}
               aria-label={ariaLabelMessage}
             >
               <div className="action-arrow flex-grow">

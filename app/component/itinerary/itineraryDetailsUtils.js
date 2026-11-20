@@ -6,11 +6,7 @@ import {
   isBikeRentalLeg,
 } from '../../../utils/client/legUtils';
 
-export function shouldShowStartNavigation({
-  startNavigation,
-  legs,
-  drivingDistance,
-}) {
+export function shouldShowStartNavigation({ startNavigation, legs, drivingDistance }) {
   const onlyWalking = legs.every(leg => leg.mode === 'WALK');
   const onlyBiking = legs.every(leg => leg.mode === 'BICYCLE');
 
@@ -38,9 +34,7 @@ export function getBoardingInformationFlags({
 
   return {
     showBikeBoardingInformation:
-      containsBiking &&
-      bikePublicItineraryCount > 0 &&
-      !legs.some(isBikeParkLeg),
+      containsBiking && bikePublicItineraryCount > 0 && !legs.some(isBikeParkLeg),
     showCarBoardingInformation: containsDriving && carPublicItineraryCount > 0,
   };
 }

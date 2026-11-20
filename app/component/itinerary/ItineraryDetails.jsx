@@ -3,10 +3,7 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import {
-  getFaresFromLegs,
-  shouldShowMobilePurchaseInfo,
-} from '../../../utils/client/fareUtils';
+import { getFaresFromLegs, shouldShowMobilePurchaseInfo } from '../../../utils/client/fareUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -21,10 +18,7 @@ import {
 import { itineraryShape, relayShape } from '../../../utils/client/shapes';
 import { getFutureText } from '../../../utils/client/timeUtils';
 import { BreakpointConsumer } from '../../hooks/BreakpointContext';
-import {
-  getItineraryDisplayFlags,
-  getSettings,
-} from '../../../utils/client/planParamUtil';
+import { getItineraryDisplayFlags, getSettings } from '../../../utils/client/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';
@@ -37,16 +31,10 @@ import VehicleRentalDurationInfo from './VehicleRentalDurationInfo';
 import { ItineraryDetailsFragment } from './queries/ItineraryDetailsFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { FareInfo } from './FareInfo';
-import {
-  getBoardingInformationFlags,
-  shouldShowStartNavigation,
-} from './itineraryDetailsUtils';
+import { getBoardingInformationFlags, shouldShowStartNavigation } from './itineraryDetailsUtils';
 
 function getExtraProps(itinerary, intl, compressedLegs) {
-  const compressedItinerary = {
-    ...itinerary,
-    legs: compressedLegs,
-  };
+  const compressedItinerary = { ...itinerary, legs: compressedLegs };
   const walkingDistance = getTotalWalkingDistance(compressedItinerary);
   const walkingDuration = getTotalWalkingDuration(compressedItinerary);
   const bikingDistance = getTotalBikingDistance(compressedItinerary);
@@ -55,22 +43,11 @@ function getExtraProps(itinerary, intl, compressedLegs) {
   const drivingDistance = getTotalDrivingDistance(compressedItinerary);
   const futureText = getFutureText(itinerary.start, intl);
   const isMultiRow =
-    walkingDistance > 0 &&
-    (bikingDistance > 0 || drivingDistance > 0) &&
-    futureText !== '';
+    walkingDistance > 0 && (bikingDistance > 0 || drivingDistance > 0) && futureText !== '';
   return {
-    walking: {
-      duration: walkingDuration,
-      distance: walkingDistance,
-    },
-    biking: {
-      duration: bikingDuration,
-      distance: bikingDistance,
-    },
-    driving: {
-      duration: drivingDuration,
-      distance: drivingDistance,
-    },
+    walking: { duration: walkingDuration, distance: walkingDistance },
+    biking: { duration: bikingDuration, distance: bikingDistance },
+    driving: { duration: drivingDuration, distance: drivingDistance },
     futureText,
     isMultiRow,
   };
@@ -104,14 +81,12 @@ export default function ItineraryDetails({
   }
 
   const settings = getSettings(config);
-  const { shouldShowDisclaimer, shouldShowFeedback } = getItineraryDisplayFlags(
-    {
-      config,
-      legs: itinerary.legs,
-      hash: match.params.hash,
-      settings,
-    },
-  );
+  const { shouldShowDisclaimer, shouldShowFeedback } = getItineraryDisplayFlags({
+    config,
+    legs: itinerary.legs,
+    hash: match.params.hash,
+    settings,
+  });
 
   const fares = getFaresFromLegs(itinerary.legs, config);
   const compressedLegs = compressLegs(itinerary.legs);
@@ -130,14 +105,13 @@ export default function ItineraryDetails({
     legs: compressedLegs,
     drivingDistance: driving.distance,
   });
-  const { showBikeBoardingInformation, showCarBoardingInformation } =
-    getBoardingInformationFlags({
-      legs: compressedLegs,
-      biking,
-      driving,
-      bikePublicItineraryCount,
-      carPublicItineraryCount,
-    });
+  const { showBikeBoardingInformation, showCarBoardingInformation } = getBoardingInformationFlags({
+    legs: compressedLegs,
+    biking,
+    driving,
+    bikePublicItineraryCount,
+    carPublicItineraryCount,
+  });
   let itineraryIndex = match.params.secondHash
     ? Number(match.params.secondHash)
     : Number(match.params.hash);
@@ -149,12 +123,7 @@ export default function ItineraryDetails({
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only">
-        <FormattedMessage
-          id="summary-page.row-label"
-          values={{
-            number: itineraryIndex,
-          }}
-        />
+        <FormattedMessage id="summary-page.row-label" values={{ number: itineraryIndex }} />
         <FormattedMessage id="leaves">
           {msg => (
             <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(
@@ -206,26 +175,16 @@ export default function ItineraryDetails({
             fares={fares}
             isMobile={isMobile}
           />,
-          showStartNavi && (
-            <StartNavi key="navigation" startNavigation={startNavigation} />
-          ),
+          showStartNavi && <StartNavi key="navigation" startNavigation={startNavigation} />,
           showEmissions && (
-            <EmissionsInfo
-              key="emissionsummary"
-              itinerary={itinerary}
-              isMobile={isMobile}
-            />
+            <EmissionsInfo key="emissionsummary" itinerary={itinerary} isMobile={isMobile} />
           ),
           <div
-            className={cx('momentum-scroll itinerary-tabs__scroll', {
-              multirow: isMultiRow,
-            })}
+            className={cx('momentum-scroll itinerary-tabs__scroll', { multirow: isMultiRow })}
             key="legs"
           >
             <div
-              className={cx('itinerary-main', {
-                'bp-large': breakpoint === 'large',
-              })}
+              className={cx('itinerary-main', { 'bp-large': breakpoint === 'large' })}
               key="legwrapper"
             >
               <ItineraryDisclaimers

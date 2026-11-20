@@ -1,7 +1,4 @@
-import {
-  isTaxiLeg,
-  isWalkOrBicycleWalkLeg,
-} from '../../../utils/client/legUtils';
+import { isTaxiLeg, isWalkOrBicycleWalkLeg } from '../../../utils/client/legUtils';
 
 export function getItineraryStreetLegData({
   leg,
@@ -24,16 +21,10 @@ export function getItineraryStreetLegData({
   };
 
   if (isWalkOrBicycleWalkLeg(leg) && renderBar) {
-    const mode =
-      usingOwnBicycle && index < bikeParkedIndex ? 'bicycle_walk' : 'walk';
-    const parkingIndicator =
-      usingOwnBicycle && leg.to.vehicleParking ? 'bike' : undefined;
+    const mode = usingOwnBicycle && index < bikeParkedIndex ? 'bicycle_walk' : 'walk';
+    const parkingIndicator = usingOwnBicycle && leg.to.vehicleParking ? 'bike' : undefined;
 
-    return {
-      ...streetLeg,
-      mode,
-      parkingIndicator,
-    };
+    return { ...streetLeg, mode, parkingIndicator };
   }
 
   if ((leg.mode === 'CITYBIKE' || leg.mode === 'BICYCLE') && leg.rentedBike) {
@@ -41,8 +32,7 @@ export function getItineraryStreetLegData({
       leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
       leg.from.rentalVehicle?.rentalNetwork.networkId;
     const network = networkId && config.vehicleRental?.networks?.[networkId];
-    const rentalWarningEnabled =
-      !!network?.timeBeforeSurcharge && !!network.durationInstructions;
+    const rentalWarningEnabled = !!network?.timeBeforeSurcharge && !!network.durationInstructions;
 
     return {
       ...streetLeg,
@@ -77,18 +67,11 @@ export function getItineraryStreetLegData({
   }
 
   if (isTaxiLeg(leg)) {
-    return {
-      ...streetLeg,
-      mode: 'taxi-external',
-      icon: config.flex.taxiExternalIcon,
-    };
+    return { ...streetLeg, mode: 'taxi-external', icon: config.flex.taxiExternalIcon };
   }
 
   if (leg.mode === 'BICYCLE' && renderBar) {
-    return {
-      ...streetLeg,
-      parkingIndicator: leg.to.vehicleParking ? 'bike' : undefined,
-    };
+    return { ...streetLeg, parkingIndicator: leg.to.vehicleParking ? 'bike' : undefined };
   }
 
   return null;

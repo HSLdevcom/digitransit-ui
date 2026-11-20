@@ -26,9 +26,7 @@ const UIStateProbe = ({ gotFeedback = false }) => {
   );
 };
 
-UIStateProbe.propTypes = {
-  gotFeedback: PropTypes.bool,
-};
+UIStateProbe.propTypes = { gotFeedback: PropTypes.bool };
 
 describe('useItinerarySummaryUIState', () => {
   afterEach(() => {

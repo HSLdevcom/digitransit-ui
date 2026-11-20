@@ -1,8 +1,5 @@
 import PropTypes from 'prop-types';
-import {
-  shouldShowFareInfo,
-  shouldShowMobilePurchaseInfo,
-} from '../../../utils/client/fareUtils';
+import { shouldShowFareInfo, shouldShowMobilePurchaseInfo } from '../../../utils/client/fareUtils';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import TicketInformation from './TicketInformation';
 import localizedUrl from '../../../utils/client/urlUtils';
@@ -15,9 +12,7 @@ export function FareInfo({ config, legs, fares, isMobile }) {
   }
 
   if (shouldShowMobilePurchaseInfo(config, legs, fares, isMobile)) {
-    return (
-      <MobileTicketPurchaseInformation fares={fares} zones={getZones(legs)} />
-    );
+    return <MobileTicketPurchaseInformation fares={fares} zones={getZones(legs)} />;
   }
 
   return (

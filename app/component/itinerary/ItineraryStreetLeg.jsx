@@ -4,14 +4,8 @@ import StreetBar from './StreetBar';
 import { legShape } from '../../../utils/client/shapes';
 
 const parkingIndicators = {
-  bike: {
-    className: 'bike_park',
-    icon: 'icon-bike_parking',
-  },
-  car: {
-    className: 'car_park',
-    icon: 'icon_car-park',
-  },
+  bike: { className: 'bike_park', icon: 'icon-bike_parking' },
+  car: { className: 'car_park', icon: 'icon_car-park' },
 };
 
 export default function ItineraryStreetLeg({
@@ -37,10 +31,7 @@ export default function ItineraryStreetLeg({
       />
       {parking && (
         <div className={`leg ${parking.className}`}>
-          <Icon
-            img={parking.icon}
-            className={`itinerary-icon ${parking.className}`}
-          />
+          <Icon img={parking.icon} className={`itinerary-icon ${parking.className}`} />
         </div>
       )}
     </>

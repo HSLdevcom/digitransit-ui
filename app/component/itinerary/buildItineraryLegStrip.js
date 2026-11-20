@@ -19,17 +19,13 @@ import ItineraryStreetLeg from './ItineraryStreetLeg';
 import { getItineraryStreetLegData } from './itineraryStreetLegUtils';
 import { getItineraryTransitPresentation } from './itineraryTransitUtils';
 
-const stationId = place =>
-  place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
+const stationId = place => place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
 
 const ViaPoint = () =>
   createElement(
     'div',
     { className: 'leg via' },
-    createElement(Icon, {
-      img: 'icon_mapMarker',
-      className: 'itinerary-icon place',
-    }),
+    createElement(Icon, { img: 'icon_mapMarker', className: 'itinerary-icon place' }),
   );
 
 export default function buildItineraryLegStrip({
@@ -80,22 +76,17 @@ export default function buildItineraryLegStrip({
       nextLeg,
     } = processedLeg;
     const startMs = legTime(leg.start);
-    const routeName =
-      leg.route && getTripOrRouteText(leg.trip, leg.route, config);
+    const routeName = leg.route && getTripOrRouteText(leg.trip, leg.route, config);
     const longName = !routeName || routeName.length > 5;
     const viaKey = `via_${leg.mode}_${startMs}`;
-    const startsAtMarkedStation =
-      !!markedStationId && stationId(leg.from) === markedStationId;
+    const startsAtMarkedStation = !!markedStationId && stationId(leg.from) === markedStationId;
 
     if (!isWalkOrBicycleWalkLeg(leg)) {
       markedStationId = undefined;
     }
 
     let viaPointAdded = false;
-    if (
-      leg.from.viaLocationType === ViaLocationType.Visit &&
-      !startsAtMarkedStation
-    ) {
+    if (leg.from.viaLocationType === ViaLocationType.Visit && !startsAtMarkedStation) {
       viaPointAdded = true;
       addViaIcon(leg.from, viaKey);
     }
@@ -154,9 +145,7 @@ export default function buildItineraryLegStrip({
           citybikeNetworks.add(bikeNetwork);
         }
         if (streetLeg.rentalBike.rentalWarningEnabled && !citybikeicon) {
-          citybikeicon = getRentalNetworkIcon(
-            getRentalNetworkConfig(bikeNetwork, config),
-          );
+          citybikeicon = getRentalNetworkIcon(getRentalNetworkConfig(bikeNetwork, config));
         }
       }
     }
@@ -181,9 +170,7 @@ export default function buildItineraryLegStrip({
         );
       }
       vehicleNames.push(
-        `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${
-          routeName || ''
-        }`,
+        `${formatMessage({ id: modeToTranslationId(leg.mode, config) })} ${routeName || ''}`,
       );
       stopNames.push(leg.from.name);
       if (transitPresentation.showToViaPoint) {
@@ -207,8 +194,7 @@ export default function buildItineraryLegStrip({
   });
 
   const normalLegCount = legs.length - onlyIconLegCount;
-  const iconLegsInPixels =
-    normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0;
+  const iconLegsInPixels = normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0;
 
   return {
     legs,

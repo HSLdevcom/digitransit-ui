@@ -3,31 +3,24 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
 
-const ItineraryLegs = forwardRef(
-  ({ legs, showOverflowIcon, iconLegsInPixels }, overflowRef) => (
+const ItineraryLegs = forwardRef(({ legs, showOverflowIcon, iconLegsInPixels }, overflowRef) => (
+  <div
+    className="legs-container"
+    style={{ '--minus': `${iconLegsInPixels}px` }}
+    key="legs"
+    aria-hidden="true"
+  >
     <div
-      className="legs-container"
-      style={{ '--minus': `${iconLegsInPixels}px` }}
-      key="legs"
-      aria-hidden="true"
+      className={cx('itinerary-legs', showOverflowIcon ? 'overflow-icon' : '')}
+      ref={overflowRef}
     >
-      <div
-        className={cx(
-          'itinerary-legs',
-          showOverflowIcon ? 'overflow-icon' : '',
-        )}
-        ref={overflowRef}
-      >
-        {legs}
-      </div>
-      <div className="overflow-icon-container">
-        {showOverflowIcon && (
-          <Icon img="icon_three-dots" className="overflow-icon" />
-        )}
-      </div>
+      {legs}
     </div>
-  ),
-);
+    <div className="overflow-icon-container">
+      {showOverflowIcon && <Icon img="icon_three-dots" className="overflow-icon" />}
+    </div>
+  </div>
+));
 
 ItineraryLegs.displayName = 'ItineraryLegs';
 
