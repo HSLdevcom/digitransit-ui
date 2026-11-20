@@ -703,17 +703,11 @@ export function getHeadsignFromRouteLongName(route) {
   return headsign;
 }
 
-export function getStopHeadsignFromStoptimes(stop, stoptimes) {
-  const { gtfsId } = stop;
-  let headsign;
-  if (Array.isArray(stoptimes)) {
-    stoptimes.forEach(stoptime => {
-      if (stoptime.stop.gtfsId === gtfsId) {
-        headsign = stoptime.headsign;
-      }
-    });
-  }
-  return headsign;
+/**
+ * Returns the headsign of a transit leg, falling back to trip headsign and route long name.
+ */
+export function getLegHeadsign(leg) {
+  return leg.headsign || leg.trip?.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 }
 
 /**
