@@ -48,6 +48,7 @@ An autosuggest search input for finding locations, stops, stations, routes and v
     *   `props.required`   (optional, default `false`)
     *   `props.externalLabelId`   (optional, default `undefined`)
     *   `props.extraDescription`   (optional, default `''`)
+    *   `props.movesFocusOnSelect`   (optional, default `id==='origin'`)
     *   `props.ariaLabel`  
     *   `props.colors`   (optional, default `defaultColors`)
     *   `props.modeSet`  
@@ -80,6 +81,7 @@ An autosuggest search input for finding locations, stops, stations, routes and v
 *   `required` **[boolean][4]?** 
 *   `externalLabelId` **[string][3]?** id of a visible <label for={id}> that names the input
 *   `extraDescription` **[string][3]?** text appended to the accessible description of the input
+*   `movesFocusOnSelect` **[boolean][4]?** whether the description says that focus moves to the destination field after selecting; defaults to true for the origin field
 *   `colors` **[Object][1]?** 
 *   `modeSet` **[string][3]?** 
 *   `showScroll` **[boolean][4]?** 

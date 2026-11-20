@@ -645,8 +645,7 @@ export default {
     'scooter-distance-duration': 'Potkulautaile {duration} ({distance})',
     'scooterwalk-distance-duration': 'Taluta sähköpotkulautaa {duration} ({distance})',
     'search-current-suggestion': 'Tämänhetkinen valinta: {selection}',
-    'search-fields.search-starts':
-      'Reittihaku alkaa automaattisesti, kun sekä lähtöpaikka että määränpää on valittu.',
+    'search-fields.search-starts': 'Reittihaku alkaa automaattisesti valinnan jälkeen.',
     'search-fields.sr-instructions':
       'Reittihaku tehdään automaattisesti kun lähtöpaikka ja määränpää on asetettu. Haun parametrien muuttaminen laukaisee uuden reittihaun. Navigoi hakukenttiin tab-näppäimellä.',
     'searching-position': 'Paikannetaan...',

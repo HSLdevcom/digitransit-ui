@@ -3,4 +3,4 @@
 '@digitransit-component/digitransit-component-autosuggest-panel': minor
 ---
 
-Add the `extraDescription` prop to append text, such as a warning that the search starts automatically, to the accessible description of the search fields.
+Add the `extraDescription` and `movesFocusOnSelect` props to autosuggest, and the `searchStartsDescription` prop to the panel. The panel adds the description to a field only when the other field is set, and the origin field no longer claims that focus moves to the destination when the destination is set or on mobile.

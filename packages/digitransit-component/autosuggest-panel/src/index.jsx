@@ -182,7 +182,7 @@ ItinerarySearchControl.propTypes = {
  *    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
  *    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
  *    handleFocusChange={() => {}} // Optional. If defined overrides default onFocusChange behaviour
- *    extraDescription="Search starts automatically." // Optional. Added to the accessible description of the origin and destination fields.
+ *    searchStartsDescription="Search starts automatically." // Optional. Added to the accessible description of a field when the other field is already set, as selecting a place then starts the search.
  *    showSwapControl={false} // Optional.
  *    showViapointControl={false} // Optional.
  */
@@ -220,7 +220,7 @@ export default function DTAutosuggestPanel({
   isMobile = false,
   originMobileLabel = null,
   destinationMobileLabel = null,
-  extraDescription = undefined,
+  searchStartsDescription = undefined,
   refPoint,
   modeSet,
   colors = defaultColors,
@@ -247,8 +247,13 @@ export default function DTAutosuggestPanel({
     destinationInputRef.current = ref;
   };
 
+  const originSet = !!origin?.lat;
+  const destinationSet = !!destination?.lat;
+  // Matches onFocusChange handling in DTAutosuggest: no focus move on mobile.
+  const movesFocusToDestination = !destinationSet && (!isMobile || isEmbedded);
+
   const handleFocusChange = () => {
-    if (!destination || !destination.lat) {
+    if (!destinationSet) {
       destinationInputRef.current.focus();
     }
   };
@@ -373,7 +378,8 @@ export default function DTAutosuggestPanel({
           isMobile={isMobile}
           colors={colors}
           mobileLabel={originMobileLabel}
-          extraDescription={extraDescription}
+          extraDescription={destinationSet ? searchStartsDescription : undefined}
+          movesFocusOnSelect={movesFocusToDestination}
           modeSet={modeSet}
           showScroll={showScroll}
           isEmbedded={isEmbedded}
@@ -536,7 +542,7 @@ export default function DTAutosuggestPanel({
           filterResults={filterResults}
           isMobile={isMobile}
           mobileLabel={destinationMobileLabel}
-          extraDescription={extraDescription}
+          extraDescription={originSet ? searchStartsDescription : undefined}
           modeSet={modeSet}
           colors={colors}
           showScroll={showScroll}
@@ -583,7 +589,7 @@ DTAutosuggestPanel.propTypes = {
   isMobile: PropTypes.bool,
   originMobileLabel: PropTypes.string,
   destinationMobileLabel: PropTypes.string,
-  extraDescription: PropTypes.string,
+  searchStartsDescription: PropTypes.string,
   refPoint: locationShape,
   modeSet: PropTypes.string,
   colors: PropTypes.objectOf(PropTypes.string),

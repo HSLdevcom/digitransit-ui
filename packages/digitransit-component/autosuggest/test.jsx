@@ -110,6 +110,13 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     expect(description.textContent).toContain('Search starts automatically.');
   });
 
+  it('only says that focus moves to the destination when told so', () => {
+    const { container } = renderAutosuggest({ id: 'origin', movesFocusOnSelect: false });
+    const input = screen.getByRole('combobox');
+    const description = container.querySelector(`#${input.getAttribute('aria-describedby')}`);
+    expect(description.textContent).not.toContain('destination field');
+  });
+
   it('renders the clear history button outside the listbox', () => {
     const { container } = render(
       <Suggestions
