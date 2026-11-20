@@ -613,6 +613,14 @@ function DTAutosuggest({
     }
   }, [state.renderMobile, isOpen]);
 
+  // The input is hidden while the mobile modal is open, so focus is lost on close.
+  const restoreFocusAfterModal = () => {
+    const { activeElement } = document;
+    if (!activeElement || activeElement === document.body) {
+      inputRef.current?.focus?.();
+    }
+  };
+
   // Downshift keeps highlightedIndex when the suggestions change, and the
   // menu is hidden on mobile, so the highlighted item may not be shown.
   const activeItemHidden = isMobile || highlightedIndex >= state.suggestions.length;
@@ -629,6 +637,7 @@ function DTAutosuggest({
           mobileLabel={mobileLabel || t(id, { lng })}
           ariaProps={{ ariaCurrentSuggestion, SearchBarId, ariaRequiredText }}
           extraDescription={extraDescription}
+          onAfterClose={restoreFocusAfterModal}
           id={id}
           lng={lng}
           onSelectedItemChange={onSelectedItemChange}

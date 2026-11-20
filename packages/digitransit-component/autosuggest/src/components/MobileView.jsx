@@ -38,6 +38,7 @@ import {
  * @property {boolean} required
  * @property {string} [mobileLabel]
  * @property {string} [extraDescription]
+ * @property {function} [onAfterClose] called after the modal has closed
  * @property {boolean} [showScroll]
  * @property {AutosuggestState} state
  * @property {function} dispatch
@@ -63,6 +64,7 @@ export default function MobileView({
   required,
   mobileLabel,
   extraDescription = '',
+  onAfterClose = undefined,
   showScroll,
   state,
   dispatch,
@@ -176,6 +178,7 @@ export default function MobileView({
       className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
       shouldReturnFocusAfterClose={false}
+      onAfterClose={onAfterClose}
       shouldCloseOnEsc
     >
       <div
@@ -278,6 +281,7 @@ MobileView.propTypes = {
   placeholder: PropTypes.string.isRequired,
   mobileLabel: PropTypes.string.isRequired,
   extraDescription: PropTypes.string,
+  onAfterClose: PropTypes.func,
   required: PropTypes.bool.isRequired,
   showScroll: PropTypes.bool.isRequired,
   lng: PropTypes.string.isRequired,
