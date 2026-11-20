@@ -703,19 +703,6 @@ export function getHeadsignFromRouteLongName(route) {
   return headsign;
 }
 
-export function getStopHeadsignFromStoptimes(stop, stoptimes) {
-  const { gtfsId } = stop;
-  let headsign;
-  if (Array.isArray(stoptimes)) {
-    stoptimes.forEach(stoptime => {
-      if (stoptime.stop.gtfsId === gtfsId) {
-        headsign = stoptime.headsign;
-      }
-    });
-  }
-  return headsign;
-}
-
 /**
  * Calculates and returns the total duration undertaken in legs.
  *

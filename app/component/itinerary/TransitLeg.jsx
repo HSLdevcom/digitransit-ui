@@ -26,7 +26,6 @@ import { durationToString } from '../../../utils/client/timeUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
-  getStopHeadsignFromStoptimes,
   getZoneLabel,
   showBikeBoardingNote,
   showCarBoardingNote,
@@ -321,10 +320,7 @@ export default function TransitLeg({
     /^([^0-9]*)$/.test(leg.route.shortName) &&
     leg.route.shortName.length > 3;
 
-  const headsign =
-    getStopHeadsignFromStoptimes(leg.from.stop, leg.trip.stoptimesForDate) ||
-    leg.trip.tripHeadsign ||
-    getHeadsignFromRouteLongName(leg.route);
+  const headsign = leg.headsign || leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
 
   let intermediateStopCount = leg.intermediatePlaces.length;
   if (interliningLegs) {
@@ -413,7 +409,7 @@ export default function TransitLeg({
           <span className="sr-only">
             {`${intl.formatMessage({
               id: modeToTranslationId(mode, config),
-            })} ${leg.route?.shortName || ''} ${leg.trip?.tripHeadsign || ''}`}
+            })} ${leg.route?.shortName || ''} ${headsign || ''}`}
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time-group">
@@ -551,7 +547,9 @@ export default function TransitLeg({
                 key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
                 hasNoShortName={hasNoShortName}
-                headsign={l.trip.tripHeadsign}
+                headsign={
+                  l.headsign || l.trip.tripHeadsign || getHeadsignFromRouteLongName(l.route)
+                }
                 isAlternativeLeg
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(l)}
                 displayTime

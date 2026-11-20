@@ -21,6 +21,7 @@ export const ItineraryDetailsFragment = graphql`
         }
       }
       mode
+      headsign
       legGeometry {
         points
       }
@@ -89,6 +90,7 @@ export const ItineraryDetailsFragment = graphql`
       ) {
         mode
         distance
+        headsign
         route {
           agency {
             gtfsId
