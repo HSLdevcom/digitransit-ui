@@ -11,7 +11,13 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import { getDepartureHeadsigns, getDepartureStoptimes } from '../../../utils/client/patternUtils';
 import { hslfiLocale } from '../../../utils/client/hslfiLocale';
 
-export default function FilterTimeTableModal({ stop, setRoutes, showFilterModal, showRoutesList }) {
+export default function FilterTimeTableModal({
+  stop,
+  setRoutes,
+  showFilterModal,
+  showRoutesList,
+  onCloseAutoFocus,
+}) {
   const intl = useIntl();
   const config = useConfigContext();
 
@@ -108,7 +114,11 @@ export default function FilterTimeTableModal({ stop, setRoutes, showFilterModal,
 
   return (
     <Modal lang={hslfiLocale} onOpenChange={closeModal} open>
-      <ModalContent title={intl.formatMessage({ id: 'show-routes' })} lang={hslfiLocale}>
+      <ModalContent
+        title={intl.formatMessage({ id: 'show-routes' })}
+        lang={hslfiLocale}
+        onCloseAutoFocus={onCloseAutoFocus}
+      >
         <div className="routes-container">
           <CheckboxGroup
             label={<span className="sr-only">{intl.formatMessage({ id: 'show-routes' })}</span>}
@@ -125,4 +135,5 @@ FilterTimeTableModal.propTypes = {
   setRoutes: PropTypes.func.isRequired,
   showFilterModal: PropTypes.func.isRequired,
   showRoutesList: PropTypes.arrayOf(PropTypes.string).isRequired,
+  onCloseAutoFocus: PropTypes.func,
 };

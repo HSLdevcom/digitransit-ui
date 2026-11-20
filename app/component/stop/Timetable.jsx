@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useLayoutEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
 import uniqBy from 'lodash/uniqBy';
 import sortBy from 'lodash/sortBy';
@@ -128,6 +128,14 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
   }
   const [showRoutes, setShowRoutes] = useState([]);
   const [showFilterModal, setShowFilterModal] = useState(false);
+  const filterOpenerRef = useRef(null);
+
+  // The modal has no trigger element, so remember the opener to restore focus
+  useLayoutEffect(() => {
+    if (showFilterModal) {
+      filterOpenerRef.current = document.activeElement;
+    }
+  }, [showFilterModal]);
 
   const setParams = (routes, newDate) => {
     replaceQueryParams(router, match, { routes, date: newDate });
@@ -242,6 +250,10 @@ export default function Timetable({ stop: stopRef, startDate, date }) {
               setRoutes={setRouteVisibilityState}
               showFilterModal={setShowFilterModal}
               showRoutesList={showRoutes}
+              onCloseAutoFocus={event => {
+                event.preventDefault();
+                filterOpenerRef.current?.focus();
+              }}
             />
           ) : null}
           <div className="timetable-topbar">
