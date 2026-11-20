@@ -267,7 +267,7 @@ export default function IndexPage() {
     searchPanelText: intl.formatMessage({ id: 'where', defaultMessage: 'Where to?' }),
     searchStartsDescription: intl.formatMessage({
       id: 'search-fields.search-starts',
-      defaultMessage: 'Route search starts automatically after you make a selection.',
+      defaultMessage: 'Itinerary search starts automatically after you make a selection.',
     }),
     originPlaceHolder: 'search-origin-index',
     destinationPlaceHolder: 'search-destination-index',

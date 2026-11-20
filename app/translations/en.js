@@ -660,7 +660,8 @@ export default {
     'scooter-distance-duration': 'Travel by scooter for {duration} ({distance})',
     'scooterwalk-distance-duration': 'Walk your kick scooter {duration} ({distance}).',
     'search-current-suggestion': 'Current selection: {selection}',
-    'search-fields.search-starts': 'Route search starts automatically after you make a selection.',
+    'search-fields.search-starts':
+      'Itinerary search starts automatically after you make a selection.',
     'search-fields.sr-instructions':
       'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
     'searching-position': 'Detecting location...',
