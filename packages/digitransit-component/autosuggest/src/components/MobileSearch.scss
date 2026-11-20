@@ -167,6 +167,7 @@ button.clear-input {
 
 .suggestionsContainerOpen {
   display: flex;
+  flex-direction: column;
   position: absolute;
   margin-bottom: auto;
   z-index: index($zindex, 'autosuggest-suggestion-container');
@@ -190,7 +191,6 @@ button.clear-input {
 .clear-search-history {
   display: flex;
   font-family: inherit;
-  margin-top: auto;
   align-items: center;
   justify-content: center;
   width: 100%;

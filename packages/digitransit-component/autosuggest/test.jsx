@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import axios from 'axios';
 import DTAutosuggest from './src/index';
+import { Suggestions } from './src/components/Suggestions';
 
 // searchContext's sources/targets being empty means "search all sources",
 // which includes a real geocoding lookup via axios - mock it so tests that
@@ -91,6 +92,46 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     expect(listbox.hasAttribute('aria-labelledby')).toBe(false);
     const describedBy = input.getAttribute('aria-describedby');
     expect(container.querySelector(`#${describedBy}`)).not.toBeNull();
+  });
+
+  it('keeps a name that contains the placeholder while the value changes', () => {
+    renderAutosuggest();
+    const input = screen.getByRole('combobox');
+    const name = input.getAttribute('aria-label');
+    expect(name).toContain(input.placeholder);
+    fireEvent.change(input, { target: { value: 'Pasi' } });
+    expect(input.getAttribute('aria-label')).toBe(name);
+  });
+
+  it('adds the extra description to the input description', () => {
+    const { container } = renderAutosuggest({ extraDescription: 'Search starts automatically.' });
+    const input = screen.getByRole('combobox');
+    const description = container.querySelector(`#${input.getAttribute('aria-describedby')}`);
+    expect(description.textContent).toContain('Search starts automatically.');
+  });
+
+  it('only says that focus moves to the destination when told so', () => {
+    const { container } = renderAutosuggest({ id: 'origin', movesFocusOnSelect: false });
+    const input = screen.getByRole('combobox');
+    const description = container.querySelector(`#${input.getAttribute('aria-describedby')}`);
+    expect(description.textContent).not.toContain('destination field');
+  });
+
+  it('renders the clear history button outside the listbox', () => {
+    const { container } = render(
+      <Suggestions
+        suggestions={[]}
+        getMenuProps={props => ({ role: 'listbox', ...props })}
+        label="Suggestions"
+        getItemProps={props => props}
+        lng="en"
+        styles={{}}
+        hidden={false}
+        renderClearHistoryButton
+      />,
+    );
+    const button = screen.getByRole('button');
+    expect(container.querySelector('[role="listbox"]').contains(button)).toBe(false);
   });
 
   it('is named by an external label instead of aria-label', () => {

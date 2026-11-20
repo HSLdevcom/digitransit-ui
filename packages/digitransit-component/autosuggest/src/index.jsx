@@ -25,15 +25,26 @@ const DEFAULT_SOURCES = [];
 const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
 const DEFAULT_REF_POINT = {};
 
-const getAriaProps = ({ id, ariaLabel, lng, t, isMobile, suggestions, value, required }) => {
+const getAriaProps = ({
+  id,
+  ariaLabel,
+  lng,
+  t,
+  isMobile,
+  suggestions,
+  value,
+  required,
+  movesFocusOnSelect,
+}) => {
   const ariaBarId = id.replace('searchfield-', '');
   const SearchBarId = ariaLabel || t(ariaBarId, { lng }).replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
   const ariaRequiredText = required ? `${t('required', { lng })}.` : '';
   const ariaLabelInstructions = isMobile
     ? t('search-autosuggest-label-instructions-mobile', { lng })
     : t('search-autosuggest-label-instructions-desktop', { lng });
-  const movingToDestinationFieldText =
-    id === 'origin' ? t('search-autosuggest-label-move-to-destination', { lng }) : '';
+  const movingToDestinationFieldText = movesFocusOnSelect
+    ? t('search-autosuggest-label-move-to-destination', { lng })
+    : '';
   const ariaLabelText = ariaLabelInstructions.concat(' ').concat(movingToDestinationFieldText);
 
   const ariaSuggestionLen = t('search-autosuggest-len', { count: suggestions.length, lng });
@@ -199,6 +210,8 @@ const getNewTargets = ({ targets, isLocationSearch, isMobile, ownPlaces, sources
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
  * @property {string} [externalLabelId] id of a visible <label for={id}> that names the input
+ * @property {string} [extraDescription] text appended to the accessible description of the input
+ * @property {boolean} [movesFocusOnSelect] whether the description says that focus moves to the destination field after selecting; defaults to true for the origin field
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -237,6 +250,8 @@ function DTAutosuggest({
   translatedPlaceholder,
   required = false,
   externalLabelId,
+  extraDescription = '',
+  movesFocusOnSelect = id === 'origin',
   ariaLabel,
   colors = defaultColors,
   modeSet,
@@ -568,12 +583,18 @@ function DTAutosuggest({
     suggestions: state.suggestions,
     value: state.value,
     required,
+    movesFocusOnSelect,
   });
 
-  // Stable name; an external <label for={id}> takes its place when externalLabelId is given.
+  // Stable name that contains the visible placeholder text, so voice control can target the field.
+  // An external <label for={id}> takes its place when externalLabelId is given.
+  const visiblePlaceholder = translatedPlaceholder || t(placeholder, { lng });
   const accessibleName = externalLabelId
     ? undefined
-    : ariaRequiredText.concat(' ').concat(SearchBarId).trim();
+    : ariaRequiredText
+        .concat(' ')
+        .concat(ariaLabel || visiblePlaceholder)
+        .trim();
 
   const mobileClearOldSearches = () => {
     const { clearOldSearches, clearFutureRoutes } = searchContext;
@@ -592,6 +613,14 @@ function DTAutosuggest({
     }
   }, [state.renderMobile, isOpen]);
 
+  // The input is hidden while the mobile modal is open, so focus is lost on close.
+  const restoreFocusAfterModal = () => {
+    const { activeElement } = document;
+    if (!activeElement || activeElement === document.body) {
+      inputRef.current?.focus?.();
+    }
+  };
+
   // Downshift keeps highlightedIndex when the suggestions change, and the
   // menu is hidden on mobile, so the highlighted item may not be shown.
   const activeItemHidden = isMobile || highlightedIndex >= state.suggestions.length;
@@ -607,6 +636,8 @@ function DTAutosuggest({
           appElement={appElement}
           mobileLabel={mobileLabel || t(id, { lng })}
           ariaProps={{ ariaCurrentSuggestion, SearchBarId, ariaRequiredText }}
+          extraDescription={extraDescription}
+          onAfterClose={restoreFocusAfterModal}
           id={id}
           lng={lng}
           onSelectedItemChange={onSelectedItemChange}
@@ -653,6 +684,8 @@ function DTAutosuggest({
           ariaDescription={t('search-autosuggest-label', { lng })
             .concat(' ')
             .concat(ariaLabelText)
+            .concat(' ')
+            .concat(extraDescription)
             .trim()}
           id={id}
           lng={lng}
@@ -663,7 +696,7 @@ function DTAutosuggest({
           inputRef={inputRef}
           styles={styles}
           clearButtonColor={colors.primary}
-          placeholder={translatedPlaceholder || t(placeholder, { lng })}
+          placeholder={visiblePlaceholder}
           required={required}
           transportMode={transportMode}
           isMobile={isMobile}
@@ -728,6 +761,8 @@ DTAutosuggest.propTypes = {
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,
   externalLabelId: PropTypes.string,
+  extraDescription: PropTypes.string,
+  movesFocusOnSelect: PropTypes.bool,
   modeSet: PropTypes.string,
   showScroll: PropTypes.bool,
   isEmbedded: PropTypes.bool,

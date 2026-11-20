@@ -37,6 +37,8 @@ import {
  * @property {string} inputClassName
  * @property {boolean} required
  * @property {string} [mobileLabel]
+ * @property {string} [extraDescription]
+ * @property {function} [onAfterClose] called after the modal has closed
  * @property {boolean} [showScroll]
  * @property {AutosuggestState} state
  * @property {function} dispatch
@@ -61,6 +63,8 @@ export default function MobileView({
   inputClassName,
   required,
   mobileLabel,
+  extraDescription = '',
+  onAfterClose,
   showScroll,
   state,
   dispatch,
@@ -164,13 +168,17 @@ export default function MobileView({
     .concat(SearchBarId)
     .concat(' ')
     .concat(ariaCurrentSuggestion)
+    .concat(' ')
+    .concat(extraDescription)
     .trim();
   return (
     <ReactModal
       isOpen={state.renderMobile}
+      contentLabel={mobileLabel}
       className={styles['mobile-modal']}
       overlayClassName={styles['mobile-modal-overlay']}
       shouldReturnFocusAfterClose={false}
+      onAfterClose={onAfterClose}
       shouldCloseOnEsc
     >
       <div
@@ -272,6 +280,8 @@ MobileView.propTypes = {
   inputClassName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
   mobileLabel: PropTypes.string.isRequired,
+  extraDescription: PropTypes.string,
+  onAfterClose: PropTypes.func,
   required: PropTypes.bool.isRequired,
   showScroll: PropTypes.bool.isRequired,
   lng: PropTypes.string.isRequired,
