@@ -343,7 +343,7 @@ $zindex:
 
       :global .datetimepicker-select__menu-list {
         max-height: 250px;
-        padding: 0;
+        padding: 4px; // keeps the rounded focus outline clear of the menu corners
 
         :global .datetimepicker-select__option {
           position: relative;
