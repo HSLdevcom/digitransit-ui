@@ -164,9 +164,9 @@ $zindex:
       box-shadow: inset 0 0 0 2px #333;
     }
 
-    &:focus-within {
-      outline: 2px solid #212121;
-      outline-offset: 1px;
+    // the radio input is visually hidden, so thicken the inner border to show focus
+    &:has(:focus-visible) {
+      box-shadow: inset 0 0 0 3px #212121;
     }
 
     &.first-radio {
