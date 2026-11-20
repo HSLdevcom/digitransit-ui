@@ -87,7 +87,7 @@ follows the active deployment's theme.
     *   `$0.autosuggestComponent`  
     *   `$0.favourite`   (optional, default `null`)
     *   `$0.lang`   (optional, default `'fi'`)
-    *   `$0.onCloseAutoFocus`   (optional, default `undefined`)
+    *   `$0.onCloseAutoFocus`  
 
 ### Examples
 
