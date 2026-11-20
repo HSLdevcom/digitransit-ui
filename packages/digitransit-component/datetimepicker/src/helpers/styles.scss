@@ -357,6 +357,10 @@ $zindex:
 
           &--is-focused {
             background: #dfe5e8;
+
+            // the pale background alone is not enough contrast
+            outline: 2px solid #212121;
+            outline-offset: -2px;
           }
         }
       }
