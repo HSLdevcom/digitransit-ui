@@ -9,7 +9,7 @@ import { hslfiLocale } from '../../utils/client/hslfiLocale';
 export default function LoginPrompt({
   open,
   onClose,
-  onCloseAutoFocus = undefined,
+  onCloseAutoFocus,
   titleId = 'login-header',
   descriptionId = 'login-content',
 }) {

@@ -40,7 +40,7 @@ export default function FavouriteEditingModal({
   favourites,
   isLoading,
   lang = 'fi',
-  onCloseAutoFocus = undefined,
+  onCloseAutoFocus,
 }) {
   const { t } = useTranslation('translation', { i18n });
   const [source, setSource] = useState(favourites);
