@@ -1,10 +1,9 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { Text } from '@hsl-fi/layout-primitives';
 import { AlertSeverityLevelType } from '../../../utils/shared/constants';
 import { alertShape } from '../../../utils/client/shapes';
-import Card from '../Card';
+import DisruptionCardShell from './DisruptionCardShell';
 import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadges from './RouteBadges';
@@ -14,7 +13,7 @@ export default function DisruptionCard({
   alert,
   onClick = () => {},
   isMobile = false,
-  mode = undefined,
+  mode,
   cardKey,
 }) {
   const intl = useIntl();
@@ -30,15 +29,14 @@ export default function DisruptionCard({
   } = alert;
 
   return (
-    <Card
-      className="disruption-card clickable"
-      data-card-key={cardKey}
-      onClick={() => {
-        onClick(id);
-      }}
-    >
-      <header>
-        <span className="disruption-card__header-left">
+    <DisruptionCardShell
+      cardKey={cardKey}
+      onOpen={() => onClick(id)}
+      ariaLabel={[alertHeaderText, intl.formatMessage({ id: 'disruption-view-details' })]
+        .filter(Boolean)
+        .join(', ')}
+      headerLeft={
+        <>
           <DisruptionBadge showIcon variant={alertSeverityLevel} label={alertEffect} />
           <OperatorBadge feed={feed} />
           {!isMobile && (
@@ -52,14 +50,9 @@ export default function DisruptionCard({
               />
             </>
           )}
-        </span>
-        <ArrowLinkButton
-          size="m"
-          aria-label={[alertHeaderText, intl.formatMessage({ id: 'disruption-view-details' })]
-            .filter(Boolean)
-            .join(', ')}
-        />
-      </header>
+        </>
+      }
+    >
       {entities && <RouteBadges entities={entities} mode={mode} compact />}
       <Text variant="cta-small" color="default" as="h2">
         {alertHeaderText}
@@ -72,7 +65,7 @@ export default function DisruptionCard({
           showDates={alertSeverityLevel !== AlertSeverityLevelType.Info}
         />
       )}
-    </Card>
+    </DisruptionCardShell>
   );
 }
 
