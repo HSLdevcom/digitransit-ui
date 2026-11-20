@@ -46,7 +46,7 @@ An autosuggest search input for finding locations, stops, stations, routes and v
     *   `props.inputClassName`   (optional, default `''`)
     *   `props.translatedPlaceholder`  
     *   `props.required`   (optional, default `false`)
-    *   `props.externalLabelId`   (optional, default `undefined`)
+    *   `props.externalLabelId`  
     *   `props.extraDescription`   (optional, default `''`)
     *   `props.movesFocusOnSelect`   (optional, default `id==='origin'`)
     *   `props.ariaLabel`  
