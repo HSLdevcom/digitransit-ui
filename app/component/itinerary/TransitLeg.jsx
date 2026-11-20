@@ -25,7 +25,7 @@ import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../utils/s
 import { durationToString } from '../../../utils/client/timeUtils';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import {
-  getHeadsignFromRouteLongName,
+  getLegHeadsign,
   getZoneLabel,
   showBikeBoardingNote,
   showCarBoardingNote,
@@ -320,7 +320,7 @@ export default function TransitLeg({
     /^([^0-9]*)$/.test(leg.route.shortName) &&
     leg.route.shortName.length > 3;
 
-  const headsign = leg.headsign || leg.trip.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
+  const headsign = getLegHeadsign(leg);
 
   let intermediateStopCount = leg.intermediatePlaces.length;
   if (interliningLegs) {
@@ -547,9 +547,7 @@ export default function TransitLeg({
                 key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
                 hasNoShortName={hasNoShortName}
-                headsign={
-                  l.headsign || l.trip.tripHeadsign || getHeadsignFromRouteLongName(l.route)
-                }
+                headsign={getLegHeadsign(l)}
                 isAlternativeLeg
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(l)}
                 displayTime

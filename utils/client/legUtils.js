@@ -704,6 +704,13 @@ export function getHeadsignFromRouteLongName(route) {
 }
 
 /**
+ * Returns the headsign of a transit leg, falling back to trip headsign and route long name.
+ */
+export function getLegHeadsign(leg) {
+  return leg.headsign || leg.trip?.tripHeadsign || getHeadsignFromRouteLongName(leg.route);
+}
+
+/**
  * Calculates and returns the total duration undertaken in legs.
  *
  * @param {*} legs the legs to extract the total duration from
