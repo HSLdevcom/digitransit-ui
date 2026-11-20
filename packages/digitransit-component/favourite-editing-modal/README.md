@@ -90,7 +90,7 @@ deployment's theme.
     *   `$0.favourites`  
     *   `$0.isLoading`  
     *   `$0.lang`   (optional, default `'fi'`)
-    *   `$0.onCloseAutoFocus`   (optional, default `undefined`)
+    *   `$0.onCloseAutoFocus`  
 
 ### Examples
 
