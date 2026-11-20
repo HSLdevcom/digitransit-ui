@@ -18,9 +18,11 @@ export default function Favourite({
   const [loginModalOpen, setLoginModalOpen] = useState(false);
   const enabled = config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
 
+  // A synchronous (local storage) update does not change isFetching, so the change of favourite
+  // also re-enables the button.
   useEffect(() => {
     handleDisable(isFetching);
-  }, [isFetching]);
+  }, [isFetching, favourite]);
 
   const onClick = () => {
     if (enabled) {
