@@ -132,7 +132,7 @@ export default configMerger(walttiConfig, {
     layers: [
       {
         name: { fi: 'Vyöhykkeet', sv: 'Zoner', en: 'Zones' },
-        url: '/assets/vaasa/zone_lines_20261118.geojson',
+        url: '/assets/vaasa/zone_lines_20261120.geojson',
       },
     ],
   },
