@@ -40,6 +40,7 @@ export default function FavouriteEditingModal({
   favourites,
   isLoading,
   lang = 'fi',
+  onCloseAutoFocus,
 }) {
   const { t } = useTranslation('translation', { i18n });
   const [source, setSource] = useState(favourites);
@@ -99,10 +100,7 @@ export default function FavouriteEditingModal({
     <>
       <DialogModal
         headerText={t('delete-place-header', { lng: lang })}
-        handleClose={() => {
-          closeDeleteDialog();
-          handleClose();
-        }}
+        handleClose={closeDeleteDialog}
         isModalOpen={selectedFavourite !== null}
         dialogContent={
           selectedFavourite ? `${selectedFavourite.name}: ${selectedFavourite.address}` : ''
@@ -129,6 +127,7 @@ export default function FavouriteEditingModal({
           title={t('edit-places', { lng: lang })}
           className={styles.modalContent}
           aria-describedby={undefined}
+          onCloseAutoFocus={onCloseAutoFocus}
         >
           <div className={styles.listContainer}>
             <DragDropProvider onDragEnd={onDragEnd}>
@@ -208,4 +207,9 @@ FavouriteEditingModal.propTypes = {
   /** Optional. Language, fi, en or sv. Defaults to fi.
    * @type {string} */
   lang: PropTypes.string,
+  /** Optional. Called when the dialog has closed and focus is about to move.
+   * The dialog has no trigger element, so use this to return focus to the
+   * element that opened it.
+   * @type {function} */
+  onCloseAutoFocus: PropTypes.func,
 };
