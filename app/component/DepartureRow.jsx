@@ -33,7 +33,7 @@ export default function DepartureRow({
   canceled = false,
   className = '',
   onCapacityClick,
-  isParentTabActive = false,
+  isParentTabActive = true,
   platformUpdated = false,
 }) {
   const config = useConfigContext();

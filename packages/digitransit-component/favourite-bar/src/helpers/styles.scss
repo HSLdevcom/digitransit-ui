@@ -226,4 +226,10 @@ $favourite-highlight-background-color: #f2f5f7;
   .favourite-suggestion-item:hover {
     background-color: $favourite-highlight-background-color;
   }
+
+  // Drawn inside the item, the list's overflow would clip an outer outline
+  .favourite-suggestion-item:focus-visible {
+    outline: 2px solid var(--color-outline-default, #000);
+    outline-offset: -2px;
+  }
 }

@@ -373,7 +373,7 @@ export default function DepartureListContainer({
           default="The departure list and estimated departure times will update in real time."
         />
       </span>
-      <table className={cx('departure-list', className)}>
+      <table className={cx('departure-list', className)} role="presentation">
         <thead className="sr-only">
           <tr>
             <th>

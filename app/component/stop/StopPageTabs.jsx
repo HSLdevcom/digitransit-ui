@@ -1,8 +1,8 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useFragment } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
 import { fragmentRefShape } from '../../../utils/client/shapes';
@@ -31,11 +31,16 @@ const getActiveTab = pathname => {
 };
 
 function StopPageTabs({ stop }) {
+  const intl = useIntl();
   const { router, match } = useRouter();
   const activeTab = getActiveTab(match.location.pathname);
   const { search } = match.location;
 
   const [focusedTab, changeFocusedTab] = useState(activeTab);
+  // Keep the roving tabindex on the selected tab when it changes by click
+  useEffect(() => {
+    changeFocusedTab(activeTab);
+  }, [activeTab]);
   const rightNowTabRef = useRef();
   const timetableTabRef = useRef();
   const disruptionTabRef = useRef();
@@ -115,9 +120,10 @@ function StopPageTabs({ stop }) {
           ref={rightNowTabRef}
           tabIndex={focusedTab === Tab.RightNow ? 0 : -1}
           aria-selected={activeTab === Tab.RightNow}
+          aria-label={intl.formatMessage({ id: 'right-now' })}
           style={{ '--totalCount': '3' }}
         >
-          <div>
+          <div aria-hidden="true">
             <FormattedMessage id="right-now" defaultMessage="right now" />
           </div>
         </button>
@@ -132,9 +138,10 @@ function StopPageTabs({ stop }) {
           ref={timetableTabRef}
           tabIndex={focusedTab === Tab.Timetable ? 0 : -1}
           aria-selected={activeTab === Tab.Timetable}
+          aria-label={intl.formatMessage({ id: 'timetable' })}
           style={{ '--totalCount': '3' }}
         >
-          <div>
+          <div aria-hidden="true">
             <FormattedMessage id="timetable" defaultMessage="timetable" />
           </div>
         </button>
@@ -153,9 +160,17 @@ function StopPageTabs({ stop }) {
           ref={disruptionTabRef}
           tabIndex={focusedTab === Tab.Disruptions ? 0 : -1}
           aria-selected={activeTab === Tab.Disruptions}
+          aria-label={`${intl.formatMessage({ id: 'disruptions' })}: ${
+            disruptionClassName === 'no-alerts'
+              ? intl.formatMessage({ id: 'disruptions-tab.sr-no-disruptions' })
+              : intl.formatMessage({ id: 'disruptions-found-amount' }, { amount: alertsCount })
+          }`}
           style={{ '--totalCount': '3' }}
         >
-          <div className={`tab-route-disruption ${disruptionClassName || 'no-alerts'}`}>
+          <div
+            aria-hidden="true"
+            className={`tab-route-disruption ${disruptionClassName || 'no-alerts'}`}
+          >
             {disruptionIcon}
             <FormattedMessage id="disruptions" />
           </div>

@@ -61,6 +61,14 @@ Optional. Language, fi, en or sv. Defaults to fi.
 
 Type: [string][5]
 
+## onCloseAutoFocus
+
+Optional. Called when the dialog has closed and focus is about to move.
+The dialog has no trigger element, so use this to return focus to the
+element that opened it.
+
+Type: [function][2]
+
 ## FavouriteModal
 
 A dialog for adding a new favourite place or editing an existing one,
@@ -79,6 +87,7 @@ follows the active deployment's theme.
     *   `$0.autosuggestComponent`  
     *   `$0.favourite`   (optional, default `null`)
     *   `$0.lang`   (optional, default `'fi'`)
+    *   `$0.onCloseAutoFocus`  
 
 ### Examples
 
