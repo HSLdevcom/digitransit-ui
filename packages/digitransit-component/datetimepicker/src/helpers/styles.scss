@@ -336,31 +336,54 @@ $zindex:
       padding: 0;
       background: #fff;
       max-height: 250px;
-      border-radius: 5px;
-      box-shadow: 0 2px 0 0 rgba(0, 0, 0, 0.06);
-      border: 1px rgba(0, 0, 0, 0.1) solid;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+      border: 1px #ddd solid;
 
       :global .datetimepicker-select__menu-list {
         max-height: 250px;
         padding: 0;
 
         :global .datetimepicker-select__option {
+          position: relative;
           height: 50px;
-          border-top: 1px solid #ddd;
           padding: 13px 0 0 12px;
           letter-spacing: -0.6px;
           color: #333;
+
+          // inset separator, like the route pattern select
+          &::after {
+            content: '';
+            position: absolute;
+            left: 8px;
+            right: 8px;
+            bottom: 0;
+            height: 1px;
+            background: #ddd;
+          }
+
+          &:last-child::after {
+            display: none;
+          }
 
           &--is-selected {
             background: inherit;
           }
 
           &--is-focused {
-            background: #dfe5e8;
+            background: #f2f5f7;
 
             // the pale background alone is not enough contrast
-            outline: 2px solid #212121;
+            outline: 2px solid var(--color);
             outline-offset: -2px;
+            border-radius: 4px;
+          }
+
+          // separators would be drawn over the outline
+          &--is-focused::after,
+          &:has(+ .datetimepicker-select__option--is-focused)::after {
+            display: none;
           }
         }
       }
