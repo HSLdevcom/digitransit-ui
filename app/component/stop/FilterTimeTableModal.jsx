@@ -16,7 +16,7 @@ export default function FilterTimeTableModal({
   setRoutes,
   showFilterModal,
   showRoutesList,
-  onCloseAutoFocus = undefined,
+  onCloseAutoFocus,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
