@@ -43,7 +43,7 @@ export default function FavouriteModal({
   autosuggestComponent,
   favourite = null,
   lang = 'fi',
-  onCloseAutoFocus = undefined,
+  onCloseAutoFocus,
 }) {
   const { t } = useTranslation('translation', { i18n });
   const isEdit = favourite?.favouriteId !== undefined;
