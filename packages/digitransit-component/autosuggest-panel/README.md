@@ -91,7 +91,7 @@ const sources = ['Favourite', 'History', 'Datasource'] // Defines where you are 
    originMobileLabel="Origin label" // Optional. Custom label text for origin field on mobile.
    destinationMobileLabel="Destination label" // Optional. Custom label text for destination field on mobile.
    handleFocusChange={() => {}} // Optional. If defined overrides default onFocusChange behaviour
-   searchStartsDescription="Search starts automatically." // Optional. Added to the accessible description of a field when the other field is already set, as selecting a place then starts the search.
+   searchStartsOnSelect // Optional. Defaults to false. Set when selecting a place starts the search. Adds a description of this to a field when the other field is already set.
    showSwapControl={false} // Optional.
    showViapointControl={false} // Optional.
 ```

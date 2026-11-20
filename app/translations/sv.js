@@ -658,7 +658,6 @@ export default {
     'scooter-distance-duration': 'Åk elsparkcykel {duration} ({distance})',
     'scooterwalk-distance-duration': 'Led sparkcykeln {duration} ({distance})',
     'search-current-suggestion': 'Nuvarande val: {selection}',
-    'search-fields.search-starts': 'Ruttsökningen startar automatiskt när du har gjort ett val.',
     'search-fields.sr-instructions':
       'Ruttsökning görs automatiskt när du skriver in avgångsplats och destination. Om du ändrar sökvillkoren, startas en ny ruttsökning automatiskt. Navigera till sökfälten med tabbtangenten.',
     'searching-position': 'Söker position...',

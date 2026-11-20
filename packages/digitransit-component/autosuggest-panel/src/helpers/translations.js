@@ -8,6 +8,8 @@ const translations = {
       'add-via-duration-button-label-open': 'Öffne Umsteigezeit-Auswahl für Zwischenziel {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Entferne Zwischenziel {{index}}',
+      'search-starts-description':
+        'Die Routensuche startet automatisch, nachdem Sie eine Auswahl getroffen haben.',
       'swap-order-button-label': 'Tausche Start mit Ziel',
       'via-point': 'Zwischenziel',
       'via-point-index': 'Zwischenziel {{index}}',
@@ -22,6 +24,8 @@ const translations = {
       'add-via-duration-button-label-open': 'Open stop duration selector at via point {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Remove via point {{index}}',
+      'search-starts-description':
+        'Itinerary search starts automatically after you make a selection.',
       'swap-order-button-label': 'Reverse origin and destination',
       'via-point': 'Via point',
       'via-point-index': 'Via point {{index}}',
@@ -38,6 +42,7 @@ const translations = {
         'Sulje välipisteen {{index}} pysähdyksen kesto valitsin',
       'minute-short': 'min',
       'remove-via-button-label': 'Poista välipiste {{index}}',
+      'search-starts-description': 'Reittihaku alkaa automaattisesti valinnan jälkeen.',
       'swap-order-button-label': 'Käännä reitin suunta vastakkaiseksi',
       'via-point': 'Välipiste',
       'via-point-index': 'Välipiste {{index}}',
@@ -55,6 +60,8 @@ const translations = {
         'Apri la selezione della durata della sosta alla tappa intermedia {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Rimuovi la tappa intermedia {{index}}',
+      'search-starts-description':
+        'La ricerca del percorso si avvia automaticamente dopo aver effettuato una selezione.',
       'swap-order-button-label': 'Inverti partenza e destinazione',
       'via-point': 'Tappa intermedia',
       'via-point-index': 'Tappa intermedia {{index}}',
@@ -69,6 +76,8 @@ const translations = {
       'add-via-duration-button-label-open': 'Otwórz wybornik czasu postoju w punkcie {{index}}',
       'minute-short': 'min.',
       'remove-via-button-label': 'Usuń punkt pośredni {{index}}',
+      'search-starts-description':
+        'Wyszukiwanie trasy rozpoczyna się automatycznie po dokonaniu wyboru.',
       'swap-order-button-label': 'Odwróć początek i cel',
       'via-point': 'Punkt pośredni',
       'via-point-index': 'Punkt pośredni {{index}}',
@@ -85,6 +94,7 @@ const translations = {
         'Öppna väljaren för varaktighet vid via-punkten {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Ta bort viapunkt {{index}}',
+      'search-starts-description': 'Ruttsökningen startar automatiskt när du har gjort ett val.',
       'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
       'via-point': 'Via punkt',
       'via-point-index': 'Via punkt {{index}}',
