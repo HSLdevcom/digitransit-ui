@@ -378,11 +378,14 @@ export default function RouteControlPanel({ route, breakpoint, tripStartTime = u
                 id="route-disruption-tab"
                 ref={disruptionTabRef}
                 aria-selected={activeTab === Tab.Disruptions}
-                aria-label={`${intl.formatMessage({ id: 'disruptions' })}: ${intl.formatMessage({
-                  id: disruptionClassName
-                    ? 'disruptions-tab.sr-disruptions'
-                    : 'disruptions-tab.sr-no-disruptions',
-                })}`}
+                aria-label={`${intl.formatMessage({ id: 'disruptions' })}: ${
+                  disruptionClassName
+                    ? intl.formatMessage(
+                        { id: 'disruptions-found-amount' },
+                        { amount: alertsCount },
+                      )
+                    : intl.formatMessage({ id: 'disruptions-tab.sr-no-disruptions' })
+                }`}
                 style={{ '--totalCount': `${countOfButtons}` }}
               >
                 <div

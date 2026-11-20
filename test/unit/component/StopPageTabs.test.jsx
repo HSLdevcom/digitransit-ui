@@ -41,9 +41,7 @@ describe('<StopPageTabs />', () => {
 
   it('tells in the name of the disruptions tab whether disruptions exist', () => {
     renderTabs({ gtfsId: 'HSL:1', alerts: [alert('a1', 'SEVERE')], canceledCalls: [] }, stopMatch);
-    expect(
-      screen.getByRole('tab', { name: 'Disruptions: One or more known disruptions' }),
-    ).toBeTruthy();
+    expect(screen.getByRole('tab', { name: 'Disruptions: 1 disruption found' })).toBeTruthy();
   });
 
   it('tells in the name of the disruptions tab when there are no disruptions', () => {
