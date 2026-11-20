@@ -265,7 +265,6 @@ export default function IndexPage() {
     targets,
     refPoint,
     searchPanelText: intl.formatMessage({ id: 'where', defaultMessage: 'Where to?' }),
-    searchStartsOnSelect: true,
     originPlaceHolder: 'search-origin-index',
     destinationPlaceHolder: 'search-destination-index',
     selectHandler: onSelectLocation,
