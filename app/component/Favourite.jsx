@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import LoginPrompt from './LoginPrompt';
@@ -16,6 +16,7 @@ export default function Favourite({
   const intl = useIntl();
   const [disable, handleDisable] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
+  const buttonRef = useRef(null);
   const enabled = config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
 
   // A synchronous (local storage) update does not change isFetching, so the change of favourite
@@ -42,6 +43,7 @@ export default function Favourite({
   return (
     <>
       <button
+        ref={buttonRef}
         type="button"
         className="cursor-pointer favourite-icon"
         onClick={onClick}
@@ -59,7 +61,14 @@ export default function Favourite({
           img={favourite && enabled ? 'icon_star-with-circle' : 'icon_star-unselected'}
         />
       </button>
-      <LoginPrompt open={loginModalOpen} onClose={() => setLoginModalOpen(false)} />
+      <LoginPrompt
+        open={loginModalOpen}
+        onClose={() => setLoginModalOpen(false)}
+        onCloseAutoFocus={event => {
+          event.preventDefault();
+          buttonRef.current?.focus();
+        }}
+      />
     </>
   );
 }
