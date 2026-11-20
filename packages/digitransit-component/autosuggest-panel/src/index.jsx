@@ -220,7 +220,7 @@ export default function DTAutosuggestPanel({
   isMobile = false,
   originMobileLabel = null,
   destinationMobileLabel = null,
-  searchStartsDescription = undefined,
+  searchStartsDescription,
   refPoint,
   modeSet,
   colors = defaultColors,

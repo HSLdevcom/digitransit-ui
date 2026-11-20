@@ -64,7 +64,7 @@ export default function MobileView({
   required,
   mobileLabel,
   extraDescription = '',
-  onAfterClose = undefined,
+  onAfterClose,
   showScroll,
   state,
   dispatch,
