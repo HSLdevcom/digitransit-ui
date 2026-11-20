@@ -236,7 +236,7 @@ function DTAutosuggest({
   inputClassName = '',
   translatedPlaceholder,
   required = false,
-  externalLabelId = undefined,
+  externalLabelId,
   ariaLabel,
   colors = defaultColors,
   modeSet,
