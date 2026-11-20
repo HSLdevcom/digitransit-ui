@@ -160,7 +160,12 @@ function StopPageTabs({ stop }) {
           ref={disruptionTabRef}
           tabIndex={focusedTab === Tab.Disruptions ? 0 : -1}
           aria-selected={activeTab === Tab.Disruptions}
-          aria-label={intl.formatMessage({ id: 'disruptions' })}
+          aria-label={`${intl.formatMessage({ id: 'disruptions' })}: ${intl.formatMessage({
+            id:
+              disruptionClassName === 'no-alerts'
+                ? 'disruptions-tab.sr-no-disruptions'
+                : 'disruptions-tab.sr-disruptions',
+          })}`}
           style={{ '--totalCount': '3' }}
         >
           <div

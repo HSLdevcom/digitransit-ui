@@ -39,6 +39,18 @@ describe('<StopPageTabs />', () => {
     expect(container.querySelector('.active-disruption-alert')).toBeTruthy();
   });
 
+  it('tells in the name of the disruptions tab whether disruptions exist', () => {
+    renderTabs({ gtfsId: 'HSL:1', alerts: [alert('a1', 'SEVERE')], canceledCalls: [] }, stopMatch);
+    expect(
+      screen.getByRole('tab', { name: 'Disruptions: One or more known disruptions' }),
+    ).toBeTruthy();
+  });
+
+  it('tells in the name of the disruptions tab when there are no disruptions', () => {
+    renderTabs({ gtfsId: 'HSL:1', alerts: [], canceledCalls: [] }, stopMatch);
+    expect(screen.getByRole('tab', { name: 'Disruptions: No known disruptions' })).toBeTruthy();
+  });
+
   it('counts the alerts of child stops for a terminal', () => {
     const { container } = renderTabs(
       {
