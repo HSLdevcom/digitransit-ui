@@ -247,8 +247,9 @@ export default function DTAutosuggestPanel({
 
   const originSet = !!origin?.lat;
   const destinationSet = !!destination?.lat;
-  // Selecting a place when the other one is set starts the itinerary search.
-  const searchStartsDescription = t('search-starts-description', { lng });
+  // Selecting a place when the other one is set starts the itinerary search, except in the embedded
+  // search, where the search button starts it.
+  const searchStartsDescription = isEmbedded ? '' : t('search-starts-description', { lng });
   // Matches onFocusChange handling in DTAutosuggest: no focus move on mobile.
   const movesFocusToDestination = !destinationSet && (!isMobile || isEmbedded);
 
