@@ -23,9 +23,7 @@ const initializeItinerary = ({ itinerary, params }) => {
       legs: itinerary.legs.map(leg => {
         const geometry = polyUtil.decode(leg.legGeometry.points);
         const clonedLeg = cloneDeep(leg);
-        clonedLeg.geometry = geometry.map(([lat, lon]) =>
-          GeodeticToEnu(lat, lon, params.origin),
-        );
+        clonedLeg.geometry = geometry.map(([lat, lon]) => GeodeticToEnu(lat, lon, params.origin));
         clonedLeg.freezeStart = legTime(clonedLeg.start) <= time;
         clonedLeg.freezeEnd = legTime(clonedLeg.end) <= time;
         clonedLeg.originalStart = cloneDeep(leg.start);
@@ -61,10 +59,7 @@ const itineraryReducer = (state, { type, payload }) => {
 };
 
 export default function useItineraryReducer() {
-  const [itinerary, dispatch] = useReducer(
-    itineraryReducer,
-    getLatestNavigatorItinerary(),
-  );
+  const [itinerary, dispatch] = useReducer(itineraryReducer, getLatestNavigatorItinerary());
 
   return [itinerary, dispatch];
 }

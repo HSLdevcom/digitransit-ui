@@ -6,9 +6,7 @@ describe('<RouteNumberContainer />', () => {
   it('falls back to the agency name when the route has no short name and agency display is enabled', () => {
     const config = createTestConfig({ agency: { show: true } });
     const { container } = renderWithProviders(
-      <RouteNumberContainer
-        route={{ mode: 'BUS', agency: { name: 'Test Agency' } }}
-      />,
+      <RouteNumberContainer route={{ mode: 'BUS', agency: { name: 'Test Agency' } }} />,
       { config },
     );
     expect(container.textContent).toContain('Test Agency');

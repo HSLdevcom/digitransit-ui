@@ -4,14 +4,11 @@ import { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'found';
 import { Helmet } from 'react-helmet';
 import { SiteHeader, UserMenu, QuickSearch } from '@hsl-fi/site-header';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { favouriteShape } from '../../utils/client/shapes';
 import { clearFutureRoutes } from '../../utils/client/storeUtils';
 import { clearOldSearches } from '../data/SearchHistory';
-import { getJson } from '../../utils/shared/xhrPromise';
-import {
-  getFavouriteRouteGtfsIds,
-  getFavouriteStopsAndStations,
-} from '../data/FavouriteData';
+import { getFavouriteRouteGtfsIds, getFavouriteStopsAndStations } from '../data/FavouriteData';
 import { useConfigContext } from '../hooks/ConfigContext';
 import { useFavouriteActions } from '../hooks/FavouriteContext';
 
@@ -33,9 +30,7 @@ export default function AppBarHsl({ favourites = [] }) {
   const notificationParams = new URLSearchParams({ language });
   const notificationQuery = { language };
   const routeIds = getFavouriteRouteGtfsIds(favourites);
-  const stopIds = getFavouriteStopsAndStations(favourites).map(
-    ({ gtfsId }) => gtfsId,
-  );
+  const stopIds = getFavouriteStopsAndStations(favourites).map(({ gtfsId }) => gtfsId);
   routeIds.forEach(id => notificationParams.append('route', id));
   stopIds.forEach(id => notificationParams.append('stop', id));
   if (routeIds.length) {
@@ -89,20 +84,13 @@ export default function AppBarHsl({ favourites = [] }) {
             unreadCount: data?.unreadCount || 0,
             loading: false,
             error: null,
-            notifications: (data?.notifications || []).map(n => ({
-              ...n,
-              link: n.link || {},
-            })),
+            notifications: (data?.notifications || []).map(n => ({ ...n, link: n.link || {} })),
             refetch: fetchNotifications,
             onOpen: markAsRead,
           });
         })
         .catch(err => {
-          setUserNotifications(prev => ({
-            ...prev,
-            loading: false,
-            error: err,
-          }));
+          setUserNotifications(prev => ({ ...prev, loading: false, error: err }));
         });
     };
 
@@ -134,9 +122,7 @@ export default function AppBarHsl({ favourites = [] }) {
             link: { href: h.url },
           }));
           setSearchHits(hits);
-          setSearchHitsCount(
-            data?.totalHits != null ? data.totalHits : hits.length,
-          );
+          setSearchHitsCount(data?.totalHits != null ? data.totalHits : hits.length);
           setSearchLoading(false);
         })
         .catch(() => {
@@ -150,22 +136,14 @@ export default function AppBarHsl({ favourites = [] }) {
 
   useEffect(() => {
     if (config.URL.FONTCOUNTER && process.env.NODE_ENV !== 'development') {
-      fetch(config.URL.FONTCOUNTER, {
-        mode: 'no-cors',
-      });
+      fetch(config.URL.FONTCOUNTER, { mode: 'no-cors' });
     }
   }, []);
 
   const languages = {
-    fi: {
-      href: `/fi${location.pathname}${location.search}`,
-    },
-    sv: {
-      href: `/sv${location.pathname}${location.search}`,
-    },
-    en: {
-      href: `/en${location.pathname}${location.search}`,
-    },
+    fi: { href: `/fi${location.pathname}${location.search}` },
+    sv: { href: `/sv${location.pathname}${location.search}` },
+    en: { href: `/en${location.pathname}${location.search}` },
   };
 
   const { given_name, family_name } = user;
@@ -184,10 +162,7 @@ export default function AppBarHsl({ favourites = [] }) {
         loading={false}
         authenticated={!!user.sub}
         loginLink={{ href: `/login?returnTo=${encodeURIComponent(returnTo)}` }}
-        logoutLink={{
-          href: '/logout',
-          onClick: () => clearStorages(clearFavourites),
-        }}
+        logoutLink={{ href: '/logout', onClick: () => clearStorages(clearFavourites) }}
         name={{ givenName: given_name, familyName: family_name }}
         userNotifications={userNotifications}
         travelersAccountLink={travelersAccountLink}
@@ -247,8 +222,6 @@ export default function AppBarHsl({ favourites = [] }) {
   );
 }
 
-AppBarHsl.propTypes = {
-  favourites: PropTypes.arrayOf(favouriteShape),
-};
+AppBarHsl.propTypes = { favourites: PropTypes.arrayOf(favouriteShape) };
 
 export { AppBarHsl as Component };

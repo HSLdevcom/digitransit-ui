@@ -9,10 +9,7 @@ import { DateTime } from 'luxon';
  */
 export function parseTypedTime(typedValue) {
   let actualValue = typedValue;
-  if (
-    actualValue.length === 3 &&
-    actualValue.split('').every(n => Number.isInteger(Number(n)))
-  ) {
+  if (actualValue.length === 3 && actualValue.split('').every(n => Number.isInteger(Number(n)))) {
     // add ':' if user types three numbers in a row
     if (Number(actualValue.slice(0, 2)) <= 23) {
       actualValue = `${actualValue.slice(0, 2)}:${actualValue[2]}`;
@@ -78,11 +75,7 @@ export function validateInput(inputValue) {
     const values = inputValue.split(':');
     const hours = values[0];
     const minutes = values[1];
-    if (
-      inputValue.startsWith('0') &&
-      minutes.length === 1 &&
-      Number(minutes) > 5
-    ) {
+    if (inputValue.startsWith('0') && minutes.length === 1 && Number(minutes) > 5) {
       return false;
     }
 
@@ -99,18 +92,12 @@ export const getTs = (inputValue, currentTimestamp) => {
     const hours = Number(values[0]);
     const hoursValid = !Number.isNaN(hours) && hours >= 0 && hours <= 23;
     const minutes = Number(values[1]);
-    const minutesValid =
-      !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
+    const minutesValid = !Number.isNaN(minutes) && minutes >= 0 && minutes <= 59;
     if (!minutesValid || !hoursValid) {
       return null;
     }
     const newStamp = DateTime.fromMillis(currentTimestamp)
-      .set({
-        hour: hours,
-        minute: minutes,
-        second: 0,
-        millisecond: 0,
-      })
+      .set({ hour: hours, minute: minutes, second: 0, millisecond: 0 })
       .valueOf();
     return newStamp;
   }

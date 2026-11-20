@@ -44,8 +44,7 @@ expect.extend({
       const problems = await checkA11y(received, allow);
       return {
         pass: problems.length === 0,
-        message: () =>
-          `Accessibility check failed:\n  ${problems.join('\n  ')}`,
+        message: () => `Accessibility check failed:\n  ${problems.join('\n  ')}`,
       };
     } finally {
       settled = true;

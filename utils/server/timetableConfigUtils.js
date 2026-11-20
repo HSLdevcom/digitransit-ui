@@ -1,22 +1,13 @@
 /* eslint-disable no-unused-vars */
 export default {
   HSL: {
-    routeTimetableUrlResolver: function routeTimetableUrlResolver(
-      baseURL,
-      route,
-      date,
-      lang,
-    ) {
-      const routeId = route.gtfsId.slice(
-        route.gtfsId.indexOf(':') + 1,
-        route.gtfsId.length,
-      );
+    routeTimetableUrlResolver: function routeTimetableUrlResolver(baseURL, route, date, lang) {
+      const routeId = route.gtfsId.slice(route.gtfsId.indexOf(':') + 1, route.gtfsId.length);
 
       // From YYYYMMDD to YYYY-MM-DD
       const formattedDate = date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
 
-      const defaultSearchParams =
-        'props[showPrintButton]=true&props[redirect]=false';
+      const defaultSearchParams = 'props[showPrintButton]=true&props[redirect]=false';
       const url = new URL(`${baseURL}&${defaultSearchParams}`);
       url.searchParams.append('props[lineId]', routeId);
       url.searchParams.append('props[dateBegin]', formattedDate);
@@ -24,16 +15,8 @@ export default {
       url.searchParams.append('props[lang]', lang);
       return url;
     },
-    stopTimetableUrlResolver: function stopTimetableUrlResolver(
-      baseURL,
-      stop,
-      date,
-      lang,
-    ) {
-      const stopId = stop.gtfsId.slice(
-        stop.gtfsId.indexOf(':') + 1,
-        stop.gtfsId.length,
-      );
+    stopTimetableUrlResolver: function stopTimetableUrlResolver(baseURL, stop, date, lang) {
+      const stopId = stop.gtfsId.slice(stop.gtfsId.indexOf(':') + 1, stop.gtfsId.length);
       const formattedDate = date.replace(/(\d{4})(\d{2})(\d{2})/g, '$1-$2-$3');
       const defaultSearchParams =
         'props[isSummerTimetable]=false&props[printTimetablesAsA4]=true&props[printTimetablesAsGreyscale]=false&props[template]=default&props[showAddressInfo]=false&props[showPrintButton]=true&props[redirect]=false&template=default';
@@ -45,25 +28,12 @@ export default {
     },
   },
   tampere: {
-    routeTimetableUrlResolver: function routeTimetableUrlResolver(
-      baseURL,
-      route,
-      date,
-      lang,
-    ) {
+    routeTimetableUrlResolver: function routeTimetableUrlResolver(baseURL, route, date, lang) {
       const routeNumber = route.shortName.replace(/\D/g, '');
       return new URL(`${baseURL}${routeNumber}.html`);
     },
-    stopTimetableUrlResolver: function stopTimetableUrlResolver(
-      baseURL,
-      stop,
-      date,
-      lang,
-    ) {
-      const stopId = stop.gtfsId.slice(
-        stop.gtfsId.indexOf(':') + 1,
-        stop.gtfsId.length,
-      );
+    stopTimetableUrlResolver: function stopTimetableUrlResolver(baseURL, stop, date, lang) {
+      const stopId = stop.gtfsId.slice(stop.gtfsId.indexOf(':') + 1, stop.gtfsId.length);
       return new URL(`${baseURL}${parseInt(stopId, 10)}.pdf`);
     },
   },

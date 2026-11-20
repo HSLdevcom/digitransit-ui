@@ -10,10 +10,7 @@ describe('<MessageBarMessage />', () => {
       breakpoint: 'small',
       onShowMore: () => {},
     };
-    const { container } = renderWithProviders(
-      <MessageBarMessage {...props} />,
-      opts,
-    );
+    const { container } = renderWithProviders(<MessageBarMessage {...props} />, opts);
     expect(container.querySelectorAll('a')).toHaveLength(0);
   });
 
@@ -24,10 +21,7 @@ describe('<MessageBarMessage />', () => {
       onMaximize: () => {},
       onShowMore: () => {},
     };
-    const { container } = renderWithProviders(
-      <MessageBarMessage {...props} />,
-      opts,
-    );
+    const { container } = renderWithProviders(<MessageBarMessage {...props} />, opts);
     expect(container.querySelector('h2').textContent).toBe('This is a header');
   });
 
@@ -37,12 +31,7 @@ describe('<MessageBarMessage />', () => {
       breakpoint: 'small',
       onShowMore: () => {},
     };
-    const { container } = renderWithProviders(
-      <MessageBarMessage {...props} />,
-      opts,
-    );
-    expect(container.querySelector('.message-content').textContent).toContain(
-      'This is text',
-    );
+    const { container } = renderWithProviders(<MessageBarMessage {...props} />, opts);
+    expect(container.querySelector('.message-content').textContent).toContain('This is text');
   });
 });

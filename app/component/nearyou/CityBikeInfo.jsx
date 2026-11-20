@@ -1,8 +1,5 @@
 import { useState } from 'react';
-import {
-  getReadMessageIds,
-  setReadMessageId,
-} from '../../../utils/client/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../../utils/client/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   getRentalNetworkConfig,
@@ -24,13 +21,9 @@ export default function CityBikeInfo() {
   // Use general information about using city bike, if one network config is available
   const networkConfig =
     Object.keys(vehicleRental.networks).length === 1 &&
-    getRentalNetworkConfig(
-      getRentalNetworkId(Object.keys(vehicleRental.networks)),
-      config,
-    );
+    getRentalNetworkConfig(getRentalNetworkId(Object.keys(vehicleRental.networks)), config);
 
-  const href =
-    vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
+  const href = vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
 
   if (!showCityBikeTeaser || !href) {
     return null;

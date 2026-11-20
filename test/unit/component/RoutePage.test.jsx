@@ -1,13 +1,8 @@
 import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import RoutePage from '../../../app/component/routepage/RoutePage';
-import {
-  PREFIX_DISRUPTION,
-  PREFIX_STOPS,
-  PREFIX_TIMETABLE,
-} from '../../../utils/shared/path';
+import { PREFIX_DISRUPTION, PREFIX_STOPS, PREFIX_TIMETABLE } from '../../../utils/shared/path';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,
@@ -66,23 +61,11 @@ const baseRoute = {
   },
 };
 
-const baseMatch = {
-  ...mockMatch,
-  params: {
-    routeId: 'HSL:1001',
-    patternId: 'HSL:1001:0:01',
-  },
-};
+const baseMatch = { ...mockMatch, params: { routeId: 'HSL:1001', patternId: 'HSL:1001:0:01' } };
 
-const baseProps = {
-  route: baseRoute,
-};
+const baseProps = { route: baseRoute };
 
 describe('<RoutePage />', () => {
-  // RoutePage's children include Relay fragment containers; see
-  // ignoreRelayModernSelectorWarning's comment for why this is needed.
-  ignoreRelayModernSelectorWarning();
-
   const renderView = (
     { match = baseMatch, ...props } = {},
     config = baseConfig,
@@ -100,10 +83,7 @@ describe('<RoutePage />', () => {
       const replaceSpy = vi.fn();
       const { container } = renderView({
         route: null,
-        match: {
-          ...baseMatch,
-          router: { ...mockRouter, replace: replaceSpy },
-        },
+        match: { ...baseMatch, router: { ...mockRouter, replace: replaceSpy } },
       });
       expect(replaceSpy.mock.calls.length).toBe(1);
       expect(container.firstChild).toBeNull();
@@ -126,10 +106,7 @@ describe('<RoutePage />', () => {
               renderView({
                 route: null,
                 error: { message: 'relay error' },
-                match: {
-                  ...baseMatch,
-                  router: { ...mockRouter, replace: replaceSpy },
-                },
+                match: { ...baseMatch, router: { ...mockRouter, replace: replaceSpy } },
               }),
             ).toThrow();
           } catch (_e) {
@@ -160,10 +137,7 @@ describe('<RoutePage />', () => {
             renderView({
               route: null,
               error: { message: 'Relay fetch failed' },
-              match: {
-                ...baseMatch,
-                router: { ...mockRouter, replace: replaceSpy },
-              },
+              match: { ...baseMatch, router: { ...mockRouter, replace: replaceSpy } },
             });
           } catch (e) {
             thrown = e;
@@ -180,12 +154,9 @@ describe('<RoutePage />', () => {
 
   describe('Label derivation', () => {
     it('uses shortName as label when present', () => {
-      const { container } = renderView({
-        route: { ...baseRoute, shortName: 'A1' },
-      });
+      const { container } = renderView({ route: { ...baseRoute, shortName: 'A1' } });
       expect(
-        container.querySelector('h1.route-short-name span[aria-hidden="true"]')
-          .textContent,
+        container.querySelector('h1.route-short-name span[aria-hidden="true"]').textContent,
       ).toBe('A1');
     });
 
@@ -194,8 +165,7 @@ describe('<RoutePage />', () => {
         route: { ...baseRoute, shortName: null, longName: 'Long Route Name' },
       });
       expect(
-        container.querySelector('h1.route-short-name span[aria-hidden="true"]')
-          .textContent,
+        container.querySelector('h1.route-short-name span[aria-hidden="true"]').textContent,
       ).toBe('Long Route Name');
     });
 
@@ -204,8 +174,7 @@ describe('<RoutePage />', () => {
         route: { ...baseRoute, shortName: null, longName: null },
       });
       expect(
-        container.querySelector('h1.route-short-name span[aria-hidden="true"]')
-          .textContent,
+        container.querySelector('h1.route-short-name span[aria-hidden="true"]').textContent,
       ).toBe('');
     });
   });
@@ -230,20 +199,14 @@ describe('<RoutePage />', () => {
   describe('FavouriteRouteContainer', () => {
     it('renders FavouriteRouteContainer when no tripId', () => {
       const { container } = renderView({
-        match: {
-          ...baseMatch,
-          params: { ...baseMatch.params, tripId: undefined },
-        },
+        match: { ...baseMatch, params: { ...baseMatch.params, tripId: undefined } },
       });
       expect(container.querySelector('.route-header-actions')).not.toBeNull();
     });
 
     it('hides FavouriteRouteContainer when tripId is present', () => {
       const { container } = renderView({
-        match: {
-          ...baseMatch,
-          params: { ...baseMatch.params, tripId: 'trip-123' },
-        },
+        match: { ...baseMatch, params: { ...baseMatch.params, tripId: 'trip-123' } },
       });
       expect(container.querySelector('.route-header-actions')).toBeNull();
     });
@@ -254,25 +217,16 @@ describe('<RoutePage />', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,
-          params: {
-            ...baseMatch.params,
-            tripId: 'trip-123',
-            patternId: 'HSL:1001:0:01',
-          },
+          params: { ...baseMatch.params, tripId: 'trip-123', patternId: 'HSL:1001:0:01' },
         },
       });
       expect(container.querySelector('.trip-destination')).not.toBeNull();
-      expect(container.querySelector('.destination-headsign').textContent).toBe(
-        'Destination',
-      );
+      expect(container.querySelector('.destination-headsign').textContent).toBe('Destination');
     });
 
     it('hides trip destination when tripId is absent', () => {
       const { container } = renderView({
-        match: {
-          ...baseMatch,
-          params: { routeId: 'HSL:1001' },
-        },
+        match: { ...baseMatch, params: { routeId: 'HSL:1001' } },
       });
       expect(container.querySelector('.trip-destination')).toBeNull();
     });
@@ -281,11 +235,7 @@ describe('<RoutePage />', () => {
       const { container } = renderView({
         match: {
           ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-123',
-            patternId: 'NOMATCH',
-          },
+          params: { routeId: 'HSL:1001', tripId: 'trip-123', patternId: 'NOMATCH' },
         },
       });
       expect(container.querySelector('.trip-destination')).toBeNull();
@@ -309,16 +259,10 @@ describe('<RoutePage />', () => {
         route,
         match: {
           ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
+          params: { routeId: 'HSL:1001', tripId: 'trip-1', patternId: 'HSL:1001:0:01' },
         },
       });
-      expect(container.querySelector('.destination-headsign').textContent).toBe(
-        'Central Station',
-      );
+      expect(container.querySelector('.destination-headsign').textContent).toBe('Central Station');
     });
 
     it('uses last stop name when pattern code starts with NETEX:', () => {
@@ -337,16 +281,10 @@ describe('<RoutePage />', () => {
         route,
         match: {
           ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'NETEX:1001:0:01',
-          },
+          params: { routeId: 'HSL:1001', tripId: 'trip-1', patternId: 'NETEX:1001:0:01' },
         },
       });
-      expect(container.querySelector('.destination-headsign').textContent).toBe(
-        'Terminal',
-      );
+      expect(container.querySelector('.destination-headsign').textContent).toBe('Terminal');
     });
 
     it('uses last stop name when pattern has no headsign', () => {
@@ -365,16 +303,10 @@ describe('<RoutePage />', () => {
         route,
         match: {
           ...baseMatch,
-          params: {
-            routeId: 'HSL:1001',
-            tripId: 'trip-1',
-            patternId: 'HSL:1001:0:01',
-          },
+          params: { routeId: 'HSL:1001', tripId: 'trip-1', patternId: 'HSL:1001:0:01' },
         },
       });
-      expect(container.querySelector('.destination-headsign').textContent).toBe(
-        'End Station',
-      );
+      expect(container.querySelector('.destination-headsign').textContent).toBe('End Station');
     });
   });
 
@@ -383,14 +315,9 @@ describe('<RoutePage />', () => {
       'renders RouteControlPanel when type param is %s',
       type => {
         const { container } = renderView({
-          match: {
-            ...baseMatch,
-            params: { ...baseMatch.params, type },
-          },
+          match: { ...baseMatch, params: { ...baseMatch.params, type } },
         });
-        expect(
-          container.querySelector('.route-page-control-panel-container'),
-        ).not.toBeNull();
+        expect(container.querySelector('.route-page-control-panel-container')).not.toBeNull();
       },
     );
 
@@ -401,46 +328,33 @@ describe('<RoutePage />', () => {
           params: { ...baseMatch.params, type: PREFIX_STOPS, tripId: 'HSL:t1' },
         },
       });
-      expect(
-        container.querySelector('.route-page-control-panel-container'),
-      ).toBeNull();
+      expect(container.querySelector('.route-page-control-panel-container')).toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is absent', () => {
       const { container } = renderView({
         match: { ...baseMatch, params: { routeId: 'HSL:1001' } },
       });
-      expect(
-        container.querySelector('.route-page-control-panel-container'),
-      ).toBeNull();
+      expect(container.querySelector('.route-page-control-panel-container')).toBeNull();
     });
 
     it('does not render RouteControlPanel when type param is unknown', () => {
       const { container } = renderView({
-        match: {
-          ...baseMatch,
-          params: { ...baseMatch.params, type: 'some-other-prefix' },
-        },
+        match: { ...baseMatch, params: { ...baseMatch.params, type: 'some-other-prefix' } },
       });
-      expect(
-        container.querySelector('.route-page-control-panel-container'),
-      ).toBeNull();
+      expect(container.querySelector('.route-page-control-panel-container')).toBeNull();
     });
   });
 
   describe('Route color', () => {
     it('applies route color as inline style on the heading when color is set and passes WCAG AA', () => {
-      const { container } = renderView({
-        route: { ...baseRoute, color: '003399' },
-      });
+      const { container } = renderView({ route: { ...baseRoute, color: '003399' } });
       const heading = container.querySelector('h1.route-short-name');
       expect(heading.style.color).toBe('rgb(0, 51, 153)');
     });
 
     it('falls back to #333 when route has no color (mode color fails WCAG AA)', () => {
-      const { container } = renderView({
-        route: { ...baseRoute, color: null },
-      });
+      const { container } = renderView({ route: { ...baseRoute, color: null } });
       const heading = container.querySelector('h1.route-short-name');
       expect(heading.style.color).toBe('rgb(51, 51, 51)');
     });

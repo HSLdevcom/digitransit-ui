@@ -5,10 +5,7 @@ const props = {
   pattern: {
     directionId: 0,
     code: 'feed:1',
-    route: {
-      mode: 'BUS',
-      color: null,
-    },
+    route: { mode: 'BUS', color: null },
     stops: [
       {
         alerts: [],
@@ -102,10 +99,11 @@ const props = {
 describe('<RouteStopListContainer />', () => {
   it('should render route stop list', () => {
     const { vehicles, breakpoint, ...componentProps } = props;
-    const { container } = renderWithProviders(
-      <RouteStopListContainer {...componentProps} />,
-      { currentTime: 1573135114, vehicles, breakpoint },
-    );
+    const { container } = renderWithProviders(<RouteStopListContainer {...componentProps} />, {
+      currentTime: 1573135114,
+      vehicles,
+      breakpoint,
+    });
     expect(container.querySelectorAll('.route-stop-list')).toHaveLength(1);
   });
 

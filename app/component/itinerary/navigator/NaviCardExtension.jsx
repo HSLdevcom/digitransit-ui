@@ -22,10 +22,7 @@ import BoardingInfo from './BoardingInfo';
 import { getModeIconColor } from '../../../../utils/shared/colorUtils';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
-import {
-  IndoorLegType,
-  NaviCardType,
-} from '../../../../utils/shared/constants';
+import { IndoorLegType, NaviCardType } from '../../../../utils/shared/constants';
 import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
@@ -42,15 +39,15 @@ export default function NaviCardExtension({
 }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } =
-    leg ? leg.to : nextLeg.from;
+  const { stop, name, rentalVehicle, vehicleParking, vehicleRentalStation } = leg
+    ? leg.to
+    : nextLeg.from;
   const { code, platformCode, zoneId, vehicleMode } = stop || {};
   const [place, address] = name?.split(/, (.+)/) || [];
 
   const isLocalCall = isLocalCallAgency(nextLeg, config);
   const appendClass = isLocalCall ? 'call-local' : '';
-  const callAgencyDestination =
-    nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg));
+  const callAgencyDestination = nextLeg && (isLocalCall || isCallAgencyLeg(nextLeg));
 
   let destination = {};
   if (stop && !callAgencyDestination) {
@@ -85,9 +82,7 @@ export default function NaviCardExtension({
     const hs = headsign || trip.tripHeadsign;
     const stopCount = <span className="bold">{intermediateCount}</span>;
     const translationId =
-      intermediateCount === 1
-        ? 'navileg-one-intermediate-stop'
-        : 'navileg-intermediate-stops';
+      intermediateCount === 1 ? 'navileg-one-intermediate-stop' : 'navileg-intermediate-stops';
     const mode = getTripOrRouteMode(trip, route, config);
     const iconColor = getModeIconColor(config, mode) || leg.route.color;
     return (
@@ -142,10 +137,7 @@ export default function NaviCardExtension({
                   updated={platformUpdated}
                 />
               )}
-              <ZoneIcon
-                zoneId={getZoneLabel(zoneId, config)}
-                showUnknown={false}
-              />
+              <ZoneIcon zoneId={getZoneLabel(zoneId, config)} showUnknown={false} />
             </div>
           </div>
         </div>
@@ -155,8 +147,7 @@ export default function NaviCardExtension({
 
   if (legType === LEGTYPE.WAIT_IN_VEHICLE) {
     const { route, trip } = nextLeg;
-    const sameRouteInterline =
-      previousLeg?.route?.shortName === route.shortName;
+    const sameRouteInterline = previousLeg?.route?.shortName === route.shortName;
     return (
       <div className="extension">
         <div className="extension-divider" />
@@ -219,8 +210,7 @@ export default function NaviCardExtension({
 
   return (
     <div className="extension">
-      {getIndoorLegType(previousLeg, leg, nextLeg) ===
-        IndoorLegType.StepsBeforeEntranceInside && (
+      {getIndoorLegType(previousLeg, leg, nextLeg) === IndoorLegType.StepsBeforeEntranceInside && (
         <>
           <div className="extension-divider" />
           <NaviIndoorButtonContainer

@@ -6,9 +6,7 @@ const renderList = (props, currentTime = 1547464412) =>
   renderWithProviders(<DisruptionList {...props} />, { currentTime }).container;
 
 const alertRowTitles = container =>
-  Array.from(container.querySelectorAll('.alert-row-title')).map(
-    node => node.textContent,
-  );
+  Array.from(container.querySelectorAll('.alert-row-title')).map(node => node.textContent);
 
 describe('<DisruptionList />', () => {
   it('should show a "no alerts" message', () => {
@@ -62,12 +60,7 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'BUS',
-              shortName: '138',
-              gtfsId: 'foo:138',
-            },
+            { __typename: AlertEntityType.Route, mode: 'BUS', shortName: '138', gtfsId: 'foo:138' },
           ],
         },
         {
@@ -79,23 +72,13 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 1547464420,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
+            { __typename: AlertEntityType.Route, mode: 'TRAM', shortName: '8A', gtfsId: 'foo:8A' },
           ],
         },
       ],
     };
     const container = renderList(props, 1547464414);
-    expect(alertRowTitles(container)).toEqual([
-      'third',
-      'fourth',
-      'second',
-      'first',
-    ]);
+    expect(alertRowTitles(container)).toEqual(['third', 'fourth', 'second', 'first']);
   });
 
   it('should not display past service alerts', () => {
@@ -110,12 +93,7 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 99,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
+            { __typename: AlertEntityType.Route, mode: 'TRAM', shortName: '8A', gtfsId: 'foo:8A' },
           ],
         },
       ],
@@ -135,12 +113,7 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 150,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
+            { __typename: AlertEntityType.Route, mode: 'TRAM', shortName: '8A', gtfsId: 'foo:8A' },
           ],
         },
       ],
@@ -153,12 +126,7 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 150,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
+            { __typename: AlertEntityType.Route, mode: 'TRAM', shortName: '8A', gtfsId: 'foo:8A' },
           ],
         },
       ],
@@ -178,24 +146,15 @@ describe('<DisruptionList />', () => {
           effectiveEndDate: 200,
           feed: 'foo',
           entities: [
-            {
-              __typename: AlertEntityType.Route,
-              mode: 'TRAM',
-              shortName: '8A',
-              gtfsId: 'foo:8A',
-            },
+            { __typename: AlertEntityType.Route, mode: 'TRAM', shortName: '8A', gtfsId: 'foo:8A' },
           ],
         },
       ],
     };
     const container = renderList(props, 100);
     // Active section is empty (rendered as a <p>), Upcoming section has 1 item
-    expect(
-      container.querySelector('p.alerts-list-section-no-alerts'),
-    ).not.toBeNull();
+    expect(container.querySelector('p.alerts-list-section-no-alerts')).not.toBeNull();
     expect(container.querySelectorAll('[role="list"]')).toHaveLength(1);
-    expect(container.querySelectorAll('[role="list"] .alert-row')).toHaveLength(
-      1,
-    );
+    expect(container.querySelectorAll('[role="list"] .alert-row')).toHaveLength(1);
   });
 });

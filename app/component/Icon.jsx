@@ -31,11 +31,7 @@ export default function Icon({
         viewBox={!omitViewBox ? viewBox : null}
         className={cx('icon', className)}
         aria-label={ariaLabel}
-        transform={
-          background?.props?.shape === 'stopsign'
-            ? 'translate(0, -3.33)'
-            : undefined
-        }
+        transform={background?.props?.shape === 'stopsign' ? 'translate(0, -3.33)' : undefined}
       >
         {background}
         <g

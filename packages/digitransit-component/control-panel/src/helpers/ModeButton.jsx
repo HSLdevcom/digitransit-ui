@@ -17,6 +17,7 @@ export default function ModeButton({
   horizontal,
   inModal,
   onActivate,
+  linkRef = undefined,
 }) {
   const [t] = useTranslation();
 
@@ -29,8 +30,7 @@ export default function ModeButton({
   };
 
   if (inModal) {
-    const titleKey =
-      modeSet === 'hsl' && mode === 'rail' ? 'rail_local' : `${mode}_short`;
+    const titleKey = modeSet === 'hsl' && mode === 'rail' ? 'rail_local' : `${mode}_short`;
     buttonProps.title = t(titleKey, { lng: language });
     buttonProps.titleWeight = MODAL_FONT_WEIGHT;
     buttonProps.withArrow = true;
@@ -45,6 +45,7 @@ export default function ModeButton({
 
   return (
     <div
+      ref={linkRef}
       aria-label={t(mode, { lng: language })}
       role="link"
       tabIndex="0"
@@ -72,4 +73,5 @@ ModeButton.propTypes = {
   horizontal: PropTypes.bool.isRequired,
   inModal: PropTypes.bool.isRequired,
   onActivate: PropTypes.func.isRequired,
+  linkRef: PropTypes.shape({ current: PropTypes.instanceOf(Element) }),
 };

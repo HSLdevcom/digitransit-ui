@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useRouter } from 'found';
 import { graphql, useFragment } from 'react-relay';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { fragmentRefShape } from '../../../utils/client/shapes';
 import CardHeader from '../CardHeader';
-import { getJson } from '../../../utils/shared/xhrPromise';
 import { saveSearch } from '../../data/SearchHistory';
 import { isIOS } from '../../../utils/shared/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
@@ -69,8 +69,7 @@ export default function StopCardHeader({
       size: 1,
     };
     if (config.searchParams?.['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
+      searchParams['boundary.country'] = config.searchParams['boundary.country'];
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams)
@@ -123,9 +122,7 @@ export default function StopCardHeader({
       showBackButton={breakpoint === 'large'}
       stop={stop}
       isTerminal={isTerminal}
-      favouriteContainer={
-        <FavouriteStopContainer stop={stop} isTerminal={isTerminal} />
-      }
+      favouriteContainer={<FavouriteStopContainer stop={stop} isTerminal={isTerminal} />}
     />
   );
 }

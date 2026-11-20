@@ -3,16 +3,6 @@ import { createTestConfig } from '../helpers/mock-context';
 import BicycleLeg from '../../../app/component/itinerary/BicycleLeg';
 import { RentalNetworkType } from '../../../utils/shared/vehicleRentalUtils';
 
-// the nearest scooter query never resolves, so no state update happens after a test ends
-vi.mock('react-relay', async importOriginal => {
-  const actual = await importOriginal();
-  return {
-    ...actual,
-    ...actual.default,
-    fetchQuery: () => ({ toPromise: () => new Promise(() => {}) }),
-  };
-});
-
 const baseConfig = createTestConfig({
   defaultSettings: { walkSpeed: 1, bikeSpeed: 1 },
   defaultOptions: { walkSpeed: 1, bikeSpeed: 1 },
@@ -40,17 +30,13 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.CityBike } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.CityBike } } },
       },
     });
     expect(container.textContent).toContain('Fetch a city bike:');
@@ -78,22 +64,16 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.Scooter } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.Scooter } } },
       },
     });
-    expect(container.textContent).toContain(
-      'Use an app to unlock the electric scooter',
-    );
+    expect(container.textContent).toContain('Use an app to unlock the electric scooter');
   });
 
   it('should guide the user to ride a bike', () => {
@@ -117,17 +97,13 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.CityBike } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.CityBike } } },
       },
     });
     expect(container.textContent).toContain('Cycle');
@@ -154,17 +130,13 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.Scooter } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.Scooter } } },
       },
     });
     expect(container.textContent).toContain('Travel by scooter');
@@ -191,17 +163,13 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.CityBike } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.CityBike } } },
       },
     });
     expect(container.textContent).toContain('Walk your bike');
@@ -228,17 +196,13 @@ describe('<BicycleLeg />', () => {
             rentalNetwork: { networkId: 'foobar' },
           },
         },
-        to: {
-          name: 'Testipaikka',
-        },
+        to: { name: 'Testipaikka' },
       },
     };
     const { container } = renderWithProviders(<BicycleLeg {...props} />, {
       config: {
         ...baseConfig,
-        vehicleRental: {
-          networks: { foobar: { type: RentalNetworkType.Scooter } },
-        },
+        vehicleRental: { networks: { foobar: { type: RentalNetworkType.Scooter } } },
       },
     });
     expect(container.textContent).toContain('Walk your kick scooter');

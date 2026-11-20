@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import LoginPrompt from './LoginPrompt';
@@ -16,8 +16,8 @@ export default function Favourite({
   const intl = useIntl();
   const [disable, handleDisable] = useState(false);
   const [loginModalOpen, setLoginModalOpen] = useState(false);
-  const enabled =
-    config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
+  const buttonRef = useRef(null);
+  const enabled = config.allowFavouritesFromLocalstorage || config.user.sub !== undefined;
 
   useEffect(() => {
     handleDisable(isFetching);
@@ -41,6 +41,7 @@ export default function Favourite({
   return (
     <>
       <button
+        ref={buttonRef}
         type="button"
         className="cursor-pointer favourite-icon"
         onClick={onClick}
@@ -50,26 +51,21 @@ export default function Favourite({
                 id: 'remove-favourite',
                 defautlMessage: 'Remove favourite selection',
               })
-            : intl.formatMessage({
-                id: 'add-to-favourites',
-                defautlMessage: 'Set favourite',
-              })
+            : intl.formatMessage({ id: 'add-to-favourites', defautlMessage: 'Set favourite' })
         }
       >
         <Icon
-          className={cx('favourite', {
-            selected: favourite && enabled,
-          })}
-          img={
-            favourite && enabled
-              ? 'icon_star-with-circle'
-              : 'icon_star-unselected'
-          }
+          className={cx('favourite', { selected: favourite && enabled })}
+          img={favourite && enabled ? 'icon_star-with-circle' : 'icon_star-unselected'}
         />
       </button>
       <LoginPrompt
         open={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
+        onCloseAutoFocus={event => {
+          event.preventDefault();
+          buttonRef.current?.focus();
+        }}
       />
     </>
   );

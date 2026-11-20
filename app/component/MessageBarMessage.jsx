@@ -2,12 +2,7 @@ import PropTypes from 'prop-types';
 import TruncatedMessage from './TruncatedMessage';
 import { useConfigContext } from '../hooks/ConfigContext';
 
-export default function MessageBarMessage({
-  content,
-  textColor,
-  truncate = false,
-  onShowMore,
-}) {
+export default function MessageBarMessage({ content, textColor, truncate = false, onShowMore }) {
   const config = useConfigContext();
   const heading = (e, color) => {
     if (config.showAlertHeader && e?.type === 'heading') {
@@ -53,12 +48,9 @@ export default function MessageBarMessage({
     content.find(part => part.type === 'heading'),
     textColor,
   );
-  // eslint-disable-next-line jsx-a11y/click-events-have-key-events
   return (
     <div className="message-content" style={{ color: textColor }}>
-      {headingContent && (
-        <div className="message-heading">{headingContent}</div>
-      )}
+      {headingContent && <div className="message-heading">{headingContent}</div>}
       {body(
         content.find(part => part.type === 'text'),
         content.find(part => part.type === 'a'),
@@ -68,7 +60,7 @@ export default function MessageBarMessage({
 }
 
 MessageBarMessage.propTypes = {
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   content: PropTypes.arrayOf(PropTypes.object).isRequired,
   textColor: PropTypes.string,
   truncate: PropTypes.bool,

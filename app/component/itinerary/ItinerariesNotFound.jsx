@@ -14,19 +14,9 @@ export default function ItinerariesNotFound(props) {
       />
     );
   } else if (!from.lat || !from.lon) {
-    msg = (
-      <FormattedMessage
-        id="no-route-start"
-        defaultMessage="Please select origin"
-      />
-    );
+    msg = <FormattedMessage id="no-route-start" defaultMessage="Please select origin" />;
   } else if (!to.lat || !to.lon) {
-    msg = (
-      <FormattedMessage
-        id="no-route-end"
-        defaultMessage="Please select destination"
-      />
-    );
+    msg = <FormattedMessage id="no-route-end" defaultMessage="Please select destination" />;
   }
   if (msg) {
     return (
@@ -38,7 +28,4 @@ export default function ItinerariesNotFound(props) {
   return <NoItinerariesNote {...props} />;
 }
 
-ItinerariesNotFound.propTypes = {
-  from: locationShape.isRequired,
-  to: locationShape.isRequired,
-};
+ItinerariesNotFound.propTypes = { from: locationShape.isRequired, to: locationShape.isRequired };

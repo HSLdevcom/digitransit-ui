@@ -1,8 +1,5 @@
-// See test/unit/component/trafficnow/TrafficNow.test.jsx for why a default
-// import of 'react-relay/hooks' is used to get a stubbable live reference to
-// useLazyLoadQuery (shared with the 'react-relay' import TripLink uses).
-import relayHooks from 'react-relay/hooks';
 import { renderWithProviders } from '../helpers/mock-providers';
+import { relayMock } from '../helpers/mock-relay';
 import TripLink from '../../../app/component/routepage/TripLink';
 
 const vehicle = {
@@ -20,12 +17,8 @@ const vehicle = {
 
 describe('<TripLink />', () => {
   it('should render the icon wrapped by a link once the trip query resolves', () => {
-    vi.spyOn(relayHooks, 'useLazyLoadQuery').mockReturnValue({
-      trip: {
-        route: { gtfsId: 'OULU:15' },
-        pattern: { code: '1' },
-        gtfsId: 'OULU:12345',
-      },
+    relayMock.query(null, {
+      trip: { route: { gtfsId: 'OULU:15' }, pattern: { code: '1' }, gtfsId: 'OULU:12345' },
     });
     const { container } = renderWithProviders(<TripLink vehicle={vehicle} />);
     // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js)
@@ -38,9 +31,7 @@ describe('<TripLink />', () => {
   });
 
   it('should render the icon-only Suspense fallback while the trip query is pending', () => {
-    vi.spyOn(relayHooks, 'useLazyLoadQuery').mockImplementation(() => {
-      throw new Promise(() => {});
-    });
+    relayMock.query(null, relayMock.pending);
     const { container } = renderWithProviders(<TripLink vehicle={vehicle} />);
     expect(container.querySelectorAll('.route-now-content')).toHaveLength(1);
     expect(container.querySelectorAll('.large-vehicle-icon')).toHaveLength(1);

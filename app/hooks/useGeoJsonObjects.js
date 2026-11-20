@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { getJson } from '../../utils/shared/xhrPromise';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 
 const configCache = new Map();
 const dataCache = new Map();
@@ -31,10 +31,7 @@ export const styleGeoJsonFeatures = data => {
   if (!data.features.some(feature => Array.isArray(feature.styles))) {
     return data;
   }
-  const output = {
-    type: 'FeatureCollection',
-    features: [],
-  };
+  const output = { type: 'FeatureCollection', features: [] };
   data.features.forEach(feature => {
     if (!Array.isArray(feature.styles)) {
       output.features.push(cloneDeep(feature));
@@ -62,12 +59,8 @@ export const getGeoJsonConfig = url => {
     const request = getJson(url)
       .then(response => {
         const root = response.geoJson || response.geojson;
-        const layers =
-          root && Array.isArray(root.layers) ? root.layers : undefined;
-        if (
-          (!layers || layers.length === 0) &&
-          configCache.get(url) === request
-        ) {
+        const layers = root && Array.isArray(root.layers) ? root.layers : undefined;
+        if ((!layers || layers.length === 0) && configCache.get(url) === request) {
           configCache.delete(url);
         }
         return layers;
@@ -126,10 +119,7 @@ export default function useGeoJsonObjects(config) {
     let isMounted = true;
 
     const load = async () => {
-      if (
-        !config ||
-        (!Array.isArray(config.layers) && !config.layerConfigUrl)
-      ) {
+      if (!config || (!Array.isArray(config.layers) && !config.layerConfigUrl)) {
         return;
       }
 

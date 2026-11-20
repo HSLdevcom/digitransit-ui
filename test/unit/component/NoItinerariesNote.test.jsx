@@ -1,21 +1,13 @@
-import { mockContext } from '../helpers/mock-context';
+import { createTestConfig, mockContext } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 import translations from '../../../app/translations/en';
 import NoItinerariesNote from '../../../app/component/itinerary/NoItinerariesNote';
 import { PlannerMessageType } from '../../../utils/shared/constants';
 
 const TestLocation = {
-  Outside: {
-    lat: 10.0,
-    lon: 10.0,
-    address: 'Atlantic',
-  },
+  Outside: { lat: 10.0, lon: 10.0, address: 'Atlantic' },
 
-  Rautatientori: {
-    address: 'Rautatientori',
-    lat: 60.170384,
-    lon: 24.939846,
-  },
+  Rautatientori: { address: 'Rautatientori', lat: 60.170384, lon: 24.939846 },
 
   Mannerheimintie_89: {
     lat: 60.194445473775644,
@@ -23,11 +15,7 @@ const TestLocation = {
     address: 'Mannerheimintie89, Helsinki',
   },
 
-  Lappers: {
-    address: 'Lappers',
-    lat: 60.20342859480837,
-    lon: 24.039373397827152,
-  },
+  Lappers: { address: 'Lappers', lat: 60.20342859480837, lon: 24.039373397827152 },
 };
 
 const HelsinkiRegionBounds = [
@@ -37,25 +25,15 @@ const HelsinkiRegionBounds = [
   [25.5345, 59.78402],
 ];
 
-mockContext.config = {
-  ...mockContext.config,
+const testConfig = createTestConfig({
   areaPolygon: HelsinkiRegionBounds,
   minDistanceBetweenFromAndTo: 100.0,
   nationalServiceLink: {
-    fi: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/',
-    },
-    sv: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/sv/',
-    },
-    en: {
-      name: 'matka.fintraffic.fi',
-      href: 'https://matka.fintraffic.fi/en/',
-    },
+    fi: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/' },
+    sv: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/sv/' },
+    en: { name: 'matka.fintraffic.fi', href: 'https://matka.fintraffic.fi/en/' },
   },
-};
+});
 
 const defaultProps = {
   error: undefined,
@@ -67,7 +45,7 @@ const defaultProps = {
 
 const renderNote = props =>
   renderWithProviders(<NoItinerariesNote {...props} />, {
-    config: mockContext.config,
+    config: testConfig,
     match: mockContext.match,
   });
 
@@ -94,12 +72,7 @@ describe('<NoItinerariesNote />', () => {
     it('renders "see national service" link when outside area', () => {
       const props = {
         ...defaultProps,
-        routingErrors: [
-          {
-            code: PlannerMessageType.OutsideBounds,
-            inputField: 'FROM',
-          },
-        ],
+        routingErrors: [{ code: PlannerMessageType.OutsideBounds, inputField: 'FROM' }],
         from: TestLocation.Outside,
         to: TestLocation.Rautatientori,
       };
@@ -112,9 +85,7 @@ describe('<NoItinerariesNote />', () => {
           ...defaultProps,
           from: TestLocation.Outside,
           to: TestLocation.Rautatientori,
-          routingErrors: [
-            { code: PlannerMessageType.OutsideBounds, inputField: 'FROM' },
-          ],
+          routingErrors: [{ code: PlannerMessageType.OutsideBounds, inputField: 'FROM' }],
         },
         'origin-outside-service',
       );
@@ -126,9 +97,7 @@ describe('<NoItinerariesNote />', () => {
           ...defaultProps,
           from: TestLocation.Rautatientori,
           to: TestLocation.Outside,
-          routingErrors: [
-            { code: PlannerMessageType.OutsideBounds, inputField: 'TO' },
-          ],
+          routingErrors: [{ code: PlannerMessageType.OutsideBounds, inputField: 'TO' }],
         },
         'destination-outside-service',
       );
@@ -157,10 +126,7 @@ describe('<NoItinerariesNote />', () => {
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
           routingErrors: [
-            {
-              code: PlannerMessageType.OutsideServicePeriod,
-              inputField: 'DATE_TIME',
-            },
+            { code: PlannerMessageType.OutsideServicePeriod, inputField: 'DATE_TIME' },
           ],
         },
         'router-outside-service-period',
@@ -175,10 +141,7 @@ describe('<NoItinerariesNote />', () => {
           from: TestLocation.Rautatientori,
           to: TestLocation.Mannerheimintie_89,
           routingErrors: [
-            {
-              code: PlannerMessageType.OutsideServicePeriod,
-              inputField: 'DATE_TIME',
-            },
+            { code: PlannerMessageType.OutsideServicePeriod, inputField: 'DATE_TIME' },
           ],
         },
         'no-decoration',

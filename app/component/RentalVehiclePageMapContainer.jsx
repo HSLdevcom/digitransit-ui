@@ -3,9 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import StopPageMap from './map/StopPageMap';
 import { fragmentRefShape } from '../../utils/client/shapes';
 
-export default function RentalVehiclePageMapContainer({
-  rentalVehicle: rentalVehicleRef,
-}) {
+export default function RentalVehiclePageMapContainer({ rentalVehicle: rentalVehicleRef }) {
   const rentalVehicle = useFragment(
     graphql`
       fragment RentalVehiclePageMapContainer_rentalVehicle on RentalVehicle {
@@ -28,6 +26,4 @@ export default function RentalVehiclePageMapContainer({
   return <StopPageMap stop={rentalVehicle} stopName={stopName} scooter />;
 }
 
-RentalVehiclePageMapContainer.propTypes = {
-  rentalVehicle: fragmentRefShape,
-};
+RentalVehiclePageMapContainer.propTypes = { rentalVehicle: fragmentRefShape };

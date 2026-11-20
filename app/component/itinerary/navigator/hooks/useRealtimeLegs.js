@@ -5,29 +5,15 @@ import { REDUCER_ACTION_TYPES } from '../../context/useItineraryReducer';
 import { getRemainingTraversal } from '../NaviUtils';
 import useProcessLegs from './useProcessLegs';
 import useQueryRealtimeLegs from './useQueryRealtimeLegs';
-import {
-  getLegsOfInterest,
-  nextTransitIndex,
-  shiftLegs,
-} from './utils/realtimeLegUtils';
+import { getLegsOfInterest, nextTransitIndex, shiftLegs } from './utils/realtimeLegUtils';
 
-const useRealtimeLegs = (
-  relayEnvironment,
-  position,
-  vehicles,
-  simulateTransferProblem,
-) => {
+const useRealtimeLegs = (relayEnvironment, position, vehicles, simulateTransferProblem) => {
   const { itinerary, params, dispatch } = useItineraryContext();
   const [loading, setLoading] = useState(true);
 
   const queryAndMapRealtimeLegs = useQueryRealtimeLegs(relayEnvironment);
 
-  const processLegs = useProcessLegs(
-    simulateTransferProblem,
-    position,
-    vehicles,
-    params.origin,
-  );
+  const processLegs = useProcessLegs(simulateTransferProblem, position, vehicles, params.origin);
 
   // The poll must always work on the latest legs, not on the legs of the
   // render in which the callback happened to be created.
@@ -44,10 +30,7 @@ const useRealtimeLegs = (
     fetchingRef.current = true;
     try {
       const now = Date.now();
-      const rtLegMap = await queryAndMapRealtimeLegs(
-        legsRef.current,
-        now,
-      ).catch(err =>
+      const rtLegMap = await queryAndMapRealtimeLegs(legsRef.current, now).catch(err =>
         // eslint-disable-next-line no-console
         console.error('Failed to query and map real time legs', err),
       );
@@ -58,10 +41,7 @@ const useRealtimeLegs = (
       // legs may have changed while waiting for the query, so read them again
       dispatch({
         type: REDUCER_ACTION_TYPES.SET_ITINERARY_LEGS_AND_UPDATE_PARAMS,
-        payload: {
-          legs: processLegs(legsRef.current, rtLegMap, now),
-          params: { updatedAt: now },
-        },
+        payload: { legs: processLegs(legsRef.current, rtLegMap, now), params: { updatedAt: now } },
       });
     } finally {
       fetchingRef.current = false;
@@ -85,10 +65,7 @@ const useRealtimeLegs = (
       }
       dispatch({
         type: REDUCER_ACTION_TYPES.SET_ITINERARY_LEGS_AND_UPDATE_PARAMS,
-        payload: {
-          legs: [firstLeg, ...rest],
-          params: { updatedAt: startTimeInMS },
-        },
+        payload: { legs: [firstLeg, ...rest], params: { updatedAt: startTimeInMS } },
       });
     }
   };
@@ -115,16 +92,14 @@ const useRealtimeLegs = (
     };
   }, []);
 
-  const { firstLeg, lastLeg, currentLeg, nextLeg, previousLeg } =
-    getLegsOfInterest(itinerary.legs, params.updatedAt);
+  const { firstLeg, lastLeg, currentLeg, nextLeg, previousLeg } = getLegsOfInterest(
+    itinerary.legs,
+    params.updatedAt,
+  );
 
   const tailLength = currentLeg
-    ? getRemainingTraversal(
-        currentLeg,
-        position,
-        params.origin,
-        params.updatedAt,
-      ) * currentLeg.distance
+    ? getRemainingTraversal(currentLeg, position, params.origin, params.updatedAt) *
+      currentLeg.distance
     : 0;
 
   return {

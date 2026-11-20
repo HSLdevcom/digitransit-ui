@@ -2847,6 +2847,13 @@ span.itinerary-stop-code {
   &.hidden {
     display: none;
   }
+
+  // Dark ring on a white halo stays visible on any background
+  &:focus-visible {
+    outline: 2px solid $dark-gray;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px $white;
+  }
 }
 
 .swipe-scroll-wrapper {

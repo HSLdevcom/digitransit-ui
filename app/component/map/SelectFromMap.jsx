@@ -4,10 +4,10 @@ import get from 'lodash/get';
 import { useRouter } from 'found';
 import { useIntl } from 'react-intl';
 import getLabel from '@digitransit-search-util/digitransit-search-util-get-label';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
 import { otpToLocation } from '../../../utils/shared/otpStrings';
-import { getJson } from '../../../utils/shared/xhrPromise';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';
@@ -80,10 +80,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
       leafletMap.invalidateSize();
       if (!initialViewFixed.current) {
         initialViewFixed.current = true;
-        leafletMap.setView(
-          [config.defaultEndpoint.lat, config.defaultEndpoint.lon],
-          12,
-        );
+        leafletMap.setView([config.defaultEndpoint.lat, config.defaultEndpoint.lon], 12);
       }
     });
     observer.observe(container);
@@ -101,8 +98,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
       zones: 1,
     };
     if (config.searchParams['boundary.country']) {
-      searchParams['boundary.country'] =
-        config.searchParams['boundary.country'];
+      searchParams['boundary.country'] = config.searchParams['boundary.country'];
     }
 
     getJson(config.URL.PELIAS_REVERSE_GEOCODER, searchParams).then(
@@ -149,11 +145,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
       return;
     }
 
-    setMapCenter({
-      address: '',
-      lat: e.latlng.lat,
-      lon: e.latlng.lng,
-    });
+    setMapCenter({ address: '', lat: e.latlng.lat, lon: e.latlng.lng });
 
     setAddress(e.latlng.lat, e.latlng.lng);
   };
@@ -164,11 +156,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
     }
     const centerOfMap = map.current.getCenter();
 
-    if (
-      mapCenter &&
-      mapCenter.lat === centerOfMap.lat &&
-      mapCenter.lon === centerOfMap.lng
-    ) {
+    if (mapCenter && mapCenter.lat === centerOfMap.lat && mapCenter.lon === centerOfMap.lng) {
       return;
     }
 
@@ -194,11 +182,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
     <ConfirmLocationFromMapButton
       key="confirmButton"
       isEnabled={!!isEnabled}
-      address={
-        isEnabled
-          ? createAddress(center.address, positionSelectingFromMap)
-          : undefined
-      }
+      address={isEnabled ? createAddress(center.address, positionSelectingFromMap) : undefined}
       title={intl.formatMessage({
         id: 'location-from-map-confirm',
         defaultMessage: 'Confirm selection',
@@ -217,38 +201,26 @@ export default function SelectFromMap({ language, type, onConfirm }) {
 
   if (!mapCenter && type === 'origin' && !isDesktop) {
     leafletObjs.push(
-      <LocationMarker
-        key="fromMarker"
-        position={defaultLocation}
-        type="from"
-        disabled
-      />,
+      <LocationMarker key="fromMarker" position={defaultLocation} type="from" disabled />,
     );
   }
 
   if (!mapCenter && type === 'destination' && !isDesktop) {
     leafletObjs.push(
-      <LocationMarker
-        key="toMarker"
-        position={defaultLocation}
-        type="to"
-        disabled
-      />,
+      <LocationMarker key="toMarker" position={defaultLocation} type="to" disabled />,
     );
   }
 
   if (match.location.query && match.location.query.intermediatePlaces) {
     if (Array.isArray(match.location.query.intermediatePlaces)) {
-      match.location.query.intermediatePlaces
-        .map(otpToLocation)
-        .forEach((markerLocation, i) => {
-          leafletObjs.push(
-            <LocationMarker
-              key={`via_${i}`} // eslint-disable-line react/no-array-index-key
-              position={markerLocation}
-            />,
-          );
-        });
+      match.location.query.intermediatePlaces.map(otpToLocation).forEach((markerLocation, i) => {
+        leafletObjs.push(
+          <LocationMarker
+            key={`via_${i}`} // eslint-disable-line react/no-array-index-key
+            position={markerLocation}
+          />,
+        );
+      });
     } else {
       leafletObjs.push(
         <LocationMarker
@@ -276,9 +248,7 @@ export default function SelectFromMap({ language, type, onConfirm }) {
   }
   const eventHooks = {};
   if (isDesktop) {
-    eventHooks.leafletEvents = {
-      onClick,
-    };
+    eventHooks.leafletEvents = { onClick };
   } else {
     eventHooks.onEndNavigation = setMapLocation;
   }

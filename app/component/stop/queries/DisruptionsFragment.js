@@ -11,9 +11,7 @@ export const DisruptionsFragment = graphql`
     routes {
       gtfsId
     }
-    canceledCalls(
-      timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]
-    ) {
+    canceledCalls(timeRanges: [{ start: $cancelationStartDate, end: $cancelationEndDate }]) {
       tripOnServiceDate {
         serviceDate
         trip {

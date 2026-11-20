@@ -3,18 +3,13 @@ import { useTranslation } from 'react-i18next';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text } from '@hsl-fi/layout-primitives';
 import styles from './styles.scss';
+import { hslfiLocales } from './translations';
 
-export default function AllModesModal({
-  modalOpen,
-  closeModal,
-  language,
-  children,
-}) {
+export default function AllModesModal({ modalOpen, closeModal, language, children }) {
   const [t] = useTranslation();
 
   return (
     <Modal
-      lang={language}
       open={modalOpen}
       onOpenChange={open => {
         if (!open) {
@@ -23,7 +18,7 @@ export default function AllModesModal({
       }}
     >
       <ModalContent
-        lang={language}
+        lang={hslfiLocales[language] ?? language}
         title={t('title', { lng: language })}
         description={
           <Text variant="paragraph-small" fixedSize="desktop" color="default">
@@ -31,19 +26,11 @@ export default function AllModesModal({
           </Text>
         }
         buttons={[
-          {
-            children: t('close', { lng: language }),
-            variant: 'primary',
-            onClick: closeModal,
-          },
+          { children: t('close', { lng: language }), variant: 'primary', onClick: closeModal },
         ]}
       >
-        <div
-          className={`${styles['near-you-container']} ${styles['modal-rows']}`}
-        >
-          <div className={styles['near-you-buttons-container-wide']}>
-            {children}
-          </div>
+        <div className={`${styles['near-you-container']} ${styles['modal-rows']}`}>
+          <div className={styles['near-you-buttons-container-wide']}>{children}</div>
         </div>
       </ModalContent>
     </Modal>

@@ -1,12 +1,10 @@
-import { useEffect, useState, useRef } from 'react';
+import { useState } from 'react';
 import PropTypes from 'prop-types';
+import { useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Link } from 'found';
-import { stopShape, relayShape } from '../../../utils/client/shapes';
-import {
-  hasEntitiesOfType,
-  isAlertValid,
-} from '../../../utils/client/alertUtils';
+import { fragmentRefShape } from '../../../utils/client/shapes';
+import { hasEntitiesOfType, isAlertValid } from '../../../utils/client/alertUtils';
 import { stopPagePath } from '../../../utils/shared/path';
 import { AlertEntityType } from '../../../utils/shared/constants';
 import NearYouHeader from './NearYouHeader';
@@ -14,27 +12,19 @@ import AlertBanner from '../AlertBanner';
 import StopNearYouDepartureRowContainer from './StopNearYouDepartureRowContainer';
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
+import useRefetchOnTick from '../../hooks/useRefetchOnTick';
+import StopNearYouFragment from './queries/StopNearYouFragment';
 
-export default function StopNearYou({
-  stop,
-  currentTime,
-  relay,
-  isParentTabActive,
-}) {
+export default function StopNearYou({ stop: stopRef, isParentTabActive }) {
   const config = useConfigContext();
+  const currentTime = useCurrentTime();
   const intl = useIntl();
-  const timeRef = useRef(currentTime);
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
+  const [stop, refetch] = useRefetchableFragment(StopNearYouFragment, stopRef);
   const { gtfsId, vehicleMode } = stop;
 
-  useEffect(() => {
-    if (isParentTabActive && currentTime - timeRef.current > 30) {
-      relay.refetch(oldVariables => {
-        return { ...oldVariables, stopId: gtfsId, startTime: currentTime };
-      }, null);
-      timeRef.current = currentTime;
-    }
-  }, [currentTime, isParentTabActive]);
+  useRefetchOnTick(refetch, StopNearYouFragment, stopRef, isParentTabActive);
   if (!stop.stoptimesWithoutPatterns) {
     return null;
   }
@@ -45,9 +35,7 @@ export default function StopNearYou({
   const { locale } = intl;
   const isConstantOperation = constantOperationStops[gtfsId];
   const filteredAlerts = stop.alerts.filter(
-    alert =>
-      hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-      isAlertValid(alert, currentTime),
+    alert => hasEntitiesOfType(alert, AlertEntityType.Stop) && isAlertValid(alert, currentTime),
   );
 
   return (
@@ -102,24 +90,17 @@ export default function StopNearYou({
               }}
               to={linkAddress}
             >
-              <FormattedMessage
-                id="more-departures"
-                defaultMessage="More departures"
-              />
+              <FormattedMessage id="more-departures" defaultMessage="More departures" />
             </Link>
           </>
         )}
       </div>
-      {capacityModalOpen && (
-        <CapacityModal onClose={() => setCapacityModalOpen(false)} />
-      )}
+      {capacityModalOpen && <CapacityModal onClose={() => setCapacityModalOpen(false)} />}
     </span>
   );
 }
 
 StopNearYou.propTypes = {
-  stop: stopShape.isRequired,
-  currentTime: PropTypes.number.isRequired,
-  relay: relayShape.isRequired,
+  stop: fragmentRefShape.isRequired,
   isParentTabActive: PropTypes.bool.isRequired,
 };

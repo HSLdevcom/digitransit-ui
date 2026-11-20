@@ -1,18 +1,11 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import StopNearYou from '../../../../app/component/nearyou/StopNearYou';
+import * as NearYouHeaderModule from '../../../../app/component/nearyou/NearYouHeader';
+import * as StopNearYouDepartureRowContainerModule from '../../../../app/component/nearyou/StopNearYouDepartureRowContainer';
 import { createTestConfig } from '../../helpers/mock-context';
 
-vi.mock('../../../../app/component/nearyou/NearYouHeader', () => ({
-  default: () => <div className="near-you-header" />,
-}));
-vi.mock(
-  '../../../../app/component/nearyou/StopNearYouDepartureRowContainer',
-  () => ({ default: () => <div className="departure-rows" /> }),
-);
-// jsdom has no layout, so truncation would cut the text
-vi.mock('react-truncate-markup', () => ({
-  default: ({ children }) => children,
-}));
+const NearYouHeaderStub = () => <div className="near-you-header" />;
+const DepartureRowsStub = () => <div className="departure-rows" />;
 
 const config = createTestConfig({
   colors: { primary: '#00AFFF', caution: '#dc0451' },
@@ -39,23 +32,23 @@ const makeStop = (alerts = []) => ({
 });
 
 const renderView = alerts =>
-  renderWithProviders(
-    <StopNearYou
-      stop={makeStop(alerts)}
-      currentTime={1000}
-      relay={{ refetch: vi.fn() }}
-      isParentTabActive
-    />,
-    { config },
-  );
+  renderWithProviders(<StopNearYou stop={makeStop(alerts)} isParentTabActive />, {
+    config,
+    currentTime: 1000,
+  });
 
 describe('<StopNearYou /> alert banner', () => {
+  beforeEach(() => {
+    vi.spyOn(NearYouHeaderModule, 'default', 'get').mockReturnValue(NearYouHeaderStub);
+    vi.spyOn(StopNearYouDepartureRowContainerModule, 'default', 'get').mockReturnValue(
+      DepartureRowsStub,
+    );
+  });
+
   it('shows the banner when the stop has a stop alert', () => {
     const { container } = renderView([makeAlert()]);
     expect(container.querySelector('.alert-container')).not.toBeNull();
-    expect(container.querySelector('.alert-text').textContent).toBe(
-      'Stop disruption',
-    );
+    expect(container.querySelector('.alert-text').textContent).toBe('Stop disruption');
   });
 
   it('hides the banner when the stop has no alerts', () => {
@@ -78,19 +71,13 @@ describe('<StopNearYou /> alert banner', () => {
         effectiveStartDate: 100,
         effectiveEndDate: 500,
       }),
-      makeAlert({
-        alertHeaderText: 'Ongoing',
-        effectiveStartDate: 900,
-        effectiveEndDate: 2000,
-      }),
+      makeAlert({ alertHeaderText: 'Ongoing', effectiveStartDate: 900, effectiveEndDate: 2000 }),
     ]);
     expect(container.querySelector('.alert-text').textContent).toBe('Ongoing');
   });
 
   it('hides the banner when alerts have no Stop entity', () => {
-    const { container } = renderView([
-      makeAlert({ entities: [{ __typename: 'Route' }] }),
-    ]);
+    const { container } = renderView([makeAlert({ entities: [{ __typename: 'Route' }] })]);
     expect(container.querySelector('.alert-container')).toBeNull();
   });
 });

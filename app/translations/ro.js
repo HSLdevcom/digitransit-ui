@@ -8,8 +8,7 @@ export default {
     'add-itinerary-via-point': 'Adaugă punct intermediar',
     'add-location-to-favourites': 'Adaugă un punct important la favorite',
     'add-via-button-label': 'Adaugă intermediar',
-    'add-via-duration-button-label':
-      'Introdu durata staționării la punctul intermediar {index}',
+    'add-via-duration-button-label': 'Introdu durata staționării la punctul intermediar {index}',
     'add-via-duration-button-label-close':
       'Închideți selectorul de durată a staționării la punctul intermediar {index}',
     'add-via-duration-button-label-open':
@@ -51,8 +50,7 @@ export default {
     close: 'Închide',
     continue: 'Continuă',
     'cycle-distance-duration': 'Pedalați {duration} ({distance})',
-    'cyclewalk-distance-duration':
-      'Împingeți bicicleta {duration} ({distance})',
+    'cyclewalk-distance-duration': 'Împingeți bicicleta {duration} ({distance})',
     date: 'Data',
     delete: 'Ștergere',
     'departure-time-in-minutes': '{minutes} min',
@@ -64,14 +62,15 @@ export default {
     disruption: 'Incident',
     'disruption-info': 'Incidente pe traseu',
     'disruption-info-no-alerts': 'Nu se cunosc incidente sau detururi.',
-    'disruption-info-route-no-alerts':
-      'Nu se cunosc incidente sau detururi pe acest traseu.',
+    'disruption-info-route-no-alerts': 'Nu se cunosc incidente sau detururi pe acest traseu.',
     disruptions: 'Incidente',
     'distance-total': 'Distanța totală',
     earlier: 'Mai devreme',
     explanations: 'Explicații',
     'extra-info': 'Informații detaliate',
     ferry: 'Feribot',
+    'field-optional': 'opțional',
+    'field-required': 'obligatoriu',
     frontpage: 'Prima pagină',
     'generic-error': 'A apărut o eroare',
     'geolocation-denied-heading': 'Geolocalizare nepermisă',
@@ -79,19 +78,15 @@ export default {
       'Nu ați permis accesul la datele de localizare. Puteți schimba acest lucru în preferințele browserului.',
     'geolocation-failed-heading': 'Localizarea a eșuat',
     'geolocation-failed-text': 'Browserul nu suportă servicii de localizare.',
-    'geolocation-prompt-text':
-      'Vă rugăm să acceptați cererea browserului privind localizarea.',
-    'geolocation-timeout-heading':
-      'Durează mai mult decât ar trebui să detectăm locația.',
-    'geolocation-timeout-text':
-      'Ați acceptat cererea de permitere a localizării?',
+    'geolocation-prompt-text': 'Vă rugăm să acceptați cererea browserului privind localizarea.',
+    'geolocation-timeout-heading': 'Durează mai mult decât ar trebui să detectăm locația.',
+    'geolocation-timeout-text': 'Ați acceptat cererea de permitere a localizării?',
     hour: 'Oră',
     'itinerary-details.biking-leg':
       'La {time} pedalați {distance} de la {origin} la {destination}. Va dura aproximativ {duration}',
     'itinerary-details.car-leg':
       'La {time} conduceți {distance} de la {origin} la {destination}. Va dura aproximativ {duration}',
-    'itinerary-details.end-leg':
-      'La {time} ajungeți la destinație {destination}.',
+    'itinerary-details.end-leg': 'La {time} ajungeți la destinație {destination}.',
     'itinerary-details.route-has-info-alert': 'Ruta are avertizări.',
     'itinerary-details.route-has-severe-alert': 'Ruta are incidente grave.',
     'itinerary-details.route-has-unknown-alert': 'Ruta are incidente moderate.',
@@ -120,6 +115,7 @@ export default {
     leaves: 'Plecare',
     'leaving-at': 'Pleacă la',
     loading: 'Se încarcă...',
+    'loading-please-wait': 'Se încarcă, vă rugăm așteptați',
     'location-from-map': 'Locația selectată',
     'location-home': 'Acasă',
     'location-work': 'Muncă',
@@ -191,18 +187,15 @@ export default {
     routes: 'Rute',
     'scooter-availability': 'Trotinete disponibile în stație',
     'scooter-distance-duration': 'Mergeți pe trotinetă {duration} ({distance})',
-    'scooterwalk-distance-duration':
-      'Împingeți trotineta {duration} ({distance})',
+    'scooterwalk-distance-duration': 'Împingeți trotineta {duration} ({distance})',
     'search-current-suggestion': 'Current selection: {selection}',
     'searching-position': 'Se caută locația...',
     'select-date': 'Selectați data',
     'select-map-layers-header': 'Ce ar trebui să apară pe hartă?',
-    'separate-ticket-required':
-      'Un bilet separat e necesar pentru o parte din acest itinerar.',
+    'separate-ticket-required': 'Un bilet separat e necesar pentru o parte din acest itinerar.',
     'separate-ticket-required-disclaimer':
       'Acest itinerar conține una sau mai multe rute pentru care {agencyName} nu comercializează bilete.',
-    'set-time-earlier-button-label':
-      'Setați timpul călătoriei pentru mai devreme',
+    'set-time-earlier-button-label': 'Setați timpul călătoriei pentru mai devreme',
     'set-time-later-button-label': 'Setați timpul călătoriei pentru mai târziu',
     settings: 'Setări',
     'settings-label-change': 'Schimbă setări',
@@ -251,8 +244,7 @@ export default {
     'walking-speed': 'Viteza mersului pe jos',
     'warning-call-agency':
       'Doar la cerere: {routeName}, trebuie rezervată în avans vorbind cu compania.',
-    'warning-call-agency-no-route':
-      'Doar la cerere! Trebuie stabilit cu compania în avans.',
+    'warning-call-agency-no-route': 'Doar la cerere! Trebuie stabilit cu compania în avans.',
     where: 'Where to?',
     zone: 'Zone',
   },

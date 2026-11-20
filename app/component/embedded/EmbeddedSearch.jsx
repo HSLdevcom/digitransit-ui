@@ -1,5 +1,4 @@
 /* eslint-disable no-nested-ternary */
-/* eslint-disable react/no-array-index-key */
 import { useState, useEffect, useRef } from 'react';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
@@ -74,9 +73,7 @@ export default function EmbeddedSearch(props) {
   const walkOnly = query?.walkOnly;
   const lang = query.lang || 'fi';
   const url =
-    window.location !== window.parent.location
-      ? document.referrer
-      : document.location.href;
+    window.location !== window.parent.location ? document.referrer : document.location.href;
 
   const buttonRef = useRef(null);
   const [ready, setReady] = useState(false);
@@ -107,22 +104,14 @@ export default function EmbeddedSearch(props) {
   const useDestinationLocation = query?.destinationLoc;
   const [origin, setOrigin] = useState(
     useOriginLocation
-      ? {
-          type: 'CurrentLocation',
-          status: 'no-location',
-          address: i18next.t('own-position'),
-        }
+      ? { type: 'CurrentLocation', status: 'no-location', address: i18next.t('own-position') }
       : defaultOriginExists
         ? defaultOrigin
         : {},
   );
   const [destination, setDestination] = useState(
     useDestinationLocation
-      ? {
-          type: 'CurrentLocation',
-          status: 'no-location',
-          address: i18next.t('own-position'),
-        }
+      ? { type: 'CurrentLocation', status: 'no-location', address: i18next.t('own-position') }
       : defaultDestinationExists
         ? defaultDestination
         : {},
@@ -131,22 +120,14 @@ export default function EmbeddedSearch(props) {
   useEffect(() => {
     setOrigin(
       useOriginLocation
-        ? {
-            type: 'CurrentLocation',
-            status: 'no-location',
-            address: i18next.t('own-position'),
-          }
+        ? { type: 'CurrentLocation', status: 'no-location', address: i18next.t('own-position') }
         : defaultOriginExists
           ? defaultOrigin
           : {},
     );
     setDestination(
       useDestinationLocation
-        ? {
-            type: 'CurrentLocation',
-            status: 'no-location',
-            address: i18next.t('own-position'),
-          }
+        ? { type: 'CurrentLocation', status: 'no-location', address: i18next.t('own-position') }
         : defaultDestinationExists
           ? defaultDestination
           : {},
@@ -235,20 +216,12 @@ export default function EmbeddedSearch(props) {
     const targetUrl = isComplete
       ? buildURL([
           lang,
-          getPathWithEndpointObjects(
-            origin,
-            destination,
-            PREFIX_ITINERARY_SUMMARY,
-          ),
+          getPathWithEndpointObjects(origin, destination, PREFIX_ITINERARY_SUMMARY),
           urlEnd,
         ])
       : buildURL([
           lang,
-          getIndexPath(
-            locationToOTP(origin),
-            locationToOTP(destination),
-            config.indexPath || '',
-          ),
+          getIndexPath(locationToOTP(origin), locationToOTP(destination), config.indexPath || ''),
         ]);
 
     targetUrl.search += buildQueryString(utmCampaignParams);
@@ -291,31 +264,16 @@ export default function EmbeddedSearch(props) {
 
   return (
     <div
-      className={`embedded-seach-container ${
-        bikeOnly ? 'bike' : walkOnly ? 'walk' : ''
-      }`}
+      className={`embedded-seach-container ${bikeOnly ? 'bike' : walkOnly ? 'walk' : ''}`}
       id={appElement}
     >
       <div className="background-container">{drawBackgroundIcon()}</div>
       <div className="control-panel-container">
-        <CtrlPanel
-          instance="HSL"
-          language={lang}
-          origin={origin}
-          position="left"
-        >
-          <span className="sr-only">
-            {i18next.t('search-fields-sr-instructions')}
-          </span>
+        <CtrlPanel instance="HSL" language={lang} origin={origin} position="left">
+          <span className="sr-only">{i18next.t('search-fields-sr-instructions')}</span>
           <LocationSearch {...locationSearchProps} embeddedSearch />
           <div className="embedded-search-button-container">
-            {logo && (
-              <img
-                src={logo}
-                className="brand-logo"
-                alt={`${config.title} logo`}
-              />
-            )}
+            {logo && <img src={logo} className="brand-logo" alt={`${config.title} logo`} />}
             <button
               ref={buttonRef}
               className="search-button"
@@ -331,6 +289,4 @@ export default function EmbeddedSearch(props) {
   );
 }
 
-EmbeddedSearch.propTypes = {
-  match: matchShape.isRequired,
-};
+EmbeddedSearch.propTypes = { match: matchShape.isRequired };

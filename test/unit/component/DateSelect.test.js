@@ -21,11 +21,6 @@ describe('<DateSelect />', () => {
     Settings.defaultZone = 'Europe/Helsinki';
   });
 
-  afterAll(() => {
-    Settings.defaultLocale = 'en';
-    Settings.defaultZone = 'Europe/Helsinki';
-  });
-
   it('should render 60 options', () => {
     const options = getDateOptions(
       defaultProps.startDate,
@@ -68,8 +63,6 @@ describe('<DateSelect />', () => {
       defaultProps.selectedDate,
       ({ defaultMessage }) => defaultMessage,
     );
-    expect(
-      options.find(option => option.value === defaultProps.selectedDate),
-    ).toBeDefined();
+    expect(options.find(option => option.value === defaultProps.selectedDate)).toBeDefined();
   });
 });

@@ -10,12 +10,7 @@ describe('<MenuDrawer />', () => {
   it('should request closing from the close button', () => {
     const onRequestChange = vi.fn();
     renderWithProviders(
-      <MenuDrawer
-        open
-        label="Main menu"
-        onRequestChange={onRequestChange}
-        breakpoint="large"
-      >
+      <MenuDrawer open label="Main menu" onRequestChange={onRequestChange} breakpoint="large">
         <div>content</div>
       </MenuDrawer>,
       { config: { CONFIG: 'default', language: 'en' } },
@@ -41,8 +36,6 @@ describe('<MenuDrawer />', () => {
       { config: { CONFIG: 'default', language: 'en' } },
     );
 
-    expect(
-      screen.getByRole('button', { name: 'Close the main menu' }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Close the main menu' })).toBeTruthy();
   });
 });

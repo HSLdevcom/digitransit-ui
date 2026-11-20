@@ -4,10 +4,7 @@ import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import {
-  mapLayerOptionsShape,
-  mapLayerShape,
-} from '../../../utils/client/shapes';
+import { mapLayerOptionsShape, mapLayerShape } from '../../../utils/client/shapes';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import MapLayersDialogContent from './MapLayersDialogContent';
@@ -67,7 +64,6 @@ export default function MapWithTracking({
   onMapTracking,
   setMWTRef,
   mapRef,
-  // eslint-disable-next-line react/prop-types
   leafletEvents = {},
   topButtons = null,
   showControls = true,
@@ -168,13 +164,7 @@ export default function MapWithTracking({
     if (isEmpty(forcedLayers.stop)) {
       return merged;
     }
-    return {
-      ...merged,
-      stop: {
-        ...mapLayers.stop,
-        ...forcedLayers.stop,
-      },
-    };
+    return { ...merged, stop: { ...mapLayers.stop, ...forcedLayers.stop } };
   };
 
   // Exposed to the parent via setMWTRef as a stable object reference, whose
@@ -195,18 +185,12 @@ export default function MapWithTracking({
       mounted.current = false;
     };
     // Runs only once, mirroring componentDidMount/componentWillUnmount.
-    // eslint-disable-next-line
   }, []);
 
   useEffect(() => {
-    if (
-      mapTracking !== undefined &&
-      mapTracking !== mapTrackingState &&
-      mounted.current
-    ) {
+    if (mapTracking !== undefined && mapTracking !== mapTrackingState && mounted.current) {
       setMapTrackingState(mapTracking);
     }
-    // eslint-disable-next-line
   }, [mapTracking]);
 
   const btnClassName = 'map-with-tracking-buttons';
@@ -227,10 +211,7 @@ export default function MapWithTracking({
       navigated.current = false;
     }
     delete naviProps.bounds;
-  } else if (
-    bounds &&
-    (!isEqual(oldBounds.current, bounds) || refresh.current)
-  ) {
+  } else if (bounds && (!isEqual(oldBounds.current, bounds) || refresh.current)) {
     naviProps.bounds = cloneDeep(bounds);
     delete naviProps.zoom;
     if (refresh.current) {
@@ -299,9 +280,7 @@ export default function MapWithTracking({
                   img="icon_map-layers"
                   handleClick={toggleSettingsOpen}
                   color={config.colors.primary}
-                  ariaLabel={intl.formatMessage({
-                    id: 'maplayers',
-                  })}
+                  ariaLabel={intl.formatMessage({ id: 'maplayers' })}
                 />
               )}
               {renderCustomButtons && renderCustomButtons()}
@@ -362,7 +341,7 @@ MapWithTracking.propTypes = {
   onMapTracking: PropTypes.func,
   setMWTRef: PropTypes.func,
   mapRef: PropTypes.func,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   leafletEvents: PropTypes.object,
   topButtons: PropTypes.node,
   showControls: PropTypes.bool,

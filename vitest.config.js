@@ -62,10 +62,7 @@ const hslFiCjsInteropPlugin = () => ({
 });
 
 // Run by the `server` project below instead of the `app` project.
-const serverTestFiles = [
-  'test/unit/server/**/*.test.js',
-  'test/unit/utils/server/**/*.test.js',
-];
+const serverTestFiles = ['test/unit/server/**/*.test.js', 'test/unit/utils/server/**/*.test.js'];
 
 const nodeProject = name => ({
   test: {
@@ -89,9 +86,7 @@ export default {
             // babel.config.cjs only adds the `relay` plugin on top of
             // preset-env/preset-react (compiles `graphql`` tagged templates)
             // - everything else plugin-react already handles by default.
-            babel: {
-              plugins: ['relay'],
-            },
+            babel: { plugins: ['relay'] },
           }),
           // Stub global stylesheets instead of letting Vite compile Sass.
           // Vitest stubs `.module.scss` itself, with real class names.
@@ -115,14 +110,16 @@ export default {
           // Files that still `import { expect } from 'chai'` are unaffected
           // (a local import shadows a global).
           globals: true,
-          // Auto-restores vi.fn()/vi.spyOn() mocks between tests. Needed
-          // because a handful of tests use vi.spyOn to stub this repo's own
-          // ESM exports, which sinon can't do.
+          // Runs the test files of a worker in one shared jsdom environment
+          // and module registry, instead of recreating both for every file,
+          // which took most of this project's run time. Tests therefore must
+          // not leave global state behind, and must stub modules with
+          // vi.spyOn() rather than per-file vi.mock() (see docs/Tests.md).
+          isolate: false,
+          // Restores vi.spyOn() stubs, including those on this repo's own ESM
+          // exports, before each test.
           restoreMocks: true,
-          setupFiles: [
-            './test/unit/helpers/vitest.setup.js',
-            '@digitransit-ui/test-utils/setup',
-          ],
+          setupFiles: ['./test/unit/helpers/vitest.setup.js', '@digitransit-ui/test-utils/setup'],
           // @hsl-fi/*, @radix-ui/* (under @hsl-fi/dialog|form|notifications|
           // overlays|site-header), and @floating-ui/* (under
           // @radix-ui/react-popper) are normally externalized (resolved via
@@ -131,11 +128,7 @@ export default {
           // `exports` map, so force these through Vite's own resolver
           // instead. (Not inlining node_modules blanket: other deps, e.g.
           // `uuid`, break under Vite's CJS/ESM interop when inlined.)
-          server: {
-            deps: {
-              inline: [/node_modules\/(@hsl-fi|@radix-ui|@floating-ui)\//],
-            },
-          },
+          server: { deps: { inline: [/node_modules\/(@hsl-fi|@radix-ui|@floating-ui)\//] } },
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,
@@ -189,10 +182,7 @@ export default {
         // versus Rollup's build is SVGR, needed for
         // digitransit-component-icon's raw .svg imports.
         plugins: [
-          svgr({
-            include: '**/*.svg',
-            svgrOptions: { svgo: false, ref: false, titleProp: false },
-          }),
+          svgr({ include: '**/*.svg', svgrOptions: { svgo: false, ref: false, titleProp: false } }),
           react(),
           hslFiCjsInteropPlugin(),
           // rollup.config.js's postcss plugin treats every .scss import as
@@ -228,9 +218,7 @@ export default {
           css: false,
           // @hsl-fi/modal (react-modal) needs a real DOM node matching its
           // appElement selector for react-modal's aria-hider.
-          environmentOptions: {
-            jsdom: { html: '<!DOCTYPE html><div id="app"></div>' },
-          },
+          environmentOptions: { jsdom: { html: '<!DOCTYPE html><div id="app"></div>' } },
           // Makes `afterEach` a real global, which is all
           // @testing-library/react's auto-cleanup checks for - gets RTL's
           // per-test cleanup() for free.
@@ -245,11 +233,7 @@ export default {
           // resolver instead avoids that; the hsl-fi-cjs-interop plugin
           // above handles the resulting default-export unwrap for
           // @hsl-fi/modal, @hsl-fi/shimmer, and @hsl-fi/utilities.
-          server: {
-            deps: {
-              inline: [/node_modules\/(@hsl-fi|@radix-ui|@floating-ui)\//],
-            },
-          },
+          server: { deps: { inline: [/node_modules\/(@hsl-fi|@radix-ui|@floating-ui)\//] } },
           // Caches transformed modules under node_modules/.vitest-cache to
           // speed up reruns; rides along with CI's whole-node_modules cache.
           fsModuleCache: true,

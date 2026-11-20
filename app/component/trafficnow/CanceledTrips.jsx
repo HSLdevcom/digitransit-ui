@@ -11,11 +11,7 @@ import CTAContainer from './components/CTAContainer';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;
 
-export default function CanceledTrips({
-  canceledRoutes = [],
-  mode,
-  isMobile = false,
-}) {
+export default function CanceledTrips({ canceledRoutes = [], mode, isMobile = false }) {
   const { colors } = useConfigContext();
   const { formatMessage } = useIntl();
   const [showAmount, setShowAmount] = useState(
@@ -39,14 +35,9 @@ export default function CanceledTrips({
           );
 
           return isMobile ? (
-            <Fragment key={routeSummary.route.shortName}>
-              {cancellationContainer}
-            </Fragment>
+            <Fragment key={routeSummary.route.shortName}>{cancellationContainer}</Fragment>
           ) : (
-            <Card
-              key={routeSummary.route.shortName}
-              className="canceled-trips__card"
-            >
+            <Card key={routeSummary.route.shortName} className="canceled-trips__card">
               {cancellationContainer}
             </Card>
           );
@@ -57,16 +48,10 @@ export default function CanceledTrips({
           <Text variant="text-xs" as="div">
             {formatMessage(
               { id: 'traffic-now_canceled-trips--amount' },
-              {
-                amount: showAmount,
-                totalAmount: canceledRoutes.length,
-              },
+              { amount: showAmount, totalAmount: canceledRoutes.length },
             )}
           </Text>
-          <ResultsProgressBar
-            currentAmount={showAmount}
-            totalAmount={canceledRoutes.length}
-          />
+          <ResultsProgressBar currentAmount={showAmount} totalAmount={canceledRoutes.length} />
           {showAmount < canceledRoutes.length && (
             <div className="canceled-trips__footer-show-more-container">
               <Button
@@ -75,8 +60,7 @@ export default function CanceledTrips({
                 onClick={() =>
                   setShowAmount(
                     // cannot be set to more than the amount of cancellations
-                    showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT >
-                      canceledRoutes.length
+                    showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT > canceledRoutes.length
                       ? canceledRoutes.length
                       : showAmount + DEFAULT_ROUTES_SHOWN_AMOUNT,
                   )

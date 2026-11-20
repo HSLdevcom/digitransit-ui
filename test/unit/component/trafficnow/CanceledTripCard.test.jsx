@@ -20,34 +20,20 @@ const makeRouteSummary = ({
         canceledTrips: [
           {
             serviceDate: '2026-01-01',
-            trip: {
-              gtfsId: 'trip-21B-1',
-              stoptimes: [{ scheduledDeparture: 28800 }],
-            },
+            trip: { gtfsId: 'trip-21B-1', stoptimes: [{ scheduledDeparture: 28800 }] },
           },
         ],
       },
     },
   ],
-} = {}) => ({
-  cancellationCount,
-  route: {
-    shortName,
-    gtfsId,
-    id,
-    mode: 'BUS',
-  },
-  patterns,
-});
+} = {}) => ({ cancellationCount, route: { shortName, gtfsId, id, mode: 'BUS' }, patterns });
 
 const makeRoutes = amount =>
-  new Array(amount).fill(null).map((_, i) =>
-    makeRouteSummary({
-      shortName: `${20 + i}`,
-      gtfsId: `HSL:${20 + i}`,
-      id: `route-${20 + i}`,
-    }),
-  );
+  new Array(amount)
+    .fill(null)
+    .map((_, i) =>
+      makeRouteSummary({ shortName: `${20 + i}`, gtfsId: `HSL:${20 + i}`, id: `route-${20 + i}` }),
+    );
 
 const makeCanceledTrips = ({
   amount,
@@ -55,18 +41,17 @@ const makeCanceledTrips = ({
   startTime = 8 * 60 * 60,
   gtfsIdPrefix = 'trip-21B',
 }) =>
-  new Array(amount).fill(null).map((_, i) => ({
-    serviceDate,
-    trip: {
-      gtfsId: `${gtfsIdPrefix}-${i}`,
-      stoptimes: [{ scheduledDeparture: startTime + i * 60 }],
-    },
-  }));
+  new Array(amount)
+    .fill(null)
+    .map((_, i) => ({
+      serviceDate,
+      trip: {
+        gtfsId: `${gtfsIdPrefix}-${i}`,
+        stoptimes: [{ scheduledDeparture: startTime + i * 60 }],
+      },
+    }));
 
-const baseProps = {
-  mode: 'bus',
-  routes: [makeRouteSummary()],
-};
+const baseProps = { mode: 'bus', routes: [makeRouteSummary()] };
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
@@ -82,16 +67,13 @@ describe('<CanceledTripCard />', () => {
     // sinon can't stub this repo's own ESM exports (the binding read by
     // FiltersContext's real importers stays live/un-replaced); vi.spyOn can,
     // and is auto-restored by the `restoreMocks: true` Vitest config option.
-    vi.spyOn(FiltersContext, 'useFilterContext').mockReturnValue({
-      selectedFilters: {},
-    });
+    vi.spyOn(FiltersContext, 'useFilterContext').mockReturnValue({ selectedFilters: {} });
   });
 
   const renderCanceledTripCard = (props, config = baseConfig) => {
-    const { container } = renderWithProviders(
-      <CanceledTripCard {...baseProps} {...props} />,
-      { config },
-    );
+    const { container } = renderWithProviders(<CanceledTripCard {...baseProps} {...props} />, {
+      config,
+    });
     return container;
   };
 
@@ -116,11 +98,7 @@ describe('<CanceledTripCard />', () => {
         makeRouteSummary({ shortName: '22', gtfsId: 'HSL:22', id: 'route-22' }),
       ],
     });
-    expect(
-      screen.getByRole('button', {
-        name: 'Bus: 4 cancellations, View details',
-      }),
-    ).toBeTruthy();
+    expect(screen.getByRole('button', { name: 'Bus: 4 cancellations, View details' })).toBeTruthy();
   });
 
   describe('RouteBadgeGroup props', () => {
@@ -182,10 +160,7 @@ describe('<CanceledTripCard />', () => {
                   canceledTrips: [
                     {
                       serviceDate: '2026-01-01',
-                      trip: {
-                        gtfsId: 'trip-21B-1',
-                        stoptimes: [{ scheduledDeparture: 28800 }],
-                      },
+                      trip: { gtfsId: 'trip-21B-1', stoptimes: [{ scheduledDeparture: 28800 }] },
                     },
                   ],
                 },
@@ -199,10 +174,7 @@ describe('<CanceledTripCard />', () => {
                   canceledTrips: [
                     {
                       serviceDate: '2026-01-01',
-                      trip: {
-                        gtfsId: 'trip-21B-2',
-                        stoptimes: [{ scheduledDeparture: 29100 }],
-                      },
+                      trip: { gtfsId: 'trip-21B-2', stoptimes: [{ scheduledDeparture: 29100 }] },
                     },
                   ],
                 },
@@ -231,10 +203,7 @@ describe('<CanceledTripCard />', () => {
                   code: 'pattern-21B-1',
                   headsign: 'Kamppi',
                   stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                  canceledTrips: makeCanceledTrips({
-                    amount: 6,
-                    gtfsIdPrefix: 'trip-21B-1',
-                  }),
+                  canceledTrips: makeCanceledTrips({ amount: 6, gtfsIdPrefix: 'trip-21B-1' }),
                 },
               },
               {
@@ -273,10 +242,7 @@ describe('<CanceledTripCard />', () => {
                   code: 'pattern-21B-1',
                   headsign: 'Kamppi',
                   stops: [{ name: 'Eira' }, { name: 'Kamppi' }],
-                  canceledTrips: makeCanceledTrips({
-                    amount: 7,
-                    gtfsIdPrefix: 'trip-21B-1',
-                  }),
+                  canceledTrips: makeCanceledTrips({ amount: 7, gtfsIdPrefix: 'trip-21B-1' }),
                 },
               },
               {
@@ -309,9 +275,7 @@ describe('<CanceledTripCard />', () => {
       const container = renderCanceledTripCard({ isMobile: false });
 
       expect(container.querySelectorAll('.separator.vertical')).toHaveLength(1);
-      expect(
-        container.querySelector('header .disruption-status'),
-      ).not.toBeNull();
+      expect(container.querySelector('header .disruption-status')).not.toBeNull();
     });
 
     it('hides the header separator and moves DisruptionStatus below badges when isMobile=true', () => {
@@ -329,11 +293,9 @@ describe('<CanceledTripCard />', () => {
 
       fireEvent.click(container.querySelector('.card'));
 
-      expect(
-        router.push.mock.calls.some(
-          call => call[0] === '/liikenne/peruutukset/bus',
-        ),
-      ).toBe(true);
+      expect(router.push.mock.calls.some(call => call[0] === '/liikenne/peruutukset/bus')).toBe(
+        true,
+      );
     });
   });
 });

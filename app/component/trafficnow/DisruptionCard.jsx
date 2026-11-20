@@ -37,11 +37,7 @@ export default function DisruptionCard({
     >
       <header>
         <span className="disruption-card__header-left">
-          <DisruptionBadge
-            showIcon
-            variant={alertSeverityLevel}
-            label={alertEffect}
-          />
+          <DisruptionBadge showIcon variant={alertSeverityLevel} label={alertEffect} />
           <OperatorBadge feed={feed} />
           {!isMobile && (
             <>
@@ -57,10 +53,7 @@ export default function DisruptionCard({
         </span>
         <ArrowLinkButton
           size="m"
-          aria-label={[
-            alertHeaderText,
-            intl.formatMessage({ id: 'disruption-view-details' }),
-          ]
+          aria-label={[alertHeaderText, intl.formatMessage({ id: 'disruption-view-details' })]
             .filter(Boolean)
             .join(', ')}
         />

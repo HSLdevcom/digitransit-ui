@@ -29,18 +29,10 @@ export default configMerger(walttiConfig, {
     },
   },
 
-  colors: {
-    primary: '#000000',
-    bus: '#000000',
-  },
+  colors: { primary: '#000000', bus: '#000000' },
   transportModes: {
-    bus: {
-      availableForSelection: true,
-      defaultValue: true,
-    },
-    citybike: {
-      availableForSelection: true,
-    },
+    bus: { availableForSelection: true, defaultValue: true },
+    citybike: { availableForSelection: true },
   },
 
   nearYouModes: ['bus', 'citybike'],
@@ -49,17 +41,10 @@ export default configMerger(walttiConfig, {
     networks: {
       donkey_kouvola: {
         enabled: true,
-        season: {
-          start: '10.4',
-          end: '21.11',
-        },
+        season: { start: '10.4', end: '21.11' },
         capacity: BIKEAVL_WITHMAX,
         icon: 'citybike',
-        name: {
-          fi: 'Kouvola',
-          sv: 'Kouvola',
-          en: 'Kouvola',
-        },
+        name: { fi: 'Kouvola', sv: 'Kouvola', en: 'Kouvola' },
         type: 'citybike',
         url: {
           fi: 'https://kaakau.fi/kouvola/',
@@ -78,14 +63,8 @@ export default configMerger(walttiConfig, {
   socialMedia: {
     title: APP_TITLE,
     description: APP_DESCRIPTION,
-    twitter: {
-      site: '@kouvolakaupunki',
-    },
-    image: {
-      url: 'assets/kouvola/social-share.png',
-      width: 134,
-      height: 134,
-    },
+    twitter: { site: '@kouvolakaupunki' },
+    image: { url: 'assets/kouvola/social-share.png', width: 134, height: 134 },
   },
 
   title: APP_TITLE,
@@ -129,10 +108,7 @@ export default configMerger(walttiConfig, {
           en: 'https://kartta.kouvola.fi/eFeedback/en/Feedback/34-Joukkoliikenne',
         },
       },
-      {
-        name: 'about-this-service',
-        route: '/tietoja-palvelusta',
-      },
+      { name: 'about-this-service', route: '/tietoja-palvelusta' },
       {
         name: 'accessibility-statement',
         href: {
@@ -172,12 +148,6 @@ export default configMerger(walttiConfig, {
       },
     ],
   },
-  zoneIdMapping: {
-    1: 'A',
-    2: 'B',
-  },
-  zones: {
-    stops: true,
-    itinerary: true,
-  },
+  zoneIdMapping: { 1: 'A', 2: 'B' },
+  zones: { stops: true, itinerary: true },
 });

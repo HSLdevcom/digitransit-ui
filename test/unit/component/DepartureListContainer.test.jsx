@@ -1,19 +1,18 @@
 import { act, screen } from '@testing-library/react';
 import DepartureListContainer from '../../../app/component/DepartureListContainer';
+import * as DepartureRowModule from '../../../app/component/DepartureRow';
 import * as mqttClient from '../../../utils/client/mqttClient';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 
 // The global MockLink (vitest.setup.js) drops DepartureRow's `as="tr"`, which
 // makes its <td>s invalid DOM; the row itself isn't under test here.
-vi.mock('../../../app/component/DepartureRow', () => ({
-  // eslint-disable-next-line react/prop-types
-  default: ({ departure }) => (
-    <tr>
-      <td>{departure.headsign}</td>
-    </tr>
-  ),
-}));
+// eslint-disable-next-line react/prop-types
+const DepartureRowStub = ({ departure: { headsign } }) => (
+  <tr>
+    <td>{headsign}</td>
+  </tr>
+);
 
 const serviceDay = 1700000000;
 const currentTime = serviceDay + 1000;
@@ -52,15 +51,15 @@ const makeStoptime = ({
     gtfsId: `HSL:${id}`,
     tripHeadsign,
     stops: [{ id: 'HSL:0' }, { id: lastStopId || 'HSL:2' }],
-    pattern: {
-      code: `HSL:1001:0:${id}`,
-      route,
-      stops: [{ gtfsId: stopId, code: '1' }],
-    },
+    pattern: { code: `HSL:1001:0:${id}`, route, stops: [{ gtfsId: stopId, code: '1' }] },
   },
 });
 
 describe('<DepartureListContainer />', () => {
+  beforeEach(() => {
+    vi.spyOn(DepartureRowModule, 'default', 'get').mockReturnValue(DepartureRowStub);
+  });
+
   it('renders headsigns, and "Arrives / Terminus" for last-stop arrivals', () => {
     renderWithProviders(
       <DepartureListContainer
@@ -118,9 +117,7 @@ describe('<DepartureListContainer />', () => {
 
   it('starts the realtime client on mount and stops it on unmount', async () => {
     const client = { end: vi.fn() };
-    const start = vi
-      .spyOn(mqttClient, 'startMqttClient')
-      .mockResolvedValue({ client, topics: [] });
+    const start = vi.spyOn(mqttClient, 'startMqttClient').mockResolvedValue({ client, topics: [] });
     const config = createTestConfig({
       showVehiclesOnStopPage: true,
       feedIds: ['HSL'],
@@ -132,17 +129,11 @@ describe('<DepartureListContainer />', () => {
         currentTime={currentTime}
         showVehicles
       />,
-      {
-        config,
-        currentTime,
-      },
+      { config, currentTime },
     );
     await act(async () => {});
     expect(start).toHaveBeenCalledWith(
-      expect.objectContaining({
-        feedId: 'HSL',
-        options: [{ tripId: 'a' }],
-      }),
+      expect.objectContaining({ feedId: 'HSL', options: [{ tripId: 'a' }] }),
       expect.any(Function),
     );
 

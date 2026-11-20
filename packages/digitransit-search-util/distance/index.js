@@ -27,8 +27,7 @@ export default function distance(latlon1, latlon2) {
   const lat2 = latlon2.lat * rad;
   const sinDLat = Math.sin(((latlon2.lat - latlon1.lat) * rad) / 2);
   const sinDLon = Math.sin(((latlon2.lon - latlon1.lon) * rad) / 2);
-  const a =
-    sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
+  const a = sinDLat * sinDLat + Math.cos(lat1) * Math.cos(lat2) * sinDLon * sinDLon;
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return RADIUS * c;
 }

@@ -1,10 +1,7 @@
 import PropTypes from 'prop-types';
 import { VerticalDirection, PlannerMessageType } from '../shared/constants';
 
-export const agencyShape = PropTypes.shape({
-  name: PropTypes.string,
-  fareUrl: PropTypes.string,
-});
+export const agencyShape = PropTypes.shape({ name: PropTypes.string, fareUrl: PropTypes.string });
 
 export const alertShape = PropTypes.shape({
   alertDescriptionText: PropTypes.string,
@@ -25,9 +22,7 @@ export const childrenShape = PropTypes.oneOfType([
   PropTypes.node,
 ]);
 
-export const configShape = PropTypes.shape({
-  CONFIG: PropTypes.string.isRequired,
-});
+export const configShape = PropTypes.shape({ CONFIG: PropTypes.string.isRequired });
 
 export const errorShape = PropTypes.oneOfType([
   PropTypes.string,
@@ -55,16 +50,13 @@ export const geoJsonFeatureShape = PropTypes.shape({
       PropTypes.oneOfType([
         PropTypes.number,
         PropTypes.arrayOf(
-          PropTypes.oneOfType([
-            PropTypes.arrayOf(PropTypes.number),
-            PropTypes.number,
-          ]),
+          PropTypes.oneOfType([PropTypes.arrayOf(PropTypes.number), PropTypes.number]),
         ),
       ]),
     ).isRequired,
     type: PropTypes.string.isRequired,
   }).isRequired,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   properties: PropTypes.object,
 });
 
@@ -72,10 +64,7 @@ export const parkShape = PropTypes.shape({
   name: PropTypes.string.isRequired,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  availability: PropTypes.shape({
-    bicycleSpaces: PropTypes.number,
-    carSpaces: PropTypes.number,
-  }),
+  availability: PropTypes.shape({ bicycleSpaces: PropTypes.number, carSpaces: PropTypes.number }),
   capacity: PropTypes.shape({ carSpaces: PropTypes.number }),
   tags: PropTypes.arrayOf(PropTypes.string),
   realtime: PropTypes.bool,
@@ -84,9 +73,7 @@ export const parkShape = PropTypes.shape({
 export const vehicleRentalStationShape = PropTypes.shape({
   availableVehicles: PropTypes.shape({ total: PropTypes.number }),
   availableSpaces: PropTypes.shape({ total: PropTypes.number }),
-  rentalNetwork: PropTypes.shape({
-    networkId: PropTypes.string,
-  }),
+  rentalNetwork: PropTypes.shape({ networkId: PropTypes.string }),
   capacity: PropTypes.number,
   operative: PropTypes.bool,
 });
@@ -102,10 +89,7 @@ export const rentalVehicleShape = PropTypes.shape({
     ios: PropTypes.string,
     web: PropTypes.string,
   }),
-  rentalNetwork: PropTypes.shape({
-    url: PropTypes.string,
-    networkId: PropTypes.string,
-  }),
+  rentalNetwork: PropTypes.shape({ url: PropTypes.string, networkId: PropTypes.string }),
 });
 
 export const routeShape = PropTypes.shape({
@@ -120,22 +104,13 @@ export const routeShape = PropTypes.shape({
 
 export const patternShape = PropTypes.shape({
   code: PropTypes.string,
-  route: PropTypes.shape({
-    mode: PropTypes.string,
-    color: PropTypes.string,
-  }),
+  route: PropTypes.shape({ mode: PropTypes.string, color: PropTypes.string }),
   stops: PropTypes.arrayOf(
-    PropTypes.shape({
-      lat: PropTypes.number,
-      lon: PropTypes.number,
-      code: PropTypes.string,
-    }),
+    PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number, code: PropTypes.string }),
   ),
   geometry: PropTypes.arrayOf(
-    PropTypes.shape({
-      lat: PropTypes.number.isRequired,
-      lon: PropTypes.number.isRequired,
-    }).isRequired,
+    PropTypes.shape({ lat: PropTypes.number.isRequired, lon: PropTypes.number.isRequired })
+      .isRequired,
   ),
 });
 
@@ -146,9 +121,7 @@ export const tripShape = PropTypes.shape({
   stoptimesForDate: PropTypes.arrayOf(
     PropTypes.shape({
       headsign: PropTypes.string,
-      stop: PropTypes.shape({
-        gtfsId: PropTypes.string.isRequired,
-      }),
+      stop: PropTypes.shape({ gtfsId: PropTypes.string.isRequired }),
     }),
   ),
 });
@@ -161,10 +134,7 @@ export const stopTimeShape = PropTypes.shape({
   trip: tripShape,
   dropoffType: PropTypes.string,
   pickupType: PropTypes.string,
-  stop: PropTypes.shape({
-    platformCode: PropTypes.string,
-    gtfsId: PropTypes.string,
-  }),
+  stop: PropTypes.shape({ platformCode: PropTypes.string, gtfsId: PropTypes.string }),
 });
 
 export const stopShape = PropTypes.shape({
@@ -211,41 +181,23 @@ export const entranceShape = PropTypes.shape({
 
 export const elevatorUseShape = PropTypes.shape({
   __typename: PropTypes.oneOf(['ElevatorUse']).isRequired,
-  from: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  from: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
-  to: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  to: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
 });
 
 export const escalatorUseShape = PropTypes.shape({
   __typename: PropTypes.oneOf(['EscalatorUse']).isRequired,
-  from: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  from: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
-  to: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  to: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
 });
 
 export const stairsUseShape = PropTypes.shape({
   __typename: PropTypes.oneOf(['StairsUse']).isRequired,
-  from: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  from: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
   verticalDirection: PropTypes.oneOf(Object.values(VerticalDirection)),
-  to: PropTypes.shape({
-    level: PropTypes.number,
-    name: PropTypes.string,
-  }),
+  to: PropTypes.shape({ level: PropTypes.number, name: PropTypes.string }),
 });
 
 export const legShape = PropTypes.shape({
@@ -289,25 +241,16 @@ export const legShape = PropTypes.shape({
   departureDelay: PropTypes.number,
   stopCalls: PropTypes.arrayOf(
     PropTypes.shape({
-      schedule: PropTypes.shape({
-        time: PropTypes.shape({
-          arrival: PropTypes.string,
-        }),
-      }),
-      realTime: PropTypes.shape({
-        arrival: PropTypes.shape({ time: PropTypes.string }),
-      }),
+      schedule: PropTypes.shape({ time: PropTypes.shape({ arrival: PropTypes.string }) }),
+      realTime: PropTypes.shape({ arrival: PropTypes.shape({ time: PropTypes.string }) }),
       stopLocation: stopShape,
     }),
   ),
   intermediatePlaces: PropTypes.arrayOf(
-    PropTypes.shape({
-      arrival: legTimeShape,
-      stop: stopShape,
-    }),
+    PropTypes.shape({ arrival: legTimeShape, stop: stopShape }),
   ),
   interlineWithPreviousLeg: PropTypes.bool,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   nextLegs: PropTypes.arrayOf(PropTypes.object),
 });
 
@@ -317,14 +260,10 @@ export const itineraryShape = PropTypes.shape({
   duration: PropTypes.number,
   walkDistance: PropTypes.number,
   legs: PropTypes.arrayOf(legShape),
-  emissionsPerPerson: PropTypes.shape({
-    co2: PropTypes.number,
-  }),
+  emissionsPerPerson: PropTypes.shape({ co2: PropTypes.number }),
 });
 
-export const planEdgeShape = PropTypes.shape({
-  node: itineraryShape.isRequired,
-});
+export const planEdgeShape = PropTypes.shape({ node: itineraryShape.isRequired });
 
 export const locationShape = PropTypes.shape({
   lat: PropTypes.number,
@@ -399,37 +338,18 @@ export const mapLayerShape = PropTypes.shape({
   vehicles: PropTypes.bool,
   geoJson: PropTypes.objectOf(PropTypes.bool),
   scooter: PropTypes.bool,
-  areaStop: PropTypes.shape({
-    routeGtfsId: PropTypes.string,
-  }),
+  areaStop: PropTypes.shape({ routeGtfsId: PropTypes.string }),
 });
 
 export const mapLayerOptionsShape = PropTypes.shape({
-  parkAndRide: PropTypes.oneOfType([
-    PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
-    PropTypes.any,
-  ]),
-  stop: PropTypes.oneOfType([
-    PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
-    PropTypes.any,
-  ]),
+  parkAndRide: PropTypes.oneOfType([PropTypes.shape(MapLayerOptionShape), PropTypes.any]),
+  stop: PropTypes.oneOfType([PropTypes.shape(MapLayerOptionStopOrTerminalShape), PropTypes.any]),
   terminal: PropTypes.oneOfType([
     PropTypes.shape(MapLayerOptionStopOrTerminalShape),
-    // eslint-disable-next-line
     PropTypes.any,
   ]),
-  vehicles: PropTypes.oneOfType([
-    PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
-    PropTypes.any,
-  ]),
-  citybike: PropTypes.oneOfType([
-    PropTypes.shape(MapLayerOptionShape),
-    // eslint-disable-next-line
-    PropTypes.any,
-  ]),
+  vehicles: PropTypes.oneOfType([PropTypes.shape(MapLayerOptionShape), PropTypes.any]),
+  citybike: PropTypes.oneOfType([PropTypes.shape(MapLayerOptionShape), PropTypes.any]),
 });
 
 export const planShape = PropTypes.shape({
@@ -442,7 +362,7 @@ export const relayShape = PropTypes.shape({
   refetch: PropTypes.func,
   hasMore: PropTypes.func,
   loadMore: PropTypes.func,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   environment: PropTypes.object,
 });
 
@@ -493,10 +413,7 @@ export const vehicleShape = PropTypes.shape({
 });
 
 export const minTransferTimeShape = PropTypes.arrayOf(
-  PropTypes.shape({
-    title: PropTypes.string,
-    value: PropTypes.number,
-  }),
+  PropTypes.shape({ title: PropTypes.string, value: PropTypes.number }),
 );
 
 export const pickupBookingInfoShape = PropTypes.shape({
@@ -504,20 +421,13 @@ export const pickupBookingInfoShape = PropTypes.shape({
     bookingUrl: PropTypes.string,
     infoUrl: PropTypes.string,
     phoneNumber: PropTypes.string,
-    latestBookingTime: PropTypes.shape({
-      daysPrior: PropTypes.number,
-      time: PropTypes.string,
-    }),
-    minimumBookingNotice: PropTypes.shape({
-      minutes: PropTypes.number,
-    }),
+    latestBookingTime: PropTypes.shape({ daysPrior: PropTypes.number, time: PropTypes.string }),
+    minimumBookingNotice: PropTypes.shape({ minutes: PropTypes.number }),
   }),
   message: PropTypes.string,
 });
 
-export const stopOnRouteShape = PropTypes.shape({
-  route: routeShape,
-});
+export const stopOnRouteShape = PropTypes.shape({ route: routeShape });
 
 export const entityShape = (props, propName, componentName, ...rest) => {
   const entity = props[propName];
@@ -537,9 +447,7 @@ export const entityShape = (props, propName, componentName, ...rest) => {
     case 'Agency':
       return agencyShape(props, propName, componentName, ...rest);
     default:
-      return new Error(
-        `Invalid entity type '${entity.__typename}' in ${componentName}`,
-      );
+      return new Error(`Invalid entity type '${entity.__typename}' in ${componentName}`);
   }
 };
 

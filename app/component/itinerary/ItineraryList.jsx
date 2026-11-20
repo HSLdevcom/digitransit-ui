@@ -19,10 +19,7 @@ import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export const spinnerPosition = {
-  top: 'top',
-  bottom: 'bottom',
-};
+export const spinnerPosition = { top: 'top', bottom: 'bottom' };
 
 export default function ItineraryList({
   planEdges: planEdgesRef,
@@ -65,9 +62,7 @@ export default function ItineraryList({
       lowestCo2value={lowestCo2value}
       recommended={i === recommendedIndex}
       feedback={feedback[i]} // single feedback entry
-      giveFeedback={
-        giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined
-      }
+      giveFeedback={giveFeedback ? like => giveFeedback(i, edge.node, like) : undefined}
     />
   ));
 
@@ -101,12 +96,8 @@ export default function ItineraryList({
           planEdges[bikeParkItineraryCount].node.legs.find(l => l.transitLeg),
           config,
         ) || 'rail';
-      const legs = planEdges
-        .slice(bikeParkItineraryCount)
-        .flatMap(edge => edge.node.legs);
-      const showBikeBoardingInfo = legs.some(leg =>
-        showBikeBoardingNote(leg, config),
-      );
+      const legs = planEdges.slice(bikeParkItineraryCount).flatMap(edge => edge.node.legs);
+      const showBikeBoardingInfo = legs.some(leg => showBikeBoardingNote(leg, config));
 
       summaries.splice(
         bikeParkItineraryCount ? bikeParkItineraryCount + 1 : 0,
@@ -129,12 +120,8 @@ export default function ItineraryList({
           planEdges[carDirectItineraryCount].node.legs.find(l => l.transitLeg),
           config,
         ) || 'ferry';
-      const legs = planEdges
-        .slice(carDirectItineraryCount)
-        .flatMap(edge => edge.node.legs);
-      const showCarBoardingInfo = legs.some(leg =>
-        showCarBoardingNote(leg, config),
-      );
+      const legs = planEdges.slice(carDirectItineraryCount).flatMap(edge => edge.node.legs);
+      const showCarBoardingInfo = legs.some(leg => showCarBoardingNote(leg, config));
 
       summaries.splice(
         carDirectItineraryCount,
@@ -152,10 +139,7 @@ export default function ItineraryList({
     summaries.splice(
       separator2,
       0,
-      <div
-        className="summary-list-separator"
-        key={`summary-list-separator-${separator2}`}
-      />,
+      <div className="summary-list-separator" key={`summary-list-separator-${separator2}`} />,
     );
   }
   if (separator1) {
@@ -163,22 +147,13 @@ export default function ItineraryList({
     summaries.splice(
       pos,
       0,
-      <div
-        className="summary-list-separator"
-        key={`summary-list-separator-${pos}`}
-      />,
+      <div className="summary-list-separator" key={`summary-list-separator-${pos}`} />,
     );
   }
   return (
     <div className="summary-list-container">
       {showRelaxedPlanNotifier && (
-        <div
-          className={cx(
-            'flex-horizontal',
-            'summary-notification',
-            'show-alternatives',
-          )}
-        >
+        <div className={cx('flex-horizontal', 'summary-notification', 'show-alternatives')}>
           <Icon className="icon_settings" img="icon_settings" />
           <div>
             <FormattedMessage
@@ -189,13 +164,7 @@ export default function ItineraryList({
         </div>
       )}
       {rentalVehicleNotifierId?.length && (
-        <div
-          className={cx(
-            'flex-horizontal',
-            'alternative-vehicle-info',
-            'summary-notification',
-          )}
-        >
+        <div className={cx('flex-horizontal', 'alternative-vehicle-info', 'summary-notification')}>
           <Icon className="info-icon" img="icon_info" />
           <div>
             <div className="alternative-vehicle-info-header">
@@ -205,11 +174,7 @@ export default function ItineraryList({
               <FormattedMessage
                 id={`${rentalVehicleNotifierId}-alternative`}
                 values={{
-                  paymentInfo: (
-                    <FormattedMessage
-                      id={`payment-info-${rentalVehicleNotifierId}`}
-                    />
-                  ),
+                  paymentInfo: <FormattedMessage id={`payment-info-${rentalVehicleNotifierId}`} />,
                 }}
               />
             </div>
@@ -234,9 +199,7 @@ export default function ItineraryList({
           <Loading />
         </div>
       )}
-      {!planEdges.length && (
-        <ItinerariesNotFound searchTime={searchTime} {...rest} />
-      )}
+      {!planEdges.length && <ItinerariesNotFound searchTime={searchTime} {...rest} />}
     </div>
   );
 }

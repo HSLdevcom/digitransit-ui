@@ -11,9 +11,7 @@ export default {
         ];
         return tags
           .filter(tag => allowedAuthenticationMethods.includes(tag))
-          .map(tag =>
-            tag.replace('liipi:AUTHENTICATION_METHOD_', '').toLowerCase(),
-          );
+          .map(tag => tag.replace('liipi:AUTHENTICATION_METHOD_', '').toLowerCase());
       }
       return [];
     },

@@ -53,11 +53,7 @@ export default function IndexPageMap() {
 
   if (origin.lat) {
     leafletObjs.push(
-      <LocationMarker
-        key={`${origin.lat},${origin.lon}`}
-        position={origin}
-        type="from"
-      />,
+      <LocationMarker key={`${origin.lat},${origin.lon}`} position={origin} type="from" />,
     );
   }
 

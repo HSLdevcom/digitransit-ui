@@ -29,9 +29,7 @@ const LocationConsumer = ({ controlRef }) => {
   return <div />;
 };
 
-LocationConsumer.propTypes = {
-  controlRef: PropTypes.shape({ current: PropTypes.object }),
-};
+LocationConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }) };
 
 describe('ItineraryLocationContext', () => {
   let unmount;

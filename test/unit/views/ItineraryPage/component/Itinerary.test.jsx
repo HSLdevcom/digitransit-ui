@@ -4,7 +4,6 @@ import Itinerary from '../../../../../app/component/itinerary/Itinerary';
 import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../../../../utils/shared/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../../../helpers/relay-selector-warning';
 import dcw12 from '../../../test-data/dcw12';
 
 const defaultProps = { hash: 1, focusToHeader: () => {}, refTime: 0 };
@@ -48,10 +47,6 @@ const getLegTypes = container =>
   [...container.querySelectorAll('.itinerary-legs > *')].map(classifyLeg);
 
 describe('<Itinerary />', () => {
-  // Itinerary calls useFragment on plain leg data - see
-  // ignoreRelayModernSelectorWarning's own comment for why this is needed.
-  ignoreRelayModernSelectorWarning();
-
   const renderItinerary = (props, config, router, breakpoint = 'large', options = {}) => {
     const { match } = options;
     return renderWithProviders(<Itinerary {...defaultProps} {...props} />, {

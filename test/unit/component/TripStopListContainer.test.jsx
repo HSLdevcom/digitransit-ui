@@ -1,57 +1,28 @@
 import TripStopListContainer from '../../../app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
-import { ignoreRelayModernSelectorWarning } from '../helpers/relay-selector-warning';
 import { mockContext } from '../helpers/mock-context';
 
 describe('<TripStopListContainer />', () => {
-  // useFragment is called on plain trip data
-  ignoreRelayModernSelectorWarning();
-
   it('should properly mark passed stops when vehicle information is missing', () => {
     const serviceDay = 1551650400;
     const props = {
       locationState: {},
-      relay: {
-        forceFetch: () => {},
-      },
+      relay: { forceFetch: () => {} },
       trip: {
         gtfsId: 'feed:1',
-        pattern: {
-          code: 'foobar-1-1',
-          directionId: 1,
-        },
-        route: {
-          gtfsId: 'foobar:1',
-          mode: 'BUS',
-        },
+        pattern: { code: 'foobar-1-1', directionId: 1 },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
         stoptimesForDate: [
-          {
-            pattern: {},
-            realtimeDeparture: 1000,
-            serviceDay,
-            stop: {
-              gtfsId: 'stop:1',
-            },
-          },
-          {
-            pattern: {},
-            realtimeDeparture: 3000,
-            serviceDay,
-            stop: {
-              gtfsId: 'stop:2',
-            },
-          },
+          { pattern: {}, realtimeDeparture: 1000, serviceDay, stop: { gtfsId: 'stop:1' } },
+          { pattern: {}, realtimeDeparture: 3000, serviceDay, stop: { gtfsId: 'stop:2' } },
         ],
       },
       tripStart: '',
     };
-    const { container } = renderWithProviders(
-      <TripStopListContainer {...props} />,
-      {
-        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
-        currentTime: serviceDay + 2000,
-      },
-    );
+    const { container } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: serviceDay + 2000,
+    });
     const stops = container.querySelectorAll('.route-stop');
     expect(stops).toHaveLength(2);
     expect(stops[0].classList.contains('passed')).toBe(true);
@@ -62,15 +33,8 @@ describe('<TripStopListContainer />', () => {
     const props = {
       trip: {
         gtfsId: 'HSL:1',
-        pattern: {
-          code: 'HSL:6172:0:01',
-          directionId: 0,
-        },
-        route: {
-          mode: 'BUS',
-          gtfsId: 'HSL:6172',
-          color: null,
-        },
+        pattern: { code: 'HSL:6172:0:01', directionId: 0 },
+        route: { mode: 'BUS', gtfsId: 'HSL:6172', color: null },
         stoptimesForDate: [
           {
             stop: {
@@ -109,14 +73,11 @@ describe('<TripStopListContainer />', () => {
         heading: 140,
       },
     };
-    const { container } = renderWithProviders(
-      <TripStopListContainer {...props} />,
-      {
-        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
-        currentTime: 1554882006,
-        vehicles,
-      },
-    );
+    const { container } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: 1554882006,
+      vehicles,
+    });
     expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
     expect(container.querySelectorAll('.route-stop-now')).toHaveLength(1);
   });

@@ -1,9 +1,8 @@
 @use 'sass:map';
 
 $zindex:
-  base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer,
-  mobile-drawer-drag-line, autosuggest-suggestion-container,
-  before-scrollable-area, click-prevent-overlay, front;
+  base, map-container, map-fullscreen-toggle, map-buttons, mobile-drawer, mobile-drawer-drag-line,
+  autosuggest-suggestion-container, before-scrollable-area, click-prevent-overlay, front;
 $leaflet-overlay: 800;
 
 // Single source of truth for z-index values that compete across

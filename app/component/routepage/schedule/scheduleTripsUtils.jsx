@@ -24,9 +24,7 @@ export const sortTrips = trips => {
       return 1;
     }
 
-    return (
-      a.stoptimes[0].scheduledDeparture - b.stoptimes[0].scheduledDeparture
-    );
+    return a.stoptimes[0].scheduledDeparture - b.stoptimes[0].scheduledDeparture;
   });
 };
 
@@ -50,17 +48,12 @@ export const getTripsList = ({ patternWithTrips, intl, wantedDay }) => {
               id: 'no-trips-found',
               defaultMessage: `No journeys found for the selected date ${formattedDate}`,
             },
-            {
-              selectedDate: formattedDate,
-            },
+            { selectedDate: formattedDate },
           )}
         </div>
       ),
     };
   }
 
-  return {
-    trips,
-    noTripsMessage: null,
-  };
+  return { trips, noTripsMessage: null };
 };

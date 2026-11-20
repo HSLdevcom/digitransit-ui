@@ -12,13 +12,7 @@ export function getDefault(module) {
   return module.default;
 }
 
-/* eslint-disable react/prop-types */
-export function getComponentOrLoadingRenderer({
-  Component,
-  props,
-  error,
-  retry,
-}) {
+export function getComponentOrLoadingRenderer({ Component, props, error, retry }) {
   if (error) {
     if (isRelayNetworkError(error.message)) {
       return <NetworkError retry={retry} />;
@@ -31,7 +25,6 @@ export function getComponentOrLoadingRenderer({
   return <Loading />;
 }
 
-/* eslint-disable react/prop-types */
 export function getComponentOrNullRenderer({ Component, props }) {
   return Component && props ? <Component {...props} /> : null;
 }

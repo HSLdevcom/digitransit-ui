@@ -5,23 +5,14 @@ const SUPPORTED_LANGS = ['fi', 'sv', 'en'];
 
 const langPrefix = lang => (lang === 'fi' ? '' : `/${lang}`);
 
-const href = (rootLink, lang, paths) =>
-  `${rootLink}${langPrefix(lang)}${paths[lang]}`;
+const href = (rootLink, lang, paths) => `${rootLink}${langPrefix(lang)}${paths[lang]}`;
 
 const buildFooterData = (rootLink, lang) => ({
   column1: {
-    title: {
-      fi: 'Liput ja hinnat',
-      sv: 'Biljetter och priser',
-      en: 'Tickets and fares',
-    }[lang],
+    title: { fi: 'Liput ja hinnat', sv: 'Biljetter och priser', en: 'Tickets and fares' }[lang],
     links: [
       {
-        label: {
-          fi: 'Kausiliput',
-          sv: 'Periodbiljetter',
-          en: 'Season tickets',
-        }[lang],
+        label: { fi: 'Kausiliput', sv: 'Periodbiljetter', en: 'Season tickets' }[lang],
         href: href(rootLink, lang, {
           fi: '/liput-ja-hinnat/kausiliput',
           sv: '/biljetter-och-priser/periodbiljetter',
@@ -29,9 +20,7 @@ const buildFooterData = (rootLink, lang) => ({
         }),
       },
       {
-        label: { fi: 'Kertaliput', sv: 'Enkelbiljetter', en: 'Single tickets' }[
-          lang
-        ],
+        label: { fi: 'Kertaliput', sv: 'Enkelbiljetter', en: 'Single tickets' }[lang],
         href: href(rootLink, lang, {
           fi: '/liput-ja-hinnat/kertaliput',
           sv: '/biljetter-och-priser/enkelbiljetter',
@@ -76,11 +65,7 @@ const buildFooterData = (rootLink, lang) => ({
         }),
       },
       {
-        label: {
-          fi: 'Esteettömyys',
-          sv: 'Tillgänglighet',
-          en: 'Accessibility',
-        }[lang],
+        label: { fi: 'Esteettömyys', sv: 'Tillgänglighet', en: 'Accessibility' }[lang],
         href: href(rootLink, lang, {
           fi: '/matkustaminen/esteettomyys',
           sv: '/att-resa/tillganglighet',
@@ -93,29 +78,15 @@ const buildFooterData = (rootLink, lang) => ({
     title: { fi: 'HSL', sv: 'HRT', en: 'HSL' }[lang],
     links: [
       {
-        label: {
-          fi: 'Tietoa HSL:stä',
-          sv: 'Information om HRT',
-          en: 'About HSL',
-        }[lang],
-        href: href(rootLink, lang, {
-          fi: '/hsl',
-          sv: '/hrt',
-          en: '/hsl',
-        }),
+        label: { fi: 'Tietoa HSL:stä', sv: 'Information om HRT', en: 'About HSL' }[lang],
+        href: href(rootLink, lang, { fi: '/hsl', sv: '/hrt', en: '/hsl' }),
       },
       {
         label: { fi: 'Uutiset', sv: 'Nyheter', en: 'News' }[lang],
-        href: href(rootLink, lang, {
-          fi: '/hsl/uutiset',
-          sv: '/hrt/nyheter',
-          en: '/hsl/news',
-        }),
+        href: href(rootLink, lang, { fi: '/hsl/uutiset', sv: '/hrt/nyheter', en: '/hsl/news' }),
       },
       {
-        label: { fi: 'Avoimet työpaikat', sv: 'Lediga jobb', en: 'Open jobs' }[
-          lang
-        ],
+        label: { fi: 'Avoimet työpaikat', sv: 'Lediga jobb', en: 'Open jobs' }[lang],
         href: href(rootLink, lang, {
           fi: '/hsl/avoimet-tyopaikat',
           sv: '/hrt/lediga-jobb',
@@ -125,14 +96,10 @@ const buildFooterData = (rootLink, lang) => ({
     ],
   },
   column4: {
-    title: { fi: 'Asiakaspalvelu', sv: 'Kundtjänst', en: 'Customer service' }[
-      lang
-    ],
+    title: { fi: 'Asiakaspalvelu', sv: 'Kundtjänst', en: 'Customer service' }[lang],
     links: [
       {
-        label: { fi: 'Ota yhteyttä', sv: 'Kontakta oss', en: 'Contact us' }[
-          lang
-        ],
+        label: { fi: 'Ota yhteyttä', sv: 'Kontakta oss', en: 'Contact us' }[lang],
         href: href(rootLink, lang, {
           fi: '/asiakaspalvelu',
           sv: '/kundtjanst',
@@ -140,11 +107,7 @@ const buildFooterData = (rootLink, lang) => ({
         }),
       },
       {
-        label: {
-          fi: 'Anna palautetta',
-          sv: 'Ge respons',
-          en: 'Give feedback',
-        }[lang],
+        label: { fi: 'Anna palautetta', sv: 'Ge respons', en: 'Give feedback' }[lang],
         href: href(rootLink, lang, {
           fi: '/asiakaspalvelu/palaute',
           sv: '/kundtjanst/respons',
@@ -152,11 +115,7 @@ const buildFooterData = (rootLink, lang) => ({
         }),
       },
       {
-        label: {
-          fi: 'Löytötavarat',
-          sv: 'Hittegods',
-          en: 'Lost and found',
-        }[lang],
+        label: { fi: 'Löytötavarat', sv: 'Hittegods', en: 'Lost and found' }[lang],
         href: href(rootLink, lang, {
           fi: '/asiakaspalvelu/loytotavarat',
           sv: '/kundtjanst/hittegods',
@@ -227,10 +186,7 @@ export default function TrafficNowFooter() {
       baseUrl={ROOTLINK}
       lang={lang}
       data={buildFooterData(ROOTLINK, lang)}
-      cookieSettingsButtonProps={{
-        type: 'button',
-        onClick: () => window.CookieConsent?.renew?.(),
-      }}
+      cookieSettingsButtonProps={{ type: 'button', onClick: () => window.CookieConsent?.renew?.() }}
       // variant="compact" // use the simple bottom bar footer without link columns and app promotion
     />
   );

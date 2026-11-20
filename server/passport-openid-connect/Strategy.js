@@ -14,17 +14,13 @@ const OICStrategy = function strategy(config) {
   this.config = config || {};
   this.client = null;
   this.init().then(() => {
-    console.log(
-      'Initialization of OpenID Connect discovery process completed.',
-    );
+    console.log('Initialization of OpenID Connect discovery process completed.');
   });
 };
 
 util.inherits(OICStrategy, Strategy);
 
-custom.setHttpOptionsDefaults({
-  timeout: 10000,
-});
+custom.setHttpOptionsDefaults({ timeout: 10000 });
 
 OICStrategy.prototype.init = function init() {
   if (!this.config.issuerHost) {
@@ -92,19 +88,14 @@ OICStrategy.prototype.callback = function cb(req, opts) {
   }
   const redirectUri = this.createRedirectUrl(req);
   return this.client
-    .callback(redirectUri, req.query, {
-      state: req.query.state,
-    })
+    .callback(redirectUri, req.query, { state: req.query.state })
     .then(tokenSet => {
       req.session.ssoToken = null;
       req.session.ssoValidTo = null;
       if (debugLogging) {
         console.log(`got tokenSet: ${JSON.stringify(tokenSet)}`);
       }
-      return this.getUserInfo(tokenSet).then(userinfo => ({
-        tokenSet,
-        userinfo,
-      }));
+      return this.getUserInfo(tokenSet).then(userinfo => ({ tokenSet, userinfo }));
     })
     .then(({ tokenSet, userinfo }) => {
       const user = new User(userinfo);
@@ -149,11 +140,7 @@ OICStrategy.prototype.refresh = function refresh(req) {
         refresh_token: refreshed.refresh_token || oldToken.refresh_token,
         id_token: refreshed.id_token || oldToken.id_token,
       });
-      return this.getUserInfo(tokenSet).then(userinfo => ({
-        tokenSet,
-        userinfo,
-        flags,
-      }));
+      return this.getUserInfo(tokenSet).then(userinfo => ({ tokenSet, userinfo, flags }));
     })
     .then(({ tokenSet, userinfo, flags }) => {
       if (!oldSub || userinfo.sub !== oldSub) {
@@ -168,20 +155,14 @@ OICStrategy.prototype.refresh = function refresh(req) {
     })
     .catch(err => {
       console.error('Error refreshing tokens', err);
-      audit('refresh_failed', req, {
-        error: err?.error || err?.message,
-      });
+      audit('refresh_failed', req, { error: err?.error || err?.message });
       req.logout({}, () => {
         req.session.destroy();
         this.fail(err);
       });
     });
 };
-OICStrategy.prototype.createAuthUrl = function createAuthUrl(
-  redirectUri,
-  lang,
-  ssoToken,
-) {
+OICStrategy.prototype.createAuthUrl = function createAuthUrl(redirectUri, lang, ssoToken) {
   if (debugLogging) {
     console.log(`createAuthUrl, ssotoken=${JSON.stringify(ssoToken)}`);
   }
@@ -194,11 +175,7 @@ OICStrategy.prototype.createAuthUrl = function createAuthUrl(
     ui_locales: lang,
   };
   if (ssoToken) {
-    return this.client.authorizationUrl({
-      ...params,
-      sso_token: ssoToken,
-      prompt: 'none',
-    });
+    return this.client.authorizationUrl({ ...params, sso_token: ssoToken, prompt: 'none' });
   }
   return this.client.authorizationUrl(params);
 };

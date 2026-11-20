@@ -3,10 +3,7 @@ import { createTestConfig } from '../helpers/mock-context';
 import StopCardHeader from '../../../app/component/stop/StopCardHeader';
 
 describe('<StopCardHeader />', () => {
-  const baseConfig = createTestConfig({
-    stopCard: { header: {} },
-    colors: { primary: '#000000' },
-  });
+  const baseConfig = createTestConfig({ stopCard: { header: {} }, colors: { primary: '#000000' } });
 
   it('should not render the zone icon if zoneId is missing', () => {
     const props = {

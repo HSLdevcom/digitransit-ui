@@ -11,8 +11,7 @@ export default {
     'accessibility-statement': 'Tillgänglighetsförklaring',
     'accessible-car-places': 'Tillgänglig med rullstol',
     acknowledged: 'Klart',
-    'add-favourite-bikeStation-failed-heading':
-      'Kunde inte spara stadscykelstationen',
+    'add-favourite-bikeStation-failed-heading': 'Kunde inte spara stadscykelstationen',
     'add-favourite-personalization-failed-heading':
       'Kunde inte spara dina personaliseringsinställningar',
     'add-favourite-place-failed-heading': 'Kunde inte spara platsen',
@@ -21,41 +20,31 @@ export default {
     'add-favourite-stop-failed-heading': 'Kunde inte spara hållplatsen',
     'add-home': 'Lägg till hem',
     'add-itinerary-via-point': 'Lägg till mellanstopp',
-    'add-location-to-favourites':
-      'Lägg till en plats som är viktig för dig på fliken Favoriter',
+    'add-location-to-favourites': 'Lägg till en plats som är viktig för dig på fliken Favoriter',
     'add-to-favourites': 'Lägg till för dig på fliken Favoriter',
     'add-via-button-label': 'Lägg till viapunkt',
-    'add-via-duration-button-label':
-      'Ställ in varaktighet för viapunkten {index}',
-    'add-via-duration-button-label-close':
-      'Stäng väljaren för varaktighet vid via-punkten',
-    'add-via-duration-button-label-open':
-      'Öppna väljaren för varaktighet vid via-punkten',
+    'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten {index}',
+    'add-via-duration-button-label-close': 'Stäng väljaren för varaktighet vid via-punkten',
+    'add-via-duration-button-label-open': 'Öppna väljaren för varaktighet vid via-punkten',
     'add-work': 'Lägg till arbete',
     address: 'Adress',
     'address-or-stop': 'Adress eller hållplats',
     agency: 'Trafikidkare',
     airplane: 'Flyg',
-    'airport-check-in':
-      'Checka in strax du anlänt, om du inte redan har gjort det i förväg',
+    'airport-check-in': 'Checka in strax du anlänt, om du inte redan har gjort det i förväg',
     'airport-collect-luggage': 'Plocka upp ditt bagage',
-    'airport-security-check-go-to-gate':
-      'Gå igenom säkerhetskontrollen till gate',
+    'airport-security-check-go-to-gate': 'Gå igenom säkerhetskontrollen till gate',
     all: 'Allt',
     'all-routes': 'Alla linjer',
     'all-routes-disabled': 'Inga linjer',
-    'alternative-legs':
-      'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
+    'alternative-legs': 'Också {leg1} kl. {startTime1} och {leg2} kl. {startTime2}',
     'alternative-legs-single': 'Också {leg1} kl. {startTime1}',
     'alternative-name-rail': 'Närtåg',
     'aria-itinerary-summary':
       'Den totala restiden {duration}. Avgång {inFuture} klockan {departureTime}. Framme klockan {arrivalTime}',
-    'aria-itinerary-summary-bike-distance':
-      'cykling sammanlagt {duration}, {distance}',
-    'aria-itinerary-summary-car-distance':
-      'körning sammanlagt {duration}, {distance} ',
-    'aria-itinerary-summary-walk-distance':
-      'promenad sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-bike-distance': 'cykling sammanlagt {duration}, {distance}',
+    'aria-itinerary-summary-car-distance': 'körning sammanlagt {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance': 'promenad sammanlagt {duration}, {distance}',
     'arriving-at': 'Anländer',
     'arriving-soon': 'Nu',
     'as-destination': 'Destination',
@@ -123,15 +112,13 @@ export default {
       'Rutten har flera sträckor med stadscykel som inkluderar tilläggsavgifter.',
     'citybike-duration-info':
       'Du kan använda stadscykeln {duration} minuter åt gången, efter det debiteras en tilläggsavgift.',
-    'citybike-duration-info-header':
-      'Sträckan med stadscykel tar över {duration} min.',
+    'citybike-duration-info-header': 'Sträckan med stadscykel tar över {duration} min.',
     'citybike-duration-info-short':
       'Sträckan tar över {duration} min. En tilläggsavgift ska debiteras.',
     'citybike-network-headers': 'Stadscyklarna',
     'citybike-purchase-link': 'Gå till köp',
     'citybike-return-full': 'Vill du återlämna din stadscykel?',
-    'citybike-return-full-link':
-      'Så här återlämnar du cykeln till en fullsatt cykelstation ›',
+    'citybike-return-full-link': 'Så här återlämnar du cykeln till en fullsatt cykelstation ›',
     'citybike-start-using': 'Ta stadscyklar i bruk',
     'citybike-start-using-info': 'Tilläggsinformation',
     'citybike-station': 'Stadscykelstation {stationId}',
@@ -155,14 +142,12 @@ export default {
     'demand-responsive-traffic': 'Efterfrågestyrd kollektivtrafik',
     'departure-list-update.sr-instructions':
       'Listan på avgångar och avgångstider uppdateras i realtid.',
-    'departure-page-sr':
-      'Linjenumret {shortName} {destination}, avgår kl {time},',
+    'departure-page-sr': 'Linjenumret {shortName} {destination}, avgår kl {time},',
     'departure-time-in-minutes': '{minutes} min',
     'departure-time-sr': '{when} klockan {time}, {realTime}',
     'departures-by-hour': 'Avgångar per timme',
     'departures-by-hour-minutes-route': '(minuter/rad)',
-    'departures-not-found':
-      'Kunda tyvärr inte hitta tidtabell för den valda hållplatsen',
+    'departures-not-found': 'Kunda tyvärr inte hitta tidtabell för den valda hållplatsen',
     'departures-not-found-time-threshold':
       'Kunde tyvärr inte hitta tidtabell för den valda hållplatsen. Det kan bero på det att det valda datumet ligger så långt in i framtiden. Försök på nytt senare',
     destination: 'Destination',
@@ -190,8 +175,7 @@ export default {
       'Linjen har för tillfället inga kända störningar eller avvikelser.',
     'disruption-list-active': 'Aktuella',
     'disruption-list-no-active-alerts': 'Inga kända störningar',
-    'disruption-list-no-upcoming-alerts':
-      'Inga kända kommande störningar eller avvikelser',
+    'disruption-list-no-upcoming-alerts': 'Inga kända kommande störningar eller avvikelser',
     'disruption-list-traffic-normal': 'Normal trafik',
     'disruption-list-upcoming': 'Kommande',
     'disruption-view-details': 'Mer information',
@@ -207,8 +191,7 @@ export default {
     'disruptions-update-available': 'Uppdateringar tillgängliga',
     'distance-total': 'Resans längd',
     'e-scooter': 'Elsparkcykel',
-    'e-scooter-alternative':
-      'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
+    'e-scooter-alternative': 'Och om du skulle åka elsparkcykel en del av din resa? {paymentInfo}',
     'e-scooter-or-taxi-alternative':
       'Vad sägs om att resa en del av sträckan med elsparkcykel, taxi eller skjutstjänst? {paymentInfo}',
     'e-scooters': 'Elsparkcyklar',
@@ -242,8 +225,7 @@ export default {
     'from-tram': 'spårvagnen',
     frontpage: 'Framsidan',
     funicular: 'Bergbanan',
-    'generic-cancelation':
-      '{mode} {route} {headsign} har ställs in kl. {times}',
+    'generic-cancelation': '{mode} {route} {headsign} har ställs in kl. {times}',
     'generic-error': 'Det hände ett fel',
     'geolocation-denied-heading': 'Delning av platsinformation är förbjudet',
     'geolocation-denied-text':
@@ -251,10 +233,8 @@ export default {
     'geolocation-failed-heading': 'Platstjänster otillgängliga.',
     'geolocation-failed-text': 'Försök igen eller skriv in din plats.',
     'geolocation-prompt-text': 'Vänligen tillåt delning av platsinformation.',
-    'geolocation-timeout-heading':
-      'Det tar längre tid än väntat att hitta din plats.',
-    'geolocation-timeout-text':
-      'Har du godkänt att webbläsaren får använda din plats?',
+    'geolocation-timeout-heading': 'Det tar längre tid än väntat att hitta din plats.',
+    'geolocation-timeout-text': 'Har du godkänt att webbläsaren får använda din plats?',
     'get-off-the-ride': 'Stig av',
     hour: 'Timme',
     hsl_ticket: 'HRT-biljetten',
@@ -272,10 +252,8 @@ export default {
     'is-open': 'Öppet',
     'itinerary-co2.description':
       'CO₂-utsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g CO₂ på samma resa.',
-    'itinerary-co2.description-simple':
-      'CO₂-utsläppen för denna resa är {co2value} g.',
-    'itinerary-co2.description-simple-sr':
-      'Koldioxidutsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-simple': 'CO₂-utsläppen för denna resa är {co2value} g.',
+    'itinerary-co2.description-simple-sr': 'Koldioxidutsläppen för denna resa är {co2value} g.',
     'itinerary-co2.description-sr':
       'Koldioxidutsläppen för denna resa är {co2value} g. En bil skulle generera {carCo2Value} g koldioxid på samma resa.',
     'itinerary-co2.link': 'Utsläppsberäkningen grundar sig på detta ›',
@@ -285,10 +263,8 @@ export default {
       '{time} cykla {distance} från {origin} till {to} {destination}. Restid {duration}',
     'itinerary-details.car-leg':
       '{time} kör {distance} från {origin} till {to} {destination}. Restid {duration}',
-    'itinerary-details.end-leg':
-      '{time} du anländer till destinationen {destination}',
-    'itinerary-details.route-has-info-alert':
-      'Det finns meddelanden som gäller rutten.',
+    'itinerary-details.end-leg': '{time} du anländer till destinationen {destination}',
+    'itinerary-details.route-has-info-alert': 'Det finns meddelanden som gäller rutten.',
     'itinerary-details.route-has-severe-alert': 'Avvikelser i rutten.',
     'itinerary-details.route-has-unknown-alert': 'Störningar längs rutten..',
     'itinerary-details.route-has-warning-alert': 'Störningar längs rutten..',
@@ -332,8 +308,7 @@ export default {
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Avgång kl {firstDepartureTime} från taxins upphämtningsplats',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
-    'itinerary-summary-row.transfers':
-      'Byte {vehicle} vid hållplats {stopName}',
+    'itinerary-summary-row.transfers': 'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Byte {vehicle}',
     'itinerary-summary.bike-boarding-information':
       'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
@@ -342,12 +317,10 @@ export default {
     'itinerary-summary.bikeAndPublic-rail-title': 'Ta cykeln med på tåget',
     'itinerary-summary.bikeAndPublic-subway-title': 'Ta cykeln med på metron',
     'itinerary-summary.bikeAndPublic-tram-title': 'Ta cykeln med på spårvagnen',
-    'itinerary-summary.bikePark-title':
-      'Lämna din cykel till anslutningsparkeringen',
+    'itinerary-summary.bikePark-title': 'Lämna din cykel till anslutningsparkeringen',
     'itinerary-summary.car-boarding-information':
       'Du kan ta med bilen ombord. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera bilar.',
-    'itinerary-summary.carAndPublic-ferry-title':
-      'Kör din bil ombord på färjan',
+    'itinerary-summary.carAndPublic-ferry-title': 'Kör din bil ombord på färjan',
     'itinerary-summary.carAndPublic-rail-title': 'Kör din bil ombord på tåget',
     'itinerary-summary.interline-wait':
       'Linjenumret ({shortName}) och destinationen ({destination}) ändras vid hållplats {stop}. Resan fortsätter om {time}. Vänta ombord.',
@@ -416,16 +389,14 @@ export default {
     'more-departures': 'Fler avgångar',
     'move-on-map': 'Flytta på kartan',
     'navi-change-info': 'Du får information om förändringar',
-    'navi-geolocation-approval':
-      'Tillåtelse att använda platsinformation när tjänsten används',
+    'navi-geolocation-approval': 'Tillåtelse att använda platsinformation när tjänsten används',
     'navi-geolocation-details':
       'När guidningen börjar kan tjänsten be om tillåtelse att använda enhetens platsinformation. Du kan när som helst ändra ditt val i din enhets och i webbläsarens inställningar.',
     'navi-geolocation-purpose':
       'Genom att tillåta positionering av din enhet får du bästa möjliga stöd för din rutt.',
     'navi-more-guidance': 'Lättare fram med hjälp av guidning!',
     'navi-support': 'Du får stöd på din rutt',
-    'navigation-abort-trip':
-      'Din resa kommer tyvärr inte att genomföras som planerat.',
+    'navigation-abort-trip': 'Din resa kommer tyvärr inte att genomföras som planerat.',
     'navigation-description': 'Starta guidning',
     'navigation-get-mode': 'Stig på {mode}',
     'navigation-hurry-transfer': 'Bytestid har ändrats',
@@ -433,12 +404,10 @@ export default {
     'navigation-hurry-transfer-solved-details': 'Bytestid {transfer} är {time}',
     'navigation-hurry-transfer-value':
       'Den nya bytestiden {transfer} är {time}. Den planerade bytestiden har ändrats med {change} min.',
-    'navigation-interline-resume':
-      'Din resa fortsätter efter en väntetid på {duration}',
+    'navigation-interline-resume': 'Din resa fortsätter efter en väntetid på {duration}',
     'navigation-interline-wait':
       'Linjenummer {line} och destination {destination} ändras på hållplatsen',
-    'navigation-interline-wait-same-route':
-      'Destinationen {destination} ändras på hållplatsen',
+    'navigation-interline-wait-same-route': 'Destinationen {destination} ändras på hållplatsen',
     'navigation-intro-begin': 'Starta resa',
     'navigation-intro-help-body': 'Ta resan ett steg i taget',
     'navigation-intro-notifications-body': 'Håll koll på din resa',
@@ -453,8 +422,7 @@ export default {
     'navigation-pier-change-details': '{name} avgår från kaj {number}',
     'navigation-pier-restored': 'Avgår från sin ursprungliga kaj',
     'navigation-platform-change': 'Plattformsändring',
-    'navigation-platform-change-details':
-      '{name} avgår från plattform {number}',
+    'navigation-platform-change-details': '{name} avgår från plattform {number}',
     'navigation-platform-restored': 'Avgår från sin ursprungliga plattform',
     'navigation-quit': 'Tillbaka',
     'navigation-remember-ticket': 'Kom du ihåg att köpa biljett?',
@@ -477,8 +445,7 @@ export default {
     'navileg-in-transit-interline-same-route':
       'Destinationen byts vid {stop} {stopOrStation} om {duration} klockan {legTime}. Vänta i fordonet.',
     'navileg-intermediate-stops': '{stopCount} mellanhållplatser',
-    'navileg-leave-at':
-      'Stig av vid {stop} {stopOrStation} om {duration} klockan {legTime}',
+    'navileg-leave-at': 'Stig av vid {stop} {stopOrStation} om {duration} klockan {legTime}',
     'navileg-mode-citybike': 'Det finns {available} stadscyklar på stationen',
     'navileg-mode-realtime': '{mode} {route} är i tid',
     'navileg-mode-schedule': 'Trafikinformation inte tillgänglig i realtid',
@@ -486,8 +453,7 @@ export default {
     'navileg-rent-cycle': 'Hämta en stadscykel',
     'navileg-rent-scooter': 'Hämta en elsparkcykel',
     'navileg-scooter': 'Sparkcykla',
-    'navileg-start-realtime':
-      'Avgår klockan {time} från {stopName} {stopOrStation}',
+    'navileg-start-realtime': 'Avgår klockan {time} från {stopName} {stopOrStation}',
     'navileg-start-schedule': '{mode} {route} avgång enligt tidtabell {time}',
     'navileg-walk': 'Gå till',
     'near-you-search': 'Sök hållplatser och linjer',
@@ -496,8 +462,7 @@ export default {
     'nearest-favourites-browse-stops': 'Bläddra och välj hållplatser',
     'nearest-favourites-no-favourites':
       'Tidtabeller och fordon vid de valda hållplatserna på kartan',
-    'nearest-no-stops':
-      'Inga stationer eller hållplatser för det valda trafikfordont i närheten.',
+    'nearest-no-stops': 'Inga stationer eller hållplatser för det valda trafikfordont i närheten.',
     'nearest-stops-airplane': 'flygplatser',
     'nearest-stops-bikepark': 'anslutningsparkeringar',
     'nearest-stops-bus': 'busshållplatser',
@@ -536,8 +501,7 @@ export default {
     'on-demand-service-description': 'Ruttbeskrivning',
     'on-demand-service-prior-notice-days':
       'Boka din resa minst {days} dagar före resan, senast kl. {time}.',
-    'on-demand-service-prior-notice-hours':
-      'Bokningen ska göras minst {hours} timmar i förväg.',
+    'on-demand-service-prior-notice-hours': 'Bokningen ska göras minst {hours} timmar i förväg.',
     'on-demand-service-prior-notice-minutes':
       'Bokningen ska göras minst {minutes} minuter i förväg.',
     'on-demand-service-route-disclaimer':
@@ -582,18 +546,13 @@ export default {
       'Personaliseringen är fortfarande i testfasen, vilket innebär att vi testar tjänsten. Vi vill gärna höra om din upplevelse. Undersökningen öppnas i en ny flik.',
     'personalization-continue-choices':
       'Välj om vi använder din användningshistorik för personalisering eller om vi ska börja om genom att radera din användningshistorik.',
-    'personalization-continue-query':
-      'Hur vill du fortsätta med personaliseringen?',
-    'personalization-disliked':
-      'Du kommer att få färre rekommendationer som denna i framtiden.',
+    'personalization-continue-query': 'Hur vill du fortsätta med personaliseringen?',
+    'personalization-disliked': 'Du kommer att få färre rekommendationer som denna i framtiden.',
     'personalization-feedback': 'Ge feedback',
     'personalization-history-keep': 'Dra nytta av användningshistoriken',
-    'personalization-history-remove':
-      'Rensa användningshistoriken och börja om',
-    'personalization-info':
-      'Hitta dina favoritrutter och res utifrån dina vanor.',
-    'personalization-liked':
-      'Du kommer att få liknande rekommendationer i framtiden.',
+    'personalization-history-remove': 'Rensa användningshistoriken och börja om',
+    'personalization-info': 'Hitta dina favoritrutter och res utifrån dina vanor.',
+    'personalization-liked': 'Du kommer att få liknande rekommendationer i framtiden.',
     'personalization-login-description':
       'Du kan aktivera personliga ruttrekommendationer när du är inloggad.',
     'personalization-login-for-voting': 'Logga in och ge feedback',
@@ -606,8 +565,7 @@ export default {
     'personalization-modal-highlight-details':
       'Vi betonar dina favoritlinjer i personaliseringen. Så lägg till de linjer du använder som favoriter.',
     'personalization-modal-link': 'Lägg till eller redigera dina favoriter',
-    'personalization-new-feature':
-      'Upptäck nya personliga ruttrekommendationer i inställningarna',
+    'personalization-new-feature': 'Upptäck nya personliga ruttrekommendationer i inställningarna',
     'personalization-new-header': 'Ruttrekommendationer aktiverade',
     'personalization-open-info': 'Läs hur rekommendationer fungerar',
     'phone-number': 'Telefonnummer',
@@ -634,10 +592,8 @@ export default {
     'replacement-bus': 'Ersättande buss',
     'restore-default-settings': 'Återställ',
     'restore-default-settings-aria-label': 'Återställ standardinställningar.',
-    'restore-default-settings-aria-label-done':
-      'Standardinställningar är aktiverade.',
-    'restore-default-settings-success':
-      'Standardinställningar har återställts.',
+    'restore-default-settings-aria-label-done': 'Standardinställningar är aktiverade.',
+    'restore-default-settings-success': 'Standardinställningar har återställts.',
     'return-cycle-to': 'Returnera stadscykeln: ',
     'return-e-scooter-to': 'Lämna elsparkcykeln på ett säkert ställe',
     'right-now': 'Just nu',
@@ -649,8 +605,7 @@ export default {
     'route-guide': 'Linjeguide',
     'route-here': 'Destination',
     'route-no-stop': 'Inget stopp',
-    'route-page-vehicle-position':
-      '{mode} {shortName} är vid hållplatsen {stopName}',
+    'route-page-vehicle-position': '{mode} {shortName} är vid hållplatsen {stopName}',
     'route-page-vehicle-position-between':
       '{mode} {shortName} är mellan hållplats {stopName} och hållplats {nextStopName}.',
     'route-page-vehicle-selected': 'Nuvarande urval.',
@@ -665,15 +620,17 @@ export default {
     'route-page.special-routes': 'Andra rutter',
     'route-page.title': 'Linje {shortName}',
     'route-page.title-short': 'Linje',
+    'route-page.trip-sr': 'Avgår {departure}, anländer {arrival}',
     'route-pattern-select-tooltip': 'Visa rutter',
     'route-pattern-swap-tooltip': 'Byt riktning',
     'route-to-ferry': 'Rutt till piren',
     'route-to-park': 'Rutt till parken',
+    'route-to-scooter': 'Rutt till elsparkcykeln',
     'route-to-station': 'Rutt till stationen',
     'route-to-stop': 'Rutt till hållplatsen',
+    'route-to-terminal': 'Rutt till terminalen',
     'router-change-departure-time': 'Ändra avgångstid ›',
-    'router-location-not-found':
-      'Var god och välj en plats på vägnätet eller på hållplatsen.',
+    'router-location-not-found': 'Var god och välj en plats på vägnätet eller på hållplatsen.',
     'router-location-not-found-title-1':
       'Det finns ingen definierad förbindelse till destinationen',
     'router-location-not-found-title-2':
@@ -692,10 +649,8 @@ export default {
       'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen.',
     'router-stops-in-range-3':
       'Det finns inte kollektivtrafikhållplatser tillräckligt nära till den valda avgångsplatsen eller destinationen.',
-    'router-system-error':
-      'Det skedde ett fel i systemet. Försök på nytt senare.',
-    'router-transit-connection-in-search-window':
-      'Ingen trafik under det valda datumet.',
+    'router-system-error': 'Det skedde ett fel i systemet. Försök på nytt senare.',
+    'router-transit-connection-in-search-window': 'Ingen trafik under det valda datumet.',
     'router-unable': 'Kan inte visa ruttalternativ',
     routes: 'Linjer',
     scooter: 'Scooter',
@@ -715,14 +670,18 @@ export default {
     'select-map-layers-header': 'Visa på kartan',
     'select-route': 'Välj {mode} rutt {shortName} till {headsign}',
     'selected-routes': 'Valda linjen',
-    'separate-ticket-required':
-      'Denna etapp av resan kräver en separat biljett.',
+    'separate-ticket-required': 'Denna etapp av resan kräver en separat biljett.',
     'separate-ticket-required-disclaimer':
       'Resan består av en eller flera etapper vilka kräver biljetter som inte säljs av {agencyName}.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'I resan ingår anropsbusstrafiken. Bekanta dig med betalningsmetoder och praxis på ',
     'services-and-features': 'Tjänster och funktioner',
+    'set-ferry-as-routes': 'Ställa pir som rutter',
+    'set-park-as-routes': 'Ställa park som rutter',
+    'set-scooter-as-routes': 'Ställa elsparkcykel som rutter',
+    'set-station-as-routes': 'Ställa station som rutter',
     'set-stop-as-routes': 'Ställa hållplats som rutter',
+    'set-terminal-as-routes': 'Ställa terminal som rutter',
     'set-time-earlier-button-label': 'Ställ in restid till tidigare',
     'set-time-later-button-label': 'Ställ in restid till senare',
     settings: 'Anpassa',
@@ -731,17 +690,13 @@ export default {
     'settings-dropdown-open-label': 'Öppna alternativen',
     'settings-e-scooter':
       'Du kan välja de elsparkcyklar du vill och åka en del av din rutt med den. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Lägg till elsparkcyklar permanent i dina inställningar',
+    'settings-e-scooter-on': 'Lägg till elsparkcyklar permanent i dina inställningar',
     'settings-e-scooter-routes': 'Åk elsparkcykel under en del av din resa!',
     'settings-label-change': 'Anpassa sökning',
-    'settings-missing-itineraries-body':
-      'Dina val i inställningar utesluter vissa ruttalternativ.',
+    'settings-missing-itineraries-body': 'Dina val i inställningar utesluter vissa ruttalternativ.',
     'settings-missing-itineraries-header': 'Saknas det några ruttförslag?',
-    'settings-taxi':
-      'Du kan själv välja vilka taxi- och skjutstjänster som ska ingå i din rutt',
-    'settings-taxi-routes':
-      'Använd taxi- och skjutstjänster som en del av din resa!',
+    'settings-taxi': 'Du kan själv välja vilka taxi- och skjutstjänster som ska ingå i din rutt',
+    'settings-taxi-routes': 'Använd taxi- och skjutstjänster som en del av din resa!',
     'show-all': 'Visa alla',
     'show-departures': 'Visa avgångarna',
     'show-more': 'Visa mer',
@@ -757,8 +712,7 @@ export default {
     'stop-departure-time-past': 'Avgångstid var klockan',
     'stop-has-alert': 'Störning vid hållplatsen',
     'stop-has-info': 'Meddelande vid hållplatsen',
-    'stop-list-update.sr-instructions':
-      'Avgångstider uppdateras i realtid för varje hållplats.',
+    'stop-list-update.sr-instructions': 'Avgångstider uppdateras i realtid för varje hållplats.',
     'stop-near-you': 'Sök hållplatser eller linjer nära dig',
     'stop-near-you-modal-grant-permission': 'eller aktivera positionering',
     'stop-near-you-modal-grant-permission-info':
@@ -775,8 +729,7 @@ export default {
     'stop-page.title-short': 'Hållplats',
     'stop-virtual-monitor': 'Stoppdisplay',
     stops: 'Hållplatser',
-    'stops-near-you.description':
-      'Tidtabeller för hållplatser och fordon nära dig',
+    'stops-near-you.description': 'Tidtabeller för hållplatser och fordon nära dig',
     'stops-near-you.title': 'Tidtabeller för hållplatser nära dig',
     'street-mode-bike-aria': 'Visa cykelrutten. Tid {duration}, längd {length}',
     'street-mode-bikeandvehicle-aria':
@@ -784,36 +737,28 @@ export default {
     'street-mode-car-aria': 'Visa bilrutt. Tid {duration}, längd {length}',
     'street-mode-carandvehicle-aria':
       'Visa en rutt som kan innehålla andra trafikmedel, såsom bilfärjor. Varaktighet {duration}, längd {length}',
-    'street-mode-parkandride-aria':
-      'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
-    'street-mode-walk-aria':
-      'Visa promenadrutt. Tid {duration}, längd {length}',
+    'street-mode-parkandride-aria': 'Visa anslutningsparkeringrutt. Tid {duration}, längd {length}',
+    'street-mode-walk-aria': 'Visa promenadrutt. Tid {duration}, längd {length}',
     subway: 'Metro',
     'subway-entrance.sr-description': 'Metro stationens ingång {entranceName}',
     'subway-entrance.sr-description.accessible':
       'Metro stationens ingång {entranceName}, tillgänglig',
     'subway-exit.sr-description': 'Metro stationens utgång {entranceName}',
-    'subway-exit.sr-description.accessible':
-      'Metro stationens utgång {entranceName}, tillgänglig',
+    'subway-exit.sr-description.accessible': 'Metro stationens utgång {entranceName}, tillgänglig',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Ruttförslag {number}',
     'summary-page.title': 'Ruttförslag',
     surveillance_cameras: 'Kameraövervakning',
     'swap-order-button-label': 'Sväng ruttens riktning till den motsatta',
     swedish: 'Svenska',
-    'swipe-disruption-info-tab':
-      'Navigeringsknapp för att kunna bläddra störning',
-    'swipe-message-bar-tab':
-      'Navigeringsknapp för att kunna bläddra stäng banner',
+    'swipe-disruption-info-tab': 'Navigeringsknapp för att kunna bläddra störning',
+    'swipe-message-bar-tab': 'Navigeringsknapp för att kunna bläddra stäng banner',
     'swipe-result-tab-left': 'Gå till föregående blad.',
     'swipe-result-tab-right': 'Gå till följande blad.',
-    'swipe-stops-near-you-tab':
-      'Navigeringsknapp för att kunna bläddra hållplatser nära mig.',
-    'swipe-summary-page-tab':
-      'Navigeringsknapp för att kunna bläddra ruttförslag.',
+    'swipe-stops-near-you-tab': 'Navigeringsknapp för att kunna bläddra hållplatser nära mig.',
+    'swipe-summary-page-tab': 'Navigeringsknapp för att kunna bläddra ruttförslag.',
     taxi: 'Taxi',
-    'taxi-alternative':
-      'Vad sägs om att resa en del av sträckan med taxi? {paymentInfo}',
+    'taxi-alternative': 'Vad sägs om att resa en del av sträckan med taxi? {paymentInfo}',
     'taxi-distance-duration': 'Res {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxis-and-ride-hailing': 'Taxi och skjutstjänster',
@@ -844,24 +789,19 @@ export default {
     'traffic-now': 'Trafikläget nu',
     'traffic-now-long': 'Trafikläget nu',
     'traffic-now_bread': 'Att resa med oss',
-    'traffic-now_canceled-trips--amount':
-      'Visar {amount} av {totalAmount} rutter',
+    'traffic-now_canceled-trips--amount': 'Visar {amount} av {totalAmount} rutter',
     'traffic-now_canceled-trips--simple': '{amount} inställda',
-    'traffic-now_description':
-      'Aktuell information om störningar och undantag. ',
+    'traffic-now_description': 'Aktuell information om störningar och undantag. ',
     'traffic-now_description_see-also':
       'Se även {amount, plural, =1 {{link1}} other {{link1} samt {link2}}} för mer information.',
     'traffic-now_description_see-also--link1': 'helgdagar och undantag',
     'traffic-now_description_see-also--link2': 'större förändringar',
     'traffic-now_filters_entity-search': 'Sök linje eller hållplats',
-    'traffic-now_filters_entity-search--placeholder':
-      'Linje, hållplats eller station',
-    'traffic-now_filters_operator-select-legend':
-      'Visa endast dessa operatörer',
+    'traffic-now_filters_entity-search--placeholder': 'Linje, hållplats eller station',
+    'traffic-now_filters_operator-select-legend': 'Visa endast dessa operatörer',
     'traffic-now_filters_operator-select-placeholder': 'Välj en eller flera',
     'traffic-now_filters_toggles--cancellations-only': 'Endast inställda',
-    'traffic-now_filters_toggles--favourites-only':
-      'Endast mina linjer och hållplatser',
+    'traffic-now_filters_toggles--favourites-only': 'Endast mina linjer och hållplatser',
     'traffic-now_filters_validity-period': 'Filtrera enligt giltighetstid',
     'traffic-now_filters_vehicle-mode': 'Filtrera enligt trafikfordon',
     'traffic-now_filters_view-results': 'Visa resultat',
@@ -882,8 +822,7 @@ export default {
     'try-again': 'Försök igen',
     upcoming: 'Kommande',
     'use-national-service-postfix': '.',
-    'use-national-service-prefix':
-      'Vi rekommenderar att du använder ruttsökning i tjänsten ',
+    'use-national-service-prefix': 'Vi rekommenderar att du använder ruttsökning i tjänsten ',
     'use-own-position': 'Använd min position',
     userinfo: 'Mina uppgifter',
     usermenu: 'Användarmeny',
@@ -896,21 +835,16 @@ export default {
     'wait-amount-of-time': 'Vänta {duration}',
     'wait-in-vehicle': 'Vänta i fordonet',
     walk: 'gång',
-    'walk-bike-itinerary-1':
-      'Vi har endast hittat ruttförslag i vilka ingår promenad.',
-    'walk-bike-itinerary-2':
-      'Vi har endast hittat ruttförslag i vilka ingår cykling.',
-    'walk-bike-itinerary-3':
-      'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
+    'walk-bike-itinerary-1': 'Vi har endast hittat ruttförslag i vilka ingår promenad.',
+    'walk-bike-itinerary-2': 'Vi har endast hittat ruttförslag i vilka ingår cykling.',
+    'walk-bike-itinerary-3': 'Vi har endast hittat ruttförslag i vilka ingår promenad och cykling.',
     'walk-bike-itinerary-4':
       'Vi har endast hittat ruttförslag i vilka ingår cykling eller körning.',
     'walk-distance-duration': 'Gå {duration} ({distance})',
     'walk-only': 'Endast gång',
     'walking-speed': 'Promenadhastighet',
-    'warning-call-agency':
-      'Trafikeras enligt behov: {routeName}, som bör beställas på förhand.',
-    'warning-call-agency-no-route':
-      'Trafikeras enligt behov som bör beställas på förhand.',
+    'warning-call-agency': 'Trafikeras enligt behov: {routeName}, som bör beställas på förhand.',
+    'warning-call-agency-no-route': 'Trafikeras enligt behov som bör beställas på förhand.',
     weather: 'Väder',
     'weather-data-source': 'Källa: Meteorologiska institutet',
     'weather-detail-title': 'Väderprognos för avgångsplatsen kl. ',

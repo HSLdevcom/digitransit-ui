@@ -17,6 +17,4 @@ export default function StopPageHeader({ stop }) {
   );
 }
 
-StopPageHeader.propTypes = {
-  stop: fragmentRefShape,
-};
+StopPageHeader.propTypes = { stop: fragmentRefShape };

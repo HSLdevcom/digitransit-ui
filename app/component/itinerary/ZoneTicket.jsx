@@ -11,11 +11,7 @@ import { FormattedMessage } from 'react-intl';
 export const renderZoneTicket = (fareId, alternativeFares, hasPurchaseLink) => {
   if (Array.isArray(alternativeFares) && alternativeFares.length > 0) {
     const options = [
-      <ZoneTicket
-        key={fareId}
-        ticketType={fareId}
-        hasPurchaseLink={hasPurchaseLink}
-      />,
+      <ZoneTicket key={fareId} ticketType={fareId} hasPurchaseLink={hasPurchaseLink} />,
     ];
     for (let i = 0; i < alternativeFares.length; i++) {
       options.push(
@@ -39,17 +35,8 @@ export const renderZoneTicket = (fareId, alternativeFares, hasPurchaseLink) => {
 
 export default function ZoneTicket({ ticketType, hasPurchaseLink = false }) {
   return ticketType ? (
-    <span
-      className={cx('zone-ticket', {
-        purchase: hasPurchaseLink,
-      })}
-    >
-      {ticketType}
-    </span>
+    <span className={cx('zone-ticket', { purchase: hasPurchaseLink })}>{ticketType}</span>
   ) : null;
 }
 
-ZoneTicket.propTypes = {
-  ticketType: PropTypes.string.isRequired,
-  hasPurchaseLink: PropTypes.bool,
-};
+ZoneTicket.propTypes = { ticketType: PropTypes.string.isRequired, hasPurchaseLink: PropTypes.bool };

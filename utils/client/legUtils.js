@@ -1,10 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../shared/vehicleRentalUtils';
-import {
-  ExtendedRouteTypes,
-  OtpCornerNamingPattern,
-} from '../shared/constants';
+import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../shared/constants';
 import { stopCallTime } from './timeUtils';
 
 /**
@@ -159,10 +156,8 @@ export function getLegMode(legOrMode) {
  * @param {*} leg2 the second leg
  */
 function continueWithBicycle(leg1, leg2) {
-  const isBicycle1 =
-    leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
-  const isBicycle2 =
-    leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
+  const isBicycle1 = leg1.mode === LegMode.Bicycle || leg1.mode === LegMode.Walk;
+  const isBicycle2 = leg2.mode === LegMode.Bicycle || leg2.mode === LegMode.Walk;
   return isBicycle1 && isBicycle2 && !leg1.to.vehicleParking;
 }
 
@@ -208,9 +203,7 @@ export function getInterliningLegs(legs, index) {
  */
 export function isFirstInterliningLeg(legs, i) {
   return (
-    i + 1 < legs.length &&
-    !legs[i].interlineWithPreviousLeg &&
-    legs[i + 1].interlineWithPreviousLeg
+    i + 1 < legs.length && !legs[i].interlineWithPreviousLeg && legs[i + 1].interlineWithPreviousLeg
   );
 }
 
@@ -255,8 +248,7 @@ function isViaPointMatch(stop, viaPoints) {
   return (
     stop &&
     (includesAndRemove(viaPoints, stop.gtfsId) ||
-      (stop.parentStation &&
-        includesAndRemove(viaPoints, stop.parentStation.gtfsId)))
+      (stop.parentStation && includesAndRemove(viaPoints, stop.parentStation.gtfsId)))
   );
 }
 
@@ -358,19 +350,9 @@ export function markViaPoints(originalLegs, viaPlaces) {
         ...place,
         isViaPoint: isViaPointMatch(place.stop, viaPoints),
       }));
-      legs.push({
-        ...leg,
-        intermediatePlaces,
-        isViaPoint,
-        viaAddress,
-      });
+      legs.push({ ...leg, intermediatePlaces, isViaPoint, viaAddress });
     } else {
-      legs.push({
-        ...leg,
-        intermediatePlaces: [],
-        isViaPoint,
-        viaAddress,
-      });
+      legs.push({ ...leg, intermediatePlaces: [], isViaPoint, viaAddress });
     }
   });
   return legs;
@@ -429,10 +411,7 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
           : null;
       compressedLeg.duration += currentLeg.duration;
       compressedLeg.distance += currentLeg.distance;
-      compressedLeg.to = {
-        ...currentLeg.to,
-        ...{ vehicleParking: newBikePark },
-      };
+      compressedLeg.to = { ...currentLeg.to, ...{ vehicleParking: newBikePark } };
       compressedLeg.end = currentLeg.end;
       compressedLeg.mode = LegMode.Bicycle;
       return;
@@ -451,22 +430,14 @@ export function compressLegs(originalLegs, keepBicycleWalk = false) {
       return;
     }
 
-    if (
-      usingOwnBicycle &&
-      !bikeParked &&
-      getLegMode(compressedLeg) === LegMode.Walk
-    ) {
+    if (usingOwnBicycle && !bikeParked && getLegMode(compressedLeg) === LegMode.Walk) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
 
     compressedLegs.push(compressedLeg);
     compressedLeg = cloneDeep(currentLeg);
 
-    if (
-      usingOwnBicycle &&
-      !bikeParked &&
-      getLegMode(currentLeg) === LegMode.Walk
-    ) {
+    if (usingOwnBicycle && !bikeParked && getLegMode(currentLeg) === LegMode.Walk) {
       compressedLeg.mode = LegMode.BicycleWalk;
     }
   });
@@ -517,15 +488,9 @@ export function isCallAgencyLeg(leg) {
   return leg.route?.type === ExtendedRouteTypes.CallAgency;
 }
 
-export function isDirectItineraryWithAllowedRouteTypes(
-  itinerary,
-  allowedRouteTypes,
-) {
+export function isDirectItineraryWithAllowedRouteTypes(itinerary, allowedRouteTypes) {
   const legsWithRoute = itinerary.legs.filter(leg => !!leg.route);
-  return (
-    legsWithRoute.length === 1 &&
-    allowedRouteTypes.includes(legsWithRoute[0].route.type)
-  );
+  return legsWithRoute.length === 1 && allowedRouteTypes.includes(legsWithRoute[0].route.type);
 }
 export function isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes) {
   return !leg.transitLeg && allowedTaxiZoneRouteTypes.includes(leg.route?.type);
@@ -535,9 +500,7 @@ export function isLegWithRoute(leg, allowedTaxiZoneRouteTypes) {
 }
 export function isBoardableLeg(leg, allowedTaxiZoneRouteTypes) {
   return (
-    leg.transitLeg ||
-    isBikeOrScooterRentalLeg(leg) ||
-    isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes)
+    leg.transitLeg || isBikeOrScooterRentalLeg(leg) || isTaxiZoneLeg(leg, allowedTaxiZoneRouteTypes)
   );
 }
 
@@ -615,9 +578,7 @@ export function getVehicleAvailabilityIndicatorColor(available, config) {
  * @param {*} config the configuration for the software installation/
  */
 export function getVehicleAvailabilityTextColor(available, config) {
-  return available <= config.vehicleRental.fewAvailableCount && available > 0
-    ? '#333'
-    : '#fff';
+  return available <= config.vehicleRental.fewAvailableCount && available > 0 ? '#333' : '#fff';
 }
 
 /**
@@ -682,19 +643,11 @@ export function getZones(legs) {
   legs.forEach(leg => {
     if (leg.from && leg.from.stop && leg.from.stop.zoneId) {
       const zoneCharCode = leg.from.stop.zoneId.charCodeAt(0);
-      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
-        zoneCharCode,
-        minCharCode,
-        maxCharCode,
-      );
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(zoneCharCode, minCharCode, maxCharCode);
     }
     if (leg.to && leg.to.stop && leg.to.stop.zoneId) {
       const zoneCharCode = leg.to.stop.zoneId.charCodeAt(0);
-      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(
-        zoneCharCode,
-        minCharCode,
-        maxCharCode,
-      );
+      [minCharCode, maxCharCode] = getNewMinMaxCharCodes(zoneCharCode, minCharCode, maxCharCode);
     }
     if (Array.isArray(leg.stopCalls)) {
       leg.stopCalls
@@ -798,36 +751,23 @@ export function getTotalDrivingDuration(itinerary) {
 
 export function getExtendedMode(leg, config) {
   return config.useExtendedRouteTypes
-    ? (leg.route && getTripOrRouteMode(leg.trip, leg.route)) ||
-        leg.mode?.toLowerCase()
+    ? (leg.route && getTripOrRouteMode(leg.trip, leg.route)) || leg.mode?.toLowerCase()
     : leg.mode?.toLowerCase();
 }
 
 /**
  * Creates a boarding leg when a car or bike boards/alights a vehicle if certain criteria are met.
  */
-export function getBoardingLeg(
-  nextLeg,
-  previousLeg,
-  waitLeg,
-  leg,
-  boardingMode,
-) {
+export function getBoardingLeg(nextLeg, previousLeg, waitLeg, leg, boardingMode) {
   if ((nextLeg?.transitLeg && !waitLeg) || previousLeg?.transitLeg) {
     let { from, to } = leg;
     // don't render instructions to walk bike out / drive car from vehicle
     // if biking / driving starts from stop (no transit first)
     if (!previousLeg?.transitLeg && leg.from.stop) {
-      from = {
-        ...from,
-        stop: null,
-      };
+      from = { ...from, stop: null };
     }
     if ((!nextLeg?.transitLeg && leg.to.stop) || waitLeg) {
-      to = {
-        ...to,
-        stop: null,
-      };
+      to = { ...to, stop: null };
     }
     return {
       duration: 0,
@@ -875,9 +815,7 @@ export const showCarBoardingNote = (leg, config) => {
  */
 export const isRental = (leg, nextLeg) =>
   leg.mode === 'WALK' &&
-  (leg.to.vehicleRentalStation ||
-    leg.to.vehicleRental ||
-    nextLeg?.mode === 'SCOOTER');
+  (leg.to.vehicleRentalStation || leg.to.vehicleRental || nextLeg?.mode === 'SCOOTER');
 
 /**
  * Return translated string that describes leg destination
@@ -907,11 +845,7 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
 };
 
 /** The platform status depicts the current state of changes to a platform for a leg. */
-export const PLATFORM_STATUS = {
-  NORMAL: 'normal',
-  CHANGED: 'changed',
-  RESTORED: 'restored',
-};
+export const PLATFORM_STATUS = { NORMAL: 'normal', CHANGED: 'changed', RESTORED: 'restored' };
 
 /**
  * Returns platform change status for a leg or a specific departure in the case of a terminal page.
@@ -944,11 +878,7 @@ export function getPlatformChangeStatus(leg, prevPlatform) {
     return status;
   }
 
-  if (
-    prevPlatform &&
-    prevPlatform !== updatedPlatform &&
-    originalPlatform === updatedPlatform
-  ) {
+  if (prevPlatform && prevPlatform !== updatedPlatform && originalPlatform === updatedPlatform) {
     status = PLATFORM_STATUS.RESTORED;
   } else if (originalPlatform !== updatedPlatform) {
     status = PLATFORM_STATUS.CHANGED;
@@ -976,14 +906,8 @@ export const isPlatformChanged = leg => {
  * @returns {string} - The validated or replaced leg name.
  */
 export function getValidatedLegName(name, intl, start) {
-  const terminusName = intl.formatMessage({
-    id: 'terminus',
-    defaultMessage: 'Terminus',
-  });
-  const originName = intl.formatMessage({
-    id: 'origin',
-    defaultMessage: 'Origin',
-  });
+  const terminusName = intl.formatMessage({ id: 'terminus', defaultMessage: 'Terminus' });
+  const originName = intl.formatMessage({ id: 'origin', defaultMessage: 'Origin' });
   if (OtpCornerNamingPattern[intl.locale]?.test(name)) {
     return start ? originName : terminusName;
   }
@@ -999,8 +923,5 @@ export function isLocalCallAgency(leg, config) {
   if (!leg?.route) {
     return false;
   }
-  return (
-    isCallAgencyLeg(leg) &&
-    config.flex.internal.agencies.includes(leg.route.agency.gtfsId)
-  );
+  return isCallAgencyLeg(leg) && config.flex.internal.agencies.includes(leg.route.agency.gtfsId);
 }

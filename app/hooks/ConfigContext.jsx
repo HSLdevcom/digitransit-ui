@@ -5,9 +5,7 @@ import { configShape } from '../../utils/client/shapes';
 const ConfigContext = createContext();
 
 export function ConfigProvider({ value, children }) {
-  return (
-    <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>
-  );
+  return <ConfigContext.Provider value={value}>{children}</ConfigContext.Provider>;
 }
 
 export function useConfigContext() {
@@ -18,7 +16,4 @@ export function useConfigContext() {
   return context;
 }
 
-ConfigProvider.propTypes = {
-  value: configShape.isRequired,
-  children: PropTypes.node.isRequired,
-};
+ConfigProvider.propTypes = { value: configShape.isRequired, children: PropTypes.node.isRequired };

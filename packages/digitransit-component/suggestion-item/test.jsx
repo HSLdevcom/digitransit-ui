@@ -1,9 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import { render, screen } from '@testing-library/react';
-import SuggestionItem, {
-  getStopBadge,
-  STOP_STATUS_BADGE_IMGS,
-} from './src/index';
+import Icon from '@digitransit-component/digitransit-component-icon';
+import SuggestionItem, { getStopBadge, STOP_STATUS_BADGE_IMGS } from './src/index';
 
 describe('Testing @digitransit-component/digitransit-component-suggestion-item module', () => {
   it('renders a geocoded address suggestion with name and label', () => {
@@ -13,12 +11,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       address: 'Mannerheimintie 1, Helsinki',
       properties: { layer: 'address' },
     };
-    render(
-      <SuggestionItem
-        item={item}
-        content={['Osoite', 'Mannerheimintie 1', 'Helsinki']}
-      />,
-    );
+    render(<SuggestionItem item={item} content={['Osoite', 'Mannerheimintie 1', 'Helsinki']} />);
     expect(screen.getByText('Mannerheimintie 1')).toBeTruthy();
     expect(screen.getByText('Helsinki')).toBeTruthy();
   });
@@ -42,15 +35,9 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
   });
 
   it('renders a stop suggestion with its stop code shown separately from the name', () => {
-    const item = {
-      type: 'Stop',
-      properties: { layer: 'stop', id: '1234' },
-    };
+    const item = { type: 'Stop', properties: { layer: 'stop', id: '1234' } };
     render(
-      <SuggestionItem
-        item={item}
-        content={['Pysäkki', 'Rautatientori', 'Helsinki', '1234']}
-      />,
+      <SuggestionItem item={item} content={['Pysäkki', 'Rautatientori', 'Helsinki', '1234']} />,
     );
     expect(screen.getByText('Rautatientori')).toBeTruthy();
     expect(screen.getByText('1234')).toBeTruthy();
@@ -72,24 +59,34 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
     expect(screen.getByText('Coming Friday')).toBeTruthy();
   });
 
+  it('uses the city icon for a "populated area" category regardless of layer', () => {
+    const item = {
+      type: 'Place',
+      properties: {
+        layer: 'venue',
+        category: ['transport', 'populated area'],
+        label: 'Mäyränmäki, Kuopio',
+      },
+    };
+    const { container } = render(
+      <SuggestionItem item={item} content={['Paikka', 'Mäyränmäki', 'Kuopio']} />,
+    );
+    const cityIcon = render(<Icon img="city" />).container;
+    expect(container.querySelector('svg path').getAttribute('d')).toBe(
+      cityIcon.querySelector('svg path').getAttribute('d'),
+    );
+  });
+
   describe('stop status badge', () => {
     const makeStopItem = gtfs => ({
       type: 'Stop',
-      properties: {
-        layer: 'stop',
-        gtfsId: 'HSL:1234567',
-        addendum: { GTFS: gtfs },
-      },
+      properties: { layer: 'stop', gtfsId: 'HSL:1234567', addendum: { GTFS: gtfs } },
     });
     const content = ['Pysäkki', 'Rautatientori', 'Helsinki', '1234'];
 
     const countSvgs = props => {
       const { container, unmount } = render(
-        <SuggestionItem
-          item={makeStopItem({ noService: true })}
-          content={content}
-          {...props}
-        />,
+        <SuggestionItem item={makeStopItem({ noService: true })} content={content} {...props} />,
       );
       const count = container.querySelectorAll('svg').length;
       unmount();
@@ -100,6 +97,25 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
       expect(countSvgs({ showStopStatusMarkers: true })).toBe(
         countSvgs({ showStopStatusMarkers: false }) + 1,
       );
+    });
+
+    it('adds the status label to the screen reader text only when a badge applies', () => {
+      const labels = { 'out-of-service': 'Stop out of service' };
+      const srText = props => {
+        const { container, unmount } = render(
+          <SuggestionItem
+            item={makeStopItem({ noService: true })}
+            content={content}
+            stopStatusLabels={labels}
+            {...props}
+          />,
+        );
+        const text = container.querySelector('p').textContent;
+        unmount();
+        return text;
+      };
+      expect(srText({ showStopStatusMarkers: true })).toContain('stop out of service');
+      expect(srText({ showStopStatusMarkers: false })).not.toContain('out of service');
     });
 
     describe('getStopBadge', () => {
@@ -113,17 +129,13 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         expect(getStopBadge({})).toBeNull();
       });
 
-      ['stop', 'favouriteStop', 'station', 'favouriteStation'].forEach(
-        layer => {
-          it(`considers the "${layer}" layer eligible for a badge`, () => {
-            const item = makeStopItem({ noService: true });
-            item.properties.layer = layer;
-            expect(getStopBadge(item)).toBe(
-              STOP_STATUS_BADGE_IMGS['out-of-service'],
-            );
-          });
-        },
-      );
+      ['stop', 'favouriteStop', 'station', 'favouriteStation'].forEach(layer => {
+        it(`considers the "${layer}" layer eligible for a badge`, () => {
+          const item = makeStopItem({ noService: true });
+          item.properties.layer = layer;
+          expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS['out-of-service']);
+        });
+      });
 
       it('returns null when no gtfsId can be resolved', () => {
         const item = makeStopItem({ noService: true });
@@ -136,9 +148,7 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
         const item = makeStopItem({ noService: true });
         delete item.properties.gtfsId;
         item.properties.gid = 'GTFS:HSL:1234567#0';
-        expect(getStopBadge(item)).toBe(
-          STOP_STATUS_BADGE_IMGS['out-of-service'],
-        );
+        expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS['out-of-service']);
       });
 
       it('prioritises noService over noServiceToday and alertSeverity', () => {
@@ -147,19 +157,12 @@ describe('Testing @digitransit-component/digitransit-component-suggestion-item m
           noServiceToday: true,
           alertSeverity: 'alert',
         });
-        expect(getStopBadge(item)).toBe(
-          STOP_STATUS_BADGE_IMGS['out-of-service'],
-        );
+        expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS['out-of-service']);
       });
 
       it('prioritises noServiceToday over alertSeverity', () => {
-        const item = makeStopItem({
-          noServiceToday: true,
-          alertSeverity: 'alert',
-        });
-        expect(getStopBadge(item)).toBe(
-          STOP_STATUS_BADGE_IMGS['no-service-today'],
-        );
+        const item = makeStopItem({ noServiceToday: true, alertSeverity: 'alert' });
+        expect(getStopBadge(item)).toBe(STOP_STATUS_BADGE_IMGS['no-service-today']);
       });
 
       it('returns the alert badge for an "alert" severity', () => {

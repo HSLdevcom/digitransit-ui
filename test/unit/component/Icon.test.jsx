@@ -54,17 +54,13 @@ describe('<Icon />', () => {
   });
 
   it('should not render <use /> when dataURI is defined', () => {
-    const { container } = render(
-      <Icon img={img} dataURI="data:image/svg+xml;base64,ABC" />,
-    );
+    const { container } = render(<Icon img={img} dataURI="data:image/svg+xml;base64,ABC" />);
     expect(container.querySelectorAll('use')).toHaveLength(0);
   });
 
   it('should have default viewBox and omit it when omitViewBox is true', () => {
     const { container: withViewBox } = render(<Icon img={img} />);
-    expect(withViewBox.querySelector('svg').getAttribute('viewBox')).toBe(
-      '0 0 40 40',
-    );
+    expect(withViewBox.querySelector('svg').getAttribute('viewBox')).toBe('0 0 40 40');
 
     const { container: without } = render(<Icon img={img} omitViewBox />);
     expect(without.querySelector('svg').getAttribute('viewBox')).toBeNull();
@@ -73,8 +69,6 @@ describe('<Icon />', () => {
   it('should set aria-label on the svg', () => {
     const label = 'Bus icon';
     const { container } = render(<Icon img={img} ariaLabel={label} />);
-    expect(container.querySelector('svg').getAttribute('aria-label')).toBe(
-      label,
-    );
+    expect(container.querySelector('svg').getAttribute('aria-label')).toBe(label);
   });
 });

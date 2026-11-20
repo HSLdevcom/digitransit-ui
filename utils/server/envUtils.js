@@ -1,7 +1,4 @@
-const Environment = Object.freeze({
-  Development: 'development',
-  Production: 'production',
-});
+const Environment = Object.freeze({ Development: 'development', Production: 'production' });
 
 /**
  * Server-side. Whether the app runs in a non-production deployment, from the `RUN_ENV`

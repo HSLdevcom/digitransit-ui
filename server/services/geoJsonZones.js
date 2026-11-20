@@ -1,17 +1,12 @@
-import { getJson } from '../../utils/shared/xhrPromise.js';
-import {
-  loadAllRawConfigurations,
-  setAssembledZones,
-} from '../configs/config.js';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
+import { loadAllRawConfigurations, setAssembledZones } from '../configs/config.js';
 
 let allZones;
 
 export function getZoneUrl(json) {
   const zoneLayer =
     !json?.noZoneSharing &&
-    json?.layers?.find(
-      layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones',
-    );
+    json?.layers?.find(layer => layer.name.fi === 'Vyöhykkeet' || layer.name.en === 'Zones');
   if (zoneLayer && !allZones) {
     // use a geoJson source to initialize combined zone data
     allZones = zoneLayer;

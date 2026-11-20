@@ -3,10 +3,7 @@ import { useEffect, useState } from 'react';
 const getSize = window => ({
   width: window.innerWidth,
   height: window.innerHeight,
-  outer: {
-    width: window.outerWidth,
-    height: window.outerHeight,
-  },
+  outer: { width: window.outerWidth, height: window.outerHeight },
 });
 
 /**

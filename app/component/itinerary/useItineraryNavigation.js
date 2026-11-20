@@ -14,7 +14,6 @@ export default function useItineraryNavigation({ itinerary, hash, passive, focus
     ];
     const subpath = modesWithSubpath.includes(match.params.hash) ? `/${match.params.hash}/` : '/';
 
-    // eslint-disable-next-line compat/compat
     const momentumScroll = document.getElementsByClassName('momentum-scroll')[0];
     if (momentumScroll) {
       momentumScroll.scrollTo({ top: 0, left: 0, behavior: 'smooth' });

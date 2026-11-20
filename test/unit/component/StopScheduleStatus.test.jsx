@@ -13,17 +13,12 @@ describe('<StopScheduleStatus />', () => {
       <StopScheduleStatus status={STOP_STATUS.OUT_OF_SERVICE} />,
     );
     expect(container.textContent).toBe('Stop out of service');
-    expect(
-      container.querySelector('.stop-schedule-status.out-of-service'),
-    ).not.toBeNull();
+    expect(container.querySelector('.stop-schedule-status.out-of-service')).not.toBeNull();
   });
 
   it('renders the effect label when status is ALERT and alertEffects are present', () => {
     const { container } = renderWithProviders(
-      <StopScheduleStatus
-        status={STOP_STATUS.ALERT}
-        alertEffects={['DETOUR']}
-      />,
+      <StopScheduleStatus status={STOP_STATUS.ALERT} alertEffects={['DETOUR']} />,
     );
     const labels = container.querySelectorAll('.stop-schedule-status__effect');
     expect(labels).toHaveLength(1);
@@ -39,14 +34,11 @@ describe('<StopScheduleStatus />', () => {
 
   it('renders the effect label when status is INFO and alertEffects are present', () => {
     const { container } = renderWithProviders(
-      <StopScheduleStatus
-        status={STOP_STATUS.INFO}
-        alertEffects={['MODIFIED_SERVICE']}
-      />,
+      <StopScheduleStatus status={STOP_STATUS.INFO} alertEffects={['MODIFIED_SERVICE']} />,
     );
-    expect(
-      container.querySelector('.stop-schedule-status__effect').textContent,
-    ).toBe('Service change');
+    expect(container.querySelector('.stop-schedule-status__effect').textContent).toBe(
+      'Service change',
+    );
   });
 
   it('deduplicates repeated effects and renders one label per unique effect', () => {
@@ -56,9 +48,9 @@ describe('<StopScheduleStatus />', () => {
         alertEffects={['DETOUR', 'DETOUR', 'SIGNIFICANT_DELAYS']}
       />,
     );
-    const labels = [
-      ...container.querySelectorAll('.stop-schedule-status__effect'),
-    ].map(el => el.textContent);
+    const labels = [...container.querySelectorAll('.stop-schedule-status__effect')].map(
+      el => el.textContent,
+    );
     expect(labels).toEqual(['Diversion', 'Delay']);
   });
 });

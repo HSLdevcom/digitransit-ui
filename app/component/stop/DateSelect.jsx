@@ -6,12 +6,7 @@ import { DateTime } from 'luxon';
 import Select from 'react-select';
 import Icon from '../Icon';
 
-export const getDateOptions = (
-  startDate,
-  dateFormat,
-  selectedDate,
-  formatMessage,
-) => {
+export const getDateOptions = (startDate, dateFormat, selectedDate, formatMessage) => {
   const date = DateTime.fromFormat(startDate, dateFormat);
   const dates = [
     {
@@ -26,10 +21,7 @@ export const getDateOptions = (
 
   for (let i = 2; i < 60; i++) {
     const dateValue = date.plus({ days: i });
-    dates.push({
-      value: dateValue.toFormat(dateFormat),
-      label: dateValue.toFormat('ccc d.L.'),
-    });
+    dates.push({ value: dateValue.toFormat(dateFormat), label: dateValue.toFormat('ccc d.L.') });
   }
 
   return dates.map(option => ({
@@ -70,9 +62,7 @@ export default function DateSelect(props) {
         guidance: () => '.', // this can't be empty for some reason
         onChange: ({ action, value }) =>
           action === 'select-option' && value
-            ? `${intl.formatMessage({
-                id: 'route-page.pattern-chosen',
-              })} ${value.textLabel}`
+            ? `${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${value.textLabel}`
             : '',
         onFilter: () => '',
         onFocus: ({ context: itemContext, focused }) => {
@@ -84,19 +74,11 @@ export default function DateSelect(props) {
       }}
       className="date-select"
       classNamePrefix={classNamePrefix}
-      components={{
-        DropdownIndicator: () => null,
-        IndicatorSeparator: () => null,
-      }}
+      components={{ DropdownIndicator: () => null, IndicatorSeparator: () => null }}
       inputId={`aria-input-${id}`}
       aria-label={`
-            ${intl.formatMessage({
-              id: 'select-date',
-              defaultMessage: 'Select date',
-            })}.
-            ${intl.formatMessage({
-              id: 'route-page.pattern-chosen',
-            })} ${selectedDate.textLabel}`}
+            ${intl.formatMessage({ id: 'select-date', defaultMessage: 'Select date' })}.
+            ${intl.formatMessage({ id: 'route-page.pattern-chosen' })} ${selectedDate.textLabel}`}
       isSearchable={false}
       name={id}
       menuIsOpen={isMenuOpen}

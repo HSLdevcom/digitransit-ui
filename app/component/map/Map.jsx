@@ -39,9 +39,7 @@ const startClient = (actions, config) => {
     const rtConfig = {
       ...source,
       feedId,
-      options: config.feedIds
-        .filter(f => realTime[f]?.active)
-        .map(f => ({ feedId: f })),
+      options: config.feedIds.filter(f => realTime[f]?.active).map(f => ({ feedId: f })),
     };
     actions.start(rtConfig);
   }
@@ -149,14 +147,8 @@ export default function Map({
   // When this option is set, the map restricts the view to the given geographical bounds,
   // bouncing the user back if the user tries to pan outside the view.
   const mapAreaBounds = L.latLngBounds(
-    L.latLng(
-      config.map.areaBounds.corner1[0],
-      config.map.areaBounds.corner1[1],
-    ),
-    L.latLng(
-      config.map.areaBounds.corner2[0],
-      config.map.areaBounds.corner2[1],
-    ),
+    L.latLng(config.map.areaBounds.corner1[0], config.map.areaBounds.corner1[1]),
+    L.latLng(config.map.areaBounds.corner2[0], config.map.areaBounds.corner2[1]),
   );
   naviProps.maxBounds = mapAreaBounds;
 
@@ -185,9 +177,7 @@ export default function Map({
 
   if (mapLayers.vehicles) {
     const useLargeIcon = ownZoom >= config.stopsMinZoom;
-    leafletObjNew.push(
-      <VehicleMarkerContainer key="vehicles" useLargeIcon={useLargeIcon} />,
-    );
+    leafletObjNew.push(<VehicleMarkerContainer key="vehicles" useLargeIcon={useLargeIcon} />);
   }
 
   let attribution = get(config, 'map.attribution');
@@ -200,8 +190,7 @@ export default function Map({
       .filter(
         key =>
           mapLayers.geoJson[key] !== false &&
-          (mapLayers.geoJson[key] === true ||
-            geoJson[key].isOffByDefault !== true),
+          (mapLayers.geoJson[key] === true || geoJson[key].isOffByDefault !== true),
       )
       .forEach((key, i) => {
         leafletObjNew.push(
@@ -219,12 +208,7 @@ export default function Map({
   return (
     <div ref={mapLayerRef}>
       <span>{topButtons}</span>
-      <span
-        className="overlay-mover"
-        style={{
-          transform: `translate(0, -${bottomPadding}px)`,
-        }}
-      >
+      <span className="overlay-mover" style={{ transform: `translate(0, -${bottomPadding}px)` }}>
         {bottomButtons}
       </span>
       <div aria-hidden="true">
@@ -269,10 +253,7 @@ export default function Map({
             />
           )}
           {config.map.showScaleBar && (
-            <ScaleControl
-              imperial={false}
-              position={config.map.controls.scale.position}
-            />
+            <ScaleControl imperial={false} position={config.map.controls.scale.position} />
           )}
           {breakpoint === 'large' && config.map.showZoomControl && (
             <ZoomControl
@@ -297,7 +278,7 @@ Map.propTypes = {
   lon: PropTypes.number,
   zoom: PropTypes.number,
   bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   leafletEvents: PropTypes.object,
   leafletObjs: PropTypes.arrayOf(PropTypes.node),
   leafletMapRef: PropTypes.func,
@@ -305,7 +286,7 @@ Map.propTypes = {
   bottomPadding: PropTypes.number,
   bottomButtons: PropTypes.node,
   topButtons: PropTypes.node,
-  // eslint-disable-next-line
+  // eslint-disable-next-line react/forbid-prop-types
   geoJson: PropTypes.object,
   mapLayers: mapLayerShape,
   breakpoint: PropTypes.string,

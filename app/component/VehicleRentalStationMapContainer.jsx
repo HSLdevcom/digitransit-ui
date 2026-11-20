@@ -1,6 +1,6 @@
-import PropTypes from 'prop-types';
 import { graphql, useFragment } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
+import { fragmentRefShape } from '../../utils/client/shapes';
 
 export default function VehicleRentalStationMapContainer({
   vehicleRentalStation: vehicleRentalStationRef,
@@ -21,10 +21,4 @@ export default function VehicleRentalStationMapContainer({
   return <StopPageMap stop={vehicleRentalStation} citybike />;
 }
 
-VehicleRentalStationMapContainer.propTypes = {
-  vehicleRentalStation: PropTypes.shape({
-    lat: PropTypes.number.isRequired,
-    lon: PropTypes.number.isRequired,
-    name: PropTypes.string,
-  }),
-};
+VehicleRentalStationMapContainer.propTypes = { vehicleRentalStation: fragmentRefShape };

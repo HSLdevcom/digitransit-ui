@@ -12,11 +12,7 @@ import {
   getFavouriteStorage,
   setFavouriteStorage,
 } from '../../utils/client/localStorage';
-import {
-  deleteFavourites,
-  getFavourites,
-  updateFavourites,
-} from '../../utils/client/apiUtils';
+import { deleteFavourites, getFavourites, updateFavourites } from '../../utils/client/apiUtils';
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
@@ -27,17 +23,13 @@ import { networkIsActive } from '../../utils/shared/citybikeSeasonUtils';
 // however, data is stored in old form for compatibility
 function mapFromStore(favourites) {
   return favourites.map(favourite =>
-    favourite.type === 'bikeStation'
-      ? mapVehicleRentalFromStore(favourite)
-      : favourite,
+    favourite.type === 'bikeStation' ? mapVehicleRentalFromStore(favourite) : favourite,
   );
 }
 
 function mapToStore(favourites) {
   return favourites.map(favourite =>
-    favourite.type === 'bikeStation'
-      ? mapVehicleRentalToStore(favourite)
-      : favourite,
+    favourite.type === 'bikeStation' ? mapVehicleRentalToStore(favourite) : favourite,
   );
 }
 
@@ -52,10 +44,7 @@ const OTP_LOCATION_VALIDATION_TIMEOUT_MS = 15000;
 function withTimeout(promise, ms) {
   let timer;
   const timeout = new Promise((_resolve, reject) => {
-    timer = setTimeout(
-      () => reject(new Error('OTP location validation timed out')),
-      ms,
-    );
+    timer = setTimeout(() => reject(new Error('OTP location validation timed out')), ms);
   });
   return Promise.race([promise, timeout]).finally(() => clearTimeout(timer));
 }
@@ -73,8 +62,7 @@ export function isAvailableOtpLocationFavourite(favourite, config) {
   if (favourite.type !== 'bikeStation') {
     return true;
   }
-  const network =
-    config.vehicleRental?.networks?.[favourite.network?.toLowerCase()];
+  const network = config.vehicleRental?.networks?.[favourite.network?.toLowerCase()];
   return network?.type === 'citybike' && networkIsActive(network);
 }
 
@@ -107,21 +95,13 @@ export function isFavourite(id, type, favourites) {
 }
 
 export function getFavouriteByGtfsId(gtfsId, type, favourites) {
-  return find(
-    favourites,
-    favourite => gtfsId === favourite.gtfsId && type === favourite.type,
-  );
+  return find(favourites, favourite => gtfsId === favourite.gtfsId && type === favourite.type);
 }
 
-export function getFavouriteByStationIdAndNetworks(
-  stationId,
-  network,
-  favourites,
-) {
+export function getFavouriteByStationIdAndNetworks(stationId, network, favourites) {
   return find(
     favourites,
-    favourite =>
-      stationId === favourite.stationId && network === favourite.network,
+    favourite => stationId === favourite.stationId && network === favourite.network,
   );
 }
 
@@ -132,9 +112,7 @@ export function getFavouriteRouteGtfsIds(favourites) {
 }
 
 export function getFavouriteStopsAndStations(favourites) {
-  return favourites.filter(
-    favourite => favourite.type === 'stop' || favourite.type === 'station',
-  );
+  return favourites.filter(favourite => favourite.type === 'stop' || favourite.type === 'station');
 }
 
 /**
@@ -146,8 +124,7 @@ export function getFavouriteStopsAndStations(favourites) {
 export function getFavouriteVehicleRentalStations(favourites, config) {
   return favourites.filter(
     favourite =>
-      favourite.type === 'bikeStation' &&
-      isAvailableOtpLocationFavourite(favourite, config),
+      favourite.type === 'bikeStation' && isAvailableOtpLocationFavourite(favourite, config),
   );
 }
 
@@ -191,8 +168,11 @@ export function getPersonalizationPreferences(favourites) {
  * still resolves through OTP and, for bike stations, belongs to an active
  * citybike network. Resolved identities are cached so availability checks
  * and local deletions do not require another query.
+ *
+ * The class is exported so that tests can create fresh instances; the app
+ * uses only the singleton default export.
  */
-class FavouriteData {
+export class FavouriteData {
   favourites = [];
 
   config = {};
@@ -292,12 +272,8 @@ class FavouriteData {
       this.fetchComplete();
       return;
     }
-    const stopsAndStations = candidates.filter(
-      favourite => favourite.type !== 'bikeStation',
-    );
-    const bikeStations = candidates.filter(
-      favourite => favourite.type === 'bikeStation',
-    );
+    const stopsAndStations = candidates.filter(favourite => favourite.type !== 'bikeStation');
+    const bikeStations = candidates.filter(favourite => favourite.type === 'bikeStation');
     // Only query failures (e.g. network error or timeout) resolve to null;
     // errors thrown while processing the results are not swallowed.
     // The query helpers mutate the favourites they receive, so pass copies.
@@ -319,9 +295,7 @@ class FavouriteData {
         if (!result) {
           // Trust the locally saved eligible favourites rather than
           // treating them as stale.
-          this.resolvedOtpLocationKeys = new Set(
-            candidates.map(getOtpLocationKey),
-          );
+          this.resolvedOtpLocationKeys = new Set(candidates.map(getOtpLocationKey));
           return;
         }
         const [resolvedStops, resolvedBikeStations] = result;
@@ -357,10 +331,7 @@ class FavouriteData {
     this.resolvedOtpLocationKeys = new Set(
       this.getAvailableOtpLocationFavourites()
         .map(getOtpLocationKey)
-        .filter(
-          key =>
-            this.resolvedOtpLocationKeys.has(key) || !previousKeys.has(key),
-        ),
+        .filter(key => this.resolvedOtpLocationKeys.has(key) || !previousKeys.has(key)),
     );
   }
 
@@ -455,9 +426,7 @@ class FavouriteData {
             // again would corrupt/throw on bikeStation favourites, since
             // mapVehicleRentalToStore() isn't idempotent (e.g. it strips
             // the feedId prefix from stationId on every call).
-            const kept = newFavourites.filter(
-              favourite => favourite.type !== favouriteType,
-            );
+            const kept = newFavourites.filter(favourite => favourite.type !== favouriteType);
             this.set([...kept, ...res]);
           } else {
             this.set(res);
@@ -496,10 +465,7 @@ class FavouriteData {
    */
   savePersonalizationPreferences(preferences, onFail) {
     this.enqueueUpdate(() => {
-      const existing = find(
-        this.favourites,
-        favourite => favourite.type === 'personalization',
-      );
+      const existing = find(this.favourites, favourite => favourite.type === 'personalization');
       const favourite = {
         ...existing,
         type: 'personalization',
@@ -517,12 +483,7 @@ class FavouriteData {
       } else {
         newFavourites.push(favourite);
       }
-      return this.persistFavourites(
-        newFavourites,
-        [favourite],
-        onFail,
-        'personalization',
-      );
+      return this.persistFavourites(newFavourites, [favourite], onFail, 'personalization');
     });
   }
 
@@ -561,9 +522,7 @@ class FavouriteData {
     let favourite = { ...data };
     if (typeof favourite !== 'object') {
       onFail();
-      throw new Error(
-        `New favourite is not a object:${JSON.stringify(favourite)}`,
-      );
+      throw new Error(`New favourite is not a object:${JSON.stringify(favourite)}`);
     }
     if (favourite.type === 'bikeStation') {
       favourite = mapVehicleRentalToStore(favourite);
@@ -575,16 +534,9 @@ class FavouriteData {
         item => favourite.favouriteId === item.favouriteId,
       );
       if (editIndex >= 0) {
-        newFavourites[editIndex] = {
-          ...favourite,
-          lastUpdated: unixTime(),
-        };
+        newFavourites[editIndex] = { ...favourite, lastUpdated: unixTime() };
       } else {
-        newFavourites.push({
-          ...favourite,
-          lastUpdated: unixTime(),
-          favouriteId: uuid(),
-        });
+        newFavourites.push({ ...favourite, lastUpdated: unixTime(), favouriteId: uuid() });
       }
       return this.persistFavourites(newFavourites, newFavourites, onFail);
     });
@@ -599,9 +551,7 @@ class FavouriteData {
   updateFavourites(newFavourites, onFail) {
     if (!Array.isArray(newFavourites)) {
       onFail();
-      throw new Error(
-        `New favourites is not an array:${JSON.stringify(newFavourites)}`,
-      );
+      throw new Error(`New favourites is not an array:${JSON.stringify(newFavourites)}`);
     }
     const mapped = mapToStore(newFavourites);
     this.enqueueUpdate(() => this.persistFavourites(mapped, mapped, onFail));

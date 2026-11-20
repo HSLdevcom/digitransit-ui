@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import PropTypes from 'prop-types';
 
 export default function StreetModeSelectorShimmer({ loading = false }) {
@@ -24,6 +23,4 @@ export default function StreetModeSelectorShimmer({ loading = false }) {
   );
 }
 
-StreetModeSelectorShimmer.propTypes = {
-  loading: PropTypes.bool,
-};
+StreetModeSelectorShimmer.propTypes = { loading: PropTypes.bool };

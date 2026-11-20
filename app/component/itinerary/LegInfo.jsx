@@ -5,23 +5,16 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { legShape } from '../../../utils/client/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../../utils/client/legUtils';
-import {
-  getTripOrRouteMode,
-  modeToTranslationId,
-} from '../../../utils/client/modeUtils';
+import { getTripOrRouteMode, modeToTranslationId } from '../../../utils/client/modeUtils';
 import RouteNumber from '../RouteNumber';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
-import {
-  getCapacityForLeg,
-  capacityToTranslationId,
-} from '../../../utils/client/occupancyUtil';
+import { getCapacityForLeg, capacityToTranslationId } from '../../../utils/client/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import OnDemandInfo from './OnDemandInfo';
 import RouteNumberContainer from '../RouteNumberContainer';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function LegInfo({
   leg,
   hasNoShortName,
@@ -39,8 +32,7 @@ export default function LegInfo({
   const config = useConfigContext();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
-  const shouldLinkToTrip =
-    !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
+  const shouldLinkToTrip = !constantOperationRoutes || !constantOperationRoutes[leg.route.gtfsId];
   const mode = isCallAgency
     ? 'call'
     : getTripOrRouteMode(
@@ -113,9 +105,7 @@ export default function LegInfo({
           aria-label={`${formatMessage({
             id: modeToTranslationId(mode, config),
             defaultMessage: 'Vehicle',
-          })} ${(
-            leg.route.shortName || leg.trip?.tripShortName
-          )?.toLowerCase()}`}
+          })} ${(leg.route.shortName || leg.trip?.tripShortName)?.toLowerCase()}`}
         >
           <span aria-hidden="true">
             <RouteNumber
@@ -146,25 +136,15 @@ export default function LegInfo({
             defaultMessage: 'Capacity status',
           })}
         >
-          <Icon
-            width={1.75}
-            height={1.75}
-            img={`icon_${capacity}`}
-            color={config.colors.primary}
-          />
+          <Icon width={1.75} height={1.75} img={`icon_${capacity}`} color={config.colors.primary} />
         </button>
       )}
       {displayTime && (
         <>
           <span className="sr-only">
-            {`${startTime} ${
-              leg.realTime ? formatMessage({ id: 'realtime' }) : ''
-            }`}
+            {`${startTime} ${leg.realTime ? formatMessage({ id: 'realtime' }) : ''}`}
           </span>
-          <span
-            className={cx('leg-departure-time', { realtime: leg.realTime })}
-            aria-hidden="true"
-          >
+          <span className={cx('leg-departure-time', { realtime: leg.realTime })} aria-hidden="true">
             {startTime}
           </span>
         </>

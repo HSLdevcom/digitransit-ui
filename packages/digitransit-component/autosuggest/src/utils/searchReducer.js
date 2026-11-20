@@ -1,10 +1,7 @@
 export const searchReducer = (state, action) => {
   switch (action.type) {
     case 'INPUT_CHANGE':
-      return {
-        ...state,
-        value: action.value,
-      };
+      return { ...state, value: action.value };
     case 'FETCH_SUGGESTIONS':
       return action.loading === state.loading && !action.suggestions
         ? state
@@ -14,15 +11,9 @@ export const searchReducer = (state, action) => {
             suggestions: action.suggestions || state.suggestions,
           };
     case 'CLEAR_SUGGESTIONS':
-      return {
-        ...state,
-        suggestions: [],
-      };
+      return { ...state, suggestions: [] };
     case 'RESET_SOURCES':
-      return {
-        ...state,
-        sources: action.sources,
-      };
+      return { ...state, sources: action.sources };
     case 'SET_SOURCES':
       return {
         ...state,
@@ -31,12 +22,7 @@ export const searchReducer = (state, action) => {
         pendingSelection: action.pendingSelection,
       };
     case 'CLEAR':
-      return {
-        ...state,
-        value: '',
-        isCleared: true,
-        suggestions: [],
-      };
+      return { ...state, value: '', isCleared: true, suggestions: [] };
     case 'INPUT_BLUR': {
       return {
         ...state,
@@ -52,17 +38,9 @@ export const searchReducer = (state, action) => {
     case 'TOGGLE_MENU': {
       if (action.isMobile) {
         if (!state.renderMobile) {
-          return {
-            ...state,
-            renderMobile: true,
-            value: state.isCleared ? '' : state.value,
-          };
+          return { ...state, renderMobile: true, value: state.isCleared ? '' : state.value };
         }
-        return {
-          ...state,
-          renderMobile: false,
-          isCleared: false,
-        };
+        return { ...state, renderMobile: false, isCleared: false };
       }
       return {
         ...state,

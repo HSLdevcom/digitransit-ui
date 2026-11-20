@@ -1,10 +1,7 @@
 import { useRef } from 'react';
 
 export default function usePrevious(value, comparingFunc) {
-  const ref = useRef({
-    value,
-    prev: null,
-  });
+  const ref = useRef({ value, prev: null });
 
   const current = ref.current.value;
   let isEqual = false;
@@ -14,10 +11,7 @@ export default function usePrevious(value, comparingFunc) {
       ? !comparingFunc(current, value)
       : JSON.stringify(value) !== JSON.stringify(current)
   ) {
-    ref.current = {
-      value,
-      prev: current,
-    };
+    ref.current = { value, prev: current };
     isEqual = true;
   }
 

@@ -6,11 +6,7 @@ import {
   getFavouriteVehicleRentalStationsQuery,
   // getAllVehicleRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import {
-  getLanguage,
-  getFutureRoutes,
-  clearFutureRoutes,
-} from '../../utils/client/storeUtils';
+import { getLanguage, getFutureRoutes, clearFutureRoutes } from '../../utils/client/storeUtils';
 import favouriteStore, {
   getFavouritePlaces,
   getFavouriteStopsAndStations,
@@ -60,9 +56,7 @@ class SearchServices {
     this.initialized = true;
     this.context = { config };
     this.isPeliasLocationAware = config.autoSuggest.locationAware;
-    this.minimalRegexp = config.search
-      ? config.search.minimalRegexp
-      : undefined;
+    this.minimalRegexp = config.search ? config.search.minimalRegexp : undefined;
     this.lineRegexp = config.search ? config.search.lineRegexp : undefined;
     this.URL_PELIAS = config.URL.PELIAS;
     this.URL_PELIAS_PLACE = config.URL.PELIAS_PLACE;
@@ -78,29 +72,24 @@ class SearchServices {
     this.geocodingSources = config.searchSources;
     this.geocodingSearchParams = config.searchParams;
     this.getOldSearches = getOldSearches;
-    this.getFavouriteLocations = () =>
-      getFavouritePlaces(favouriteStore.getFavourites());
-    this.getFavouriteStops = () =>
-      getFavouriteStopsAndStations(favouriteStore.getFavourites());
+    this.getFavouriteLocations = () => getFavouritePlaces(favouriteStore.getFavourites());
+    this.getFavouriteStops = () => getFavouriteStopsAndStations(favouriteStore.getFavourites());
     this.getLanguage = getLanguage;
-    this.getFavouriteRoutes = () =>
-      getFavouriteRouteGtfsIds(favouriteStore.getFavourites());
+    this.getFavouriteRoutes = () => getFavouriteRouteGtfsIds(favouriteStore.getFavourites());
     this.getRoutesQuery = getRoutesQuery;
     this.getStopAndStationsQuery = getStopAndStationsQuery;
     this.getFavouriteRoutesQuery = getFavouriteRoutesQuery;
     this.getRoutesByIds = getRoutesByIds;
     this.getFavouriteVehicleRentalStations = () =>
       getFavouriteVehicleRentalStations(favouriteStore.getFavourites(), config);
-    this.getFavouriteVehicleRentalStationsQuery =
-      getFavouriteVehicleRentalStationsQuery;
+    this.getFavouriteVehicleRentalStationsQuery = getFavouriteVehicleRentalStationsQuery;
     // Backend-validated (not just season-config-based) truth: whether any
     // stop/station/bikeStation favourite is currently resolvable through
     // OTP. Used to gate the "select from own locations" suggestion so it
     // isn't offered for favourites that only *look* available locally (e.g.
     // a citybike network whose season dates are stale/misconfigured) but
     // that OTP itself no longer serves.
-    this.getHasOtpLocationFavourites = () =>
-      favouriteStore.getHasOtpLocationFavourites();
+    this.getHasOtpLocationFavourites = () => favouriteStore.getHasOtpLocationFavourites();
     this.saveSearch = saveSearch;
     this.clearOldSearches = clearOldSearches;
     this.getFutureRoutes = getFutureRoutes;

@@ -16,10 +16,7 @@ export default function EntitySearch({ filterId }) {
   const intl = useIntl();
 
   const selectHandler = ({ address, gtfsId }) => {
-    setFilter(filterId, {
-      gtfsId,
-      address,
-    });
+    setFilter(filterId, { gtfsId, address });
   };
 
   return (
@@ -53,6 +50,4 @@ export default function EntitySearch({ filterId }) {
   );
 }
 
-EntitySearch.propTypes = {
-  filterId: PropTypes.string.isRequired,
-};
+EntitySearch.propTypes = { filterId: PropTypes.string.isRequired };

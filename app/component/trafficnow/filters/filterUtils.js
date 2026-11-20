@@ -54,8 +54,7 @@ const cancellationsFilter = ({ __typename }, { cancellations }) =>
  */
 const noEffectFilter = (alert, { noEffect }) => alert.alertEffect !== noEffect;
 
-const pastFilter = ({ effectiveEndDate }, { now }) =>
-  now < effectiveEndDate * 1000;
+const pastFilter = ({ effectiveEndDate }, { now }) => now < effectiveEndDate * 1000;
 
 const feedIdFilter = ({ feed }, { selectedFeeds = [] }) =>
   !selectedFeeds.length || selectedFeeds.includes(feed);
@@ -80,8 +79,6 @@ export function filterAndSortAlerts(alerts, selectedFilters) {
 export function filterCanceledModes(canceledModes, selectedFilters) {
   const filterFns = [entityFilter, favouriteFilter];
   return canceledModes.filter(({ routes }) =>
-    filterFns.every(fn =>
-      fn({ entities: routes.map(r => r.route) }, selectedFilters),
-    ),
+    filterFns.every(fn => fn({ entities: routes.map(r => r.route) }, selectedFilters)),
   );
 }

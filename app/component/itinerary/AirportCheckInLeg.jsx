@@ -10,13 +10,7 @@ import { stopPagePath } from '../../../utils/shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function AirportCheckInLeg({
-  leg,
-  start,
-  focusAction,
-  index,
-  children,
-}) {
+export default function AirportCheckInLeg({ leg, start, focusAction, index, children }) {
   const config = useConfigContext();
   const modeClassName = 'airport-wait';
   const { name } = leg.from;

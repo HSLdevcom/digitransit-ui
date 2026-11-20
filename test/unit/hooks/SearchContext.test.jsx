@@ -1,29 +1,16 @@
 import PropTypes from 'prop-types';
 import { onTestFinished } from 'vitest';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
-import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import {
-  SearchProvider,
-  useSearchContext,
-} from '../../../app/hooks/SearchContext';
+import * as getJsonModule from '@digitransit-search-util/digitransit-search-util-get-json';
+import { SearchProvider, useSearchContext } from '../../../app/hooks/SearchContext';
 import searchServices from '../../../app/data/SearchServices';
-import { removeSearch, saveSearch } from '../../../app/data/SearchHistory';
+import * as SearchHistory from '../../../app/data/SearchHistory';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { renderWithProviders } from '../helpers/mock-providers';
 
-vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({
-  default: vi.fn(),
-}));
-vi.mock('../../../app/data/SearchServices', () => ({
-  default: {
-    getRoutesByIds: vi.fn(),
-    setPositionGetter: vi.fn(),
-  },
-}));
-vi.mock('../../../app/data/SearchHistory', () => ({
-  removeSearch: vi.fn(),
-  saveSearch: vi.fn(),
-}));
+let getJson;
+let removeSearch;
+let saveSearch;
 
 const suggestionShape = PropTypes.shape({
   type: PropTypes.string.isRequired,
@@ -34,9 +21,7 @@ const suggestionShape = PropTypes.shape({
     gid: PropTypes.string,
     label: PropTypes.string,
   }),
-  geometry: PropTypes.shape({
-    coordinates: PropTypes.arrayOf(PropTypes.number),
-  }),
+  geometry: PropTypes.shape({ coordinates: PropTypes.arrayOf(PropTypes.number) }),
 });
 
 function Stub({ item, id = 'origin', label = 'select' }) {
@@ -73,14 +58,8 @@ TwoChoiceStub.propTypes = {
 
 function mockGeolocation() {
   let positionCallback;
-  const permissionsDescriptor = Object.getOwnPropertyDescriptor(
-    navigator,
-    'permissions',
-  );
-  const geolocationDescriptor = Object.getOwnPropertyDescriptor(
-    navigator,
-    'geolocation',
-  );
+  const permissionsDescriptor = Object.getOwnPropertyDescriptor(navigator, 'permissions');
+  const geolocationDescriptor = Object.getOwnPropertyDescriptor(navigator, 'geolocation');
   const watchPosition = vi.fn(callback => {
     positionCallback = callback;
     return 1;
@@ -88,34 +67,19 @@ function mockGeolocation() {
 
   Object.defineProperty(navigator, 'permissions', {
     configurable: true,
-    value: {
-      query: vi.fn().mockResolvedValue({ state: 'prompt' }),
-    },
+    value: { query: vi.fn().mockResolvedValue({ state: 'prompt' }) },
   });
   Object.defineProperty(navigator, 'geolocation', {
     configurable: true,
-    value: {
-      watchPosition,
-      clearWatch: vi.fn(),
-    },
+    value: { watchPosition, clearWatch: vi.fn() },
   });
-  vi.stubGlobal(
-    'fetch',
-    vi.fn().mockResolvedValue({
-      json: () => ({
-        features: [
-          {
-            properties: {
-              name: 'Kamppi',
-              gid: 'address-id',
-              layer: 'address',
-              localadmin: 'Helsinki',
-            },
-          },
-        ],
-      }),
-    }),
-  );
+  getJson.mockResolvedValue({
+    features: [
+      {
+        properties: { name: 'Kamppi', gid: 'address-id', layer: 'address', localadmin: 'Helsinki' },
+      },
+    ],
+  });
   onTestFinished(() => {
     if (permissionsDescriptor) {
       Object.defineProperty(navigator, 'permissions', permissionsDescriptor);
@@ -127,16 +91,14 @@ function mockGeolocation() {
     } else {
       delete navigator.geolocation;
     }
-    vi.unstubAllGlobals();
+    getJson.mockReset();
   });
 
   return {
     watchPosition,
     emitPosition: async () => {
       await act(async () => {
-        positionCallback({
-          coords: { latitude: 60.17, longitude: 24.94 },
-        });
+        positionCallback({ coords: { latitude: 60.17, longitude: 24.94 } });
         await Promise.resolve();
         await Promise.resolve();
       });
@@ -146,10 +108,17 @@ function mockGeolocation() {
 
 describe('SearchProvider', () => {
   beforeEach(() => {
-    saveSearch.mockClear();
-    removeSearch.mockClear();
-    getJson.mockReset();
-    searchServices.getRoutesByIds.mockReset();
+    saveSearch = vi.spyOn(SearchHistory, 'saveSearch').mockReturnValue();
+    removeSearch = vi.spyOn(SearchHistory, 'removeSearch').mockReturnValue();
+    getJson = vi.fn();
+    vi.spyOn(getJsonModule, 'default').mockImplementation(getJson);
+    vi.spyOn(searchServices, 'setPositionGetter').mockReturnValue();
+    // set by init() at app start, so there is nothing to spy on
+    searchServices.getRoutesByIds = vi.fn();
+  });
+
+  afterEach(() => {
+    delete searchServices.getRoutesByIds;
   });
 
   it('labels an embedded current location selection with a translated text', () => {
@@ -163,10 +132,7 @@ describe('SearchProvider', () => {
     fireEvent.click(screen.getByRole('button'));
 
     expect(selectHandler).toHaveBeenCalledWith(
-      expect.objectContaining({
-        type: 'CurrentLocation',
-        address: 'Your current location',
-      }),
+      expect.objectContaining({ type: 'CurrentLocation', address: 'Your current location' }),
       'origin',
     );
   });
@@ -176,12 +142,7 @@ describe('SearchProvider', () => {
     const selectHandler = vi.fn();
     renderWithProviders(
       <SearchProvider selectHandler={selectHandler}>
-        <Stub
-          item={{
-            type: 'CurrentLocation',
-            properties: { layer: 'currentPosition' },
-          }}
-        />
+        <Stub item={{ type: 'CurrentLocation', properties: { layer: 'currentPosition' } }} />
       </SearchProvider>,
     );
 
@@ -214,10 +175,7 @@ describe('SearchProvider', () => {
     renderWithProviders(
       <SearchProvider selectHandler={selectHandler}>
         <TwoChoiceStub
-          geolocationItem={{
-            type: 'CurrentLocation',
-            properties: { layer: 'currentPosition' },
-          }}
+          geolocationItem={{ type: 'CurrentLocation', properties: { layer: 'currentPosition' } }}
           manualItem={manualItem}
         />
       </SearchProvider>,
@@ -243,16 +201,10 @@ describe('SearchProvider', () => {
     const selectHandler = vi.fn();
     const embeddedSelectHandler = vi.fn();
     const onGeolocationStart = vi.fn();
-    const item = {
-      type: 'CurrentLocation',
-      properties: { layer: 'currentPosition' },
-    };
+    const item = { type: 'CurrentLocation', properties: { layer: 'currentPosition' } };
     renderWithProviders(
       <>
-        <SearchProvider
-          selectHandler={selectHandler}
-          onGeolocationStart={onGeolocationStart}
-        >
+        <SearchProvider selectHandler={selectHandler} onGeolocationStart={onGeolocationStart}>
           <Stub item={item} label="regular" />
         </SearchProvider>
         <SearchProvider selectHandler={embeddedSelectHandler} embeddedSearch>
@@ -286,13 +238,7 @@ describe('SearchProvider', () => {
     const selectHandler = vi.fn();
     renderWithProviders(
       <SearchProvider selectHandler={selectHandler}>
-        <Stub
-          id={0}
-          item={{
-            type: 'CurrentLocation',
-            properties: { layer: 'currentPosition' },
-          }}
-        />
+        <Stub id={0} item={{ type: 'CurrentLocation', properties: { layer: 'currentPosition' } }} />
       </SearchProvider>,
     );
 
@@ -312,12 +258,7 @@ describe('SearchProvider', () => {
     const selectHandler = vi.fn();
     const { rerender } = renderWithProviders(
       <SearchProvider selectHandler={selectHandler}>
-        <Stub
-          item={{
-            type: 'CurrentLocation',
-            properties: { layer: 'currentPosition' },
-          }}
-        />
+        <Stub item={{ type: 'CurrentLocation', properties: { layer: 'currentPosition' } }} />
       </SearchProvider>,
     );
 
@@ -367,105 +308,83 @@ describe('SearchProvider', () => {
     },
   );
 
-  it.each(['refreshed', 'removed', 'failed'])(
-    'handles a %s saved route',
-    async outcome => {
-      const selectHandler = vi.fn();
-      const item = {
-        type: 'OldSearch',
-        properties: { layer: 'route-BUS', gtfsId: 'HSL:1', name: 'Old route' },
-      };
-      const route = {
-        type: 'Route',
-        properties: { layer: 'route-BUS', gtfsId: 'HSL:1', name: 'New route' },
-      };
-      if (outcome === 'failed') {
-        searchServices.getRoutesByIds.mockRejectedValue(new Error('offline'));
-      } else {
-        searchServices.getRoutesByIds.mockResolvedValue(
-          outcome === 'refreshed' ? [route] : [],
-        );
-      }
-      renderWithProviders(
-        <SearchProvider selectHandler={selectHandler}>
-          <Stub item={item} id="stop-route-station" />
-        </SearchProvider>,
-      );
+  it.each(['refreshed', 'removed', 'failed'])('handles a %s saved route', async outcome => {
+    const selectHandler = vi.fn();
+    const item = {
+      type: 'OldSearch',
+      properties: { layer: 'route-BUS', gtfsId: 'HSL:1', name: 'Old route' },
+    };
+    const route = {
+      type: 'Route',
+      properties: { layer: 'route-BUS', gtfsId: 'HSL:1', name: 'New route' },
+    };
+    if (outcome === 'failed') {
+      searchServices.getRoutesByIds.mockRejectedValue(new Error('offline'));
+    } else {
+      searchServices.getRoutesByIds.mockResolvedValue(outcome === 'refreshed' ? [route] : []);
+    }
+    renderWithProviders(
+      <SearchProvider selectHandler={selectHandler}>
+        <Stub item={item} id="stop-route-station" />
+      </SearchProvider>,
+    );
 
-      fireEvent.click(screen.getByRole('button'));
-      await waitFor(() => expect(selectHandler).toHaveBeenCalledTimes(1));
-      expect(searchServices.getRoutesByIds).toHaveBeenCalledWith(
-        ['HSL:1'],
-        SEARCH_PATH_OPTS,
-      );
-      const selected =
-        outcome === 'refreshed' ? { ...item, ...route, type: item.type } : item;
-      expect(selectHandler).toHaveBeenCalledWith(
-        selected,
-        'stop-route-station',
-      );
-      if (outcome === 'removed') {
-        expect(removeSearch).toHaveBeenCalledWith({ item, type: 'search' });
-        expect(saveSearch).not.toHaveBeenCalled();
-      } else {
-        expect(saveSearch).toHaveBeenCalledWith({
-          item: selected,
-          type: 'search',
-        });
-        expect(removeSearch).not.toHaveBeenCalled();
-      }
-    },
-  );
+    fireEvent.click(screen.getByRole('button'));
+    await waitFor(() => expect(selectHandler).toHaveBeenCalledTimes(1));
+    expect(searchServices.getRoutesByIds).toHaveBeenCalledWith(['HSL:1'], SEARCH_PATH_OPTS);
+    const selected = outcome === 'refreshed' ? { ...item, ...route, type: item.type } : item;
+    expect(selectHandler).toHaveBeenCalledWith(selected, 'stop-route-station');
+    if (outcome === 'removed') {
+      expect(removeSearch).toHaveBeenCalledWith({ item, type: 'search' });
+      expect(saveSearch).not.toHaveBeenCalled();
+    } else {
+      expect(saveSearch).toHaveBeenCalledWith({ item: selected, type: 'search' });
+      expect(removeSearch).not.toHaveBeenCalled();
+    }
+  });
 
-  it.each(['refreshed', 'changed', 'failed'])(
-    'handles a %s saved address',
-    async outcome => {
-      const selectHandler = vi.fn();
-      const item = {
-        type: 'OldSearch',
-        properties: { gid: 'address-id', name: 'Place', label: 'Place' },
-        geometry: { coordinates: [24.9, 60.2] },
-      };
-      if (outcome === 'failed') {
-        getJson.mockRejectedValue(new Error('offline'));
-      } else {
-        getJson.mockResolvedValue({
-          features: [
-            {
-              properties: {
-                name: outcome === 'changed' ? 'Renamed place' : 'Place',
-              },
-              geometry: { coordinates: [25, 61] },
-            },
-          ],
-        });
-      }
-      renderWithProviders(
-        <SearchProvider selectHandler={selectHandler}>
-          <Stub item={item} />
-        </SearchProvider>,
-      );
-
-      fireEvent.click(screen.getByRole('button'));
-      await waitFor(() => expect(selectHandler).toHaveBeenCalledTimes(1));
-      expect(getJson).toHaveBeenCalledWith(expect.any(String), {
-        ids: 'address-id',
+  it.each(['refreshed', 'changed', 'failed'])('handles a %s saved address', async outcome => {
+    const selectHandler = vi.fn();
+    const item = {
+      type: 'OldSearch',
+      properties: { gid: 'address-id', name: 'Place', label: 'Place' },
+      geometry: { coordinates: [24.9, 60.2] },
+    };
+    if (outcome === 'failed') {
+      getJson.mockRejectedValue(new Error('offline'));
+    } else {
+      getJson.mockResolvedValue({
+        features: [
+          {
+            properties: { name: outcome === 'changed' ? 'Renamed place' : 'Place' },
+            geometry: { coordinates: [25, 61] },
+          },
+        ],
       });
-      expect(selectHandler).toHaveBeenCalledWith(
-        expect.objectContaining({
-          address: 'Place',
-          lat: outcome === 'failed' ? 60.2 : 61,
-          lon: outcome === 'failed' ? 24.9 : 25,
-        }),
-        'origin',
-      );
-      if (outcome === 'changed') {
-        expect(removeSearch).toHaveBeenCalledWith({ item, type: 'endpoint' });
-        expect(saveSearch).not.toHaveBeenCalled();
-      } else {
-        expect(saveSearch).toHaveBeenCalledWith({ item, type: 'endpoint' });
-        expect(removeSearch).not.toHaveBeenCalled();
-      }
-    },
-  );
+    }
+    renderWithProviders(
+      <SearchProvider selectHandler={selectHandler}>
+        <Stub item={item} />
+      </SearchProvider>,
+    );
+
+    fireEvent.click(screen.getByRole('button'));
+    await waitFor(() => expect(selectHandler).toHaveBeenCalledTimes(1));
+    expect(getJson).toHaveBeenCalledWith(expect.any(String), { ids: 'address-id' });
+    expect(selectHandler).toHaveBeenCalledWith(
+      expect.objectContaining({
+        address: 'Place',
+        lat: outcome === 'failed' ? 60.2 : 61,
+        lon: outcome === 'failed' ? 24.9 : 25,
+      }),
+      'origin',
+    );
+    if (outcome === 'changed') {
+      expect(removeSearch).toHaveBeenCalledWith({ item, type: 'endpoint' });
+      expect(saveSearch).not.toHaveBeenCalled();
+    } else {
+      expect(saveSearch).toHaveBeenCalledWith({ item, type: 'endpoint' });
+      expect(removeSearch).not.toHaveBeenCalled();
+    }
+  });
 });

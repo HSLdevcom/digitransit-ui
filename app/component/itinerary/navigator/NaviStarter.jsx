@@ -62,13 +62,7 @@ export default function NaviStarter({
         {logo ? (
           <img src={logo} aria-hidden="true" alt="navigator logo" />
         ) : (
-          <Icon
-            aria-hidden="true"
-            img="icon_wait_standing"
-            className="mode"
-            height={2}
-            width={2}
-          />
+          <Icon aria-hidden="true" img="icon_wait_standing" className="mode" height={2} width={2} />
         )}
         <FormattedMessage id="navigation-journey-start" />
         <h3>{time}</h3>

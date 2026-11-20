@@ -9,10 +9,7 @@ export default function CityBikes({ updateSettings }) {
       <div className="section-header">
         <FormattedMessage id="citybike-network-headers" />
       </div>
-      <NetworkSelector
-        type={TransportMode.Citybike}
-        updateSettings={updateSettings}
-      />
+      <NetworkSelector type={TransportMode.Citybike} updateSettings={updateSettings} />
     </>
   );
 }

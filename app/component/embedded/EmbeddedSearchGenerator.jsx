@@ -32,14 +32,11 @@ export default function EmbeddedSearchGenerator() {
   const [chooseFreely, setChooseFreely] = useState(true);
   const [searchOriginDefined, setSearchOriginDefined] = useState(false);
   const [searchOrigin, setSearchOrigin] = useState();
-  const [searchDestinationDefined, setSearchDestinationDefined] =
-    useState(false);
+  const [searchDestinationDefined, setSearchDestinationDefined] = useState(false);
   const [searchDestination, setSearchDestination] = useState();
 
-  const originIsCurrentLocation = () =>
-    searchOrigin?.type === 'CurrentLocation';
-  const destinationIsCurrentLocation = () =>
-    searchDestination?.type === 'CurrentLocation';
+  const originIsCurrentLocation = () => searchOrigin?.type === 'CurrentLocation';
+  const destinationIsCurrentLocation = () => searchDestination?.type === 'CurrentLocation';
 
   const beforePreview = useRef();
   const afterPreview = useRef();
@@ -106,8 +103,7 @@ export default function EmbeddedSearchGenerator() {
       }
     }
     const mode = {};
-    mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] =
-      'true';
+    mode[searchModeRestriction.substring(0, searchModeRestriction.length - 2)] = 'true';
     const searchMatch = {
       location: {
         pathname: EMBEDDED_SEARCH_PATH,
@@ -167,11 +163,7 @@ export default function EmbeddedSearchGenerator() {
 
   return (
     <section id="mainContent" className="content">
-      <div
-        className={`embedded-search-generator ${
-          breakpoint !== 'large' ? 'mobile' : ''
-        }`}
-      >
+      <div className={`embedded-search-generator ${breakpoint !== 'large' ? 'mobile' : ''}`}>
         <h1 id="embed-form-heading">{config.embeddedSearch.title[lang]}</h1>
         <p>{config.embeddedSearch.infoText[lang]}</p>
         <form onSubmit={event => event.preventDefault()} action="">
@@ -204,10 +196,7 @@ export default function EmbeddedSearchGenerator() {
                     onChange={event => handleLangChange(event)}
                     checked={searchLang === language.id}
                   />
-                  <FormattedMessage
-                    id={language.name}
-                    defaultMessage={language.defaultMessage}
-                  />
+                  <FormattedMessage id={language.name} defaultMessage={language.defaultMessage} />
                 </label>
               ))}
           </fieldset>
@@ -314,10 +303,7 @@ export default function EmbeddedSearchGenerator() {
                 }}
                 checked={chooseFreely}
               />
-              <FormattedMessage
-                id="choose-freely"
-                defaultMessage="Choose freely"
-              />
+              <FormattedMessage id="choose-freely" defaultMessage="Choose freely" />
             </label>
 
             <label htmlFor="origin">
@@ -337,10 +323,7 @@ export default function EmbeddedSearchGenerator() {
                 }}
                 checked={searchOriginDefined}
               />
-              <FormattedMessage
-                id="origin-defined"
-                defaultMessage="Origin defined"
-              />
+              <FormattedMessage id="origin-defined" defaultMessage="Origin defined" />
             </label>
             {searchOriginDefined && (
               <div className="location-search-wrapper">
@@ -373,10 +356,7 @@ export default function EmbeddedSearchGenerator() {
                 ref={beforePreview}
                 checked={searchDestinationDefined}
               />
-              <FormattedMessage
-                id="destination-defined"
-                defaultMessage="Destination defined"
-              />
+              <FormattedMessage id="destination-defined" defaultMessage="Destination defined" />
             </label>
             {searchDestinationDefined && (
               <div className="location-search-wrapper">
@@ -405,12 +385,7 @@ export default function EmbeddedSearchGenerator() {
             <div
               className="embedded-search-container"
               id="embedded-search-container-id"
-              style={{
-                height: 250,
-                width: searchWidth,
-                minWidth: MIN_WIDTH,
-                maxWidth: MAX_WIDTH,
-              }}
+              style={{ height: 250, width: searchWidth, minWidth: MIN_WIDTH, maxWidth: MAX_WIDTH }}
               disabled="disabled"
               readOnly="readonly"
               aria-disabled
@@ -448,11 +423,7 @@ export default function EmbeddedSearchGenerator() {
         </form>
         {config.embeddedSearch?.cookieLink && (
           <p>
-            <a
-              href={config.embeddedSearch.cookieLink[lang].url}
-              target="_blank"
-              rel="noreferrer"
-            >
+            <a href={config.embeddedSearch.cookieLink[lang].url} target="_blank" rel="noreferrer">
               {config.embeddedSearch.cookieLink[lang].text}
             </a>
           </p>

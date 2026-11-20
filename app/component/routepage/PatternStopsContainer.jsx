@@ -18,10 +18,7 @@ export default function PatternStopsContainer({
 }) {
   const breakpoint = useBreakpoint();
   const intl = useIntl();
-  const pattern = useFragment(
-    PatternStopsContainerFragment.pattern,
-    patternRef,
-  );
+  const pattern = useFragment(PatternStopsContainerFragment.pattern, patternRef);
   const route = useFragment(PatternStopsContainerFragment.route, routeRef);
   const config = useConfigContext();
   const { router } = useRouter();
@@ -40,11 +37,7 @@ export default function PatternStopsContainer({
   const { constantOperationRoutes } = config;
 
   return (
-    <ScrollableWrapper
-      className={cx('route-page-content', {
-        'bp-large': breakpoint === 'large',
-      })}
-    >
+    <ScrollableWrapper className={cx('route-page-content', { 'bp-large': breakpoint === 'large' })}>
       {routeId && constantOperationRoutes[routeId] && (
         <div className="stop-constant-operation-container bottom-padding">
           <div style={{ width: '95%' }}>
@@ -73,7 +66,4 @@ export default function PatternStopsContainer({
   );
 }
 
-PatternStopsContainer.propTypes = {
-  pattern: fragmentRefShape,
-  route: fragmentRefShape,
-};
+PatternStopsContainer.propTypes = { pattern: fragmentRefShape, route: fragmentRefShape };

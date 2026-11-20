@@ -4,8 +4,8 @@ import { useIntl } from 'react-intl';
 import { classList } from '@hsl-fi/utilities';
 import { AlertTriangleFilled } from '@hsl-fi/icons';
 import { CrisisPriority } from '@hsl-fi/content-delivery-api-types';
+import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import { useConfigContext } from '../hooks/ConfigContext';
-import { getJson } from '../../utils/shared/xhrPromise';
 import './crisis-banner-hsl.scss';
 
 export default function CrisisBannerHsl({ initialBanners = null }) {
@@ -22,11 +22,7 @@ export default function CrisisBannerHsl({ initialBanners = null }) {
   });
 
   useEffect(() => {
-    if (
-      initialBanners ||
-      config.showStaticCrisisBanners ||
-      !config.URL.BANNERS
-    ) {
+    if (initialBanners || config.showStaticCrisisBanners || !config.URL.BANNERS) {
       return;
     }
     getJson(`${config.URL.BANNERS}&language=${locale}`)
@@ -65,9 +61,6 @@ export default function CrisisBannerHsl({ initialBanners = null }) {
 
 CrisisBannerHsl.propTypes = {
   initialBanners: PropTypes.arrayOf(
-    PropTypes.shape({
-      body: PropTypes.string,
-      priority: PropTypes.string,
-    }),
+    PropTypes.shape({ body: PropTypes.string, priority: PropTypes.string }),
   ),
 };

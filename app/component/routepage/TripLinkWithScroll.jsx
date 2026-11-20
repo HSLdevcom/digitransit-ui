@@ -26,9 +26,7 @@ export default function TripLinkWithScroll({
       setHumanScrolling(false);
       shouldUpdate.current = false;
 
-      const elemRect = document
-        .getElementById('tracked-vehicle-marker')
-        .getBoundingClientRect();
+      const elemRect = document.getElementById('tracked-vehicle-marker').getBoundingClientRect();
       const containerRect = document
         .getElementById('trip-route-page-content')
         .getBoundingClientRect();
@@ -49,34 +47,21 @@ export default function TripLinkWithScroll({
     }
   });
   const intl = useIntl();
-  const localizedMode = intl.formatMessage({
-    id: `${mode}`,
-    defaultMessage: `${mode}`,
-  });
+  const localizedMode = intl.formatMessage({ id: `${mode}`, defaultMessage: `${mode}` });
   let ariaMessage = !(vehicleState === 'arrived')
     ? intl.formatMessage(
         {
           id: 'route-page-vehicle-position-between',
-          defaultMessage:
-            '{mode} {shortName} is between {stopName} and {nextStopName}',
+          defaultMessage: '{mode} {shortName} is between {stopName} and {nextStopName}',
         },
-        {
-          stopName,
-          nextStopName,
-          mode: localizedMode,
-          shortName: vehicleNumber?.toLowerCase(),
-        },
+        { stopName, nextStopName, mode: localizedMode, shortName: vehicleNumber?.toLowerCase() },
       )
     : intl.formatMessage(
         {
           id: 'route-page-vehicle-position',
           defaultMessage: '{mode} {shortName} is at {stopName}',
         },
-        {
-          stopName,
-          mode: localizedMode,
-          shortName: vehicleNumber?.toLowerCase(),
-        },
+        { stopName, mode: localizedMode, shortName: vehicleNumber?.toLowerCase() },
       );
   if (selected) {
     ariaMessage += intl.formatMessage({

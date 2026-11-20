@@ -42,10 +42,7 @@ describe('analytics utils', () => {
       expect(res.length > 0).toBe(true);
     });
     it('should return an empty string when null GTMid and no analyticsScript is given', () => {
-      const res = getAnalyticsInitCode(
-        { GTMid: null, analyticsScript: '' },
-        req,
-      );
+      const res = getAnalyticsInitCode({ GTMid: null, analyticsScript: '' }, req);
       expect(res.length).toBe(0);
     });
     it('should return a nonempty string when analyticsScript and hostname are given', () => {
@@ -66,30 +63,21 @@ describe('analytics utils', () => {
 
     it('should return an empty string when hostname matches dev and devAnalytics is false', () => {
       const res = getAnalyticsInitCode(
-        {
-          analyticsScript: () => 'test',
-          devAnalytics: false,
-        },
+        { analyticsScript: () => 'test', devAnalytics: false },
         { ...req, hostname: 'dev' },
       );
       expect(res.length).toBe(0);
     });
     it('should return an empty string when hostname matches test and devAnalytics is false, when GTMid is not present', () => {
       const res = getAnalyticsInitCode(
-        {
-          analyticsScript: () => 'test',
-          devAnalytics: false,
-        },
+        { analyticsScript: () => 'test', devAnalytics: false },
         { ...req, hostname: 'test' },
       );
       expect(res.length).toBe(0);
     });
     it('should return a nonempty string when devAnalytics is true', () => {
       const res = getAnalyticsInitCode(
-        {
-          analyticsScript: () => 'test',
-          devAnalytics: true,
-        },
+        { analyticsScript: () => 'test', devAnalytics: true },
         { ...req, hostname: 'foobar' },
       );
       expect(res).toBe('test');
@@ -188,10 +176,7 @@ describe('analytics utils', () => {
   });
 
   describe('buildCrazyEggSurveyScript', () => {
-    const surveyIds = {
-      fi: 'fi-survey-id',
-      en: 'en-survey-id',
-    };
+    const surveyIds = { fi: 'fi-survey-id', en: 'en-survey-id' };
     it('returns empty string when language is undefined', () => {
       const result = buildCrazyEggSurveyScript(surveyIds, {});
       expect(result).toBe('');
@@ -214,34 +199,23 @@ describe('analytics utils', () => {
         language: 'fi',
         pathPrefix: 'test-path',
       });
-      expect(
-        result.includes('window.location.pathname.includes("test-path")'),
-      ).toBe(true);
+      expect(result.includes('window.location.pathname.includes("test-path")')).toBe(true);
     });
     it('does not include pathname check when pathPrefix is omitted', () => {
       const result = buildCrazyEggSurveyScript(surveyIds, { language: 'fi' });
       expect(result.includes('window.location.pathname')).toBe(false);
     });
     it('includes modulo sampling check when surveyShare is given', () => {
-      const result = buildCrazyEggSurveyScript(surveyIds, {
-        language: 'fi',
-        surveyShare: 100,
-      });
+      const result = buildCrazyEggSurveyScript(surveyIds, { language: 'fi', surveyShare: 100 });
       expect(result.includes('%100')).toBe(true);
     });
     it('includes setTimeout with correct delay when delay is given', () => {
-      const result = buildCrazyEggSurveyScript(surveyIds, {
-        language: 'fi',
-        delay: 5000,
-      });
+      const result = buildCrazyEggSurveyScript(surveyIds, { language: 'fi', delay: 5000 });
       expect(result.includes('setTimeout')).toBe(true);
       expect(result.includes('5000')).toBe(true);
     });
     it('includes mobile overlay guards when mobileChecks is true', () => {
-      const result = buildCrazyEggSurveyScript(surveyIds, {
-        language: 'fi',
-        mobileChecks: true,
-      });
+      const result = buildCrazyEggSurveyScript(surveyIds, { language: 'fi', mobileChecks: true });
       expect(result.includes('offcanvas-mobile')).toBe(true);
       expect(result.includes('digitransit-mobile-datetime')).toBe(true);
     });
@@ -295,10 +269,7 @@ describe('analytics utils', () => {
 });
 
 describe('handleUserAnalytics', () => {
-  const config = {
-    loginAnalyticsEventName: 'testLoginEvent',
-    user: { sub: '123456' },
-  };
+  const config = { loginAnalyticsEventName: 'testLoginEvent', user: { sub: '123456' } };
   it('should call addAnaxlyticsEvent when user is defined', () => {
     window.dataLayer = [];
     handleUserAnalytics(config);
@@ -307,8 +278,7 @@ describe('handleUserAnalytics', () => {
   });
   it('should not call addAnalyticsEvent when user is undefined', () => {
     window.dataLayer = [];
-    config.user = {};
-    handleUserAnalytics(config);
+    handleUserAnalytics({ ...config, user: {} });
     expect(window.dataLayer.length).toBe(0);
   });
 });

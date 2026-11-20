@@ -4,10 +4,7 @@ import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
 import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
 import Error404 from '../404';
-import {
-  getOldSearchItems,
-  saveOldSearchItems,
-} from '../../data/SearchHistory';
+import { getOldSearches, removeSearch } from '../../data/SearchHistory';
 import { fragmentRefShape, routeShape } from '../../../utils/client/shapes';
 import PatternRedirectorFragment from './queries/PatternRedirectorFragment';
 
@@ -22,24 +19,15 @@ const PatternRedirector = ({ route }) => {
     ).reverse();
   }
   let pattern;
-  if (
-    Array.isArray(sortedPatternsByCountOfTrips) &&
-    sortedPatternsByCountOfTrips.length > 0
-  ) {
+  if (Array.isArray(sortedPatternsByCountOfTrips) && sortedPatternsByCountOfTrips.length > 0) {
     [pattern] = sortedPatternsByCountOfTrips;
   } else {
     pattern =
-      Array.isArray(route.patterns) && route.patterns.length > 0
-        ? route.patterns[0]
-        : undefined;
+      Array.isArray(route.patterns) && route.patterns.length > 0 ? route.patterns[0] : undefined;
   }
 
   const { routeId, type } = match.params;
-  const path = routePagePath(
-    routeId,
-    type || PREFIX_STOPS,
-    pattern?.code || `${routeId}:0:01`,
-  );
+  const path = routePagePath(routeId, type || PREFIX_STOPS, pattern?.code || `${routeId}:0:01`);
 
   useEffect(() => {
     router.replace(path);
@@ -48,29 +36,21 @@ const PatternRedirector = ({ route }) => {
   return null;
 };
 
-PatternRedirector.propTypes = {
-  route: routeShape.isRequired,
-};
+PatternRedirector.propTypes = { route: routeShape.isRequired };
 
 export default function PatternRedirectorGuard({ route: routeRef = null }) {
   const { match } = useRouter();
   const route = useFragment(PatternRedirectorFragment, routeRef);
   if (!route) {
-    const oldSearchItems = getOldSearchItems();
-    const oldItem = oldSearchItems.filter(
-      s =>
-        s.item.properties.layer.startsWith('route-') &&
-        s.item.properties.link === match.location.pathname,
+    const oldItem = getOldSearches().find(
+      s => s.properties.layer.startsWith('route-') && s.properties.link === match.location.pathname,
     );
-    if (oldItem && oldItem.length !== 0) {
+    if (oldItem) {
       const error = {
         id: 'no-route-found',
-        values: {
-          shortName: oldItem[0].item.properties.shortName,
-          longName: oldItem[0].item.properties.longName,
-        },
+        values: { shortName: oldItem.properties.shortName, longName: oldItem.properties.longName },
       };
-      saveOldSearchItems(oldSearchItems.filter(s => s !== oldItem[0]));
+      removeSearch({ item: oldItem });
       return <Error404 error={error} />;
     }
     return <Error404 />;
@@ -78,6 +58,4 @@ export default function PatternRedirectorGuard({ route: routeRef = null }) {
   return <PatternRedirector route={route} />;
 }
 
-PatternRedirectorGuard.propTypes = {
-  route: fragmentRefShape,
-};
+PatternRedirectorGuard.propTypes = { route: fragmentRefShape };

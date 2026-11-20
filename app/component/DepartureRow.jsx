@@ -11,7 +11,7 @@ import {
 import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
 import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
 import { getRouteMode } from '../../utils/client/modeUtils';
-import { getCapacity } from '../../utils/client/occupancyUtil';
+import { capacityToTranslationId, getCapacity } from '../../utils/client/occupancyUtil';
 import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
 import { departureShape } from '../../utils/client/shapes';
 import { epochToTime } from '../../utils/client/timeUtils';
@@ -48,15 +48,11 @@ export default function DepartureRow({
   let background;
   let backgroundClass;
   let sr;
-  if (
-    route.alerts?.filter(alert => isAlertValid(alert, currentTime))?.length > 0
-  ) {
+  if (route.alerts?.filter(alert => isAlertValid(alert, currentTime))?.length > 0) {
     const alert = getMostSevereAlert(route);
     sr = (
       <span className="sr-only">
-        {intl.formatMessage({
-          id: 'disruptions-tab.sr-disruptions',
-        })}
+        {intl.formatMessage({ id: 'disruptions-tab.sr-disruptions' })}
       </span>
     );
     if (alert.alertSeverityLevel === 'INFO') {
@@ -69,24 +65,15 @@ export default function DepartureRow({
       iconColor = config.colors.caution;
     }
   }
-  const headsign =
-    departure.headsign ||
-    trip.tripHeadsign ||
-    getHeadsignFromRouteLongName(route);
+  const headsign = departure.headsign || trip.tripHeadsign || getHeadsignFromRouteLongName(route);
   let shownTime;
   if (timeDiffInMinutes <= 0) {
-    shownTime = intl.formatMessage({
-      id: 'arriving-soon',
-      defaultMessage: 'Now',
-    });
+    shownTime = intl.formatMessage({ id: 'arriving-soon', defaultMessage: 'Now' });
   } else if (timeDiffInMinutes > config.minutesToDepartureLimit) {
     shownTime = undefined;
   } else {
     shownTime = intl.formatMessage(
-      {
-        id: 'departure-time-in-minutes',
-        defaultMessage: '{minutes} min',
-      },
+      { id: 'departure-time-in-minutes', defaultMessage: '{minutes} min' },
       { minutes: timeDiffInMinutes },
     );
   }
@@ -99,11 +86,7 @@ export default function DepartureRow({
       shortName
     );
 
-  const capacity = getCapacity(
-    config,
-    trip.occupancy?.occupancyStatus,
-    departureTimeMs,
-  );
+  const capacity = getCapacity(config, trip.occupancy?.occupancyStatus, departureTimeMs);
 
   const handleCapacityClick = e => {
     e.preventDefault();
@@ -111,43 +94,33 @@ export default function DepartureRow({
   };
 
   const ariaLabel = `${intl.formatMessage(
-    {
-      id: 'departure-page-sr',
-    },
-    {
-      shortName: lowerCaseShortName,
-      destination: headsign,
-      time,
-    },
+    { id: 'departure-page-sr' },
+    { shortName: lowerCaseShortName, destination: headsign, time },
   )}${
     departure.stop?.platformCode
-      ? intl.formatMessage(
-          {
-            id: 'platform-num',
-          },
-          {
-            platformCode: departure.stop?.platformCode,
-          },
-        )
+      ? intl.formatMessage({ id: 'platform-num' }, { platformCode: departure.stop?.platformCode })
       : ''
-  }`;
+  }${capacity ? `, ${intl.formatMessage({ id: capacityToTranslationId(capacity) })}` : ''}`;
 
   return (
     <Link
       as="tr"
+      role="link"
       tabIndex={isParentTabActive ? '0' : '-1'}
-      to={routePagePath(
-        trip.pattern.route.gtfsId,
-        PREFIX_STOPS,
-        trip.pattern.code,
-        trip.gtfsId,
-      )}
+      to={routePagePath(trip.pattern.route.gtfsId, PREFIX_STOPS, trip.pattern.code, trip.gtfsId)}
       onClick={() => {
         addAnalyticsEvent({
           category: 'Stop',
           action: 'OpenRouteViewFromStop',
           name: 'RightNowTab',
         });
+      }}
+      // A <tr> has no native link activation, so Enter triggers the click
+      onKeyDown={e => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          e.currentTarget.click();
+        }
       }}
       aria-label={ariaLabel}
       className={cx(
@@ -168,9 +141,7 @@ export default function DepartureRow({
         <div aria-hidden="true" className="route-number">
           {nameOrIcon}
         </div>
-        {lowerCaseShortName && (
-          <span className="sr-only">{lowerCaseShortName}</span>
-        )}
+        {lowerCaseShortName && <span className="sr-only">{lowerCaseShortName}</span>}
         {icon && (
           <>
             <Icon
@@ -191,48 +162,32 @@ export default function DepartureRow({
       <td className="time-cell">
         {shownTime && (
           <span
-            className={cx('route-arrival', {
-              realtime: departure.realtime,
-              canceled,
-            })}
+            className={cx('route-arrival', { realtime: departure.realtime, canceled })}
             aria-hidden="true"
           >
             {shownTime}
           </span>
         )}
         <span
-          className={cx('route-time', {
-            realtime: departure.realtime,
-            canceled,
-          })}
+          className={cx('route-time', { realtime: departure.realtime, canceled })}
           aria-hidden="true"
         >
           {time}
         </span>
         <span className="sr-only">
           {intl.formatMessage(
-            {
-              id: 'departure-time-sr',
-            },
+            { id: 'departure-time-sr' },
             {
               when: shownTime,
               time,
-              realTime: departure.realtime
-                ? intl.formatMessage({ id: 'realtime' })
-                : '',
+              realTime: departure.realtime ? intl.formatMessage({ id: 'realtime' }) : '',
             },
           )}
         </span>
       </td>
       {showPlatformCode && (
         <td className="platform-cell">
-          <div
-            className={
-              !departure.stop?.platformCode
-                ? 'platform-code empty'
-                : 'platform-code'
-            }
-          >
+          <div className={!departure.stop?.platformCode ? 'platform-code empty' : 'platform-code'}>
             <PlatformNumber
               number={departure.stop?.platformCode}
               short
@@ -245,20 +200,9 @@ export default function DepartureRow({
       )}
       {capacity && (
         // Use inline styles here for simplicity, some overrides make it impossible via the SASS-file
-        <td
-          className="capacity-cell"
-          style={{ marginRight: '8px', color: config.colors.primary }}
-        >
-          <span
-            className="capacity-icon-container"
-            onClick={handleCapacityClick}
-          >
-            <Icon
-              width={1.5}
-              height={1.5}
-              img={`icon_${capacity}`}
-              color={config.colors.primary}
-            />
+        <td className="capacity-cell" style={{ marginRight: '8px', color: config.colors.primary }}>
+          <span className="capacity-icon-container" onClick={handleCapacityClick}>
+            <Icon width={1.5} height={1.5} img={`icon_${capacity}`} color={config.colors.primary} />
           </span>
         </td>
       )}

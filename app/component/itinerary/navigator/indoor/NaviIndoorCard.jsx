@@ -13,26 +13,16 @@ export default function NaviIndoorCard({
   nextLeg,
   focusToPoint,
 }) {
-  const indoorSteps = getIndoorStepsWithVerticalTransportation(
-    previousLeg,
-    leg,
-    nextLeg,
-  );
+  const indoorSteps = getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg);
   return (
     <div className={cx('extension', 'no-vertical-margin')}>
       <div className="extension-divider" />
       <div className="extension-indoor-button">
-        <NaviIndoorButton
-          currentCard={NaviCardType.Indoor}
-          setCurrentCard={setCurrentCard}
-        />
+        <NaviIndoorButton currentCard={NaviCardType.Indoor} setCurrentCard={setCurrentCard} />
       </div>
       <div className="extension-divider no-vertical-margin" />
       <div className="extension-indoor-container">
-        <NaviIndoorContainer
-          focusToPoint={focusToPoint}
-          indoorSteps={indoorSteps}
-        />
+        <NaviIndoorContainer focusToPoint={focusToPoint} indoorSteps={indoorSteps} />
       </div>
     </div>
   );

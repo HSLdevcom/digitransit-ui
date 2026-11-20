@@ -19,17 +19,10 @@ function getRouteNames(stop, routes) {
       });
     }
   });
-  return uniqBy(arr, key =>
-    key.shortName === null ? key.agencyName : key.shortName,
-  );
+  return uniqBy(arr, key => (key.shortName === null ? key.agencyName : key.shortName));
 }
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
-export default function TimeTableOptionsPanel({
-  stop,
-  showRoutes,
-  showFilterModal,
-}) {
+export default function TimeTableOptionsPanel({ stop, showRoutes, showFilterModal }) {
   if (!stop) {
     throw Error('Empty stop');
   }
@@ -44,10 +37,7 @@ export default function TimeTableOptionsPanel({
       if (i > 0) {
         showRoutesDiv[i] = '\u{02026}';
       } else {
-        showRoutesDiv[0] = `${showRoutesDiv[0].substr(
-          0,
-          MAX_ROUTEFILTER_LEN - 1,
-        )}\u{02026}`;
+        showRoutesDiv[0] = `${showRoutesDiv[0].substr(0, MAX_ROUTEFILTER_LEN - 1)}\u{02026}`;
       }
       break;
     }
@@ -55,9 +45,7 @@ export default function TimeTableOptionsPanel({
   // If stop/station is cancelled, or it has no departures from some other reason, stop.stoptimesForServiceDate length is 0.
   // This check prevents UI from crashing
   const len = stop.stoptimesForServiceDate.length;
-  let stopVehicle = len
-    ? stop.stoptimesForServiceDate[0].pattern?.route.mode.toLowerCase()
-    : null;
+  let stopVehicle = len ? stop.stoptimesForServiceDate[0].pattern?.route.mode.toLowerCase() : null;
   if (stopVehicle === 'bus') {
     stopVehicle = stop.stoptimesForServiceDate.some(
       stopTime => stopTime.pattern.route.type === ExtendedRouteTypes.BusExpress,
@@ -72,10 +60,7 @@ export default function TimeTableOptionsPanel({
     >
       <span className="left-column">
         <span className="combobox-label">
-          <FormattedMessage
-            id="selected-routes"
-            defaultMessage="Selected lines"
-          />
+          <FormattedMessage id="selected-routes" defaultMessage="Selected lines" />
         </span>
         <button
           type="button"
@@ -83,11 +68,7 @@ export default function TimeTableOptionsPanel({
           className="combobox-selected-value"
           onClick={() => {
             showFilterModal(true);
-            addAnalyticsEvent({
-              category: 'Stop',
-              action: 'ChooseTimetableRoutes',
-              name: null,
-            });
+            addAnalyticsEvent({ category: 'Stop', action: 'ChooseTimetableRoutes', name: null });
           }}
         >
           <span className="showroutes-list">

@@ -3,15 +3,31 @@ const translations = {
   de: {
     translation: {
       airplane: 'Flug',
+      airplane_short: 'Flughafen',
+      bikepark: 'Nächstgelegene Bike-and-Ride-Anlagen',
+      bikepark_short: 'Bike and Ride',
       bus: 'Bus',
+      bus_short: 'Bus',
+      carpark: 'Nächstgelegene Park-and-Ride-Anlagen für Autos',
+      carpark_short: 'Park and Ride (Autos)',
       citybike: 'Leihrad',
+      citybike_short: 'Leihrad',
       close: 'Schließen',
+      description:
+        'Die Ansicht „In Ihrer Nähe“ zeigt alle Haltestellen und Linien in Ihrer Nähe auf einen Blick.',
       favorite: 'Favoriten',
+      favorite_short: 'Favoriten',
       ferry: 'Fähre',
+      ferry_short: 'Fähre',
+      more: 'Mehr anzeigen',
       rail: 'Zug',
+      rail_local: 'S-Bahn',
+      rail_short: 'Zug',
       subway: 'U-Bahn',
+      subway_short: 'U-Bahn',
       title: 'Haltestellen und Linien in der Nähe',
       tram: 'Straßenbahn',
+      tram_short: 'Straßenbahn',
     },
   },
   en: {
@@ -27,8 +43,7 @@ const translations = {
       citybike: 'Nearest city bike stations',
       citybike_short: 'City bike',
       close: 'Close',
-      description:
-        'The Near You view shows all stops and routes near you at a glance.',
+      description: 'The Near You view shows all stops and routes near you at a glance.',
       favorite: 'Nearest favorites',
       favorite_short: 'Favorites',
       ferry: 'Nearest ferry piers',
@@ -57,8 +72,7 @@ const translations = {
       citybike: 'Lähimmät kaupunkipyöräasemat',
       citybike_short: 'Kaupunkipyörä',
       close: 'Sulje',
-      description:
-        'Lähelläsi-näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi.',
+      description: 'Lähelläsi-näkymä näyttää yhdellä kertaa pysäkit ja linjat lähelläsi.',
       favorite: 'Lähimmät suosikit',
       favorite_short: 'Suosikit',
       ferry: 'Lähimmät lauttalaiturit',
@@ -74,11 +88,42 @@ const translations = {
       tram_short: 'Raitiovaunu',
     },
   },
+  it: {
+    translation: {
+      airplane: 'Aeroporti più vicini',
+      airplane_short: 'Aeroporto',
+      bikepark: 'Parcheggi bici con interscambio più vicini',
+      bikepark_short: 'Park & Ride (bici)',
+      bus: 'Autobus e fermate vicine sulla mappa',
+      bus_short: 'Autobus',
+      carpark: 'Parcheggi auto con interscambio più vicini',
+      carpark_short: 'Park & Ride (auto)',
+      citybike: 'Stazioni di bike sharing più vicine',
+      citybike_short: 'Bike sharing',
+      close: 'Chiudi',
+      description:
+        'La vista “Vicino a te” mostra a colpo d’occhio tutte le fermate e le linee vicine.',
+      favorite: 'Preferiti più vicini',
+      favorite_short: 'Preferiti',
+      ferry: 'Approdi dei traghetti più vicini',
+      ferry_short: 'Traghetto',
+      more: 'Mostra altro',
+      rail: 'Treni e stazioni vicine sulla mappa',
+      rail_local: 'Treno suburbano',
+      rail_short: 'Treno',
+      subway: 'Metropolitana e stazioni vicine sulla mappa',
+      subway_short: 'Metro',
+      title: 'Vicino a te',
+      tram: 'Tram e fermate vicine sulla mappa',
+      tram_short: 'Tram',
+    },
+  },
   pl: {
     translation: {
       airplane: 'Lot',
       bus: 'Autobus',
       citybike: 'Rower miejski',
+      close: 'Zamknij',
       favorite: 'Przystanki w pobliżu',
       ferry: 'Prom',
       rail: 'Kolej',
@@ -101,8 +146,7 @@ const translations = {
       citybike: 'Närmaste stadscykelstationer',
       citybike_short: 'Stadscykel',
       close: 'Stäng',
-      description:
-        'I vyn Nära dig kan du se hållplatserna och linjerna nära dig.',
+      description: 'I vyn Nära dig kan du se hållplatserna och linjerna nära dig.',
       favorite: 'Närmaste favoriter',
       favorite_short: 'Favoriter',
       ferry: 'Närmaste färjekajer',
@@ -121,3 +165,10 @@ const translations = {
 };
 
 export default translations;
+
+/** Design system locales for languages it has no built-in messages for. */
+export const hslfiLocales = {
+  de: { code: 'de', messages: { CloseButton: { close: 'Schließen' } } },
+  it: { code: 'it', messages: { CloseButton: { close: 'Chiudi' } } },
+  pl: { code: 'pl', messages: { CloseButton: { close: 'Zamknij' } } },
+};

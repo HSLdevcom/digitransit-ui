@@ -186,8 +186,7 @@ export default function Itinerary({
         data-ticket-type={`${getTicketString(itinerary.legs, getZones(itinerary.legs), config)}`}
       >
         {/* This next clickable region does not have proper accessible role, tabindex and keyboard handler
-            because screen reader works weirdly with nested buttons. Same functonality works from the inner button */
-        /* eslint-disable jsx-a11y/no-static-element-interactions, jsx-a11y/click-events-have-key-events */}
+            because screen reader works weirdly with nested buttons. Same functonality works from the inner button */}
         <div className="itinerary-summary-header">
           <div>
             <div

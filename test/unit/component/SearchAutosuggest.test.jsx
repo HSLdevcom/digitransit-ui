@@ -1,33 +1,22 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 import { fireEvent, screen } from '@testing-library/react';
-import DTAutoSuggest from '@digitransit-component/digitransit-component-autosuggest';
-import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
+import * as AutosuggestModule from '@digitransit-component/digitransit-component-autosuggest';
+import * as AutosuggestPanelModule from '@digitransit-component/digitransit-component-autosuggest-panel';
 import SearchAutosuggest, {
   SearchAutosuggestPanel,
 } from '../../../app/component/SearchAutosuggest';
-import SelectFromMap from '../../../app/component/map/SelectFromMap';
-import SelectFromMapModal from '../../../app/component/SelectFromMapModal';
+import * as SelectFromMapModule from '../../../app/component/map/SelectFromMap';
+import * as SelectFromMapModalModule from '../../../app/component/SelectFromMapModal';
 import searchServices from '../../../app/data/SearchServices';
 import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
 
-vi.mock('@digitransit-component/digitransit-component-autosuggest', () => ({
-  default: vi.fn(),
-}));
-vi.mock(
-  '@digitransit-component/digitransit-component-autosuggest-panel',
-  () => ({
-    default: vi.fn(),
-  }),
-);
-vi.mock('../../../app/component/map/SelectFromMap', () => ({
-  default: vi.fn(),
-}));
-vi.mock('../../../app/component/SelectFromMapModal', () => ({
-  default: vi.fn(),
-}));
+const DTAutoSuggest = vi.fn();
+const DTAutosuggestPanel = vi.fn();
+const SelectFromMap = vi.fn();
+const SelectFromMapModal = vi.fn();
 
 const mapLocation = { address: 'Map location', lat: 60.2, lon: 24.9 };
 const manualSuggestion = {
@@ -45,25 +34,15 @@ function AutosuggestStub({
   const [text, setText] = useState('');
   return (
     <>
-      <input
-        aria-label={inputLabel}
-        value={text}
-        onChange={event => setText(event.target.value)}
-      />
-      <button
-        type="button"
-        onClick={() => onSelect({ type: 'SelectFromMap' }, id)}
-      >
+      <input aria-label={inputLabel} value={text} onChange={event => setText(event.target.value)} />
+      <button type="button" onClick={() => onSelect({ type: 'SelectFromMap' }, id)}>
         map {inputLabel}
       </button>
       <button type="button" onClick={() => onSelect(manualSuggestion, id)}>
         select {inputLabel}
       </button>
       {handleViaPointLocationSelected && (
-        <button
-          type="button"
-          onClick={() => handleViaPointLocationSelected(manualSuggestion, 0)}
-        >
+        <button type="button" onClick={() => handleViaPointLocationSelected(manualSuggestion, 0)}>
           select via point
         </button>
       )}
@@ -114,6 +93,10 @@ describe('search autosuggest adapters', () => {
     DTAutosuggestPanel.mockReset().mockImplementation(AutosuggestStub);
     SelectFromMap.mockReset().mockImplementation(MapStub);
     SelectFromMapModal.mockReset().mockImplementation(ModalStub);
+    vi.spyOn(AutosuggestModule, 'default', 'get').mockReturnValue(DTAutoSuggest);
+    vi.spyOn(AutosuggestPanelModule, 'default', 'get').mockReturnValue(DTAutosuggestPanel);
+    vi.spyOn(SelectFromMapModule, 'default', 'get').mockReturnValue(SelectFromMap);
+    vi.spyOn(SelectFromMapModalModule, 'default', 'get').mockReturnValue(SelectFromMapModal);
   });
 
   it.each([
@@ -199,14 +182,9 @@ describe('search autosuggest adapters', () => {
     const selectHandler = vi.fn();
     const onFromMapClose = vi.fn();
     renderWithProviders(
-      <SearchAutosuggest
-        selectHandler={selectHandler}
-        onFromMapClose={onFromMapClose}
-      />,
+      <SearchAutosuggest selectHandler={selectHandler} onFromMapClose={onFromMapClose} />,
     );
-    fireEvent.change(screen.getByLabelText('search text'), {
-      target: { value: 'draft' },
-    });
+    fireEvent.change(screen.getByLabelText('search text'), { target: { value: 'draft' } });
     fireEvent.click(screen.getByText('map search text'));
     expect(screen.queryByLabelText('search text')).toBeNull();
     expect(selectHandler).not.toHaveBeenCalled();
@@ -241,9 +219,7 @@ describe('search autosuggest adapters', () => {
     );
 
     expect(
-      screen.getByRole('dialog', {
-        name: createTestIntl().formatMessage({ id: titleId }),
-      }),
+      screen.getByRole('dialog', { name: createTestIntl().formatMessage({ id: titleId }) }),
     ).not.toBeNull();
     expect(screen.queryByLabelText('search text')).toBeNull();
     fireEvent.click(screen.getByText('confirm map'));
@@ -258,14 +234,8 @@ describe('search autosuggest adapters', () => {
     const secondSelectHandler = vi.fn();
     renderWithProviders(
       <>
-        <SearchAutosuggest
-          inputLabel="first search"
-          selectHandler={firstSelectHandler}
-        />
-        <SearchAutosuggest
-          inputLabel="second search"
-          selectHandler={secondSelectHandler}
-        />
+        <SearchAutosuggest inputLabel="first search" selectHandler={firstSelectHandler} />
+        <SearchAutosuggest inputLabel="second search" selectHandler={secondSelectHandler} />
       </>,
     );
 

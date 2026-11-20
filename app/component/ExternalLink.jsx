@@ -27,9 +27,7 @@ export default function ExternalLink({
           >
             {name || children}
           </a>
-          {withArrow && (
-            <Icon className="arrow" img="icon_arrow-collapse--right" />
-          )}
+          {withArrow && <Icon className="arrow" img="icon_arrow-collapse--right" />}
         </span>
       </span>
     )

@@ -1,16 +1,6 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import {
-  getMapLayerSettings,
-  setMapLayerSettings,
-} from '../../utils/client/localStorage';
+import { getMapLayerSettings, setMapLayerSettings } from '../../utils/client/localStorage';
 import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
 import { TransportMode } from '../../utils/shared/constants';
 import { useConfigContext } from './ConfigContext';
@@ -30,14 +20,7 @@ function createInitialMapLayers(config) {
       funicular: true,
       airplane: true,
     },
-    terminal: {
-      bus: true,
-      ferry: true,
-      rail: true,
-      subway: true,
-      tram: true,
-      airplane: true,
-    },
+    terminal: { bus: true, ferry: true, rail: true, subway: true, tram: true, airplane: true },
     vehicles: false,
     geoJson: {},
   };
@@ -48,11 +31,7 @@ function createInitialMapLayers(config) {
   );
   mapLayers.scooter =
     config.transportModes?.scooter?.showIfSelectedForRouting &&
-    showRentalVehiclesOfType(
-      config.vehicleRental?.networks,
-      TransportMode.Scooter,
-      config,
-    );
+    showRentalVehiclesOfType(config.vehicleRental?.networks, TransportMode.Scooter, config);
   if (config.hideMapLayersByDefault) {
     mapLayers.stop = Object.keys(mapLayers.stop).reduce(
       (layers, key) => ({ ...layers, [key]: false }),
@@ -77,14 +56,8 @@ function mergeMapLayers(mapLayers, updates) {
   return {
     ...mapLayers,
     ...updates,
-    stop: {
-      ...mapLayers.stop,
-      ...updates.stop,
-    },
-    geoJson: {
-      ...mapLayers.geoJson,
-      ...updates.geoJson,
-    },
+    stop: { ...mapLayers.stop, ...updates.stop },
+    geoJson: { ...mapLayers.geoJson, ...updates.geoJson },
   };
 }
 
@@ -123,9 +96,7 @@ function getMapLayersWithOverrides(mapLayers, skip) {
 
 export function MapLayerProvider({ children = null }) {
   const config = useConfigContext();
-  const [mapLayers, setMapLayers] = useState(() =>
-    createInitialMapLayers(config),
-  );
+  const [mapLayers, setMapLayers] = useState(() => createInitialMapLayers(config));
   const mapLayersRef = useRef(mapLayers);
   const updateMapLayers = useCallback(updates => {
     const nextMapLayers = mergeMapLayers(mapLayersRef.current, updates);
@@ -134,15 +105,8 @@ export function MapLayerProvider({ children = null }) {
     setMapLayerSettings({ ...nextMapLayers });
   }, []);
 
-  const value = useMemo(
-    () => ({ mapLayers, updateMapLayers }),
-    [mapLayers, updateMapLayers],
-  );
-  return (
-    <MapLayerContext.Provider value={value}>
-      {children}
-    </MapLayerContext.Provider>
-  );
+  const value = useMemo(() => ({ mapLayers, updateMapLayers }), [mapLayers, updateMapLayers]);
+  return <MapLayerContext.Provider value={value}>{children}</MapLayerContext.Provider>;
 }
 
 export function useMapLayers(skip) {
@@ -156,6 +120,4 @@ export function useMapLayers(skip) {
   };
 }
 
-MapLayerProvider.propTypes = {
-  children: PropTypes.node,
-};
+MapLayerProvider.propTypes = { children: PropTypes.node };

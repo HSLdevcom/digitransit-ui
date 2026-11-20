@@ -11,10 +11,8 @@ export default {
     'accessibility-statement': 'Accessibility statement',
     'accessible-car-places': 'Wheelchair accessible',
     acknowledged: 'OK',
-    'add-favourite-bikeStation-failed-heading':
-      'Saving the citybike station failed',
-    'add-favourite-personalization-failed-heading':
-      'Saving your personalization settings failed',
+    'add-favourite-bikeStation-failed-heading': 'Saving the citybike station failed',
+    'add-favourite-personalization-failed-heading': 'Saving your personalization settings failed',
     'add-favourite-place-failed-heading': 'Unable to save location',
     'add-favourite-route-failed-heading': 'Saving the route failed',
     'add-favourite-station-failed-heading': 'Saving the station failed.',
@@ -25,10 +23,8 @@ export default {
     'add-to-favourites': 'Add to your Favorites',
     'add-via-button-label': 'Add via point',
     'add-via-duration-button-label': 'Set stop duration at via point {index}',
-    'add-via-duration-button-label-close':
-      'Close stop duration selector at via point {index}',
-    'add-via-duration-button-label-open':
-      'Open stop duration selector at via point {index}',
+    'add-via-duration-button-label-close': 'Close stop duration selector at via point {index}',
+    'add-via-duration-button-label-open': 'Open stop duration selector at via point {index}',
     'add-work': 'Add work',
     address: 'Address',
     'address-or-stop': 'Address or stop',
@@ -37,23 +33,18 @@ export default {
     'airport-check-in':
       'Check-in immediately upon arrival if you have not completed check-in in advance',
     'airport-collect-luggage': 'Collect your luggage',
-    'airport-security-check-go-to-gate':
-      'Proceed to your gate through security check',
+    'airport-security-check-go-to-gate': 'Proceed to your gate through security check',
     all: 'All',
     'all-routes': 'All routes',
     'all-routes-disabled': 'No routes',
-    'alternative-legs':
-      'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
+    'alternative-legs': 'Also {leg1} at {startTime1} and {leg2} at {startTime2}',
     'alternative-legs-single': 'Also {leg1} at {startTime1}',
     'alternative-name-rail': 'Commuter train',
     'aria-itinerary-summary':
       'Total journey time {duration}. Departing at {inFuture} {departureTime} and arriving at {arrivalTime}',
-    'aria-itinerary-summary-bike-distance':
-      'Total cycling {duration}, {distance} ',
-    'aria-itinerary-summary-car-distance':
-      'Total driving {duration}, {distance} ',
-    'aria-itinerary-summary-walk-distance':
-      'Total walking {duration}, {distance} ',
+    'aria-itinerary-summary-bike-distance': 'Total cycling {duration}, {distance} ',
+    'aria-itinerary-summary-car-distance': 'Total driving {duration}, {distance} ',
+    'aria-itinerary-summary-walk-distance': 'Total walking {duration}, {distance} ',
     'arriving-at': 'Arriving',
     'arriving-soon': 'Now',
     'as-destination': 'Destination',
@@ -68,12 +59,10 @@ export default {
     bicycle: 'Bike',
     'bicycle-walk-from-transit':
       'Take your bike off the {transportMode} and walk it for {distance} ({duration})',
-    'bicycle-walk-from-transit-no-duration':
-      'Walk your bike off the {transportMode}',
+    'bicycle-walk-from-transit-no-duration': 'Walk your bike off the {transportMode}',
     'bicycle-walk-to-transit':
       'Walk your bike for {distance} ({duration}) and take it on the {transportMode}',
-    'bicycle-walk-to-transit-no-duration':
-      'Walk your bike to the {transportMode}',
+    'bicycle-walk-to-transit-no-duration': 'Walk your bike to the {transportMode}',
     bicycle_frame_lock: 'Frame locking',
     bicycle_walk: 'Walking a bike',
     'bike-availability': 'Bikes available at the station right now',
@@ -96,21 +85,17 @@ export default {
     'call-number': 'Call {number}',
     cancel: 'Cancel',
     canceled: 'Canceled',
-    'capacity-modal.crushed-standing-room-only':
-      'Only limited standing room available',
+    'capacity-modal.crushed-standing-room-only': 'Only limited standing room available',
     'capacity-modal.few-seats-available': 'Some seats available',
     'capacity-modal.heading': 'Is there room on board?',
     'capacity-modal.legend': 'Legend for the symbols',
     'capacity-modal.many-seats-available': 'Plenty of seats available',
-    'capacity-modal.standing-room-only':
-      'Only a few seats and limited standing room available',
-    'capacity-modal.subheading':
-      'A real-time capacity estimate is available for some vehicles',
+    'capacity-modal.standing-room-only': 'Only a few seats and limited standing room available',
+    'capacity-modal.subheading': 'A real-time capacity estimate is available for some vehicles',
     car: 'Car',
     'car-distance-duration': 'Drive {duration} ({distance})',
     'car-distance-no-duration': 'Drive {distance}',
-    'car-drive-from-transit-no-duration':
-      'Drive your car from the {transportMode}',
+    'car-drive-from-transit-no-duration': 'Drive your car from the {transportMode}',
     'car-drive-to-transit-no-duration': 'Drive your car to the {transportMode}',
     'car-park': 'Park & ride',
     'car-park-disclaimer':
@@ -133,8 +118,7 @@ export default {
     'citybike-network-headers': 'Citybikes',
     'citybike-purchase-link': 'Buy',
     'citybike-return-full': 'Returning a city bike?',
-    'citybike-return-full-link':
-      'How to return a bike when a bike station is full ›',
+    'citybike-return-full-link': 'How to return a bike when a bike station is full ›',
     'citybike-start-using': 'Start using city bikes',
     'citybike-start-using-info': 'More information',
     'citybike-station': 'Bike station {stationId}',
@@ -163,8 +147,7 @@ export default {
     'departure-time-sr': '{when} clock {time}, {realTime}',
     'departures-by-hour': 'Departures by hour',
     'departures-by-hour-minutes-route': '(minutes/route)',
-    'departures-not-found':
-      'Unfortunately, no timetable was found for the stop you selected',
+    'departures-not-found': 'Unfortunately, no timetable was found for the stop you selected',
     'departures-not-found-time-threshold':
       'Unfortunately, no timetable was found for the stop you selected. It is possible that the day you searched for is too ar in the future. Please try again nearer to the time of your journey',
     destination: 'Destination',
@@ -188,12 +171,10 @@ export default {
     'disruption-badge-unknown_effect': 'Unknown',
     'disruption-info': 'Disruption info',
     'disruption-info-no-alerts': 'No known disruptions or diversions.',
-    'disruption-info-route-no-alerts':
-      'No known disruptions or diversions to the route.',
+    'disruption-info-route-no-alerts': 'No known disruptions or diversions to the route.',
     'disruption-list-active': 'Ongoing',
     'disruption-list-no-active-alerts': 'No known ongoing disruptions',
-    'disruption-list-no-upcoming-alerts':
-      'No known upcoming disruptions or diversions',
+    'disruption-list-no-upcoming-alerts': 'No known upcoming disruptions or diversions',
     'disruption-list-traffic-normal': 'Services normal',
     'disruption-list-upcoming': 'Upcoming',
     'disruption-view-details': 'View details',
@@ -250,14 +231,10 @@ export default {
     'geolocation-denied-text':
       'You have not given a permission to use your geolocation. You can allow it from the phone or browser settings.',
     'geolocation-failed-heading': 'Geolocation failed',
-    'geolocation-failed-text':
-      'Your browser does not support location retrieval.',
-    'geolocation-prompt-text':
-      "Accept your browser's request to access your location.",
-    'geolocation-timeout-heading':
-      'Detecting your location is taking longer than expected.',
-    'geolocation-timeout-text':
-      "Have you accepted your browser's request to access your location?",
+    'geolocation-failed-text': 'Your browser does not support location retrieval.',
+    'geolocation-prompt-text': "Accept your browser's request to access your location.",
+    'geolocation-timeout-heading': 'Detecting your location is taking longer than expected.',
+    'geolocation-timeout-text': "Have you accepted your browser's request to access your location?",
     'get-off-the-ride': 'Get off the ride',
     hour: 'Hour',
     hsl_ticket: 'HSL ticket',
@@ -288,8 +265,7 @@ export default {
       'At {time} cycle {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-details.car-leg':
       'At {time} drive {distance} from {origin} to {to} {destination}. Estimated time {duration}',
-    'itinerary-details.end-leg':
-      'At {time} arrive to destination {destination}.',
+    'itinerary-details.end-leg': 'At {time} arrive to destination {destination}.',
     'itinerary-details.route-has-info-alert': 'Route has alerts.',
     'itinerary-details.route-has-severe-alert': 'Route has disruptions.',
     'itinerary-details.route-has-unknown-alert': 'Route has disruptions.',
@@ -301,15 +277,13 @@ export default {
     'itinerary-details.transit-leg-part-1': 'At {time} {realtime} take',
     'itinerary-details.transit-leg-part-2':
       'from stop {startStop} {startZoneInfo} {trackInfo} to stop {endStop} {endZoneInfo}. Estimated duration {duration}. ',
-    'itinerary-details.via-leg':
-      '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
+    'itinerary-details.via-leg': '{arrivalTime} arrive to via point {viaPoint}. {leaveAction}',
     'itinerary-details.walk-leg':
       'At {time} walk {distance} from {origin} to {to} {destination}. Estimated time {duration}',
     'itinerary-hide-alternative-legs': 'Hide alternatives',
     'itinerary-hide-indoor-route': 'Hide the indoor route',
     'itinerary-hide-stops': 'Hide stops',
-    'itinerary-in-the-past':
-      'The route search falls within a period that is in the past.',
+    'itinerary-in-the-past': 'The route search falls within a period that is in the past.',
     'itinerary-in-the-past-link': 'Depart now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-indoor-route': 'Indoor route',
@@ -335,17 +309,13 @@ export default {
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Departure at {firstDepartureTime} from the taxi pickup location',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
-    'itinerary-summary-row.transfers':
-      'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Transfer to {vehicle}',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
-    'itinerary-summary.bikeAndPublic-bus-title':
-      'Take your bike with you on the bus',
-    'itinerary-summary.bikeAndPublic-ferry-title':
-      'Take your bike with you on the ferry',
-    'itinerary-summary.bikeAndPublic-rail-title':
-      'Take your bike with you on the train',
+    'itinerary-summary.bikeAndPublic-bus-title': 'Take your bike with you on the bus',
+    'itinerary-summary.bikeAndPublic-ferry-title': 'Take your bike with you on the ferry',
+    'itinerary-summary.bikeAndPublic-rail-title': 'Take your bike with you on the train',
     'itinerary-summary.bikeAndPublic-subway-title': 'Take your bike to metro',
     'itinerary-summary.bikeAndPublic-tram-title': 'Take your bike to tram',
     'itinerary-summary.bikePark-title': 'Leave your bike at a Park & Ride',
@@ -420,30 +390,25 @@ export default {
     'more-departures': 'More departures',
     'move-on-map': 'Move on the map',
     'navi-change-info': "You'll be informed about any changes",
-    'navi-geolocation-approval':
-      'Your consent to location services when using the service',
+    'navi-geolocation-approval': 'Your consent to location services when using the service',
     'navi-geolocation-details':
       'When the guidance starts, the service may ask you for permission to use your location. You can adjust the permission in your device and browser settings anytime.',
     'navi-geolocation-purpose':
       'Enable location services on your device for optimal journey support.',
     'navi-more-guidance': 'Better guidance for your journey!',
     'navi-support': "You'll get assistance along the way",
-    'navigation-abort-trip':
-      'Unfortunately, your journey cannot proceed as planned.',
+    'navigation-abort-trip': 'Unfortunately, your journey cannot proceed as planned.',
     'navigation-description': "Let's get you there",
     'navigation-get-mode': 'Board {mode}',
     'navigation-hurry-transfer': 'The transfer time has changed',
     'navigation-hurry-transfer-solved': 'Transfer time back to sufficient',
-    'navigation-hurry-transfer-solved-details':
-      'Transfer time {transfer} is {time}',
+    'navigation-hurry-transfer-solved-details': 'Transfer time {transfer} is {time}',
     'navigation-hurry-transfer-value':
       'The new transfer time {transfer} is {time}. Change to the planned {change} min.',
-    'navigation-interline-resume':
-      'Your journey will continue in {duration} minutes',
+    'navigation-interline-resume': 'Your journey will continue in {duration} minutes',
     'navigation-interline-wait':
       'The route number {line} and destination {destination} will change at the stop',
-    'navigation-interline-wait-same-route':
-      'The destination {destination} will change at the stop',
+    'navigation-interline-wait-same-route': 'The destination {destination} will change at the stop',
     'navigation-intro-begin': 'Start journey',
     'navigation-intro-help-body': 'Travel step by step',
     'navigation-intro-notifications-body': 'Stay on track with your journey',
@@ -458,8 +423,7 @@ export default {
     'navigation-pier-change-details': '{name} departs from pier {number}',
     'navigation-pier-restored': 'Departs from original pier',
     'navigation-platform-change': 'Platform changed',
-    'navigation-platform-change-details':
-      '{name} departs from platform {number}',
+    'navigation-platform-change-details': '{name} departs from platform {number}',
     'navigation-platform-restored': 'Departs from original platform',
     'navigation-quit': 'Go back',
     'navigation-remember-ticket': 'Did you remember to buy a ticket?',
@@ -468,8 +432,7 @@ export default {
     'navigation-track-change-details': '{name} departs from track {number}',
     'navigation-track-restored': 'Departs from original track',
     'navigation-transfer-problem': 'Transfer no longer possible',
-    'navigation-transfer-problem-details':
-      'The transfer time {transfer} is too short.',
+    'navigation-transfer-problem-details': 'The transfer time {transfer} is too short.',
     'navileg-at-ferrypier': 'ferry pier',
     'navileg-at-station': 'station',
     'navileg-at-stop': 'stop',
@@ -483,8 +446,7 @@ export default {
     'navileg-in-transit-interline-same-route':
       'The destination changes at {stop} {stopOrStation} in {duration} at {legTime}. Wait onboard.',
     'navileg-intermediate-stops': '{stopCount} intermediate stops',
-    'navileg-leave-at':
-      'Get off at {stop} {stopOrStation} in {duration} at {legTime}',
+    'navileg-leave-at': 'Get off at {stop} {stopOrStation} in {duration} at {legTime}',
     'navileg-mode-citybike': '{available} city bikes available at the station',
     'navileg-mode-realtime': '{mode} {route} is on schedule',
     'navileg-mode-schedule': 'No up-to-date service information available',
@@ -492,18 +454,15 @@ export default {
     'navileg-rent-cycle': 'Pick up a city bike',
     'navileg-rent-scooter': 'Pick up an e-scooter',
     'navileg-scooter': 'Scoot',
-    'navileg-start-realtime':
-      'Departs at {time} from {stopName} {stopOrStation}',
+    'navileg-start-realtime': 'Departs at {time} from {stopName} {stopOrStation}',
     'navileg-start-schedule': '{mode} {route} scheduled departure {time}',
     'navileg-walk': 'Walk to',
     'near-you-search': 'Search for stops and routes',
     nearest: '{ mode } near you',
     'nearest-favourites': 'Nearest favourites',
     'nearest-favourites-browse-stops': 'Browse and select stops',
-    'nearest-favourites-no-favourites':
-      'Timetables for the selected stops and vehicles on map',
-    'nearest-no-stops':
-      'There are no stops or stations for the selected mode of transport nearby.',
+    'nearest-favourites-no-favourites': 'Timetables for the selected stops and vehicles on map',
+    'nearest-no-stops': 'There are no stops or stations for the selected mode of transport nearby.',
     'nearest-stops-airplane': 'airports',
     'nearest-stops-bikepark': 'bike park & ride',
     'nearest-stops-bus': 'bus stops',
@@ -524,8 +483,7 @@ export default {
     'no-more-route-msg': 'No additional itineraries were found',
     'no-route-already-at-destination': 'You are already at your destination.',
     'no-route-end': 'Please select destination',
-    'no-route-found':
-      'Unfortunately, route {shortName} ({longName}) could not be found.',
+    'no-route-found': 'Unfortunately, route {shortName} ({longName}) could not be found.',
     'no-route-msg': 'Unfortunately, no route suggestions were found',
     'no-route-msg-with-changes':
       'Unfortunately, no route suggestions were found. Please check your search settings or try changing the origin or destination.',
@@ -589,18 +547,13 @@ export default {
       'Personalization is still in the testing phase, meaning we are trying out the service. We would love to hear about your experience. The survey will open in a new tab.',
     'personalization-continue-choices':
       'Choose whether we use your usage history for personalization or start over by deleting your usage history.',
-    'personalization-continue-query':
-      'How do you want to continue personalization?',
-    'personalization-disliked':
-      'You will receive fewer recommendations like this in the future.',
+    'personalization-continue-query': 'How do you want to continue personalization?',
+    'personalization-disliked': 'You will receive fewer recommendations like this in the future.',
     'personalization-feedback': 'Give feedback',
     'personalization-history-keep': 'Take advantage of usage history',
-    'personalization-history-remove':
-      'Delete personalization history and start over',
-    'personalization-info':
-      'Find your favorite routes and travel according to your habits',
-    'personalization-liked':
-      'You will receive similar recommendations in the future.',
+    'personalization-history-remove': 'Delete personalization history and start over',
+    'personalization-info': 'Find your favorite routes and travel according to your habits',
+    'personalization-liked': 'You will receive similar recommendations in the future.',
     'personalization-login-description':
       'You can enable personalized route recommendations when you are logged in.',
     'personalization-login-for-voting': 'Log in and give feedback',
@@ -613,8 +566,7 @@ export default {
     'personalization-modal-highlight-details':
       'We emphasize your favorite routes in personalization. So add the routes you use as favorites.',
     'personalization-modal-link': 'Add or edit your favorites',
-    'personalization-new-feature':
-      'Discover new personalized route recommendations in settings',
+    'personalization-new-feature': 'Discover new personalized route recommendations in settings',
     'personalization-new-header': 'Route recommendations enabled',
     'personalization-open-info': 'Read how recommendations work',
     'phone-number': 'Phone number',
@@ -655,8 +607,7 @@ export default {
     'route-guide': 'Route guide',
     'route-here': 'Destination',
     'route-no-stop': 'No stop',
-    'route-page-vehicle-position':
-      '{mode} {shortName} is at the {stopName} stop',
+    'route-page-vehicle-position': '{mode} {shortName} is at the {stopName} stop',
     'route-page-vehicle-position-between':
       '{mode} {shortName} is between the {stopName} stop and the {nextStopName} stop.',
     'route-page-vehicle-selected': 'Current selection.',
@@ -671,19 +622,19 @@ export default {
     'route-page.special-routes': 'Other routes',
     'route-page.title': 'Route {shortName}',
     'route-page.title-short': 'Route',
+    'route-page.trip-sr': 'Departs {departure}, arrives {arrival}',
     'route-pattern-select-tooltip': 'Show routes',
     'route-pattern-swap-tooltip': 'Change direction',
     'route-to-ferry': 'Route to the pier',
     'route-to-park': 'Route to the park',
+    'route-to-scooter': 'Route to the scooter',
     'route-to-station': 'Route to the station',
     'route-to-stop': 'Route to the stop',
+    'route-to-terminal': 'Route to the terminal',
     'router-change-departure-time': 'Change departure time ›',
-    'router-location-not-found':
-      'Please select location on the road network or at a stop.',
-    'router-location-not-found-title-1':
-      'There is no defined access to the destination',
-    'router-location-not-found-title-2':
-      'There is no defined access to the origin',
+    'router-location-not-found': 'Please select location on the road network or at a stop.',
+    'router-location-not-found-title-1': 'There is no defined access to the destination',
+    'router-location-not-found-title-2': 'There is no defined access to the origin',
     'router-location-not-found-title-3':
       'There is no defined access to the origin and the destination',
     'router-only-walk':
@@ -699,18 +650,15 @@ export default {
       'There are no public transport stops close enough to the selected origin.',
     'router-stops-in-range-3':
       'There are no public transport stops close enough to the selected origin and destination.',
-    'router-system-error':
-      'An error occurred in the system. Please try again later.',
+    'router-system-error': 'An error occurred in the system. Please try again later.',
     'router-transit-connection-in-search-window':
       'There are no services available at the selected time.',
     'router-unable': 'Unable to show route options',
     routes: 'Routes',
     scooter: 'Scooter',
     'scooter-availability': 'Kick scooters available at the station right now',
-    'scooter-distance-duration':
-      'Travel by scooter for {duration} ({distance})',
-    'scooterwalk-distance-duration':
-      'Walk your kick scooter {duration} ({distance}).',
+    'scooter-distance-duration': 'Travel by scooter for {duration} ({distance})',
+    'scooterwalk-distance-duration': 'Walk your kick scooter {duration} ({distance}).',
     'search-current-suggestion': 'Current selection: {selection}',
     'search-fields.sr-instructions':
       'Route search will take place automatically when you enter origin and destination. Changing search parameters will trigger a new search. Navigate to the search fields using the tab key',
@@ -724,14 +672,18 @@ export default {
     'select-map-layers-header': 'Show on map',
     'select-route': 'Select {mode} route {shortName} to {headsign}',
     'selected-routes': 'Selected lines',
-    'separate-ticket-required':
-      'A separate ticket is required for this part of the itinerary.',
+    'separate-ticket-required': 'A separate ticket is required for this part of the itinerary.',
     'separate-ticket-required-disclaimer':
       'This itinerary contains one or more legs for which {agencyName} does not sell tickets.',
     'separate-ticket-required-for-call-agency-disclaimer':
       'The journey includes demand responsive transport service. Please check the payment methods and practices on ',
     'services-and-features': 'Services and facilities',
+    'set-ferry-as-routes': "Set the pier as route's",
+    'set-park-as-routes': "Set the park as route's",
+    'set-scooter-as-routes': "Set the scooter as route's",
+    'set-station-as-routes': "Set the station as route's",
     'set-stop-as-routes': "Set the stop as route's",
+    'set-terminal-as-routes': "Set the terminal as route's",
     'set-time-earlier-button-label': 'Set travel time to earlier',
     'set-time-later-button-label': 'Set travel time to later',
     settings: 'Settings',
@@ -740,18 +692,15 @@ export default {
     'settings-dropdown-open-label': 'Open options',
     'settings-e-scooter':
       'You can select the electric scooters you want and make them part of the route suggestions. {paymentInfo}',
-    'settings-e-scooter-on':
-      'Make electric scooters a permanent option in your settings',
+    'settings-e-scooter-on': 'Make electric scooters a permanent option in your settings',
     'settings-e-scooter-routes': 'Make electric scooters part of your routes!',
     'settings-label-change': 'Change settings',
     'settings-missing-itineraries-body':
       'Some selections in the settings exclude certain route alternatives.',
-    'settings-missing-itineraries-header':
-      'Are some route alternatives missing?',
+    'settings-missing-itineraries-header': 'Are some route alternatives missing?',
     'settings-taxi':
       'You can choose your preferred taxi and ride‑hailing services to include them in route planning.',
-    'settings-taxi-routes':
-      'Include taxi and ride‑hailing services in your routes!',
+    'settings-taxi-routes': 'Include taxi and ride‑hailing services in your routes!',
     'show-all': 'Show all',
     'show-departures': 'Show departures',
     'show-more': 'Show more',
@@ -767,15 +716,13 @@ export default {
     'stop-departure-time-past': 'Departure time was',
     'stop-has-alert': 'Service alert at stop',
     'stop-has-info': 'Notice at stop',
-    'stop-list-update.sr-instructions':
-      'Departure times for each stop will update in real time.',
+    'stop-list-update.sr-instructions': 'Departure times for each stop will update in real time.',
     'stop-near-you': 'Search stops and routes near you',
     'stop-near-you-modal-grant-permission': 'or enable location services',
     'stop-near-you-modal-grant-permission-info':
       'You can enable location services in your phone or browser settings, allowing the service to use your current location.',
     'stop-near-you-modal-header': 'You have not enabled location services',
-    'stop-near-you-modal-info':
-      'Using the nearby stops function requires location access.',
+    'stop-near-you-modal-info': 'Using the nearby stops function requires location access.',
     'stop-near-you-update-alert': 'Nearest stops updated',
     'stop-no-service-today': 'No departures today',
     'stop-out-of-service': 'Stop out of service',
@@ -787,25 +734,21 @@ export default {
     stops: 'Stops',
     'stops-near-you.description': 'Stop timetables and vehicles near you',
     'stops-near-you.title': 'Near by stops timetables',
-    'street-mode-bike-aria':
-      'Show cycle route. Duration {duration}, distance {length}',
+    'street-mode-bike-aria': 'Show cycle route. Duration {duration}, distance {length}',
     'street-mode-bikeandvehicle-aria':
       'Show a combination of cycling and public transport. Duration {duration}, distance {length}',
-    'street-mode-car-aria':
-      'Show driving route. Duration {duration}, distance {length}',
+    'street-mode-car-aria': 'Show driving route. Duration {duration}, distance {length}',
     'street-mode-carandvehicle-aria':
       'Show a route that may include other modes of transport, such as car ferries. Duration {duration}, distance {length}',
     'street-mode-parkandride-aria':
       'Show park and ride route. Duration {duration}, driving distance {length}',
-    'street-mode-walk-aria':
-      'Show walking route. Duration {duration}, distance {length}',
+    'street-mode-walk-aria': 'Show walking route. Duration {duration}, distance {length}',
     subway: 'Metro',
     'subway-entrance.sr-description': 'Metro station entrance {entranceName}',
     'subway-entrance.sr-description.accessible':
       'Metro station entrance {entranceName}, accessible',
     'subway-exit.sr-description': 'Metro station exit {entranceName}}',
-    'subway-exit.sr-description.accessible':
-      'Metro station exit {entranceName}, accessible',
+    'subway-exit.sr-description.accessible': 'Metro station exit {entranceName}, accessible',
     'summary-page.description': '{from} - {to}',
     'summary-page.row-label': 'Itinerary suggestion {number}',
     'summary-page.title': 'Itinerary suggestions',
@@ -819,8 +762,7 @@ export default {
     'swipe-stops-near-you-tab': 'Stops near you swipe result tabs.',
     'swipe-summary-page-tab': 'Itinerary swipe result tabs',
     taxi: 'Taxi',
-    'taxi-alternative':
-      'How about traveling part of the way by a taxi? {paymentInfo}',
+    'taxi-alternative': 'How about traveling part of the way by a taxi? {paymentInfo}',
     'taxi-distance-duration': 'Travel {duration} ({distance})',
     'taxi-external': 'Taxi',
     'taxis-and-ride-hailing': 'Taxis and ride-hailing services',
@@ -851,11 +793,9 @@ export default {
     'traffic-now': 'Services now',
     'traffic-now-long': 'Services now',
     'traffic-now_bread': 'Travelling',
-    'traffic-now_canceled-trips--amount':
-      'Listing {amount} of {totalAmount} routes',
+    'traffic-now_canceled-trips--amount': 'Listing {amount} of {totalAmount} routes',
     'traffic-now_canceled-trips--simple': '{amount} cancellations',
-    'traffic-now_description':
-      'Up-to-date information on disruptions and changes. ',
+    'traffic-now_description': 'Up-to-date information on disruptions and changes. ',
     'traffic-now_description_see-also':
       'You can also find detailed information about {amount, plural, =1 {{link1}} other {{link2} and {link1}}} on their respective pages.',
     'traffic-now_description_see-also--link1':
@@ -877,8 +817,7 @@ export default {
     'traffic-now_more-routes': '{count} more routes',
     trafficnow: 'Traffic now',
     'trafficnow-bread': 'Travelling',
-    'trafficnow-description':
-      'Up-to-date information on disruptions and exceptions',
+    'trafficnow-description': 'Up-to-date information on disruptions and exceptions',
     tram: 'Tram',
     transfer: 'Transfer',
     'travel-time': '{min} min',
@@ -888,8 +827,7 @@ export default {
     'try-again': 'Try again',
     upcoming: 'Upcoming',
     'use-national-service-postfix': '.',
-    'use-national-service-prefix':
-      'We recommend you try the national journey planner, ',
+    'use-national-service-prefix': 'We recommend you try the national journey planner, ',
     'use-own-position': 'Use current location',
     userinfo: 'My information',
     usermenu: 'User menu',
@@ -904,17 +842,13 @@ export default {
     walk: 'walking',
     'walk-bike-itinerary-1': 'Your search returned only walking routes.',
     'walk-bike-itinerary-2': 'Your search returned only cycling routes.',
-    'walk-bike-itinerary-3':
-      'Your search returned only walking and cycling routes.',
-    'walk-bike-itinerary-4':
-      'Your search only returned routes requiring cycling or driving.',
+    'walk-bike-itinerary-3': 'Your search returned only walking and cycling routes.',
+    'walk-bike-itinerary-4': 'Your search only returned routes requiring cycling or driving.',
     'walk-distance-duration': 'Walk {duration} ({distance})',
     'walk-only': 'Walking only',
     'walking-speed': 'Walking speed',
-    'warning-call-agency':
-      'Only on demand: {routeName}, which needs to be booked in advance.',
-    'warning-call-agency-no-route':
-      'Only on demand. Needs to be booked in advance.',
+    'warning-call-agency': 'Only on demand: {routeName}, which needs to be booked in advance.',
+    'warning-call-agency-no-route': 'Only on demand. Needs to be booked in advance.',
     weather: 'Weather',
     'weather-data-source': 'Source: Finnish Meteorological Institute',
     'weather-detail-title': 'Weather forecast for the place of origin at ',

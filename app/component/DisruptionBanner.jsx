@@ -38,8 +38,7 @@ export default function DisruptionBanner({ alerts, mode }) {
       ) {
         if (
           !activeAlerts.find(
-            activeAlert =>
-              activeAlert.alertDescriptionText === alert.alertDescriptionText,
+            activeAlert => activeAlert.alertDescriptionText === alert.alertDescriptionText,
           )
         ) {
           activeAlerts.push(alert);

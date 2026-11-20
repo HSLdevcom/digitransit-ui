@@ -44,20 +44,10 @@ describe('<VehicleMarkerContainer />', () => {
     it('should render', () => {
       const addLayer = vi.fn();
       renderWithProviders(
-        <LeafletProvider
-          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
-        >
+        <LeafletProvider value={{ layerContainer: { addLayer, removeLayer: () => {} } }}>
           <VehicleMarkerContainer {...defaultProps} />
         </LeafletProvider>,
-        {
-          config: {
-            ...mockContext.config,
-            realTime: {
-              tampere: {},
-            },
-          },
-          vehicles,
-        },
+        { config: { ...mockContext.config, realTime: { tampere: {} } }, vehicles },
       );
       expect(addLayer.mock.calls.length).toBe(1);
     });
@@ -73,9 +63,7 @@ describe('<VehicleMarkerContainer />', () => {
         const addLayer = vi.fn();
         const emit = vi.spyOn(events, 'emit');
         renderWithProviders(
-          <LeafletProvider
-            value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
-          >
+          <LeafletProvider value={{ layerContainer: { addLayer, removeLayer: () => {} } }}>
             <VehicleMarkerContainer
               {...defaultProps}
               direction={direction}
@@ -83,19 +71,10 @@ describe('<VehicleMarkerContainer />', () => {
             />
           </LeafletProvider>,
           {
-            config: {
-              ...mockContext.config,
-              realTime: {
-                tampere: {},
-              },
-            },
+            config: { ...mockContext.config, realTime: { tampere: {} } },
             vehicles: {
               ...vehicles,
-              reverseBus: {
-                ...vehicles.tampereBus,
-                id: 'reverseBus',
-                direction: 1,
-              },
+              reverseBus: { ...vehicles.tampereBus, id: 'reverseBus', direction: 1 },
             },
           },
         );
@@ -103,8 +82,7 @@ describe('<VehicleMarkerContainer />', () => {
         expect(addLayer).toHaveBeenCalledTimes(1);
         expect(emit).toHaveBeenLastCalledWith('vehiclesChanged', [
           expect.objectContaining({
-            id:
-              (direction ?? topicDirection) === 0 ? 'tampereBus' : 'reverseBus',
+            id: (direction ?? topicDirection) === 0 ? 'tampereBus' : 'reverseBus',
             visible: true,
           }),
         ]);
@@ -114,28 +92,17 @@ describe('<VehicleMarkerContainer />', () => {
       const addLayer = vi.fn();
       const emit = vi.spyOn(events, 'emit');
       renderWithProviders(
-        <LeafletProvider
-          value={{ layerContainer: { addLayer, removeLayer: () => {} } }}
-        >
+        <LeafletProvider value={{ layerContainer: { addLayer, removeLayer: () => {} } }}>
           <VehicleMarkerContainer
             direction={undefined}
             topics={[{ route: '2', direction: 0, tripStartTime: '15:14' }]}
           />
         </LeafletProvider>,
         {
-          config: {
-            ...mockContext.config,
-            realTime: {
-              tampere: {},
-            },
-          },
+          config: { ...mockContext.config, realTime: { tampere: {} } },
           vehicles: {
             ...vehicles,
-            otherTrip: {
-              ...vehicles.tampereBus,
-              id: 'otherTrip',
-              tripStartTime: '1544',
-            },
+            otherTrip: { ...vehicles.tampereBus, id: 'otherTrip', tripStartTime: '1544' },
           },
         },
       );
@@ -149,10 +116,7 @@ describe('<VehicleMarkerContainer />', () => {
 
   describe('shouldShowVehicle', () => {
     it('should return false when lat is missing', () => {
-      const message = {
-        long: 23.77416,
-        route: 'tampere:2',
-      };
+      const message = { long: 23.77416, route: 'tampere:2' };
 
       const shouldShow = shouldShowVehicle(
         message,
@@ -165,10 +129,7 @@ describe('<VehicleMarkerContainer />', () => {
     });
 
     it('should return false when long is missing', () => {
-      const message = {
-        lat: 61.50639,
-        route: 'tampere:2',
-      };
+      const message = { lat: 61.50639, route: 'tampere:2' };
 
       const shouldShow = shouldShowVehicle(
         message,
@@ -181,11 +142,7 @@ describe('<VehicleMarkerContainer />', () => {
     });
 
     it('should return false when route doesnt match', () => {
-      const message = {
-        lat: 61.50639,
-        long: 23.77416,
-        route: 'tampere:3',
-      };
+      const message = { lat: 61.50639, long: 23.77416, route: 'tampere:3' };
 
       const shouldShow = shouldShowVehicle(
         message,
@@ -198,11 +155,7 @@ describe('<VehicleMarkerContainer />', () => {
     });
 
     it('should return true when lat, long and route exist/match', () => {
-      const message = {
-        lat: 61.50639,
-        long: 23.77416,
-        route: 'tampere:2',
-      };
+      const message = { lat: 61.50639, long: 23.77416, route: 'tampere:2' };
 
       const shouldShow = shouldShowVehicle(
         message,
@@ -224,13 +177,7 @@ describe('<VehicleMarkerContainer />', () => {
         headsign: 'Tampere',
       };
 
-      const shouldShow = shouldShowVehicle(
-        message,
-        0,
-        '1514',
-        'tampere:2:0:02',
-        'Pyynikintori',
-      );
+      const shouldShow = shouldShowVehicle(message, 0, '1514', 'tampere:2:0:02', 'Pyynikintori');
       expect(shouldShow).toBe(false);
     });
 
@@ -244,13 +191,7 @@ describe('<VehicleMarkerContainer />', () => {
         headsign: 'Pyynikintori',
       };
 
-      const shouldShow = shouldShowVehicle(
-        message,
-        2,
-        '1514',
-        'tampere:2:0:02',
-        'Pyynikintori',
-      );
+      const shouldShow = shouldShowVehicle(message, 2, '1514', 'tampere:2:0:02', 'Pyynikintori');
       expect(shouldShow).toBe(false);
     });
 
@@ -264,13 +205,7 @@ describe('<VehicleMarkerContainer />', () => {
         headsign: 'Pyynikintori',
       };
 
-      const shouldShow = shouldShowVehicle(
-        message,
-        1,
-        '1514',
-        'tampere:2:0:02',
-        'Pyynikintori',
-      );
+      const shouldShow = shouldShowVehicle(message, 1, '1514', 'tampere:2:0:02', 'Pyynikintori');
       expect(shouldShow).toBe(false);
     });
 
@@ -284,13 +219,7 @@ describe('<VehicleMarkerContainer />', () => {
         headsign: 'Pyynikintori',
       };
 
-      const shouldShow = shouldShowVehicle(
-        message,
-        0,
-        '1514',
-        'tampere:2:0:02',
-        'Pyynikintori',
-      );
+      const shouldShow = shouldShowVehicle(message, 0, '1514', 'tampere:2:0:02', 'Pyynikintori');
       expect(shouldShow).toBe(true);
     });
 
@@ -304,13 +233,7 @@ describe('<VehicleMarkerContainer />', () => {
         headsign: 'Pyynikintori',
       };
 
-      const shouldShow = shouldShowVehicle(
-        message,
-        undefined,
-        undefined,
-        undefined,
-        undefined,
-      );
+      const shouldShow = shouldShowVehicle(message, undefined, undefined, undefined, undefined);
       expect(shouldShow).toBe(true);
     });
   });

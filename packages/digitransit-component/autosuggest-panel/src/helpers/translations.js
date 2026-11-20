@@ -2,12 +2,10 @@ const translations = {
   de: {
     translation: {
       'add-via-button-label': 'Füge Zwischenziel hinzu',
-      'add-via-duration-button-label':
-        'Setze Umsteigezeit für Zwischenziel {{index}}',
+      'add-via-duration-button-label': 'Setze Umsteigezeit für Zwischenziel {{index}}',
       'add-via-duration-button-label-close':
         'Schließe Umsteigezeit-Auswahl für Zwischenziel {{index}}',
-      'add-via-duration-button-label-open':
-        'Öffne Umsteigezeit-Auswahl für Zwischenziel {{index}}',
+      'add-via-duration-button-label-open': 'Öffne Umsteigezeit-Auswahl für Zwischenziel {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Entferne Zwischenziel {{index}}',
       'swap-order-button-label': 'Tausche Start mit Ziel',
@@ -19,12 +17,9 @@ const translations = {
   en: {
     translation: {
       'add-via-button-label': 'Add via point',
-      'add-via-duration-button-label':
-        'Set stop duration at via point {{index}}',
-      'add-via-duration-button-label-close':
-        'Close stop duration selector at via point {{index}}',
-      'add-via-duration-button-label-open':
-        'Open stop duration selector at via point {{index}}',
+      'add-via-duration-button-label': 'Set stop duration at via point {{index}}',
+      'add-via-duration-button-label-close': 'Close stop duration selector at via point {{index}}',
+      'add-via-duration-button-label-open': 'Open stop duration selector at via point {{index}}',
       'minute-short': 'min',
       'remove-via-button-label': 'Remove via point {{index}}',
       'swap-order-button-label': 'Reverse origin and destination',
@@ -36,8 +31,7 @@ const translations = {
   fi: {
     translation: {
       'add-via-button-label': 'Lisää välipiste',
-      'add-via-duration-button-label':
-        'Aseta välipisteelle {{index}} pysähdyksen kesto',
+      'add-via-duration-button-label': 'Aseta välipisteelle {{index}} pysähdyksen kesto',
       'add-via-duration-button-label-close':
         'Avaa välipisteen {{index}} pysähdyksen kesto valitsin',
       'add-via-duration-button-label-open':
@@ -50,15 +44,29 @@ const translations = {
       'viapoint-slack-amount': 'Pysähdyksen kesto',
     },
   },
+  it: {
+    translation: {
+      'add-via-button-label': 'Aggiungi una tappa intermedia',
+      'add-via-duration-button-label':
+        'Imposta la durata della sosta alla tappa intermedia {{index}}',
+      'add-via-duration-button-label-close':
+        'Chiudi la selezione della durata della sosta alla tappa intermedia {{index}}',
+      'add-via-duration-button-label-open':
+        'Apri la selezione della durata della sosta alla tappa intermedia {{index}}',
+      'minute-short': 'min',
+      'remove-via-button-label': 'Rimuovi la tappa intermedia {{index}}',
+      'swap-order-button-label': 'Inverti partenza e destinazione',
+      'via-point': 'Tappa intermedia',
+      'via-point-index': 'Tappa intermedia {{index}}',
+      'viapoint-slack-amount': 'Durata della sosta',
+    },
+  },
   pl: {
     translation: {
       'add-via-button-label': 'Dodaj punkt pośredni',
-      'add-via-duration-button-label':
-        'Wybierz czas postoju dla punktu {{index}}',
-      'add-via-duration-button-label-close':
-        'Zamknij wybornik czasu postoju w punkcie {{index}}',
-      'add-via-duration-button-label-open':
-        'Otwórz wybornik czasu postoju w punkcie {{index}}',
+      'add-via-duration-button-label': 'Wybierz czas postoju dla punktu {{index}}',
+      'add-via-duration-button-label-close': 'Zamknij wybornik czasu postoju w punkcie {{index}}',
+      'add-via-duration-button-label-open': 'Otwórz wybornik czasu postoju w punkcie {{index}}',
       'minute-short': 'min.',
       'remove-via-button-label': 'Usuń punkt pośredni {{index}}',
       'swap-order-button-label': 'Odwróć początek i cel',
@@ -70,8 +78,7 @@ const translations = {
   sv: {
     translation: {
       'add-via-button-label': 'Lägg till viapunkt',
-      'add-via-duration-button-label':
-        'Ställ in varaktighet för viapunkten {{index}}',
+      'add-via-duration-button-label': 'Ställ in varaktighet för viapunkten {{index}}',
       'add-via-duration-button-label-close':
         'Stäng väljaren för varaktighet vid via-punkten {{index}}',
       'add-via-duration-button-label-open':

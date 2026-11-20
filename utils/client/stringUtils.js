@@ -9,11 +9,7 @@
  * @param {number} truncateAt - Position to truncate at (defaults to maxLength - 2)
  * @returns {string} Truncated string with ellipsis if needed
  */
-export const truncateLabel = (
-  text,
-  maxLength = 17,
-  truncateAt = maxLength - 2,
-) => {
+export const truncateLabel = (text, maxLength = 17, truncateAt = maxLength - 2) => {
   if (!text || text.length <= maxLength) {
     return text;
   }

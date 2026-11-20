@@ -7,16 +7,11 @@ import { durationToString } from '../../../utils/client/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../../utils/shared/path';
-import {
-  legTimeStr,
-  getValidatedLegName,
-  isCallAgencyLeg,
-} from '../../../utils/client/legUtils';
+import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../../utils/client/legUtils';
 import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
 import { ViaLocationType } from '../../../utils/shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-/* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */
 export default function WaitLeg({
   children,
   leg,
@@ -38,9 +33,7 @@ export default function WaitLeg({
       <span className="sr-only">
         <FormattedMessage
           id="wait-amount-of-time"
-          values={{
-            duration: durationToString(intl, waitTime),
-          }}
+          values={{ duration: durationToString(intl, waitTime) }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
@@ -55,10 +48,7 @@ export default function WaitLeg({
       />
       <div className="small-9 columns itinerary-instruction-column wait">
         <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: legName || '' }}
-          />
+          <FormattedMessage id="itinerary-summary.show-on-map" values={{ target: legName || '' }} />
         </span>
         <div className="itinerary-leg-first-row wait">
           <div className="itinerary-leg-row">
@@ -76,10 +66,7 @@ export default function WaitLeg({
               >
                 {legName}
                 {leg.from.viaLocationType === ViaLocationType.PassThrough && (
-                  <Icon
-                    img="icon_mapMarker"
-                    className="itinerary-mapmarker-icon"
-                  />
+                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
                 )}
                 <Icon
                   img="icon_arrow-collapse--right"
@@ -90,10 +77,7 @@ export default function WaitLeg({
             )}
             <div className="stop-code-container">{children}</div>
           </div>
-          <ItineraryMapAction
-            target={legName || ''}
-            focusAction={focusAction}
-          />
+          <ItineraryMapAction target={legName || ''} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
           <FormattedMessage

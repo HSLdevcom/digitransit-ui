@@ -12,9 +12,7 @@ let mainAssets;
 let manifestScript;
 
 if (process.env.NODE_ENV !== 'development') {
-  assets = JSON.parse(
-    fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8'),
-  );
+  assets = JSON.parse(fs.readFileSync(path.join(appRoot, 'manifest.json'), 'utf8'));
   // `entrypoints.main.assets` groups the entry's files by extension, each
   // list in load order.
   const { js = [], css = [] } = assets.entrypoints.main.assets;
@@ -22,9 +20,7 @@ if (process.env.NODE_ENV !== 'development') {
   const manifestFiles = js.filter(asset => asset.startsWith('js/runtime'));
 
   manifestScript = manifestFiles
-    .map(manifestFile =>
-      fs.readFileSync(path.join(appRoot, '_static', manifestFile)),
-    )
+    .map(manifestFile => fs.readFileSync(path.join(appRoot, '_static', manifestFile)))
     .join('\n');
 
   mainAssets = [...css, ...js.filter(asset => !manifestFiles.includes(asset))];

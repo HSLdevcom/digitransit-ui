@@ -34,8 +34,7 @@ export default class AreaStops {
   }
 
   getPromise(lang) {
-    const zoomWithOffset =
-      this.tile.coords.z + (this.tile.props.zoomOffset || 0);
+    const zoomWithOffset = this.tile.coords.z + (this.tile.props.zoomOffset || 0);
     const stopsUrl = this.config.URL.AREA_STOP_MAP;
     return fetchWithLanguageAndSubscription(
       `${getLayerBaseUrl(stopsUrl, lang)}${zoomWithOffset}/${
@@ -55,18 +54,10 @@ export default class AreaStops {
           if (areaStopsLayer) {
             for (let i = 0; i < areaStopsLayer.length; i += 1) {
               const feature = areaStopsLayer.feature(i);
-              if (
-                feature.properties.name?.includes(
-                  this.mapLayers.areaStop.routeGtfsId,
-                )
-              ) {
+              const { routeGtfsId } = this.mapLayers.areaStop;
+              if (feature.properties.gtfsId?.startsWith(`${routeGtfsId}:`)) {
                 const geom = feature.loadGeometry();
-                this.drawAreaLine(geom, {
-                  dash: [5, 5],
-                  width: 1.5,
-                  color: '#0074BF',
-                  opacity: 1,
-                });
+                this.drawAreaLine(geom, { dash: [5, 5], width: 1.5, color: '#0074BF', opacity: 1 });
                 this.drawAreaLine(geom, {
                   dash: [],
                   width: this.tile.coords.z,

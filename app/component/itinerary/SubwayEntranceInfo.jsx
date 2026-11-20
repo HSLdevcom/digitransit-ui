@@ -9,10 +9,7 @@ export default function SubwayEntranceInfo({
   entranceAccessible = WheelchairBoarding.NoInformation,
 }) {
   return (
-    <div
-      className="subway-entrance-info-container"
-      aria-labelledby="subway-entrance-label"
-    >
+    <div className="subway-entrance-info-container" aria-labelledby="subway-entrance-label">
       <span id="subway-entrance-label" className="sr-only">
         <FormattedMessage
           id={
@@ -36,10 +33,7 @@ export default function SubwayEntranceInfo({
         />
       )}
       {entranceAccessible === WheelchairBoarding.Possible && (
-        <Icon
-          className="subway-entrance-info-icon"
-          img="icon_wheelchair_filled"
-        />
+        <Icon className="subway-entrance-info-icon" img="icon_wheelchair_filled" />
       )}
     </div>
   );

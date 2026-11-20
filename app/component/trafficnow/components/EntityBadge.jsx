@@ -17,13 +17,7 @@ export default function EntityBadge({
   const { name, url } = entity;
 
   const link = !isPattern ? (
-    <a
-      onClick={handleClick(url)}
-      href={url}
-      className={cx(mode, {
-        highlight: highlighted,
-      })}
-    >
+    <a onClick={handleClick(url)} href={url} className={cx(mode, { highlight: highlighted })}>
       <Text variant="routes-s-narrow" as="span" color="default">
         {name}
       </Text>
@@ -41,10 +35,7 @@ export default function EntityBadge({
   );
 
   return (
-    <div
-      aria-label={ariaLabel}
-      className={cx(['badge-container', mode, className])}
-    >
+    <div aria-label={ariaLabel} className={cx(['badge-container', mode, className])}>
       <div className="entity-name">{link}</div>
       {isFavourite && <Icon img="icon_my-place" className="fav-icon" />}
     </div>

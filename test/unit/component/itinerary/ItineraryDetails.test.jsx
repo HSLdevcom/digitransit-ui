@@ -1,28 +1,38 @@
 import { fireEvent } from '@testing-library/react';
+import PropTypes from 'prop-types';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig, mockContext } from '../../helpers/mock-context';
 import { mockMatch } from '../../helpers/mock-router';
 import ItineraryDetails from '../../../../app/component/itinerary/ItineraryDetails';
 import * as fareUtils from '../../../../utils/client/fareUtils';
 import * as legUtils from '../../../../utils/client/legUtils';
+import * as LegsModule from '../../../../app/component/itinerary/Legs';
 
 // Legs needs deep, mode specific leg data; here it only exposes the props
 // ItineraryDetails computes for it.
-vi.mock('../../../../app/component/itinerary/Legs', async () => {
-  const { createElement } = await import('react');
-  return {
-    default: props =>
-      createElement('div', {
-        className: 'legs-stub',
-        'data-bike-boarding': String(!!props.showBikeBoardingInformation),
-        'data-car-boarding': String(!!props.showCarBoardingInformation),
-        'data-own-car-whole-trip': String(!!props.usingOwnCarWholeTrip),
-        'data-leg-modes': props.itinerary.legs.map(leg => leg.mode).join(','),
-        'data-fares':
-          props.fares?.map(fare => (fare.isUnknown ? 'unknown' : fare.ticketName)).join(',') ??
-          'null',
-      }),
-  };
+const LegsStub = props => (
+  <div
+    className="legs-stub"
+    data-bike-boarding={String(!!props.showBikeBoardingInformation)}
+    data-car-boarding={String(!!props.showCarBoardingInformation)}
+    data-own-car-whole-trip={String(!!props.usingOwnCarWholeTrip)}
+    data-leg-modes={props.itinerary.legs.map(leg => leg.mode).join(',')}
+    data-fares={
+      props.fares?.map(fare => (fare.isUnknown ? 'unknown' : fare.ticketName)).join(',') ?? 'null'
+    }
+  />
+);
+
+LegsStub.propTypes = {
+  showBikeBoardingInformation: PropTypes.bool,
+  showCarBoardingInformation: PropTypes.bool,
+  usingOwnCarWholeTrip: PropTypes.bool,
+  itinerary: PropTypes.shape({ legs: PropTypes.arrayOf(PropTypes.shape({})) }).isRequired,
+  fares: PropTypes.arrayOf(PropTypes.shape({})),
+};
+
+beforeEach(() => {
+  vi.spyOn(LegsModule, 'default').mockImplementation(LegsStub);
 });
 
 const time = (hour, minute = 0) =>

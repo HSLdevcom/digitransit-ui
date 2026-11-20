@@ -81,8 +81,7 @@ const containerComponent = createPaginationContainer(
       }
     `,
     prioritizedStops: graphql`
-      fragment NearYouMapContainer_prioritizedStops on Stop
-      @relay(plural: true) {
+      fragment NearYouMapContainer_prioritizedStops on Stop @relay(plural: true) {
         gtfsId
         lat
         lon
@@ -121,17 +120,10 @@ const containerComponent = createPaginationContainer(
       return props.stops?.nearest;
     },
     getFragmentVariables(prevVars, totalCount) {
-      return {
-        ...prevVars,
-        first: totalCount,
-      };
+      return { ...prevVars, first: totalCount };
     },
     getVariables(_, pagevars, fragmentVariables) {
-      return {
-        ...fragmentVariables,
-        first: pagevars.count,
-        after: pagevars.cursor,
-      };
+      return { ...fragmentVariables, first: pagevars.count, after: pagevars.cursor };
     },
     query: graphql`
       query NearYouMapContainerRefetchQuery(

@@ -110,14 +110,8 @@ function matchLegEnds(legs) {
       gap = getLegGap(legs, nextTransit - 1);
       if (gap < 0) {
         // transfer overlaps next transit leg, so we must make it shorter
-        const transferDuration =
-          legTime(legs[shiftEnd].end) - legTime(legs[walk].start);
-        scaleLegs(
-          legs,
-          walk,
-          shiftEnd,
-          (transferDuration + gap) / transferDuration,
-        );
+        const transferDuration = legTime(legs[shiftEnd].end) - legTime(legs[walk].start);
+        scaleLegs(legs, walk, shiftEnd, (transferDuration + gap) / transferDuration);
       }
     }
     transit = nextTransit;
@@ -132,28 +126,15 @@ function matchLegEnds(legs) {
  */
 function getLegsOfInterest(legs, now) {
   if (!legs?.length) {
-    return {
-      firstLeg: undefined,
-      lastLeg: undefined,
-      currentLeg: undefined,
-      nextLeg: undefined,
-    };
+    return { firstLeg: undefined, lastLeg: undefined, currentLeg: undefined, nextLeg: undefined };
   }
-  const currentLeg = legs.find(
-    ({ start, end }) => legTime(start) <= now && legTime(end) >= now,
-  );
+  const currentLeg = legs.find(({ start, end }) => legTime(start) <= now && legTime(end) >= now);
 
   const nextStart = currentLeg ? legTime(currentLeg.end) : now;
   const nextLeg = legs.find(({ start }) => legTime(start) >= nextStart);
   const previousLeg = legs.findLast(({ end }) => legTime(end) < now);
 
-  return {
-    firstLeg: legs[0],
-    lastLeg: legs[legs.length - 1],
-    previousLeg,
-    currentLeg,
-    nextLeg,
-  };
+  return { firstLeg: legs[0], lastLeg: legs[legs.length - 1], previousLeg, currentLeg, nextLeg };
 }
 
 // shift transit leg (for debugging)
@@ -177,11 +158,7 @@ function shiftLeg(leg, gap) {
     if (leg.transitLeg) {
       leg.end = {
         ...leg.end,
-        estimated: {
-          ...leg.end.estimated,
-          time: epochToIso(legTime(leg.end) + gap),
-          delay: gap,
-        },
+        estimated: { ...leg.end.estimated, time: epochToIso(legTime(leg.end) + gap), delay: gap },
       };
     } else {
       leg.end.scheduledTime = epochToIso(legTime(leg.end) + gap);
@@ -232,9 +209,7 @@ function confirmStart(leg, origin, pos) {
   if (pos) {
     const head = legTraversal(leg, origin, pos);
     if (head) {
-      return head.metersToGo < leg.distance - getRadius(leg)
-        ? CONFIRM_YES
-        : CONFIRM_NO;
+      return head.metersToGo < leg.distance - getRadius(leg) ? CONFIRM_YES : CONFIRM_NO;
     }
   }
   return CONFIRM_UNKNOWN;
@@ -258,16 +233,14 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
       const vPos = getVehiclePosition(previousLeg, vehicles);
       // check more reliable vehicle position first
       // if it is unknown use geolocation
-      confirm =
-        confirmEnd(previousLeg, origin, vPos) ||
-        confirmEnd(previousLeg, origin, position);
+      confirm = confirmEnd(previousLeg, origin, vPos) || confirmEnd(previousLeg, origin, position);
     } else {
       // also confirm that walk has ended
       confirm = confirmEnd(previousLeg, origin, position);
     }
     if (confirm === CONFIRM_NO) {
       // extend 5 sec to future
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.log(`${previousLeg.mode} not ended, move end time to future`);
       shiftLeg(previousLeg, time - legTime(previousLeg.end) + 5000);
     }
@@ -279,13 +252,10 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
       // Make sure curr leg has really started.
       const vPos = getVehiclePosition(currentLeg, vehicles);
       confirm =
-        confirmStart(currentLeg, origin, vPos) ||
-        confirmStart(currentLeg, origin, position);
+        confirmStart(currentLeg, origin, vPos) || confirmStart(currentLeg, origin, position);
       if (confirm === CONFIRM_NO) {
-        // eslint-disable-next-line
-        console.log(
-          `${currentLeg.mode} not started, move start time to future`,
-        );
+        // eslint-disable-next-line no-console
+        console.log(`${currentLeg.mode} not started, move start time to future`);
         shiftLeg(currentLeg, time - legTime(currentLeg.start) + 5000);
       }
     }
@@ -293,9 +263,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
     // start already frozen, check if leg ended early
     if (currentLeg.transitLeg) {
       const vPos = getVehiclePosition(currentLeg, vehicles);
-      confirm =
-        confirmEnd(currentLeg, origin, vPos) ||
-        confirmEnd(currentLeg, origin, position);
+      confirm = confirmEnd(currentLeg, origin, vPos) || confirmEnd(currentLeg, origin, position);
     } else {
       confirm = confirmEnd(currentLeg, origin, position);
     }
@@ -306,7 +274,7 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
         // transit might have just arrived and traveller is still boarded
         gap += BOARD_DELAY;
       }
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.log(`${currentLeg.mode} ended, set earlier end time`);
       shiftLeg(currentLeg, gap);
       currentLeg.freezeEnd = true; // no more shifting
@@ -316,12 +284,10 @@ function shiftLegsByGeolocation(legs, time, vehicles, position, origin) {
   if (nextLeg?.transitLeg) {
     // has next leg alreally started?
     const vPos = getVehiclePosition(nextLeg, vehicles);
-    confirm =
-      confirmStart(nextLeg, origin, vPos) ||
-      confirmStart(nextLeg, origin, position);
+    confirm = confirmStart(nextLeg, origin, vPos) || confirmStart(nextLeg, origin, position);
     if (confirm === CONFIRM_YES) {
       // start immediately
-      // eslint-disable-next-line
+      // eslint-disable-next-line no-console
       console.log(`${nextLeg.mode} started, set start time to now`);
       shiftLeg(nextLeg, time - legTime(nextLeg.start) - 1000);
     }
