@@ -249,7 +249,7 @@ function DTAutosuggest({
   inputClassName = '',
   translatedPlaceholder,
   required = false,
-  externalLabelId = undefined,
+  externalLabelId,
   extraDescription = '',
   movesFocusOnSelect = id === 'origin',
   ariaLabel,

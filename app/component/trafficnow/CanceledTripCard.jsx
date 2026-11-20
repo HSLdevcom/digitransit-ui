@@ -16,7 +16,7 @@ import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
 import { rememberOpenedCard } from './cardFocus';
 
-export default function CanceledTripCard({ mode, routes, cardKey = undefined, isMobile = false }) {
+export default function CanceledTripCard({ mode, routes, cardKey, isMobile = false }) {
   const { router } = useRouter();
   const intl = useIntl();
   const { trafficNowMaxRoutesPerCard } = useConfigContext();

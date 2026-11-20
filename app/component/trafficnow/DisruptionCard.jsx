@@ -15,7 +15,7 @@ export default function DisruptionCard({
   onClick = () => {},
   isMobile = false,
   mode = undefined,
-  cardKey = undefined,
+  cardKey,
 }) {
   const intl = useIntl();
   const {

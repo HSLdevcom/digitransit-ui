@@ -64,8 +64,8 @@ Suggestion.propTypes = {
 export const Suggestions = memo(function Suggestions({
   suggestions,
   getMenuProps,
-  label = undefined,
-  labelledBy = undefined,
+  label,
+  labelledBy,
   getItemProps,
   lng,
   styles,
