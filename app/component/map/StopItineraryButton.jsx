@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
@@ -37,6 +37,7 @@ export default function StopItineraryButton({ stop, citybike = false, scooter = 
   const config = useConfigContext();
   const { router, match } = useRouter();
   const [showModal, setShowModal] = useState(false);
+  const buttonRef = useRef();
   const placeType = getPlaceType(stop, citybike, scooter);
   const { location } = match;
   const closeModal = () => setShowModal(false);
@@ -75,6 +76,7 @@ export default function StopItineraryButton({ stop, citybike = false, scooter = 
       <button
         type="button"
         className="stop-itinerary-button"
+        ref={buttonRef}
         onClick={() => {
           setShowModal(true);
         }}
@@ -91,6 +93,10 @@ export default function StopItineraryButton({ stop, citybike = false, scooter = 
             })}
             lang={config.language}
             className="stop-itinerary-modal-sheet"
+            onCloseAutoFocus={e => {
+              e.preventDefault();
+              buttonRef.current?.focus();
+            }}
           >
             <FlexColumn gap="xs">
               <Button variant="secondary" expand onClick={() => onSelectLocation(stop, 'origin')}>

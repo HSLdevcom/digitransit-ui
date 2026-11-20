@@ -43,8 +43,8 @@ export default function Favourite({
   return (
     <>
       <button
-        ref={buttonRef}
         type="button"
+        ref={buttonRef}
         className="cursor-pointer favourite-icon"
         onClick={onClick}
         aria-label={
@@ -65,6 +65,7 @@ export default function Favourite({
         open={loginModalOpen}
         onClose={() => setLoginModalOpen(false)}
         onCloseAutoFocus={event => {
+          // The prompt has no trigger element, so return focus to the button
           event.preventDefault();
           buttonRef.current?.focus();
         }}
