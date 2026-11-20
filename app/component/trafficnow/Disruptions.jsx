@@ -17,6 +17,7 @@ import { filterAndSortAlerts, filterCanceledModes } from './filters/filterUtils'
 import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { buildDisruptionCards } from './utils';
+import { clearOpenedCard } from './cardFocus';
 import { TRAFFICNOW } from '../../../utils/shared/path';
 import { splitGtfsId } from '../../../utils/shared/gtfs';
 
@@ -65,9 +66,7 @@ export default function Disruptions({ dateTime }) {
     API_SUBSCRIPTION_TOKEN: subToken,
   } = config;
 
-  const disruptionCardOnClick = id => {
-    router.push(`/${TRAFFICNOW}/hairio/${id}`);
-  };
+  const disruptionCardOnClick = id => router.push(`/${TRAFFICNOW}/hairio/${id}`);
 
   const { alerts } = useLazyLoadQuery(
     AlertsQuery,
@@ -183,6 +182,9 @@ export default function Disruptions({ dateTime }) {
     };
   }, []);
 
+  // Cards have taken focus on mount by now
+  useEffect(() => clearOpenedCard(), []);
+
   const handleRefresh = () => {
     setFetchKey(k => k + 1);
   };
@@ -230,13 +232,20 @@ export default function Disruptions({ dateTime }) {
             </Text>
             <div className="disruptions-list">
               {canceledModesFiltered.map(({ key, routes }) => (
-                <CanceledTripCard isMobile={mobile} key={key} mode={key} routes={routes} />
+                <CanceledTripCard
+                  isMobile={mobile}
+                  key={key}
+                  cardKey={key}
+                  mode={key}
+                  routes={routes}
+                />
               ))}
               {disruptionCards.map(({ key, alert, mode }) => (
                 <DisruptionCard
                   key={key}
                   alert={alert}
                   mode={mode}
+                  cardKey={key}
                   onClick={disruptionCardOnClick}
                   isMobile={mobile}
                 />

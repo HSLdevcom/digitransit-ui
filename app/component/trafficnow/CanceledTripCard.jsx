@@ -1,11 +1,10 @@
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { ArrowLinkButton } from '@hsl-fi/navigation';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { TRAFFICNOW, routePagePath } from '../../../utils/shared/path';
-import Card from '../Card';
+import DisruptionCardShell from './DisruptionCardShell';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
@@ -15,17 +14,12 @@ import { patternShape, routeShape } from '../../../utils/client/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
 
-export default function CanceledTripCard({ mode, routes, isMobile = false }) {
+export default function CanceledTripCard({ mode, routes, cardKey, isMobile = false }) {
   const { router } = useRouter();
   const intl = useIntl();
   const { trafficNowMaxRoutesPerCard } = useConfigContext();
   const { selectedFilters } = useFilterContext();
   const favourites = useFavourites();
-  const handleRouteBadgeClick = url => e => {
-    e.preventDefault();
-    e.stopPropagation();
-    router.push(url);
-  };
   const favRoutes = favourites.map(({ gtfsId }) => gtfsId);
 
   const highlightedGtfsId = selectedFilters.entity?.gtfsId;
@@ -37,12 +31,12 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
   const buttonLabel = `${intl.formatMessage({ id: mode })}: ${cancellations}, ${intl.formatMessage({ id: 'disruption-view-details' })}`;
 
   return (
-    <Card
-      className="disruption-card clickable"
-      onClick={handleRouteBadgeClick(`/${TRAFFICNOW}/peruutukset/${mode}`)}
-    >
-      <header>
-        <span className="disruption-card__header-left">
+    <DisruptionCardShell
+      cardKey={cardKey}
+      onOpen={() => router.push(`/${TRAFFICNOW}/peruutukset/${mode}`)}
+      ariaLabel={buttonLabel}
+      headerLeft={
+        <>
           <DisruptionBadge showIcon variant="WARNING" label="CANCELLATION" />
           {!isMobile && (
             <>
@@ -50,9 +44,9 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
               <DisruptionStatus active showDates={false} variant="text-xs-bold" />
             </>
           )}
-        </span>
-        <ArrowLinkButton aria-label={buttonLabel} />
-      </header>
+        </>
+      }
+    >
       <div className="badges">
         <RouteBadgeGroup
           mode={mode}
@@ -94,12 +88,13 @@ export default function CanceledTripCard({ mode, routes, isMobile = false }) {
         />
       </div>
       {isMobile && <DisruptionStatus active showDates={false} variant="text-xs-bold" />}
-    </Card>
+    </DisruptionCardShell>
   );
 }
 
 CanceledTripCard.propTypes = {
   mode: PropTypes.string.isRequired,
+  cardKey: PropTypes.string,
   isMobile: PropTypes.bool,
   routes: PropTypes.arrayOf(
     PropTypes.shape({

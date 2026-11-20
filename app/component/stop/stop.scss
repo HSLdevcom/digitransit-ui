@@ -621,6 +621,16 @@
 .timetable-showroutes {
   display: flex;
   margin-bottom: 0.3em;
+
+  // The label acts as the button, so outline the whole box
+  &:has(button:focus-visible) {
+    outline: 2px solid var(--color-outline-default, #000);
+    outline-offset: 2px;
+  }
+
+  button:focus-visible {
+    outline: none;
+  }
 }
 
 .showroutes-icon {

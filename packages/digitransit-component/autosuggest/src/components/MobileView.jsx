@@ -159,11 +159,12 @@ export default function MobileView({
   const handleClearHistory = useCallback(() => setDialogOpen(true), []);
 
   const { ariaRequiredText, SearchBarId, ariaCurrentSuggestion } = ariaProps;
-  const ariaLabel = ariaRequiredText
+  const ariaDescription = ariaRequiredText
     .concat(' ')
     .concat(SearchBarId)
     .concat(' ')
-    .concat(ariaCurrentSuggestion);
+    .concat(ariaCurrentSuggestion)
+    .trim();
   return (
     <ReactModal
       isOpen={state.renderMobile}
@@ -209,12 +210,11 @@ export default function MobileView({
               lng={lng}
               value={value}
               getInputProps={getInputProps}
-              getLabelProps={getLabelProps}
               clearInput={() => clearInput(inputRef)}
-              ariaLabel={ariaLabel}
+              ariaDescription={ariaDescription}
+              hasLabel
               inputRef={inputRef}
               styles={styles}
-              renderLabel={false}
               clearButtonColor={colors.primary}
               autoFocus
               inputClassName={inputClassName}

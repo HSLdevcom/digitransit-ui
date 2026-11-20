@@ -122,6 +122,12 @@
   max-width: 200px;
   flex-basis: 200px;
 
+  // react-select's focusable input is invisible, so outline the whole select
+  &:has(input:focus-visible) {
+    outline: 2px solid var(--color-outline-default, #000);
+    outline-offset: 2px;
+  }
+
   .route-schedule__control {
     width: 100%;
     height: 100%;
@@ -197,6 +203,18 @@
 
     svg {
       position: relative;
+    }
+  }
+
+  // same inverted highlight as the design system select
+  .route-schedule__option--is-focused,
+  .route-schedule__option:active {
+    background-color: var(--color-surface-accent, #0074bf);
+    color: var(--color-text-invert, #fff);
+    border-radius: var(--radius-s, 4px);
+
+    .icon-container {
+      color: var(--color-icon-invert, #fff);
     }
   }
 }

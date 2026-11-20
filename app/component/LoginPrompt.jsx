@@ -9,6 +9,7 @@ import { hslfiLocale } from '../../utils/client/hslfiLocale';
 export default function LoginPrompt({
   open,
   onClose,
+  onCloseAutoFocus,
   titleId = 'login-header',
   descriptionId = 'login-content',
 }) {
@@ -36,6 +37,7 @@ export default function LoginPrompt({
         title={title}
         description={description}
         lang={hslfiLocale}
+        onCloseAutoFocus={onCloseAutoFocus}
         buttons={[
           { children: login, onClick: handlePrimaryClick },
           { children: cancel, onClick: handleSecondaryClick, variant: 'secondary' },
@@ -48,6 +50,7 @@ export default function LoginPrompt({
 LoginPrompt.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
+  onCloseAutoFocus: PropTypes.func,
   titleId: PropTypes.string,
   descriptionId: PropTypes.string,
 };
