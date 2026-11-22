@@ -80,7 +80,7 @@ export const getStopIconRadii = (zoom, { limitZoom, transfer, selected }) => {
   return { radius, inner, stroke };
 };
 
-// see utils/client/mapIconUtils.js for the canvas version
+// see src/app/utils/mapIconUtils.js for the canvas version
 export const buildStopIconSvg = ({
   radius,
   inner,

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Builds the SVG sprite sheets from the per-icon files in `app/assets/icons/`
+// Builds the SVG sprite sheets from the per-icon files in `src/app/assets/icons/`
 // into `_static/assets/svg-sprite.<theme>.svg`, the paths `config.sprites`
 // names. Runs outside the bundler, before both `yarn build` (via `prebuild`)
 // and `yarn dev` (via scripts/dev.sh, which also keeps a `--watch` instance
@@ -10,13 +10,13 @@
 //   the icons that theme adds or re-skins. A theme's sprite is the default
 //   set with its own files layered on top.
 // - Each file's name (minus `.svg`) becomes its symbol id, i.e. the `img` key
-//   `<Icon>` and utils/client/mapIconUtils.js look it up by.
+//   `<Icon>` and src/app/utils/mapIconUtils.js look it up by.
 // - Each file must be well-formed XML with an `<svg>` root, or the build
 //   fails naming the file. The symbol body is copied from the file as-is.
 //
 // Production: the sprite is still a webpack entry (see contextHelper.js), which
 // gives it a content hash in manifest.json. Development: the server reads it
-// from disk on every request (server/middleware/shell.js), so with `--watch` an
+// from disk on every request (src/server/middleware/shell.js), so with `--watch` an
 // icon edit shows up on the next page refresh.
 
 import fs from 'fs';
@@ -67,7 +67,7 @@ function toSymbol(id, file) {
 }
 
 /**
- * @param {string} theme a directory under app/assets/icons/.
+ * @param {string} theme a directory under src/app/assets/icons/.
  * @returns {string} the sprite sheet's markup.
  */
 export function buildSprite(theme) {

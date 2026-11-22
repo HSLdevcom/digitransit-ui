@@ -1,6 +1,6 @@
 // Reads webpack's build-time asset manifest (manifest.json) once at module
 // load, and exposes it through small functions rather than bare
-// module-level state, so server/middleware/shell.js can stay pure
+// module-level state, so src/server/middleware/shell.js can stay pure
 // templating.
 import fs from 'fs';
 import path from 'path';

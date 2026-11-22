@@ -3,12 +3,12 @@ import fs from 'fs';
 import path from 'path';
 import createApp, { onError } from '../../../src/server/app';
 
-// server/app.js's import chain reaches server/html/assetManifest.js, which
+// src/server/app.js's import chain reaches src/server/html/assetManifest.js, which
 // reads manifest.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
 // webpack build present (unstubbed in the afterAll hook below).
-// server/middleware/shell.js's dev-mode branch is also re-checked live on
+// src/server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
 // per request in dev mode, hence the placeholder fixture below.

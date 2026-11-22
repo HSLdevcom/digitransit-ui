@@ -46,7 +46,7 @@ Object.defineProperty(window.navigator, 'userAgent', { value: 'node.js', configu
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/middleware/shell.js` renders the app into. The test
+// root element `src/server/middleware/shell.js` renders the app into. The test
 // files of a worker share one document, so the element is created once.
 let appRoot = document.getElementById('app');
 if (!appRoot) {

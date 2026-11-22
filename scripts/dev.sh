@@ -51,7 +51,7 @@ set -eo pipefail
 set -m
 
 if [ -z "$CONFIG" ]; then
-    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see server/configs/config.default.js's themeMap)."
+    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see src/server/configs/config.default.js's themeMap)."
 fi
 
 export CONFIG="${CONFIG:-default}"
@@ -124,7 +124,7 @@ yarn workspace @digitransit-search-util/digitransit-search-util-query-utils rela
 pids+=("$!")
 
 # Node's built-in watch mode restarts the server whenever any module in its
-# loaded import graph changes (server/**, utils/{shared,server}/**, region
+# loaded import graph changes (src/server/**, src/shared/**, region
 # configs). --watch-preserve-output keeps Node from clearing the terminal on
 # every restart, which would wipe the other processes' interleaved output.
 node --watch --watch-preserve-output src/server/server.js &

@@ -46,7 +46,7 @@ function isAssetRequest(req) {
 // expressStaticGzip below calls next() when the requested file doesn't
 // exist. For asset-shaped paths specifically, that means the asset is
 // genuinely missing - respond with 404 instead of letting the request fall
-// through to server/middleware/shell.js, which would otherwise render an
+// through to src/server/middleware/shell.js, which would otherwise render an
 // HTML page for what was clearly meant to be a JS/CSS/asset request.
 function handleMissingAssetRequests(req, res, next) {
   if (!isAssetRequest(req)) {
@@ -59,7 +59,7 @@ function handleMissingAssetRequests(req, res, next) {
 
 function setUpStaticFolders(app) {
   // Removes the old service worker from browsers that still have it
-  // registered - see server/html/serviceWorkerRemoval.js.
+  // registered - see src/server/html/serviceWorkerRemoval.js.
   app.get('/sw.js', (req, res) => {
     res.setHeader('Cache-Control', 'no-cache, max-age=0');
     res.setHeader('Content-type', 'application/javascript; charset=UTF-8');

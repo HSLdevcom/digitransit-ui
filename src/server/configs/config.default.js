@@ -25,7 +25,7 @@ const OTP_TIMEOUT = process.env.OTP_TIMEOUT || 12000;
 const YEAR = 1900 + new Date().getYear();
 
 const REALTIME_PATCH = safeJsonParse(process.env.REALTIME_PATCH) || {};
-// Deployment run environment (unknown ⇒ production, see utils/server/envUtils.js).
+// Deployment run environment (unknown ⇒ production, see src/server/utils/envUtils.js).
 const { RUN_ENV } = process.env;
 // CrazyEgg survey sampling divisor.
 const SURVEY_SHARE = Number(process.env.SURVEY_SHARE) || undefined;

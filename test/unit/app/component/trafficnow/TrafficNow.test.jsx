@@ -52,7 +52,7 @@ describe('<TrafficNow />', () => {
     vi.spyOn(breakpointContext, 'useBreakpoint').mockReturnValue(breakpoint);
     stubRelayQueries({ alertsFixture });
     // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
-    // utils/client/scroll.js) on mount and whenever mode/alertId change.
+    // src/app/utils/scroll.js) on mount and whenever mode/alertId change.
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
     return renderWithProviders(<TrafficNow dateTime="2024-01-01T00:00:00.000Z" />, {
       config: baseConfig,

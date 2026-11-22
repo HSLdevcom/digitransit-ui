@@ -32,7 +32,7 @@ $global-zindex: (
   // Mobile main menu drawer content panel.
   'mobile-menu-content': 1300,
   // Toast-style notification, portaled to document.body so it always
-  // escapes ancestor stacking contexts - see app/component/Snackbar.js.
+  // escapes ancestor stacking contexts - see src/app/component/Snackbar.jsx.
   'snackbar': 9999
 );
 
@@ -40,7 +40,7 @@ $global-zindex: (
 /// Throws a build-time error for unknown names to prevent silent typos.
 @function global-z($name) {
   @if not map.has-key($global-zindex, $name) {
-    @error "Unknown global z-index name `#{$name}`. Add it to $global-zindex in styles/abstracts/_zindex.scss.";
+    @error "Unknown global z-index name `#{$name}`. Add it to $global-zindex in src/styles/abstracts/_zindex.scss.";
   }
 
   @return map.get($global-zindex, $name);

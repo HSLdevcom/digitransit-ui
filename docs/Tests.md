@@ -17,9 +17,8 @@ Other agents: use their own MCP configuration with the same command and argument
 
 Unit tests can be run locally. This uses the [Vitest](https://vitest.dev/) test
 runner (`vitest.config.js`'s `app` project, plus a `server` project that runs
-`test/unit/server/**` and `test/unit/utils/server/**` in a plain Node environment
-instead of jsdom) with globals enabled, so `describe`/
-`it`/`expect`/`vi` are available without imports (imports are still used
+`test/unit/server/**` in a plain Node environment instead of jsdom) with globals
+enabled, so `describe`/`it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
 is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
 mocking uses `vi.fn()`/`vi.spyOn()` (`vi.mock()` only in the server tests and the app
@@ -28,14 +27,17 @@ Set environment variables with `vi.stubEnv()`
 (undone by `vi.unstubAllEnvs()`) rather than assigning to `process.env`, which can't restore an
 originally unset variable.
 
+`test/unit/` mirrors `src/`: the tests of `src/app/component/Foo.jsx` are in
+`test/unit/app/component/Foo.test.jsx`. Shared helpers are in `test/unit/helpers/`, and
+fixtures used by several files are in `test/unit/test-data/`.
+
 Using yarn
 
 ```sh
 yarn run test-unit
 ```
 
-Run only the app or only the server tests (`test/unit/server/**` and
-`test/unit/utils/server/**`)
+Run only the app or only the server tests (`test/unit/server/**`)
 
 ```sh
 yarn test-unit:app
@@ -88,8 +90,8 @@ the Luxon `Settings` (zone, locale, `now`) to the setup file's values, and clear
   transforms can be stubbed (Vitest throws for externalized ones):
 
   ```jsx
-  import * as timeUtils from '../../../utils/client/timeUtils';
-  import * as DepartureRowModule from '../../../app/component/DepartureRow';
+  import * as timeUtils from '../../../../src/app/utils/timeUtils';
+  import * as DepartureRowModule from '../../../../src/app/component/DepartureRow';
 
   const DepartureRowStub = () => <tr />;
 
@@ -218,7 +220,7 @@ a wrapper component, not the underlying `react-modal` component or its static
 methods. Creating a `#app` element alone therefore does not resolve this issue.
 
 For tests focused on content and callbacks, stub the wrapper as in
-[NavigatorIntroModal.test.jsx](../test/unit/component/itinerary/navigator/navigatorintro/NavigatorIntroModal.test.jsx):
+[NavigatorIntroModal.test.jsx](../test/unit/app/component/itinerary/navigator/navigatorintro/NavigatorIntroModal.test.jsx):
 
 ```jsx
 import * as HslModalModule from '@hsl-fi/modal';

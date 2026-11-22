@@ -21,12 +21,12 @@ RUN yarn install --immutable --inline-builds
 # Deliberately scoped to the packages' full
 # source (rather than folded into the `COPY . .` + `yarn run build` step
 # below): this keeps the RUN below cacheable by Docker's layer cache
-# whenever only app/server files change.
+# whenever only src/ files change.
 COPY packages ./packages
 RUN \
   yarn run packages-build
 
-# Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see app/configurations).
+# Setting $CONFIG causes digitransit-ui to only build assets for *one* instance (see src/server/configs).
 # This speeds up the build (because favicons-webpack-plugin is increasingly *very* slow with the nr of
 # configs processed), but the resulting image won't be able to serve other instances. Declared here
 # (only read by webpack.config.js below, not by the package build above) rather than

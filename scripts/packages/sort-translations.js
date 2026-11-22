@@ -3,7 +3,7 @@
 /**
  * Sorts and checks digitransit-component packages' own translation bundles
  * (`src/{helpers,utils}/translations.js`) - a different shape from
- * `app/translations/*.js` (handled separately by ../sort-translations.js):
+ * `src/app/translations/*.js` (handled separately by ../sort-translations.js):
  * one file per package holding EVERY locale, each nested under an i18next
  * `translation` namespace, e.g.
  *
