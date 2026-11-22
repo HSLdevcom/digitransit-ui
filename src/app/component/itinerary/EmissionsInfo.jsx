@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import { itineraryShape } from '../../../utils/client/shapes';
-import getCo2Value from '../../../utils/client/emissions';
+import { itineraryShape } from '../../utils/shapes';
+import getCo2Value from '../../utils/emissions';
 
 export default function EmissionsInfo({ itinerary, isMobile }) {
   const co2value = getCo2Value(itinerary);

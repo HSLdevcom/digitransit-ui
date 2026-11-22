@@ -6,9 +6,9 @@ import { renderWithProviders } from '../../helpers/mock-providers';
 import VehicleMarkerContainer, {
   shouldShowVehicle,
   getVehicleIcon,
-} from '../../../../app/component/map/VehicleMarkerContainer';
+} from '../../../../src/app/component/map/VehicleMarkerContainer';
 import { mockContext } from '../../helpers/mock-context';
-import events from '../../../../utils/client/events';
+import events from '../../../../src/app/utils/events';
 
 const defaultProps = {
   direction: 0,

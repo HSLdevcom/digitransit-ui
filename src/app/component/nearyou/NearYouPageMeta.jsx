@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl';
 import { Helmet } from 'react-helmet';
 import { useMatch } from 'found';
-import { generateMetaData } from '../../../utils/client/metaUtils';
+import { generateMetaData } from '../../utils/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function NearYouPageMeta() {

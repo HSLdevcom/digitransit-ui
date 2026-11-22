@@ -1,14 +1,11 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legTimeStr } from '../../../utils/client/legUtils';
-import {
-  getFirstDepartureStopTypeText,
-  getFirstDepartureMessageId,
-} from '../../../utils/client/localeUtils';
+import { legTimeStr } from '../../utils/legUtils';
+import { getFirstDepartureStopTypeText, getFirstDepartureMessageId } from '../../utils/localeUtils';
 import Icon from '../Icon';
 import BoardingInformation from './BoardingInformation';
-import { legShape } from '../../../utils/client/shapes';
+import { legShape } from '../../utils/shapes';
 
 export default function FirstLegStartTime({
   firstDeparture,

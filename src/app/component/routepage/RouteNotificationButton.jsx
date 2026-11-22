@@ -5,7 +5,7 @@ import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
 import { useIntl } from 'react-intl';
 import ThemedIcon from '../ThemedIcon';
-import { hslfiLocale } from '../../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../../utils/hslfiLocale';
 
 export default function RouteNotificationButton({ notification }) {
   const intl = useIntl();

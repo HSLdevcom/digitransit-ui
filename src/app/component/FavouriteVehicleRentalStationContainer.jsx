@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import Favourite from './Favourite';
 import { getFavouriteByStationIdAndNetworks } from '../data/FavouriteData';
 import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
 
 export default function FavouriteVehicleRentalStationContainer({ vehicleRentalStation, ...rest }) {
   const favourites = useFavourites();

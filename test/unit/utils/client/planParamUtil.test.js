@@ -1,6 +1,6 @@
-import defaultConfig from '../../../../server/configs/config.default';
-import * as utils from '../../../../utils/client/planParamUtil';
-import { setCustomizedSettings } from '../../../../utils/client/localStorage';
+import defaultConfig from '../../../../src/server/configs/config.default';
+import * as utils from '../../../../src/app/utils/planParamUtil';
+import { setCustomizedSettings } from '../../../../src/app/utils/localStorage';
 
 const from = 'Kera, Espoo::60.217992,24.75494';
 const to = 'Leppävaara, Espoo::60.219235,24.81329';

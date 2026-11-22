@@ -4,11 +4,11 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
-import { getClosestPoint } from '../../../../utils/shared/geo-utils';
-import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
-import { fragmentRefShape, tripShape } from '../../../../utils/client/shapes';
+import { getClosestPoint } from '../../../../shared/geo-utils';
+import { getTripOrRouteMode } from '../../../utils/modeUtils';
+import { fragmentRefShape, tripShape } from '../../../utils/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import { getStopStatusFromStopData } from '../../../../utils/client/stopStatusUtils';
+import { getStopStatusFromStopData } from '../../../utils/stopStatusUtils';
 
 /**
  * Split the array points in two at the given position. Return index to split at

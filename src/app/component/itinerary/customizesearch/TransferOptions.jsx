@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import SettingsToggle from './SettingsToggle';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { settingsShape } from '../../../../utils/client/shapes';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { settingsShape } from '../../../utils/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TransferOptions({ settings, updateSettings }) {

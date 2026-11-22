@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import useWindowSize from '../../../app/hooks/useWindowSize';
+import useWindowSize from '../../../src/app/hooks/useWindowSize';
 
 /**
  * Mock JSDOM window resize (explicitly set innerWidth and innerHeight

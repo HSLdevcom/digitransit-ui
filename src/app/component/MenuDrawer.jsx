@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import Modal from 'react-modal';
 import { CloseButton } from '@hsl-fi/layout-primitives';
-import { hslfiLocale } from '../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../utils/hslfiLocale';
 
 export default function MenuDrawer({
   open,

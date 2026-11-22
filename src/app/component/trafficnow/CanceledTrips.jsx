@@ -6,7 +6,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import Card from '../Card';
 import CancellationContainer from './components/CancellationContainer';
 import ResultsProgressBar from './components/ResultsProgressBar';
-import { patternShape, routeShape } from '../../../utils/client/shapes';
+import { patternShape, routeShape } from '../../utils/shapes';
 import CTAContainer from './components/CTAContainer';
 
 const DEFAULT_ROUTES_SHOWN_AMOUNT = 8;

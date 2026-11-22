@@ -1,7 +1,7 @@
 import Error404 from '../component/404';
 import NetworkError from '../component/NetworkError';
 import Loading from '../component/LoadingPage';
-import isRelayNetworkError from '../../utils/client/relayUtils';
+import isRelayNetworkError from '../utils/relayUtils';
 
 export function errorLoading(err) {
   /* eslint-disable-next-line no-console */

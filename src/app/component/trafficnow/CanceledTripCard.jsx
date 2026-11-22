@@ -3,14 +3,14 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
-import { TRAFFICNOW, routePagePath } from '../../../utils/shared/path';
+import { TRAFFICNOW, routePagePath } from '../../../shared/path';
 import DisruptionCardShell from './DisruptionCardShell';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadgeGroup from './components/RouteBadgeGroup';
 import DisruptionBadge from './DisruptionBadge';
 import EntityBadge from './components/EntityBadge';
-import { patternShape, routeShape } from '../../../utils/client/shapes';
+import { patternShape, routeShape } from '../../utils/shapes';
 import { useFilterContext } from './filters/FiltersContext';
 import { sortRoutes } from './utils';
 

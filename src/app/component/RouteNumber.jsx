@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { transitIconName, modeToTranslationId } from '../../utils/client/modeUtils';
+import { transitIconName, modeToTranslationId } from '../utils/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
-import { TransportMode } from '../../utils/shared/constants';
+import { TransportMode } from '../../shared/constants';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;

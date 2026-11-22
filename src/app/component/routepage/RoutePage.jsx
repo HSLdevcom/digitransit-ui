@@ -3,7 +3,7 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { errorShape, fragmentRefShape } from '../../../utils/client/shapes';
+import { errorShape, fragmentRefShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import RouteAgencyInfo from './RouteAgencyInfo';
 import RouteNumber from '../RouteNumber';
@@ -13,15 +13,15 @@ import {
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../../utils/shared/path';
+} from '../../../shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
-import { getRouteMode, modeToTranslationId } from '../../../utils/client/modeUtils';
-import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
+import { getRouteMode, modeToTranslationId } from '../../utils/modeUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { isLocalCallAgency } from '../../../utils/client/legUtils';
+import { isLocalCallAgency } from '../../utils/legUtils';
 import RoutePageFragment from './queries/RoutePageFragment';
 
 function resolveHeadsign(pattern) {

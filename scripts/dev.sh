@@ -127,7 +127,7 @@ pids+=("$!")
 # loaded import graph changes (server/**, utils/{shared,server}/**, region
 # configs). --watch-preserve-output keeps Node from clearing the terminal on
 # every restart, which would wipe the other processes' interleaved output.
-node --watch --watch-preserve-output server/server.js &
+node --watch --watch-preserve-output src/server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &

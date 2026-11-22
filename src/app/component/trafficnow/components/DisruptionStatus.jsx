@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../../Icon';
-import { getFormattedTimeDate } from '../../../../utils/client/timeUtils';
+import { getFormattedTimeDate } from '../../../utils/timeUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const DATE_FORMAT = 'd.L.yyyy';

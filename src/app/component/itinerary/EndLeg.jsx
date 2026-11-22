@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
-import { stopShape } from '../../../utils/client/shapes';
+import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { parseLocation } from '../../../utils/shared/path';
-import { timeStr } from '../../../utils/client/timeUtils';
-import { getValidatedLegName } from '../../../utils/client/legUtils';
+import { parseLocation } from '../../../shared/path';
+import { timeStr } from '../../utils/timeUtils';
+import { getValidatedLegName } from '../../utils/legUtils';
 
 export default function EndLeg(props) {
   const match = useMatch();

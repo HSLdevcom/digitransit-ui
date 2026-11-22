@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { legShape } from '../../../utils/client/shapes';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { legShape } from '../../utils/shapes';
+import { ViaLocationType } from '../../../shared/constants';
 
 export default function ItineraryCircleLineLong({
   index,

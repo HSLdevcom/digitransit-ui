@@ -2,10 +2,10 @@ import PropTypes from 'prop-types';
 import { useFragment, graphql } from 'react-relay';
 
 import Link from 'found/Link';
-import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
-import { getRouteMode } from '../../../../utils/client/modeUtils';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/path';
+import { getRouteMode } from '../../../utils/modeUtils';
 import Icon from '../../Icon';
-import { fragmentRefShape } from '../../../../utils/client/shapes';
+import { fragmentRefShape } from '../../../utils/shapes';
 
 export default function SelectVehicleRow({ trip: tripRef }) {
   const trip = useFragment(

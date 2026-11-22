@@ -1,4 +1,4 @@
-import { filterAndSortAlerts } from '../../../../app/component/trafficnow/filters/filterUtils';
+import { filterAndSortAlerts } from '../../../../src/app/component/trafficnow/filters/filterUtils';
 
 const NOW_MS = 1_000_000;
 

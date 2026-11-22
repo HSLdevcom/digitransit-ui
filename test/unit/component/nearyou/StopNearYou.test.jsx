@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import StopNearYou from '../../../../app/component/nearyou/StopNearYou';
-import * as NearYouHeaderModule from '../../../../app/component/nearyou/NearYouHeader';
-import * as StopNearYouDepartureRowContainerModule from '../../../../app/component/nearyou/StopNearYouDepartureRowContainer';
+import StopNearYou from '../../../../src/app/component/nearyou/StopNearYou';
+import * as NearYouHeaderModule from '../../../../src/app/component/nearyou/NearYouHeader';
+import * as StopNearYouDepartureRowContainerModule from '../../../../src/app/component/nearyou/StopNearYouDepartureRowContainer';
 import { createTestConfig } from '../../helpers/mock-context';
 
 const NearYouHeaderStub = () => <div className="near-you-header" />;

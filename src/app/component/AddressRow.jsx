@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import StopCode from './StopCode';
-import { getTerminalOrStationText } from '../../utils/client/localeUtils';
+import { getTerminalOrStationText } from '../utils/localeUtils';
 
 export default function AddressRow({ desc, code, isTerminal = false, vehicleMode }) {
   const intl = useIntl();

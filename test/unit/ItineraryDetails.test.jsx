@@ -1,6 +1,6 @@
 import { renderWithProviders } from './helpers/mock-providers';
 
-import ItineraryDetails from '../../app/component/itinerary/ItineraryDetails';
+import ItineraryDetails from '../../src/app/component/itinerary/ItineraryDetails';
 import dt2831 from './test-data/dt2831';
 
 const itinerary = {

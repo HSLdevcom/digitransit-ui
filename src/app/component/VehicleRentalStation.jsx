@@ -1,4 +1,4 @@
-import { vehicleRentalStationShape } from '../../utils/client/shapes';
+import { vehicleRentalStationShape } from '../utils/shapes';
 import VehicleRentalAvailability from './VehicleRentalAvailability';
 import Icon from './Icon';
 import {
@@ -7,7 +7,7 @@ import {
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-} from '../../utils/shared/vehicleRentalUtils';
+} from '../../shared/vehicleRentalUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function VehicleRentalStation({ vehicleRentalStation }) {

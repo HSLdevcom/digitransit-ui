@@ -1,6 +1,6 @@
-import fi from '../../app/translations/fi';
-import sv from '../../app/translations/sv';
-import en from '../../app/translations/en';
+import fi from '../../src/app/translations/fi';
+import sv from '../../src/app/translations/sv';
+import en from '../../src/app/translations/en';
 
 describe('translations', () => {
   it('English translations should have all the Finnish terms', () => {

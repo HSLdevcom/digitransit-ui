@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 
-import ScheduleTripList from '../../../../app/component/routepage/schedule/ScheduleTripList';
+import ScheduleTripList from '../../../../src/app/component/routepage/schedule/ScheduleTripList';
 
 describe('<ScheduleTripList />', () => {
   const createTrip = (id, fromDep, toDep, state = 'SCHEDULED') => ({

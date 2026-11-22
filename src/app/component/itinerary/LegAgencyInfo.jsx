@@ -1,6 +1,6 @@
 import { useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { legShape } from '../../../utils/client/shapes';
+import { legShape } from '../../utils/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { LegAgencyInfoFragment } from './queries/LegAgencyInfoFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';

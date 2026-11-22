@@ -1,15 +1,15 @@
 import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { legShape, legTimeShape } from '../../../utils/client/shapes';
+import { legShape, legTimeShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import { durationToString } from '../../../utils/client/timeUtils';
+import { durationToString } from '../../utils/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_STOPS } from '../../../utils/shared/path';
-import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../../utils/client/legUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { PREFIX_STOPS } from '../../../shared/path';
+import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/legUtils';
+import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { ViaLocationType } from '../../../shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function WaitLeg({

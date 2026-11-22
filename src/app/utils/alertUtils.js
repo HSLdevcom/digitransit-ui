@@ -1,6 +1,6 @@
 import isNumber from 'lodash/isNumber';
 
-import { RealtimeStateType, AlertSeverityLevelType, AlertEntityType } from '../shared/constants';
+import { RealtimeStateType, AlertSeverityLevelType, AlertEntityType } from '../../shared/constants';
 
 import { legTime } from './legUtils';
 

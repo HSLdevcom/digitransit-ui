@@ -1,12 +1,12 @@
 import { DateTime } from 'luxon';
 import isEqual from 'lodash/isEqual';
 import { getTransitModes, isTransportModeAvailable } from './modeUtils';
-import { networkIsActive } from '../shared/citybikeSeasonUtils';
-import { otpToLocation, getIntermediatePlaces } from '../shared/otpStrings';
-import { getAllNetworksOfType, getDefaultNetworks } from '../shared/vehicleRentalUtils';
+import { networkIsActive } from '../../shared/citybikeSeasonUtils';
+import { otpToLocation, getIntermediatePlaces } from '../../shared/otpStrings';
+import { getAllNetworksOfType, getDefaultNetworks } from '../../shared/vehicleRentalUtils';
 import { getCustomizedSettings } from './localStorage';
-import { estimateItineraryDistance } from '../shared/geo-utils';
-import { TransportMode } from '../shared/constants';
+import { estimateItineraryDistance } from '../../shared/geo-utils';
+import { TransportMode } from '../../shared/constants';
 
 export const PLANTYPE = {
   WALK: 'WALK',

@@ -3,7 +3,7 @@ import {
   isFirstInterliningLeg,
   isWalkOrBicycleWalkLeg,
   legTime,
-} from '../../../utils/client/legUtils';
+} from '../../utils/legUtils';
 
 /**
  * Normalises the bar-width percentage for each compressed leg.

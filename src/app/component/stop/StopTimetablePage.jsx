@@ -1,7 +1,7 @@
 import { useFragment } from 'react-relay';
 import { useMatch } from 'found';
-import { fragmentRefShape } from '../../../utils/client/shapes';
-import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
+import { fragmentRefShape } from '../../utils/shapes';
+import { unixTime, unixToYYYYMMDD } from '../../utils/timeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Timetable from './Timetable';
 import { StopTimetablePageFragment } from './queries/StopTimetablePageFragment';

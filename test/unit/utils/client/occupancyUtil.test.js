@@ -4,7 +4,7 @@ import {
   isDepartureWithinWindow,
   getCapacity,
   getCapacityForLeg,
-} from '../../../../utils/client/occupancyUtil';
+} from '../../../../src/app/utils/occupancyUtil';
 
 const NOW = 1_700_000_000_000;
 const minutesFromNow = minutes => NOW + minutes * 60 * 1000;

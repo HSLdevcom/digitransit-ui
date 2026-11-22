@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import Icon from './Icon';
 import ExternalLink from './ExternalLink';
-import { AlertSeverityLevelType } from '../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../shared/constants';
 
 export default function DisruptionDetails({
   alertDescriptionText,

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
-import { legShape, legTimeShape } from '../../../utils/client/shapes';
-import { legTimeStr } from '../../../utils/client/legUtils';
+import { legShape, legTimeShape } from '../../utils/shapes';
+import { legTimeStr } from '../../utils/legUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { stopPagePath } from '../../../utils/shared/path';
+import { stopPagePath } from '../../../shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

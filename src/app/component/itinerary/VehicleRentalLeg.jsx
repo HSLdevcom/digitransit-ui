@@ -3,25 +3,25 @@ import Link from 'found/Link';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 
-import { vehicleRentalStationShape, rentalVehicleShape } from '../../../utils/client/shapes';
+import { vehicleRentalStationShape, rentalVehicleShape } from '../../utils/shapes';
 import {
   BIKEAVL_UNKNOWN,
   getVehicleCapacity,
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../../utils/shared/vehicleRentalUtils';
+} from '../../../shared/vehicleRentalUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Icon from '../Icon';
-import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
+import { PREFIX_BIKESTATIONS } from '../../../shared/path';
 import {
   getVehicleAvailabilityTextColor,
   getVehicleAvailabilityIndicatorColor,
-} from '../../../utils/client/legUtils';
+} from '../../utils/legUtils';
 import ScooterLinkContainer from './ScooterLinkContainer';
 import IconBadge from '../icon/IconBadge';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 export default function VehicleRentalLeg({
   stationName,

@@ -1,5 +1,5 @@
-import configMerger from '../../utils/server/configMerger.js';
-import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
+import configMerger from '../utils/configMerger.js';
+import { BIKEAVL_WITHMAX } from '../../shared/vehicleRentalUtils.js';
 import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'turku';

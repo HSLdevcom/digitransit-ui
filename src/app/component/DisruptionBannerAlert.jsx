@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
-import { alertShape } from '../../utils/client/shapes';
+import { alertShape } from '../utils/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 import TruncatedMessage from './TruncatedMessage';
-import { mapAlertSource } from '../../utils/client/alertUtils';
+import { mapAlertSource } from '../utils/alertUtils';
 
 export default function DisruptionBannerAlert({
   alert,

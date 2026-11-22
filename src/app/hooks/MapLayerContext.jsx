@@ -1,8 +1,8 @@
 import { createContext, useCallback, useContext, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import { getMapLayerSettings, setMapLayerSettings } from '../../utils/client/localStorage';
-import { showRentalVehiclesOfType } from '../../utils/client/modeUtils';
-import { TransportMode } from '../../utils/shared/constants';
+import { getMapLayerSettings, setMapLayerSettings } from '../utils/localStorage';
+import { showRentalVehiclesOfType } from '../utils/modeUtils';
+import { TransportMode } from '../../shared/constants';
 import { useConfigContext } from './ConfigContext';
 
 const MapLayerContext = createContext(null);

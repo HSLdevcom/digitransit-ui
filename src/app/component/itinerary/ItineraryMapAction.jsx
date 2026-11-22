@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
 import Icon from '../Icon';
 
 export default function ItineraryMapAction({

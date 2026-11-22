@@ -11,19 +11,19 @@ import {
   legTimeStr,
   isLocalCallAgency,
   isCallAgencyLeg,
-} from '../../../../utils/client/legUtils';
+} from '../../../utils/legUtils';
 import ZoneIcon from '../../ZoneIcon';
-import { legShape } from '../../../../utils/client/shapes';
+import { legShape } from '../../../utils/shapes';
 import { getDestinationProperties, LEGTYPE, withRealTime } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
-import { durationToString } from '../../../../utils/client/timeUtils';
+import { getTripOrRouteMode } from '../../../utils/modeUtils';
+import { durationToString } from '../../../utils/timeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../../shared/colorUtils';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
-import { IndoorLegType, NaviCardType } from '../../../../utils/shared/constants';
-import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { IndoorLegType, NaviCardType } from '../../../../shared/constants';
+import { getIndoorLegType } from '../../../utils/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NaviCardExtension({

@@ -1,4 +1,4 @@
-import * as utils from '../../../../utils/client/mapLayerUtils';
+import * as utils from '../../../../src/app/utils/mapLayerUtils';
 
 describe('mapLayerUtils', () => {
   describe('isLayerEnabled', () => {

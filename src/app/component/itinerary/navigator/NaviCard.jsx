@@ -1,16 +1,16 @@
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import cx from 'classnames';
-import { isAnyLegPropertyIdentical, isRental } from '../../../../utils/client/legUtils';
-import { getTripOrRouteMode, transitIconName } from '../../../../utils/client/modeUtils';
-import { legShape } from '../../../../utils/client/shapes';
+import { isAnyLegPropertyIdentical, isRental } from '../../../utils/legUtils';
+import { getTripOrRouteMode, transitIconName } from '../../../utils/modeUtils';
+import { legShape } from '../../../utils/shapes';
 import Icon from '../../Icon';
 import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { IndoorLegType, NaviCardType } from '../../../../utils/shared/constants';
-import { getIndoorLegType } from '../../../../utils/client/indoorUtils';
+import { IndoorLegType, NaviCardType } from '../../../../shared/constants';
+import { getIndoorLegType } from '../../../utils/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 const iconMap = {

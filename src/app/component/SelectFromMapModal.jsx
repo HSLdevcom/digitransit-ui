@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useCallback } from 'react';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
-import { hslfiLocale } from '../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../utils/hslfiLocale';
 
 /**
  * Full-bleed wrapper around the HSL design system's Modal/ModalContent,

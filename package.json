@@ -17,9 +17,9 @@
     "relay-watch": "relay-compiler --watch",
     "prebuild": "yarn run static && yarn run sprites && yarn run relay",
     "build": "NODE_ENV=production sh -c 'yarn prebuild && node --max_old_space_size=4096 node_modules/.bin/webpack --progress --color'",
-    "start": "NODE_ENV=production node $NODE_OPTS server/server.js",
+    "start": "NODE_ENV=production node $NODE_OPTS src/server/server.js",
     "dev": "bash scripts/dev.sh",
-    "dev-nowatch": "RUN_ENV=development NODE_ENV=development sh -c 'node server/server.js & webpack-dev-server'",
+    "dev-nowatch": "RUN_ENV=development NODE_ENV=development sh -c 'node src/server/server.js & webpack-dev-server'",
     "test-unit": "yarn relay && yarn packages-build && vitest run",
     "test-unit:app": "yarn relay && yarn packages-build && vitest run --project app",
     "test-unit:server": "vitest run --project server",
@@ -28,12 +28,12 @@
     "sort-translations": "node scripts/sort-translations.js",
     "eslint": "eslint . --ext .js,.jsx,.cjs",
     "eslint-fix": "eslint . --ext .js,.jsx,.cjs --fix",
-    "prettier-styles": "prettier styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --check",
-    "prettier-styles-fix": "prettier styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --write",
-    "prettier-icons": "prettier 'app/assets/icons/**/*.svg' --check",
-    "prettier-icons-fix": "prettier 'app/assets/icons/**/*.svg' --write",
-    "stylelint": "stylelint styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss",
-    "stylelint-fix": "stylelint styles/**/*.scss app/**/*.scss packages/digitransit-component/**/*.scss --fix",
+    "prettier-styles": "prettier src/**/*.scss packages/digitransit-component/**/*.scss --check",
+    "prettier-styles-fix": "prettier src/**/*.scss packages/digitransit-component/**/*.scss --write",
+    "prettier-icons": "prettier 'src/app/assets/icons/**/*.svg' --check",
+    "prettier-icons-fix": "prettier 'src/app/assets/icons/**/*.svg' --write",
+    "stylelint": "stylelint src/**/*.scss packages/digitransit-component/**/*.scss",
+    "stylelint-fix": "stylelint src/**/*.scss packages/digitransit-component/**/*.scss --fix",
     "add-theme": "node scripts/theme/add-theme.js",
     "packages-publish": "lerna publish from-package --no-git-tag-version --no-push --summary-file",
     "packages-publish-ci": "lerna publish from-package --no-git-tag-version --no-push --summary-file -y",
@@ -95,7 +95,7 @@
       "prettier --check",
       "stylelint"
     ],
-    "app/assets/icons/**/*.svg": [
+    "src/app/assets/icons/**/*.svg": [
       "prettier --check"
     ]
   },
@@ -120,7 +120,7 @@
     }
   },
   "relay": {
-    "src": "./app",
+    "src": "./src/app",
     "schema": "./packages/private/schema/schema.graphql",
     "language": "javascript",
     "eagerEsModules": true

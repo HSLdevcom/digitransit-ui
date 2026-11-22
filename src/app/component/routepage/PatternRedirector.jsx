@@ -2,10 +2,10 @@ import { useEffect } from 'react';
 import { useFragment } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
 import Error404 from '../404';
 import { getOldSearches, removeSearch } from '../../data/SearchHistory';
-import { fragmentRefShape, routeShape } from '../../../utils/client/shapes';
+import { fragmentRefShape, routeShape } from '../../utils/shapes';
 import PatternRedirectorFragment from './queries/PatternRedirectorFragment';
 
 const PatternRedirector = ({ route }) => {

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { memo } from 'react';
 import SearchAutosuggest from '../SearchAutosuggest';
-import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
+import { getLocationSearchTargets } from '../../utils/searchUtils';
 import { countLocations } from '../../data/FavouriteData';
 import { useFavourites } from '../../hooks/FavouriteContext';
 import { useConfigContext } from '../../hooks/ConfigContext';

@@ -105,4 +105,4 @@ HEALTHCHECK \
   --interval=5s --timeout=3s --retries=3 --start-period=5s \
   CMD wget --spider -q "http://localhost:$PORT/" || exit 1
 
-CMD ["sh", "-c", "exec node $NODE_OPTS server/server.js"]
+CMD ["sh", "-c", "exec node $NODE_OPTS src/server/server.js"]

@@ -6,7 +6,7 @@ import {
   getFavouriteVehicleRentalStationsQuery,
   // getAllVehicleRentalStations,  // Bike stations are fetched from Geocoding
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { getLanguage, getFutureRoutes, clearFutureRoutes } from '../../utils/client/storeUtils';
+import { getLanguage, getFutureRoutes, clearFutureRoutes } from '../utils/storeUtils';
 import favouriteStore, {
   getFavouritePlaces,
   getFavouriteStopsAndStations,
@@ -14,8 +14,8 @@ import favouriteStore, {
   getFavouriteVehicleRentalStations,
 } from './FavouriteData';
 import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
-import { hasCitybikes } from '../../utils/client/modeUtils';
-import { getDefaultNetworks } from '../../utils/shared/vehicleRentalUtils';
+import { hasCitybikes } from '../utils/modeUtils';
+import { getDefaultNetworks } from '../../shared/vehicleRentalUtils';
 
 /**
  * Plain (non-Flux) singleton that acts both as the template/interface for,

@@ -2,21 +2,21 @@
 import PropTypes from 'prop-types';
 import { Fragment, useEffect, useRef } from 'react';
 import some from 'lodash/some';
-import { matchShape } from '../../utils/client/shapes';
+import { matchShape } from '../utils/shapes';
 import {
   getHomeUrl,
   PREFIX_STOPS,
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
-} from '../../utils/shared/path';
+} from '../../shared/path';
 import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../hooks/BreakpointContext';
-import { addAnalyticsEvent, handleUserAnalytics } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent, handleUserAnalytics } from '../../shared/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
 import { useConfigContext } from '../hooks/ConfigContext';
 

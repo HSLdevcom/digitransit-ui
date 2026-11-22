@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockContext } from '../../helpers/mock-context';
-import { usePositionActions } from '../../../../app/hooks/PositionContext';
+import { usePositionActions } from '../../../../src/app/hooks/PositionContext';
 import {
   default as MapWithTracking,
   getForcedLayersFromMapLayerOptions,
-} from '../../../../app/component/map/MapWithTracking';
+} from '../../../../src/app/component/map/MapWithTracking';
 
 const defaultProps = {
   lat: 60,

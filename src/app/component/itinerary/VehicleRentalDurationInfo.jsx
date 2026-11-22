@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
 import { FormattedMessage } from 'react-intl';
-import { configShape } from '../../../utils/client/shapes';
+import { configShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalNetworkId,
-} from '../../../utils/shared/vehicleRentalUtils';
+} from '../../../shared/vehicleRentalUtils';
 
 export default function VehicleRentalDurationInfo({ networks, config }) {
   const lang = config.language;

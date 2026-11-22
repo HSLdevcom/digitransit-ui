@@ -1,11 +1,11 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { itineraryShape } from '../../../utils/client/shapes';
+import { itineraryShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { displayDistance } from '../../../utils/shared/geo-utils';
-import { getTotalDistance } from '../../../utils/client/legUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { displayDistance } from '../../../shared/geo-utils';
+import { getTotalDistance } from '../../utils/legUtils';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
 import SecondaryButton from '../SecondaryButton';
 
 const printItinerary = e => {

@@ -8,26 +8,26 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { useRouter } from 'found';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
-import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { ExtendedRouteTypes } from '../../../shared/constants';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   getCancelationsForRoute,
   getAlertsForObject,
   checkActiveDisruptions,
   getActiveAlertSeverityLevel,
-} from '../../../utils/client/alertUtils';
-import { isActiveDate } from '../../../utils/client/patternUtils';
+} from '../../utils/alertUtils';
+import { isActiveDate } from '../../utils/patternUtils';
 import {
   routePagePath,
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { isIOS } from '../../../utils/shared/browser';
-import { unixTime, unixToYYYYMMDD } from '../../../utils/client/timeUtils';
+} from '../../../shared/path';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { isIOS } from '../../../shared/browser';
+import { unixTime, unixToYYYYMMDD } from '../../utils/timeUtils';
 import { saveSearch } from '../../data/SearchHistory';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 const Tab = { Disruptions: PREFIX_DISRUPTION, Stops: PREFIX_STOPS, Timetable: PREFIX_TIMETABLE };
 

@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { stopShape } from '../../utils/client/shapes';
+import { stopShape } from '../utils/shapes';
 import Favourite from './Favourite';
 import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
 import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { useMessageActions } from '../hooks/MessageContext';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { failedFavouriteMessage } from '../../utils/client/messageUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { failedFavouriteMessage } from '../utils/messageUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function FavouriteStopContainer({ stop, isTerminal = false, ...rest }) {

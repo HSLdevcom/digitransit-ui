@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
-import { errorShape, RoutingerrorShape, locationShape } from '../../../utils/client/shapes';
+import { errorShape, RoutingerrorShape, locationShape } from '../../utils/shapes';
 import ErrorCard from './ErrorCard';
 import findErrorMessageIds from './findErrorMessageIds';
 import errorCardProps from './errorCardProperties';

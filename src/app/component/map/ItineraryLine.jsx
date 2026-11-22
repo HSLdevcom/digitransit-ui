@@ -6,7 +6,7 @@ import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getMiddleOf } from '../../../utils/shared/geo-utils';
+import { getMiddleOf } from '../../../shared/geo-utils';
 import {
   getInterliningLegs,
   getTripOrRouteText,
@@ -14,10 +14,10 @@ import {
   isLocalCallAgency,
   isTaxiLeg,
   isCallAgencyLeg,
-} from '../../../utils/client/legUtils';
-import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
-import { legShape } from '../../../utils/client/shapes';
-import { durationToString } from '../../../utils/client/timeUtils';
+} from '../../utils/legUtils';
+import { getTripOrRouteMode } from '../../utils/modeUtils';
+import { legShape } from '../../utils/shapes';
+import { durationToString } from '../../utils/timeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Line from './Line';
 import StopMarker from './non-tile-layer/StopMarker';
@@ -27,15 +27,15 @@ import SpeechBubble from './SpeechBubble';
 import EntranceMarker from './EntranceMarker';
 import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorStepMarker from './IndoorStepMarker';
-import { createFeatureObjects } from '../../../utils/client/clusterUtils';
-import { IndoorStepType, IndoorLegType, WheelchairBoarding } from '../../../utils/shared/constants';
+import { createFeatureObjects } from '../../utils/clusterUtils';
+import { IndoorStepType, IndoorLegType, WheelchairBoarding } from '../../../shared/constants';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,
   getIndoorLegType,
   getIndoorStepsWithVerticalTransportation,
   isVerticalTransportationUse,
-} from '../../../utils/client/indoorUtils';
+} from '../../utils/indoorUtils';
 
 export default function ItineraryLine({
   legs,

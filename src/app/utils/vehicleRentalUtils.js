@@ -1,6 +1,6 @@
 import without from 'lodash/without';
 import { getCustomizedSettings } from './localStorage';
-import { addAnalyticsEvent } from '../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
 
 /**
  * Retrieves all chosen citybike networks from the

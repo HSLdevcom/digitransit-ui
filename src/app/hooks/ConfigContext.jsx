@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 import { PropTypes } from 'prop-types';
-import { configShape } from '../../utils/client/shapes';
+import { configShape } from '../utils/shapes';
 
 const ConfigContext = createContext();
 

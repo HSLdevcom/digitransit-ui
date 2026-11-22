@@ -1,4 +1,4 @@
-import { resolveLocale } from '../../../../server/middleware/shell';
+import { resolveLocale } from '../../../../src/server/middleware/shell';
 
 // server/middleware/shell.js imports server/html/assetManifest.js, which
 // reads manifest.json from disk at *module load time* unless

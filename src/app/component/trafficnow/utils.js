@@ -1,15 +1,11 @@
 /* eslint-disable no-underscore-dangle */
-import {
-  getTransportModes,
-  getRouteMode,
-  getBaseTransportMode,
-} from '../../../utils/client/modeUtils';
+import { getTransportModes, getRouteMode, getBaseTransportMode } from '../../utils/modeUtils';
 import {
   AlertEntityType,
   LocationTypes,
   TrafficNowTransportModes,
-} from '../../../utils/shared/constants';
-import { stopPagePath, routePagePath } from '../../../utils/shared/path';
+} from '../../../shared/constants';
+import { stopPagePath, routePagePath } from '../../../shared/path';
 
 const sortAlphaNumeric = (a, b) => {
   const first = typeof a === 'string' ? a.toLowerCase() : a.toString();

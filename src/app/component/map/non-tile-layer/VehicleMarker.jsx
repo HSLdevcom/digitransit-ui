@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
-import { TransportMode } from '../../../../utils/shared/constants';
-import { vehicleRentalStationShape, rentalVehicleShape } from '../../../../utils/client/shapes';
+import { TransportMode } from '../../../../shared/constants';
+import { vehicleRentalStationShape, rentalVehicleShape } from '../../../utils/shapes';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 import {
@@ -10,14 +10,14 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../shared/vehicleRentalUtils';
 import {
   getVehicleAvailabilityIndicatorColor,
   getVehicleAvailabilityTextColor,
-} from '../../../../utils/client/legUtils';
+} from '../../../utils/legUtils';
 
-import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../../utils/shared/path';
-import { renderAsString } from '../../../../utils/client/mapIconUtils';
+import { PREFIX_BIKESTATIONS, PREFIX_RENTALVEHICLES } from '../../../../shared/path';
+import { renderAsString } from '../../../utils/mapIconUtils';
 import IconBadge from '../../icon/IconBadge';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

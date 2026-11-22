@@ -1,7 +1,7 @@
 import Link from 'found/Link';
 import { renderWithProviders } from '../helpers/mock-providers';
-import AlertBanner from '../../../app/component/AlertBanner';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import AlertBanner from '../../../src/app/component/AlertBanner';
+import { AlertSeverityLevelType } from '../../../src/shared/constants';
 
 // The global Link mock drops the anchor, so replace Link.render here instead of
 // using vi.mock('found'): tests share the module registry (isolate: false),

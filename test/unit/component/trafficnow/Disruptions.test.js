@@ -1,7 +1,7 @@
 import {
   buildAlertsFingerprint,
   getCanceledModes,
-} from '../../../../app/component/trafficnow/Disruptions';
+} from '../../../../src/app/component/trafficnow/Disruptions';
 
 const makeAlert = (id, start, end, severity) => ({
   id,

@@ -1,18 +1,13 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { displayDistance } from '../../../../utils/shared/geo-utils';
-import { legShape } from '../../../../utils/client/shapes';
-import {
-  legDestination,
-  legTimeStr,
-  legTime,
-  isLocalCallAgency,
-} from '../../../../utils/client/legUtils';
+import { displayDistance } from '../../../../shared/geo-utils';
+import { legShape } from '../../../utils/shapes';
+import { legDestination, legTimeStr, legTime, isLocalCallAgency } from '../../../utils/legUtils';
 import { LEGTYPE, getLocalizedMode, getToLocalizedMode, withRealTime } from './NaviUtils';
-import { getTripOrRouteMode } from '../../../../utils/client/modeUtils';
+import { getTripOrRouteMode } from '../../../utils/modeUtils';
 import BoardingInfo from './BoardingInfo';
-import { durationToString } from '../../../../utils/client/timeUtils';
+import { durationToString } from '../../../utils/timeUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function getBoardingParams(intl, leg, time, config) {

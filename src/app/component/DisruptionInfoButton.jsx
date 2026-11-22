@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { fragmentRefShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../utils/shapes';
 import Icon from './Icon';
 import { useConfigContext } from '../hooks/ConfigContext';
 

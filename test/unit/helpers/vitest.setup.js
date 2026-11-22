@@ -9,9 +9,9 @@ import Link from 'found/Link';
 import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
-import { initHslfiLocale } from '../../../utils/client/hslfiLocale';
-import translations from '../../../app/translations/en';
+import { initAnalyticsClientSide } from '../../../src/shared/analyticsUtils';
+import { initHslfiLocale } from '../../../src/app/utils/hslfiLocale';
+import translations from '../../../src/app/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';
 
 // Components pass the design system locale to @hsl-fi components; the client

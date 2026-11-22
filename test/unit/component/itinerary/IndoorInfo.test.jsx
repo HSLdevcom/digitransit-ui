@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import IndoorInfo from '../../../../app/component/itinerary/IndoorInfo';
+import IndoorInfo from '../../../../src/app/component/itinerary/IndoorInfo';
 
 const baseConfig = createTestConfig();
 

@@ -6,7 +6,7 @@ import ParkAndRideForBikes from './ParkAndRideForBikes';
 import RentalVehicles from './RentalVehicles';
 import AreaStops from './AreaStops';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import { mapLayerShape } from '../../../../utils/client/shapes';
+import { mapLayerShape } from '../../../utils/shapes';
 
 export default function VectorTileLayerContainer({ mapLayers, ...rest }) {
   const config = useConfigContext();

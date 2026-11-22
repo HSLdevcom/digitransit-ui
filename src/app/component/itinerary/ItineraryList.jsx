@@ -3,19 +3,15 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { planEdgeShape } from '../../../utils/client/shapes';
+import { planEdgeShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import Itinerary from './Itinerary';
-import {
-  getExtendedMode,
-  showBikeBoardingNote,
-  showCarBoardingNote,
-} from '../../../utils/client/legUtils';
+import { getExtendedMode, showBikeBoardingNote, showCarBoardingNote } from '../../utils/legUtils';
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import { streetHash } from '../../../utils/shared/path';
-import { getIntermediatePlaces } from '../../../utils/shared/otpStrings';
+import { streetHash } from '../../../shared/path';
+import { getIntermediatePlaces } from '../../../shared/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

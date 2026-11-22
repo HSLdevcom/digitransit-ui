@@ -1,4 +1,4 @@
-import TripStopListContainer from '../../../app/component/routepage/TripStopListContainer';
+import TripStopListContainer from '../../../src/app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockContext } from '../helpers/mock-context';
 

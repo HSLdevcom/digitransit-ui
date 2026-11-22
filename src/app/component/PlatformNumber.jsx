@@ -5,7 +5,7 @@ import Icon from './Icon';
 import {
   getTrackOrPierOrPlatformText,
   getTrackOrPierOrPlatformTextShort,
-} from '../../utils/client/localeUtils';
+} from '../utils/localeUtils';
 
 export default function PlatformNumber({
   number,

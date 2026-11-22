@@ -2,7 +2,7 @@ import { useCallback } from 'react';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { DomEvent } from 'leaflet';
-import { otpToLocation } from '../../../utils/shared/otpStrings';
+import { otpToLocation } from '../../../shared/otpStrings';
 
 export default function ConfirmLocationFromMapButton({
   address,

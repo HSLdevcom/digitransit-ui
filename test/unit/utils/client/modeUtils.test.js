@@ -1,6 +1,6 @@
-import { StreetMode, TransportMode } from '../../../../utils/shared/constants';
-import * as utils from '../../../../utils/client/modeUtils';
-import { setCustomizedSettings } from '../../../../utils/client/localStorage';
+import { StreetMode, TransportMode } from '../../../../src/shared/constants';
+import * as utils from '../../../../src/app/utils/modeUtils';
+import { setCustomizedSettings } from '../../../../src/app/utils/localStorage';
 
 const config = {
   transportModes: {

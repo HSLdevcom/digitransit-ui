@@ -1,10 +1,10 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { fareShape, legShape } from '../../../utils/client/shapes';
+import { fareShape, legShape } from '../../utils/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import Icon from '../Icon';
-import { getAlternativeFares, formatFare } from '../../../utils/client/fareUtils';
+import { getAlternativeFares, formatFare } from '../../utils/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];

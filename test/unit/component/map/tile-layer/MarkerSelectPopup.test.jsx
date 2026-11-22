@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import MarkerSelectPopup from '../../../../../app/component/map/tile-layer/MarkerSelectPopup';
+import MarkerSelectPopup from '../../../../../src/app/component/map/tile-layer/MarkerSelectPopup';
 
 describe('<MarkerSelectPopup />', () => {
   it('should render stop, citybike, parkandride and vehicle rows with valid data', () => {

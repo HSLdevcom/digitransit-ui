@@ -3,11 +3,11 @@ import { Fragment } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Button, Text } from '@hsl-fi/layout-primitives';
 
-import { mapLayerOptionsShape, mapLayerShape } from '../../../utils/client/shapes';
+import { mapLayerOptionsShape, mapLayerShape } from '../../utils/shapes';
 import Checkbox from '../Checkbox';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { getTransportModes, showRentalVehiclesOfType } from '../../../utils/client/modeUtils';
-import { TransportMode } from '../../../utils/shared/constants';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { getTransportModes, showRentalVehiclesOfType } from '../../utils/modeUtils';
+import { TransportMode } from '../../../shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 import { useMapLayers } from '../../hooks/MapLayerContext';

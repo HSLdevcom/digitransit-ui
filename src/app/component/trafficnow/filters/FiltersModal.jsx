@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Filters from './Filters';
 import { useFilterContext } from './FiltersContext';
-import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../../../utils/hslfiLocale';
 
 export default function FiltersModal({ isOpen, onClose }) {
   const { resetFilters, selectedFilters } = useFilterContext();

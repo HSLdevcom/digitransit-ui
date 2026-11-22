@@ -1,8 +1,8 @@
 import {
   getLegsOfInterest,
   matchLegEnds,
-} from '../../../../../../../app/component/itinerary/navigator/hooks/utils/realtimeLegUtils';
-import { legTime } from '../../../../../../../utils/client/legUtils';
+} from '../../../../../../../src/app/component/itinerary/navigator/hooks/utils/realtimeLegUtils';
+import { legTime } from '../../../../../../../src/app/utils/legUtils';
 
 const at = ms => ({ scheduledTime: new Date(ms).toISOString() });
 

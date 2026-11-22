@@ -24,7 +24,7 @@ import path from 'path';
 import { JSDOM } from 'jsdom';
 
 const rootDir = path.resolve(import.meta.dirname, '../..');
-export const iconsDir = path.join(rootDir, 'app', 'assets', 'icons');
+export const iconsDir = path.join(rootDir, 'src', 'app', 'assets', 'icons');
 const outDir = path.join(rootDir, '_static', 'assets');
 
 const BASE_THEME = 'default';

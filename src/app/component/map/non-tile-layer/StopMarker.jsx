@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { useRouter } from 'found';
 import { default as L } from 'leaflet';
-import { stopShape } from '../../../../utils/client/shapes';
+import { stopShape } from '../../../utils/shapes';
 import GenericMarker from '../GenericMarker';
 import Icon from '../../Icon';
 import {
@@ -10,11 +10,11 @@ import {
   getStopRadius,
   getHubRadius,
   renderAsString,
-} from '../../../../utils/client/mapIconUtils';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { PREFIX_STOPS } from '../../../../utils/shared/path';
+} from '../../../utils/mapIconUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { PREFIX_STOPS } from '../../../../shared/path';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from '../../../../utils/client/stopStatusUtils';
+import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from '../../../utils/stopStatusUtils';
 
 // Below this zoom the status badge is drawn as a plain colored dot.
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;

@@ -7,9 +7,9 @@ import MarkerPopupBottom from '../MarkerPopupBottom';
 import Card from '../../Card';
 import Loading from '../../Loading';
 import ZoneIcon from '../../ZoneIcon';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { splitStringToAddressAndPlace } from '../../../../utils/shared/otpStrings';
-import getZoneId from '../../../../utils/client/zoneIconUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { splitStringToAddressAndPlace } from '../../../../shared/otpStrings';
+import getZoneId from '../../../utils/zoneIconUtils';
 import PopupHeader from '../PopupHeader';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

@@ -7,8 +7,8 @@ import {
   getModes,
   toggleTransportMode,
   modeToTranslationId,
-} from '../../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+} from '../../../utils/modeUtils';
+import { getModeIconColor } from '../../../../shared/colorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function TransportModes({ updateSettings }) {

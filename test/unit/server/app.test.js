@@ -1,7 +1,7 @@
 import request from 'supertest';
 import fs from 'fs';
 import path from 'path';
-import createApp, { onError } from '../../../server/app';
+import createApp, { onError } from '../../../src/server/app';
 
 // server/app.js's import chain reaches server/html/assetManifest.js, which
 // reads manifest.json from disk at *module load time* when
@@ -17,7 +17,7 @@ vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 // Stands in for the real OIDC setup (which needs Redis and an OIDC
 // provider): registers a route that, like the real /login and /logout,
 // reads req.cookies.
-vi.mock('../../../server/passport-openid-connect/openidConnect', () => ({
+vi.mock('../../../src/server/passport-openid-connect/openidConnect', () => ({
   default: app => {
     app.get('/login', (req, res) => res.send(req.cookies.lang));
     return undefined;

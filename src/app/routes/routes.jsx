@@ -5,7 +5,7 @@ import queryMiddleware from 'farce/queryMiddleware';
 import createRender from 'found/createRender';
 import Error404 from '../component/404';
 import TopLevel from '../component/TopLevel';
-import { prepareWeekDays } from '../../utils/client/dateParamUtils';
+import { prepareWeekDays } from '../utils/dateParamUtils';
 import {
   PREFIX_ITINERARY_SUMMARY,
   PREFIX_NEARYOU,
@@ -18,7 +18,7 @@ import {
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
   TRAFFICNOW,
-} from '../../utils/shared/path';
+} from '../../shared/path';
 import {
   getDefault,
   errorLoading,

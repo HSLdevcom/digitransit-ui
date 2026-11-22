@@ -1,10 +1,7 @@
 import { useState } from 'react';
-import { getReadMessageIds, setReadMessageId } from '../../../utils/client/localStorage';
+import { getReadMessageIds, setReadMessageId } from '../../utils/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import {
-  getRentalNetworkConfig,
-  getRentalNetworkId,
-} from '../../../utils/shared/vehicleRentalUtils';
+import { getRentalNetworkConfig, getRentalNetworkId } from '../../../shared/vehicleRentalUtils';
 import Disclaimer from '../Disclaimer';
 
 export default function CityBikeInfo() {

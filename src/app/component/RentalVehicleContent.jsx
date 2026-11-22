@@ -5,14 +5,11 @@ import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import {
-  getRentalNetworkIcon,
-  getRentalNetworkConfig,
-} from '../../utils/shared/vehicleRentalUtils';
-import { PREFIX_RENTALVEHICLES } from '../../utils/shared/path';
+import { getRentalNetworkIcon, getRentalNetworkConfig } from '../../shared/vehicleRentalUtils';
+import { PREFIX_RENTALVEHICLES } from '../../shared/path';
 import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
 import BackButton from './BackButton';
-import { fragmentRefShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../utils/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const RentalVehicleContentFragment = graphql`

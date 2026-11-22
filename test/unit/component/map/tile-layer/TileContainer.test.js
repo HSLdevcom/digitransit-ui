@@ -1,4 +1,4 @@
-import TileContainer from '../../../../../app/component/map/tile-layer/TileContainer';
+import TileContainer from '../../../../../src/app/component/map/tile-layer/TileContainer';
 
 describe('TileContainer', () => {
   const config = {

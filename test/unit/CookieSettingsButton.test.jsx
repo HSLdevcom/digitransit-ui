@@ -1,5 +1,5 @@
 import { fireEvent } from '@testing-library/react';
-import CookieSettingsButton from '../../app/component/CookieSettingsButton';
+import CookieSettingsButton from '../../src/app/component/CookieSettingsButton';
 import { renderWithProviders } from './helpers/mock-providers';
 
 describe('CookieSettingsButton', () => {

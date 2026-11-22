@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
-import { locationShape, relayShape } from '../../../utils/client/shapes';
+import { locationShape, relayShape } from '../../utils/shapes';
 import NearYouFavouritesContainer from './NearYouFavouritesContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Loading from '../Loading';

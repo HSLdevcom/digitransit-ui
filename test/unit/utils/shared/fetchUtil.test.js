@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import { retryFetch } from '../../../../utils/shared/fetchUtils';
+import { retryFetch } from '../../../../src/shared/fetchUtils';
 
 // retryFetch retries fetch requests (url, options, retry count, delay) where total number or calls is initial request + retry count
 

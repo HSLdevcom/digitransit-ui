@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { getNamedConfiguration } from '../../../../server/configs/config';
+import { getNamedConfiguration } from '../../../../src/server/configs/config';
 
-const configsDir = path.join(process.cwd(), 'server', 'configs');
+const configsDir = path.join(process.cwd(), 'src', 'server', 'configs');
 const staticDir = path.join(process.cwd(), 'static');
 const assetsDir = path.join(staticDir, 'assets');
 

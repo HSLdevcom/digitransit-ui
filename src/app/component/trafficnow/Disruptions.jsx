@@ -6,7 +6,7 @@ import { useRouter } from 'found';
 import { useLazyLoadQuery } from 'react-relay/hooks';
 import { Text } from '@hsl-fi/layout-primitives';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { TransportMode } from '../../../utils/shared/constants';
+import { TransportMode } from '../../../shared/constants';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Icon from '../Icon';
 import CanceledTripCard from './CanceledTripCard';
@@ -18,8 +18,8 @@ import AlertsQuery from './queries/AlertsQuery';
 import CanceledTripsOverviewQuery from './queries/CanceledTripsOverviewQuery';
 import { buildDisruptionCards } from './utils';
 import { clearOpenedCard } from './cardFocus';
-import { TRAFFICNOW } from '../../../utils/shared/path';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { TRAFFICNOW } from '../../../shared/path';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 const POLL_INTERVAL_MS = 60 * 1000;
 

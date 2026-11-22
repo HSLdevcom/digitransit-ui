@@ -5,8 +5,8 @@ import Icon from '../Icon';
 import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
-} from '../../../utils/client/indoorUtils';
-import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../utils/shared/constants';
+} from '../../utils/indoorUtils';
+import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../shared/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 export default function IndoorStep({

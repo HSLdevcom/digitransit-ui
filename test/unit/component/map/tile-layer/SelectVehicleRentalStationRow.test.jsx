@@ -1,4 +1,4 @@
-import SelectVehicleRentalRow from '../../../../../app/component/map/tile-layer/SelectVehicleRentalRow';
+import SelectVehicleRentalRow from '../../../../../src/app/component/map/tile-layer/SelectVehicleRentalRow';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
 

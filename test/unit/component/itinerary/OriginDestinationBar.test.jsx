@@ -6,8 +6,8 @@ import { mockContext } from '../../helpers/mock-context';
 import {
   ItineraryLocationProvider,
   useItineraryLocationActions,
-} from '../../../../app/hooks/ItineraryLocationContext';
-import OriginDestinationBar from '../../../../app/component/itinerary/OriginDestinationBar';
+} from '../../../../src/app/hooks/ItineraryLocationContext';
+import OriginDestinationBar from '../../../../src/app/component/itinerary/OriginDestinationBar';
 
 const origin = { address: 'Origin, Helsinki', lat: 60.199, lon: 24.934 };
 

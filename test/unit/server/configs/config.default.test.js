@@ -1,4 +1,4 @@
-import defaultConfig from '../../../../server/configs/config.default';
+import defaultConfig from '../../../../src/server/configs/config.default';
 
 describe('default configuration', () => {
   describe('realTime', () => {

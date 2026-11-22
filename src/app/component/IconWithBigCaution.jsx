@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import IconWithIcon from './IconWithIcon';
-import { AlertSeverityLevelType } from '../../utils/shared/constants';
+import { AlertSeverityLevelType } from '../../shared/constants';
 
 export default function IconWithBigCaution({ alertSeverityLevel, className = '', color, img }) {
   const iconType = alertSeverityLevel === AlertSeverityLevelType.Info ? 'info' : 'caution-no-excl';

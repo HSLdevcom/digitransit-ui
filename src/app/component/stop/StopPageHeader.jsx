@@ -1,5 +1,5 @@
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import StopCardHeader from './StopCardHeader';
 
 export default function StopPageHeader({ stop }) {

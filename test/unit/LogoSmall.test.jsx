@@ -1,5 +1,5 @@
 import { renderWithProviders } from './helpers/mock-providers';
-import LogoSmall from '../../app/component/LogoSmall';
+import LogoSmall from '../../src/app/component/LogoSmall';
 
 describe('<LogoSmall />', () => {
   it('should show logo image', () => {

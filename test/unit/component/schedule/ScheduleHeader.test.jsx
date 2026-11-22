@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import ScheduleHeader, {
   getScheduleHeaderOptions,
-} from '../../../../app/component/routepage/schedule/ScheduleHeader';
+} from '../../../../src/app/component/routepage/schedule/ScheduleHeader';
 
 describe('<ScheduleHeader />', () => {
   const stops = [

@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import RouteNumber from '../../../app/component/RouteNumber';
+import RouteNumber from '../../../src/app/component/RouteNumber';
 
 describe('<RouteNumber />', () => {
   it('should use an icon based on the mode', () => {

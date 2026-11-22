@@ -4,8 +4,8 @@ import { useCallback, useState, useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from './Icon';
-import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
-import { userShape } from '../../utils/client/shapes';
+import { isKeyboardSelectionEvent } from '../../shared/browser';
+import { userShape } from '../utils/shapes';
 
 const EMPTY_USER = {};
 

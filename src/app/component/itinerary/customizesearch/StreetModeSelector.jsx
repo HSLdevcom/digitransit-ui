@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { settingsShape } from '../../../../utils/client/shapes';
+import { settingsShape } from '../../../utils/shapes';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
 import BikingSpeed from './BikingSpeed';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function StreetModeSelector({ settings, updateSettings }) {

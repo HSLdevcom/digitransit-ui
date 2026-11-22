@@ -2,9 +2,9 @@ import {
   DS_MESSAGE_KEYS,
   hslfiLocale,
   initHslfiLocale,
-} from '../../../../utils/client/hslfiLocale';
+} from '../../../../src/app/utils/hslfiLocale';
 
-const translationFiles = import.meta.glob('../../../../app/translations/*.js', { eager: true });
+const translationFiles = import.meta.glob('../../../../src/app/translations/*.js', { eager: true });
 const translations = Object.assign(
   {},
   ...Object.values(translationFiles).map(file => file.default),

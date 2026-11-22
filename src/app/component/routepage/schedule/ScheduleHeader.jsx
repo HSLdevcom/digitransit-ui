@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import ScheduleDropdown from './ScheduleDropdown';
 import PrintableStopHeader from './PrintableStopHeader';
-import { stopShape } from '../../../../utils/client/shapes';
+import { stopShape } from '../../../utils/shapes';
 
 export const getScheduleHeaderOptions = (stops, from, to) => {
   const allOptions = stops.map((stop, index) => ({ label: stop.name, value: index }));

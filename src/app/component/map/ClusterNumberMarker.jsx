@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-import { locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../utils/shapes';
 import GenericMarker from './GenericMarker';
 
 export default function ClusterNumberMarker({ position, number }) {

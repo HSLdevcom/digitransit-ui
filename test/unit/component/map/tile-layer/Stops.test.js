@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import Stops from '../../../../../app/component/map/tile-layer/Stops';
+import Stops from '../../../../../src/app/component/map/tile-layer/Stops';
 
 describe('Stops', () => {
   beforeAll(() => fetchMock.mockGlobal());

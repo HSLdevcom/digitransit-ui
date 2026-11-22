@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { epochToTime } from '../../../utils/client/timeUtils';
+import { epochToTime } from '../../utils/timeUtils';
 import Icon from '../Icon';
 
 export default function DepartureTime({

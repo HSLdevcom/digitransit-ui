@@ -6,7 +6,7 @@ import {
   STOP_STATUS,
   STOP_STATUS_MESSAGE_IDS,
   DISRUPTION_BADGE_PREFIX,
-} from '../../../utils/client/stopStatusUtils';
+} from '../../utils/stopStatusUtils';
 
 /**
  * Renders the status label on the "no departures" panel of a stop or terminal page.

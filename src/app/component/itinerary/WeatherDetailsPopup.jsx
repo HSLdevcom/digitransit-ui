@@ -3,7 +3,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Text, FlexColumn, FlexRow } from '@hsl-fi/layout-primitives';
 import { useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { hslfiLocale } from '../../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../../utils/hslfiLocale';
 
 export default function WeatherDetailsPopup({ weatherData, onClose }) {
   const intl = useIntl();

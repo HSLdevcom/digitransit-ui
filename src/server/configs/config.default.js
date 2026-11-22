@@ -1,7 +1,7 @@
-import safeJsonParse from '../../utils/server/safeJsonParser.js';
-import { BIKEAVL_WITHMAX } from '../../utils/shared/vehicleRentalUtils.js';
-import realtime from '../../utils/server/realtimeUtils.js';
-import prUtils from '../../utils/server/ParkAndRideUtils.js';
+import safeJsonParse from '../utils/safeJsonParser.js';
+import { BIKEAVL_WITHMAX } from '../../shared/vehicleRentalUtils.js';
+import realtime from '../utils/realtimeUtils.js';
+import prUtils from '../utils/ParkAndRideUtils.js';
 
 const CONFIG = process.env.CONFIG || 'default';
 const API_URL = process.env.API_URL || 'https://dev-api.digitransit.fi';

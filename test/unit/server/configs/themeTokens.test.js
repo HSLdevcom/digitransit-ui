@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const stylesDir = path.join(process.cwd(), 'styles');
+const stylesDir = path.join(process.cwd(), 'src', 'styles');
 const read = file => fs.readFileSync(path.join(stylesDir, file), 'utf8');
 
 describe('theme tokens', () => {

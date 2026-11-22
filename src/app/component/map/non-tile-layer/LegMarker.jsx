@@ -3,8 +3,8 @@ import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
 import cx from 'classnames';
 import Icon from '../../Icon';
-import { legShape } from '../../../../utils/client/shapes';
-import { renderAsString } from '../../../../utils/client/mapIconUtils';
+import { legShape } from '../../../utils/shapes';
+import { renderAsString } from '../../../utils/mapIconUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 // The functions below compute plain values (icon name, route number markup,

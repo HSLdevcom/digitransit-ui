@@ -1,11 +1,11 @@
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../../utils/shared/path';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../../shared/path';
 import PatternWithCancellations from './PatternWithCancellations';
 import RouteBadgeGroup from './RouteBadgeGroup';
 import DisruptionBadge from '../DisruptionBadge';
-import { patternShape, routeShape } from '../../../../utils/client/shapes';
+import { patternShape, routeShape } from '../../../utils/shapes';
 
 export default function CancellationContainer({ routeSummary, mode }) {
   const {

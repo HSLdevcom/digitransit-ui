@@ -1,5 +1,5 @@
-import { legTime } from '../../../../../../utils/client/legUtils';
-import { epochToIso } from '../../../../../../utils/client/timeUtils';
+import { legTime } from '../../../../../utils/legUtils';
+import { epochToIso } from '../../../../../utils/timeUtils';
 import { DESTINATION_RADIUS, legTraversal } from '../../NaviUtils';
 
 /**

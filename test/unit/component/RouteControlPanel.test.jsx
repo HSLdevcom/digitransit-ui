@@ -1,9 +1,9 @@
 import { mockMatch } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
-import RouteControlPanel from '../../../app/component/routepage/RouteControlPanel';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../utils/shared/path';
+import RouteControlPanel from '../../../src/app/component/routepage/RouteControlPanel';
+import { AlertSeverityLevelType } from '../../../src/shared/constants';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../src/shared/path';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#00AFFF' },

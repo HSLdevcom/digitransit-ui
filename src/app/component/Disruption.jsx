@@ -7,16 +7,12 @@ import cx from 'classnames';
 import Icon from './Icon';
 import DisruptionBadge from './trafficnow/DisruptionBadge';
 import { useConfigContext } from '../hooks/ConfigContext';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../utils/shared/path';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../shared/path';
 import IconBackground from './icon/IconBackground';
-import { getRouteMode, transitIconName } from '../../utils/client/modeUtils';
-import { getStartTime, convertTo24HourFormat } from '../../utils/client/timeUtils';
-import { entityShape, stopTimeShape } from '../../utils/client/shapes';
-import {
-  AlertEntityType,
-  AlertSeverityLevelType,
-  LocationTypes,
-} from '../../utils/shared/constants';
+import { getRouteMode, transitIconName } from '../utils/modeUtils';
+import { getStartTime, convertTo24HourFormat } from '../utils/timeUtils';
+import { entityShape, stopTimeShape } from '../utils/shapes';
+import { AlertEntityType, AlertSeverityLevelType, LocationTypes } from '../../shared/constants';
 
 const statusText = (effectiveStartDate, intl) => {
   if (!effectiveStartDate) {

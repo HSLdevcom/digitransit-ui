@@ -1,4 +1,4 @@
-import { failedFavouriteMessage } from '../../../../utils/client/messageUtils';
+import { failedFavouriteMessage } from '../../../../src/app/utils/messageUtils';
 
 describe('failedFavouriteMessage', () => {
   it('should generate message content as a flat array', async () => {

@@ -9,36 +9,27 @@ import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { useRouter } from 'found';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
-import { saveFutureRoute } from '../../../utils/client/storeUtils';
+import { saveFutureRoute } from '../../utils/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';
-import { TransportMode } from '../../../utils/shared/constants';
+import { TransportMode } from '../../../shared/constants';
 import {
   clearLatestNavigatorItinerary,
   getDialogState,
   getGeolocationState,
   getLatestNavigatorItinerary,
   setDialogState,
-} from '../../../utils/client/localStorage';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { getWeatherData } from '../../../utils/client/apiUtils';
-import { isIOS } from '../../../utils/shared/browser';
-import { boundWithMinimumArea, GeodeticToEcef } from '../../../utils/shared/geo-utils';
-import {
-  getIntermediatePlaces,
-  otpToLocation,
-  parseLatLon,
-} from '../../../utils/shared/otpStrings';
-import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
-import {
-  getPlanParams,
-  getSettings,
-  planQueryNeeded,
-  PLANTYPE,
-} from '../../../utils/client/planParamUtil';
-import { epochToTime } from '../../../utils/client/timeUtils';
-import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import { getAllNetworksOfType } from '../../../utils/shared/vehicleRentalUtils';
-import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
+} from '../../utils/localStorage';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { getWeatherData } from '../../utils/apiUtils';
+import { isIOS } from '../../../shared/browser';
+import { boundWithMinimumArea, GeodeticToEcef } from '../../../shared/geo-utils';
+import { getIntermediatePlaces, otpToLocation, parseLatLon } from '../../../shared/otpStrings';
+import { getItineraryPagePath, streetHash } from '../../../shared/path';
+import { getPlanParams, getSettings, planQueryNeeded, PLANTYPE } from '../../utils/planParamUtil';
+import { epochToTime } from '../../utils/timeUtils';
+import { getMapLayerOptions } from '../../utils/mapLayerUtils';
+import { getAllNetworksOfType } from '../../../shared/vehicleRentalUtils';
+import { isPersonalizationEnabled } from '../../utils/modeUtils';
 import {
   useFavouriteActions,
   useFavouriteStatus,
@@ -93,7 +84,7 @@ import NaviContainer from './navigator/NaviContainer';
 import NaviGeolocationInfoModal from './navigator/navigatorgeolocation/NaviGeolocationInfoModal';
 import NavigatorIntroModal from './navigator/navigatorintro/NavigatorIntroModal';
 import { planConnection } from './queries/PlanConnection';
-import { hasTaxiLegs, isCallAgencyLeg } from '../../../utils/client/legUtils';
+import { hasTaxiLegs, isCallAgencyLeg } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { usePositionActions } from '../../hooks/PositionContext';

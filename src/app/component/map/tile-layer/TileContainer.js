@@ -3,11 +3,11 @@ import omit from 'lodash/omit';
 import L from 'leaflet';
 
 import { isEqual } from 'lodash';
-import { isLayerEnabled } from '../../../../utils/client/mapLayerUtils';
-import { getStopIconStyles } from '../../../../utils/client/mapIconUtils';
+import { isLayerEnabled } from '../../../utils/mapLayerUtils';
+import { getStopIconStyles } from '../../../utils/mapIconUtils';
 
-import { getVehicleMinZoomOnStopsNearYou } from '../../../../utils/shared/vehicleRentalUtils';
-import events from '../../../../utils/client/events';
+import { getVehicleMinZoomOnStopsNearYou } from '../../../../shared/vehicleRentalUtils';
+import events from '../../../utils/events';
 
 export default class TileContainer {
   constructor(

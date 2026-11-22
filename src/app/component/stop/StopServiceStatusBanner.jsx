@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
 import ThemedIcon from '../ThemedIcon';
-import { resolveNoDeparturesBadge } from '../../../utils/client/stopStatusUtils';
-import { alertShape } from '../../../utils/client/shapes';
+import { resolveNoDeparturesBadge } from '../../utils/stopStatusUtils';
+import { alertShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import StopScheduleStatus from './StopScheduleStatus';
 

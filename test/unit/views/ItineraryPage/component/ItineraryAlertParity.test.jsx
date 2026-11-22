@@ -1,6 +1,6 @@
-import Itinerary from '../../../../../app/component/itinerary/Itinerary';
-import Legs from '../../../../../app/component/itinerary/Legs';
-import { AlertSeverityLevelType } from '../../../../../utils/shared/constants';
+import Itinerary from '../../../../../src/app/component/itinerary/Itinerary';
+import Legs from '../../../../../src/app/component/itinerary/Legs';
+import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 
 // The summary row (Itinerary) and the details (Legs) are rendered from the

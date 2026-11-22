@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import L from 'leaflet';
 import { Marker, Tooltip } from 'react-leaflet';
-import { locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../utils/shapes';
 
 export default function LocationMarkerWithPermanentTooltip(props) {
   if (props.position && props.text) {

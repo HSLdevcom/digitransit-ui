@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { coordsDiff } from '../../utils/shared/path';
+import { coordsDiff } from '../../shared/path';
 import { useOrigin, useDestination, useItineraryLocationActions } from './ItineraryLocationContext';
 
 // Updates the origin or destination if it's currently set to follow the

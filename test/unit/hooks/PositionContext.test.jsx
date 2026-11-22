@@ -5,8 +5,8 @@ import {
   positionReducer,
   usePosition,
   usePositionActions,
-} from '../../../app/hooks/PositionContext';
-import searchServices from '../../../app/data/SearchServices';
+} from '../../../src/app/hooks/PositionContext';
+import searchServices from '../../../src/app/data/SearchServices';
 
 function PositionConsumer() {
   const position = usePosition();

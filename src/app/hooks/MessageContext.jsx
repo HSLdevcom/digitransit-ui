@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useReducer } from 'react';
 import PropTypes from 'prop-types';
-import { setReadMessageIds, getReadMessageIds } from '../../utils/client/localStorage';
+import { setReadMessageIds, getReadMessageIds } from '../utils/localStorage';
 import { useConfigContext } from './ConfigContext';
 
 export const processStaticMessages = (root, callback) => {

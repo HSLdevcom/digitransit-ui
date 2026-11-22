@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import Availability from '../../../app/component/Availability';
+import Availability from '../../../src/app/component/Availability';
 
 describe('<Availability />', () => {
   it('should render text', () => {

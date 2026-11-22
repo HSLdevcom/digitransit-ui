@@ -19,11 +19,11 @@ import {
   getActiveLegAlertSeverityLevel,
   getMaximumAlertSeverityLevel,
   hasEntitiesOfType,
-} from '../../../utils/client/alertUtils';
-import { modeToTranslationId } from '../../../utils/client/modeUtils';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../utils/shared/path';
-import { durationToString } from '../../../utils/client/timeUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+} from '../../utils/alertUtils';
+import { modeToTranslationId } from '../../utils/modeUtils';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../shared/path';
+import { durationToString } from '../../utils/timeUtils';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
@@ -35,11 +35,11 @@ import {
   isPlatformChanged,
   getValidatedLegName,
   isLocalCallAgency,
-} from '../../../utils/client/legUtils';
-import { shouldShowFareInfo } from '../../../utils/client/fareUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
-import { AlertEntityType, AlertSeverityLevelType } from '../../../utils/shared/constants';
-import { legShape } from '../../../utils/client/shapes';
+} from '../../utils/legUtils';
+import { shouldShowFareInfo } from '../../utils/fareUtils';
+import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/constants';
+import { legShape } from '../../utils/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -49,9 +49,9 @@ import ExternalLink from '../ExternalLink';
 import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
-} from '../../../utils/client/localeUtils';
+} from '../../utils/localeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 import useCanceledStopIds from './useCanceledStopIds';
 
 const stopCode = code => code && <StopCode code={code} />;

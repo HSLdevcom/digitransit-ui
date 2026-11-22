@@ -2,8 +2,8 @@ import {
   AlertSeverityLevelType,
   RealtimeStateType,
   AlertEntityType,
-} from '../../../../utils/shared/constants';
-import * as utils from '../../../../utils/client/alertUtils';
+} from '../../../../src/shared/constants';
+import * as utils from '../../../../src/app/utils/alertUtils';
 
 describe('alertUtils', () => {
   describe('stoptimeHasCancelation', () => {

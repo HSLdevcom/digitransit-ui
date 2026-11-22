@@ -1,7 +1,7 @@
 import { render } from '@testing-library/react';
-import Icon from '../../../app/component/Icon';
-import IconBackground from '../../../app/component/icon/IconBackground';
-import { renderAsString } from '../../../utils/client/mapIconUtils';
+import Icon from '../../../src/app/component/Icon';
+import IconBackground from '../../../src/app/component/icon/IconBackground';
+import { renderAsString } from '../../../src/app/utils/mapIconUtils';
 
 describe('<Icon />', () => {
   const className = 'foo_class';

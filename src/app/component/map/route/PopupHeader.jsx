@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import cx from 'classnames';
-import { routePagePath, PREFIX_STOPS } from '../../../../utils/shared/path';
-import { convertTo24HourFormat } from '../../../../utils/client/timeUtils';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/path';
+import { convertTo24HourFormat } from '../../../utils/timeUtils';
 import RouteNumber from '../../RouteNumber';
-import { getRouteMode } from '../../../../utils/client/modeUtils';
+import { getRouteMode } from '../../../utils/modeUtils';
 
 export default function PopupHeader({ route, pattern, card = false, startTime, className }) {
   const mode = getRouteMode(route);

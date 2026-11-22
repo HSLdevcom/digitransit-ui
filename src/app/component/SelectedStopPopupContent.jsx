@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
-import { stopShape } from '../../utils/client/shapes';
+import { stopShape } from '../utils/shapes';
 import StopScheduleStatus from './stop/StopScheduleStatus';
-import { STOP_STATUS } from '../../utils/client/stopStatusUtils';
+import { STOP_STATUS } from '../utils/stopStatusUtils';
 
 export default function SelectedStopPopupContent({
   stop,

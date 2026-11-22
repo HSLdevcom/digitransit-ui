@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { durationToString } from '../../../utils/client/timeUtils';
-import { displayDistance } from '../../../utils/shared/geo-utils';
+import { durationToString } from '../../utils/timeUtils';
+import { displayDistance } from '../../../shared/geo-utils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetSummary({

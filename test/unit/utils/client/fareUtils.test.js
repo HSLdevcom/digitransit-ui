@@ -1,4 +1,4 @@
-import { getFaresFromLegs } from '../../../../utils/client/fareUtils';
+import { getFaresFromLegs } from '../../../../src/app/utils/fareUtils';
 
 const defaultConfig = {
   showTicketInformation: true,

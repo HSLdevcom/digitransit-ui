@@ -5,9 +5,9 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalVehicleLink,
-} from '../../../utils/shared/vehicleRentalUtils';
-import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
-import { rentalVehicleShape } from '../../../utils/client/shapes';
+} from '../../../shared/vehicleRentalUtils';
+import { openDeepLink } from '../../utils/vehicleRentalUtils';
+import { rentalVehicleShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import ExternalLink from '../ExternalLink';

@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Icon from '../Icon';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { ViaLocationType } from '../../../shared/constants';
 
 function CircleMarker({ top, modeClassName, color, appendClass }) {
   return (

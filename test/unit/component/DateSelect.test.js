@@ -1,6 +1,6 @@
 import { Settings } from 'luxon';
 
-import { getDateOptions } from '../../../app/component/stop/DateSelect';
+import { getDateOptions } from '../../../src/app/component/stop/DateSelect';
 
 describe('<DateSelect />', () => {
   const defaultProps = {

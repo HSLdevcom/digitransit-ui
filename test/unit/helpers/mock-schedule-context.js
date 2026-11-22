@@ -1,8 +1,8 @@
 import { vi } from 'vitest';
-import * as ConfigContext from '../../../app/hooks/ConfigContext';
-import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
-import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
-import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/scheduleTripsUtils';
+import * as ConfigContext from '../../../src/app/hooks/ConfigContext';
+import * as scheduleParamUtils from '../../../src/app/component/routepage/schedule/scheduleParamUtils';
+import * as scheduleDataUtils from '../../../src/app/component/routepage/schedule/scheduleDataUtils';
+import * as scheduleTripsUtils from '../../../src/app/component/routepage/schedule/scheduleTripsUtils';
 import { mockContext } from './mock-context';
 
 /**

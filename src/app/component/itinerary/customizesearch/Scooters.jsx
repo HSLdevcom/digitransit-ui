@@ -3,8 +3,8 @@ import { useState } from 'react';
 import { FormattedMessage } from 'react-intl';
 import NetworkSelector from './NetworkSelector';
 import Disclaimer from '../../Disclaimer';
-import { getReadMessageIds, setReadMessageId } from '../../../../utils/client/localStorage';
-import { TransportMode } from '../../../../utils/shared/constants';
+import { getReadMessageIds, setReadMessageId } from '../../../utils/localStorage';
+import { TransportMode } from '../../../../shared/constants';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function Scooters({ updateSettings }) {

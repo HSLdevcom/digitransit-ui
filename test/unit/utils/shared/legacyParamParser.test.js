@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 import * as getGeocodingResultsModule from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-import legacyParamParser from '../../../../utils/shared/legacyParamParser';
-import defaultConfig from '../../../../server/configs/config.default';
-import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
+import legacyParamParser from '../../../../src/shared/legacyParamParser';
+import defaultConfig from '../../../../src/server/configs/config.default';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../src/shared/path';
 
 // legacyParamParser also supports free-text from/to, resolved via geocoding -
 // stubbed below so no test touches the network.

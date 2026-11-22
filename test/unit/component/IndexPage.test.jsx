@@ -1,8 +1,8 @@
 import { screen } from '@testing-library/react';
-import { ItineraryLocationProvider } from '../../../app/hooks/ItineraryLocationContext';
-import { FavouriteProvider } from '../../../app/hooks/FavouriteContext';
-import { MessageProvider } from '../../../app/hooks/MessageContext';
-import IndexPage from '../../../app/component/IndexPage';
+import { ItineraryLocationProvider } from '../../../src/app/hooks/ItineraryLocationContext';
+import { FavouriteProvider } from '../../../src/app/hooks/FavouriteContext';
+import { MessageProvider } from '../../../src/app/hooks/MessageContext';
+import IndexPage from '../../../src/app/component/IndexPage';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
 import { renderWithProviders } from '../helpers/mock-providers';

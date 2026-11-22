@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PlatformNumber from '../PlatformNumber';
-import { isPlatformChanged } from '../../../utils/client/legUtils';
-import { legShape } from '../../../utils/client/shapes';
+import { isPlatformChanged } from '../../utils/legUtils';
+import { legShape } from '../../utils/shapes';
 
 /**
  * BoardingInformation displays platform or track information for a transit leg.

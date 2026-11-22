@@ -5,12 +5,12 @@ import * as AutosuggestModule from '@digitransit-component/digitransit-component
 import * as AutosuggestPanelModule from '@digitransit-component/digitransit-component-autosuggest-panel';
 import SearchAutosuggest, {
   SearchAutosuggestPanel,
-} from '../../../app/component/SearchAutosuggest';
-import * as SelectFromMapModule from '../../../app/component/map/SelectFromMap';
-import * as SelectFromMapModalModule from '../../../app/component/SelectFromMapModal';
-import searchServices from '../../../app/data/SearchServices';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { SEARCH_PATH_OPTS } from '../../../utils/client/searchUtils';
+} from '../../../src/app/component/SearchAutosuggest';
+import * as SelectFromMapModule from '../../../src/app/component/map/SelectFromMap';
+import * as SelectFromMapModalModule from '../../../src/app/component/SelectFromMapModal';
+import searchServices from '../../../src/app/data/SearchServices';
+import { addAnalyticsEvent } from '../../../src/shared/analyticsUtils';
+import { SEARCH_PATH_OPTS } from '../../../src/app/utils/searchUtils';
 import { createTestIntl, renderWithProviders } from '../helpers/mock-providers';
 
 const DTAutoSuggest = vi.fn();

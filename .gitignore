@@ -9,8 +9,7 @@ manifest.json
 node_modules
 
 # Relay-compiler generated GraphQL artifacts (main app and query-utils)
-app/**/__generated__
-utils/**/__generated__
+src/app/**/__generated__
 packages/*/*/**/__generated__
 
 # Rollup build output (see packages/private/rollup-config).

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import NearYouMap from '../map/NearYouMap';
-import { locationShape, fragmentRefShape } from '../../../utils/client/shapes';
+import { locationShape, fragmentRefShape } from '../../utils/shapes';
 import NearYouFavouritesMapFragment from './queries/NearYouFavouritesMapFragment';
 
 const EMPTY_ARRAY = [];

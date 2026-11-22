@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import { useRefetchableFragment } from 'react-relay';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../utils/shared/path';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../shared/path';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { fragmentRefShape } from '../../utils/shapes';
 import ParkAndRideContent from '../ParkAndRideContent';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import ParkNearYouFragment from './queries/ParkNearYouFragment';

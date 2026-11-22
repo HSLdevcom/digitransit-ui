@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { stylesShape } from '../../utils/client/shapes';
+import { stylesShape } from '../utils/shapes';
 
 const EMPTY_STYLE = {};
 

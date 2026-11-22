@@ -1,7 +1,7 @@
 import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import StopPageMap from './map/StopPageMap';
-import { fragmentRefShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../utils/shapes';
 
 export default function RentalVehiclePageMapContainer({ rentalVehicle: rentalVehicleRef }) {
   const rentalVehicle = useFragment(

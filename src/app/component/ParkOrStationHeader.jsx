@@ -5,11 +5,11 @@ import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import StopCode from './StopCode';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
-import getZoneId from '../../utils/client/zoneIconUtils';
+import getZoneId from '../utils/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
-import { hasVehicleRentalCode } from '../../utils/shared/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../shared/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
-import { splitGtfsId } from '../../utils/shared/gtfs';
+import { splitGtfsId } from '../../shared/gtfs';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function ParkOrBikeStationHeader({

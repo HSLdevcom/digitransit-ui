@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { fetchQuery, ReactRelayContext } from 'react-relay';
 import { DateTime } from 'luxon';
-import { stoptimeHasCancelation } from '../../../utils/client/alertUtils';
+import { stoptimeHasCancelation } from '../../utils/alertUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { tripStopCancelationsQuery } from './queries/TripStopCancelationsQuery';
 

@@ -6,7 +6,7 @@ import {
   getAnalyticsInitCode,
   initAnalyticsClientSide,
   handleUserAnalytics,
-} from '../../../../utils/shared/analyticsUtils';
+} from '../../../../src/shared/analyticsUtils';
 
 afterEach(() => {
   window.dataLayer = undefined;

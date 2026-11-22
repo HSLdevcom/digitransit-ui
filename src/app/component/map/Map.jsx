@@ -14,12 +14,12 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
-import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
-import events from '../../../utils/client/events';
-import { getLayerBaseUrl } from '../../../utils/client/mapLayerUtils';
+import { boundWithMinimumArea } from '../../../shared/geo-utils';
+import events from '../../utils/events';
+import { getLayerBaseUrl } from '../../utils/mapLayerUtils';
 import GeoJSON from './GeoJSON';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { mapLayerShape } from '../../../utils/client/shapes';
+import { mapLayerShape } from '../../utils/shapes';
 
 const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
 const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;

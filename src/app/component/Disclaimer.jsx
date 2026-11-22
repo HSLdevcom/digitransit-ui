@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { Note } from '@hsl-fi/notifications';
 import { Text } from '@hsl-fi/layout-primitives';
 import { ArrowLink } from '@hsl-fi/navigation';
-import { hslfiLocale } from '../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../utils/hslfiLocale';
 
 const EMPTY_VALUES = {};
 

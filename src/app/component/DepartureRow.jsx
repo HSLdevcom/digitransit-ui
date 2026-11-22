@@ -3,18 +3,14 @@ import cx from 'classnames';
 import { Link } from 'found';
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import {
-  alertSeverityCompare,
-  getAlertsForObject,
-  isAlertValid,
-} from '../../utils/client/alertUtils';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { getHeadsignFromRouteLongName } from '../../utils/client/legUtils';
-import { getRouteMode } from '../../utils/client/modeUtils';
-import { capacityToTranslationId, getCapacity } from '../../utils/client/occupancyUtil';
-import { routePagePath, PREFIX_STOPS } from '../../utils/shared/path';
-import { departureShape } from '../../utils/client/shapes';
-import { epochToTime } from '../../utils/client/timeUtils';
+import { alertSeverityCompare, getAlertsForObject, isAlertValid } from '../utils/alertUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { getHeadsignFromRouteLongName } from '../utils/legUtils';
+import { getRouteMode } from '../utils/modeUtils';
+import { capacityToTranslationId, getCapacity } from '../utils/occupancyUtil';
+import { routePagePath, PREFIX_STOPS } from '../../shared/path';
+import { departureShape } from '../utils/shapes';
+import { epochToTime } from '../utils/timeUtils';
 import Icon from './Icon';
 import IconBackground from './icon/IconBackground';
 import PlatformNumber from './PlatformNumber';

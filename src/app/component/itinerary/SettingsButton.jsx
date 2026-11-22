@@ -3,11 +3,11 @@ import { useState, useCallback, useRef } from 'react';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { hasCustomizedSettings, getSettings } from '../../../utils/client/planParamUtil';
-import { isPersonalizationEnabled } from '../../../utils/client/modeUtils';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { hasCustomizedSettings, getSettings } from '../../utils/planParamUtil';
+import { isPersonalizationEnabled } from '../../utils/modeUtils';
 import Popover from '../Popover';
-import { getDialogState, setDialogState } from '../../../utils/client/localStorage';
+import { getDialogState, setDialogState } from '../../utils/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function SettingsButton({ onToggleClick }) {

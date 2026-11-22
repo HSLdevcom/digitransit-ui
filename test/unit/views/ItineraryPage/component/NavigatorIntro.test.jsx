@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import NavigatorIntro from '../../../../../app/component/itinerary/navigator/navigatorintro/NavigatorIntro';
+import NavigatorIntro from '../../../../../src/app/component/itinerary/navigator/navigatorintro/NavigatorIntro';
 
 const defaultProps = { onClose: () => {}, onOpenGeolocationInfo: () => {} };
 

@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
 import { Text } from '@hsl-fi/layout-primitives';
-import { legShape } from '../../../utils/client/shapes';
+import { legShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   legTime,
@@ -14,22 +14,19 @@ import {
   isTaxiLeg,
   getValidatedLegName,
   isBikeOrScooterRentalLeg,
-} from '../../../utils/client/legUtils';
+} from '../../utils/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import PlatformNumber from '../PlatformNumber';
 import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
-import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
-import { PREFIX_STOPS } from '../../../utils/shared/path';
-import {
-  RentalNetworkType,
-  getRentalNetworkConfig,
-} from '../../../utils/shared/vehicleRentalUtils';
-import { displayDistance } from '../../../utils/shared/geo-utils';
-import { durationToString } from '../../../utils/client/timeUtils';
-import { splitStringToAddressAndPlace } from '../../../utils/shared/otpStrings';
+import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
+import { PREFIX_STOPS } from '../../../shared/path';
+import { RentalNetworkType, getRentalNetworkConfig } from '../../../shared/vehicleRentalUtils';
+import { displayDistance } from '../../../shared/geo-utils';
+import { durationToString } from '../../utils/timeUtils';
+import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
@@ -39,9 +36,9 @@ import {
   getStepFocusAction,
   getEntranceWheelchairAccessibility,
   getEntranceName,
-} from '../../../utils/client/indoorUtils';
+} from '../../utils/indoorUtils';
 import IndoorStep from './IndoorStep';
-import { IndoorLegType } from '../../../utils/shared/constants';
+import { IndoorLegType } from '../../../shared/constants';
 
 export default function WalkLeg({
   children,

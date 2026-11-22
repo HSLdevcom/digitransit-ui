@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { relayMock } from '../helpers/mock-relay';
-import TripLink from '../../../app/component/routepage/TripLink';
+import TripLink from '../../../src/app/component/routepage/TripLink';
 
 const vehicle = {
   mode: 'bus',

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import TimeSummary from './TimeSummary';
 import StreetSummary from './StreetSummary';
-import { itineraryShape } from '../../../utils/client/shapes';
+import { itineraryShape } from '../../utils/shapes';
 
 const EMPTY_SUMMARY = {};
 

@@ -3,8 +3,8 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { SearchProvider, useSearchContext } from '../hooks/SearchContext';
 import searchServices from '../data/SearchServices';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { SEARCH_PATH_OPTS } from '../utils/searchUtils';
 import SearchSelectionBoundary from './SearchSelectionBoundary';
 
 function SearchInput({ panel, fromMap, isMobile, showViapointControl, ...rest }) {

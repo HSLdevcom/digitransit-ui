@@ -10,7 +10,7 @@ import OverlayWithSpinner from './visual/OverlayWithSpinner';
 import FavouritesContainer from './FavouritesContainer';
 import DatetimepickerContainer from './DatetimepickerContainer';
 import StopRouteSearch, { SearchAutosuggestPanel as LocationSearch } from './SearchAutosuggest';
-import { getLocationSearchTargets } from '../../utils/client/searchUtils';
+import { getLocationSearchTargets } from '../utils/searchUtils';
 import {
   getPathWithEndpointObjects,
   getStopRoutePath,
@@ -19,14 +19,14 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../utils/shared/path';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+} from '../../shared/path';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 import useGeomoverSync from '../hooks/useGeomoverSync';
-import scrollTop from '../../utils/client/scroll';
-import { getRefPoint } from '../../utils/client/apiUtils';
-import { filterObject } from '../../utils/client/filterUtils';
-import { getTransportModes, getNearYouModes, hasCitybikes } from '../../utils/client/modeUtils';
+import scrollTop from '../utils/scroll';
+import { getRefPoint } from '../utils/apiUtils';
+import { filterObject } from '../utils/filterUtils';
+import { getTransportModes, getNearYouModes, hasCitybikes } from '../utils/modeUtils';
 import { countLocations, STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
 import {
   useFavourites,

@@ -2,7 +2,7 @@
 import PropTypes from 'prop-types';
 import ItineraryDetails from './ItineraryDetails';
 import SwipeableTabs from '../SwipeableTabs';
-import { planEdgeShape } from '../../../utils/client/shapes';
+import { planEdgeShape } from '../../utils/shapes';
 
 export default function ItineraryTabs({
   planEdges,

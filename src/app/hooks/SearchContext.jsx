@@ -11,7 +11,7 @@ import PropTypes from 'prop-types';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import suggestionToLocation from '@digitransit-search-util/digitransit-search-util-suggestion-to-location';
 import { useIntl } from 'react-intl';
-import { SEARCH_PATH_OPTS } from '../../utils/client/searchUtils';
+import { SEARCH_PATH_OPTS } from '../utils/searchUtils';
 import searchServices from '../data/SearchServices';
 import { removeSearch, saveSearch } from '../data/SearchHistory';
 import { useConfigContext } from './ConfigContext';

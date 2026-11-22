@@ -1,7 +1,7 @@
 import { act, screen } from '@testing-library/react';
-import DepartureListContainer from '../../../app/component/DepartureListContainer';
-import * as DepartureRowModule from '../../../app/component/DepartureRow';
-import * as mqttClient from '../../../utils/client/mqttClient';
+import DepartureListContainer from '../../../src/app/component/DepartureListContainer';
+import * as DepartureRowModule from '../../../src/app/component/DepartureRow';
+import * as mqttClient from '../../../src/app/utils/mqttClient';
 import { createTestConfig } from '../helpers/mock-context';
 import { renderWithProviders } from '../helpers/mock-providers';
 

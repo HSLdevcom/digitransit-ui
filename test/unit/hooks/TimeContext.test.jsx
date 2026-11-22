@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import { TimeProvider, useCurrentTime, TWICE_PER_MINUTE } from '../../../app/hooks/TimeContext';
+import { TimeProvider, useCurrentTime, TWICE_PER_MINUTE } from '../../../src/app/hooks/TimeContext';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,

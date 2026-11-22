@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { fetchQuery } from 'react-relay';
-import { legTime } from '../../../../../utils/client/legUtils';
+import { legTime } from '../../../../utils/legUtils';
 import { legQuery } from '../../queries/LegQuery';
 
 /**

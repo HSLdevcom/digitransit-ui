@@ -4,7 +4,7 @@ import distance from '@digitransit-search-util/digitransit-search-util-distance'
 import { fetchQuery } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import { useMatch } from 'found';
-import { getSettings } from '../../../utils/client/planParamUtil';
+import { getSettings } from '../../utils/planParamUtil';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { usePosition } from '../../hooks/PositionContext';
 import MapWithTracking from './MapWithTracking';
@@ -14,14 +14,14 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import BackButton from '../BackButton';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
-import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
+import { getMapLayerOptions } from '../../utils/mapLayerUtils';
 import StopItineraryButton from './StopItineraryButton';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../utils/shared/path';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../shared/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { STOP_STATUS } from '../../../utils/client/stopStatusUtils';
+import { STOP_STATUS } from '../../utils/stopStatusUtils';
 
 const getMode = (stop, citybike, parkType, scooter) => {
   if (citybike) {

@@ -4,7 +4,7 @@ import {
   getMainAssets,
   getManifestScript,
   readStaticFile,
-} from '../../../../server/html/assetManifest';
+} from '../../../../src/server/html/assetManifest';
 
 // server/html/assetManifest.js reads manifest.json from disk at
 // *module load time* when NODE_ENV isn't 'development' (mirrors the
@@ -75,7 +75,7 @@ describe('assetManifest', () => {
               : `/* ${path.basename(file)} */`,
         },
       }));
-      const assetManifest = await import('../../../../server/html/assetManifest');
+      const assetManifest = await import('../../../../src/server/html/assetManifest');
 
       expect(assetManifest.getMainAssets()).toEqual([
         'css/digitransit-components.c1.css',

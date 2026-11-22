@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { fareShape } from '../../../utils/client/shapes';
+import { fareShape } from '../../utils/shapes';
 import { renderZoneTicket } from './ZoneTicket';
-import { getAlternativeFares, formatFare } from '../../../utils/client/fareUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { getAlternativeFares, formatFare } from '../../utils/fareUtils';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];

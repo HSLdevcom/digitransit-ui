@@ -23,18 +23,18 @@ import i18n from './i18n';
 import routes, { historyMiddlewares, render } from '../routes/routes';
 import ErrorBoundary from '../component/ErrorBoundary';
 import { BreakpointProvider } from '../hooks/BreakpointContext';
-import getMetadata from '../../utils/shared/metaUtils';
+import getMetadata from '../../shared/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../../utils/shared/analyticsUtils';
-import { getCountries } from '../../utils/client/localStorage';
-import { configureCountry } from '../../utils/client/configureCountry';
-import { getUser } from '../../utils/client/apiUtils';
+} from '../../shared/analyticsUtils';
+import { getCountries } from '../utils/localStorage';
+import { configureCountry } from '../utils/configureCountry';
+import { getUser } from '../utils/apiUtils';
 import favouriteStore from '../data/FavouriteData';
 import searchServices from '../data/SearchServices';
-import { initHslfiLocale } from '../../utils/client/hslfiLocale';
+import { initHslfiLocale } from '../utils/hslfiLocale';
 import { ConfigProvider } from '../hooks/ConfigContext';
 import { FavouriteProvider } from '../hooks/FavouriteContext';
 import { MapLayerProvider } from '../hooks/MapLayerContext';
@@ -43,8 +43,8 @@ import { MessageProvider } from '../hooks/MessageContext';
 import { TimeProvider } from '../hooks/TimeContext';
 import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext';
 import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
-import { isPersonalizationEnabled } from '../../utils/client/modeUtils';
-import { getSettings } from '../../utils/client/planParamUtil';
+import { isPersonalizationEnabled } from '../utils/modeUtils';
+import { getSettings } from '../utils/planParamUtil';
 // Last import: the app's styles override those of the components above.
 import '../../styles/main.scss';
 

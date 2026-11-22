@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import TimetableRow from '../../../app/component/stop/TimetableRow';
+import TimetableRow from '../../../src/app/component/stop/TimetableRow';
 
 import data from '../test-data/dt2720';
 

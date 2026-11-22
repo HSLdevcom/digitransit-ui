@@ -3,13 +3,13 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
-import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
+import { getTripOrRouteMode } from '../../utils/modeUtils';
 import {
   getFaresFromLegs,
   shouldShowFareInfo,
   shouldShowFarePurchaseInfo,
-} from '../../../utils/client/fareUtils';
-import localizedUrl from '../../../utils/client/urlUtils';
+} from '../../utils/fareUtils';
+import localizedUrl from '../../utils/urlUtils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -26,12 +26,12 @@ import {
   isBikeParkLeg,
   isBikeRentalLeg,
   legTimeStr,
-} from '../../../utils/client/legUtils';
-import { streetHash } from '../../../utils/shared/path';
-import { itineraryShape, relayShape } from '../../../utils/client/shapes';
-import { getFutureText } from '../../../utils/client/timeUtils';
+} from '../../utils/legUtils';
+import { streetHash } from '../../../shared/path';
+import { itineraryShape, relayShape } from '../../utils/shapes';
+import { getFutureText } from '../../utils/timeUtils';
 import { BreakpointConsumer } from '../../hooks/BreakpointContext';
-import { getSettings } from '../../../utils/client/planParamUtil';
+import { getSettings } from '../../utils/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
 import EmissionsInfo from './EmissionsInfo';

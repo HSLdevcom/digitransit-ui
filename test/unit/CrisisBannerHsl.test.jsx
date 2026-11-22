@@ -1,6 +1,6 @@
 import { renderWithProviders } from './helpers/mock-providers';
 import { createTestConfig } from './helpers/mock-context';
-import CrisisBannerHsl from '../../app/component/CrisisBannerHsl';
+import CrisisBannerHsl from '../../src/app/component/CrisisBannerHsl';
 
 const primaryBanner = { body: 'Primary alert', priority: 'Primary' };
 const secondaryBanner = { body: 'Secondary alert', priority: 'Secondary' };

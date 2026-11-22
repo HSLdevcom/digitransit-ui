@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { legShape } from '../../../../../utils/client/shapes';
-import { getIndoorStepsWithVerticalTransportation } from '../../../../../utils/client/indoorUtils';
+import { legShape } from '../../../../utils/shapes';
+import { getIndoorStepsWithVerticalTransportation } from '../../../../utils/indoorUtils';
 import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
-import { NaviCardType } from '../../../../../utils/shared/constants';
+import { NaviCardType } from '../../../../../shared/constants';
 
 export default function NaviIndoorCard({
   setCurrentCard,

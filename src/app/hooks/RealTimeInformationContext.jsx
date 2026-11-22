@@ -1,9 +1,9 @@
 import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import PropTypes from 'prop-types';
-import events from '../../utils/client/events';
-import { unixTime } from '../../utils/client/timeUtils';
-import { splitGtfsId } from '../../utils/shared/gtfs';
-import { startMqttClient, changeTopics } from '../../utils/client/mqttClient';
+import events from '../utils/events';
+import { unixTime } from '../utils/timeUtils';
+import { splitGtfsId } from '../../shared/gtfs';
+import { startMqttClient, changeTopics } from '../utils/mqttClient';
 
 const RealTimeInformationContext = createContext();
 const RealTimeActionsContext = createContext();

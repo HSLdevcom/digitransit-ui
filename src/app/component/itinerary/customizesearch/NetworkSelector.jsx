@@ -5,13 +5,13 @@ import {
   mapDefaultNetworkProperties,
   getRentalNetworkName,
   getRentalNetworkConfig,
-} from '../../../../utils/shared/vehicleRentalUtils';
+} from '../../../../shared/vehicleRentalUtils';
 import {
   updateVehicleNetworks,
   getScooterNetworks,
   getCitybikeNetworks,
-} from '../../../../utils/client/vehicleRentalUtils';
-import { TransportMode } from '../../../../utils/shared/constants';
+} from '../../../utils/vehicleRentalUtils';
+import { TransportMode } from '../../../../shared/constants';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NetworkSelector({ type, updateSettings }) {

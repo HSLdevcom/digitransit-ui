@@ -2,11 +2,11 @@ import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import { DateTime } from 'luxon';
 import groupBy from 'lodash/groupBy';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import DisruptionList from '../DisruptionList';
-import { getAlertsForObject, setEntityForAlert } from '../../../utils/client/alertUtils';
-import { getStartTime, convertTo24HourFormat } from '../../../utils/client/timeUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
+import { getAlertsForObject, setEntityForAlert } from '../../utils/alertUtils';
+import { getStartTime, convertTo24HourFormat } from '../../utils/timeUtils';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../shared/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import RouteAlertsContainerFragment from './queries/RouteAlertsContainerFragment';
 

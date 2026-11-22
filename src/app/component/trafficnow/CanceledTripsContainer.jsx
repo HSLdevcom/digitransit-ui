@@ -5,7 +5,7 @@ import CanceledTripsForModeQuery from './queries/CanceledTripsForModeQuery';
 import { sortRoutes } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function CanceledTripsContainer({ mode, isMobile, dateTime }) {

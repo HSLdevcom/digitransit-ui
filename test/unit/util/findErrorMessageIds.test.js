@@ -1,4 +1,4 @@
-import findErrorMessageIds from '../../../app/component/itinerary/findErrorMessageIds';
+import findErrorMessageIds from '../../../src/app/component/itinerary/findErrorMessageIds';
 
 const expectSingleValue = (arr, expected) => {
   expect(arr.length).toBe(1);

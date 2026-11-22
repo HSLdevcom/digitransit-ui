@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import Icon from '../../Icon';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../shared/path';
 
 export default function SelectParkAndRideRow({ name = '', bikeParkId, carParkId }) {
   const id = bikeParkId || carParkId;

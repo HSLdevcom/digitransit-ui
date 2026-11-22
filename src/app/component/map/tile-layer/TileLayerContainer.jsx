@@ -8,13 +8,13 @@ import isEqual from 'lodash/isEqual';
 import Popup from 'react-leaflet/es/Popup';
 import { useLeaflet } from 'react-leaflet/es/context';
 import { useRouter } from 'found';
-import { mapLayerShape } from '../../../../utils/client/shapes';
+import { mapLayerShape } from '../../../utils/shapes';
 import MarkerSelectPopup from './MarkerSelectPopup';
 import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
-import { isFeatureLayerEnabled } from '../../../../utils/client/mapLayerUtils';
+import { isFeatureLayerEnabled } from '../../../utils/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
 import { getClientBreakpoint } from '../../../hooks/BreakpointContext';
 import {
   stopPagePath,
@@ -22,7 +22,7 @@ import {
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
   PREFIX_RENTALVEHICLES,
-} from '../../../../utils/shared/path';
+} from '../../../../shared/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { useCurrentTime } from '../../../hooks/TimeContext';
 import { useConfigContext } from '../../../hooks/ConfigContext';

@@ -1,14 +1,14 @@
 import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
-import { fragmentRefShape, errorShape } from '../../utils/client/shapes';
+import { fragmentRefShape, errorShape } from '../utils/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import { getRentalNetworkConfig } from '../../utils/shared/vehicleRentalUtils';
-import { PREFIX_BIKESTATIONS } from '../../utils/shared/path';
-import { TransportMode } from '../../utils/shared/constants';
+import { getRentalNetworkConfig } from '../../shared/vehicleRentalUtils';
+import { PREFIX_BIKESTATIONS } from '../../shared/path';
+import { TransportMode } from '../../shared/constants';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const VehicleRentalStationContentFragment = graphql`

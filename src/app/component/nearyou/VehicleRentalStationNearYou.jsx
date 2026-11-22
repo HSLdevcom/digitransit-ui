@@ -4,11 +4,11 @@ import { Link } from 'found';
 import { useRefetchableFragment } from 'react-relay';
 import VehicleRentalStation from '../VehicleRentalStation';
 import FavouriteVehicleRentalStationContainer from '../FavouriteVehicleRentalStationContainer';
-import { PREFIX_BIKESTATIONS } from '../../../utils/shared/path';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { hasVehicleRentalCode } from '../../../utils/shared/vehicleRentalUtils';
-import { fragmentRefShape } from '../../../utils/client/shapes';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { PREFIX_BIKESTATIONS } from '../../../shared/path';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { hasVehicleRentalCode } from '../../../shared/vehicleRentalUtils';
+import { fragmentRefShape } from '../../utils/shapes';
+import { splitGtfsId } from '../../../shared/gtfs';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import VehicleRentalStationNearYouFragment from './queries/VehicleRentalStationNearYouFragment';
 

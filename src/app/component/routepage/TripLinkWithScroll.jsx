@@ -3,7 +3,7 @@ import { useRef, useEffect } from 'react';
 import { useIntl } from 'react-intl';
 import Link from 'found/Link';
 import VehicleIcon from '../VehicleIcon';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
 
 export default function TripLinkWithScroll({
   mode,

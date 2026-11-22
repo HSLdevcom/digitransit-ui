@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import VehicleRentalAvailability from '../../../app/component/VehicleRentalAvailability';
+import VehicleRentalAvailability from '../../../src/app/component/VehicleRentalAvailability';
 
 describe('<VehicleRentalStationAvailability />', () => {
   it('should render CityBikeAvailability with valid props', () => {

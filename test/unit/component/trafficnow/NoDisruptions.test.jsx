@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import NoDisruptions from '../../../../app/component/trafficnow/components/NoDisruptions';
-import * as assetUrl from '../../../../app/assets/assetUrl';
+import NoDisruptions from '../../../../src/app/component/trafficnow/components/NoDisruptions';
+import * as assetUrl from '../../../../src/app/assets/assetUrl';
 
 const baseConfig = createTestConfig({ notFoundGraphic: null, colors: { primary: '#007ac9' } });
 

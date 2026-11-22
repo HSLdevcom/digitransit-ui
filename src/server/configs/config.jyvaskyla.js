@@ -1,5 +1,5 @@
-import configMerger from '../../utils/server/configMerger.js';
-import { isDevRunEnv } from '../../utils/server/envUtils.js';
+import configMerger from '../utils/configMerger.js';
+import { isDevRunEnv } from '../utils/envUtils.js';
 import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'jyvaskyla';

@@ -6,7 +6,7 @@ import { Button } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import ReactModal from 'react-modal';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import scrollTop from '../../../utils/client/scroll';
+import scrollTop from '../../utils/scroll';
 import Gutterer from '../Gutterer';
 import Loading from '../Loading';
 import CanceledTripsContainer from './CanceledTripsContainer';

@@ -1,6 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
-import { getGeolocationState, setGeolocationState } from '../../utils/client/localStorage';
+import { getGeolocationState, setGeolocationState } from '../utils/localStorage';
 import { useConfigContext } from './ConfigContext';
 import { createPositionService } from '../data/PositionService';
 import searchServices from '../data/SearchServices';

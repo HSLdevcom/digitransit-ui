@@ -1,8 +1,8 @@
 import { DateTime } from 'luxon';
 
 import { renderWithProviders } from '../helpers/mock-providers';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
-import Disruptions, { filterCanceledCalls } from '../../../app/component/stop/Disruptions';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../src/shared/constants';
+import Disruptions, { filterCanceledCalls } from '../../../src/app/component/stop/Disruptions';
 
 const renderDisruptions = props => renderWithProviders(<Disruptions {...props} />).container;
 

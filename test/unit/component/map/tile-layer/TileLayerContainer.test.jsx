@@ -4,9 +4,9 @@ import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
 import TileLayerContainer, {
   sendSelectionAnalytics,
-} from '../../../../../app/component/map/tile-layer/TileLayerContainer';
-import * as analytics from '../../../../../utils/shared/analyticsUtils';
-import { TimeContext } from '../../../../../app/hooks/TimeContext';
+} from '../../../../../src/app/component/map/tile-layer/TileLayerContainer';
+import * as analytics from '../../../../../src/shared/analyticsUtils';
+import { TimeContext } from '../../../../../src/app/hooks/TimeContext';
 
 describe('<TileLayerContainer />', () => {
   const config = { ...mockContext.config, vehicleRental: {} };

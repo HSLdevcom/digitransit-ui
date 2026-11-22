@@ -1,6 +1,6 @@
 import { graphql, useFragment } from 'react-relay';
 import get from 'lodash/get';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import AgencyInfo from '../AgencyInfo';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

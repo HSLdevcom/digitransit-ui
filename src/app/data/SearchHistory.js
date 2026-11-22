@@ -2,8 +2,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import isEqual from 'lodash/isEqual';
 import orderBy from 'lodash/orderBy';
 import { getNameLabel } from '@digitransit-search-util/digitransit-search-util-uniq-by-label';
-import { unixTime } from '../../utils/client/timeUtils';
-import { getOldSearchesStorage, setOldSearchesStorage } from '../../utils/client/localStorage';
+import { unixTime } from '../utils/timeUtils';
+import { getOldSearchesStorage, setOldSearchesStorage } from '../utils/localStorage';
 
 /**
  * The current version number of this store.

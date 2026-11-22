@@ -5,8 +5,8 @@ import { mockMatch, mockRouter } from '../helpers/mock-router';
 import { createTestConfig } from '../helpers/mock-context';
 import RoutePatternSelectContainer, {
   getPatternOptions,
-} from '../../../app/component/routepage/RoutePatternSelectContainer';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+} from '../../../src/app/component/routepage/RoutePatternSelectContainer';
+import { routePagePath, PREFIX_STOPS } from '../../../src/shared/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
 const today = DateTime.now().toFormat('yyyyLLdd');

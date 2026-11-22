@@ -1,4 +1,4 @@
-import * as timetables from '../../../../utils/server/timetableConfigUtils';
+import * as timetables from '../../../../src/server/utils/timetableConfigUtils';
 
 describe('timetableConfigUtils', () => {
   describe('routeTimetableUrlResolver', () => {

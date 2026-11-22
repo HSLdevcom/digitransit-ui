@@ -1,11 +1,11 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { legShape } from '../../../utils/client/shapes';
+import { legShape } from '../../utils/shapes';
 import TransitLeg from './TransitLeg';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
 import RouteNumberContainer from '../RouteNumber';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { isLocalCallAgency } from '../../../utils/client/legUtils';
+import { isLocalCallAgency } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function CallAgencyLeg({ leg, ...props }) {

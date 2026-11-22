@@ -1,11 +1,11 @@
 import { expect } from 'chai';
 import cloneDeep from 'lodash/cloneDeep';
-import { epochToIso } from '../../../../../utils/client/timeUtils';
-import { legTime } from '../../../../../utils/client/legUtils';
+import { epochToIso } from '../../../../../src/app/utils/timeUtils';
+import { legTime } from '../../../../../src/app/utils/legUtils';
 import {
   getLegsOfInterest,
   matchLegEnds,
-} from '../../../../../app/component/itinerary/navigator/hooks/utils/realtimeLegUtils';
+} from '../../../../../src/app/component/itinerary/navigator/hooks/utils/realtimeLegUtils';
 
 // Real data captured from a live OTP plan query for Mikonkatu -> Kapteeninkatu
 // (tram 2 interlines into tram 3 at Olympiaterminaali, ~3 min dwell).

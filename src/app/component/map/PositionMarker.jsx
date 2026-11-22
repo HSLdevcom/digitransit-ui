@@ -1,6 +1,6 @@
 import Marker from 'react-leaflet/es/Marker';
 import { default as L } from 'leaflet';
-import { renderAsString } from '../../../utils/client/mapIconUtils';
+import { renderAsString } from '../../utils/mapIconUtils';
 
 import Icon from '../Icon';
 import { usePosition } from '../../hooks/PositionContext';

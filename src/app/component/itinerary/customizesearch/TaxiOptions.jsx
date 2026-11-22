@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { settingsShape } from '../../../../utils/client/shapes';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { settingsShape } from '../../../utils/shapes';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

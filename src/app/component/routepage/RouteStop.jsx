@@ -2,27 +2,27 @@ import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { alertShape, vehicleShape, stopTimeShape } from '../../../utils/client/shapes';
+import { alertShape, vehicleShape, stopTimeShape } from '../../utils/shapes';
 import AddressRow from '../AddressRow';
 import TripLink from './TripLink';
 import FuzzyTripLink from './FuzzyTripLink';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from '../ZoneIcon';
-import { getActiveAlertSeverityLevel } from '../../../utils/client/alertUtils';
-import { PREFIX_STOPS } from '../../../utils/shared/path';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { getZoneLabel } from '../../../utils/client/legUtils';
-import { estimateItineraryDistance } from '../../../utils/shared/geo-utils';
-import getVehicleState from '../../../utils/client/vehicleStateUtils';
+import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
+import { PREFIX_STOPS } from '../../../shared/path';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { getZoneLabel } from '../../utils/legUtils';
+import { estimateItineraryDistance } from '../../../shared/geo-utils';
+import getVehicleState from '../../utils/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
+import { splitGtfsId } from '../../../shared/gtfs';
 import {
   getServiceAvailability,
   getStopStatusFromStopData,
   STOP_STATUS_BADGE_IMGS,
-} from '../../../utils/client/stopStatusUtils';
+} from '../../utils/stopStatusUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 function getDepartureTime(stoptime) {

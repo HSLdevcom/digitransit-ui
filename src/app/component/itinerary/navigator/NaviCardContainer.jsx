@@ -2,14 +2,14 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
 import {
   isAnyLegPropertyIdentical,
   legTime,
   getPlatformChangeStatus,
   PLATFORM_STATUS,
-} from '../../../../utils/client/legUtils';
-import { legShape } from '../../../../utils/client/shapes';
+} from '../../../utils/legUtils';
+import { legShape } from '../../../utils/shapes';
 import { getTopics, updateClient } from '../ItineraryPageUtils';
 import NaviCard from './NaviCard';
 import NaviStack from './NaviStack';

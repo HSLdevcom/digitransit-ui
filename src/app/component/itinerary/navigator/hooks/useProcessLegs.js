@@ -1,6 +1,6 @@
 import cloneDeep from 'lodash/cloneDeep';
 import { useCallback, useRef } from 'react';
-import { legTime } from '../../../../../utils/client/legUtils';
+import { legTime } from '../../../../utils/legUtils';
 import { fakeDelay, matchLegEnds, shiftLegsByGeolocation } from './utils/realtimeLegUtils';
 
 const GEOLOCATED_LEGS = false;

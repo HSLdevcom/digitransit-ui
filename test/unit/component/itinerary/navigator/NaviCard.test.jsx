@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import NaviCard from '../../../../../app/component/itinerary/navigator/NaviCard';
-import { LEGTYPE } from '../../../../../app/component/itinerary/navigator/NaviUtils';
+import NaviCard from '../../../../../src/app/component/itinerary/navigator/NaviCard';
+import { LEGTYPE } from '../../../../../src/app/component/itinerary/navigator/NaviUtils';
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 const at = ms => ({

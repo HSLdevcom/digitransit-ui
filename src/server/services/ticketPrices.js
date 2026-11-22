@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
-import { retryFetch } from '../../utils/shared/fetchUtils.js';
-import { splitGtfsId } from '../../utils/shared/gtfs.js';
+import { retryFetch } from '../../shared/fetchUtils.js';
+import { splitGtfsId } from '../../shared/gtfs.js';
 
 export function processTicketTypeResult(result, config) {
   const resultData = result.data;

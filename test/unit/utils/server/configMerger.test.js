@@ -1,4 +1,4 @@
-import merger from '../../../../utils/server/configMerger';
+import merger from '../../../../src/server/utils/configMerger';
 
 describe('configMerger', () => {
   describe('About page content', () => {

@@ -3,18 +3,18 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 import polyline from 'polyline-encoded';
 import SunCalc from 'suncalc';
-import { PlannerMessageType, ExtendedRouteTypes } from '../../../utils/shared/constants';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { boundWithMinimumArea } from '../../../utils/shared/geo-utils';
+import { PlannerMessageType, ExtendedRouteTypes } from '../../../shared/constants';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { boundWithMinimumArea } from '../../../shared/geo-utils';
 import {
   compressLegs,
   getTotalBikingDistance,
   isDirectItineraryWithAllowedRouteTypes,
-} from '../../../utils/client/legUtils';
-import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import { getDefaultSettings, getSettings } from '../../../utils/client/planParamUtil';
-import { getStartTimeWithColon } from '../../../utils/client/timeUtils';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+} from '../../utils/legUtils';
+import { getMapLayerOptions } from '../../utils/mapLayerUtils';
+import { getDefaultSettings, getSettings } from '../../utils/planParamUtil';
+import { getStartTimeWithColon } from '../../utils/timeUtils';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for

@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Popup from 'react-leaflet/es/Popup';
-import { setIntermediatePlaces } from '../../../../utils/client/queryUtils';
-import { locationToOTP } from '../../../../utils/shared/otpStrings';
+import { setIntermediatePlaces } from '../../../utils/queryUtils';
+import { locationToOTP } from '../../../../shared/otpStrings';
 import Card from '../../Card';
 import { useViaPoints, useItineraryLocationActions } from '../../../hooks/ItineraryLocationContext';
 

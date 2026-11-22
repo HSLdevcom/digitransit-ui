@@ -6,7 +6,7 @@ import { useRouter } from 'found';
 import DesktopView from '../DesktopView';
 import MobileView from '../MobileView';
 import { DesktopOrMobile, useBreakpoint } from '../../hooks/BreakpointContext';
-import { otpToLocation, locationToUri } from '../../../utils/shared/otpStrings';
+import { otpToLocation, locationToUri } from '../../../shared/otpStrings';
 import Loading from '../Loading';
 import StopNearYou from './StopNearYou';
 import UpdateLocationButton from './UpdateLocationButton';
@@ -16,14 +16,14 @@ import CityBikeInfo from './CityBikeInfo';
 import ParkInfo from './ParkInfo';
 import Search from './Search';
 import StopRouteSearch from './StopRouteSearch';
-import { getGeolocationState } from '../../../utils/client/localStorage';
-import { PREFIX_NEARYOU } from '../../../utils/shared/path';
+import { getGeolocationState } from '../../utils/localStorage';
+import { PREFIX_NEARYOU } from '../../../shared/path';
 import NearYouContainer from './NearYouContainer';
 import SwipeableTabs, { setFocusables } from '../SwipeableTabs';
 import NearYouFavourites from './NearYouFavourites';
-import { getDefaultNetworks } from '../../../utils/shared/vehicleRentalUtils';
-import { getMapLayerOptions } from '../../../utils/client/mapLayerUtils';
-import { getTransportModes, getNearYouModes } from '../../../utils/client/modeUtils';
+import { getDefaultNetworks } from '../../../shared/vehicleRentalUtils';
+import { getMapLayerOptions } from '../../utils/mapLayerUtils';
+import { getTransportModes, getNearYouModes } from '../../utils/modeUtils';
 import {
   getFavouriteStopsAndStations,
   getFavouriteVehicleRentalStations,

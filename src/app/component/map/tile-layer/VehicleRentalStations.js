@@ -7,17 +7,17 @@ import {
   getMapIconScale,
   drawCitybikeIcon,
   drawSmallVehicleRentalMarker,
-} from '../../../../utils/client/mapIconUtils';
-import { showCitybikeNetwork } from '../../../../utils/client/modeUtils';
+} from '../../../utils/mapIconUtils';
+import { showCitybikeNetwork } from '../../../utils/modeUtils';
 
 import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
-} from '../../../../utils/shared/vehicleRentalUtils';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
-import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
+} from '../../../../shared/vehicleRentalUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import { getLayerBaseUrl } from '../../../utils/mapLayerUtils';
 
 const query = graphql`
   query VehicleRentalStationsQuery($id: String!) {

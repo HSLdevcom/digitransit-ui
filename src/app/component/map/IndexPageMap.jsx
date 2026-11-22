@@ -1,6 +1,6 @@
 import { useMatch } from 'found';
 import MapWithTracking from './MapWithTracking';
-import { sameLocations } from '../../../utils/shared/path';
+import { sameLocations } from '../../../shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import CookieSettingsButton from '../CookieSettingsButton';

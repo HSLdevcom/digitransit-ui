@@ -1,4 +1,4 @@
-import * as utils from '../../utils/shared/browser';
+import * as utils from '../../src/shared/browser';
 
 const noop = () => {};
 

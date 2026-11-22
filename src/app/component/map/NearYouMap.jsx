@@ -6,22 +6,22 @@ import isEqual from 'lodash/isEqual';
 import polyline from 'polyline-encoded';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import { useMatch } from 'found';
-import { locationShape, stopShape } from '../../../utils/client/shapes';
+import { locationShape, stopShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import BackButton from '../BackButton';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
 import Line from './Line';
 import MapWithTracking from './MapWithTracking';
-import { getSettings } from '../../../utils/client/planParamUtil';
+import { getSettings } from '../../utils/planParamUtil';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
-import { sortNearYouRentalStations, sortNearYouStops } from '../../../utils/client/sortUtils';
+import { sortNearYouRentalStations, sortNearYouStops } from '../../utils/sortUtils';
 import ItineraryLine from './ItineraryLine';
 import Loading from '../Loading';
-import { getRouteMode } from '../../../utils/client/modeUtils';
+import { getRouteMode } from '../../utils/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 function getId(edge) {
   const { place } = edge.node;

@@ -1,5 +1,5 @@
 import { Helmet } from 'react-helmet';
-import { generateManifestUrl } from '../../utils/client/manifestUtils';
+import { generateManifestUrl } from '../utils/manifestUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function IndexPageMeta() {

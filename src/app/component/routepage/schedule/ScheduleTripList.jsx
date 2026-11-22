@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import ScheduleTripRow from './ScheduleTripRow';
-import { getFormattedTimeDate } from '../../../../utils/client/timeUtils';
+import { getFormattedTimeDate } from '../../../utils/timeUtils';
 
 const isTripCanceled = trip =>
   trip.stoptimes.length > 0 && trip.stoptimes.every(st => st.realtimeState === 'CANCELED');

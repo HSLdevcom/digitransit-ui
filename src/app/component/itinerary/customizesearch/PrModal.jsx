@@ -7,7 +7,7 @@ import { ArrowLink } from '@hsl-fi/navigation';
 import Icon from '../../Icon';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
-import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../../../utils/hslfiLocale';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();

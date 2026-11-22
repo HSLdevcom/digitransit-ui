@@ -18,37 +18,20 @@
 !.yarn/versions
 !.yarn/patches
 
-# Packages (source only; `lib` build output, and
-# digitransit-search-util-query-utils's src/__generated__ Relay artifacts, are
-# rebuilt fresh by `yarn run packages-build`). digitransit-util has
-# no "build" script in any of its packages today (ships raw source, no lib/
-# output), but the lib/ exclusion is kept here for future-proofing in case
-# that changes.
+# Source only for packages.
+# Their lib/ build output and Relay __generated__ artifacts are rebuilt by `yarn run packages-build`.
 !packages
 packages/*/*/lib
 packages/*/*/**/__generated__
 
-# Main app source (relay-compiler regenerates app/**/__generated__ fresh).
-!app
-app/**/__generated__
+# App, server, shared and style sources.
+!src
+src/app/**/__generated__
 
-# Shared/server/client utility modules (utils/shared, utils/server, utils/client),
-# imported by both app and server source (relay-compiler regenerates
-# utils/**/__generated__ fresh).
-!utils
-utils/**/__generated__
-
-# Server source; only required for `yarn run start`.
-!server
-
-# Styles and static assets bundled by webpack.
-!styles
+# Static assets copied into _static/.
 !static
 
-# Only scripts/build/* (contextHelper.js) is actually required, by
-# webpack.config.js - the
-# rest of scripts/ (dev.sh, generate-schema.js, sort-translations.js, theme/,
-# packages/) is dev/tooling-only and never read by the image.
+# Only scripts/build/ is used by `yarn run build`; the rest of scripts/ is dev tooling.
 !scripts/build
 
 # Root-level build config.
@@ -59,8 +42,3 @@ utils/**/__generated__
 !COPYING
 !LICENSE-AGPL.txt
 !LICENSE-EUPL.txt
-
-# NOTE: node_modules is intentionally left off the allow-list. It's rebuilt
-# fresh by `yarn install` inside the image, and must never be overwritten by
-# the host's copy, which may contain native modules built for a different
-# OS/architecture.

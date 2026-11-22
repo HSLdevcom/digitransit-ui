@@ -3,10 +3,10 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import StopScheduleStatus from '../../stop/StopScheduleStatus';
-import { stopPagePath } from '../../../../utils/shared/path';
-import { getStopMode, transitIconName } from '../../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
-import getStopStatus, { combineStopStatuses } from '../../../../utils/client/stopStatusUtils';
+import { stopPagePath } from '../../../../shared/path';
+import { getStopMode, transitIconName } from '../../../utils/modeUtils';
+import { getModeIconColor } from '../../../../shared/colorUtils';
+import getStopStatus, { combineStopStatuses } from '../../../utils/stopStatusUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 function isNull(val) {

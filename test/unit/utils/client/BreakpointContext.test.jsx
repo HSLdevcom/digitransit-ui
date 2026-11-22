@@ -7,7 +7,7 @@ import {
   DesktopOrMobile,
   getClientBreakpoint,
   useBreakpoint,
-} from '../../../../app/hooks/BreakpointContext';
+} from '../../../../src/app/hooks/BreakpointContext';
 
 function BreakpointLabel({ onRender }) {
   const breakpoint = useBreakpoint();

@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { planShape } from '../../../utils/client/shapes';
+import { planShape } from '../../utils/shapes';
 import StreetModeSelectorButton from './StreetModeSelectorButton';
 import StreetModeSelectorWeather from './StreetModeSelectorWeather';
 import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
-import { streetHash } from '../../../utils/shared/path';
+import { streetHash } from '../../../shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function AlternativeItineraryBar({

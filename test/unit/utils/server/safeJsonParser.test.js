@@ -1,4 +1,4 @@
-import safeJsonParse from '../../../../utils/server/safeJsonParser';
+import safeJsonParse from '../../../../src/server/utils/safeJsonParser';
 
 describe('safeJsonParser', () => {
   it('parses valid JSON', () => {

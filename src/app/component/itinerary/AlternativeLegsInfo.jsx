@@ -2,9 +2,9 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { legShape } from '../../../utils/client/shapes';
-import { legTimeStr } from '../../../utils/client/legUtils';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { legShape } from '../../utils/shapes';
+import { legTimeStr } from '../../utils/legUtils';
 
 export default function AlternativeLegsInfo({ legs, showAlternativeLegs, toggle }) {
   let values = {

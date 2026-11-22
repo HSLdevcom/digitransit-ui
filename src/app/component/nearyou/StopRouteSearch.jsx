@@ -3,7 +3,7 @@ import { memo } from 'react';
 import { filterSearchResultsByMode } from '@digitransit-search-util/digitransit-search-util-query-utils';
 import { useRouter } from 'found';
 import SearchAutosuggest from '../SearchAutosuggest';
-import { getStopRoutePath } from '../../../utils/shared/path';
+import { getStopRoutePath } from '../../../shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const searchSources = ['Favourite', 'History', 'Datasource'];

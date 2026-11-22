@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import Legs from '../../../app/component/itinerary/Legs';
+import Legs from '../../../src/app/component/itinerary/Legs';
 
 describe('<Legs />', () => {
   it("should not fail to render even if the itinerary's legs array is empty", () => {

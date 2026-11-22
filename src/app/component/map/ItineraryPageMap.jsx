@@ -1,9 +1,9 @@
 /* eslint-disable react/no-array-index-key */
 import { useRouter } from 'found';
 import PropTypes from 'prop-types';
-import { onLocationPopup } from '../../../utils/client/queryUtils';
+import { onLocationPopup } from '../../utils/queryUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { itineraryShape, locationShape, planEdgeShape } from '../../../utils/client/shapes';
+import { itineraryShape, locationShape, planEdgeShape } from '../../utils/shapes';
 import BackButton from '../BackButton';
 import CookieSettingsButton from '../CookieSettingsButton';
 import ItineraryLine from './ItineraryLine';
@@ -11,7 +11,7 @@ import LocationMarker from './LocationMarker';
 import ParkingAreaMarker from './non-tile-layer/ParkingAreaMarker';
 import MapWithTracking from './MapWithTracking';
 import VehicleMarkerContainer from './VehicleMarkerContainer';
-import { isBikeParkLeg, isCarParkLeg } from '../../../utils/client/legUtils';
+import { isBikeParkLeg, isCarParkLeg } from '../../utils/legUtils';
 import {
   useOrigin,
   useDestination,

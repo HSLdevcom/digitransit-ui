@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import AlternativeItineraryBar from '../../../../app/component/itinerary/AlternativeItineraryBar';
+import AlternativeItineraryBar from '../../../../src/app/component/itinerary/AlternativeItineraryBar';
 
 const baseProps = { selectStreetMode: () => {} };
 

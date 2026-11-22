@@ -1,6 +1,6 @@
 import isString from 'lodash/isString';
-import { locationToOTP, getIntermediatePlaces } from '../shared/otpStrings';
-import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from '../shared/path';
+import { locationToOTP, getIntermediatePlaces } from '../../shared/otpStrings';
+import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from '../../shared/path';
 
 /**
  * Processes query so that empty arrays will be preserved in URL

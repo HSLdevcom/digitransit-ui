@@ -4,14 +4,14 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
-import { stopShape } from '../../../utils/client/shapes';
+import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import { locationToUri, locationToOTP } from '../../../utils/shared/otpStrings';
+import { locationToUri, locationToOTP } from '../../../shared/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../../utils/shared/path';
+} from '../../../shared/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 // The place type decides the wording of the button and the dialog title.

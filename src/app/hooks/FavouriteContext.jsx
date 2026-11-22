@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useEffect, useMemo, useState } 
 import PropTypes from 'prop-types';
 import favouriteStore, { getPersonalizationPreferences } from '../data/FavouriteData';
 import { useMessageActions } from './MessageContext';
-import { failedFavouriteMessage, favouriteTypes } from '../../utils/client/messageUtils';
+import { failedFavouriteMessage, favouriteTypes } from '../utils/messageUtils';
 import { useConfigContext } from './ConfigContext';
 
 const FavouriteContext = createContext({

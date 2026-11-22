@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import { Link } from 'found';
-import { stopShape } from '../../../utils/client/shapes';
+import { stopShape } from '../../utils/shapes';
 import AddressRow from '../AddressRow';
 import ZoneIcon from '../ZoneIcon';
 import PlatformNumber from '../PlatformNumber';
 import FavouriteStopContainer from '../FavouriteStopContainer';
-import { getZoneLabel } from '../../../utils/client/legUtils';
+import { getZoneLabel } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 
 export default function NearYouHeader({ stop, desc, isStation = false, linkAddress, mode }) {
   const config = useConfigContext();

@@ -6,13 +6,13 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { routePagePath, PREFIX_STOPS } from '../../../utils/shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
 import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
-import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../utils/shared/colorUtils';
-import { getRouteMode } from '../../../utils/client/modeUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
+import { getRouteMode } from '../../utils/modeUtils';
 import RoutePatternSelectContainerFragment from './queries/RoutePatternSelectContainerFragment';
 
 function filterSimilarRoutes(routes, currentRoute) {

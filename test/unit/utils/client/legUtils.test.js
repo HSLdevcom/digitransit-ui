@@ -1,4 +1,4 @@
-import * as utils from '../../../../utils/client/legUtils';
+import * as utils from '../../../../src/app/utils/legUtils';
 import { createTestIntl } from '../../helpers/mock-providers';
 
 describe('legUtils', () => {

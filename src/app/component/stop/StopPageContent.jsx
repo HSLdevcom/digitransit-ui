@@ -1,16 +1,16 @@
 import { graphql, useRefetchableFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
-import { errorShape, fragmentRefShape } from '../../../utils/client/shapes';
+import { errorShape, fragmentRefShape } from '../../utils/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { getPrimaryStopMode } from '../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { getPrimaryStopMode } from '../../utils/modeUtils';
+import { getModeIconColor } from '../../../shared/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { getTrackOrPierOrPlatformText } from '../../../utils/client/localeUtils';
+import { getTrackOrPierOrPlatformText } from '../../utils/localeUtils';
 
 const stopFragment = graphql`
   fragment StopPageContent_stop on Stop

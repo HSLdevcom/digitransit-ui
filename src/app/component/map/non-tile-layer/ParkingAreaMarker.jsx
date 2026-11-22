@@ -1,9 +1,9 @@
 import { default as L } from 'leaflet';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
-import { locationShape } from '../../../../utils/client/shapes';
-import { getCaseRadius, renderAsString } from '../../../../utils/client/mapIconUtils';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../utils/shared/path';
+import { locationShape } from '../../../utils/shapes';
+import { getCaseRadius, renderAsString } from '../../../utils/mapIconUtils';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../shared/path';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 

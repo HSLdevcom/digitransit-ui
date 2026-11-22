@@ -2,12 +2,12 @@ import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DateTime, Duration } from 'luxon';
-import { pickupBookingInfoShape, routeShape } from '../../../utils/client/shapes';
+import { pickupBookingInfoShape, routeShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import Icon from '../Icon';
 import FavouriteRouteContainer from '../routepage/FavouriteRouteContainer';
 import CallAgencyDisclaimer from './CallAgencyDisclaimer';
-import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
+import { openDeepLink } from '../../utils/vehicleRentalUtils';
 
 export default function OnDemandInfo({ routeNumber, route, pickupBookingInfo, mobile, onClose }) {
   const intl = useIntl();

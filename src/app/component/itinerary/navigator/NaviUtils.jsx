@@ -1,36 +1,27 @@
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { GeodeticToEnu } from '../../../../utils/shared/geo-utils';
-import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../../utils/client/legUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { GeodeticToEnu } from '../../../../shared/geo-utils';
+import { legTime, legTimeAcc, PLATFORM_STATUS } from '../../../utils/legUtils';
 import {
   getTripOrRouteMode,
   getStopMode,
   transitIconName,
   modeToTranslationId,
-} from '../../../../utils/client/modeUtils';
+} from '../../../utils/modeUtils';
 import {
   getTrackOrPierOrPlatformRestoredText,
   getTrackOrPierOrPlatformChangeText,
   getTrackOrPierOrPlatformChangeDetailsText,
-} from '../../../../utils/client/localeUtils';
-import { locationToUri } from '../../../../utils/shared/otpStrings';
-import { getItineraryPagePath } from '../../../../utils/shared/path';
-import {
-  durationToString,
-  epochToIso,
-  stopCallTime,
-  timeStr,
-} from '../../../../utils/client/timeUtils';
+} from '../../../utils/localeUtils';
+import { locationToUri } from '../../../../shared/otpStrings';
+import { getItineraryPagePath } from '../../../../shared/path';
+import { durationToString, epochToIso, stopCallTime, timeStr } from '../../../utils/timeUtils';
 import Icon from '../../Icon';
-import { getModeIconColor } from '../../../../utils/shared/colorUtils';
+import { getModeIconColor } from '../../../../shared/colorUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
-import {
-  formatFare,
-  getFaresFromLegs,
-  shouldShowFareInfo,
-} from '../../../../utils/client/fareUtils';
+import { formatFare, getFaresFromLegs, shouldShowFareInfo } from '../../../utils/fareUtils';
 
 const DISPLAY_MESSAGE_THRESHOLD = 120 * 1000; // 2 minutes
 const EARLIEST_NEXT_STOP = 60 * 1000;

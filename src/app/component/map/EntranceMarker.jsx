@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { default as L } from 'leaflet';
 
-import { locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../utils/shapes';
 import GenericMarker from './GenericMarker';
-import { renderAsString, getIndexedIconFields } from '../../../utils/client/mapIconUtils';
-import { WheelchairBoarding } from '../../../utils/shared/constants';
+import { renderAsString, getIndexedIconFields } from '../../utils/mapIconUtils';
+import { WheelchairBoarding } from '../../../shared/constants';
 import Icon from '../Icon';
 
 export default function EntranceMarker({

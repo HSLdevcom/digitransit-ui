@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { durationToString } from '../../../utils/client/timeUtils';
-import { getHeadsignFromRouteLongName, legTime } from '../../../utils/client/legUtils';
+import { durationToString } from '../../utils/timeUtils';
+import { getHeadsignFromRouteLongName, legTime } from '../../utils/legUtils';
 import Icon from '../Icon';
-import { legShape } from '../../../utils/client/shapes';
+import { legShape } from '../../utils/shapes';
 
 export default function InterlineInfo({ legs, leg, usingOwnCarWholeTrip }) {
   const intl = useIntl();

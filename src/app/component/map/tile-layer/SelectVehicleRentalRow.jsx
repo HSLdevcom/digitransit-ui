@@ -6,8 +6,8 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../../../utils/shared/vehicleRentalUtils';
-import { splitGtfsId } from '../../../../utils/shared/gtfs';
+} from '../../../../shared/vehicleRentalUtils';
+import { splitGtfsId } from '../../../../shared/gtfs';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function SelectVehicleRentalRow({ name, network, id, desc, prefix, icon }) {

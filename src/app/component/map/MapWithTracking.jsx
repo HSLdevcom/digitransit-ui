@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import isEqual from 'lodash/isEqual';
 import cloneDeep from 'lodash/cloneDeep';
 import isEmpty from 'lodash/isEmpty';
-import { mapLayerOptionsShape, mapLayerShape } from '../../../utils/client/shapes';
+import { mapLayerOptionsShape, mapLayerShape } from '../../utils/shapes';
 import MapContainer from './MapContainer';
 import MapControlButton from './MapControlButton';
 import MapLayersDialogContent from './MapLayersDialogContent';

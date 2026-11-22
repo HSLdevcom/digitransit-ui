@@ -2,10 +2,10 @@ import { VectorTile } from '@mapbox/vector-tile';
 import pick from 'lodash/pick';
 import Protobuf from 'pbf';
 
-import { drawParkAndRideIcon } from '../../../../utils/client/mapIconUtils';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
-import { ParkTypes } from '../../../../utils/shared/constants';
-import { getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
+import { drawParkAndRideIcon } from '../../../utils/mapIconUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import { ParkTypes } from '../../../../shared/constants';
+import { getLayerBaseUrl } from '../../../utils/mapLayerUtils';
 
 const showParking = 15;
 const iconSizeMap = {

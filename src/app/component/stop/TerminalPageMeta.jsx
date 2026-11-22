@@ -1,10 +1,10 @@
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { stationShape } from '../../../utils/client/shapes';
+import { stationShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-import { generateMetaData } from '../../../utils/client/metaUtils';
+import { generateMetaData } from '../../utils/metaUtils';
 
 export default function TerminalPageMeta({ station: stationRef }) {
   const config = useConfigContext();

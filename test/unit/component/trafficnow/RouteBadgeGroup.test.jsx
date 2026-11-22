@@ -1,6 +1,6 @@
 import { render, fireEvent } from '@testing-library/react';
 import * as found from 'found';
-import RouteBadgeGroup from '../../../../app/component/trafficnow/components/RouteBadgeGroup';
+import RouteBadgeGroup from '../../../../src/app/component/trafficnow/components/RouteBadgeGroup';
 
 const makeRoute = ({ id = 'HSL:1', name = '1', url = '/route/HSL:1', gtfsId = 'HSL:1' } = {}) => ({
   id,

@@ -2,23 +2,23 @@
 import { useState, useEffect, useRef } from 'react';
 import CtrlPanel from '@digitransit-component/digitransit-component-control-panel';
 import i18next from 'i18next';
-import { matchShape } from '../../../utils/client/shapes';
-import { getRefPoint } from '../../../utils/client/apiUtils';
+import { matchShape } from '../../utils/shapes';
+import { getRefPoint } from '../../utils/apiUtils';
 import { SearchAutosuggestPanel as LocationSearch } from '../SearchAutosuggest';
-import { getLocationSearchTargets } from '../../../utils/client/searchUtils';
+import { getLocationSearchTargets } from '../../utils/searchUtils';
 import {
   buildQueryString,
   buildURL,
   getIndexPath,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../../utils/shared/path';
+} from '../../../shared/path';
 import getAssetUrl from '../../assets/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
-import { locationToOTP } from '../../../utils/shared/otpStrings';
+import { locationToOTP } from '../../../shared/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const sources = ['Favourite', 'History', 'Datasource'];

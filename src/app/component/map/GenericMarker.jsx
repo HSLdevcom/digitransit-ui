@@ -5,7 +5,7 @@ import { useLeaflet } from 'react-leaflet/es/context';
 import Marker from 'react-leaflet/es/Marker';
 import Popup from 'react-leaflet/es/Popup';
 import { default as L } from 'leaflet';
-import { locationShape } from '../../../utils/client/shapes';
+import { locationShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function GenericMarker({

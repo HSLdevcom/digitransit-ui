@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import ScheduleDropdown from '../../../../app/component/routepage/schedule/ScheduleDropdown';
+import ScheduleDropdown from '../../../../src/app/component/routepage/schedule/ScheduleDropdown';
 
 describe('<ScheduleDropdown />', () => {
   const list = [

@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest';
 import {
   getDepartureHeadsigns,
   getDepartureStoptimes,
-} from '../../../../utils/client/patternUtils';
+} from '../../../../src/app/utils/patternUtils';
 
 const st = (headsign, pickupType, stopPositionInPattern = 0) => ({
   headsign,

@@ -6,7 +6,7 @@ import {
   getStopIconRadii,
   buildStopIconSvg,
   getStopIconClassName,
-} from '../../../../../../app/component/map/non-tile-layer/StopMarker';
+} from '../../../../../../src/app/component/map/non-tile-layer/StopMarker';
 
 describe('StopMarker', () => {
   describe('getStopMarkerAnalytics', () => {

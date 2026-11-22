@@ -1,14 +1,14 @@
 import { useFragment } from 'react-relay';
 import { DateTime } from 'luxon';
 import StopPageMap from '../map/StopPageMap';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import { StopPageMapFragment } from './queries/StopPageMapFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
   STOP_STATUS,
   getStopStatusFromStopData,
   getStopAlertEffects,
-} from '../../../utils/client/stopStatusUtils';
+} from '../../utils/stopStatusUtils';
 
 export default function StopPageMapContainer({ stop: stopRef }) {
   const config = useConfigContext();

@@ -5,16 +5,16 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
-import { fragmentRefShape } from '../../../utils/client/shapes';
-import { AlertSeverityLevelType } from '../../../utils/shared/constants';
+import { fragmentRefShape } from '../../utils/shapes';
+import { AlertSeverityLevelType } from '../../../shared/constants';
 import {
   getAlertsForObject,
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
-} from '../../../utils/client/alertUtils';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { unixTime } from '../../../utils/client/timeUtils';
-import { PREFIX_DISRUPTION, PREFIX_TIMETABLE, stopPagePath } from '../../../utils/shared/path';
+} from '../../utils/alertUtils';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { unixTime } from '../../utils/timeUtils';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE, stopPagePath } from '../../../shared/path';
 import { filterCanceledCalls } from './Disruptions';
 import { StopPageTabsFragment } from './queries/StopPageTabsFragment';
 

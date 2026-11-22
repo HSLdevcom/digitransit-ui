@@ -1,13 +1,13 @@
 import PropTypes from 'prop-types';
 import Icon from '../../../Icon';
-import { legShape } from '../../../../../utils/client/shapes';
+import { legShape } from '../../../../utils/shapes';
 import {
   getIndoorStepsWithVerticalTransportation,
   getStepFocusAction,
-} from '../../../../../utils/client/indoorUtils';
+} from '../../../../utils/indoorUtils';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import NaviIndoorButton from './NaviIndoorButton';
-import { NaviCardType } from '../../../../../utils/shared/constants';
+import { NaviCardType } from '../../../../../shared/constants';
 
 export default function NaviIndoorButtonContainer({
   currentCard = NaviCardType.Default,

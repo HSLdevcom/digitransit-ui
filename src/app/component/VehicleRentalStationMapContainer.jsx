@@ -1,6 +1,6 @@
 import { graphql, useFragment } from 'react-relay';
 import StopPageMap from './map/StopPageMap';
-import { fragmentRefShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../utils/shapes';
 
 export default function VehicleRentalStationMapContainer({
   vehicleRentalStation: vehicleRentalStationRef,

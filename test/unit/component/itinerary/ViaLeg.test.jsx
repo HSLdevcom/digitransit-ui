@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import ViaLeg from '../../../../app/component/itinerary/ViaLeg';
+import ViaLeg from '../../../../src/app/component/itinerary/ViaLeg';
 
 const baseConfig = createTestConfig();
 

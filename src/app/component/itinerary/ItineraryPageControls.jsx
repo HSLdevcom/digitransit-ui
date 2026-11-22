@@ -3,7 +3,7 @@ import { useRouter } from 'found';
 import { FormattedMessage } from 'react-intl';
 import OriginDestinationBar from './OriginDestinationBar';
 import SearchSettings from './SearchSettings';
-import { streetHash } from '../../../utils/shared/path';
+import { streetHash } from '../../../shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 

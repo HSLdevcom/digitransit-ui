@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { Link } from 'found';
 import TruncateMarkup from 'react-truncate-markup';
-import { alertShape } from '../../utils/client/shapes';
+import { alertShape } from '../utils/shapes';
 import Icon from './Icon';
-import { alertSeverityCompare } from '../../utils/client/alertUtils';
+import { alertSeverityCompare } from '../utils/alertUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function AlertBanner({ alerts, linkAddress }) {

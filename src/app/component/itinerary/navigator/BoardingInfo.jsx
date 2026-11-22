@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import RouteNumberContainer from '../../RouteNumberContainer';
-import { routeShape } from '../../../../utils/client/shapes';
+import { routeShape } from '../../../utils/shapes';
 import Icon from '../../Icon';
 
 export default function BoardingInfo({

@@ -10,7 +10,7 @@ import {
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
   PREFIX_TIMETABLE,
-} from '../../utils/shared/path';
+} from '../../shared/path';
 import {
   getDefault,
   errorLoading,
@@ -19,8 +19,8 @@ import {
   createStickyRendererFactory,
   getComponentOrLoadingRenderer,
 } from './routerUtils';
-import { prepareDatesForStops, prepareDatesForStopTabs } from '../../utils/client/dateParamUtils';
-import { DATE_FORMAT } from '../../utils/shared/constants';
+import { prepareDatesForStops, prepareDatesForStopTabs } from '../utils/dateParamUtils';
+import { DATE_FORMAT } from '../../shared/constants';
 
 // Future window (90 days) used to detect whether the stop has any upcoming
 // departures for the schedule-status badge shown on the stop page map.

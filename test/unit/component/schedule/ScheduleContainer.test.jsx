@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 import { fireEvent } from '@testing-library/react';
 
-import ScheduleContainer from '../../../../app/component/routepage/schedule/ScheduleContainer';
+import ScheduleContainer from '../../../../src/app/component/routepage/schedule/ScheduleContainer';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { mockMatch, mockRouter } from '../../helpers/mock-router';
 import { createScheduleTestContext } from '../../helpers/mock-schedule-context';

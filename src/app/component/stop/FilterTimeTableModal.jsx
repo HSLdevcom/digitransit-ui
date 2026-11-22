@@ -4,12 +4,12 @@ import { useIntl, FormattedMessage } from 'react-intl';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { CheckboxGroup } from '@hsl-fi/form';
 import Icon from '../Icon';
-import routeCompare from '../../../utils/client/route-compare';
-import { getRouteMode, modeToTranslationId } from '../../../utils/client/modeUtils';
-import { stopShape } from '../../../utils/client/shapes';
+import routeCompare from '../../utils/route-compare';
+import { getRouteMode, modeToTranslationId } from '../../utils/modeUtils';
+import { stopShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { getDepartureHeadsigns, getDepartureStoptimes } from '../../../utils/client/patternUtils';
-import { hslfiLocale } from '../../../utils/client/hslfiLocale';
+import { getDepartureHeadsigns, getDepartureStoptimes } from '../../utils/patternUtils';
+import { hslfiLocale } from '../../utils/hslfiLocale';
 
 export default function FilterTimeTableModal({
   stop,

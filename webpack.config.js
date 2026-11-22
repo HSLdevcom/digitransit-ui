@@ -71,12 +71,12 @@ export default {
   mode,
   entry: {
     main: [
-      './app/client/publicPath',
+      './src/app/client/publicPath',
       // Dev-only: first so that it declares the cascade layer order.
       ...(isDevelopment
         ? [themePath(process.env.CONFIG || process.env.BASE_CONFIG || 'default')]
         : []),
-      './app/client/client',
+      './src/app/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
   },
@@ -92,11 +92,7 @@ export default {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve(rootDir, 'app'),
-          path.resolve(rootDir, 'utils/client'),
-          path.resolve(rootDir, 'utils/shared'),
-        ],
+        include: [path.resolve(rootDir, 'src/app'), path.resolve(rootDir, 'src/shared')],
         // The repo is `"type": "module"`, so webpack5 would otherwise treat
         // every `app/`/`utils/client/`/`utils/shared/` file as strict ESM:
         // (1) it'd demand an explicit extension on every relative import

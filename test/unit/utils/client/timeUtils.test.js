@@ -5,7 +5,7 @@ import {
   isTomorrow,
   isToday,
   getFutureText,
-} from '../../../../utils/client/timeUtils';
+} from '../../../../src/app/utils/timeUtils';
 import { createTestIntl } from '../../helpers/mock-providers';
 
 const now = DateTime.now();

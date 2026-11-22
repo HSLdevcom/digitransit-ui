@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import CanceledDepartures from '../../../../app/component/trafficnow/components/CanceledDepartures';
+import CanceledDepartures from '../../../../src/app/component/trafficnow/components/CanceledDepartures';
 
 const makeCanceledTrip = (serviceDate, scheduledDeparture, gtfsId) => ({
   serviceDate,

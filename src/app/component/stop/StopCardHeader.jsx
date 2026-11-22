@@ -3,10 +3,10 @@ import { useEffect } from 'react';
 import { useRouter } from 'found';
 import { graphql, useFragment } from 'react-relay';
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import CardHeader from '../CardHeader';
 import { saveSearch } from '../../data/SearchHistory';
-import { isIOS } from '../../../utils/shared/browser';
+import { isIOS } from '../../../shared/browser';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

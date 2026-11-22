@@ -1,4 +1,4 @@
-import configMerger from '../../utils/server/configMerger.js';
+import configMerger from '../utils/configMerger.js';
 import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'hameenlinna';

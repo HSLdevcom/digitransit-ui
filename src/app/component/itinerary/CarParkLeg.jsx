@@ -2,15 +2,15 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { Link } from 'found';
-import { legShape, parkShape } from '../../../utils/client/shapes';
+import { legShape, parkShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../../utils/shared/geo-utils';
-import { durationToString } from '../../../utils/client/timeUtils';
+import { displayDistance } from '../../../shared/geo-utils';
+import { durationToString } from '../../utils/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_CARPARK } from '../../../utils/shared/path';
+import { PREFIX_CARPARK } from '../../../shared/path';
 import ItineraryCircleLine from './ItineraryCircleLine';
-import { legTimeStr, legDestination } from '../../../utils/client/legUtils';
+import { legTimeStr, legDestination } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function CarParkLeg({ leg, index, focusAction, children, carPark, noWalk = false }) {

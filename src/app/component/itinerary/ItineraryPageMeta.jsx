@@ -2,8 +2,8 @@ import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
 
-import { otpToLocation } from '../../../utils/shared/otpStrings';
-import { generateMetaData } from '../../../utils/client/metaUtils';
+import { otpToLocation } from '../../../shared/otpStrings';
+import { generateMetaData } from '../../utils/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function ItineraryPageMeta() {

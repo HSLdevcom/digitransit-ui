@@ -7,13 +7,13 @@ import groupBy from 'lodash/groupBy';
 import values from 'lodash/values';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import RouteStop from './RouteStop';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
-import { getRouteMode } from '../../../utils/client/modeUtils';
-import { getModeIconColor } from '../../../utils/shared/colorUtils';
+import { getRouteMode } from '../../utils/modeUtils';
+import { getModeIconColor } from '../../../shared/colorUtils';
 import RouteStopListContainerFragment from './queries/RouteStopListContainerFragment';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

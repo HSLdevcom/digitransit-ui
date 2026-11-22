@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { openDeepLink } from '../../../utils/client/vehicleRentalUtils';
+import { openDeepLink } from '../../utils/vehicleRentalUtils';
 
 const EMPTY_VALUES = {};
 

@@ -1,6 +1,6 @@
 import { mockMatch } from '../../helpers/mock-router';
 
-import * as utils from '../../../../utils/client/queryUtils';
+import * as utils from '../../../../src/app/utils/queryUtils';
 
 const origin = { address: 'Origin, Helsinki', lat: 60.199, lon: 24.934 };
 

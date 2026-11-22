@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import isEmpty from 'lodash/isEmpty';
-import { alertShape } from '../../utils/client/shapes';
-import { isAlertValid } from '../../utils/client/alertUtils';
+import { alertShape } from '../utils/shapes';
+import { isAlertValid } from '../utils/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import { AlertEntityType } from '../../utils/shared/constants';
+import { AlertEntityType } from '../../shared/constants';
 import { useCurrentTime } from '../hooks/TimeContext';
 
 export default function DisruptionBanner({ alerts, mode }) {

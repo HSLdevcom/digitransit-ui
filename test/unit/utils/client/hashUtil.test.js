@@ -1,4 +1,4 @@
-import hashCode from '../../../../utils/client/hashUtil';
+import hashCode from '../../../../src/app/utils/hashUtil';
 
 describe('hashUtil', () => {
   it('should return 0 if the input string is falsy', () => {

@@ -6,18 +6,18 @@ import {
   getStopAndStationsQuery,
   getFavouriteVehicleRentalStationsQuery,
 } from '@digitransit-search-util/digitransit-search-util-query-utils';
-import { unixTime } from '../../utils/client/timeUtils';
+import { unixTime } from '../utils/timeUtils';
 import {
   clearFavouriteStorage,
   getFavouriteStorage,
   setFavouriteStorage,
-} from '../../utils/client/localStorage';
-import { deleteFavourites, getFavourites, updateFavourites } from '../../utils/client/apiUtils';
+} from '../utils/localStorage';
+import { deleteFavourites, getFavourites, updateFavourites } from '../utils/apiUtils';
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
-} from '../../utils/shared/vehicleRentalUtils';
-import { networkIsActive } from '../../utils/shared/citybikeSeasonUtils';
+} from '../../shared/vehicleRentalUtils';
+import { networkIsActive } from '../../shared/citybikeSeasonUtils';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility

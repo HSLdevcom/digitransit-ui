@@ -1,12 +1,12 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import Link from 'found/Link';
-import { legTimeShape } from '../../../utils/client/shapes';
-import { legTimeStr } from '../../../utils/client/legUtils';
+import { legTimeShape } from '../../utils/shapes';
+import { legTimeStr } from '../../utils/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { stopPagePath } from '../../../utils/shared/path';
+import { stopPagePath } from '../../../shared/path';
 import Icon from '../Icon';
-import { splitGtfsId } from '../../../utils/shared/gtfs';
+import { splitGtfsId } from '../../../shared/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function IntermediateLeg({

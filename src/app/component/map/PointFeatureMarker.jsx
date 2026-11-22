@@ -3,13 +3,13 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
-import { isPointTypeGeometry } from '../../../utils/shared/geo-utils';
+import { isPointTypeGeometry } from '../../../shared/geo-utils';
 import {
   getCaseRadius,
   getStopRadius,
   getHubRadius,
   getMapIconScale,
-} from '../../../utils/client/mapIconUtils';
+} from '../../utils/mapIconUtils';
 import PopupHeader from './PopupHeader';
 
 /**

@@ -1,4 +1,4 @@
-import { DATE_FORMAT } from '../shared/constants';
+import { DATE_FORMAT } from '../../shared/constants';
 
 /**
  * Generate human-readable label for a date.

@@ -2,7 +2,7 @@ import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { DsSelect, SelectOption } from '../../DsSelect';
-import { truncateLabel } from '../../../../utils/client/stringUtils';
+import { truncateLabel } from '../../../utils/stringUtils';
 
 /**
  * Generic dropdown used on the schedule page for stop selection.

@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { durationToString } from '../../../utils/client/timeUtils';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
+import { durationToString } from '../../utils/timeUtils';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
 import Icon from '../Icon';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

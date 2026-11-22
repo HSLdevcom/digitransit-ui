@@ -1,4 +1,4 @@
-import { buildStaticMetaData } from '../../../../utils/server/metaUtils';
+import { buildStaticMetaData } from '../../../../src/server/utils/metaUtils';
 
 describe('buildStaticMetaData', () => {
   const config = { title: 'Test title', colors: { primary: '#000000' } };

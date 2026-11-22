@@ -4,7 +4,7 @@ import { useRef, useLayoutEffect, useEffect, useState } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { locationShape, itineraryShape } from '../../../utils/client/shapes';
+import { locationShape, itineraryShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import Feedback from './Feedback';
 import StreetBar from './StreetBar';
@@ -26,27 +26,19 @@ import {
   isLegWithRoute,
   isBoardableLeg,
   isWalkOrBicycleWalkLeg,
-} from '../../../utils/client/legUtils';
-import { modeToTranslationId } from '../../../utils/client/modeUtils';
-import {
-  dateOrEmpty,
-  durationToString,
-  isTomorrow,
-  timeStr,
-} from '../../../utils/client/timeUtils';
+} from '../../utils/legUtils';
+import { modeToTranslationId } from '../../utils/modeUtils';
+import { dateOrEmpty, durationToString, isTomorrow, timeStr } from '../../utils/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { isKeyboardSelectionEvent } from '../../../utils/shared/browser';
-import { addAnalyticsEvent } from '../../../utils/shared/analyticsUtils';
-import { getItineraryPagePath, streetHash } from '../../../utils/shared/path';
-import {
-  getRentalNetworkIcon,
-  getRentalNetworkConfig,
-} from '../../../utils/shared/vehicleRentalUtils';
-import { getSummaryDescriptionText } from '../../../utils/client/localeUtils';
-import getCo2Value from '../../../utils/client/emissions';
+import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { getItineraryPagePath, streetHash } from '../../../shared/path';
+import { getRentalNetworkIcon, getRentalNetworkConfig } from '../../../shared/vehicleRentalUtils';
+import { getSummaryDescriptionText } from '../../utils/localeUtils';
+import getCo2Value from '../../utils/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
-import { getTicketString } from '../../../utils/client/fareUtils';
-import { ViaLocationType } from '../../../utils/shared/constants';
+import { getTicketString } from '../../utils/fareUtils';
+import { ViaLocationType } from '../../../shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { normalizeLegLengths } from './itineraryLegProcessor';

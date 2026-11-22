@@ -1,4 +1,4 @@
-import { isDevRunEnv } from '../../../../utils/server/envUtils';
+import { isDevRunEnv } from '../../../../src/server/utils/envUtils';
 
 describe('envUtils', () => {
   afterEach(() => {

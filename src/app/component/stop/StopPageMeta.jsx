@@ -1,8 +1,8 @@
 import { Helmet } from 'react-helmet';
 import { useFragment, graphql } from 'react-relay';
 import { useIntl } from 'react-intl';
-import { stopShape } from '../../../utils/client/shapes';
-import { generateMetaData } from '../../../utils/client/metaUtils';
+import { stopShape } from '../../utils/shapes';
+import { generateMetaData } from '../../utils/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StopPageMeta({ stop: stopRef }) {

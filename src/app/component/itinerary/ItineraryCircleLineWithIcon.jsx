@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
-import { ViaLocationType, IndoorLegType } from '../../../utils/shared/constants';
+import { ViaLocationType, IndoorLegType } from '../../../shared/constants';
 
 export default function ItineraryCircleLineWithIcon({
   index,

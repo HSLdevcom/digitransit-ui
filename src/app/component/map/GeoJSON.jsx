@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { useRef, Fragment } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
 import PointFeatureMarker from './PointFeatureMarker';
-import { geoJsonFeatureShape } from '../../../utils/client/shapes';
-import { isMultiPointTypeGeometry, isPointTypeGeometry } from '../../../utils/shared/geo-utils';
+import { geoJsonFeatureShape } from '../../utils/shapes';
+import { isMultiPointTypeGeometry, isPointTypeGeometry } from '../../../shared/geo-utils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /**

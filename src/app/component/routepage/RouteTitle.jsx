@@ -1,8 +1,8 @@
 import { useFragment } from 'react-relay';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { fragmentRefShape } from '../../../utils/client/shapes';
-import { routePagePath } from '../../../utils/shared/path';
+import { fragmentRefShape } from '../../utils/shapes';
+import { routePagePath } from '../../../shared/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 
 import RouteNumberContainer from '../RouteNumberContainer';

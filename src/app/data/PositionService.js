@@ -1,7 +1,7 @@
 import debounce from 'lodash/debounce';
-import { reverseGeocode } from '../../utils/client/geocodingUtils';
-import { geolocationMessages } from '../../utils/client/geolocationMessages';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { reverseGeocode } from '../utils/geocodingUtils';
+import { geolocationMessages } from '../utils/geolocationMessages';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
 import { messageActions } from '../hooks/MessageContext';
 
 const MOCKPOS = false;

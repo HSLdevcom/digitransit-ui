@@ -1,6 +1,6 @@
 import { screen, fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../helpers/mock-providers';
-import Disclaimer from '../../../app/component/Disclaimer';
+import Disclaimer from '../../../src/app/component/Disclaimer';
 
 describe('<Disclaimer />', () => {
   it('renders header, text and an external link', () => {

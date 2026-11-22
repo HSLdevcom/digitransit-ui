@@ -8,13 +8,13 @@ import {
   drawStopIcon,
   drawHybridStopIcon,
   drawHybridStationIcon,
-} from '../../../../utils/client/mapIconUtils';
-import { getStopMode } from '../../../../utils/client/modeUtils';
-import { isFeatureLayerEnabled, getLayerBaseUrl } from '../../../../utils/client/mapLayerUtils';
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../../utils/shared/path';
-import { splitGtfsId } from '../../../../utils/shared/gtfs';
-import { fetchWithLanguageAndSubscription } from '../../../../utils/shared/fetchUtils';
-import getStopStatus, { combineStopStatuses } from '../../../../utils/client/stopStatusUtils';
+} from '../../../utils/mapIconUtils';
+import { getStopMode } from '../../../utils/modeUtils';
+import { isFeatureLayerEnabled, getLayerBaseUrl } from '../../../utils/mapLayerUtils';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../../shared/path';
+import { splitGtfsId } from '../../../../shared/gtfs';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import getStopStatus, { combineStopStatuses } from '../../../utils/stopStatusUtils';
 
 const stopAlertsQuery = graphql`
   query StopsQuery($stopId: String!, $date: String!) {

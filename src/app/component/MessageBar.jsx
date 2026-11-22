@@ -14,10 +14,10 @@ import {
 import SwipeableTabs from './SwipeableTabs';
 import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
-import { getReadMessageIds } from '../../utils/client/localStorage';
-import { mapAlertSource } from '../../utils/client/alertUtils';
-import { isKeyboardSelectionEvent } from '../../utils/shared/browser';
-import hashCode from '../../utils/client/hashUtil';
+import { getReadMessageIds } from '../utils/localStorage';
+import { mapAlertSource } from '../utils/alertUtils';
+import { isKeyboardSelectionEvent } from '../../shared/browser';
+import hashCode from '../utils/hashUtil';
 
 /* Small version has constant height,
  * big version has max height of half but can be

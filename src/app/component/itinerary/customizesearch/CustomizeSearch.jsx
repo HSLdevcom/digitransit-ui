@@ -14,15 +14,12 @@ import CityBikes from './CityBikes';
 import Scooters from './Scooters';
 import TaxiOptions from './TaxiOptions';
 import RestoreDefaultSettings from './RestoreDefaultSettings';
-import { showModeSettings, hasCitybikes, hasScooters } from '../../../../utils/client/modeUtils';
-import { getSettings } from '../../../../utils/client/planParamUtil';
-import {
-  getCustomizedSettings,
-  setCustomizedSettings,
-} from '../../../../utils/client/localStorage';
+import { showModeSettings, hasCitybikes, hasScooters } from '../../../utils/modeUtils';
+import { getSettings } from '../../../utils/planParamUtil';
+import { getCustomizedSettings, setCustomizedSettings } from '../../../utils/localStorage';
 import ScrollableWrapper from '../../ScrollableWrapper';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import { hslfiLocale } from '../../../../utils/client/hslfiLocale';
+import { hslfiLocale } from '../../../utils/hslfiLocale';
 
 export default function CustomizeSearch({ onToggleClick, mobile = false }) {
   const config = useConfigContext();

@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import { useRouter } from 'found';
-import { relayShape } from '../../../../utils/client/shapes';
+import { relayShape } from '../../../utils/shapes';
 import { useMessages } from '../../../hooks/MessageContext';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { usePosition, usePositionActions } from '../../../hooks/PositionContext';
-import { addAnalyticsEvent } from '../../../../utils/shared/analyticsUtils';
-import { legTime, legTimeStr } from '../../../../utils/client/legUtils';
+import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { legTime, legTimeStr } from '../../../utils/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
 import { useRealtimeLegs } from './hooks/useRealtimeLegs';
 import NaviBottom from './NaviBottom';

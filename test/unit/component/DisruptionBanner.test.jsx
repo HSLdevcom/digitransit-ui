@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../helpers/mock-providers';
-import DisruptionBanner from '../../../app/component/DisruptionBanner';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../utils/shared/constants';
+import DisruptionBanner from '../../../src/app/component/DisruptionBanner';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../src/shared/constants';
 
 describe('<DisruptionBanner />', () => {
   it('should render a service alert', () => {

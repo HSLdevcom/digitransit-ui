@@ -4,10 +4,10 @@ import Icon from '../../../Icon';
 import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
-} from '../../../../../utils/client/indoorUtils';
-import { IndoorStepType, VerticalDirection } from '../../../../../utils/shared/constants';
+} from '../../../../utils/indoorUtils';
+import { IndoorStepType, VerticalDirection } from '../../../../../shared/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
-import { isKeyboardSelectionEvent } from '../../../../../utils/shared/browser';
+import { isKeyboardSelectionEvent } from '../../../../../shared/browser';
 
 export default function NaviIndoorStepInfo({ focusAction, type, verticalDirection, toLevelName }) {
   const indoorTranslationId = getIndoorTranslationId(type, verticalDirection, toLevelName);

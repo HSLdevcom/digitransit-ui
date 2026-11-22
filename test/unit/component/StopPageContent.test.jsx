@@ -1,8 +1,8 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
 import { mockMatch } from '../helpers/mock-router';
-import StopPageContent from '../../../app/component/stop/StopPageContent';
-import * as DepartureListContainerModule from '../../../app/component/DepartureListContainer';
+import StopPageContent from '../../../src/app/component/stop/StopPageContent';
+import * as DepartureListContainerModule from '../../../src/app/component/DepartureListContainer';
 
 const DepartureListStub = () => <div data-testid="departure-list" />;
 

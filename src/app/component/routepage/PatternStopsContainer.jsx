@@ -2,13 +2,13 @@ import { useFragment } from 'react-relay';
 import { useIntl } from 'react-intl';
 import cx from 'classnames';
 import { useRouter } from 'found';
-import { fragmentRefShape } from '../../../utils/client/shapes';
+import { fragmentRefShape } from '../../utils/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { routePagePath } from '../../../utils/shared/path';
+import { routePagePath } from '../../../shared/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { ExtendedRouteTypes } from '../../../utils/shared/constants';
+import { ExtendedRouteTypes } from '../../../shared/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import PatternStopsContainerFragment from './queries/PatternStopsContainerFragment';
 

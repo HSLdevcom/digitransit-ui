@@ -11,7 +11,7 @@ import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../utils/shared/path';
+} from '../../shared/path';
 import {
   getDefault,
   getComponentOrNullRenderer,
@@ -19,12 +19,12 @@ import {
   getComponentOrLoadingRenderer,
   getComponentOrLoadingRendererWithRequired,
 } from './routerUtils';
-import { prepareServiceDay, preparePatternStopsVariables } from '../../utils/client/dateParamUtils';
+import { prepareServiceDay, preparePatternStopsVariables } from '../utils/dateParamUtils';
 import {
   prepareScheduleParamsWithFiveWeeks,
   prepareScheduleParamsWithTenWeeks,
 } from '../component/routepage/schedule/scheduleParamUtils';
-import { withRouteContext } from '../../utils/client/RouteContext';
+import { withRouteContext } from '../utils/RouteContext';
 
 export default function routeRoutes(config) {
   const showTenWeeks = config.showTenWeeksOnRouteSchedule || false;

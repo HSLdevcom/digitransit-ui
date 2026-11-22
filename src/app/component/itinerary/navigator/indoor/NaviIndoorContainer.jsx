@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
-import { IndoorStepType, VerticalDirection } from '../../../../../utils/shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../../../shared/constants';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
-import { getStepFocusAction } from '../../../../../utils/client/indoorUtils';
+import { getStepFocusAction } from '../../../../utils/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];
 

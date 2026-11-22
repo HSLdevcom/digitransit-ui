@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../helpers/mock-providers';
 import { createTestConfig } from '../helpers/mock-context';
-import StopCardHeader from '../../../app/component/stop/StopCardHeader';
+import StopCardHeader from '../../../src/app/component/stop/StopCardHeader';
 
 describe('<StopCardHeader />', () => {
   const baseConfig = createTestConfig({ stopCard: { header: {} }, colors: { primary: '#000000' } });

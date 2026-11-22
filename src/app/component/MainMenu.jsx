@@ -6,9 +6,9 @@ import { Toggle } from '@hsl-fi/form';
 import DisruptionInfoButtonContainer from './DisruptionInfoButtonContainer';
 import LangSelect from './LangSelect';
 import MainMenuLinks from './MainMenuLinks';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
-import { getCountries, setCountries } from '../../utils/client/localStorage';
-import { TRAFFICNOW } from '../../utils/shared/path';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { getCountries, setCountries } from '../utils/localStorage';
+import { TRAFFICNOW } from '../../shared/path';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function MainMenu({ closeMenu, homeUrl }) {

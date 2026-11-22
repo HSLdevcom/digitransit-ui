@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 import { useEffect, useRef } from 'react';
 import { graphql, useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { fragmentRefShape } from '../../utils/client/shapes';
+import { fragmentRefShape } from '../utils/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { useRealTimeActions } from '../hooks/RealTimeInformationContext';
-import { getHeadsignFromRouteLongName, isPlatformChanged } from '../../utils/client/legUtils';
-import { splitGtfsId } from '../../utils/shared/gtfs';
+import { getHeadsignFromRouteLongName, isPlatformChanged } from '../utils/legUtils';
+import { splitGtfsId } from '../../shared/gtfs';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {

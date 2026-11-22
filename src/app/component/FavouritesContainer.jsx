@@ -6,10 +6,10 @@ import FavouriteEditModal from '@digitransit-component/digitransit-component-fav
 import { useIntl } from 'react-intl';
 import LoginPrompt from './LoginPrompt';
 import SearchAutosuggest from './SearchAutosuggest';
-import { getLocationSearchTargets } from '../../utils/client/searchUtils';
+import { getLocationSearchTargets } from '../utils/searchUtils';
 import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
-import { addAnalyticsEvent } from '../../utils/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function FavouritesContainer({ onClickFavourite, isMobile = false }) {

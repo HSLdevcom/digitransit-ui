@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import SelectStopRow from '../../../../../app/component/map/tile-layer/SelectStopRow';
+import SelectStopRow from '../../../../../src/app/component/map/tile-layer/SelectStopRow';
 
 const baseConfig = createTestConfig();
 
