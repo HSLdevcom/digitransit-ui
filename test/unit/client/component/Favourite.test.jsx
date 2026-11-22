@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import Favourite from '../../../../src/app/component/Favourite';
+import Favourite from '../../../../src/client/component/Favourite';
 
 const localConfig = createTestConfig({ allowFavouritesFromLocalstorage: true, user: {} });
 const loginConfig = createTestConfig({ allowFavouritesFromLocalstorage: false, user: {} });

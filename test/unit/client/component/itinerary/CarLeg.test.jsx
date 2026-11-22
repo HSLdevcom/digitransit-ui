@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import CarLeg from '../../../../../src/app/component/itinerary/CarLeg';
+import CarLeg from '../../../../../src/client/component/itinerary/CarLeg';
 
 const baseConfig = createTestConfig();
 

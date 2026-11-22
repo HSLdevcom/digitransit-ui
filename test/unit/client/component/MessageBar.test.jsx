@@ -2,13 +2,13 @@ import { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { waitFor, act } from '@testing-library/react';
 
-import MessageBar, { getServiceAlertId } from '../../../../src/app/component/MessageBar';
+import MessageBar, { getServiceAlertId } from '../../../../src/client/component/MessageBar';
 import { mockContext } from '../../helpers/mock-context';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import { setReadMessageIds } from '../../../../src/app/utils/localStorage';
+import { setReadMessageIds } from '../../../../src/client/utils/localStorage';
 import { AlertSeverityLevelType } from '../../../../src/shared/constants';
-import { TimeContext, useCurrentTime } from '../../../../src/app/hooks/TimeContext';
-import { MessageProvider, useMessageActions } from '../../../../src/app/hooks/MessageContext';
+import { TimeContext, useCurrentTime } from '../../../../src/client/hooks/TimeContext';
+import { MessageProvider, useMessageActions } from '../../../../src/client/hooks/MessageContext';
 
 const CURRENT_TIME = 1558610379;
 

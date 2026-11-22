@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { DomEvent } from 'leaflet';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import ConfirmLocationFromMapButton from '../../../../../src/app/component/map/ConfirmLocationFromMapButton';
+import ConfirmLocationFromMapButton from '../../../../../src/client/component/map/ConfirmLocationFromMapButton';
 
 describe('<ConfirmLocationFromMapButton />', () => {
   const getProps = (overrideProps = {}) => ({

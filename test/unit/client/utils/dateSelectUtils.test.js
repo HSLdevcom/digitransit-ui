@@ -4,7 +4,7 @@ import {
   formatWeekLabel,
   processDates,
   groupDatesByWeek,
-} from '../../../../src/app/utils/dateSelectUtils';
+} from '../../../../src/client/utils/dateSelectUtils';
 import { createTestIntl } from '../../helpers/mock-providers';
 
 describe('dateSelectUtils', () => {

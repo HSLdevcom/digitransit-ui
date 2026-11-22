@@ -1,8 +1,8 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import TrafficNowHeader from '../../../../../src/app/component/trafficnow/TrafficNowHeader';
-import * as breakpointContext from '../../../../../src/app/hooks/BreakpointContext';
-import * as assetUrl from '../../../../../src/app/assets/assetUrl';
+import TrafficNowHeader from '../../../../../src/client/component/trafficnow/TrafficNowHeader';
+import * as breakpointContext from '../../../../../src/client/hooks/BreakpointContext';
+import * as assetUrl from '../../../../../src/client/assets/assetUrl';
 
 // found's <Link> is globally stubbed (test/unit/helpers/vitest.setup.js) to render only
 // its children, with no wrapping <a>/href — so the "fallback to Link" branch of

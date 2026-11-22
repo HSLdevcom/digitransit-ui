@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
-import RouteStop from '../../../../../src/app/component/routepage/RouteStop';
+import RouteStop from '../../../../../src/client/component/routepage/RouteStop';
 import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 
 describe('<RouteStop />', () => {

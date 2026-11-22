@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import BicycleLeg from '../../../../../src/app/component/itinerary/BicycleLeg';
+import BicycleLeg from '../../../../../src/client/component/itinerary/BicycleLeg';
 import { RentalNetworkType } from '../../../../../src/shared/vehicleRentalUtils';
 
 const baseConfig = createTestConfig({

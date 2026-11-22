@@ -1,7 +1,7 @@
 import {
   groupEntitiesByMode,
   buildDisruptionCards,
-} from '../../../../../src/app/component/trafficnow/utils';
+} from '../../../../../src/client/component/trafficnow/utils';
 import { stopPagePath, routePagePath } from '../../../../../src/shared/path';
 
 const mocks = {

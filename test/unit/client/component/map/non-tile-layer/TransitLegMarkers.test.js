@@ -2,7 +2,7 @@ import {
   doMarkersOverlap,
   getArrowMarkerStyle,
   getSpeechBubbleStyle,
-} from '../../../../../../src/app/component/map/non-tile-layer/TransitLegMarkers';
+} from '../../../../../../src/client/component/map/non-tile-layer/TransitLegMarkers';
 
 const box = (x1, y1, x2, y2) => ({ topLeft: { x: x1, y: y1 }, bottomRight: { x: x2, y: y2 } });
 

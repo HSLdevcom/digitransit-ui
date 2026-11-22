@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import ServiceAlertIcon from '../../../../src/app/component/ServiceAlertIcon';
+import ServiceAlertIcon from '../../../../src/client/component/ServiceAlertIcon';
 import { AlertSeverityLevelType } from '../../../../src/shared/constants';
 
 describe('<ServiceAlertIcon />', () => {

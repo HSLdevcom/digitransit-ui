@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 
-import Itinerary from '../../../../../src/app/component/itinerary/Itinerary';
+import Itinerary from '../../../../../src/client/component/itinerary/Itinerary';
 import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../../../../src/shared/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';

@@ -1,7 +1,7 @@
 import {
   isStoredItineraryRelevant,
   removeDuplicateEdges,
-} from '../../../../../src/app/component/itinerary/ItineraryPageUtils';
+} from '../../../../../src/client/component/itinerary/ItineraryPageUtils';
 
 describe('itineraryPageUtils', () => {
   describe('isStoredItineraryRelevant', () => {

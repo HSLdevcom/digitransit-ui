@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import IconWithIcon from '../../../../src/app/component/IconWithIcon';
+import IconWithIcon from '../../../../src/client/component/IconWithIcon';
 
 describe('<IconWithIcon />', () => {
   it('should apply the given sub icon shape', () => {

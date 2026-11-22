@@ -1,4 +1,4 @@
-import * as modeUtils from '../../../../../src/app/utils/modeUtils';
+import * as modeUtils from '../../../../../src/client/utils/modeUtils';
 import * as pathUtils from '../../../../../src/shared/path';
 import { AlertEntityType, LocationTypes } from '../../../../../src/shared/constants';
 import {
@@ -6,7 +6,7 @@ import {
   groupEntitiesByMode,
   getAlertModes,
   buildDisruptionCards,
-} from '../../../../../src/app/component/trafficnow/utils';
+} from '../../../../../src/client/component/trafficnow/utils';
 
 describe('TrafficNow utils', () => {
   describe('getAvailableModes', () => {

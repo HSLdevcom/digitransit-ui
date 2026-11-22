@@ -1,6 +1,6 @@
 import { render } from '@testing-library/react';
 
-import PrintableStopHeader from '../../../../../../src/app/component/routepage/schedule/PrintableStopHeader';
+import PrintableStopHeader from '../../../../../../src/client/component/routepage/schedule/PrintableStopHeader';
 
 describe('<PrintableStopHeader />', () => {
   const defaultProps = { fromDisplayName: 'Kamppi', toDisplayName: 'Rautatientori' };

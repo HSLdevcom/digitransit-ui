@@ -79,7 +79,7 @@ const MessageContext = createContext({
 });
 
 // Bridge for plain (non-React) modules that still need to add/dismiss
-// messages but can't call hooks, e.g. src/app/data/PositionService.js's
+// messages but can't call hooks, e.g. src/client/data/PositionService.js's
 // Fluxible action creators (geolocation permission/timeout messages).
 // MessageProvider fills these in with its real, stable (useCallback with no
 // deps) action functions once it mounts; there's only ever one

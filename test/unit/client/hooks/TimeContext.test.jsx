@@ -5,7 +5,7 @@ import {
   TimeProvider,
   useCurrentTime,
   TWICE_PER_MINUTE,
-} from '../../../../src/app/hooks/TimeContext';
+} from '../../../../src/client/hooks/TimeContext';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,

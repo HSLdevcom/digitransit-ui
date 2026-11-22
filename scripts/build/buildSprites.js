@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-// Builds the SVG sprite sheets from the per-icon files in `src/app/assets/icons/`
+// Builds the SVG sprite sheets from the per-icon files in `src/client/assets/icons/`
 // into `_static/assets/svg-sprite.<theme>.svg`, the paths `config.sprites`
 // names. Runs outside the bundler, before both `yarn build` (via `prebuild`)
 // and `yarn dev` (via scripts/dev.sh, which also keeps a `--watch` instance
@@ -10,7 +10,7 @@
 //   the icons that theme adds or re-skins. A theme's sprite is the default
 //   set with its own files layered on top.
 // - Each file's name (minus `.svg`) becomes its symbol id, i.e. the `img` key
-//   `<Icon>` and src/app/utils/mapIconUtils.js look it up by.
+//   `<Icon>` and src/client/utils/mapIconUtils.js look it up by.
 // - Each file must be well-formed XML with an `<svg>` root, or the build
 //   fails naming the file. The symbol body is copied from the file as-is.
 //
@@ -24,7 +24,7 @@ import path from 'path';
 import { JSDOM } from 'jsdom';
 
 const rootDir = path.resolve(import.meta.dirname, '../..');
-export const iconsDir = path.join(rootDir, 'src', 'app', 'assets', 'icons');
+export const iconsDir = path.join(rootDir, 'src', 'client', 'assets', 'icons');
 const outDir = path.join(rootDir, '_static', 'assets');
 
 const BASE_THEME = 'default';
@@ -67,7 +67,7 @@ function toSymbol(id, file) {
 }
 
 /**
- * @param {string} theme a directory under src/app/assets/icons/.
+ * @param {string} theme a directory under src/client/assets/icons/.
  * @returns {string} the sprite sheet's markup.
  */
 export function buildSprite(theme) {

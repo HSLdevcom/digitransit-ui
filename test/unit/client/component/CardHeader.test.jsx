@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import CardHeader from '../../../../src/app/component/CardHeader';
-import ExternalLink from '../../../../src/app/component/ExternalLink';
+import CardHeader from '../../../../src/client/component/CardHeader';
+import ExternalLink from '../../../../src/client/component/ExternalLink';
 
 describe('<CardHeader />', () => {
   it('should render the header icon', () => {

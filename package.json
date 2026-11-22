@@ -21,7 +21,7 @@
     "dev": "bash scripts/dev.sh",
     "dev-nowatch": "RUN_ENV=development NODE_ENV=development sh -c 'node src/server/server.js & webpack-dev-server'",
     "test-unit": "yarn relay && yarn packages-build && vitest run",
-    "test-unit:app": "yarn relay && yarn packages-build && vitest run --project app",
+    "test-unit:client": "yarn relay && yarn packages-build && vitest run --project client",
     "test-unit:server": "vitest run --project server",
     "lint": "yarn run eslint && yarn run prettier-styles && yarn run prettier-icons && yarn run stylelint && yarn run packages-translations-check && yarn run packages-dependencies-check",
     "format": "yarn run sort-translations && yarn run packages-translations-fix && yarn run eslint-fix && yarn run prettier-styles-fix && yarn run prettier-icons-fix && yarn run stylelint-fix",
@@ -30,8 +30,8 @@
     "eslint-fix": "eslint . --ext .js,.jsx,.cjs --fix",
     "prettier-styles": "prettier src/**/*.scss packages/digitransit-component/**/*.scss --check",
     "prettier-styles-fix": "prettier src/**/*.scss packages/digitransit-component/**/*.scss --write",
-    "prettier-icons": "prettier 'src/app/assets/icons/**/*.svg' --check",
-    "prettier-icons-fix": "prettier 'src/app/assets/icons/**/*.svg' --write",
+    "prettier-icons": "prettier 'src/client/assets/icons/**/*.svg' --check",
+    "prettier-icons-fix": "prettier 'src/client/assets/icons/**/*.svg' --write",
     "stylelint": "stylelint src/**/*.scss packages/digitransit-component/**/*.scss",
     "stylelint-fix": "stylelint src/**/*.scss packages/digitransit-component/**/*.scss --fix",
     "add-theme": "node scripts/theme/add-theme.js",
@@ -40,7 +40,7 @@
     "packages-docs": "node scripts/packages/generate-readmes.js",
     "packages-watch": "lerna run watch --stream --concurrency 12",
     "packages-build": "lerna run build",
-    "packages-test": "yarn packages-build && vitest run --project=!app --project=!server",
+    "packages-test": "yarn packages-build && vitest run --project=!client --project=!server",
     "packages-clean": "lerna run clean && rm -rf node_modules/.cache .nx",
     "packages-changeset": "changeset",
     "packages-changeset-check": "node scripts/packages/check-changesets.js",
@@ -95,7 +95,7 @@
       "prettier --check",
       "stylelint"
     ],
-    "src/app/assets/icons/**/*.svg": [
+    "src/client/assets/icons/**/*.svg": [
       "prettier --check"
     ]
   },
@@ -120,7 +120,7 @@
     }
   },
   "relay": {
-    "src": "./src/app",
+    "src": "./src/client",
     "schema": "./packages/private/schema/schema.graphql",
     "language": "javascript",
     "eagerEsModules": true

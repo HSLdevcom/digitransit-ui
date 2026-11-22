@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import { ConfigProvider } from '../../../../src/app/hooks/ConfigContext';
+import { ConfigProvider } from '../../../../src/client/hooks/ConfigContext';
 import {
   MessageProvider,
   processStaticMessages,
@@ -10,8 +10,8 @@ import {
   useDuplicateMessageCounter,
   useMessageActions,
   messageActions,
-} from '../../../../src/app/hooks/MessageContext';
-import { setReadMessageIds } from '../../../../src/app/utils/localStorage';
+} from '../../../../src/client/hooks/MessageContext';
+import { setReadMessageIds } from '../../../../src/client/utils/localStorage';
 import { mockContext } from '../../helpers/mock-context';
 
 /**
@@ -194,7 +194,7 @@ describe('MessageContext', () => {
 
   describe('messageActions bridge', () => {
     it('allows plain (non-React) modules to add and dismiss messages', () => {
-      // Mirrors how src/app/data/PositionService.js posts geolocation
+      // Mirrors how src/client/data/PositionService.js posts geolocation
       // permission/timeout messages: it can't call hooks, so it goes
       // through the messageActions bridge instead of useMessageActions().
       setReadMessageIds([]);

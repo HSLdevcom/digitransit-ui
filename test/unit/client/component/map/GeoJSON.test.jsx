@@ -1,6 +1,6 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet';
-import GeoJSON, { getIcons, getMarker } from '../../../../../src/app/component/map/GeoJSON';
+import GeoJSON, { getIcons, getMarker } from '../../../../../src/client/component/map/GeoJSON';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 
 describe('<GeoJSON />', () => {

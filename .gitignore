@@ -1,15 +1,15 @@
 # macOS Finder metadata
 .DS_Store
 
-# Main app webpack build output (see webpack.config.js)
+# Build output: _static/ is served by the server, manifest.json lists its webpack assets
 _static
 manifest.json
 
 # Installed dependencies (yarn/npm)
 node_modules
 
-# Relay-compiler generated GraphQL artifacts (main app and query-utils)
-src/app/**/__generated__
+# Relay-compiler generated GraphQL artifacts (client and query-utils)
+src/client/**/__generated__
 packages/*/*/**/__generated__
 
 # Rollup build output (see packages/private/rollup-config).

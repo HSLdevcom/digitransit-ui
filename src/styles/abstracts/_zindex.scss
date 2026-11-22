@@ -32,7 +32,7 @@ $global-zindex: (
   // Mobile main menu drawer content panel.
   'mobile-menu-content': 1300,
   // Toast-style notification, portaled to document.body so it always
-  // escapes ancestor stacking contexts - see src/app/component/Snackbar.jsx.
+  // escapes ancestor stacking contexts - see src/client/component/Snackbar.jsx.
   'snackbar': 9999
 );
 

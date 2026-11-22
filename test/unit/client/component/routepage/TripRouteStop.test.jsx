@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
-import TripRouteStop from '../../../../../src/app/component/routepage/TripRouteStop';
+import TripRouteStop from '../../../../../src/client/component/routepage/TripRouteStop';
 import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 
 describe('<TripRouteStop />', () => {

@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import ItineraryList from '../../../../../src/app/component/itinerary/ItineraryList';
+import ItineraryList from '../../../../../src/client/component/itinerary/ItineraryList';
 
 const noop = () => {};
 

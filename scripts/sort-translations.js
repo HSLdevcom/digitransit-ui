@@ -3,7 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const TRANSLATIONS_DIR = path.resolve(import.meta.dirname, '../src/app/translations');
+const TRANSLATIONS_DIR = path.resolve(import.meta.dirname, '../src/client/translations');
 const PRINT_WIDTH = 80;
 
 function needsQuoting(key) {

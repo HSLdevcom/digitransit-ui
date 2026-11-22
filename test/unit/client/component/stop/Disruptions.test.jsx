@@ -4,7 +4,7 @@ import { renderWithProviders } from '../../../helpers/mock-providers';
 import { AlertSeverityLevelType, AlertEntityType } from '../../../../../src/shared/constants';
 import Disruptions, {
   filterCanceledCalls,
-} from '../../../../../src/app/component/stop/Disruptions';
+} from '../../../../../src/client/component/stop/Disruptions';
 
 const renderDisruptions = props => renderWithProviders(<Disruptions {...props} />).container;
 

@@ -1,4 +1,4 @@
-import { changeTopics, parseMessage } from '../../../../src/app/utils/mqttClient';
+import { changeTopics, parseMessage } from '../../../../src/client/utils/mqttClient';
 
 describe('mqttClient', () => {
   it('unsubscribes old topics and reports new topics through a callback', () => {

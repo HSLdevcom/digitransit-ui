@@ -20,33 +20,33 @@ import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search
 import { Settings } from 'luxon';
 import { IntlProvider } from 'react-intl';
 import i18n from './i18n';
-import routes, { historyMiddlewares, render } from '../routes/routes';
-import ErrorBoundary from '../component/ErrorBoundary';
-import { BreakpointProvider } from '../hooks/BreakpointContext';
-import getMetadata from '../../shared/metaUtils';
+import routes, { historyMiddlewares, render } from './routes/routes';
+import ErrorBoundary from './component/ErrorBoundary';
+import { BreakpointProvider } from './hooks/BreakpointContext';
+import getMetadata from '../shared/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../../shared/analyticsUtils';
-import { getCountries } from '../utils/localStorage';
-import { configureCountry } from '../utils/configureCountry';
-import { getUser } from '../utils/apiUtils';
-import favouriteStore from '../data/FavouriteData';
-import searchServices from '../data/SearchServices';
-import { initHslfiLocale } from '../utils/hslfiLocale';
-import { ConfigProvider } from '../hooks/ConfigContext';
-import { FavouriteProvider } from '../hooks/FavouriteContext';
-import { MapLayerProvider } from '../hooks/MapLayerContext';
-import { PositionProvider } from '../hooks/PositionContext';
-import { MessageProvider } from '../hooks/MessageContext';
-import { TimeProvider } from '../hooks/TimeContext';
-import { RealTimeInformationProvider } from '../hooks/RealTimeInformationContext';
-import { ItineraryLocationProvider } from '../hooks/ItineraryLocationContext';
-import { isPersonalizationEnabled } from '../utils/modeUtils';
-import { getSettings } from '../utils/planParamUtil';
+} from '../shared/analyticsUtils';
+import { getCountries } from './utils/localStorage';
+import { configureCountry } from './utils/configureCountry';
+import { getUser } from './utils/apiUtils';
+import favouriteStore from './data/FavouriteData';
+import searchServices from './data/SearchServices';
+import { initHslfiLocale } from './utils/hslfiLocale';
+import { ConfigProvider } from './hooks/ConfigContext';
+import { FavouriteProvider } from './hooks/FavouriteContext';
+import { MapLayerProvider } from './hooks/MapLayerContext';
+import { PositionProvider } from './hooks/PositionContext';
+import { MessageProvider } from './hooks/MessageContext';
+import { TimeProvider } from './hooks/TimeContext';
+import { RealTimeInformationProvider } from './hooks/RealTimeInformationContext';
+import { ItineraryLocationProvider } from './hooks/ItineraryLocationContext';
+import { isPersonalizationEnabled } from './utils/modeUtils';
+import { getSettings } from './utils/planParamUtil';
 // Last import: the app's styles override those of the components above.
-import '../../styles/main.scss';
+import '../styles/main.scss';
 
 window.debug = debug; // Allow _debug.enable('*') in browser console
 
@@ -88,7 +88,7 @@ async function init() {
     : '';
 
   const { language } = config;
-  const translations = await import(`../translations/${language}`);
+  const translations = await import(`./translations/${language}`);
   i18n.changeLanguage(language);
   initHslfiLocale(language, translations.default[language]);
 

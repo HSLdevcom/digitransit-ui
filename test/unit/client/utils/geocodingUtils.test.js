@@ -1,5 +1,5 @@
 import fetchMock from 'fetch-mock';
-import { reverseGeocode } from '../../../../src/app/utils/geocodingUtils';
+import { reverseGeocode } from '../../../../src/client/utils/geocodingUtils';
 import { createTestConfig } from '../../helpers/mock-context';
 
 const GEOCODER_URL = 'https://geocoder.test/reverse';

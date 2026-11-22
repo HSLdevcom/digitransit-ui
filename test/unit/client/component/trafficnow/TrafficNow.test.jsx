@@ -2,11 +2,11 @@ import { renderWithProviders } from '../../../helpers/mock-providers';
 import { relayMock } from '../../../helpers/mock-relay';
 import { mockMatch } from '../../../helpers/mock-router';
 import { createTestConfig } from '../../../helpers/mock-context';
-import TrafficNow from '../../../../../src/app/component/trafficnow/TrafficNow';
-import AlertsQuery from '../../../../../src/app/component/trafficnow/queries/AlertsQuery';
-import CanceledTripsOverviewQuery from '../../../../../src/app/component/trafficnow/queries/CanceledTripsOverviewQuery';
-import CanceledTripsForModeQuery from '../../../../../src/app/component/trafficnow/queries/CanceledTripsForModeQuery';
-import * as breakpointContext from '../../../../../src/app/hooks/BreakpointContext';
+import TrafficNow from '../../../../../src/client/component/trafficnow/TrafficNow';
+import AlertsQuery from '../../../../../src/client/component/trafficnow/queries/AlertsQuery';
+import CanceledTripsOverviewQuery from '../../../../../src/client/component/trafficnow/queries/CanceledTripsOverviewQuery';
+import CanceledTripsForModeQuery from '../../../../../src/client/component/trafficnow/queries/CanceledTripsForModeQuery';
+import * as breakpointContext from '../../../../../src/client/hooks/BreakpointContext';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },
@@ -52,7 +52,7 @@ describe('<TrafficNow />', () => {
     vi.spyOn(breakpointContext, 'useBreakpoint').mockReturnValue(breakpoint);
     stubRelayQueries({ alertsFixture });
     // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
-    // src/app/utils/scroll.js) on mount and whenever mode/alertId change.
+    // src/client/utils/scroll.js) on mount and whenever mode/alertId change.
     vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
     return renderWithProviders(<TrafficNow dateTime="2024-01-01T00:00:00.000Z" />, {
       config: baseConfig,

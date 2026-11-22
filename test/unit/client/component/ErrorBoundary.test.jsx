@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import ErrorBoundary from '../../../../src/app/component/ErrorBoundary';
+import ErrorBoundary from '../../../../src/client/component/ErrorBoundary';
 
 function Broken() {
   throw new Error('broken');

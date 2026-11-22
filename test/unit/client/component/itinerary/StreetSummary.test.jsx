@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import StreetSummary from '../../../../../src/app/component/itinerary/StreetSummary';
+import StreetSummary from '../../../../../src/client/component/itinerary/StreetSummary';
 
 const baseConfig = createTestConfig();
 

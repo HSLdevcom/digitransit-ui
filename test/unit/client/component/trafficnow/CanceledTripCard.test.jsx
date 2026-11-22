@@ -2,8 +2,8 @@ import { fireEvent, screen } from '@testing-library/react';
 import * as found from 'found';
 import { createTestConfig } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import CanceledTripCard from '../../../../../src/app/component/trafficnow/CanceledTripCard';
-import * as FiltersContext from '../../../../../src/app/component/trafficnow/filters/FiltersContext';
+import CanceledTripCard from '../../../../../src/client/component/trafficnow/CanceledTripCard';
+import * as FiltersContext from '../../../../../src/client/component/trafficnow/filters/FiltersContext';
 
 const makeRouteSummary = ({
   shortName = '21B',

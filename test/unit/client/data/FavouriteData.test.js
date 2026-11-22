@@ -1,7 +1,7 @@
 import { vi } from 'vitest';
 import * as queryUtils from '@digitransit-search-util/digitransit-search-util-query-utils';
-import * as apiUtils from '../../../../src/app/utils/apiUtils';
-import { FavouriteData, STATUS_HAS_DATA } from '../../../../src/app/data/FavouriteData';
+import * as apiUtils from '../../../../src/client/utils/apiUtils';
+import { FavouriteData, STATUS_HAS_DATA } from '../../../../src/client/data/FavouriteData';
 
 const stopFavourite = { type: 'stop', gtfsId: 'HSL:1234', favouriteId: 'stop-1' };
 

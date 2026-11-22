@@ -71,12 +71,12 @@ export default {
   mode,
   entry: {
     main: [
-      './src/app/client/publicPath',
+      './src/client/publicPath',
       // Dev-only: first so that it declares the cascade layer order.
       ...(isDevelopment
         ? [themePath(process.env.CONFIG || process.env.BASE_CONFIG || 'default')]
         : []),
-      './src/app/client/client',
+      './src/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
   },
@@ -92,9 +92,9 @@ export default {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [path.resolve(rootDir, 'src/app'), path.resolve(rootDir, 'src/shared')],
+        include: [path.resolve(rootDir, 'src/client'), path.resolve(rootDir, 'src/shared')],
         // The repo is `"type": "module"`, so webpack5 would otherwise treat
-        // every `src/app/`/`src/shared/` file as strict ESM:
+        // every `src/client/`/`src/shared/` file as strict ESM:
         // (1) it'd demand an explicit extension on every relative import
         // (the client bundle keeps its long-standing extensionless style
         // instead), and (2) several files default-import third-party UMD
@@ -123,7 +123,7 @@ export default {
                 // both this config and the Lightning CSS minimizer below.
                 modules: false,
                 bugfixes: true,
-                // Expands `import 'core-js/stable'` in src/app/client/client.jsx
+                // Expands `import 'core-js/stable'` in src/client/client.jsx
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
@@ -178,13 +178,13 @@ export default {
         // their raw source/tests run as native ESM) - which webpack, following
         // that package.json field, parses as strict `javascript/esm` rather
         // than `auto`. This causes two distinct problems when bundled directly
-        // into the app (not through src/app/**'s lenient babel-loader rule):
+        // into the client (not through src/client/**'s lenient babel-loader rule):
         //   1. Several packages default-import third-party CJS dependencies
         //      (e.g. `@hsl-fi/modal`) that use Babel's userland `__esModule`-
         //      marker convention instead of a real "exports"/"module" field.
         //      Webpack's *lenient* `javascript/auto` interop recognizes that
         //      marker and unwraps `.default` (matching what Babel itself
-        //      does, and what every `src/app/` file gets); its *strict* ESM
+        //      does, and what every `src/client/` file gets); its *strict* ESM
         //      interop follows real Node semantics instead, where a CJS
         //      default import is simply the whole `module.exports` - silently
         //      handing components like `Modal` the entire exports object
@@ -192,11 +192,11 @@ export default {
         //      time with "Element type is invalid".
         //   2. Strict ESM also requires relative imports to be "fully
         //      specified" (explicit file extension) - but these packages'
-        //      own `import/extensions` policy is "never" (matching src/app/**),
+        //      own `import/extensions` policy is "never" (matching src/client/**),
         //      so an extensionless relative import (valid and required by
         //      lint) would otherwise fail to resolve here.
         // Force `javascript/auto` here so these packages get the same
-        // lenient interop as the rest of the app. `type: 'javascript/auto'`
+        // lenient interop as the rest of the client. `type: 'javascript/auto'`
         // alone only changes CJS/ESM interop, not extension-resolution
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
@@ -259,8 +259,8 @@ export default {
       {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
         // webpack5 built-in asset modules, replacing file-loader/url-loader.
-        // Never inlines as a data URL: src/app/assets/assetUrl.js makes every
-        // image under src/app/assets/images/ reachable from the main chunk, and
+        // Never inlines as a data URL: src/client/assets/assetUrl.js makes every
+        // image under src/client/assets/images/ reachable from the main chunk, and
         // inlining the small ones would add ~130 kB of base64 to it.
         type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },
@@ -277,7 +277,7 @@ export default {
     // behavior, so any bundled code (ours or a dependency's) that
     // references one of these bare globals now throws "X is not defined"
     // at runtime unless we provide it ourselves. Needed in both dev and
-    // prod. Our own app code doesn't need either of these (it reads
+    // prod. Our own client code doesn't need either of these (it reads
     // window.config instead of process.env client-side, and doesn't use
     // Buffer at all), but:
     // - @hsl-fi/hsl-link (a transitive dependency of @hsl-fi/button, used
@@ -287,7 +287,7 @@ export default {
     //   process/browser's process.env is always {} (no real env values),
     //   so this only prevents crashes; it doesn't expose actual
     //   build-time environment variables to the browser.
-    // - mqtt-packet (a dependency of mqtt, used by src/app/utils/mqttClient.js
+    // - mqtt-packet (a dependency of mqtt, used by src/client/utils/mqttClient.js
     //   for real-time vehicle-position streaming) calls Buffer.from/
     //   Buffer.alloc etc. as bare, unguarded module-top-level globals -
     //   this crashes without the "Buffer" shim.

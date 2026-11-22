@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 import { createTestConfig } from '../../../../helpers/mock-context';
-import SelectVehicleRentalClusterRow from '../../../../../../src/app/component/map/tile-layer/SelectRentalVehicleClusterRow';
+import SelectVehicleRentalClusterRow from '../../../../../../src/client/component/map/tile-layer/SelectRentalVehicleClusterRow';
 
 const baseConfig = createTestConfig();
 

@@ -1,6 +1,6 @@
 import Link from 'found/Link';
 import { renderWithProviders } from '../../helpers/mock-providers';
-import AlertBanner from '../../../../src/app/component/AlertBanner';
+import AlertBanner from '../../../../src/client/component/AlertBanner';
 import { AlertSeverityLevelType } from '../../../../src/shared/constants';
 
 // The global Link mock drops the anchor, so replace Link.render here instead of

@@ -1,11 +1,11 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import { useRealtimeLegs } from '../../../../../../../src/app/component/itinerary/navigator/hooks/useRealtimeLegs';
-import * as useQueryRealtimeLegsModule from '../../../../../../../src/app/component/itinerary/navigator/hooks/useQueryRealtimeLegs';
-import { ItineraryContextProvider } from '../../../../../../../src/app/component/itinerary/context/ItineraryContext';
-import { setLatestNavigatorItinerary } from '../../../../../../../src/app/utils/localStorage';
-import { epochToIso } from '../../../../../../../src/app/utils/timeUtils';
+import { useRealtimeLegs } from '../../../../../../../src/client/component/itinerary/navigator/hooks/useRealtimeLegs';
+import * as useQueryRealtimeLegsModule from '../../../../../../../src/client/component/itinerary/navigator/hooks/useQueryRealtimeLegs';
+import { ItineraryContextProvider } from '../../../../../../../src/client/component/itinerary/context/ItineraryContext';
+import { setLatestNavigatorItinerary } from '../../../../../../../src/client/utils/localStorage';
+import { epochToIso } from '../../../../../../../src/client/utils/timeUtils';
 
 const queryMock = vi.fn();
 

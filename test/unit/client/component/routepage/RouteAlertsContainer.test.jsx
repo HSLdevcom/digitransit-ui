@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import RouteAlertsContainer from '../../../../../src/app/component/routepage/RouteAlertsContainer';
+import RouteAlertsContainer from '../../../../../src/client/component/routepage/RouteAlertsContainer';
 
 const defaultRoute = { gtfsId: 'HSL:1063', mode: 'BUS', shortName: '63' };
 

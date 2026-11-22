@@ -3,7 +3,7 @@ import {
   getIconUrl,
   generateManifestIcons,
   generateManifest,
-} from '../../../../src/app/utils/manifestUtils';
+} from '../../../../src/client/utils/manifestUtils';
 
 describe('manifestUtils', () => {
   describe('getIconUrl', () => {

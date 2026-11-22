@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import RentalVehiclePageMapContainer from '../../../../src/app/component/RentalVehiclePageMapContainer';
-import * as StopPageMapModule from '../../../../src/app/component/map/StopPageMap';
+import RentalVehiclePageMapContainer from '../../../../src/client/component/RentalVehiclePageMapContainer';
+import * as StopPageMapModule from '../../../../src/client/component/map/StopPageMap';
 import { renderWithProviders } from '../../helpers/mock-providers';
 
 // The map itself isn't under test, only the name passed to it

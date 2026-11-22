@@ -1,6 +1,6 @@
 import { DateTime, Settings } from 'luxon';
 
-import { calculateRedirectDecision } from '../../../../../../src/app/component/routepage/schedule/scheduleParamUtils';
+import { calculateRedirectDecision } from '../../../../../../src/client/component/routepage/schedule/scheduleParamUtils';
 import { routePagePath, PREFIX_TIMETABLE } from '../../../../../../src/shared/path';
 import { DATE_FORMAT } from '../../../../../../src/shared/constants';
 

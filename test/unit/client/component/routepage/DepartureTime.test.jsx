@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import DepartureTime, {
   fromStopTime,
-} from '../../../../../src/app/component/routepage/DepartureTime';
+} from '../../../../../src/client/component/routepage/DepartureTime';
 import { RealtimeStateType } from '../../../../../src/shared/constants';
 
 describe('<DepartureTime />', () => {

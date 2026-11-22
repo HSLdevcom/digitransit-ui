@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { createTestConfig } from '../../helpers/mock-context';
-import Disruption from '../../../../src/app/component/Disruption';
+import Disruption from '../../../../src/client/component/Disruption';
 import { AlertEntityType } from '../../../../src/shared/constants';
 import {
   routePagePath,

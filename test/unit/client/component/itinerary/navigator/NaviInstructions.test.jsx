@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 import { createTestConfig } from '../../../../helpers/mock-context';
-import NaviInstructions from '../../../../../../src/app/component/itinerary/navigator/NaviInstructions';
-import { LEGTYPE } from '../../../../../../src/app/component/itinerary/navigator/NaviUtils';
+import NaviInstructions from '../../../../../../src/client/component/itinerary/navigator/NaviInstructions';
+import { LEGTYPE } from '../../../../../../src/client/component/itinerary/navigator/NaviUtils';
 import { config, tram2, tram3, interlineTime } from './fixtures/interlineLegs';
 
 const baseConfig = createTestConfig();

@@ -1,15 +1,15 @@
 import { vi } from 'vitest';
-import * as ConfigContext from '../../../src/app/hooks/ConfigContext';
-import * as scheduleParamUtils from '../../../src/app/component/routepage/schedule/scheduleParamUtils';
-import * as scheduleDataUtils from '../../../src/app/component/routepage/schedule/scheduleDataUtils';
-import * as scheduleTripsUtils from '../../../src/app/component/routepage/schedule/scheduleTripsUtils';
+import * as ConfigContext from '../../../src/client/hooks/ConfigContext';
+import * as scheduleParamUtils from '../../../src/client/component/routepage/schedule/scheduleParamUtils';
+import * as scheduleDataUtils from '../../../src/client/component/routepage/schedule/scheduleDataUtils';
+import * as scheduleTripsUtils from '../../../src/client/component/routepage/schedule/scheduleTripsUtils';
 import { mockContext } from './mock-context';
 
 /**
  * Create all common schedule-related mocks/stubs.
  * Returns mocks and stubs for schedule component tests. Stubs are vi mocks,
  * auto-restored between tests via the `restoreMocks: true` Vitest config
- * option (vitest.config.js's `app` project) - no manual sandbox/restore needed.
+ * option (vitest.config.js's `client` project) - no manual sandbox/restore needed.
  *
  * @param {Object} overrides - Optional overrides for mock data
  * @param {Object} overrides.config - Override config mock

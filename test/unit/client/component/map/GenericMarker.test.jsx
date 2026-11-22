@@ -1,7 +1,7 @@
 import { LeafletProvider } from 'react-leaflet/es/context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
-import GenericMarker from '../../../../../src/app/component/map/GenericMarker';
+import GenericMarker from '../../../../../src/client/component/map/GenericMarker';
 
 describe('<GenericMarker />', () => {
   it('should render', () => {

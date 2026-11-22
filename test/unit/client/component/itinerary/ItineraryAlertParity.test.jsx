@@ -1,5 +1,5 @@
-import Itinerary from '../../../../../src/app/component/itinerary/Itinerary';
-import Legs from '../../../../../src/app/component/itinerary/Legs';
+import Itinerary from '../../../../../src/client/component/itinerary/Itinerary';
+import Legs from '../../../../../src/client/component/itinerary/Legs';
 import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 

@@ -1,4 +1,4 @@
-import defaultGenerateMetaData, { generateMetaData } from '../../../../src/app/utils/metaUtils';
+import defaultGenerateMetaData, { generateMetaData } from '../../../../src/client/utils/metaUtils';
 
 describe('metaUtils', () => {
   it('exports the same metadata function through default and named imports', () => {

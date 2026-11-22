@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import DisruptionBadge from '../../../../../src/app/component/trafficnow/DisruptionBadge';
+import DisruptionBadge from '../../../../../src/client/component/trafficnow/DisruptionBadge';
 import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 
 // DisruptionBadge renders the real app Icon component (not the globally

@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import PlatformNumber from '../../../../src/app/component/PlatformNumber';
+import PlatformNumber from '../../../../src/client/component/PlatformNumber';
 import { TransportMode } from '../../../../src/shared/constants';
 
 const opts = {

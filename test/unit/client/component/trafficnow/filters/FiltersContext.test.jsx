@@ -4,7 +4,7 @@ import { render, act } from '@testing-library/react';
 import {
   FilterContextProvider,
   useFilterContext,
-} from '../../../../../../src/app/component/trafficnow/filters/FiltersContext';
+} from '../../../../../../src/client/component/trafficnow/filters/FiltersContext';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,

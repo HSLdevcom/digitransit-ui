@@ -1,7 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import DisruptionCardShell from '../../../../../src/app/component/trafficnow/DisruptionCardShell';
-import { clearOpenedCard } from '../../../../../src/app/component/trafficnow/cardFocus';
+import DisruptionCardShell from '../../../../../src/client/component/trafficnow/DisruptionCardShell';
+import { clearOpenedCard } from '../../../../../src/client/component/trafficnow/cardFocus';
 
 const renderShell = (props = {}) =>
   renderWithProviders(

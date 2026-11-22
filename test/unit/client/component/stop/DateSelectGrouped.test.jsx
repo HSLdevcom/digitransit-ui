@@ -1,13 +1,13 @@
 import { DateTime, Settings } from 'luxon';
 import { fireEvent } from '@testing-library/react';
 import { createTestIntl, renderWithProviders } from '../../../helpers/mock-providers';
-import DateSelectGrouped from '../../../../../src/app/component/stop/DateSelectGrouped';
+import DateSelectGrouped from '../../../../../src/client/component/stop/DateSelectGrouped';
 import {
   formatDateLabel,
   formatWeekLabel,
   processDates,
   groupDatesByWeek,
-} from '../../../../../src/app/utils/dateSelectUtils';
+} from '../../../../../src/client/utils/dateSelectUtils';
 
 describe('<DateSelectGrouped />', () => {
   const today = DateTime.fromISO('2019-01-01', { zone: 'UTC' });

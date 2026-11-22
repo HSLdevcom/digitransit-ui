@@ -6,7 +6,7 @@ import PointFeatureMarker, {
   getPropertyValueOrDefault,
   getRoundIcon,
   getPopupHeaderValues,
-} from '../../../../../src/app/component/map/PointFeatureMarker';
+} from '../../../../../src/client/component/map/PointFeatureMarker';
 
 describe('<PointFeatureMarker />', () => {
   it('should render empty if the geometry type is not Point', () => {

@@ -1,7 +1,7 @@
 import { decode } from 'base64-arraybuffer';
 import Pbf from 'pbf';
-import bindings from '../../../../src/app/utils/gtfsrt';
-import { parseFeedMQTT } from '../../../../src/app/utils/gtfsRtParser';
+import bindings from '../../../../src/client/utils/gtfsrt';
+import { parseFeedMQTT } from '../../../../src/client/utils/gtfsRtParser';
 
 // Real arraybuffer data that was encoded into base64
 const arrayBuffer = decode(

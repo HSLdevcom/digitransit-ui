@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import IconWithBigCaution from '../../../../src/app/component/IconWithBigCaution';
+import IconWithBigCaution from '../../../../src/client/component/IconWithBigCaution';
 import { AlertSeverityLevelType } from '../../../../src/shared/constants';
 
 describe('<IconWithBigCaution />', () => {

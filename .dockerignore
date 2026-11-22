@@ -24,9 +24,9 @@
 packages/*/*/lib
 packages/*/*/**/__generated__
 
-# App, server, shared and style sources.
+# Client, server, shared and style sources.
 !src
-src/app/**/__generated__
+src/client/**/__generated__
 
 # Static assets copied into _static/.
 !static

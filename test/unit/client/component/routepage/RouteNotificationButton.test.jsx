@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import RouteNotificationButton from '../../../../../src/app/component/routepage/RouteNotificationButton';
+import RouteNotificationButton from '../../../../../src/client/component/routepage/RouteNotificationButton';
 
 const baseNotification = {
   closeButtonLabel: { en: 'Close info', fi: 'Sulje', sv: 'Stäng' },

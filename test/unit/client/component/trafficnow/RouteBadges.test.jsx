@@ -1,8 +1,8 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import RouteBadges from '../../../../../src/app/component/trafficnow/RouteBadges';
-import * as FiltersContext from '../../../../../src/app/component/trafficnow/filters/FiltersContext';
-import * as trafficNowUtils from '../../../../../src/app/component/trafficnow/utils';
+import RouteBadges from '../../../../../src/client/component/trafficnow/RouteBadges';
+import * as FiltersContext from '../../../../../src/client/component/trafficnow/filters/FiltersContext';
+import * as trafficNowUtils from '../../../../../src/client/component/trafficnow/utils';
 import { AlertEntityType } from '../../../../../src/shared/constants';
 
 const baseConfig = createTestConfig({

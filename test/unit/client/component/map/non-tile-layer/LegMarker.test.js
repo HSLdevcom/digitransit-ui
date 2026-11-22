@@ -2,7 +2,7 @@ import {
   getLegMarkerIconName,
   shouldDisplayLegRouteNumber,
   getLegRouteNumberHtml,
-} from '../../../../../../src/app/component/map/non-tile-layer/LegMarker';
+} from '../../../../../../src/client/component/map/non-tile-layer/LegMarker';
 
 describe('LegMarker', () => {
   describe('getLegMarkerIconName', () => {

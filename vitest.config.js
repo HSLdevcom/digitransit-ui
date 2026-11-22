@@ -61,7 +61,7 @@ const hslFiCjsInteropPlugin = () => ({
   },
 });
 
-// Run by the `server` project below instead of the `app` project.
+// Run by the `server` project below instead of the `client` project.
 const serverTestFiles = ['test/unit/server/**/*.test.js'];
 
 const nodeProject = name => ({
@@ -80,7 +80,7 @@ export default {
   test: {
     projects: [
       {
-        // The main app suite (test/unit/**, minus the server tests).
+        // The client suite (test/unit/**, minus the server tests).
         plugins: [
           react({
             // babel.config.cjs only adds the `relay` plugin on top of
@@ -103,7 +103,7 @@ export default {
           hslFiCjsInteropPlugin(),
         ],
         test: {
-          name: 'app',
+          name: 'client',
           root: import.meta.dirname,
           environment: 'jsdom',
           // Makes describe/it/expect/vi available without per-file imports.
@@ -141,7 +141,7 @@ export default {
       },
       {
         // Server-side tests (src/server/**), run in plain
-        // Node rather than jsdom and without the app project's React/Relay
+        // Node rather than jsdom and without the client project's React/Relay
         // setup file - they exercise native-ESM Node code only. Isolated per
         // file (Vitest's default), since several server modules keep
         // module-level state or read process.env at import time.

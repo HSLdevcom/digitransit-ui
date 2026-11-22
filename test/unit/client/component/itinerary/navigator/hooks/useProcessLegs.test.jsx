@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import useProcessLegs from '../../../../../../../src/app/component/itinerary/navigator/hooks/useProcessLegs';
-import { legTime } from '../../../../../../../src/app/utils/legUtils';
+import useProcessLegs from '../../../../../../../src/client/component/itinerary/navigator/hooks/useProcessLegs';
+import { legTime } from '../../../../../../../src/client/utils/legUtils';
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 const at = ms => ({ scheduledTime: new Date(ms).toISOString() });

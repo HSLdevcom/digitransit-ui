@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 import { createTestConfig } from '../../../../helpers/mock-context';
-import DisruptionStatus from '../../../../../../src/app/component/trafficnow/components/DisruptionStatus';
-import * as timeUtils from '../../../../../../src/app/utils/timeUtils';
+import DisruptionStatus from '../../../../../../src/client/component/trafficnow/components/DisruptionStatus';
+import * as timeUtils from '../../../../../../src/client/utils/timeUtils';
 
 const baseConfig = createTestConfig({ colors: { primary: '#007ac9' } });
 

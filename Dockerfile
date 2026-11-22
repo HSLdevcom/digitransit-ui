@@ -18,7 +18,7 @@ COPY .yarn ./.yarn
 COPY --parents packages/*/*/package.json ./
 RUN yarn install --immutable --inline-builds
 
-# Build the packages before copying the app, so app changes don't rebuild them.
+# Build the packages before copying the rest of the repo, so changes elsewhere don't rebuild them.
 COPY packages ./packages
 RUN yarn run packages-build
 

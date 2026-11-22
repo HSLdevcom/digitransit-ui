@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 // Vitest setup for the app unit suite (replaces the former Mocha
 // test/unit/helpers/init.js, now removed). jsdom's own `environment: 'jsdom'`
-// (vitest.config.js's `app` project) already provides window/document/navigator/
+// (vitest.config.js's `client` project) already provides window/document/navigator/
 // localStorage/sessionStorage globally, so this file doesn't need to
 // construct a JSDOM instance or copy its properties onto `global` by hand.
 import { cleanup } from '@testing-library/react';
@@ -10,8 +10,8 @@ import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
 import { initAnalyticsClientSide } from '../../../src/shared/analyticsUtils';
-import { initHslfiLocale } from '../../../src/app/utils/hslfiLocale';
-import translations from '../../../src/app/translations/en';
+import { initHslfiLocale } from '../../../src/client/utils/hslfiLocale';
+import translations from '../../../src/client/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';
 
 // Components pass the design system locale to @hsl-fi components; the client

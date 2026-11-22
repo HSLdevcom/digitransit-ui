@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../../../helpers/mock-providers';
 
-import ScheduleTripRow from '../../../../../../src/app/component/routepage/schedule/ScheduleTripRow';
+import ScheduleTripRow from '../../../../../../src/client/component/routepage/schedule/ScheduleTripRow';
 
 describe('<ScheduleTripRow />', () => {
   const defaultProps = { departureTime: '08:00', arrivalTime: '08:30', isCanceled: false };

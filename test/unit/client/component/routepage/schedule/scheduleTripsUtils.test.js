@@ -3,7 +3,7 @@ import { DateTime } from 'luxon';
 import {
   sortTrips,
   getTripsList,
-} from '../../../../../../src/app/component/routepage/schedule/scheduleTripsUtils';
+} from '../../../../../../src/client/component/routepage/schedule/scheduleTripsUtils';
 import { DATE_FORMAT } from '../../../../../../src/shared/constants';
 import { createTestIntl } from '../../../../helpers/mock-providers';
 

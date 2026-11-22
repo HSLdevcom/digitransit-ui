@@ -4,7 +4,7 @@ import { createTestConfig } from '../../../helpers/mock-context';
 import { mockRouter, mockMatch } from '../../../helpers/mock-router';
 import StopItineraryButton, {
   getPlaceType,
-} from '../../../../../src/app/component/map/StopItineraryButton';
+} from '../../../../../src/client/component/map/StopItineraryButton';
 
 const stop = { name: 'Test stop', lat: 60.1, lon: 24.9, gtfsId: 'HSL:1' };
 

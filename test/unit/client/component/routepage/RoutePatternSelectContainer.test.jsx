@@ -5,7 +5,7 @@ import { mockMatch, mockRouter } from '../../../helpers/mock-router';
 import { createTestConfig } from '../../../helpers/mock-context';
 import RoutePatternSelectContainer, {
   getPatternOptions,
-} from '../../../../../src/app/component/routepage/RoutePatternSelectContainer';
+} from '../../../../../src/client/component/routepage/RoutePatternSelectContainer';
 import { routePagePath, PREFIX_STOPS } from '../../../../../src/shared/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);

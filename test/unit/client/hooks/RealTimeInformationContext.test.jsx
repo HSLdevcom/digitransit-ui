@@ -2,9 +2,9 @@ import { act, render } from '@testing-library/react';
 import {
   RealTimeInformationProvider,
   useRealTimeInformation,
-} from '../../../../src/app/hooks/RealTimeInformationContext';
-import * as mqttClient from '../../../../src/app/utils/mqttClient';
-import events from '../../../../src/app/utils/events';
+} from '../../../../src/client/hooks/RealTimeInformationContext';
+import * as mqttClient from '../../../../src/client/utils/mqttClient';
+import events from '../../../../src/client/utils/events';
 
 const wrapper = RealTimeInformationProvider;
 

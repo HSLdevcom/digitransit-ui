@@ -1,7 +1,7 @@
 import { act } from '@testing-library/react';
 import * as found from 'found';
 import { renderWithProviders } from '../../../../helpers/mock-providers';
-import NaviCardContainer from '../../../../../../src/app/component/itinerary/navigator/NaviCardContainer';
+import NaviCardContainer from '../../../../../../src/client/component/itinerary/navigator/NaviCardContainer';
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 const t = ms => ({ scheduledTime: new Date(ms).toISOString() });

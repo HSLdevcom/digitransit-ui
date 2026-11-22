@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
-import ZoneIcon from '../../../../src/app/component/ZoneIcon';
+import ZoneIcon from '../../../../src/client/component/ZoneIcon';
 
 const opts = {
   config: { CONFIG: 'hsl', URL: {}, unknownZones: ['FOO'] },

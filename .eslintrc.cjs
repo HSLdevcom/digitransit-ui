@@ -27,28 +27,28 @@ module.exports = {
         zones: [
           {
             target: './src/server/**/*',
-            from: './src/app/**/*',
+            from: './src/client/**/*',
             message:
               'src/server/** must not import client-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
-            target: './src/app/**/*',
+            target: './src/client/**/*',
             from: './src/server/**/*',
             message:
-              'src/app/** must not import server-only code. Put cross-cutting code in src/shared/** instead.',
+              'src/client/** must not import server-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
             target: './src/shared/**/*',
-            from: ['./src/app/**/*', './src/server/**/*'],
+            from: ['./src/client/**/*', './src/server/**/*'],
             message:
               'src/shared/** must only depend on other src/shared/** code (or external packages) so it stays safely importable by both server and client.',
           },
           {
-            target: './src/app/utils/**/*',
-            from: './src/app',
+            target: './src/client/utils/**/*',
+            from: './src/client',
             except: ['./utils'],
             message:
-              'src/app/utils/** must not import the rest of src/app/**; keep dependencies flowing from app to its utilities.',
+              'src/client/utils/** must not import the rest of src/client/**; keep dependencies flowing from the client to its utilities.',
           },
         ],
       },
