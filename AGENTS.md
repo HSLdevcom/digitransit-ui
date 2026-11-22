@@ -22,7 +22,7 @@ src/
   server/         Express, native ESM, never bundled; renders only the HTML shell
     configs/      config.js (resolves the config by host) and one config.<region>.js per deployment
     utils/        server-only helpers, mostly for assembling configs
-  shared/         helpers used by both the client and the server
+  shared/utils/   helpers used by both the client and the server
   styles/         main.scss, abstracts/, base/, themes/<theme>/theme.scss
 test/unit/        Vitest tests, mirroring src/; helpers/ and test-data/ are shared
 packages/         Yarn workspaces: the published @digitransit-* packages, and private/ tooling
