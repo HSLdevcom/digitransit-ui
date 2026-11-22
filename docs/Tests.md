@@ -40,16 +40,16 @@ yarn run test-unit
 Run only the client or only the server tests (`test/unit/server/**`)
 
 ```sh
-yarn test-unit:client
-yarn test-unit:server
+yarn test-unit-client
+yarn test-unit-server
 ```
 
 Run a single test file (any part of its path) or tests by describe/it name. Use
-`test-unit:server` instead for server tests.
+`test-unit-server` instead for server tests.
 
 ```sh
-yarn test-unit:client <path-substring>
-yarn test-unit:client -t "<name-pattern>"
+yarn test-unit-client <path-substring>
+yarn test-unit-client -t "<name-pattern>"
 ```
 
 Using the continuous watch mode
@@ -130,7 +130,7 @@ If a test passes alone but fails in the full run, another file has likely left
 state behind. This runs all files in one worker in a reproducible random order:
 
 ```sh
-yarn test-unit:client --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
+yarn test-unit-client --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
 ```
 
 ### Accessibility tests

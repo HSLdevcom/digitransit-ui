@@ -53,7 +53,7 @@ and watchman. See `docs/Installation.md`.
 | Production build and server | `CONFIG=hsl yarn build && yarn start`, with `API_URL=…` for another backend |
 | Lint, or fix what can be fixed | `yarn lint`, `yarn format` (also sorts translations) |
 | All unit tests | `yarn test-unit` |
-| Client or server tests only | `yarn test-unit:client`, `yarn test-unit:server`; add a path substring or `-t "<name>"` |
+| Client or server tests only | `yarn test-unit-client`, `yarn test-unit-server`; add a path substring or `-t "<name>"` |
 | Relay artifacts | `yarn relay` (`yarn dev` watches) |
 | OTP schema changed | `node scripts/generate-schema.js`, then `yarn relay` |
 
