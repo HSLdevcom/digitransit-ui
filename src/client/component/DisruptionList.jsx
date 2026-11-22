@@ -10,7 +10,7 @@ import DisruptionDetails from './DisruptionDetails';
 import { currentAndFutureAlerts, getUniqueAlerts, alertSeverityCompare } from '../utils/alertUtils';
 import { alertShape } from '../utils/shapes';
 import { useCurrentTime } from '../hooks/TimeContext';
-import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../shared/path';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE } from '../../shared/utils/path';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 import Icon from './Icon';
 import { useConfigContext } from '../hooks/ConfigContext';

@@ -12,8 +12,8 @@ import ScheduleHeader from './ScheduleHeader';
 import ScheduleTripList from './ScheduleTripList';
 import ScheduleConstantOperation from './ScheduleConstantOperation';
 import SecondaryButton from '../../SecondaryButton';
-import { DATE_FORMAT } from '../../../../shared/constants';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { DATE_FORMAT } from '../../../../shared/utils/constants';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
 import DateSelectGrouped from '../../stop/DateSelectGrouped';
 import ScrollableWrapper from '../../ScrollableWrapper';
@@ -21,7 +21,7 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTripsList } from './scheduleTripsUtils';
 import { calculateRedirectDecision } from './scheduleParamUtils';
 import { buildAvailableDates } from './scheduleDataUtils';
-import { splitGtfsId } from '../../../../shared/gtfs';
+import { splitGtfsId } from '../../../../shared/utils/gtfs';
 
 /**
  * Open a route timetable PDF in a new window.

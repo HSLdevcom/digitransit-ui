@@ -3,9 +3,9 @@ import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
 import StopScheduleStatus from '../../stop/StopScheduleStatus';
-import { stopPagePath } from '../../../../shared/path';
+import { stopPagePath } from '../../../../shared/utils/path';
 import { getStopMode, transitIconName } from '../../../utils/modeUtils';
-import { getModeIconColor } from '../../../../shared/colorUtils';
+import { getModeIconColor } from '../../../../shared/utils/colorUtils';
 import getStopStatus, { combineStopStatuses } from '../../../utils/stopStatusUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

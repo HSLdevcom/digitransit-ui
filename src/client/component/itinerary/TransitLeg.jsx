@@ -21,9 +21,9 @@ import {
   hasEntitiesOfType,
 } from '../../utils/alertUtils';
 import { modeToTranslationId } from '../../utils/modeUtils';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../shared/path';
+import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../shared/utils/path';
 import { durationToString } from '../../utils/timeUtils';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
   getHeadsignFromRouteLongName,
   getStopHeadsignFromStoptimes,
@@ -37,8 +37,8 @@ import {
   isLocalCallAgency,
 } from '../../utils/legUtils';
 import { shouldShowFareInfo } from '../../utils/fareUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
-import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/constants';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
+import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { legShape } from '../../utils/shapes';
 import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
@@ -51,7 +51,7 @@ import {
   getTrackOrPierOrPlatformChangeText,
 } from '../../utils/localeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import useCanceledStopIds from './useCanceledStopIds';
 
 const stopCode = code => code && <StopCode code={code} />;

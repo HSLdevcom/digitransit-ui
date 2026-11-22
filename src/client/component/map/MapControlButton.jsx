@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 
 export default function MapControlButton({ handleClick, ariaLabel, color, img }) {
   return (

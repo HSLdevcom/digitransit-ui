@@ -14,7 +14,7 @@ import LocationPopup from '../popups/LocationPopup';
 import TileContainer from './TileContainer';
 import { isFeatureLayerEnabled } from '../../../utils/mapLayerUtils';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { getClientBreakpoint } from '../../../hooks/BreakpointContext';
 import {
   stopPagePath,
@@ -22,7 +22,7 @@ import {
   PREFIX_CARPARK,
   PREFIX_BIKEPARK,
   PREFIX_RENTALVEHICLES,
-} from '../../../../shared/path';
+} from '../../../../shared/utils/path';
 import SelectVehicleContainer from './SelectVehicleContainer';
 import { useCurrentTime } from '../../../hooks/TimeContext';
 import { useConfigContext } from '../../../hooks/ConfigContext';

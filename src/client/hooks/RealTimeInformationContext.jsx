@@ -2,7 +2,7 @@ import { createContext, useContext, useEffect, useMemo, useRef, useState } from 
 import PropTypes from 'prop-types';
 import events from '../utils/events';
 import { unixTime } from '../utils/timeUtils';
-import { splitGtfsId } from '../../shared/gtfs';
+import { splitGtfsId } from '../../shared/utils/gtfs';
 import { startMqttClient, changeTopics } from '../utils/mqttClient';
 
 const RealTimeInformationContext = createContext();

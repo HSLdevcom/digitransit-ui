@@ -6,7 +6,7 @@ import { isEqual } from 'lodash';
 import { isLayerEnabled } from '../../../utils/mapLayerUtils';
 import { getStopIconStyles } from '../../../utils/mapIconUtils';
 
-import { getVehicleMinZoomOnStopsNearYou } from '../../../../shared/vehicleRentalUtils';
+import { getVehicleMinZoomOnStopsNearYou } from '../../../../shared/utils/vehicleRentalUtils';
 import events from '../../../utils/events';
 
 export default class TileContainer {

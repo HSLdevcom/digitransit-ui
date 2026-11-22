@@ -21,7 +21,7 @@ import { getRouteMode } from '../../utils/modeUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
 import { streetQuery } from './StreetQuery';
 import LocationMarker from './LocationMarker';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 
 function getId(edge) {
   const { place } = edge.node;

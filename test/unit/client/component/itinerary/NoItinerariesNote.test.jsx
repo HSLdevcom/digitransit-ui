@@ -2,7 +2,7 @@ import { createTestConfig, mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import translations from '../../../../../src/client/translations/en';
 import NoItinerariesNote from '../../../../../src/client/component/itinerary/NoItinerariesNote';
-import { PlannerMessageType } from '../../../../../src/shared/constants';
+import { PlannerMessageType } from '../../../../../src/shared/utils/constants';
 
 const TestLocation = {
   Outside: { lat: 10.0, lon: 10.0, address: 'Atlantic' },

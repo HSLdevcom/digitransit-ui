@@ -12,13 +12,13 @@ import {
   getIndexPath,
   getPathWithEndpointObjects,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../../shared/path';
+} from '../../../shared/utils/path';
 import getAssetUrl from '../../assets/assetUrl';
 import Icon from '../Icon';
 import Loading from '../Loading';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import useUTMCampaignParams from './hooks/useUTMCampaignParams';
-import { locationToOTP } from '../../../shared/otpStrings';
+import { locationToOTP } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const sources = ['Favourite', 'History', 'Datasource'];

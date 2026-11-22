@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { Text } from '@hsl-fi/layout-primitives';
-import { AlertSeverityLevelType } from '../../../shared/constants';
+import { AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { alertShape } from '../../utils/shapes';
 import DisruptionCardShell from './DisruptionCardShell';
 import DisruptionBadge from './DisruptionBadge';

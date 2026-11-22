@@ -4,7 +4,7 @@ import { DateTime } from 'luxon';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { DsSelect, SelectGroup, SelectOption } from '../DsSelect';
 import { processDates, groupDatesByWeek } from '../../utils/dateSelectUtils';
-import { DATE_FORMAT } from '../../../shared/constants';
+import { DATE_FORMAT } from '../../../shared/utils/constants';
 
 export default function DateSelectGrouped({ selectedDay, dates, onDateChange }) {
   const intl = useIntl();

@@ -3,7 +3,7 @@ import { useContext } from 'react';
 import { graphql, QueryRenderer } from 'react-relay';
 import ReactRelayContext from 'react-relay/lib/ReactRelayContext';
 import DisruptionInfoButton from './DisruptionInfoButton';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function DisruptionInfoButtonContainer({ onClick = () => {} }) {

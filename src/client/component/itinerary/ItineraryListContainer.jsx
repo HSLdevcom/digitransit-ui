@@ -5,7 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { planEdgeShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryList from './ItineraryList';
-import { isIOS, isSafari } from '../../../shared/browser';
+import { isIOS, isSafari } from '../../../shared/utils/browser';
 import ItineraryNotification from './ItineraryNotification';
 import { transitEdges } from './ItineraryPageUtils';
 import { ItineraryListContainerPlanEdges } from './queries/ItineraryListContainerPlanEdges';

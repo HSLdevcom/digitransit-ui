@@ -7,7 +7,7 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   getRentalNetworkId,
-} from '../../../shared/vehicleRentalUtils';
+} from '../../../shared/utils/vehicleRentalUtils';
 
 export default function VehicleRentalDurationInfo({ networks, config }) {
   const lang = config.language;

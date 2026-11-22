@@ -6,7 +6,7 @@ import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../utils/indoorUtils';
-import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../shared/constants';
+import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../shared/utils/constants';
 import ItineraryMapAction from './ItineraryMapAction';
 
 export default function IndoorStep({

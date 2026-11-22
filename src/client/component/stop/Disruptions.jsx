@@ -8,7 +8,7 @@ import { getAlertsForObject, getUniqueAlerts } from '../../utils/alertUtils';
 import { getRouteMode } from '../../utils/modeUtils';
 import { getStartTime, convertTo24HourFormat } from '../../utils/timeUtils';
 import { stopShape, stationShape } from '../../utils/shapes';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../shared/constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../shared/utils/constants';
 import { DisruptionsFragment } from './queries/DisruptionsFragment';
 import { patternTextWithIcon } from '../routepage/RoutePatternSelect';
 import { useConfigContext } from '../../hooks/ConfigContext';

@@ -6,7 +6,7 @@ import {
   useFavouriteStatus,
   useFavouriteActions,
 } from '../../hooks/FavouriteContext';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 
 export default function FavouriteRouteContainer({ gtfsId, ...rest }) {
   const favourites = useFavourites();

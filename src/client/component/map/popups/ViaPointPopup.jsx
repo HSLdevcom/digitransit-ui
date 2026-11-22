@@ -3,7 +3,7 @@ import { FormattedMessage } from 'react-intl';
 import { useRouter } from 'found';
 import Popup from 'react-leaflet/es/Popup';
 import { setIntermediatePlaces } from '../../../utils/queryUtils';
-import { locationToOTP } from '../../../../shared/otpStrings';
+import { locationToOTP } from '../../../../shared/utils/otpStrings';
 import Card from '../../Card';
 import { useViaPoints, useItineraryLocationActions } from '../../../hooks/ItineraryLocationContext';
 

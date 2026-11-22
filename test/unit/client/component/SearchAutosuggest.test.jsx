@@ -9,7 +9,7 @@ import SearchAutosuggest, {
 import * as SelectFromMapModule from '../../../../src/client/component/map/SelectFromMap';
 import * as SelectFromMapModalModule from '../../../../src/client/component/SelectFromMapModal';
 import searchServices from '../../../../src/client/data/SearchServices';
-import { addAnalyticsEvent } from '../../../../src/shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../src/shared/utils/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../../../../src/client/utils/searchUtils';
 import { createTestIntl, renderWithProviders } from '../../helpers/mock-providers';
 

@@ -19,8 +19,8 @@ import {
   definesItinerarySearch,
   PREFIX_NEARYOU,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../shared/path';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+} from '../../shared/utils/path';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 import useGeomoverSync from '../hooks/useGeomoverSync';
 import scrollTop from '../utils/scroll';

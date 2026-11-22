@@ -3,11 +3,11 @@ import { useFragment, graphql } from 'react-relay';
 
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
-import { routePagePath, PREFIX_STOPS } from '../../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/utils/path';
 
 import PopupHeader from './PopupHeader';
 
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { fragmentRefShape } from '../../../utils/shapes';
 
 export default function TripMarkerPopup({ trip: tripRef, message }) {

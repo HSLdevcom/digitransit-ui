@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
 import { useEffect } from 'react';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
-import { ExtendedRouteTypes } from '../../../shared/constants';
+import { ExtendedRouteTypes } from '../../../shared/utils/constants';
 import VehicleIcon from '../VehicleIcon';
 import IconMarker from './IconMarker';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const MODES_WITH_ICONS = [

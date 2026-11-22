@@ -16,7 +16,7 @@ import Icon from './Icon';
 import MessageBarMessage from './MessageBarMessage';
 import { getReadMessageIds } from '../utils/localStorage';
 import { mapAlertSource } from '../utils/alertUtils';
-import { isKeyboardSelectionEvent } from '../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../shared/utils/browser';
 import hashCode from '../utils/hashUtil';
 
 /* Small version has constant height,

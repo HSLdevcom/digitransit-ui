@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
-import { IndoorStepType, VerticalDirection } from '../../../../../shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../../../shared/utils/constants';
 import NaviIndoorStepInfo from './NaviIndoorStepInfo';
 import { getStepFocusAction } from '../../../../utils/indoorUtils';
 

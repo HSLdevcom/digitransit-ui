@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../../Icon';
-import { hasVehicleRentalCode } from '../../../../shared/vehicleRentalUtils';
-import { splitGtfsId } from '../../../../shared/gtfs';
+import { hasVehicleRentalCode } from '../../../../shared/utils/vehicleRentalUtils';
+import { splitGtfsId } from '../../../../shared/utils/gtfs';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function SelectVehicleRentalClusterRow({

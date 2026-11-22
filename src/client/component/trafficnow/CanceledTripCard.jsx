@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useFavourites } from '../../hooks/FavouriteContext';
-import { TRAFFICNOW, routePagePath } from '../../../shared/path';
+import { TRAFFICNOW, routePagePath } from '../../../shared/utils/path';
 import DisruptionCardShell from './DisruptionCardShell';
 import CanceledDepartures from './components/CanceledDepartures';
 import DisruptionStatus from './components/DisruptionStatus';

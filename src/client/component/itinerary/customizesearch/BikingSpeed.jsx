@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import SearchSettingsDropdown, { valueShape } from './SearchSettingsDropdown';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { findNearestOption } from '../../../utils/planParamUtil';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

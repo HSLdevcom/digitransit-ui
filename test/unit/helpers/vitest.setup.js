@@ -9,7 +9,7 @@ import Link from 'found/Link';
 import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import { initAnalyticsClientSide } from '../../../src/shared/analyticsUtils';
+import { initAnalyticsClientSide } from '../../../src/shared/utils/analyticsUtils';
 import { initHslfiLocale } from '../../../src/client/utils/hslfiLocale';
 import translations from '../../../src/client/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';

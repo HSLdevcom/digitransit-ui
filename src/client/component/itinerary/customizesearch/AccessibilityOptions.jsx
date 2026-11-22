@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import SettingsToggle from './SettingsToggle';
 import Icon from '../../Icon';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { settingsShape } from '../../../utils/shapes';
 
 export default function AccessibilityOptions({ settings, updateSettings }) {

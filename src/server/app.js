@@ -10,7 +10,7 @@ import setUpOIDC from './passport-openid-connect/openidConnect.js';
 import legacyUrlMiddleware from './middleware/legacyUrlMiddleware.js';
 import shell from './middleware/shell.js';
 import { SERVICE_WORKER_REMOVAL_SCRIPT } from './html/serviceWorkerRemoval.js';
-import { LEGACY_LOCALE_PATHS } from '../shared/constants.js';
+import { LEGACY_LOCALE_PATHS } from '../shared/utils/constants.js';
 
 function setUpOpenId(app) {
   const config = getConfiguration();

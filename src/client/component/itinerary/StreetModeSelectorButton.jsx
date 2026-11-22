@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { useIntl } from 'react-intl';
 import { planShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import {
   getTotalDistance,
@@ -11,8 +11,8 @@ import {
   getTotalDrivingDistance,
   getExtendedMode,
 } from '../../utils/legUtils';
-import { streetHash } from '../../../shared/path';
-import { getModeIconColor } from '../../../shared/colorUtils';
+import { streetHash } from '../../../shared/utils/path';
+import { getModeIconColor } from '../../../shared/utils/colorUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetModeSelectorButton({ icon, name, plan, onClick }) {

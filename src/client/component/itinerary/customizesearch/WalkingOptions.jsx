@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 import SettingsToggle from './SettingsToggle';
 import { findNearestOption } from '../../../utils/planParamUtil';

@@ -11,9 +11,9 @@ import {
 } from '../../../utils/mapIconUtils';
 import { getStopMode } from '../../../utils/modeUtils';
 import { isFeatureLayerEnabled, getLayerBaseUrl } from '../../../utils/mapLayerUtils';
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../../shared/path';
-import { splitGtfsId } from '../../../../shared/gtfs';
-import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_ROUTES } from '../../../../shared/utils/path';
+import { splitGtfsId } from '../../../../shared/utils/gtfs';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/utils/fetchUtils';
 import getStopStatus, { combineStopStatuses } from '../../../utils/stopStatusUtils';
 
 const stopAlertsQuery = graphql`

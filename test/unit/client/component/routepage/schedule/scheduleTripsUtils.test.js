@@ -4,7 +4,7 @@ import {
   sortTrips,
   getTripsList,
 } from '../../../../../../src/client/component/routepage/schedule/scheduleTripsUtils';
-import { DATE_FORMAT } from '../../../../../../src/shared/constants';
+import { DATE_FORMAT } from '../../../../../../src/shared/utils/constants';
 import { createTestIntl } from '../../../../helpers/mock-providers';
 
 describe('scheduleTripsUtils', () => {

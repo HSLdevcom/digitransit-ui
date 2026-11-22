@@ -1,4 +1,4 @@
-import getMetadata from '../../../src/shared/metaUtils';
+import getMetadata from '../../../../src/shared/utils/metaUtils';
 
 function createMockConfig(overrides = {}) {
   return {

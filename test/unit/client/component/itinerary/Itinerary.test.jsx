@@ -1,7 +1,10 @@
 import { fireEvent } from '@testing-library/react';
 
 import Itinerary from '../../../../../src/client/component/itinerary/Itinerary';
-import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../../../../src/shared/constants';
+import {
+  AlertSeverityLevelType,
+  ExtendedRouteTypes,
+} from '../../../../../src/shared/utils/constants';
 import { mockContext } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import dcw12 from '../../../test-data/dcw12';

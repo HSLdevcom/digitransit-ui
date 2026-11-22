@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { Modal, ModalContent } from '@hsl-fi/dialog';
 import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
-import { getLoginPath } from '../../shared/path';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
+import { getLoginPath } from '../../shared/utils/path';
 import { hslfiLocale } from '../utils/hslfiLocale';
 
 export default function LoginPrompt({

@@ -17,7 +17,7 @@ import Loading from '../Loading';
 import { getMapLayerOptions } from '../../utils/mapLayerUtils';
 import StopItineraryButton from './StopItineraryButton';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../shared/path';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../../shared/utils/path';
 import { streetQuery } from './StreetQuery';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useBreakpoint } from '../../hooks/BreakpointContext';

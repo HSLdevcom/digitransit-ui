@@ -7,7 +7,7 @@ import { legShape } from '../../utils/shapes';
 import { legTimeStr, isLocalCallAgency } from '../../utils/legUtils';
 import { getTripOrRouteMode, modeToTranslationId } from '../../utils/modeUtils';
 import RouteNumber from '../RouteNumber';
-import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/utils/path';
 import { getCapacityForLeg, capacityToTranslationId } from '../../utils/occupancyUtil';
 import Icon from '../Icon';
 import CapacityModal from '../CapacityModal';

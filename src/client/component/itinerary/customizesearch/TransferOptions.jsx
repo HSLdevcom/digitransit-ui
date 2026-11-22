@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import SettingsToggle from './SettingsToggle';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { settingsShape } from '../../../utils/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

@@ -7,7 +7,7 @@ import getLabel from '@digitransit-search-util/digitransit-search-util-get-label
 import getJson from '@digitransit-search-util/digitransit-search-util-get-json';
 import LocationMarker from './LocationMarker';
 import MapWithTracking from './MapWithTracking';
-import { otpToLocation } from '../../../shared/otpStrings';
+import { otpToLocation } from '../../../shared/utils/otpStrings';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import LocationMarkerWithPermanentTooltip from './LocationMarkerWithPermanentTooltip';

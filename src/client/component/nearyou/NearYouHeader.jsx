@@ -7,7 +7,7 @@ import PlatformNumber from '../PlatformNumber';
 import FavouriteStopContainer from '../FavouriteStopContainer';
 import { getZoneLabel } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 
 export default function NearYouHeader({ stop, desc, isStation = false, linkAddress, mode }) {
   const config = useConfigContext();

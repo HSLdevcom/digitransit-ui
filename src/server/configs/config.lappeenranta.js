@@ -1,5 +1,5 @@
 import configMerger from '../utils/configMerger.js';
-import { BIKEAVL_WITHMAX } from '../../shared/vehicleRentalUtils.js';
+import { BIKEAVL_WITHMAX } from '../../shared/utils/vehicleRentalUtils.js';
 import walttiConfig from './config.waltti.js';
 
 const CONFIG = 'lappeenranta';

@@ -7,9 +7,9 @@ import { useBreakpoint } from '../hooks/BreakpointContext';
 import BackButton from './BackButton';
 import getZoneId from '../utils/zoneIconUtils';
 import ZoneIcon from './ZoneIcon';
-import { hasVehicleRentalCode } from '../../shared/vehicleRentalUtils';
+import { hasVehicleRentalCode } from '../../shared/utils/vehicleRentalUtils';
 import FavouriteVehicleRentalStationContainer from './FavouriteVehicleRentalStationContainer';
-import { splitGtfsId } from '../../shared/gtfs';
+import { splitGtfsId } from '../../shared/utils/gtfs';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function ParkOrBikeStationHeader({

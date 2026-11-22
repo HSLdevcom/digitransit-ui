@@ -9,9 +9,9 @@ import {
   drawSmallVehicleRentalMarker,
 } from '../../../utils/mapIconUtils';
 
-import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/utils/fetchUtils';
 import { getLayerBaseUrl } from '../../../utils/mapLayerUtils';
-import { TransportMode } from '../../../../shared/constants';
+import { TransportMode } from '../../../../shared/utils/constants';
 import { getSettings } from '../../../utils/planParamUtil';
 import { createFeatureObjects } from '../../../utils/clusterUtils';
 

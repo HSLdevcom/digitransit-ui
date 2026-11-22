@@ -6,7 +6,7 @@ import { createTestConfig } from '../../../helpers/mock-context';
 import RoutePatternSelectContainer, {
   getPatternOptions,
 } from '../../../../../src/client/component/routepage/RoutePatternSelectContainer';
-import { routePagePath, PREFIX_STOPS } from '../../../../../src/shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../../../src/shared/utils/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
 const today = DateTime.now().toFormat('yyyyLLdd');

@@ -1,7 +1,7 @@
 import cloneDeep from 'lodash/cloneDeep';
 import polyUtil from 'polyline-encoded';
 import { useReducer } from 'react';
-import { GeodeticToEnu } from '../../../../shared/geo-utils';
+import { GeodeticToEnu } from '../../../../shared/utils/geo-utils';
 import { legTime } from '../../../utils/legUtils';
 import {
   getLatestNavigatorItinerary,

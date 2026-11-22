@@ -10,10 +10,10 @@ import { getStartTime } from '../../utils/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import { isActiveDate } from '../../utils/patternUtils';
-import { boundWithMinimumArea } from '../../../shared/geo-utils';
+import { boundWithMinimumArea } from '../../../shared/utils/geo-utils';
 import { getMapLayerOptions } from '../../utils/mapLayerUtils';
 import CookieSettingsButton from '../CookieSettingsButton';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { useMapLayers } from '../../hooks/MapLayerContext';
 

@@ -9,7 +9,7 @@ import SearchAutosuggest from './SearchAutosuggest';
 import { getLocationSearchTargets } from '../utils/searchUtils';
 import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { STATUS_FETCHING_OR_UPDATING } from '../data/FavouriteData';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function FavouritesContainer({ onClickFavourite, isMobile = false }) {

@@ -8,7 +8,7 @@ import enrichPatterns from '@digitransit-util/digitransit-util-enrich-patterns';
 import { useRouter } from 'found';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import RoutePatternSelectContainer from './RoutePatternSelectContainer';
-import { ExtendedRouteTypes } from '../../../shared/constants';
+import { ExtendedRouteTypes } from '../../../shared/utils/constants';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import {
   getCancelationsForRoute,
@@ -22,12 +22,12 @@ import {
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../../shared/path';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
-import { isIOS } from '../../../shared/browser';
+} from '../../../shared/utils/path';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
+import { isIOS } from '../../../shared/utils/browser';
 import { unixTime, unixToYYYYMMDD } from '../../utils/timeUtils';
 import { saveSearch } from '../../data/SearchHistory';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 
 const Tab = { Disruptions: PREFIX_DISRUPTION, Stops: PREFIX_STOPS, Timetable: PREFIX_TIMETABLE };
 

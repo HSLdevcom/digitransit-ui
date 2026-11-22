@@ -4,7 +4,7 @@ import { legShape } from '../../../../utils/shapes';
 import { getIndoorStepsWithVerticalTransportation } from '../../../../utils/indoorUtils';
 import NaviIndoorButton from './NaviIndoorButton';
 import NaviIndoorContainer from './NaviIndoorContainer';
-import { NaviCardType } from '../../../../../shared/constants';
+import { NaviCardType } from '../../../../../shared/utils/constants';
 
 export default function NaviIndoorCard({
   setCurrentCard,

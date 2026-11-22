@@ -6,7 +6,7 @@ import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { useState, useEffect } from 'react';
 import { useIntl } from 'react-intl';
-import { getMiddleOf } from '../../../shared/geo-utils';
+import { getMiddleOf } from '../../../shared/utils/geo-utils';
 import {
   getInterliningLegs,
   getTripOrRouteText,
@@ -28,7 +28,7 @@ import EntranceMarker from './EntranceMarker';
 import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorStepMarker from './IndoorStepMarker';
 import { createFeatureObjects } from '../../utils/clusterUtils';
-import { IndoorStepType, IndoorLegType, WheelchairBoarding } from '../../../shared/constants';
+import { IndoorStepType, IndoorLegType, WheelchairBoarding } from '../../../shared/utils/constants';
 import {
   getEntranceObject,
   getEntranceWheelchairAccessibility,

@@ -6,12 +6,12 @@ import { Button, FlexColumn } from '@hsl-fi/layout-primitives';
 import { useRouter } from 'found';
 import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import { locationToUri, locationToOTP } from '../../../shared/otpStrings';
+import { locationToUri, locationToOTP } from '../../../shared/utils/otpStrings';
 import {
   getPathWithEndpointObjects,
   getItineraryPagePath,
   PREFIX_ITINERARY_SUMMARY,
-} from '../../../shared/path';
+} from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 // The place type decides the wording of the button and the dialog title.

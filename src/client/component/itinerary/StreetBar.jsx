@@ -3,7 +3,10 @@ import PropTypes from 'prop-types';
 import { legShape } from '../../utils/shapes';
 import RouteNumber from '../RouteNumber';
 import { getLegBadgeProps, isLocalCallAgency } from '../../utils/legUtils';
-import { getRentalNetworkIcon, getRentalNetworkConfig } from '../../../shared/vehicleRentalUtils';
+import {
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
+} from '../../../shared/utils/vehicleRentalUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetBar({

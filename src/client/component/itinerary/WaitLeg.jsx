@@ -6,10 +6,10 @@ import Icon from '../Icon';
 import { durationToString } from '../../utils/timeUtils';
 import ItineraryMapAction from './ItineraryMapAction';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { PREFIX_STOPS } from '../../../shared/path';
+import { PREFIX_STOPS } from '../../../shared/utils/path';
 import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/legUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
-import { ViaLocationType } from '../../../shared/constants';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
+import { ViaLocationType } from '../../../shared/utils/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function WaitLeg({

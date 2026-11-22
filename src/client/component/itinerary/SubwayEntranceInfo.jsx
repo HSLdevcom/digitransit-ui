@@ -1,7 +1,7 @@
 import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import Icon from '../Icon';
-import { WheelchairBoarding } from '../../../shared/constants';
+import { WheelchairBoarding } from '../../../shared/utils/constants';
 
 export default function SubwayEntranceInfo({
   type, // exit / entrance

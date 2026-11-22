@@ -4,9 +4,9 @@ import Link from 'found/Link';
 import { legTimeShape } from '../../utils/shapes';
 import { legTimeStr } from '../../utils/legUtils';
 import ZoneIcon from '../ZoneIcon';
-import { stopPagePath } from '../../../shared/path';
+import { stopPagePath } from '../../../shared/utils/path';
 import Icon from '../Icon';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function IntermediateLeg({

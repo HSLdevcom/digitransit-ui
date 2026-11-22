@@ -8,15 +8,15 @@ import FuzzyTripLink from './FuzzyTripLink';
 import AddressRow from '../AddressRow';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
-import { stopPagePath } from '../../../shared/path';
+import { stopPagePath } from '../../../shared/utils/path';
 import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
-import { estimateItineraryDistance } from '../../../shared/geo-utils';
+import { estimateItineraryDistance } from '../../../shared/utils/geo-utils';
 import ZoneIcon from '../ZoneIcon';
 import { getZoneLabel } from '../../utils/legUtils';
 import getVehicleState from '../../utils/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { ensureColorAccessibleOnWhite } from '../../../shared/utils/colorUtils';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import {
   getServiceAvailability,
   getStopStatusFromStopData,

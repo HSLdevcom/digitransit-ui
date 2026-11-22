@@ -3,7 +3,7 @@ import { createTestConfig } from '../../../helpers/mock-context';
 import RouteBadges from '../../../../../src/client/component/trafficnow/RouteBadges';
 import * as FiltersContext from '../../../../../src/client/component/trafficnow/filters/FiltersContext';
 import * as trafficNowUtils from '../../../../../src/client/component/trafficnow/utils';
-import { AlertEntityType } from '../../../../../src/shared/constants';
+import { AlertEntityType } from '../../../../../src/shared/utils/constants';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },

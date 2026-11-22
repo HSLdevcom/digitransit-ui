@@ -8,7 +8,7 @@ import { errorShape, fragmentRefShape } from '../utils/shapes';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import Icon from './Icon';
 import Disclaimer from './Disclaimer';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../shared/path';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../shared/utils/path';
 import { useConfigContext } from '../hooks/ConfigContext';
 import { useBreakpoint } from '../hooks/BreakpointContext';
 

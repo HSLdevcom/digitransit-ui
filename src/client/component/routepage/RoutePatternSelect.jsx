@@ -6,8 +6,8 @@ import { Link, useRouter } from 'found';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../Icon';
-import { routePagePath } from '../../../shared/path';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { routePagePath } from '../../../shared/utils/path';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { patternShape, routeShape } from '../../utils/shapes';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 

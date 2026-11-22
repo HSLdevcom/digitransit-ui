@@ -19,10 +19,10 @@ import { getTripOrRouteMode } from '../../../utils/modeUtils';
 import { durationToString } from '../../../utils/timeUtils';
 import RouteNumberContainer from '../../RouteNumberContainer';
 import BoardingInfo from './BoardingInfo';
-import { getModeIconColor } from '../../../../shared/colorUtils';
+import { getModeIconColor } from '../../../../shared/utils/colorUtils';
 import NaviIndoorButtonContainer from './indoor/NaviIndoorButtonContainer';
 import NaviIndoorCard from './indoor/NaviIndoorCard';
-import { IndoorLegType, NaviCardType } from '../../../../shared/constants';
+import { IndoorLegType, NaviCardType } from '../../../../shared/utils/constants';
 import { getIndoorLegType } from '../../../utils/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

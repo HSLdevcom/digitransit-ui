@@ -7,7 +7,7 @@ import {
   getVehicleCapacity,
   BIKEAVL_UNKNOWN,
   BIKEAVL_WITHMAX,
-} from '../../shared/vehicleRentalUtils';
+} from '../../shared/utils/vehicleRentalUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function VehicleRentalStation({ vehicleRentalStation }) {

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { locationShape } from '../../../utils/shapes';
 import { getCaseRadius, renderAsString } from '../../../utils/mapIconUtils';
-import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../shared/path';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../../shared/utils/path';
 import Icon from '../../Icon';
 import GenericMarker from '../GenericMarker';
 

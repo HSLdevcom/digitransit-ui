@@ -6,7 +6,7 @@ import values from 'lodash/values';
 import { fragmentRefShape } from '../../utils/shapes';
 import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { getTripOrRouteMode } from '../../utils/modeUtils';
-import { getModeIconColor } from '../../../shared/colorUtils';
+import { getModeIconColor } from '../../../shared/utils/colorUtils';
 import TripRouteStop from './TripRouteStop';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';

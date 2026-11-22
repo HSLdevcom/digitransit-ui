@@ -23,7 +23,7 @@ function localAssetPaths(config) {
     }
   });
   // socialMedia.image.url is relative (joined with a host in
-  // src/shared/metaUtils.js), geoJson layer urls are absolute.
+  // src/shared/utils/metaUtils.js), geoJson layer urls are absolute.
   return urls.map(url => url.replace(/^\//, ''));
 }
 

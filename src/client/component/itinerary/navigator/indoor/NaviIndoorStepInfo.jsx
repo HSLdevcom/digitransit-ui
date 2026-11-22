@@ -5,9 +5,9 @@ import {
   getIndoorTranslationId,
   getVerticalTransportationUseIconId,
 } from '../../../../utils/indoorUtils';
-import { IndoorStepType, VerticalDirection } from '../../../../../shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../../../shared/utils/constants';
 import ItineraryMapAction from '../../ItineraryMapAction';
-import { isKeyboardSelectionEvent } from '../../../../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../../../../shared/utils/browser';
 
 export default function NaviIndoorStepInfo({ focusAction, type, verticalDirection, toLevelName }) {
   const indoorTranslationId = getIndoorTranslationId(type, verticalDirection, toLevelName);

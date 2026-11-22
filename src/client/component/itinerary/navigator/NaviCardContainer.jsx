@@ -2,7 +2,7 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import {
   isAnyLegPropertyIdentical,
   legTime,

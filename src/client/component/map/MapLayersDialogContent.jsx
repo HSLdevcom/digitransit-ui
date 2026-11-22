@@ -5,9 +5,9 @@ import { Button, Text } from '@hsl-fi/layout-primitives';
 
 import { mapLayerOptionsShape, mapLayerShape } from '../../utils/shapes';
 import Checkbox from '../Checkbox';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { getTransportModes, showRentalVehiclesOfType } from '../../utils/modeUtils';
-import { TransportMode } from '../../../shared/constants';
+import { TransportMode } from '../../../shared/utils/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useGeoJsonObjects from '../../hooks/useGeoJsonObjects';
 import { useMapLayers } from '../../hooks/MapLayerContext';

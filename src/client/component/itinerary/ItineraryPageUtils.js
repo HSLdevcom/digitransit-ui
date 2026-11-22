@@ -3,9 +3,9 @@ import isEqual from 'lodash/isEqual';
 import pick from 'lodash/pick';
 import polyline from 'polyline-encoded';
 import SunCalc from 'suncalc';
-import { PlannerMessageType, ExtendedRouteTypes } from '../../../shared/constants';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
-import { boundWithMinimumArea } from '../../../shared/geo-utils';
+import { PlannerMessageType, ExtendedRouteTypes } from '../../../shared/utils/constants';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
+import { boundWithMinimumArea } from '../../../shared/utils/geo-utils';
 import {
   compressLegs,
   getTotalBikingDistance,
@@ -14,7 +14,7 @@ import {
 import { getMapLayerOptions } from '../../utils/mapLayerUtils';
 import { getDefaultSettings, getSettings } from '../../utils/planParamUtil';
 import { getStartTimeWithColon } from '../../utils/timeUtils';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 
 /**
  * Returns the index of selected itinerary. Attempts to look for

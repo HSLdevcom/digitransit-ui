@@ -1,4 +1,4 @@
-import { PREFIX_STOPS } from '../../../src/shared/path';
+import { PREFIX_STOPS } from '../../../src/shared/utils/path';
 
 export default {
   lang: 'fi', // DT-3347

@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { useFilterContext } from './FiltersContext';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { getTransportModes } from '../../../utils/modeUtils';
-import { TrafficNowTransportModes } from '../../../../shared/constants';
+import { TrafficNowTransportModes } from '../../../../shared/utils/constants';
 import Icon from '../../Icon';
 import { useBreakpoint } from '../../../hooks/BreakpointContext';
 

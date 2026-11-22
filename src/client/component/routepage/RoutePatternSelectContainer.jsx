@@ -8,10 +8,10 @@ import { useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { fragmentRefShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/utils/path';
 import RoutePatternSelect from './RoutePatternSelect';
 import RoutePatternHeader from './RoutePatternHeader';
-import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/utils/colorUtils';
 import { getRouteMode } from '../../utils/modeUtils';
 import RoutePatternSelectContainerFragment from './queries/RoutePatternSelectContainerFragment';
 

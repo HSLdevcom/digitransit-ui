@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import Card from '../Card';
 import GenericMarker from './GenericMarker';
 import MarkerPopupBottom from './MarkerPopupBottom';
-import { isPointTypeGeometry } from '../../../shared/geo-utils';
+import { isPointTypeGeometry } from '../../../shared/utils/geo-utils';
 import {
   getCaseRadius,
   getStopRadius,

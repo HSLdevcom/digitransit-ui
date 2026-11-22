@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
-import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import Icon from '../Icon';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

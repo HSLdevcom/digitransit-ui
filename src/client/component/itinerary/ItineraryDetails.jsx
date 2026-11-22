@@ -27,7 +27,7 @@ import {
   isBikeRentalLeg,
   legTimeStr,
 } from '../../utils/legUtils';
-import { streetHash } from '../../../shared/path';
+import { streetHash } from '../../../shared/utils/path';
 import { itineraryShape, relayShape } from '../../utils/shapes';
 import { getFutureText } from '../../utils/timeUtils';
 import { BreakpointConsumer } from '../../hooks/BreakpointContext';

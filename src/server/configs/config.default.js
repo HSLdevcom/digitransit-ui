@@ -1,5 +1,5 @@
 import safeJsonParse from '../utils/safeJsonParser.js';
-import { BIKEAVL_WITHMAX } from '../../shared/vehicleRentalUtils.js';
+import { BIKEAVL_WITHMAX } from '../../shared/utils/vehicleRentalUtils.js';
 import realtime from '../utils/realtimeUtils.js';
 import prUtils from '../utils/ParkAndRideUtils.js';
 

@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import PropTypes from 'prop-types';
 import FavouriteRouteContainer from '../../routepage/FavouriteRouteContainer';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../../shared/path';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../../shared/utils/path';
 import PatternWithCancellations from './PatternWithCancellations';
 import RouteBadgeGroup from './RouteBadgeGroup';
 import DisruptionBadge from '../DisruptionBadge';

@@ -1,6 +1,6 @@
 import { renderWithProviders } from '../../helpers/mock-providers';
 import PlatformNumber from '../../../../src/client/component/PlatformNumber';
-import { TransportMode } from '../../../../src/shared/constants';
+import { TransportMode } from '../../../../src/shared/utils/constants';
 
 const opts = {
   messages: {

@@ -1,4 +1,4 @@
-import * as utils from '../../../src/shared/otpStrings';
+import * as utils from '../../../../src/shared/utils/otpStrings';
 
 describe('otpStrings', () => {
   describe('otpToLocation', () => {

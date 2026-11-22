@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { settingsShape, minTransferTimeShape } from '../../../utils/shapes';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import SearchSettingsDropdown from './SearchSettingsDropdown';
 
 export default function MinTransferTime({ minTransferTimeOptions, settings, updateSettings }) {

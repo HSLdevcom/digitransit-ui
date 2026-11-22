@@ -14,7 +14,7 @@ import VehicleMarkerContainer from './VehicleMarkerContainer';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import PositionMarker from './PositionMarker';
 import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
-import { boundWithMinimumArea } from '../../../shared/geo-utils';
+import { boundWithMinimumArea } from '../../../shared/utils/geo-utils';
 import events from '../../utils/events';
 import { getLayerBaseUrl } from '../../utils/mapLayerUtils';
 import GeoJSON from './GeoJSON';

@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockContext } from '../../../helpers/mock-context';
 import RouteStop from '../../../../../src/client/component/routepage/RouteStop';
-import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
+import { AlertSeverityLevelType } from '../../../../../src/shared/utils/constants';
 
 describe('<RouteStop />', () => {
   it('should not render a service alert icon for the stop', () => {

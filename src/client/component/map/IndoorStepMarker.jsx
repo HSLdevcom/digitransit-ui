@@ -12,7 +12,7 @@ import GenericMarker from './GenericMarker';
 import Card from '../Card';
 import PopupHeader from './PopupHeader';
 import Icon from '../Icon';
-import { IndoorStepType, VerticalDirection } from '../../../shared/constants';
+import { IndoorStepType, VerticalDirection } from '../../../shared/utils/constants';
 import { getVerticalTransportationUseIconId } from '../../utils/indoorUtils';
 
 const EMPTY_INDOOR_STEPS = [];

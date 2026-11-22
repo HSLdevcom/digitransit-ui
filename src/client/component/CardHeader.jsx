@@ -8,7 +8,7 @@ import ZoneIcon from './ZoneIcon';
 import SplitBars from './SplitBars';
 import BackButton from './BackButton';
 import { getZoneLabel } from '../utils/legUtils';
-import { splitGtfsId } from '../../shared/gtfs';
+import { splitGtfsId } from '../../shared/utils/gtfs';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 export default function CardHeader({

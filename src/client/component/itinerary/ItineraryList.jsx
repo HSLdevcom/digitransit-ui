@@ -10,8 +10,8 @@ import { getExtendedMode, showBikeBoardingNote, showCarBoardingNote } from '../.
 import ItineraryListHeader from './ItineraryListHeader';
 import ItinerariesNotFound from './ItinerariesNotFound';
 import Loading from '../Loading';
-import { streetHash } from '../../../shared/path';
-import { getIntermediatePlaces } from '../../../shared/otpStrings';
+import { streetHash } from '../../../shared/utils/path';
+import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { ItineraryListPlanEdges } from './queries/ItineraryListPlanEdges';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

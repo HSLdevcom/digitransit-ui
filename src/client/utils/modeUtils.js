@@ -1,16 +1,16 @@
 import xor from 'lodash/xor';
 import { getCustomizedSettings } from './localStorage';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
-import { ExtendedRouteTypes, TransportMode } from '../../shared/constants';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
+import { ExtendedRouteTypes, TransportMode } from '../../shared/utils/constants';
 import {
   seasonMs,
   dayMs,
   isCitybikeSeasonActive,
   networkIsActive,
-} from '../../shared/citybikeSeasonUtils';
+} from '../../shared/utils/citybikeSeasonUtils';
 import { isDevRunEnv } from './envUtils';
-import { isExternalFeed } from '../../shared/feedScopedIdUtils';
-import { splitGtfsId } from '../../shared/gtfs';
+import { isExternalFeed } from '../../shared/utils/feedScopedIdUtils';
+import { splitGtfsId } from '../../shared/utils/gtfs';
 
 export function isCitybikePreSeasonActive(season) {
   if (!season.start || !season.preSeasonStart) {

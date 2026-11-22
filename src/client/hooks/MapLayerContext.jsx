@@ -2,7 +2,7 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState } fro
 import PropTypes from 'prop-types';
 import { getMapLayerSettings, setMapLayerSettings } from '../utils/localStorage';
 import { showRentalVehiclesOfType } from '../utils/modeUtils';
-import { TransportMode } from '../../shared/constants';
+import { TransportMode } from '../../shared/utils/constants';
 import { useConfigContext } from './ConfigContext';
 
 const MapLayerContext = createContext(null);

@@ -1,6 +1,6 @@
 import { DateTime, Settings } from 'luxon';
 import { buildAvailableDates } from '../../../../../../src/client/component/routepage/schedule/scheduleDataUtils';
-import { DATE_FORMAT } from '../../../../../../src/shared/constants';
+import { DATE_FORMAT } from '../../../../../../src/shared/utils/constants';
 
 describe('scheduleDataUtils', () => {
   describe('buildAvailableDates', () => {

@@ -10,7 +10,7 @@ import DisruptionBadge from './DisruptionBadge';
 import DisruptionStatus from './components/DisruptionStatus';
 import RouteBadges from './RouteBadges';
 import AlertsQuery from './queries/AlertsQuery';
-import { AlertSeverityLevelType } from '../../../shared/constants';
+import { AlertSeverityLevelType } from '../../../shared/utils/constants';
 import CTAContainer from './components/CTAContainer';
 
 export default function DisruptionDetailsContainer({ alertId, isMobile = false }) {

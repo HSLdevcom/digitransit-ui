@@ -6,7 +6,7 @@ import {
   getOldSearchesStorage,
   setOldSearchesStorage,
 } from '../../../../src/client/utils/localStorage';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../../src/shared/path';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../../src/shared/utils/path';
 
 const { STORE_VERSION, STORE_MAX_ITEMS, STORE_KEEP_LATEST } = oldSearchesData;
 

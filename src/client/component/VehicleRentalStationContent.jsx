@@ -6,9 +6,9 @@ import VehicleRentalStation from './VehicleRentalStation';
 import Disclaimer from './Disclaimer';
 import ParkOrStationHeader from './ParkOrStationHeader';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import { getRentalNetworkConfig } from '../../shared/vehicleRentalUtils';
-import { PREFIX_BIKESTATIONS } from '../../shared/path';
-import { TransportMode } from '../../shared/constants';
+import { getRentalNetworkConfig } from '../../shared/utils/vehicleRentalUtils';
+import { PREFIX_BIKESTATIONS } from '../../shared/utils/path';
+import { TransportMode } from '../../shared/utils/constants';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const VehicleRentalStationContentFragment = graphql`

@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import MenuItem from './MenuItem';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 
 export default function MainMenuLinks({ closeMenu, content = [] }) {
   return (

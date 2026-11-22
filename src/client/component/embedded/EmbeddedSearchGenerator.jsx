@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import LocationSearch from '../SearchAutosuggest';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import EmbeddedSearch from './EmbeddedSearch';
-import { EMBEDDED_SEARCH_PATH } from '../../../shared/path';
+import { EMBEDDED_SEARCH_PATH } from '../../../shared/utils/path';
 import { getRefPoint } from '../../utils/apiUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { getLocationSearchTargets } from '../../utils/searchUtils';

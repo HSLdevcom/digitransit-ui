@@ -10,7 +10,7 @@ import Icon from './Icon';
 import DepartureRow from './DepartureRow';
 import { useRealTimeActions } from '../hooks/RealTimeInformationContext';
 import { getHeadsignFromRouteLongName, isPlatformChanged } from '../utils/legUtils';
-import { splitGtfsId } from '../../shared/gtfs';
+import { splitGtfsId } from '../../shared/utils/gtfs';
 
 const getDropoffMessage = (hasOnlyDropoff, hasNoStop) => {
   if (hasNoStop) {

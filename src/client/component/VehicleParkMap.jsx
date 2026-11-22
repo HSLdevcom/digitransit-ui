@@ -2,7 +2,7 @@ import { graphql, useFragment } from 'react-relay';
 import { useMatch } from 'found';
 import { fragmentRefShape } from '../utils/shapes';
 import StopPageMap from './map/StopPageMap';
-import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../shared/path';
+import { PREFIX_CARPARK, PREFIX_BIKEPARK } from '../../shared/utils/path';
 
 export default function VehicleParkMap({ vehicleParking: vehicleParkingRef }) {
   const match = useMatch();

@@ -4,7 +4,7 @@ import {
   getRentalNetworkIcon,
   getRentalNetworkName,
   getRentalNetworkConfig,
-} from '../../../src/shared/vehicleRentalUtils';
+} from '../../../../src/shared/utils/vehicleRentalUtils';
 
 describe('vehiclerental', () => {
   describe('getRentalNetworkId', () => {

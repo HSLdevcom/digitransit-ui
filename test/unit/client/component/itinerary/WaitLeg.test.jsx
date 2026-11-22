@@ -3,8 +3,8 @@ import Link from 'found/Link';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { mockRouter } from '../../../helpers/mock-router';
 import WaitLeg from '../../../../../src/client/component/itinerary/WaitLeg';
-import { ExtendedRouteTypes } from '../../../../../src/shared/constants';
-import { PREFIX_STOPS } from '../../../../../src/shared/path';
+import { ExtendedRouteTypes } from '../../../../../src/shared/utils/constants';
+import { PREFIX_STOPS } from '../../../../../src/shared/utils/path';
 
 const renderLink = Link.render;
 

@@ -4,7 +4,7 @@ import { FormattedMessage } from 'react-intl';
 import NetworkSelector from './NetworkSelector';
 import Disclaimer from '../../Disclaimer';
 import { getReadMessageIds, setReadMessageId } from '../../../utils/localStorage';
-import { TransportMode } from '../../../../shared/constants';
+import { TransportMode } from '../../../../shared/utils/constants';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function Scooters({ updateSettings }) {

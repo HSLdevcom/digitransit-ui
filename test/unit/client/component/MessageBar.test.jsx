@@ -6,7 +6,7 @@ import MessageBar, { getServiceAlertId } from '../../../../src/client/component/
 import { mockContext } from '../../helpers/mock-context';
 import { renderWithProviders } from '../../helpers/mock-providers';
 import { setReadMessageIds } from '../../../../src/client/utils/localStorage';
-import { AlertSeverityLevelType } from '../../../../src/shared/constants';
+import { AlertSeverityLevelType } from '../../../../src/shared/utils/constants';
 import { TimeContext, useCurrentTime } from '../../../../src/client/hooks/TimeContext';
 import { MessageProvider, useMessageActions } from '../../../../src/client/hooks/MessageContext';
 

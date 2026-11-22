@@ -11,7 +11,7 @@ import {
   PREFIX_ROUTES,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../shared/path';
+} from '../../shared/utils/path';
 import {
   getDefault,
   getComponentOrNullRenderer,

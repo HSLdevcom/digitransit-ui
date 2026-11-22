@@ -5,10 +5,10 @@ import { useRouter } from 'found';
 import { fragmentRefShape } from '../../utils/shapes';
 import RouteStopListContainer from './RouteStopListContainer';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
-import { routePagePath } from '../../../shared/path';
+import { routePagePath } from '../../../shared/utils/path';
 import Error404 from '../404';
 import ScrollableWrapper from '../ScrollableWrapper';
-import { ExtendedRouteTypes } from '../../../shared/constants';
+import { ExtendedRouteTypes } from '../../../shared/utils/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import PatternStopsContainerFragment from './queries/PatternStopsContainerFragment';
 

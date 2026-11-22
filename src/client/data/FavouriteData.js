@@ -16,8 +16,8 @@ import { deleteFavourites, getFavourites, updateFavourites } from '../utils/apiU
 import {
   mapVehicleRentalFromStore,
   mapVehicleRentalToStore,
-} from '../../shared/vehicleRentalUtils';
-import { networkIsActive } from '../../shared/citybikeSeasonUtils';
+} from '../../shared/utils/vehicleRentalUtils';
+import { networkIsActive } from '../../shared/utils/citybikeSeasonUtils';
 
 // internal data model for vehicle rental stations has changed
 // however, data is stored in old form for compatibility

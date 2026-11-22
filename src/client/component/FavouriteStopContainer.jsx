@@ -6,7 +6,7 @@ import Favourite from './Favourite';
 import { isFavourite, getFavouriteByGtfsId } from '../data/FavouriteData';
 import { useFavourites, useFavouriteStatus, useFavouriteActions } from '../hooks/FavouriteContext';
 import { useMessageActions } from '../hooks/MessageContext';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 import { failedFavouriteMessage } from '../utils/messageUtils';
 import { useConfigContext } from '../hooks/ConfigContext';
 

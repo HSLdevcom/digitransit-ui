@@ -21,7 +21,7 @@ import {
   PREFIX_CARPARK,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
-} from '../../shared/path';
+} from '../../shared/utils/path';
 
 const noBottomSheetResetAtContentChange = [
   PREFIX_ROUTES,

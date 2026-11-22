@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import Link from 'found/Link';
 import cx from 'classnames';
-import { routePagePath, PREFIX_STOPS } from '../../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/utils/path';
 import { convertTo24HourFormat } from '../../../utils/timeUtils';
 import RouteNumber from '../../RouteNumber';
 import { getRouteMode } from '../../../utils/modeUtils';

@@ -1,7 +1,7 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import TransitLeg from '../../../../../src/client/component/itinerary/TransitLeg';
 import * as useCanceledStopIdsModule from '../../../../../src/client/component/itinerary/useCanceledStopIds';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../../../src/shared/constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../../../src/shared/utils/constants';
 
 const defaultProps = {
   children: <div />,

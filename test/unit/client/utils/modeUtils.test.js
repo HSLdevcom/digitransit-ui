@@ -1,4 +1,4 @@
-import { StreetMode, TransportMode } from '../../../../src/shared/constants';
+import { StreetMode, TransportMode } from '../../../../src/shared/utils/constants';
 import * as utils from '../../../../src/client/utils/modeUtils';
 import { setCustomizedSettings } from '../../../../src/client/utils/localStorage';
 

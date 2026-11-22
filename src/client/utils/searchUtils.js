@@ -1,5 +1,5 @@
 import { hasCitybikes } from './modeUtils';
-import { PREFIX_ITINERARY_SUMMARY, PREFIX_STOPS, PREFIX_ROUTES } from '../../shared/path';
+import { PREFIX_ITINERARY_SUMMARY, PREFIX_STOPS, PREFIX_ROUTES } from '../../shared/utils/path';
 
 export const SEARCH_PATH_OPTS = {
   stopsPrefix: PREFIX_STOPS,

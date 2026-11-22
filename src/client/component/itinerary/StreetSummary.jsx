@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Icon from '../Icon';
 import { durationToString } from '../../utils/timeUtils';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function StreetSummary({

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import cx from 'classnames';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import { legShape } from '../../utils/shapes';
 import { legTimeStr } from '../../utils/legUtils';
 

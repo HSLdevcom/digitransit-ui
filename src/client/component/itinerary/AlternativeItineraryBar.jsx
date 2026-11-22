@@ -4,7 +4,7 @@ import { planShape } from '../../utils/shapes';
 import StreetModeSelectorButton from './StreetModeSelectorButton';
 import StreetModeSelectorWeather from './StreetModeSelectorWeather';
 import StreetModeSelectorShimmer from './StreetModeSelectorShimmer';
-import { streetHash } from '../../../shared/path';
+import { streetHash } from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function AlternativeItineraryBar({

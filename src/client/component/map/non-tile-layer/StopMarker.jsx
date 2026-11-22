@@ -11,8 +11,8 @@ import {
   getHubRadius,
   renderAsString,
 } from '../../../utils/mapIconUtils';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
-import { PREFIX_STOPS } from '../../../../shared/path';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
+import { PREFIX_STOPS } from '../../../../shared/utils/path';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from '../../../utils/stopStatusUtils';
 

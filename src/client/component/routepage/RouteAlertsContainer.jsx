@@ -6,7 +6,7 @@ import { fragmentRefShape } from '../../utils/shapes';
 import DisruptionList from '../DisruptionList';
 import { getAlertsForObject, setEntityForAlert } from '../../utils/alertUtils';
 import { getStartTime, convertTo24HourFormat } from '../../utils/timeUtils';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../shared/constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../shared/utils/constants';
 import { patternTextWithIcon } from './RoutePatternSelect';
 import RouteAlertsContainerFragment from './queries/RouteAlertsContainerFragment';
 

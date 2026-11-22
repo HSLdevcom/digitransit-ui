@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { AlertSeverityLevelType } from '../../../shared/constants';
+import { AlertSeverityLevelType } from '../../../shared/utils/constants';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 
 export default function ItineraryListHeader({

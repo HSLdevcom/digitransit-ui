@@ -11,7 +11,7 @@ import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
 import { saveFutureRoute } from '../../utils/storeUtils';
 import { saveSearch } from '../../data/SearchHistory';
-import { TransportMode } from '../../../shared/constants';
+import { TransportMode } from '../../../shared/utils/constants';
 import {
   clearLatestNavigatorItinerary,
   getDialogState,
@@ -19,16 +19,20 @@ import {
   getLatestNavigatorItinerary,
   setDialogState,
 } from '../../utils/localStorage';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { getWeatherData } from '../../utils/apiUtils';
-import { isIOS } from '../../../shared/browser';
-import { boundWithMinimumArea, GeodeticToEcef } from '../../../shared/geo-utils';
-import { getIntermediatePlaces, otpToLocation, parseLatLon } from '../../../shared/otpStrings';
-import { getItineraryPagePath, streetHash } from '../../../shared/path';
+import { isIOS } from '../../../shared/utils/browser';
+import { boundWithMinimumArea, GeodeticToEcef } from '../../../shared/utils/geo-utils';
+import {
+  getIntermediatePlaces,
+  otpToLocation,
+  parseLatLon,
+} from '../../../shared/utils/otpStrings';
+import { getItineraryPagePath, streetHash } from '../../../shared/utils/path';
 import { getPlanParams, getSettings, planQueryNeeded, PLANTYPE } from '../../utils/planParamUtil';
 import { epochToTime } from '../../utils/timeUtils';
 import { getMapLayerOptions } from '../../utils/mapLayerUtils';
-import { getAllNetworksOfType } from '../../../shared/vehicleRentalUtils';
+import { getAllNetworksOfType } from '../../../shared/utils/vehicleRentalUtils';
 import { isPersonalizationEnabled } from '../../utils/modeUtils';
 import {
   useFavouriteActions,

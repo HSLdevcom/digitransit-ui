@@ -1,7 +1,7 @@
 import { useIntl } from 'react-intl';
 import { Link } from 'found';
 import { Text } from '@hsl-fi/layout-primitives';
-import { TRAFFICNOW } from '../../../shared/path';
+import { TRAFFICNOW } from '../../../shared/utils/path';
 import Icon from '../Icon';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

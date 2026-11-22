@@ -6,7 +6,7 @@ import './PatternWithCancellations.scss';
 import CanceledTripsPatternFragment from '../queries/CanceledTripsPatternFragment';
 import { patternShape } from '../../../utils/shapes';
 import EntityBadge from './EntityBadge';
-import { PREFIX_TIMETABLE, routePagePath } from '../../../../shared/path';
+import { PREFIX_TIMETABLE, routePagePath } from '../../../../shared/utils/path';
 
 export default function PatternWithCancellations({ routeId, pattern: patternRef, mode }) {
   const pattern = useFragment(CanceledTripsPatternFragment, patternRef);

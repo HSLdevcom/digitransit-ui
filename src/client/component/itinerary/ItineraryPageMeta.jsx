@@ -2,7 +2,7 @@ import { Helmet } from 'react-helmet';
 import { useIntl } from 'react-intl';
 import { useMatch } from 'found';
 
-import { otpToLocation } from '../../../shared/otpStrings';
+import { otpToLocation } from '../../../shared/utils/otpStrings';
 import { generateMetaData } from '../../utils/metaUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 

@@ -3,7 +3,7 @@ import cx from 'classnames';
 import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { legShape } from '../../utils/shapes';
-import { ViaLocationType } from '../../../shared/constants';
+import { ViaLocationType } from '../../../shared/utils/constants';
 
 export default function ItineraryCircleLineLong({
   index,

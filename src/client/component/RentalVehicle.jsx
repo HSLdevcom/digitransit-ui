@@ -1,5 +1,8 @@
 import Icon from './Icon';
-import { getRentalNetworkIcon, getRentalNetworkConfig } from '../../shared/vehicleRentalUtils';
+import {
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
+} from '../../shared/utils/vehicleRentalUtils';
 import { rentalVehicleShape } from '../utils/shapes';
 import { useConfigContext } from '../hooks/ConfigContext';
 

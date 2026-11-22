@@ -5,7 +5,7 @@ import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
 import { legShape } from '../../../utils/shapes';
 import { isLocalCallAgency, legTime } from '../../../utils/legUtils';
-import { getMiddleOf } from '../../../../shared/geo-utils';
+import { getMiddleOf } from '../../../../shared/utils/geo-utils';
 import LegMarker from './LegMarker';
 import SpeechBubble from '../SpeechBubble';
 import { durationToString } from '../../../utils/timeUtils';

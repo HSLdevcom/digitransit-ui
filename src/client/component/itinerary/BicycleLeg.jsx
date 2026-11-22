@@ -8,17 +8,20 @@ import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { stopPagePath } from '../../../shared/path';
-import { getRentalNetworkConfig, RentalNetworkType } from '../../../shared/vehicleRentalUtils';
+import { stopPagePath } from '../../../shared/utils/path';
+import {
+  getRentalNetworkConfig,
+  RentalNetworkType,
+} from '../../../shared/utils/vehicleRentalUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import { getSettings } from '../../utils/planParamUtil';
-import { isKeyboardSelectionEvent } from '../../../shared/browser';
+import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 import nearestQuery from './NearestQuery';

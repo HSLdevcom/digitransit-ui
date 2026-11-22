@@ -1,6 +1,6 @@
 import { XMLParser } from 'fast-xml-parser';
 import isEmpty from 'lodash/isEmpty';
-import { retryFetch } from '../../shared/fetchUtils';
+import { retryFetch } from '../../shared/utils/fetchUtils';
 
 export function getUser() {
   const options = { credentials: 'include' };

@@ -15,7 +15,7 @@ import favouriteStore, {
 } from './FavouriteData';
 import { saveSearch, getOldSearches, clearOldSearches } from './SearchHistory';
 import { hasCitybikes } from '../utils/modeUtils';
-import { getDefaultNetworks } from '../../shared/vehicleRentalUtils';
+import { getDefaultNetworks } from '../../shared/utils/vehicleRentalUtils';
 
 /**
  * Plain (non-Flux) singleton that acts both as the template/interface for,

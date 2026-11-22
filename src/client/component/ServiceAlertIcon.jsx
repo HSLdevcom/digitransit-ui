@@ -2,7 +2,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 
 import Icon from './Icon';
-import { AlertSeverityLevelType } from '../../shared/constants';
+import { AlertSeverityLevelType } from '../../shared/utils/constants';
 
 export default function ServiceAlertIcon({ className, severityLevel, color }) {
   if (!severityLevel) {

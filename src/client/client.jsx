@@ -23,12 +23,12 @@ import i18n from './i18n';
 import routes, { historyMiddlewares, render } from './routes/routes';
 import ErrorBoundary from './component/ErrorBoundary';
 import { BreakpointProvider } from './hooks/BreakpointContext';
-import getMetadata from '../shared/metaUtils';
+import getMetadata from '../shared/utils/metaUtils';
 import {
   initAnalyticsClientSide,
   addAnalyticsEvent,
   handleUserAnalytics,
-} from '../shared/analyticsUtils';
+} from '../shared/utils/analyticsUtils';
 import { getCountries } from './utils/localStorage';
 import { configureCountry } from './utils/configureCountry';
 import { getUser } from './utils/apiUtils';

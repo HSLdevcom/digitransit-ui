@@ -6,7 +6,7 @@ import { legTimeStr } from '../../utils/legUtils';
 import Icon from '../Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
-import { stopPagePath } from '../../../shared/path';
+import { stopPagePath } from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 /* eslint-disable jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */

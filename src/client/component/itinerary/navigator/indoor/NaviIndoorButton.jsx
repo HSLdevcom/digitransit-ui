@@ -2,8 +2,8 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import cx from 'classnames';
 import Icon from '../../../Icon';
-import { isKeyboardSelectionEvent } from '../../../../../shared/browser';
-import { NaviCardType } from '../../../../../shared/constants';
+import { isKeyboardSelectionEvent } from '../../../../../shared/utils/browser';
+import { NaviCardType } from '../../../../../shared/utils/constants';
 
 export default function NaviIndoorButton({ currentCard = NaviCardType.Default, setCurrentCard }) {
   return (

@@ -1,6 +1,6 @@
 import configMerger from '../utils/configMerger.js';
 import { isDevRunEnv } from '../utils/envUtils.js';
-import { BIKEAVL_WITHMAX } from '../../shared/vehicleRentalUtils.js';
+import { BIKEAVL_WITHMAX } from '../../shared/utils/vehicleRentalUtils.js';
 import walttiConfig from './config.waltti.js';
 import ttConfig from '../utils/timetableConfigUtils.js';
 

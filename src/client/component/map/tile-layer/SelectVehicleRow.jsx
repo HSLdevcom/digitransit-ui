@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { useFragment, graphql } from 'react-relay';
 
 import Link from 'found/Link';
-import { routePagePath, PREFIX_STOPS } from '../../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/utils/path';
 import { getRouteMode } from '../../../utils/modeUtils';
 import Icon from '../../Icon';
 import { fragmentRefShape } from '../../../utils/shapes';

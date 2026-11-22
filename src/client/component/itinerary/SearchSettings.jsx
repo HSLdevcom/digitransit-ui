@@ -3,7 +3,7 @@ import { useRouter } from 'found';
 import SettingsButton from './SettingsButton';
 import DatetimepickerContainer from '../DatetimepickerContainer';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { isEmpty } from '../../../shared/path';
+import { isEmpty } from '../../../shared/utils/path';
 
 export default function SearchSettings({ toggleSettings }) {
   const config = useConfigContext();

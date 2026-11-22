@@ -6,15 +6,15 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import groupBy from 'lodash/groupBy';
 import { useRouter } from 'found';
 import { fragmentRefShape } from '../../utils/shapes';
-import { AlertSeverityLevelType } from '../../../shared/constants';
+import { AlertSeverityLevelType } from '../../../shared/utils/constants';
 import {
   getAlertsForObject,
   getActiveAlertSeverityLevel,
   getUniqueAlerts,
 } from '../../utils/alertUtils';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { unixTime } from '../../utils/timeUtils';
-import { PREFIX_DISRUPTION, PREFIX_TIMETABLE, stopPagePath } from '../../../shared/path';
+import { PREFIX_DISRUPTION, PREFIX_TIMETABLE, stopPagePath } from '../../../shared/utils/path';
 import { filterCanceledCalls } from './Disruptions';
 import { StopPageTabsFragment } from './queries/StopPageTabsFragment';
 

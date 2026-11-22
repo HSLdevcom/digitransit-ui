@@ -13,11 +13,11 @@ import {
   PREFIX_DISRUPTION,
   PREFIX_STOPS,
   PREFIX_TIMETABLE,
-} from '../../../shared/path';
+} from '../../../shared/utils/path';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import BackButton from '../BackButton';
 import { getRouteMode, modeToTranslationId } from '../../utils/modeUtils';
-import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
+import { getModeIconColor, ensureColorAccessibleOnWhite } from '../../../shared/utils/colorUtils';
 import FavouriteRouteContainer from './FavouriteRouteContainer';
 import RouteNotificationButton from './RouteNotificationButton';
 import { useConfigContext } from '../../hooks/ConfigContext';

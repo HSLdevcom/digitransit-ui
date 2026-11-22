@@ -10,10 +10,10 @@ import {
   getRentalNetworkConfig,
   getRentalNetworkIcon,
   hasVehicleRentalCode,
-} from '../../../shared/vehicleRentalUtils';
+} from '../../../shared/utils/vehicleRentalUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import Icon from '../Icon';
-import { PREFIX_BIKESTATIONS } from '../../../shared/path';
+import { PREFIX_BIKESTATIONS } from '../../../shared/utils/path';
 import {
   getVehicleAvailabilityTextColor,
   getVehicleAvailabilityIndicatorColor,
@@ -21,7 +21,7 @@ import {
 import ScooterLinkContainer from './ScooterLinkContainer';
 import IconBadge from '../icon/IconBadge';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 
 export default function VehicleRentalLeg({
   stationName,

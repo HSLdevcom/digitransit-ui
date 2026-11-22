@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useFragment } from 'react-relay';
 import sortBy from 'lodash/sortBy';
 import { useRouter } from 'found';
-import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/utils/path';
 import Error404 from '../404';
 import { getOldSearches, removeSearch } from '../../data/SearchHistory';
 import { fragmentRefShape, routeShape } from '../../utils/shapes';

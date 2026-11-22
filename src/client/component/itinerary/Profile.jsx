@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { itineraryShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { getTotalDistance } from '../../utils/legUtils';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import SecondaryButton from '../SecondaryButton';
 
 const printItinerary = e => {

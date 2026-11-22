@@ -22,11 +22,14 @@ import PlatformNumber from '../PlatformNumber';
 import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
-import { PREFIX_STOPS } from '../../../shared/path';
-import { RentalNetworkType, getRentalNetworkConfig } from '../../../shared/vehicleRentalUtils';
-import { displayDistance } from '../../../shared/geo-utils';
+import { PREFIX_STOPS } from '../../../shared/utils/path';
+import {
+  RentalNetworkType,
+  getRentalNetworkConfig,
+} from '../../../shared/utils/vehicleRentalUtils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
@@ -38,7 +41,7 @@ import {
   getEntranceName,
 } from '../../utils/indoorUtils';
 import IndoorStep from './IndoorStep';
-import { IndoorLegType } from '../../../shared/constants';
+import { IndoorLegType } from '../../../shared/utils/constants';
 
 export default function WalkLeg({
   children,

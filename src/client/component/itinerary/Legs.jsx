@@ -26,10 +26,10 @@ import {
   getBoardingLeg,
 } from '../../utils/legUtils';
 import { getTripOrRouteMode } from '../../utils/modeUtils';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import Profile from './Profile';
 import BikeParkLeg from './BikeParkLeg';
-import { getIntermediatePlaces } from '../../../shared/otpStrings';
+import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;

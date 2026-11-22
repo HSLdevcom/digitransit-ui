@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useIntl } from 'react-intl';
 import { entityShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { AlertEntityType } from '../../../shared/constants';
+import { AlertEntityType } from '../../../shared/utils/constants';
 import { groupEntitiesByMode } from './utils';
 import { useFilterContext } from './filters/FiltersContext';
 import RouteBadgeGroup from './components/RouteBadgeGroup';

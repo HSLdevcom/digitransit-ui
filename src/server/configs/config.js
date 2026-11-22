@@ -4,7 +4,7 @@ import { createRequire } from 'module';
 import defaultConfig from './config.default.js';
 import configMerger from '../utils/configMerger.js';
 import { buildStaticMetaData } from '../utils/metaUtils.js';
-import { LightenDarkenColor } from '../../shared/colorUtils.js';
+import { LightenDarkenColor } from '../../shared/utils/colorUtils.js';
 
 // Node 24 `require()`s an ESM `config.*.js` graph directly (none use
 // top-level await), so getNamedConfiguration's dynamic per-region require

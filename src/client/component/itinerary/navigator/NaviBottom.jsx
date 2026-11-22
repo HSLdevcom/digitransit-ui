@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { legShape } from '../../../utils/shapes';
 import { epochToTime, durationToString } from '../../../utils/timeUtils';
 import { getFaresFromLegs, shouldShowFareInfo } from '../../../utils/fareUtils';

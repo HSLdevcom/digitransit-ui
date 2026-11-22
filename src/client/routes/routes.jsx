@@ -18,7 +18,7 @@ import {
   TAB_FAVOURITES,
   EMBEDDED_SEARCH_PATH,
   TRAFFICNOW,
-} from '../../shared/path';
+} from '../../shared/utils/path';
 import {
   getDefault,
   errorLoading,

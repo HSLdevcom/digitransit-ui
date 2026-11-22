@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { fareShape } from '../../utils/shapes';
 import { renderZoneTicket } from './ZoneTicket';
 import { getAlternativeFares, formatFare } from '../../utils/fareUtils';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const EMPTY_FARES = [];

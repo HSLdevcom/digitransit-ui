@@ -3,7 +3,7 @@ import DTAutoSuggest from '@digitransit-component/digitransit-component-autosugg
 import DTAutosuggestPanel from '@digitransit-component/digitransit-component-autosuggest-panel';
 import { SearchProvider, useSearchContext } from '../hooks/SearchContext';
 import searchServices from '../data/SearchServices';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 import { SEARCH_PATH_OPTS } from '../utils/searchUtils';
 import SearchSelectionBoundary from './SearchSelectionBoundary';
 

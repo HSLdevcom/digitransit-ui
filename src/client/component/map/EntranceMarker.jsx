@@ -4,7 +4,7 @@ import { default as L } from 'leaflet';
 import { locationShape } from '../../utils/shapes';
 import GenericMarker from './GenericMarker';
 import { renderAsString, getIndexedIconFields } from '../../utils/mapIconUtils';
-import { WheelchairBoarding } from '../../../shared/constants';
+import { WheelchairBoarding } from '../../../shared/utils/constants';
 import Icon from '../Icon';
 
 export default function EntranceMarker({

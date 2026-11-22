@@ -9,14 +9,14 @@ import {
   PREFIX_ROUTES,
   PREFIX_TERMINALS,
   PREFIX_BIKESTATIONS,
-} from '../../shared/path';
+} from '../../shared/utils/path';
 import getAssetUrl from '../assets/assetUrl';
 import AppBarContainer from './AppBarContainer';
 import MobileView from './MobileView';
 import DesktopView from './DesktopView';
 import ErrorBoundary from './ErrorBoundary';
 import { DesktopOrMobile } from '../hooks/BreakpointContext';
-import { addAnalyticsEvent, handleUserAnalytics } from '../../shared/analyticsUtils';
+import { addAnalyticsEvent, handleUserAnalytics } from '../../shared/utils/analyticsUtils';
 import { useOrigin } from '../hooks/ItineraryLocationContext';
 import { useConfigContext } from '../hooks/ConfigContext';
 

@@ -6,7 +6,7 @@ import { isAlertValid } from '../utils/alertUtils';
 import DisruptionBannerAlert from './DisruptionBannerAlert';
 import SwipeableTabs from './SwipeableTabs';
 import { useBreakpoint } from '../hooks/BreakpointContext';
-import { AlertEntityType } from '../../shared/constants';
+import { AlertEntityType } from '../../shared/utils/constants';
 import { useCurrentTime } from '../hooks/TimeContext';
 
 export default function DisruptionBanner({ alerts, mode }) {

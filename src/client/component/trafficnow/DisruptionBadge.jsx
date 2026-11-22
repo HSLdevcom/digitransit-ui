@@ -4,7 +4,7 @@ import { useIntl } from 'react-intl';
 import capitalize from 'lodash/capitalize';
 import { Text } from '@hsl-fi/layout-primitives';
 import Icon from '../Icon';
-import { AlertSeverityLevelType } from '../../../shared/constants';
+import { AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { DISRUPTION_BADGE_PREFIX } from '../../utils/stopStatusUtils';
 
 /**

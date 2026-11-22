@@ -1,5 +1,5 @@
-import legacyParamParser from '../../shared/legacyParamParser.js';
-import { LEGACY_LOCALES } from '../../shared/constants.js';
+import legacyParamParser from '../../shared/utils/legacyParamParser.js';
+import { LEGACY_LOCALES } from '../../shared/utils/constants.js';
 import { getConfiguration } from '../configs/config.js';
 
 const PATH_SEPARATORS = /[\\/]+/;

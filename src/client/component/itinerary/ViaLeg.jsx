@@ -1,12 +1,12 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import { legTime, legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const getDescription = (mode, distance, duration) => {

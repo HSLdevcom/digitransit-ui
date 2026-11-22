@@ -1,7 +1,7 @@
 import serialize from 'serialize-javascript';
-import getMetadata from '../../shared/metaUtils.js';
+import getMetadata from '../../shared/utils/metaUtils.js';
 import { getConfiguration } from '../configs/config.js';
-import { getAnalyticsInitCode } from '../../shared/analyticsUtils.js';
+import { getAnalyticsInitCode } from '../../shared/utils/analyticsUtils.js';
 import {
   getMainAssets,
   getManifestScript,

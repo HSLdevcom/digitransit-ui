@@ -9,7 +9,7 @@ import NaviCardExtension from './NaviCardExtension';
 import NaviInstructions from './NaviInstructions';
 import { LEGTYPE } from './NaviUtils';
 import usePrevious from './hooks/usePrevious';
-import { IndoorLegType, NaviCardType } from '../../../../shared/constants';
+import { IndoorLegType, NaviCardType } from '../../../../shared/utils/constants';
 import { getIndoorLegType } from '../../../utils/indoorUtils';
 import { useConfigContext } from '../../../hooks/ConfigContext';
 

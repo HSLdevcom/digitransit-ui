@@ -10,14 +10,14 @@ import ServiceAlertIcon from '../ServiceAlertIcon';
 import { fromStopTime } from './DepartureTime';
 import ZoneIcon from '../ZoneIcon';
 import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
-import { PREFIX_STOPS } from '../../../shared/path';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { PREFIX_STOPS } from '../../../shared/utils/path';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { getZoneLabel } from '../../utils/legUtils';
-import { estimateItineraryDistance } from '../../../shared/geo-utils';
+import { estimateItineraryDistance } from '../../../shared/utils/geo-utils';
 import getVehicleState from '../../utils/vehicleStateUtils';
 import Icon from '../Icon';
-import { ensureColorAccessibleOnWhite } from '../../../shared/colorUtils';
-import { splitGtfsId } from '../../../shared/gtfs';
+import { ensureColorAccessibleOnWhite } from '../../../shared/utils/colorUtils';
+import { splitGtfsId } from '../../../shared/utils/gtfs';
 import {
   getServiceAvailability,
   getStopStatusFromStopData,

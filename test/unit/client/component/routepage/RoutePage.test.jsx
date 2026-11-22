@@ -2,7 +2,11 @@ import { mockMatch, mockRouter } from '../../../helpers/mock-router';
 import { createTestConfig } from '../../../helpers/mock-context';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import RoutePage from '../../../../../src/client/component/routepage/RoutePage';
-import { PREFIX_DISRUPTION, PREFIX_STOPS, PREFIX_TIMETABLE } from '../../../../../src/shared/path';
+import {
+  PREFIX_DISRUPTION,
+  PREFIX_STOPS,
+  PREFIX_TIMETABLE,
+} from '../../../../../src/shared/utils/path';
 
 // React's dev-mode error logging re-dispatches a render error a second time,
 // asynchronously, via a simulated DOM event (`invokeGuardedCallbackDev`,

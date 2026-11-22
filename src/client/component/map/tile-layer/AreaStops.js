@@ -1,6 +1,6 @@
 import Protobuf from 'pbf';
 import { VectorTile } from '@mapbox/vector-tile';
-import { fetchWithLanguageAndSubscription } from '../../../../shared/fetchUtils';
+import { fetchWithLanguageAndSubscription } from '../../../../shared/utils/fetchUtils';
 import { getLayerBaseUrl } from '../../../utils/mapLayerUtils';
 
 export default class AreaStops {

@@ -5,7 +5,7 @@ import { errorShape, fragmentRefShape } from '../../utils/shapes';
 import DepartureListContainer from '../DepartureListContainer';
 import ScrollableWrapper from '../ScrollableWrapper';
 import { getPrimaryStopMode } from '../../utils/modeUtils';
-import { getModeIconColor } from '../../../shared/colorUtils';
+import { getModeIconColor } from '../../../shared/utils/colorUtils';
 import StopServiceStatusBanner from './StopServiceStatusBanner';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import useRefetchOnTick from '../../hooks/useRefetchOnTick';

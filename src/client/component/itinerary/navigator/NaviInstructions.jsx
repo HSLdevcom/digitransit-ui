@@ -1,7 +1,7 @@
 import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
-import { displayDistance } from '../../../../shared/geo-utils';
+import { displayDistance } from '../../../../shared/utils/geo-utils';
 import { legShape } from '../../../utils/shapes';
 import { legDestination, legTimeStr, legTime, isLocalCallAgency } from '../../../utils/legUtils';
 import { LEGTYPE, getLocalizedMode, getToLocalizedMode, withRealTime } from './NaviUtils';

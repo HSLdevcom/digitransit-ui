@@ -4,12 +4,12 @@ import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {

@@ -1,8 +1,8 @@
 import { DateTime, Settings } from 'luxon';
 
 import { calculateRedirectDecision } from '../../../../../../src/client/component/routepage/schedule/scheduleParamUtils';
-import { routePagePath, PREFIX_TIMETABLE } from '../../../../../../src/shared/path';
-import { DATE_FORMAT } from '../../../../../../src/shared/constants';
+import { routePagePath, PREFIX_TIMETABLE } from '../../../../../../src/shared/utils/path';
+import { DATE_FORMAT } from '../../../../../../src/shared/utils/constants';
 
 describe('scheduleParamUtils', () => {
   describe('calculateRedirectDecision', () => {

@@ -6,8 +6,8 @@ import Link from 'found/Link';
 import cx from 'classnames';
 import VehicleIcon from '../VehicleIcon';
 import TripLinkWithScroll from './TripLinkWithScroll';
-import { routePagePath, PREFIX_STOPS } from '../../../shared/path';
-import { addAnalyticsEvent } from '../../../shared/analyticsUtils';
+import { routePagePath, PREFIX_STOPS } from '../../../shared/utils/path';
+import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { vehicleShape } from '../../utils/shapes';
 import ErrorBoundary from '../ErrorBoundary';
 

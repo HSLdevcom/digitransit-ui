@@ -6,7 +6,7 @@ import { transitIconName, modeToTranslationId } from '../utils/modeUtils';
 import IconWithBigCaution from './IconWithBigCaution';
 import IconWithIcon from './IconWithIcon';
 import Icon from './Icon';
-import { TransportMode } from '../../shared/constants';
+import { TransportMode } from '../../shared/utils/constants';
 import { useConfigContext } from '../hooks/ConfigContext';
 
 const LONG_ROUTE_NUMBER_LENGTH = 6;

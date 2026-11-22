@@ -1,5 +1,5 @@
-import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../shared/constants';
-import { addAnalyticsEvent } from '../../shared/analyticsUtils';
+import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../shared/utils/constants';
+import { addAnalyticsEvent } from '../../shared/utils/analyticsUtils';
 
 export function subwayTransferUsesSameStation(previousLeg, nextLeg) {
   return (

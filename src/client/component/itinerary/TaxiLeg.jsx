@@ -5,12 +5,12 @@ import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { displayDistance } from '../../../shared/geo-utils';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
-import { splitStringToAddressAndPlace } from '../../../shared/otpStrings';
+import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import ItineraryCircleLine from './ItineraryCircleLine';
 
 export default function TaxiLeg(props) {

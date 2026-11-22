@@ -5,7 +5,7 @@ import { relayShape } from '../../../utils/shapes';
 import { useMessages } from '../../../hooks/MessageContext';
 import { useRealTimeInformation } from '../../../hooks/RealTimeInformationContext';
 import { usePosition, usePositionActions } from '../../../hooks/PositionContext';
-import { addAnalyticsEvent } from '../../../../shared/analyticsUtils';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { legTime, legTimeStr } from '../../../utils/legUtils';
 import { useItineraryContext } from '../context/ItineraryContext';
 import { useRealtimeLegs } from './hooks/useRealtimeLegs';

@@ -1,7 +1,7 @@
 import { DateTime } from 'luxon';
 
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import { AlertSeverityLevelType, AlertEntityType } from '../../../../../src/shared/constants';
+import { AlertSeverityLevelType, AlertEntityType } from '../../../../../src/shared/utils/constants';
 import Disruptions, {
   filterCanceledCalls,
 } from '../../../../../src/client/component/stop/Disruptions';

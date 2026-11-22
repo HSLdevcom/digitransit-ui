@@ -5,7 +5,7 @@ import { useMatch } from 'found';
 import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ItineraryMapAction from './ItineraryMapAction';
-import { parseLocation } from '../../../shared/path';
+import { parseLocation } from '../../../shared/utils/path';
 import { timeStr } from '../../utils/timeUtils';
 import { getValidatedLegName } from '../../utils/legUtils';
 
