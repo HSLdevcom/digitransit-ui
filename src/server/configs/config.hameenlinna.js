@@ -32,8 +32,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/assets/images/hameenlinna/hameenlinna-favicon.png',
-
   // Navbar logo
   logo: 'hameenlinna/hameenlinna-logo.png',
   secondaryLogo: 'hameenlinna/hameenlinna-logo.png',

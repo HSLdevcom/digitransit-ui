@@ -36,8 +36,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/assets/images/oulu/oulu-favicon.png',
-
   // Navbar logo
   logo: 'oulu/oulu-logo.png',
   secondaryLogo: 'oulu/secondary-oulu-logo.png',

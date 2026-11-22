@@ -71,8 +71,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/assets/images/turku/turku-favicon.png',
-
   // Navbar logo
   logo: 'turku/foli-logo.png',
   secondaryLogo: 'turku/foli-logo.png',

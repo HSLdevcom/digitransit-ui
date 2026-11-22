@@ -89,8 +89,6 @@ export default {
   availableTickets: { Sipoo: true },
   passLanguageToRootLink: true,
 
-  favicon: './app/assets/images/hsl/hsl-favicon.png',
-
   // Navbar logo
   logo: 'hsl/reittiopas-logo.svg',
   secondaryLogo: 'hsl/reittiopas-logo.svg',

@@ -9,7 +9,8 @@ A theme is a set of files named after its `CONFIG` value. The server config is t
 | Features, behavior, URLs, texts | `src/server/configs/config.<theme>.js` |
 | Colors used by both JS and CSS | `colors` in the config, read in CSS with `config('colors.x')` |
 | Colors, fonts and sizes used only by CSS | `src/styles/themes/<theme>/theme.scss` |
-| Logos, favicons and illustrations bundled into the client | `src/app/assets/images/<theme>/` |
+| Logos and illustrations bundled into the client | `src/app/assets/images/<theme>/` |
+| Favicon and app icons | `src/app/assets/images/<theme>/<theme>-favicon.png`, a square PNG of at least 512 px; the default favicon is used if missing |
 | Icons | `src/app/assets/icons/<theme>/<id>.svg` |
 | Files served as is, e.g. share images and GeoJSON | `static/assets/<theme>/` |
 | Host names that select a theme | `themeMap` in `src/server/configs/config.default.js` |

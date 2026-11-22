@@ -53,11 +53,10 @@ function getAllThemeEntries() {
 }
 
 function faviconPluginFromConfig(config) {
-  let logo =
-    config.favicon || `./src/app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
-  if (!fs.existsSync(logo)) {
-    logo = './src/app/assets/images/default/default-favicon.png';
-  }
+  const themeFavicon = `./src/app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
+  const logo = fs.existsSync(themeFavicon)
+    ? themeFavicon
+    : './src/app/assets/images/default/default-favicon.png';
 
   return new FaviconsWebpackPlugin({
     // Your source logo

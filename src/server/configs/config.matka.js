@@ -51,8 +51,6 @@ export default {
   sprites: 'assets/svg-sprite.matka.svg',
   secondaryLogo: 'matka/matka-logo-secondary.svg',
 
-  favicon: './app/assets/images/matka/matka-favicon.svg',
-
   colors: { primary: '#000', tram: '#5E7921', rail: '#000', ferry: '#247C7B' },
   feedIds: isDevRunEnv()
     ? ['MATKA', 'flixbus', 'CAR_FERRIES']

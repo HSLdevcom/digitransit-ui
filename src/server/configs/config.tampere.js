@@ -40,8 +40,6 @@ export default configMerger(walttiConfig, {
   logo: 'tampere/tampere-logo.png',
   secondaryLogo: 'tampere/tampere-favicon.png',
 
-  favicon: './app/assets/images/tampere/tampere-favicon.png',
-
   feedIds: ['tampere', 'digitraffic', 'tampereDRT'],
 
   geoJson: {

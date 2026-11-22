@@ -29,8 +29,6 @@ export default configMerger(walttiConfig, {
 
   title: APP_TITLE,
 
-  favicon: './app/assets/images/pori/pori-favicon.png',
-
   // Navbar logo
   logo: 'pori/pori_logo.svg',
   secondaryLogo: 'pori/pori_logo.svg',

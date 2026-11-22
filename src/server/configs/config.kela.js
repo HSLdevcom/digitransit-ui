@@ -26,7 +26,6 @@ export default {
     },
   },
 
-  favicon: './app/assets/images/default/default-favicon.png',
   textLogo: true,
   logo: null,
   meta: { description: APP_DESCRIPTION },
