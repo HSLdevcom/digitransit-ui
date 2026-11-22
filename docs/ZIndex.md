@@ -24,7 +24,7 @@ Name (`$global-zindex` key) | Selector(s) | Z-Index | Comment
 `top-bar` | `.top-bar`, `.popup-dark-overlay` | 1008 | Desktop top bar/AppBar. `.popup-dark-overlay` intentionally shares this value so full-page dark overlays sit at the same level as the header.
 `mobile-menu-background` | `.menu-background` | 1200 | Mobile main menu drawer background dimmer.
 `mobile-menu-content` | `.menu-content` | 1300 | Mobile main menu drawer content panel.
-`snackbar` | `.snackbar` | 9999 | Rendered via a React portal directly under `document.body` (see `src/app/component/Snackbar.jsx`) so it always escapes ancestor stacking contexts - e.g. `.desktop .map-content .offcanvas`, which forms its own stacking context via `position: relative` + `z-index: 900`. Without the portal, Snackbar's local `z-index: 9999` would only apply *within* that ancestor's stacking context and could still render behind unrelated elements (like the header) that live in a different, higher-level stacking context.
+`snackbar` | `.snackbar` | 9999 | Rendered via a React portal directly under `document.body` (see `src/client/component/Snackbar.jsx`) so it always escapes ancestor stacking contexts - e.g. `.desktop .map-content .offcanvas`, which forms its own stacking context via `position: relative` + `z-index: 900`. Without the portal, Snackbar's local `z-index: 9999` would only apply *within* that ancestor's stacking context and could still render behind unrelated elements (like the header) that live in a different, higher-level stacking context.
 
 ## Local, component-scoped values
 

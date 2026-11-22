@@ -1,5 +1,5 @@
 /* eslint-disable no-console */
-// Vitest setup for the app unit suite (replaces the former Mocha
+// Vitest setup for the client unit suite (replaces the former Mocha
 // test/unit/helpers/init.js, now removed). jsdom's own `environment: 'jsdom'`
 // (vitest.config.js's `client` project) already provides window/document/navigator/
 // localStorage/sessionStorage globally, so this file doesn't need to

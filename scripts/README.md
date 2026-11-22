@@ -2,7 +2,7 @@
 
 ## Using `sort-translations.js`
 
-This script sorts translation files in the [`src/app/translations`](/src/app/translations) directory.
+This script sorts translation files in the [`src/client/translations`](/src/client/translations) directory.
 See the `sort-translations` and `format` scripts in [`package.json`](/package.json).
 
 ## `dev.sh` API options
@@ -57,7 +57,7 @@ migration; note that `_static` is populated once at startup, so `static/` edits 
 ## Using `build/buildSprites.js`
 
 Builds the SVG sprite sheets `_static/assets/svg-sprite.<theme>.svg` from the per-icon files in
-[`src/app/assets/icons/`](/src/app/assets/icons), run via `yarn sprites` (which both `prebuild` and
+[`src/client/assets/icons/`](/src/client/assets/icons), run via `yarn sprites` (which both `prebuild` and
 `dev.sh` invoke):
 
 ```
@@ -67,7 +67,7 @@ yarn sprites --watch
 
 `default/` holds every icon and other theme directories hold only their overrides and additions;
 each file's name becomes its symbol id. A malformed icon file fails the build. `--watch` (used by
-`dev.sh`) rebuilds on every change under `src/app/assets/icons/` and only logs errors, so a
+`dev.sh`) rebuilds on every change under `src/client/assets/icons/` and only logs errors, so a
 half-saved file doesn't stop `yarn dev`. See [`docs/Webpack.md`](/docs/Webpack.md).
 
 ## Using `theme/add-theme.js`
@@ -131,7 +131,7 @@ node scripts/packages/generate-readmes.js
 ## Using `packages/sort-translations.js`
 
 Sorts and checks `digitransit-component` packages' own translation bundles
-(`src/{helpers,utils}/translations.js`) — a different shape from `src/app/translations`, so
+(`src/{helpers,utils}/translations.js`) — a different shape from `src/client/translations`, so
 separate from the `sort-translations.js` script above. Flags any key missing from a `fi`/`sv`/`en`
 locale. See the `packages-translations-check`/`-fix` scripts in
 [`package.json`](/package.json).

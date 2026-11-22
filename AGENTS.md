@@ -11,8 +11,7 @@ Follow `REVIEW.md`.
 
 ```
 src/
-  app/            client bundle, built by webpack
-    client/       browser entry: client.jsx (router, AppProviders), i18n.js
+  client/         browser bundle, built by webpack; entry client.jsx (router, AppProviders)
     routes/       found + Relay route trees; keep the file names, Relay query names use them
     component/    components, with topic subfolders for larger features
     hooks/        React Context providers and hooks for app state
@@ -23,7 +22,7 @@ src/
   server/         Express, native ESM, never bundled; renders only the HTML shell
     configs/      config.js (resolves the config by host) and one config.<region>.js per deployment
     utils/        server-only helpers, mostly for assembling configs
-  shared/         helpers used by both the app and the server
+  shared/         helpers used by both the client and the server
   styles/         main.scss, abstracts/, base/, themes/<theme>/theme.scss
 test/unit/        Vitest tests, mirroring src/; helpers/ and test-data/ are shared
 packages/         Yarn workspaces: the published @digitransit-* packages, and private/ tooling
@@ -32,7 +31,7 @@ static/           copied as is to _static/
 docs/             topic guides; may be stale, so update them with related changes
 ```
 
-- `src/app/` and `src/server/` never import each other, so code both need goes in `src/shared/`,
+- `src/client/` and `src/server/` never import each other, so code both need goes in `src/shared/`,
   which must not touch `window`, `document` or `localStorage`. ESLint enforces this
   (`import/no-restricted-paths` in `.eslintrc.cjs`).
 - Relative imports in `src/server/` and `src/shared/` include the file extension, because Node loads
@@ -54,7 +53,7 @@ and watchman. See `docs/Installation.md`.
 | Production build and server | `CONFIG=hsl yarn build && yarn start`, with `API_URL=…` for another backend |
 | Lint, or fix what can be fixed | `yarn lint`, `yarn format` (also sorts translations) |
 | All unit tests | `yarn test-unit` |
-| App or server tests only | `yarn test-unit:app`, `yarn test-unit:server`; add a path substring or `-t "<name>"` |
+| Client or server tests only | `yarn test-unit:client`, `yarn test-unit:server`; add a path substring or `-t "<name>"` |
 | Relay artifacts | `yarn relay` (`yarn dev` watches) |
 | OTP schema changed | `node scripts/generate-schema.js`, then `yarn relay` |
 
@@ -71,11 +70,11 @@ See `docs/Architecture.md` and `docs/Navigation.md`.
 
 - **Relay** fetches OpenTripPlanner data: routes, stops, itineraries. Fragments sit next to their
   components.
-- **Everything else** comes from Context providers in `src/app/hooks/`: config, UI state,
+- **Everything else** comes from Context providers in `src/client/hooks/`: config, UI state,
   favourites, position and so on.
   - The providers are mounted in `AppProviders`.
   - Add a new provider there, and to `test/unit/helpers/mock-providers.jsx` if tests need it.
-  - Components use these hooks, not the modules in `src/app/data/` directly.
+  - Components use these hooks, not the modules in `src/client/data/` directly.
 - Write function components that fetch data and keep state with hooks. Don't add new `*Container`
   components wrapped in Relay HOCs (`createFragmentContainer` etc.).
 
@@ -104,13 +103,13 @@ See `docs/Architecture.md` and `docs/Navigation.md`.
 
 ## Translations
 
-- `src/app/translations/fi.js` is the source of truth.
-  - Every key must also exist in `en.js` and `sv.js` (`test/unit/app/translations/translations.test.js`).
+- `src/client/translations/fi.js` is the source of truth.
+  - Every key must also exist in `en.js` and `sv.js` (`test/unit/client/translations/translations.test.js`).
   - `yarn format` sorts the files.
 - Some `digitransit-component` packages ship their own i18next bundles, checked by
   `scripts/packages/sort-translations.js`.
 - Pass `lang` to `@hsl-fi/*` components:
-  - in the app, from `hslfiLocale` in `src/app/utils/hslfiLocale.js`;
+  - in the app, from `hslfiLocale` in `src/client/utils/hslfiLocale.js`;
   - in a package, from its `hslfiLocales` export.
   - See "Design system strings" in `docs/Packages.md`.
 
@@ -146,7 +145,7 @@ sets CSS custom properties.
   - Use `git grep -nw <name>`, and search `_static/js` after a build.
 - **Icons:**
   - Icon color differences go in CSS (`fill`, `currentColor`, a custom property).
-  - A different shape gets its own `src/app/assets/icons/<theme>/<id>.svg` and an entry in `sprites`
+  - A different shape gets its own `src/client/assets/icons/<theme>/<id>.svg` and an entry in `sprites`
     in the theme's config.
 
 ## Tests
@@ -157,7 +156,7 @@ See `docs/Tests.md`.
   renders unless it's conditional.
 - Test components from the user's side with React Testing Library. Use `renderWithProviders` or
   `TestProviders` from `test/unit/helpers/mock-providers.jsx`.
-- The app suite runs with `isolate: false`, so the test files of a worker share one jsdom environment
+- The client suite runs with `isolate: false`, so the test files of a worker share one jsdom environment
   and module registry:
   - Leave no global state behind, e.g. use `vi.stubGlobal()` instead of assigning to `window`.
   - Stub modules with `vi.spyOn()` on the module namespace, not with `vi.mock()` (ESLint enforces

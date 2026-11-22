@@ -26,7 +26,7 @@ import { getDefaultNetworks } from '../../shared/vehicleRentalUtils';
  * it, all set up in init() below), so init() doubles as living
  * documentation of that contract.
  *
- * init() is called once, synchronously, during app bootstrap in client.js
+ * init() is called once, synchronously, during app bootstrap in client.jsx
  * (mirroring favouriteStore.init(config)), strictly before anything renders.
  * Consequently no component ever observes this singleton in an
  * uninitialized state, so unlike FavouriteData it doesn't need to expose

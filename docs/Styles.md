@@ -9,7 +9,7 @@ src/styles/
   base/            global CSS: reset, grid, elements, helper classes
   images/          images used by stylesheets
   themes/<theme>/  theme.scss, the theme's custom property values
-src/app/component/**   component stylesheets, next to their components
+src/client/component/**   component stylesheets, next to their components
 ```
 
 All themes share one stylesheet. Most component styles are listed in `src/styles/main.scss`, because they use
