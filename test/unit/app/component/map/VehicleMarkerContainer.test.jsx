@@ -2,13 +2,13 @@ import { render } from '@testing-library/react';
 
 import { LeafletProvider } from 'react-leaflet/es/context';
 
-import { renderWithProviders } from '../../helpers/mock-providers';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 import VehicleMarkerContainer, {
   shouldShowVehicle,
   getVehicleIcon,
-} from '../../../../src/app/component/map/VehicleMarkerContainer';
-import { mockContext } from '../../helpers/mock-context';
-import events from '../../../../src/app/utils/events';
+} from '../../../../../src/app/component/map/VehicleMarkerContainer';
+import { mockContext } from '../../../helpers/mock-context';
+import events from '../../../../../src/app/utils/events';
 
 const defaultProps = {
   direction: 0,

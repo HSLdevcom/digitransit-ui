@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
-import RentalVehiclePageMapContainer from '../../../src/app/component/RentalVehiclePageMapContainer';
-import * as StopPageMapModule from '../../../src/app/component/map/StopPageMap';
-import { renderWithProviders } from '../helpers/mock-providers';
+import RentalVehiclePageMapContainer from '../../../../src/app/component/RentalVehiclePageMapContainer';
+import * as StopPageMapModule from '../../../../src/app/component/map/StopPageMap';
+import { renderWithProviders } from '../../helpers/mock-providers';
 
 // The map itself isn't under test, only the name passed to it
 // eslint-disable-next-line react/prop-types

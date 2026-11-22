@@ -1,8 +1,8 @@
 import fetchMock from 'fetch-mock';
 import { waitFor } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { createTestConfig } from '../helpers/mock-context';
-import ParkOrStationHeader from '../../../src/app/component/ParkOrStationHeader';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
+import ParkOrStationHeader from '../../../../src/app/component/ParkOrStationHeader';
 
 describe('<ParkOrStationHeader />', () => {
   beforeAll(() => fetchMock.mockGlobal());

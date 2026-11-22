@@ -1,12 +1,12 @@
-import * as modeUtils from '../../../../src/app/utils/modeUtils';
-import * as pathUtils from '../../../../src/shared/path';
-import { AlertEntityType, LocationTypes } from '../../../../src/shared/constants';
+import * as modeUtils from '../../../../../src/app/utils/modeUtils';
+import * as pathUtils from '../../../../../src/shared/path';
+import { AlertEntityType, LocationTypes } from '../../../../../src/shared/constants';
 import {
   getAvailableModes,
   groupEntitiesByMode,
   getAlertModes,
   buildDisruptionCards,
-} from '../../../../src/app/component/trafficnow/utils';
+} from '../../../../../src/app/component/trafficnow/utils';
 
 describe('TrafficNow utils', () => {
   describe('getAvailableModes', () => {

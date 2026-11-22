@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '../../helpers/mock-providers';
-import { createTestConfig } from '../../helpers/mock-context';
-import AirportCheckInLeg from '../../../../src/app/component/itinerary/AirportCheckInLeg';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
+import AirportCheckInLeg from '../../../../../src/app/component/itinerary/AirportCheckInLeg';
 
 const baseConfig = createTestConfig();
 

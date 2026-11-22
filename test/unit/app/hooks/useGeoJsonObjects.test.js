@@ -6,7 +6,7 @@ import {
   getGeoJsonData,
   mapGeoJsonMetadata as MapJSON,
   styleGeoJsonFeatures as styleFeatures,
-} from '../../../src/app/hooks/useGeoJsonObjects';
+} from '../../../../src/app/hooks/useGeoJsonObjects';
 
 describe('GeoJSON hook helpers', () => {
   beforeAll(() => fetchMock.mockGlobal());

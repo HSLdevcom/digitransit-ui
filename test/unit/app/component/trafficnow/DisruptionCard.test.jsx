@@ -1,10 +1,10 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../../helpers/mock-providers';
-import { createTestConfig } from '../../helpers/mock-context';
-import { FilterContextProvider } from '../../../../src/app/component/trafficnow/filters/FiltersContext';
-import DisruptionCard from '../../../../src/app/component/trafficnow/DisruptionCard';
-import * as trafficNowUtils from '../../../../src/app/component/trafficnow/utils';
-import { AlertSeverityLevelType } from '../../../../src/shared/constants';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
+import { FilterContextProvider } from '../../../../../src/app/component/trafficnow/filters/FiltersContext';
+import DisruptionCard from '../../../../../src/app/component/trafficnow/DisruptionCard';
+import * as trafficNowUtils from '../../../../../src/app/component/trafficnow/utils';
+import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 
 const baseConfig = createTestConfig({ colors: { primary: '#007ac9' } });
 

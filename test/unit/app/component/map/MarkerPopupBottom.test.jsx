@@ -1,6 +1,6 @@
 import { LeafletProvider } from 'react-leaflet/es/context';
-import { renderWithProviders } from '../../helpers/mock-providers';
-import MarkerPopupBottom from '../../../../src/app/component/map/MarkerPopupBottom';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import MarkerPopupBottom from '../../../../../src/app/component/map/MarkerPopupBottom';
 
 describe('<MarkerPopupBottom />', () => {
   it('should render a viapoint button when asked so', () => {

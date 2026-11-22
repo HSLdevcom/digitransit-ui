@@ -1,4 +1,4 @@
-import { filterAndSortAlerts } from '../../../src/app/component/trafficnow/filters/filterUtils';
+import { filterAndSortAlerts } from '../../../../../../src/app/component/trafficnow/filters/filterUtils';
 
 /**
  * All individual filter functions are tested indirectly through

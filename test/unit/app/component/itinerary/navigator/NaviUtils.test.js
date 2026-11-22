@@ -1,8 +1,8 @@
 import { expect } from 'chai';
-import { getItineraryAlerts } from '../../../../../src/app/component/itinerary/navigator/NaviUtils';
-import { legTime, PLATFORM_STATUS } from '../../../../../src/app/utils/legUtils';
-import { epochToIso } from '../../../../../src/app/utils/timeUtils';
-import config from '../../../../../src/server/configs/config.default';
+import { getItineraryAlerts } from '../../../../../../src/app/component/itinerary/navigator/NaviUtils';
+import { legTime, PLATFORM_STATUS } from '../../../../../../src/app/utils/legUtils';
+import { epochToIso } from '../../../../../../src/app/utils/timeUtils';
+import config from '../../../../../../src/server/configs/config.default';
 
 const NOW = Date.parse('2024-05-01T12:00:00Z');
 

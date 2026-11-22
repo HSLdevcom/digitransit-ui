@@ -1,12 +1,12 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
+import { renderWithProviders } from '../../helpers/mock-providers';
 import {
   createInitialPositionState,
   positionReducer,
   usePosition,
   usePositionActions,
-} from '../../../src/app/hooks/PositionContext';
-import searchServices from '../../../src/app/data/SearchServices';
+} from '../../../../src/app/hooks/PositionContext';
+import searchServices from '../../../../src/app/data/SearchServices';
 
 function PositionConsumer() {
   const position = usePosition();

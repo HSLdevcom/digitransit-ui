@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import MessageBarMessage from '../../../src/app/component/MessageBarMessage';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import MessageBarMessage from '../../../../src/app/component/MessageBarMessage';
 
 describe('<MessageBarMessage />', () => {
   const opts = { config: { CONFIG: 'hsl', URL: {}, showAlertHeader: true } };

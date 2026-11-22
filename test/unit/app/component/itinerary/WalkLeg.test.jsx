@@ -1,8 +1,8 @@
 import Link from 'found/Link';
-import { renderWithProviders } from './helpers/mock-providers';
-import { mockRouter } from './helpers/mock-router';
-import WalkLeg from '../../src/app/component/itinerary/WalkLeg';
-import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../src/shared/constants';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { mockRouter } from '../../../helpers/mock-router';
+import WalkLeg from '../../../../../src/app/component/itinerary/WalkLeg';
+import { AlertSeverityLevelType, ExtendedRouteTypes } from '../../../../../src/shared/constants';
 
 const renderLink = Link.render;
 

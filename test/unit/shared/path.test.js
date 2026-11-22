@@ -1,4 +1,4 @@
-import { pathJoin } from '../../../../src/shared/path';
+import { pathJoin } from '../../../src/shared/path';
 
 describe('path', () => {
   describe('pathJoin()', () => {

@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../../../helpers/mock-providers';
-import { createTestConfig } from '../../../helpers/mock-context';
-import NaviMessage from '../../../../../src/app/component/itinerary/navigator/NaviMessage';
+import { renderWithProviders } from '../../../../helpers/mock-providers';
+import { createTestConfig } from '../../../../helpers/mock-context';
+import NaviMessage from '../../../../../../src/app/component/itinerary/navigator/NaviMessage';
 
 const baseConfig = createTestConfig();
 

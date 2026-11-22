@@ -1,9 +1,12 @@
 import MockDate from 'mockdate';
 import { DateTime } from 'luxon';
 
-import * as oldSearchesData from '../../../src/app/data/SearchHistory';
-import { getOldSearchesStorage, setOldSearchesStorage } from '../../../src/app/utils/localStorage';
-import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../src/shared/path';
+import * as oldSearchesData from '../../../../src/app/data/SearchHistory';
+import {
+  getOldSearchesStorage,
+  setOldSearchesStorage,
+} from '../../../../src/app/utils/localStorage';
+import { PREFIX_ROUTES, PREFIX_STOPS } from '../../../../src/shared/path';
 
 const { STORE_VERSION, STORE_MAX_ITEMS, STORE_KEEP_LATEST } = oldSearchesData;
 

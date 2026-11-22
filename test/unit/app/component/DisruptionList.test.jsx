@@ -1,6 +1,6 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import DisruptionList from '../../../src/app/component/DisruptionList';
-import { AlertEntityType } from '../../../src/shared/constants';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import DisruptionList from '../../../../src/app/component/DisruptionList';
+import { AlertEntityType } from '../../../../src/shared/constants';
 
 const renderList = (props, currentTime = 1547464412) =>
   renderWithProviders(<DisruptionList {...props} />, { currentTime }).container;

@@ -1,8 +1,8 @@
-import { renderWithProviders } from '../../../helpers/mock-providers';
-import { createTestConfig } from '../../../helpers/mock-context';
-import NaviCardExtension from '../../../../../src/app/component/itinerary/navigator/NaviCardExtension';
-import { LEGTYPE } from '../../../../../src/app/component/itinerary/navigator/NaviUtils';
-import { NaviCardType } from '../../../../../src/shared/constants';
+import { renderWithProviders } from '../../../../helpers/mock-providers';
+import { createTestConfig } from '../../../../helpers/mock-context';
+import NaviCardExtension from '../../../../../../src/app/component/itinerary/navigator/NaviCardExtension';
+import { LEGTYPE } from '../../../../../../src/app/component/itinerary/navigator/NaviUtils';
+import { NaviCardType } from '../../../../../../src/shared/constants';
 import { config, tram2, tram3, interlineTime } from './fixtures/interlineLegs';
 
 const baseConfig = createTestConfig();

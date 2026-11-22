@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../../helpers/mock-providers';
-import NearYouFavouritesContainer from '../../../../src/app/component/nearyou/NearYouFavouritesContainer';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import NearYouFavouritesContainer from '../../../../../src/app/component/nearyou/NearYouFavouritesContainer';
 
 const searchPosition = { lat: 60.17, lon: 24.94 };
 

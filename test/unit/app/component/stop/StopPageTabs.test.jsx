@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { mockMatch } from '../helpers/mock-router';
-import StopPageTabs from '../../../src/app/component/stop/StopPageTabs';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { mockMatch } from '../../../helpers/mock-router';
+import StopPageTabs from '../../../../../src/app/component/stop/StopPageTabs';
 
 const alert = (id, severity) => ({
   id,

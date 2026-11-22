@@ -1,6 +1,6 @@
-import TripStopListContainer from '../../../src/app/component/routepage/TripStopListContainer';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { mockContext } from '../helpers/mock-context';
+import TripStopListContainer from '../../../../../src/app/component/routepage/TripStopListContainer';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { mockContext } from '../../../helpers/mock-context';
 
 describe('<TripStopListContainer />', () => {
   it('should properly mark passed stops when vehicle information is missing', () => {

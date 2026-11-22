@@ -1,4 +1,4 @@
-import { splitGtfsId } from '../../../../src/shared/gtfs';
+import { splitGtfsId } from '../../../src/shared/gtfs';
 
 describe('splitGtfsId', () => {
   it('should split gtfsId into feedId and entityId', () => {

@@ -1,12 +1,12 @@
 import L from 'leaflet';
 import { LeafletProvider } from 'react-leaflet/es/context';
-import { renderWithProviders } from '../../../helpers/mock-providers';
-import { mockContext } from '../../../helpers/mock-context';
+import { renderWithProviders } from '../../../../helpers/mock-providers';
+import { mockContext } from '../../../../helpers/mock-context';
 import TileLayerContainer, {
   sendSelectionAnalytics,
-} from '../../../../../src/app/component/map/tile-layer/TileLayerContainer';
-import * as analytics from '../../../../../src/shared/analyticsUtils';
-import { TimeContext } from '../../../../../src/app/hooks/TimeContext';
+} from '../../../../../../src/app/component/map/tile-layer/TileLayerContainer';
+import * as analytics from '../../../../../../src/shared/analyticsUtils';
+import { TimeContext } from '../../../../../../src/app/hooks/TimeContext';
 
 describe('<TileLayerContainer />', () => {
   const config = { ...mockContext.config, vehicleRental: {} };

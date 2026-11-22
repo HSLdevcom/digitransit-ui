@@ -1,6 +1,6 @@
-import data from './test-data/dcw31';
-import { renderWithProviders } from './helpers/mock-providers';
-import ItinerarySummary from '../../src/app/component/itinerary/ItinerarySummary';
+import data from '../../../test-data/dcw31';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import ItinerarySummary from '../../../../../src/app/component/itinerary/ItinerarySummary';
 
 describe('<ItinerarySummary />', () => {
   it('should show biking distance and walking distance', () => {

@@ -1,7 +1,7 @@
-import { renderWithProviders as render } from '../helpers/mock-providers';
+import { renderWithProviders as render } from '../../../helpers/mock-providers';
 
-import ItineraryCircleLineWithIcon from '../../../src/app/component/itinerary/ItineraryCircleLineWithIcon';
-import { ViaLocationType, IndoorLegType } from '../../../src/shared/constants';
+import ItineraryCircleLineWithIcon from '../../../../../src/app/component/itinerary/ItineraryCircleLineWithIcon';
+import { ViaLocationType, IndoorLegType } from '../../../../../src/shared/constants';
 
 const defaultProps = { index: 1, modeClassName: 'wait', isNotFirstLeg: true };
 

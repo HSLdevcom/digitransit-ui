@@ -1,8 +1,8 @@
 import { fireEvent, screen } from '@testing-library/react';
 import Modal from 'react-modal';
 
-import { renderWithProviders } from '../helpers/mock-providers';
-import MenuDrawer from '../../../src/app/component/MenuDrawer';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import MenuDrawer from '../../../../src/app/component/MenuDrawer';
 
 describe('<MenuDrawer />', () => {
   beforeAll(() => Modal.setAppElement(document.createElement('div')));

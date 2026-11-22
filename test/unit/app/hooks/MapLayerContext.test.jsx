@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { mockContext } from '../helpers/mock-context';
-import { useMapLayers } from '../../../src/app/hooks/MapLayerContext';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { mockContext } from '../../helpers/mock-context';
+import { useMapLayers } from '../../../../src/app/hooks/MapLayerContext';
 
 function MapLayerConsumer() {
   const { mapLayers } = useMapLayers();

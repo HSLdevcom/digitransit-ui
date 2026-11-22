@@ -7,7 +7,7 @@ import {
   useDestination,
   useViaPoints,
   useItineraryLocationActions,
-} from '../../../src/app/hooks/ItineraryLocationContext';
+} from '../../../../src/app/hooks/ItineraryLocationContext';
 
 /**
  * A test consumer component that exposes the current context values via a

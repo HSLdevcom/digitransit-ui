@@ -1,8 +1,8 @@
-import { createTestConfig, mockContext } from '../helpers/mock-context';
-import { renderWithProviders } from '../helpers/mock-providers';
-import translations from '../../../src/app/translations/en';
-import NoItinerariesNote from '../../../src/app/component/itinerary/NoItinerariesNote';
-import { PlannerMessageType } from '../../../src/shared/constants';
+import { createTestConfig, mockContext } from '../../../helpers/mock-context';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import translations from '../../../../../src/app/translations/en';
+import NoItinerariesNote from '../../../../../src/app/component/itinerary/NoItinerariesNote';
+import { PlannerMessageType } from '../../../../../src/shared/constants';
 
 const TestLocation = {
   Outside: { lat: 10.0, lon: 10.0, address: 'Atlantic' },

@@ -1,7 +1,7 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import { createTestConfig } from '../helpers/mock-context';
-import StopServiceStatusBanner from '../../../src/app/component/stop/StopServiceStatusBanner';
-import { AlertSeverityLevelType } from '../../../src/shared/constants';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
+import StopServiceStatusBanner from '../../../../../src/app/component/stop/StopServiceStatusBanner';
+import { AlertSeverityLevelType } from '../../../../../src/shared/constants';
 
 const baseConfig = createTestConfig({ showStopStatusMarkers: false });
 const markersConfig = createTestConfig({ showStopStatusMarkers: true });

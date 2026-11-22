@@ -62,7 +62,7 @@ const hslFiCjsInteropPlugin = () => ({
 });
 
 // Run by the `server` project below instead of the `app` project.
-const serverTestFiles = ['test/unit/server/**/*.test.js', 'test/unit/utils/server/**/*.test.js'];
+const serverTestFiles = ['test/unit/server/**/*.test.js'];
 
 const nodeProject = name => ({
   test: {
@@ -140,7 +140,7 @@ export default {
         },
       },
       {
-        // Server-side tests (server/** and utils/server/**), run in plain
+        // Server-side tests (src/server/**), run in plain
         // Node rather than jsdom and without the app project's React/Relay
         // setup file - they exercise native-ESM Node code only. Isolated per
         // file (Vitest's default), since several server modules keep

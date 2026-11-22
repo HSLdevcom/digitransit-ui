@@ -1,6 +1,6 @@
-import { renderWithProviders } from '../../helpers/mock-providers';
-import { createTestConfig } from '../../helpers/mock-context';
-import MobileTicketPurchaseInformation from '../../../../src/app/component/itinerary/MobileTicketPurchaseInformation';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
+import MobileTicketPurchaseInformation from '../../../../../src/app/component/itinerary/MobileTicketPurchaseInformation';
 
 const baseConfig = createTestConfig({
   showTicketPrice: true,

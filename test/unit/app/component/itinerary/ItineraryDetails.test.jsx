@@ -1,7 +1,7 @@
-import { renderWithProviders } from './helpers/mock-providers';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 
-import ItineraryDetails from '../../src/app/component/itinerary/ItineraryDetails';
-import dt2831 from './test-data/dt2831';
+import ItineraryDetails from '../../../../../src/app/component/itinerary/ItineraryDetails';
+import dt2831 from '../../../test-data/dt2831';
 
 const itinerary = {
   ...dt2831,

@@ -1,6 +1,6 @@
-import Timetable from '../../../src/app/component/stop/Timetable';
-import { renderWithProviders } from '../helpers/mock-providers';
-import * as timetables from '../../../src/server/utils/timetableConfigUtils';
+import Timetable from '../../../../../src/app/component/stop/Timetable';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import * as timetables from '../../../../../src/server/utils/timetableConfigUtils';
 
 const stopIdNumber = '1140199';
 

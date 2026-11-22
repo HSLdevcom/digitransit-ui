@@ -1,7 +1,7 @@
 import { onTestFinished } from 'vitest';
-import { createPositionService } from '../../../src/app/data/PositionService';
-import { messageActions } from '../../../src/app/hooks/MessageContext';
-import { geolocationMessages } from '../../../src/app/utils/geolocationMessages';
+import { createPositionService } from '../../../../src/app/data/PositionService';
+import { messageActions } from '../../../../src/app/hooks/MessageContext';
+import { geolocationMessages } from '../../../../src/app/utils/geolocationMessages';
 
 describe('PositionService', () => {
   it('can be reactivated after disposal', () => {

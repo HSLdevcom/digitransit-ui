@@ -1,9 +1,9 @@
 import fetchMock from 'fetch-mock';
 
-import { renderWithProviders } from '../helpers/mock-providers';
-import { mockContext } from '../helpers/mock-context';
-import { useConfigContext } from '../../../src/app/hooks/ConfigContext';
-import useGeoJsonObjects from '../../../src/app/hooks/useGeoJsonObjects';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { mockContext } from '../../helpers/mock-context';
+import { useConfigContext } from '../../../../src/app/hooks/ConfigContext';
+import useGeoJsonObjects from '../../../../src/app/hooks/useGeoJsonObjects';
 
 function GeoJsonConsumer() {
   const config = useConfigContext();

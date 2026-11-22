@@ -1,9 +1,9 @@
 import { renderHook, waitFor } from '@testing-library/react';
 import { DateTime } from 'luxon';
-import useCanceledStopIds from '../../../../src/app/component/itinerary/useCanceledStopIds';
-import TestProviders from '../../helpers/mock-providers';
-import { mockContext } from '../../helpers/mock-context';
-import { relayMock } from '../../helpers/mock-relay';
+import useCanceledStopIds from '../../../../../src/app/component/itinerary/useCanceledStopIds';
+import TestProviders from '../../../helpers/mock-providers';
+import { mockContext } from '../../../helpers/mock-context';
+import { relayMock } from '../../../helpers/mock-relay';
 
 const timeZone = 'Europe/Helsinki';
 const wrapper = ({ children }) => (

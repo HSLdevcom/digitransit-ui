@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
-import { renderWithProviders } from './helpers/mock-providers';
-import AppBar from '../../src/app/component/AppBar';
-import { mockContext } from './helpers/mock-context';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import AppBar from '../../../../src/app/component/AppBar';
+import { mockContext } from '../../helpers/mock-context';
 
 describe('<AppBar />', () => {
   beforeAll(() => {

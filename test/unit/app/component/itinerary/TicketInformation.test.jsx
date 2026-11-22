@@ -1,8 +1,8 @@
-import { renderWithProviders } from './helpers/mock-providers';
-import { createTestConfig } from './helpers/mock-context';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
 
-import TicketInformation from '../../src/app/component/itinerary/TicketInformation';
-import { getFaresFromLegs } from '../../src/app/utils/fareUtils';
+import TicketInformation from '../../../../../src/app/component/itinerary/TicketInformation';
+import { getFaresFromLegs } from '../../../../../src/app/utils/fareUtils';
 
 const defaultConfig = createTestConfig({
   showTicketInformation: true,

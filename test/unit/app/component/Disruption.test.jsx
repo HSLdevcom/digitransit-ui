@@ -1,14 +1,14 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { createTestConfig } from '../helpers/mock-context';
-import Disruption from '../../../src/app/component/Disruption';
-import { AlertEntityType } from '../../../src/shared/constants';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import { createTestConfig } from '../../helpers/mock-context';
+import Disruption from '../../../../src/app/component/Disruption';
+import { AlertEntityType } from '../../../../src/shared/constants';
 import {
   routePagePath,
   PREFIX_STOPS,
   PREFIX_TERMINALS,
   PREFIX_DISRUPTION,
-} from '../../../src/shared/path';
+} from '../../../../src/shared/path';
 
 const baseConfig = createTestConfig({ colors: { primary: '#007ac9' } });
 

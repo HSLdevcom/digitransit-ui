@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import TestProviders from '../../helpers/mock-providers';
-import { mockContext } from '../../helpers/mock-context';
+import TestProviders from '../../../helpers/mock-providers';
+import { mockContext } from '../../../helpers/mock-context';
 import {
   ItineraryLocationProvider,
   useItineraryLocationActions,
-} from '../../../../src/app/hooks/ItineraryLocationContext';
-import OriginDestinationBar from '../../../../src/app/component/itinerary/OriginDestinationBar';
+} from '../../../../../src/app/hooks/ItineraryLocationContext';
+import OriginDestinationBar from '../../../../../src/app/component/itinerary/OriginDestinationBar';
 
 const origin = { address: 'Origin, Helsinki', lat: 60.199, lon: 24.934 };
 

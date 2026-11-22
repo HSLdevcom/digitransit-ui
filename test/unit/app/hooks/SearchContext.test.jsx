@@ -2,11 +2,11 @@ import PropTypes from 'prop-types';
 import { onTestFinished } from 'vitest';
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 import * as getJsonModule from '@digitransit-search-util/digitransit-search-util-get-json';
-import { SearchProvider, useSearchContext } from '../../../src/app/hooks/SearchContext';
-import searchServices from '../../../src/app/data/SearchServices';
-import * as SearchHistory from '../../../src/app/data/SearchHistory';
-import { SEARCH_PATH_OPTS } from '../../../src/app/utils/searchUtils';
-import { renderWithProviders } from '../helpers/mock-providers';
+import { SearchProvider, useSearchContext } from '../../../../src/app/hooks/SearchContext';
+import searchServices from '../../../../src/app/data/SearchServices';
+import * as SearchHistory from '../../../../src/app/data/SearchHistory';
+import { SEARCH_PATH_OPTS } from '../../../../src/app/utils/searchUtils';
+import { renderWithProviders } from '../../helpers/mock-providers';
 
 let getJson;
 let removeSearch;

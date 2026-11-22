@@ -1,7 +1,7 @@
-import { renderWithProviders } from '../../helpers/mock-providers';
+import { renderWithProviders } from '../../../../helpers/mock-providers';
 
-import ScheduleConstantOperation from '../../../../src/app/component/routepage/schedule/ScheduleConstantOperation';
-import { mockMatch } from '../../helpers/mock-router';
+import ScheduleConstantOperation from '../../../../../../src/app/component/routepage/schedule/ScheduleConstantOperation';
+import { mockMatch } from '../../../../helpers/mock-router';
 
 describe('<ScheduleConstantOperation />', () => {
   const defaultProps = {

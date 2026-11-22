@@ -1,5 +1,5 @@
-import { renderWithProviders } from './helpers/mock-providers';
-import AppBarHsl, { Component } from '../../src/app/component/AppBarHsl';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import AppBarHsl, { Component } from '../../../../src/app/component/AppBarHsl';
 
 describe('<AppBarHsl />', () => {
   beforeEach(() => {

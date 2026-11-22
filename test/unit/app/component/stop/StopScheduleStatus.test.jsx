@@ -1,6 +1,6 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import StopScheduleStatus from '../../../src/app/component/stop/StopScheduleStatus';
-import { STOP_STATUS } from '../../../src/app/utils/stopStatusUtils';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import StopScheduleStatus from '../../../../../src/app/component/stop/StopScheduleStatus';
+import { STOP_STATUS } from '../../../../../src/app/utils/stopStatusUtils';
 
 describe('<StopScheduleStatus />', () => {
   it('renders nothing when status is undefined', () => {

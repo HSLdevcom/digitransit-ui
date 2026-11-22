@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
-import CookieSettingsButton from '../../src/app/component/CookieSettingsButton';
-import { renderWithProviders } from './helpers/mock-providers';
+import CookieSettingsButton from '../../../../src/app/component/CookieSettingsButton';
+import { renderWithProviders } from '../../helpers/mock-providers';
 
 describe('CookieSettingsButton', () => {
   it('renders the button with correct text', () => {

@@ -1,17 +1,17 @@
 /* eslint-disable react/prop-types */
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import * as relay from 'react-relay';
-import ItineraryPage from '../../../../src/app/component/itinerary/ItineraryPage';
-import TestProviders from '../../helpers/mock-providers';
-import { createTestConfig } from '../../helpers/mock-context';
-import { mockMatch, mockRouter } from '../../helpers/mock-router';
-import * as planParamUtil from '../../../../src/app/utils/planParamUtil';
-import * as ItineraryPageUtils from '../../../../src/app/component/itinerary/ItineraryPageUtils';
-import * as DesktopViewModule from '../../../../src/app/component/DesktopView';
-import * as ItineraryPageMapModule from '../../../../src/app/component/map/ItineraryPageMap';
-import * as ItineraryPageControlsModule from '../../../../src/app/component/itinerary/ItineraryPageControls';
-import * as AlternativeItineraryBarModule from '../../../../src/app/component/itinerary/AlternativeItineraryBar';
-import * as ItineraryListContainerModule from '../../../../src/app/component/itinerary/ItineraryListContainer';
+import ItineraryPage from '../../../../../src/app/component/itinerary/ItineraryPage';
+import TestProviders from '../../../helpers/mock-providers';
+import { createTestConfig } from '../../../helpers/mock-context';
+import { mockMatch, mockRouter } from '../../../helpers/mock-router';
+import * as planParamUtil from '../../../../../src/app/utils/planParamUtil';
+import * as ItineraryPageUtils from '../../../../../src/app/component/itinerary/ItineraryPageUtils';
+import * as DesktopViewModule from '../../../../../src/app/component/DesktopView';
+import * as ItineraryPageMapModule from '../../../../../src/app/component/map/ItineraryPageMap';
+import * as ItineraryPageControlsModule from '../../../../../src/app/component/itinerary/ItineraryPageControls';
+import * as AlternativeItineraryBarModule from '../../../../../src/app/component/itinerary/AlternativeItineraryBar';
+import * as ItineraryListContainerModule from '../../../../../src/app/component/itinerary/ItineraryListContainer';
 
 const { PLANTYPE } = planParamUtil;
 

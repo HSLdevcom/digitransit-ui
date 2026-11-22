@@ -1,6 +1,6 @@
 import { fireEvent } from '@testing-library/react';
-import { renderWithProviders } from './helpers/mock-providers';
-import Checkbox from '../../src/app/component/Checkbox';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import Checkbox from '../../../../src/app/component/Checkbox';
 
 describe('<Checkbox />', () => {
   it('should render a checkbox', () => {

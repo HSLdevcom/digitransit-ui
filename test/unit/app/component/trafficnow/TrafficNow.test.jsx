@@ -1,12 +1,12 @@
-import { renderWithProviders } from '../../helpers/mock-providers';
-import { relayMock } from '../../helpers/mock-relay';
-import { mockMatch } from '../../helpers/mock-router';
-import { createTestConfig } from '../../helpers/mock-context';
-import TrafficNow from '../../../../src/app/component/trafficnow/TrafficNow';
-import AlertsQuery from '../../../../src/app/component/trafficnow/queries/AlertsQuery';
-import CanceledTripsOverviewQuery from '../../../../src/app/component/trafficnow/queries/CanceledTripsOverviewQuery';
-import CanceledTripsForModeQuery from '../../../../src/app/component/trafficnow/queries/CanceledTripsForModeQuery';
-import * as breakpointContext from '../../../../src/app/hooks/BreakpointContext';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { relayMock } from '../../../helpers/mock-relay';
+import { mockMatch } from '../../../helpers/mock-router';
+import { createTestConfig } from '../../../helpers/mock-context';
+import TrafficNow from '../../../../../src/app/component/trafficnow/TrafficNow';
+import AlertsQuery from '../../../../../src/app/component/trafficnow/queries/AlertsQuery';
+import CanceledTripsOverviewQuery from '../../../../../src/app/component/trafficnow/queries/CanceledTripsOverviewQuery';
+import CanceledTripsForModeQuery from '../../../../../src/app/component/trafficnow/queries/CanceledTripsForModeQuery';
+import * as breakpointContext from '../../../../../src/app/hooks/BreakpointContext';
 
 const baseConfig = createTestConfig({
   colors: { primary: '#007ac9' },

@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import StopPageMap from '../../../src/app/component/map/StopPageMap';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import StopPageMap from '../../../../../src/app/component/map/StopPageMap';
 
 describe('<StopPageMap />', () => {
   it('should render empty if stop information is missing', () => {

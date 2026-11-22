@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import AboutPage from '../../../src/app/component/AboutPage';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import AboutPage from '../../../../src/app/component/AboutPage';
 
 describe('<AboutPage />', () => {
   const config = {

@@ -1,12 +1,12 @@
 import { DateTime } from 'luxon';
 import { fireEvent } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import { mockMatch, mockRouter } from '../helpers/mock-router';
-import { createTestConfig } from '../helpers/mock-context';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { mockMatch, mockRouter } from '../../../helpers/mock-router';
+import { createTestConfig } from '../../../helpers/mock-context';
 import RoutePatternSelectContainer, {
   getPatternOptions,
-} from '../../../src/app/component/routepage/RoutePatternSelectContainer';
-import { routePagePath, PREFIX_STOPS } from '../../../src/shared/path';
+} from '../../../../../src/app/component/routepage/RoutePatternSelectContainer';
+import { routePagePath, PREFIX_STOPS } from '../../../../../src/shared/path';
 
 const serviceDay = Math.floor(new Date().getTime() / 1000);
 const today = DateTime.now().toFormat('yyyyLLdd');

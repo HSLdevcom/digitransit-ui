@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import SearchSettings from '../../../src/app/component/itinerary/SearchSettings';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import SearchSettings from '../../../../../src/app/component/itinerary/SearchSettings';
 
 describe('<SearchSettings />', () => {
   it('should render time picker', () => {

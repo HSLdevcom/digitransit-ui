@@ -1,6 +1,6 @@
-import SelectVehicleRentalRow from '../../../../../src/app/component/map/tile-layer/SelectVehicleRentalRow';
-import { renderWithProviders } from '../../../helpers/mock-providers';
-import { mockContext } from '../../../helpers/mock-context';
+import SelectVehicleRentalRow from '../../../../../../src/app/component/map/tile-layer/SelectVehicleRentalRow';
+import { renderWithProviders } from '../../../../helpers/mock-providers';
+import { mockContext } from '../../../../helpers/mock-context';
 
 describe('<SelectVehicleRentalRow />', () => {
   it('should use the citybike icon by default', () => {

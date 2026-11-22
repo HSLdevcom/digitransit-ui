@@ -74,7 +74,7 @@ function isSorted(keys) {
 }
 
 // Only fi/sv/en are required to be in parity, mirroring
-// test/unit/translations.test.js's own scope for app/translations - de/pl
+// test/unit/app/translations/translations.test.js's own scope for src/app/translations - de/pl
 // (etc.) coverage is incomplete today across most of these files and isn't
 // enforced.
 const PARITY_LOCALES = ['fi', 'sv', 'en'];

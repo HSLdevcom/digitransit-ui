@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import VehicleIcon from '../../../src/app/component/VehicleIcon';
+import VehicleIcon from '../../../../src/app/component/VehicleIcon';
 
 describe('<VehicleIcon />', () => {
   it('should render correct svg when allVehicles is false', () => {

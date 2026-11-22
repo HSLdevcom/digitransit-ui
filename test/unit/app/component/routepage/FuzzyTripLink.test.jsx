@@ -1,6 +1,6 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import { relayMock } from '../helpers/mock-relay';
-import FuzzyTripLink from '../../../src/app/component/routepage/FuzzyTripLink';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { relayMock } from '../../../helpers/mock-relay';
+import FuzzyTripLink from '../../../../../src/app/component/routepage/FuzzyTripLink';
 
 const vehicle = {
   direction: 0,

@@ -1,4 +1,4 @@
-import { getIconMarkerOptions } from '../../../../src/app/component/map/LocationMarker';
+import { getIconMarkerOptions } from '../../../../../src/app/component/map/LocationMarker';
 
 describe('<LocationMarker />', () => {
   it('should use a large icon size', () => {

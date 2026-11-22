@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import L from 'leaflet';
-import GeoJSON, { getIcons, getMarker } from '../../../../src/app/component/map/GeoJSON';
-import { renderWithProviders } from '../../helpers/mock-providers';
+import GeoJSON, { getIcons, getMarker } from '../../../../../src/app/component/map/GeoJSON';
+import { renderWithProviders } from '../../../helpers/mock-providers';
 
 describe('<GeoJSON />', () => {
   it('should render empty if there are no features', () => {

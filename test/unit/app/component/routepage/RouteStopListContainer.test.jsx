@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import RouteStopListContainer from '../../../src/app/component/routepage/RouteStopListContainer';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import RouteStopListContainer from '../../../../../src/app/component/routepage/RouteStopListContainer';
 
 const props = {
   pattern: {

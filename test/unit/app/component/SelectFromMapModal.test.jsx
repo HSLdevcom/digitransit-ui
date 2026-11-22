@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { renderWithProviders } from '../helpers/mock-providers';
-import SelectFromMapModal from '../../../src/app/component/SelectFromMapModal';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import SelectFromMapModal from '../../../../src/app/component/SelectFromMapModal';
 
 describe('<SelectFromMapModal />', () => {
   it('renders the title and children, and tags the overlay/scaler ancestors for full-bleed styling', () => {

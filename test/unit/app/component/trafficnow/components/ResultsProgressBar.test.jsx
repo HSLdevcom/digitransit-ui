@@ -1,5 +1,5 @@
 import { render } from '@testing-library/react';
-import ResultsProgressBar from '../../../../src/app/component/trafficnow/components/ResultsProgressBar';
+import ResultsProgressBar from '../../../../../../src/app/component/trafficnow/components/ResultsProgressBar';
 
 describe('<ResultsProgressBar />', () => {
   describe('Percentage calculation', () => {

@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import IntermediateLeg from '../../../src/app/component/itinerary/IntermediateLeg';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import IntermediateLeg from '../../../../../src/app/component/itinerary/IntermediateLeg';
 
 const emptyProps = {
   arrival: { scheduledTime: '2024-04-05T14:48:00.000Z' },

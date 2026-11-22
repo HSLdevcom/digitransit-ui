@@ -1,5 +1,5 @@
-import { renderWithProviders } from '../helpers/mock-providers';
-import Profile from '../../../src/app/component/itinerary/Profile';
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import Profile from '../../../../../src/app/component/itinerary/Profile';
 
 describe('<Profile />', () => {
   it('should only render total distance information for non-biking itineraries', () => {

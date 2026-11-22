@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
-import Snackbar from '../../../src/app/component/Snackbar';
-import { BreakpointContext } from '../../../src/app/hooks/BreakpointContext';
-import { renderWithProviders } from '../helpers/mock-providers';
+import Snackbar from '../../../../src/app/component/Snackbar';
+import { BreakpointContext } from '../../../../src/app/hooks/BreakpointContext';
+import { renderWithProviders } from '../../helpers/mock-providers';
 
 describe('<Snackbar />', () => {
   it('updates its layout from context while preserving notifications and close behavior', () => {

@@ -2,7 +2,7 @@ import fetchMock from 'fetch-mock';
 import { useEffect, createRef } from 'react';
 import PropTypes from 'prop-types';
 import { render, act } from '@testing-library/react';
-import { ConfigProvider } from '../../../src/app/hooks/ConfigContext';
+import { ConfigProvider } from '../../../../src/app/hooks/ConfigContext';
 import {
   MessageProvider,
   processStaticMessages,
@@ -10,9 +10,9 @@ import {
   useDuplicateMessageCounter,
   useMessageActions,
   messageActions,
-} from '../../../src/app/hooks/MessageContext';
-import { setReadMessageIds } from '../../../src/app/utils/localStorage';
-import { mockContext } from '../helpers/mock-context';
+} from '../../../../src/app/hooks/MessageContext';
+import { setReadMessageIds } from '../../../../src/app/utils/localStorage';
+import { mockContext } from '../../helpers/mock-context';
 
 /**
  * A test consumer component that exposes the MessageContext's state and
