@@ -65,6 +65,12 @@ describe('filterAndSortAlerts', () => {
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
 
+    it('includes an alert starting exactly now when validityPeriod is VALID', () => {
+      const alert = makeAlert({ effectiveStartDate: 1000, effectiveEndDate: 2000 });
+      const result = filterAndSortAlerts([alert], { ...defaultFilters, validityPeriod: 'VALID' });
+      expect(result).toEqual(expect.arrayContaining([alert]));
+    });
+
     it('excludes a future alert when validityPeriod is VALID', () => {
       const alert = makeAlert({ effectiveStartDate: 2000, effectiveEndDate: 5000 });
       const result = filterAndSortAlerts([alert], { ...defaultFilters, validityPeriod: 'VALID' });
@@ -140,9 +146,15 @@ describe('filterAndSortAlerts', () => {
       expect(result).toHaveLength(0);
     });
 
-    it('is case-insensitive when comparing modes', () => {
-      const alert = makeAlert({ entities: [{ vehicleMode: 'bus' }] });
-      const result = filterAndSortAlerts([alert], { ...defaultFilters, vehicleModes: ['BUS'] });
+    it.each([
+      ['bus', 'BUS'],
+      ['BUS', 'bus'],
+    ])('is case-insensitive when comparing modes (%s vs %s)', (entityMode, selectedMode) => {
+      const alert = makeAlert({ entities: [{ vehicleMode: entityMode }] });
+      const result = filterAndSortAlerts([alert], {
+        ...defaultFilters,
+        vehicleModes: [selectedMode],
+      });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
   });
@@ -155,7 +167,7 @@ describe('filterAndSortAlerts', () => {
     });
 
     it('includes an alert when one of its entities matches the filter entity gtfsId', () => {
-      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
+      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:2' }, { gtfsId: 'HSL:1' }] });
       const result = filterAndSortAlerts([alert], {
         ...defaultFilters,
         entity: { gtfsId: 'HSL:1' },
@@ -181,10 +193,10 @@ describe('filterAndSortAlerts', () => {
     });
 
     it('includes an alert when an entity gtfsId is in the favourites Set', () => {
-      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }] });
+      const alert = makeAlert({ entities: [{ gtfsId: 'HSL:1' }, { gtfsId: 'HSL:2' }] });
       const result = filterAndSortAlerts([alert], {
         ...defaultFilters,
-        favourites: new Set(['HSL:1']),
+        favourites: new Set(['HSL:2', 'HSL:3']),
       });
       expect(result).toEqual(expect.arrayContaining([alert]));
     });
