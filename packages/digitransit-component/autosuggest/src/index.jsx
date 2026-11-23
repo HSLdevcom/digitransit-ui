@@ -1,20 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies */
 import PropTypes from 'prop-types';
 import { useEffect, useCallback, useMemo, useRef, useReducer } from 'react';
 import { I18nextProvider, useTranslation } from 'react-i18next';
 import cx from 'classnames';
 import { executeSearch } from '@digitransit-search-util/digitransit-search-util-execute-search-immediate';
 import { useCombobox } from 'downshift';
-import Icon, {
-  defaultColors,
-} from '@digitransit-component/digitransit-component-icon';
+import { STOP_STATUS } from '@digitransit-component/digitransit-component-suggestion-item';
+import Icon, { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import i18n from './utils/i18n';
 import styles from './components/styles.scss';
-import {
-  getSuggestionValue,
-  scrollItemIntoView,
-  suggestionAsAriaContent,
-} from './utils/utils';
+import { getSuggestionValue, scrollItemIntoView, suggestionAsAriaContent } from './utils/utils';
 import MobileView from './components/MobileView';
 import { Input } from './components/Input';
 import { Suggestions } from './components/Suggestions';
@@ -31,53 +25,28 @@ const DEFAULT_SOURCES = [];
 const DEFAULT_PATH_OPTS = { routesPrefix: 'linjat', stopsPrefix: 'pysakit' };
 const DEFAULT_REF_POINT = {};
 
-const getAriaProps = ({
-  id,
-  ariaLabel,
-  lng,
-  t,
-  isMobile,
-  suggestions,
-  value,
-  required,
-}) => {
+const getAriaProps = ({ id, ariaLabel, lng, t, isMobile, suggestions, value, required }) => {
   const ariaBarId = id.replace('searchfield-', '');
-  const SearchBarId =
-    ariaLabel || t(ariaBarId, { lng }).replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
+  const SearchBarId = ariaLabel || t(ariaBarId, { lng }).replace('searchfield-', '').concat('.'); // Full stop makes screen reader speech clearer.
   const ariaRequiredText = required ? `${t('required', { lng })}.` : '';
   const ariaLabelInstructions = isMobile
     ? t('search-autosuggest-label-instructions-mobile', { lng })
     : t('search-autosuggest-label-instructions-desktop', { lng });
   const movingToDestinationFieldText =
-    id === 'origin'
-      ? t('search-autosuggest-label-move-to-destination', { lng })
-      : '';
-  const ariaLabelText = ariaLabelInstructions
-    .concat(' ')
-    .concat(movingToDestinationFieldText);
+    id === 'origin' ? t('search-autosuggest-label-move-to-destination', { lng }) : '';
+  const ariaLabelText = ariaLabelInstructions.concat(' ').concat(movingToDestinationFieldText);
 
-  const ariaSuggestionLen = t('search-autosuggest-len', {
-    count: suggestions.length,
-    lng,
-  });
+  const ariaSuggestionLen = t('search-autosuggest-len', { count: suggestions.length, lng });
 
   const ariaCurrentSuggestion =
     suggestionAsAriaContent({ suggestions, t, lng }) || value
       ? t('search-current-suggestion', {
           lng,
-          selection:
-            suggestionAsAriaContent({ suggestions, t, lng }).toLowerCase() ||
-            value,
+          selection: suggestionAsAriaContent({ suggestions, t, lng }).toLowerCase() || value,
         })
       : '';
 
-  return {
-    SearchBarId,
-    ariaRequiredText,
-    ariaLabelText,
-    ariaSuggestionLen,
-    ariaCurrentSuggestion,
-  };
+  return { SearchBarId, ariaRequiredText, ariaLabelText, ariaSuggestionLen, ariaCurrentSuggestion };
 };
 
 const positions = [
@@ -104,13 +73,7 @@ const positions = [
  * @param {string[]} props.sources
  * @returns {string[]} newTargets
  */
-const getNewTargets = ({
-  targets,
-  isLocationSearch,
-  isMobile,
-  ownPlaces,
-  sources,
-}) => {
+const getNewTargets = ({ targets, isLocationSearch, isMobile, ownPlaces, sources }) => {
   const useAll = !targets?.length;
   // Default: neither the ownPlaces nor the "explicit, non-empty targets"
   // case applies (e.g. the common "leave targets empty to search
@@ -132,11 +95,7 @@ const getNewTargets = ({
   } else if (!useAll) {
     newTargets = [...targets];
     // in desktop, favorites are accessed via sub search
-    if (
-      isLocationSearch &&
-      !isMobile &&
-      (!sources.length || sources.includes('Favourite'))
-    ) {
+    if (isLocationSearch && !isMobile && (!sources.length || sources.includes('Favourite'))) {
       newTargets.push('SelectFromOwnLocations');
     }
   }
@@ -239,6 +198,7 @@ const getNewTargets = ({
  * @property {string} [inputClassName]
  * @property {string} [translatedPlaceholder]
  * @property {boolean} [required]
+ * @property {string} [externalLabelId] id of a visible <label for={id}> that names the input
  * @property {Object} [colors]
  * @property {string} [modeSet]
  * @property {boolean} [showScroll]
@@ -276,6 +236,7 @@ function DTAutosuggest({
   inputClassName = '',
   translatedPlaceholder,
   required = false,
+  externalLabelId,
   ariaLabel,
   colors = defaultColors,
   modeSet,
@@ -336,11 +297,7 @@ function DTAutosuggest({
     // remove  location favourites in desktop search (collection item replaces it in target array)
     const newSources = state.sources
       ? state.sources.filter(
-          s =>
-            !isLocationSearch ||
-            !s === 'Favourite' ||
-            state.showOwnPlaces ||
-            isMobile,
+          s => !isLocationSearch || !s === 'Favourite' || state.showOwnPlaces || isMobile,
         )
       : state.sources;
     searchIdRef.current += 1;
@@ -352,18 +309,13 @@ function DTAutosuggest({
       searchContext,
       filterResults,
       geocodingSize,
-      {
-        input: state.value || '',
-      },
+      { input: state.value || '' },
       searchResult => {
         if (searchId !== searchIdRef.current) {
           return;
         }
         if (searchResult == null) {
-          dispatch({
-            type: 'FETCH_SUGGESTIONS',
-            loading: true,
-          });
+          dispatch({ type: 'FETCH_SUGGESTIONS', loading: true });
           return;
         }
 
@@ -371,8 +323,7 @@ function DTAutosuggest({
           .filter(
             suggestion =>
               suggestion.type !== 'FutureRoute' ||
-              (suggestion.type === 'FutureRoute' &&
-                suggestion.properties.time > Date.now() / 1000),
+              (suggestion.type === 'FutureRoute' && suggestion.properties.time > Date.now() / 1000),
           )
           .map(suggestion => {
             if (
@@ -382,20 +333,13 @@ function DTAutosuggest({
               suggestion.type === 'back'
             ) {
               const translatedSuggestion = { ...suggestion };
-              translatedSuggestion.properties.labelId = t(
-                suggestion.properties.labelId,
-                { lng },
-              );
+              translatedSuggestion.properties.labelId = t(suggestion.properties.labelId, { lng });
               return translatedSuggestion;
             }
             return suggestion;
           });
 
-        dispatch({
-          type: 'FETCH_SUGGESTIONS',
-          loading: false,
-          suggestions: newSuggestions,
-        });
+        dispatch({ type: 'FETCH_SUGGESTIONS', loading: false, suggestions: newSuggestions });
       },
       pathOpts,
       refPoint,
@@ -455,12 +399,7 @@ function DTAutosuggest({
       return;
     }
     if (selectedItem.type === 'back') {
-      dispatch({
-        type: 'SET_SOURCES',
-        sources,
-        showOwnPlaces: false,
-        pendingSelection: null,
-      });
+      dispatch({ type: 'SET_SOURCES', sources, showOwnPlaces: false, pendingSelection: null });
       return;
     }
     selectSuggestion(selectedItem, changes.highlightedIndex);
@@ -469,7 +408,6 @@ function DTAutosuggest({
   const {
     isOpen,
     highlightedIndex,
-    getLabelProps,
     getMenuProps,
     getInputProps,
     getItemProps,
@@ -518,10 +456,7 @@ function DTAutosuggest({
             if (positions.includes(value)) {
               return { ...changes, inputValue: '', isOpen: true };
             }
-            return {
-              ...changes,
-              isOpen: true,
-            };
+            return { ...changes, isOpen: true };
           }
           case useCombobox.stateChangeTypes.InputBlur: {
             if (changes.selectedItem) {
@@ -534,10 +469,7 @@ function DTAutosuggest({
             return changes;
           }
           case useCombobox.stateChangeTypes.InputKeyDownEscape: {
-            return {
-              ...changes,
-              inputValue: '',
-            };
+            return { ...changes, inputValue: '' };
           }
           default: {
             return changes;
@@ -558,16 +490,9 @@ function DTAutosuggest({
     },
   });
   const inputOnBlur = () => {
-    dispatch({
-      isMobile,
-      value: !isMobile && value,
-      type: 'INPUT_BLUR',
-    });
+    dispatch({ isMobile, value: !isMobile && value, type: 'INPUT_BLUR' });
     if (!isMobile) {
-      dispatch({
-        type: 'RESET',
-        initialState,
-      });
+      dispatch({ type: 'RESET', initialState });
     }
   };
 
@@ -592,10 +517,7 @@ function DTAutosuggest({
     // Don't search when the search field (state.value) contains position strings that were given as a prop (value),
     // because they are UI labels not real search terms. Fetching suggestions with them caused a quickly flashing set of
     // irrelevant results, e.g. 'Käytä nykyistä sijaintia' -> 'City-käytävä'.
-    if (
-      (isOpen || state.renderMobile) &&
-      !(state.value === value && positions.includes(value))
-    ) {
+    if ((isOpen || state.renderMobile) && !(state.value === value && positions.includes(value))) {
       fetchSuggestions(state.value);
     }
   }, [isOpen, state.renderMobile, state.value, fetchSuggestions]);
@@ -618,6 +540,12 @@ function DTAutosuggest({
       colors,
       modeSet,
       showStopStatusMarkers: !!searchContext.showStopStatusMarkers,
+      stopStatusLabels: {
+        [STOP_STATUS.OUT_OF_SERVICE]: t('stop-status-out-of-service', { lng }),
+        [STOP_STATUS.NO_SERVICE_TODAY]: t('stop-status-no-service-today', { lng }),
+        [STOP_STATUS.ALERT]: t('stop-status-alert', { lng }),
+        [STOP_STATUS.INFO]: t('stop-status-info', { lng }),
+      },
     }),
     [
       state.loading,
@@ -631,12 +559,7 @@ function DTAutosuggest({
     ],
   );
 
-  const {
-    ariaCurrentSuggestion,
-    ariaRequiredText,
-    SearchBarId,
-    ariaLabelText,
-  } = getAriaProps({
+  const { ariaCurrentSuggestion, ariaRequiredText, SearchBarId, ariaLabelText } = getAriaProps({
     id,
     lng,
     t,
@@ -646,6 +569,11 @@ function DTAutosuggest({
     value: state.value,
     required,
   });
+
+  // Stable name; an external <label for={id}> takes its place when externalLabelId is given.
+  const accessibleName = externalLabelId
+    ? undefined
+    : ariaRequiredText.concat(' ').concat(SearchBarId).trim();
 
   const mobileClearOldSearches = () => {
     const { clearOldSearches, clearFutureRoutes } = searchContext;
@@ -664,6 +592,12 @@ function DTAutosuggest({
     }
   }, [state.renderMobile, isOpen]);
 
+  // Downshift keeps highlightedIndex when the suggestions change, and the
+  // menu is hidden on mobile, so the highlighted item may not be shown.
+  const activeItemHidden = isMobile || highlightedIndex >= state.suggestions.length;
+  const getComboboxInputProps = props =>
+    getInputProps({ ...props, ...(activeItemHidden && { 'aria-activedescendant': undefined }) });
+
   return (
     <>
       {isMobile && (
@@ -672,11 +606,7 @@ function DTAutosuggest({
           clearOldSearches={mobileClearOldSearches}
           appElement={appElement}
           mobileLabel={mobileLabel || t(id, { lng })}
-          ariaProps={{
-            ariaCurrentSuggestion,
-            SearchBarId,
-            ariaRequiredText,
-          }}
+          ariaProps={{ ariaCurrentSuggestion, SearchBarId, ariaRequiredText }}
           id={id}
           lng={lng}
           onSelectedItemChange={onSelectedItemChange}
@@ -701,6 +631,7 @@ function DTAutosuggest({
         ])}
         style={{
           '--color': colors.primary,
+          '--accessible-primary-color': colors.accessiblePrimary,
           '--hover-color': colors.hover,
         }}
       >
@@ -711,28 +642,21 @@ function DTAutosuggest({
               styles[id],
               inputClassName && styles[`${inputClassName}-input-icon`],
             ])}
-            aria-label={ariaRequiredText
-              .concat(' ')
-              .concat(SearchBarId)
-              .concat(' ')
-              .concat(t('search-autosuggest-label', { lng }))}
+            aria-hidden="true"
           >
             <Icon img={`${icon}`} />
           </div>
         )}
         <Input
           inputClassName={inputClassName}
-          ariaLabel={ariaCurrentSuggestion
+          ariaLabel={accessibleName}
+          ariaDescription={t('search-autosuggest-label', { lng })
             .concat(' ')
-            .concat(ariaRequiredText)
-            .concat(' ')
-            .concat(SearchBarId)
-            .concat(' ')
-            .concat(ariaLabelText)}
+            .concat(ariaLabelText)
+            .trim()}
           id={id}
           lng={lng}
-          getInputProps={getInputProps}
-          getLabelProps={getLabelProps}
+          getInputProps={getComboboxInputProps}
           selectItem={selectItem}
           value={state.value}
           clearInput={clearInput}
@@ -752,6 +676,8 @@ function DTAutosuggest({
           highlightedIndex={highlightedIndex}
           getItemProps={getItemProps}
           getMenuProps={getMenuProps}
+          label={accessibleName}
+          labelledBy={externalLabelId}
           suggestions={state.suggestions}
           lng={lng}
           styles={styles}
@@ -774,7 +700,7 @@ DTAutosuggest.propTypes = {
   filterResults: PropTypes.func,
   searchContext: PropTypes.shape({
     URL_PELIAS: PropTypes.string,
-    // eslint-disable-next-line
+    // eslint-disable-next-line react/forbid-prop-types
     context: PropTypes.object,
     clearOldSearches: PropTypes.func,
     clearFutureRoutes: PropTypes.func,
@@ -790,10 +716,7 @@ DTAutosuggest.propTypes = {
   focusChange: PropTypes.func,
   lang: PropTypes.string,
   isMobile: PropTypes.bool,
-  pathOpts: PropTypes.shape({
-    routesPrefix: PropTypes.string,
-    stopsPrefix: PropTypes.string,
-  }),
+  pathOpts: PropTypes.shape({ routesPrefix: PropTypes.string, stopsPrefix: PropTypes.string }),
   mobileLabel: PropTypes.string,
   refPoint: PropTypes.shape({
     address: PropTypes.string,
@@ -804,6 +727,7 @@ DTAutosuggest.propTypes = {
   colors: PropTypes.objectOf(PropTypes.string),
   getAutoSuggestIcons: PropTypes.objectOf(PropTypes.func),
   required: PropTypes.bool,
+  externalLabelId: PropTypes.string,
   modeSet: PropTypes.string,
   showScroll: PropTypes.bool,
   isEmbedded: PropTypes.bool,

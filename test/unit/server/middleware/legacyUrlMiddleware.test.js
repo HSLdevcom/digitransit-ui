@@ -1,7 +1,7 @@
-import { validateParams } from '../../../../server/middleware/legacyUrlMiddleware';
+import { validateParams } from '../../../../src/server/middleware/legacyUrlMiddleware';
 
-import config from '../../../../server/configs/config.default';
-import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
+import config from '../../../../src/server/configs/config.default';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../src/shared/utils/path';
 
 /** A request for a raw URL, with only the fields validateParams reads. */
 const request = url => ({ path: url.split('?')[0], originalUrl: url });
@@ -13,9 +13,7 @@ describe('legacyUrlMiddleware', () => {
       'minTransferTime=60&modes=BUS,TRAM,RAIL,SUBWAY,FERRY,WALK,CITYBIKE&transferPenalty=0&walkBoardCost=540&walkReluctance=1.5&walkSpeed=1.5';
 
     it('should not modify valid url', () => {
-      expect(
-        validateParams(request(`${path}?${query}`), config),
-      ).toBeUndefined();
+      expect(validateParams(request(`${path}?${query}`), config)).toBeUndefined();
     });
 
     it('should remove invalid time parameter', () => {
@@ -24,9 +22,7 @@ describe('legacyUrlMiddleware', () => {
     });
 
     it('should remove a too old time parameter', () => {
-      const url = validateParams(request('/x?time=1&a=b'), {
-        queryMaxAgeDays: 14,
-      });
+      const url = validateParams(request('/x?time=1&a=b'), { queryMaxAgeDays: 14 });
       expect(url).toBe('/x?a=b');
     });
 
@@ -35,10 +31,7 @@ describe('legacyUrlMiddleware', () => {
     });
 
     it('should keep encoded values and repeated keys', () => {
-      const url = validateParams(
-        request('/x?time=x&a=%26b%3Dc&p=1&p=2&d=%C3%A4'),
-        config,
-      );
+      const url = validateParams(request('/x?time=x&a=%26b%3Dc&p=1&p=2&d=%C3%A4'), config);
       expect(url).toBe('/x?a=%26b%3Dc&p=1&p=2&d=%C3%A4');
     });
 

@@ -1,0 +1,126 @@
+import PropTypes from 'prop-types';
+import { useEffect, useState } from 'react';
+import { graphql, useFragment } from 'react-relay';
+import { FormattedMessage, useIntl } from 'react-intl';
+import { useRouter } from 'found';
+import Icon from './Icon';
+import { useBreakpoint } from '../hooks/BreakpointContext';
+import {
+  getRentalNetworkIcon,
+  getRentalNetworkConfig,
+} from '../../shared/utils/vehicleRentalUtils';
+import { PREFIX_RENTALVEHICLES } from '../../shared/utils/path';
+import VehicleRentalLeg from './itinerary/VehicleRentalLeg';
+import BackButton from './BackButton';
+import { fragmentRefShape } from '../utils/shapes';
+import { useConfigContext } from '../hooks/ConfigContext';
+
+const RentalVehicleContentFragment = graphql`
+  fragment RentalVehicleContent_rentalVehicle on RentalVehicle {
+    lat
+    lon
+    name
+    vehicleId
+    rentalUris {
+      android
+      ios
+      web
+    }
+    rentalNetwork {
+      networkId
+      url
+    }
+  }
+`;
+
+export default function RentalVehicleContent({
+  rentalVehicle: rentalVehicleRef,
+  error = undefined,
+}) {
+  const breakpoint = useBreakpoint();
+  const [isClient, setClient] = useState(false);
+  const config = useConfigContext();
+  const { locale } = useIntl();
+  const { match, router } = useRouter();
+  const rentalVehicle = useFragment(RentalVehicleContentFragment, rentalVehicleRef);
+
+  useEffect(() => {
+    setClient(true);
+  }, []);
+
+  useEffect(() => {
+    if (!rentalVehicle && !error) {
+      router.replace(`/${PREFIX_RENTALVEHICLES}`);
+    }
+  }, [rentalVehicle, error, router]);
+
+  const networks = match.params.networks?.split(',');
+
+  // throw error in client side relay query fails
+  if (isClient && error && !rentalVehicle) {
+    throw error.message;
+  }
+
+  if (!rentalVehicle && !error) {
+    return null;
+  }
+
+  const networkConfig = getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config);
+  const vehicleIcon = getRentalNetworkIcon(networkConfig);
+
+  if (networks) {
+    return (
+      <div className="scooter-page-container">
+        <div className="scooter-cluster-back-button-container">
+          {breakpoint === 'large' && <BackButton />}
+        </div>
+        <div className="scooter-sub-header scooters-available">
+          <FormattedMessage id="e-scooters-available" />
+        </div>
+        {networks.map(network => (
+          <div key={network} className="scooter-box cluster">
+            <div className="scooter-content-container cluster">
+              <Icon img={vehicleIcon} />
+              <div className="scooter-header">
+                <div className="header">
+                  <h1>{networkConfig.name[locale] || rentalVehicle.rentalNetwork.networkId}</h1>
+                  <div className="scooter-sub-header">
+                    <FormattedMessage id="e-scooter" />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <div className="scooter-page-container">
+      <div className="scooter-box">
+        <div className="scooter-content-container">
+          <Icon img={vehicleIcon} />
+          <div className="scooter-header">
+            {breakpoint === 'large' && <BackButton />}
+            <div className="header">
+              <h1>{networkConfig.name[locale] || rentalVehicle.rentalNetwork.networkId}</h1>
+              <div className="scooter-sub-header">
+                <FormattedMessage id="e-scooter" />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="disclaimer-content">
+          <VehicleRentalLeg isScooter rentalVehicle={rentalVehicle} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+RentalVehicleContent.propTypes = {
+  rentalVehicle: fragmentRefShape,
+  error: PropTypes.shape({ message: PropTypes.string }),
+};

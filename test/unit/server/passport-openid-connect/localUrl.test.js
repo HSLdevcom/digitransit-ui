@@ -1,34 +1,26 @@
 import {
   parseLocalUrl,
   safeLocalReturnTo,
-} from '../../../../server/passport-openid-connect/localUrl';
+} from '../../../../src/server/passport-openid-connect/localUrl';
 
 /** A request to https://reittiopas.example, with only the fields read. */
 const req = { protocol: 'https', get: () => 'reittiopas.example' };
 
 describe('safeLocalReturnTo', () => {
   it('accepts a local path', () => {
-    expect(safeLocalReturnTo(req, '/en/reitti/a?b=c#d', '/f')).toBe(
-      '/en/reitti/a?b=c#d',
-    );
+    expect(safeLocalReturnTo(req, '/en/reitti/a?b=c#d', '/f')).toBe('/en/reitti/a?b=c#d');
   });
 
   it('accepts an absolute URL on this site, as a path', () => {
-    expect(safeLocalReturnTo(req, 'https://reittiopas.example/en', '/f')).toBe(
-      '/en',
-    );
+    expect(safeLocalReturnTo(req, 'https://reittiopas.example/en', '/f')).toBe('/en');
   });
 
   it('keeps encoded slashes, which browsers read as a path here', () => {
-    expect(safeLocalReturnTo(req, '/%2F%2Fexample.com', '/f')).toBe(
-      '/%2F%2Fexample.com',
-    );
+    expect(safeLocalReturnTo(req, '/%2F%2Fexample.com', '/f')).toBe('/%2F%2Fexample.com');
   });
 
   it('drops line breaks, so the value cannot add a header', () => {
-    expect(safeLocalReturnTo(req, '/x\r\nSet-Cookie: a=b', '/f')).toBe(
-      '/xSet-Cookie:%20a=b',
-    );
+    expect(safeLocalReturnTo(req, '/x\r\nSet-Cookie: a=b', '/f')).toBe('/xSet-Cookie:%20a=b');
   });
 
   it('uses the first value of a repeated param', () => {

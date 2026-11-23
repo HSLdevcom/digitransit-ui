@@ -1,4 +1,4 @@
-import { isSsoLoginPage } from '../../../../server/passport-openid-connect/openidConnect';
+import { isSsoLoginPage } from '../../../../src/server/passport-openid-connect/openidConnect';
 
 describe('isSsoLoginPage', () => {
   const config = { availableLanguages: ['fi', 'sv', 'en', 'de'] };

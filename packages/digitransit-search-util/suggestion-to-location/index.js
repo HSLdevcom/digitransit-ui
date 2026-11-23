@@ -4,11 +4,7 @@ const getStopCode = ({ id, code }) => {
   if (code) {
     return code;
   }
-  if (
-    id === undefined ||
-    typeof id.indexOf === 'undefined' ||
-    id.indexOf('#') === -1
-  ) {
+  if (id === undefined || typeof id.indexOf === 'undefined' || id.indexOf('#') === -1) {
     return undefined;
   }
   // id from pelias
@@ -40,15 +36,7 @@ export default function suggestionToLocation(item) {
     gtfsId: getGTFSId(item.properties),
     code: getStopCode(item.properties),
     layer: item.properties.layer,
-    lat:
-      item.lat ||
-      (item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[1]),
-    lon:
-      item.lon ||
-      (item.geometry &&
-        item.geometry.coordinates &&
-        item.geometry.coordinates[0]),
+    lat: item.lat || (item.geometry && item.geometry.coordinates && item.geometry.coordinates[1]),
+    lon: item.lon || (item.geometry && item.geometry.coordinates && item.geometry.coordinates[0]),
   };
 }

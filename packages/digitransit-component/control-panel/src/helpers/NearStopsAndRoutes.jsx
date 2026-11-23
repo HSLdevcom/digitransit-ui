@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { defaultColors } from '@digitransit-component/digitransit-component-icon';
 import AllModesModal from './AllModesModal';
@@ -26,14 +26,22 @@ export default function NearStopsAndRoutes({
   loading = true,
 }) {
   const [modalOpen, setModalOpen] = useState(false);
+  const moreRef = useRef(null);
+  const wasOpen = useRef(false);
+
+  // The dialog has no trigger element, so return focus to the "more" link after it closes.
+  useEffect(() => {
+    if (wasOpen.current && !modalOpen) {
+      setTimeout(() => moreRef.current?.focus(), 0);
+    }
+    wasOpen.current = modalOpen;
+  }, [modalOpen]);
   const [t] = useTranslation();
   const modesWithAlerts = useModesWithAlerts(alertsContext);
 
   const modes = modeArray.filter(mode => VALID_NEAR_YOU_MODES.includes(mode));
   const useModal = horizontal && modes.length > MAX_VISIBLE_MODES;
-  const visibleModes = useModal
-    ? [...modes.slice(0, MAX_VISIBLE_MODES - 1), MORE]
-    : modes;
+  const visibleModes = useModal ? [...modes.slice(0, MAX_VISIBLE_MODES - 1), MORE] : modes;
 
   const renderButton = (mode, inModal) => (
     <ModeButton
@@ -46,20 +54,11 @@ export default function NearStopsAndRoutes({
       loading={loading}
       horizontal={horizontal}
       inModal={inModal}
+      linkRef={mode === MORE ? moreRef : undefined}
       onActivate={
         mode === MORE
           ? () => setModalOpen(true)
-          : e =>
-              onClick(
-                getModeUrl({
-                  urlPrefix,
-                  language,
-                  omitLanguageUrl,
-                  origin,
-                  mode,
-                }),
-                e,
-              )
+          : e => onClick(getModeUrl({ urlPrefix, language, omitLanguageUrl, origin, mode }), e)
       }
     />
   );

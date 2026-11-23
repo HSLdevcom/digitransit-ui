@@ -77,5 +77,34 @@ describe('Testing @digitransit-component/digitransit-component-autosuggest modul
     // Let the mocked geocoding search resolve and its resulting dispatch
     // land before the test ends and unmounts the component.
     await waitFor(() => expect(axios.get).toHaveBeenCalled());
+    // No suggestions are shown, so no item may be referenced as active.
+    expect(input.hasAttribute('aria-activedescendant')).toBe(false);
+  });
+
+  it('gives the combobox and listbox a name without dangling label references', () => {
+    const { container } = renderAutosuggest();
+    const input = screen.getByRole('combobox');
+    const listbox = container.querySelector('[role="listbox"]');
+    expect(input.getAttribute('aria-label')).toBeTruthy();
+    expect(input.hasAttribute('aria-labelledby')).toBe(false);
+    expect(listbox.getAttribute('aria-label')).toBe(input.getAttribute('aria-label'));
+    expect(listbox.hasAttribute('aria-labelledby')).toBe(false);
+    const describedBy = input.getAttribute('aria-describedby');
+    expect(container.querySelector(`#${describedBy}`)).not.toBeNull();
+  });
+
+  it('is named by an external label instead of aria-label', () => {
+    renderAutosuggest({ externalLabelId: 'ext-label' });
+    render(
+      <label id="ext-label" htmlFor="origin">
+        Visible label
+      </label>,
+    );
+    const input = screen.getByRole('combobox');
+    expect(input.hasAttribute('aria-label')).toBe(false);
+    expect(input.hasAttribute('aria-labelledby')).toBe(false);
+    expect(screen.getByRole('listbox', { hidden: true }).getAttribute('aria-labelledby')).toBe(
+      'ext-label',
+    );
   });
 });

@@ -3,10 +3,7 @@
 import fs from 'fs';
 import path from 'path';
 
-const TRANSLATIONS_DIR = path.resolve(
-  import.meta.dirname,
-  '../app/translations',
-);
+const TRANSLATIONS_DIR = path.resolve(import.meta.dirname, '../src/client/translations');
 const PRINT_WIDTH = 80;
 
 function needsQuoting(key) {
@@ -81,9 +78,7 @@ async function main() {
         console.log('Sorted translations written to', filePath);
       } catch (error) {
         const message = error instanceof Error ? error.message : String(error);
-        console.error(
-          `Failed to write sorted translations to ${filePath}: ${message}`,
-        );
+        console.error(`Failed to write sorted translations to ${filePath}: ${message}`);
         process.exitCode = 1;
       }
     }

@@ -1,0 +1,36 @@
+@use '../../../../styles/abstracts' as *;
+
+.dd-container {
+  flex-grow: 1;
+  flex-basis: 10rem;
+}
+
+.dd-header-title {
+  position: relative;
+  font-style: normal;
+  font-weight: $font-weight-book;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: -0.03em;
+  color: $gray;
+  display: block;
+  margin-bottom: 4px;
+
+  &.align-right {
+    text-align: right;
+    right: 0;
+  }
+}
+
+.dd-select {
+  display: flex;
+
+  &.align-right {
+    justify-content: flex-end;
+  }
+
+  // Compact the design system input-style trigger (default min-height 48px)
+  button {
+    min-height: 32px;
+  }
+}

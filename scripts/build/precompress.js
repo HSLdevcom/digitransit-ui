@@ -1,5 +1,5 @@
 // Writes precompressed `.gz`/`.br` siblings next to a file, the way
-// express-static-gzip (see server/app.js) expects to find them: it serves
+// express-static-gzip (see src/server/app.js) expects to find them: it serves
 // `<file>.br` or `<file>.gz` whenever one exists next to the requested file.
 //
 // Webpack's CompressionPlugin already does this for bundle output, but it only

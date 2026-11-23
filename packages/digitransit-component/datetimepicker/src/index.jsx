@@ -28,6 +28,7 @@ import i18n from './helpers/i18n';
  * @param {function} props.onOpen                   Determine what to do when timepicker is open. Optional. no default implementation.
  * @param {function} props.onClose                  Determine what to do when timepicker is closed. Optional. no default implementation.
  * @param {function} props.openPicker               Determine if timepicker should be open in intial render. Optional. Default is undefined.
+ * @param {boolean} props.showUpdateInstructions    Add a hidden instruction that changing the time triggers a new search. Use only where a time change really starts a search. Optional. Default is false.
  * @example
  * <Datetimepicker
  *   realtime={true}
@@ -61,6 +62,7 @@ export default function DatetimepickerStateContainer({
   onOpen,
   onClose,
   openPicker,
+  showUpdateInstructions = false,
 }) {
   Settings.defaultLocale = lang;
   Settings.defaultZone = timeZone;
@@ -86,19 +88,14 @@ export default function DatetimepickerStateContainer({
       }
     }
     if (!initialArriveBy === (departureOrArrival === 'arrival')) {
-      changeDepartureOrArrival(
-        initialArriveBy === true ? 'arrival' : 'departure',
-      );
+      changeDepartureOrArrival(initialArriveBy === true ? 'arrival' : 'departure');
     }
   }, [initialTimestamp, initialArriveBy]);
 
   const timeChanged = debounce(newTime => {
     if (newTime === null) {
       changeTimestampState(DateTime.now().toMillis());
-      onTimeChange(
-        DateTime.now().toUnixInteger(),
-        departureOrArrival === 'arrival',
-      );
+      onTimeChange(DateTime.now().toUnixInteger(), departureOrArrival === 'arrival');
       return;
     }
     changeTimestampState(newTime);
@@ -108,10 +105,7 @@ export default function DatetimepickerStateContainer({
   const dateChanged = debounce(newDate => {
     if (newDate === null) {
       changeTimestampState(DateTime.now().toMillis());
-      onDateChange(
-        DateTime.now().toUnixInteger(),
-        departureOrArrival === 'arrival',
-      );
+      onDateChange(DateTime.now().toUnixInteger(), departureOrArrival === 'arrival');
       return;
     }
     changeTimestampState(newDate);
@@ -186,6 +180,7 @@ export default function DatetimepickerStateContainer({
         onOpen={onOpen}
         onClose={onClose}
         openPicker={openPicker}
+        showUpdateInstructions={showUpdateInstructions}
       />
     </I18nextProvider>
   );
@@ -209,4 +204,5 @@ DatetimepickerStateContainer.propTypes = {
   onOpen: PropTypes.func,
   onClose: PropTypes.func,
   openPicker: PropTypes.bool,
+  showUpdateInstructions: PropTypes.bool,
 };

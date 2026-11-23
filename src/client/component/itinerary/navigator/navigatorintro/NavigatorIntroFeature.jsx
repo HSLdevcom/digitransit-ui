@@ -1,0 +1,39 @@
+import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+import Icon from '../../../Icon';
+import IconBackground from '../../../icon/IconBackground';
+
+export default function NavigatorIntroFeature({
+  icon,
+  iconColor = 'black',
+  iconBackgroundColor = 'transparent',
+  header,
+  body,
+}) {
+  return (
+    <div className="feature" role="group">
+      {icon && (
+        <Icon
+          img={icon}
+          color={iconColor}
+          height={2}
+          width={2}
+          aria-hidden="true"
+          background={<IconBackground color={iconBackgroundColor} shape="circle" />}
+        />
+      )}
+      <div className="right-column">
+        <FormattedMessage id={header}>{msg => <h3 role="presentation">{msg}</h3>}</FormattedMessage>
+        <FormattedMessage tagName="p" id={body} />
+      </div>
+    </div>
+  );
+}
+
+NavigatorIntroFeature.propTypes = {
+  header: PropTypes.string.isRequired,
+  body: PropTypes.string.isRequired,
+  icon: PropTypes.string,
+  iconColor: PropTypes.string,
+  iconBackgroundColor: PropTypes.string,
+};

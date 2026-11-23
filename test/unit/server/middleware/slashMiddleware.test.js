@@ -1,4 +1,4 @@
-import slashMiddleware from '../../../../server/middleware/slashMiddleware';
+import slashMiddleware from '../../../../src/server/middleware/slashMiddleware';
 
 /** Runs the middleware on a raw URL; returns the redirect, or 'next'. */
 function run(url) {
@@ -15,9 +15,7 @@ function run(url) {
 
 describe('slashMiddleware', () => {
   it('leaves single slashes alone', () => {
-    ['/', '/sv/', '/sv/reitti?a=b//c'].forEach(url =>
-      expect(run(url)).toBe('next'),
-    );
+    ['/', '/sv/', '/sv/reitti?a=b//c'].forEach(url => expect(run(url)).toBe('next'));
   });
 
   it('permanently redirects repeated slashes and backslashes, keeping the query', () => {

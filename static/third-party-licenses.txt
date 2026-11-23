@@ -1,6 +1,6 @@
 Third-party code in the stylesheets
 
-styles/base/_reset.scss and styles/base/_grid.scss are ported from the compiled
+src/styles/base/_reset.scss and src/styles/base/_grid.scss are ported from the compiled
 output of Foundation for Sites 6.9.0, which includes normalize.css 8.0.0.
 Both are used under the MIT License. The notices below apply to that code.
 

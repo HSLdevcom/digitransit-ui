@@ -6,12 +6,12 @@
 //
 // - Every config's folder is copied whatever $CONFIG is. A deployment with no
 //   $CONFIG set resolves its config per request from the Host header
-//   (getConfiguration in server/configs/config.js), so one server can serve
-//   any region; and with ASSEMBLE_GEOJSON, server/services/geoJsonZones.js
+//   (getConfiguration in src/server/configs/config.js), so one server can serve
+//   any region; and with ASSEMBLE_GEOJSON, src/server/services/geoJsonZones.js
 //   makes a config load every config's zone GeoJSON.
 // - GeoJSON files are minified.
 // - GeoJSON files also get `.gz`/`.br` siblings, which express-static-gzip in
-//   server/app.js serves when the browser accepts them.
+//   src/server/app.js serves when the browser accepts them.
 
 import fs from 'fs';
 import path from 'path';

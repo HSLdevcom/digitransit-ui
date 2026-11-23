@@ -9,18 +9,19 @@ import {
   matchShape,
   configShape,
   vehicleShape,
-} from '../../../utils/client/shapes';
-import { ConfigProvider } from '../../../app/hooks/ConfigContext';
-import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
-import { PositionProvider } from '../../../app/hooks/PositionContext';
-import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
+} from '../../../src/client/utils/shapes';
+import { ConfigProvider } from '../../../src/client/hooks/ConfigContext';
+import { MapLayerProvider } from '../../../src/client/hooks/MapLayerContext';
+import { PositionProvider } from '../../../src/client/hooks/PositionContext';
+import { TimeProvider, TimeContext } from '../../../src/client/hooks/TimeContext';
 import {
   RealTimeInformationProvider,
   useRealTimeActions,
-} from '../../../app/hooks/RealTimeInformationContext';
-import translations from '../../../app/translations/en';
+} from '../../../src/client/hooks/RealTimeInformationContext';
+import translations from '../../../src/client/translations/en';
 import { mockContext } from './mock-context';
-import { BreakpointContext } from '../../../app/hooks/BreakpointContext';
+import { mockRelayEnvironment } from './mock-relay';
+import { BreakpointContext } from '../../../src/client/hooks/BreakpointContext';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();
@@ -29,20 +30,9 @@ const intlCache = createIntlCache();
  * A real react-intl object for testing code that takes intl as a parameter.
  * Uses the same default en messages as renderWithProviders.
  */
-export function createTestIntl({
-  locale = 'en',
-  messages = defaultMessages,
-} = {}) {
+export function createTestIntl({ locale = 'en', messages = defaultMessages } = {}) {
   return createIntl({ locale, messages }, intlCache);
 }
-const noop = () => {};
-const mockRelayEnvironment = {
-  check: noop,
-  lookup: noop,
-  retain: noop,
-  execute: noop,
-  subscribe: noop,
-};
 const mockRelayContext = { environment: mockRelayEnvironment, variables: {} };
 
 function TestRealTimeVehicles({ vehicles }) {
@@ -54,9 +44,7 @@ function TestRealTimeVehicles({ vehicles }) {
   return null;
 }
 
-TestRealTimeVehicles.propTypes = {
-  vehicles: PropTypes.objectOf(vehicleShape).isRequired,
-};
+TestRealTimeVehicles.propTypes = { vehicles: PropTypes.objectOf(vehicleShape).isRequired };
 
 // Wraps the component under test with the intl, config, relay and router
 // context providers used by renderWithProviders below.
@@ -72,10 +60,7 @@ export default function TestProviders({
   vehicles,
 }) {
   const routerCtx = useMemo(
-    () => ({
-      match: match || mockContext.match,
-      router: router || mockContext.router,
-    }),
+    () => ({ match: match || mockContext.match, router: router || mockContext.router }),
     [match, router],
   );
   const inner = (
@@ -84,9 +69,7 @@ export default function TestProviders({
         <BreakpointContext.Provider value={breakpoint}>
           <PositionProvider>
             <RealTimeInformationProvider>
-              {vehicles !== undefined && (
-                <TestRealTimeVehicles vehicles={vehicles} />
-              )}
+              {vehicles !== undefined && <TestRealTimeVehicles vehicles={vehicles} />}
               {children}
             </RealTimeInformationProvider>
           </PositionProvider>
@@ -99,9 +82,7 @@ export default function TestProviders({
       <ConfigProvider value={config || mockContext.config}>
         <MapLayerProvider>
           {currentTime !== undefined ? (
-            <TimeContext.Provider value={currentTime}>
-              {inner}
-            </TimeContext.Provider>
+            <TimeContext.Provider value={currentTime}>{inner}</TimeContext.Provider>
           ) : (
             <TimeProvider>{inner}</TimeProvider>
           )}

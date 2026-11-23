@@ -1,0 +1,393 @@
+// ============================================================================
+// TrafficNow Layout Styles
+// ============================================================================
+// Root container and flex structure, header, body layout, separators, and filters
+
+@use '../../../../styles/abstracts' as *;
+@use 'tokens';
+
+.traffic-now {
+  display: flex;
+  flex-direction: column;
+  min-height: 100%;
+  width: 100%;
+  font-family: $font-family;
+
+  * {
+    // Ensure font-family consistency within the component tree
+    font-family: inherit;
+  }
+
+  h2,
+  h3,
+  p {
+    margin: unset;
+  }
+
+  .icon-container {
+    display: flex;
+  }
+
+  .separator {
+    &.vertical {
+      width: auto;
+      border-right: 1px solid $light-gray;
+    }
+  }
+
+  .gutterer-content {
+    position: relative;
+  }
+
+  &__content--mobile {
+    flex: 1;
+  }
+
+  &__header {
+    display: flex;
+    flex-direction: column;
+    padding: 30px var(--padding-horizontal-gutter) var(--space-xl) var(--padding-horizontal-gutter);
+    flex: 0 0 50%;
+
+    &-image {
+      position: absolute;
+      right: 0;
+      bottom: 0;
+    }
+
+    &-text-area {
+      padding-top: 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    &-breadcrumb {
+      display: flex;
+      align-items: center;
+      align-content: center;
+      gap: 10px;
+      flex-wrap: wrap;
+
+      a {
+        color: var(--color-text-link);
+      }
+    }
+
+    &--mobile {
+      padding: tokens.$padding-mobile-small-y tokens.$padding-mobile-small-x
+        tokens.$padding-mobile-small-y tokens.$padding-mobile-small-x;
+      flex: 0 0 100%;
+    }
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    min-height: 0;
+    justify-content: flex-start;
+    background-color: $background-color-lighter;
+
+    &--mobile {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .disruptions {
+      position: relative;
+      display: flex;
+      width: 100%;
+      height: 100%;
+      flex-direction: column;
+      min-width: 0;
+      min-height: 0;
+      overflow: auto;
+      gap: var(--space-s);
+
+      &__scroll {
+        overflow: auto;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        padding: var(--space-xl) tokens.$padding-horizontal-gutter var(--space-xl) var(--space-xl);
+        gap: var(--space-s);
+      }
+
+      &--mobile {
+        min-height: calc(100vh - 320px);
+
+        .disruptions__scroll {
+          margin-top: var(--space-l);
+          padding: 0 var(--space-m);
+          gap: var(--space-l);
+        }
+      }
+
+      &-list {
+        display: flex;
+        flex-direction: column;
+        gap: tokens.$gap-validity-icon;
+      }
+
+      &-empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        background-color: $white;
+        border: 1px solid $light-gray;
+        border-radius: var(--radius-l);
+        gap: var(--space-s);
+      }
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    padding-top: var(--space-xl);
+    padding-right: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    position: sticky;
+    top: 0;
+
+    &-operator-select-container {
+      position: relative;
+    }
+
+    &-operator-select-buttons {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+      align-items: center;
+      align-self: flex-start;
+      min-height: 32px;
+    }
+
+    &-operator-select-list {
+      z-index: 10;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      position: absolute;
+      top: calc(100% + 8px);
+      left: 0;
+      right: 0;
+      align-self: stretch;
+      border: 1px solid var(--color-border-weak);
+      border-radius: 8px;
+      background: var(--color-surface-default);
+      box-shadow: 0 4px 4px 0 var(--color-shadow-weak);
+      max-height: 400px;
+      overflow: scroll;
+
+      &-item.highlighted {
+        background-color: $suggestion-highlight-color;
+      }
+
+      ul {
+        list-style-type: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+
+        li {
+          display: flex;
+          padding: var(--space-xs);
+          align-items: center;
+          gap: var(--space-xxs);
+          align-self: stretch;
+          border-bottom: 1px solid var(--color-border-weak);
+        }
+
+        li:hover {
+          background-color: $suggestion-highlight-color;
+        }
+
+        li:last-child {
+          border-bottom: none;
+        }
+      }
+    }
+
+    &-operator-select {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      border: solid 1px $muted-gray;
+      border-radius: 5px;
+      padding: 8px;
+      gap: 8px;
+      min-height: 48px;
+      align-items: center;
+    }
+
+    &-selected-feeds {
+      gap: 4px;
+      display: flex;
+      flex: 1;
+      align-items: center;
+      align-content: center;
+      flex-wrap: wrap;
+      min-width: 0;
+    }
+
+    &-selected-feed-placeholder {
+      color: tokens.$placeholder-color;
+    }
+
+    &-selected-feed {
+      display: flex;
+      padding: var(--space-xxs) var(--space-xs);
+      justify-content: center;
+      align-items: center;
+      gap: var(--space-xs);
+      border-radius: var(--radius-m);
+      background: $theme-primary-color;
+      color: $white;
+    }
+
+    &-operator-select:focus {
+      box-shadow: 0 0 3px 0 #000;
+    }
+
+    &-mode-option {
+      border: solid $light-gray 0.5px;
+      border-radius: var(--radius-s);
+      padding: var(--space-xxs) var(--space-xs);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-direction: row;
+      cursor: pointer;
+
+      &.mobile {
+        padding: var(--space-s);
+      }
+
+      &-checkbox {
+        color: $theme-primary-color;
+
+        input[type='checkbox'] {
+          display: none;
+        }
+
+        .icon-container {
+          border: 1px solid $control-border-color;
+          border-radius: var(--radius-s);
+          height: 24px;
+          width: 24px;
+        }
+
+        .icon {
+          display: none;
+        }
+      }
+
+      &-checkbox.checked {
+        .icon-container {
+          border: none;
+        }
+
+        .icon {
+          display: inline;
+        }
+      }
+    }
+
+    &-mobile {
+      padding: var(--space-xl) var(--space-l);
+      position: relative;
+    }
+
+    &-button-container {
+      background-color: $white;
+      padding: var(--space-m);
+      position: sticky;
+      top: 0;
+      z-index: tokens.$z-index-sticky-button;
+      border-bottom: 1px solid $light-gray;
+
+      &.scrolled {
+        box-shadow: 0 10px 10px 0 var(--color-shadow-weaker);
+      }
+
+      button {
+        border-radius: var(--radius-pill);
+      }
+    }
+
+    &-container {
+      display: flex;
+      flex-direction: column;
+      min-width: 320px;
+      max-width: 480px;
+      background-color: $white;
+      flex-shrink: 0;
+      padding-left: var(--padding-horizontal-gutter);
+      border-right: 1px solid $light-gray;
+    }
+
+    input#{&}-entity-search--input {
+      &::placeholder {
+        color: tokens.$placeholder-color;
+      }
+    }
+
+    &-toggle {
+      &--container {
+        gap: var(--space-s);
+      }
+    }
+
+    fieldset {
+      display: flex;
+      gap: var(--space-xxs);
+      flex-direction: column;
+      padding-inline: 0;
+      border: 0;
+      margin: 0;
+      padding-block: 0;
+
+      &.mobile {
+        gap: var(--space-s);
+      }
+
+      label {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: var(--space-xs);
+        cursor: pointer;
+      }
+
+      input[type='radio'],
+      input[type='checkbox'] {
+        accent-color: $theme-primary-color;
+        width: tokens.$form-input-size;
+        height: tokens.$form-input-size;
+        margin: 0;
+      }
+    }
+
+    button {
+      border-radius: var(--radius-pill);
+    }
+
+    &-form-buttons {
+      padding: var(--space-m) var(--space-l);
+      z-index: 100;
+      background-color: white;
+      width: 100%;
+      position: sticky;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-s);
+      box-shadow: 0 -10px 10px 0 var(--color-shadow-weaker);
+    }
+  }
+}

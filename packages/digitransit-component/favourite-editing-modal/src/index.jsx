@@ -10,6 +10,7 @@ import { Modal, ModalContent } from '@hsl-fi/dialog';
 import DialogModal from '@digitransit-component/digitransit-component-dialog-modal';
 import FavouriteListItem from './helpers/FavouriteListItem';
 import i18n from './helpers/i18n';
+import { hslfiLocales } from './helpers/translations';
 import styles from './helpers/styles.scss';
 
 /**
@@ -39,6 +40,7 @@ export default function FavouriteEditingModal({
   favourites,
   isLoading,
   lang = 'fi',
+  onCloseAutoFocus,
 }) {
   const { t } = useTranslation('translation', { i18n });
   const [source, setSource] = useState(favourites);
@@ -66,10 +68,7 @@ export default function FavouriteEditingModal({
 
   const move = (index, direction) => {
     const copy = [...items];
-    [copy[index], copy[index + direction]] = [
-      copy[index + direction],
-      copy[index],
-    ];
+    [copy[index], copy[index + direction]] = [copy[index + direction], copy[index]];
     setReordered(copy);
   };
 
@@ -101,15 +100,10 @@ export default function FavouriteEditingModal({
     <>
       <DialogModal
         headerText={t('delete-place-header', { lng: lang })}
-        handleClose={() => {
-          closeDeleteDialog();
-          handleClose();
-        }}
+        handleClose={closeDeleteDialog}
         isModalOpen={selectedFavourite !== null}
         dialogContent={
-          selectedFavourite
-            ? `${selectedFavourite.name}: ${selectedFavourite.address}`
-            : ''
+          selectedFavourite ? `${selectedFavourite.name}: ${selectedFavourite.address}` : ''
         }
         primaryButtonText={t('delete', { lng: lang })}
         primaryButtonOnClick={() => {
@@ -129,10 +123,11 @@ export default function FavouriteEditingModal({
         }}
       >
         <ModalContent
-          lang={lang}
+          lang={hslfiLocales[lang] ?? lang}
           title={t('edit-places', { lng: lang })}
           className={styles.modalContent}
           aria-describedby={undefined}
+          onCloseAutoFocus={onCloseAutoFocus}
         >
           <div className={styles.listContainer}>
             <DragDropProvider onDragEnd={onDragEnd}>
@@ -144,9 +139,7 @@ export default function FavouriteEditingModal({
                     favourite={favourite}
                     lang={lang}
                     onMoveUp={index > 0 ? () => move(index, -1) : null}
-                    onMoveDown={
-                      index < items.length - 1 ? () => move(index, 1) : null
-                    }
+                    onMoveDown={index < items.length - 1 ? () => move(index, 1) : null}
                     onEdit={() => onEditSelected(favourite)}
                     onDelete={() => setSelectedFavourite(favourite)}
                   />
@@ -214,4 +207,9 @@ FavouriteEditingModal.propTypes = {
   /** Optional. Language, fi, en or sv. Defaults to fi.
    * @type {string} */
   lang: PropTypes.string,
+  /** Optional. Called when the dialog has closed and focus is about to move.
+   * The dialog has no trigger element, so use this to return focus to the
+   * element that opened it.
+   * @type {function} */
+  onCloseAutoFocus: PropTypes.func,
 };

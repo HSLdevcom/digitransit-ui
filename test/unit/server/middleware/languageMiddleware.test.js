@@ -1,22 +1,17 @@
 import express from 'express';
 import request from 'supertest';
-import languageMiddleware from '../../../../server/middleware/languageMiddleware';
+import languageMiddleware from '../../../../src/server/middleware/languageMiddleware';
 
-const DEFAULT_TEST_CONFIG = {
-  defaultLanguage: 'fi',
-  availableLanguages: ['fi', 'sv', 'en'],
-};
+const DEFAULT_TEST_CONFIG = { defaultLanguage: 'fi', availableLanguages: ['fi', 'sv', 'en'] };
 const { testConfig } = vi.hoisted(() => ({ testConfig: { current: null } }));
-vi.mock('../../../../server/configs/config', () => ({
+vi.mock('../../../../src/server/configs/config', () => ({
   getConfiguration: () => testConfig.current,
 }));
 
 function createApp() {
   const app = express();
   app.use(languageMiddleware);
-  app.use((req, res) =>
-    res.json({ language: res.locals.language, url: req.url }),
-  );
+  app.use((req, res) => res.json({ language: res.locals.language, url: req.url }));
   return app;
 }
 
@@ -38,10 +33,7 @@ describe('languageMiddleware', () => {
     const response = await request(app).get('/sv/route/x?a=%26b');
 
     expect(response.status).toBe(200);
-    expect(response.body).toEqual({
-      language: 'sv',
-      url: '/sv/route/x?a=%26b',
-    });
+    expect(response.body).toEqual({ language: 'sv', url: '/sv/route/x?a=%26b' });
   });
 
   it('ignores Accept-Language and cookies', async () => {
@@ -61,20 +53,14 @@ describe('languageMiddleware', () => {
   });
 
   it("supports a deployment's own languages", async () => {
-    testConfig.current = {
-      defaultLanguage: 'en',
-      availableLanguages: ['en', 'de'],
-    };
+    testConfig.current = { defaultLanguage: 'en', availableLanguages: ['en', 'de'] };
 
     expect((await request(app).get('/de/x')).body.language).toBe('de');
     expect((await request(app).get('/en/x')).headers.location).toBe('/x');
   });
 
   it('strips an unavailable legacy prefix when redirectReittiopasParams is set', async () => {
-    testConfig.current = {
-      ...DEFAULT_TEST_CONFIG,
-      redirectReittiopasParams: true,
-    };
+    testConfig.current = { ...DEFAULT_TEST_CONFIG, redirectReittiopasParams: true };
     const response = await request(app).get('/slangi/x?a=b');
 
     expect(response.status).toBe(302);

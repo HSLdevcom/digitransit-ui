@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { getNamedConfiguration } from '../../../../server/configs/config';
+import { getNamedConfiguration } from '../../../../src/server/configs/config';
 
-const configsDir = path.join(process.cwd(), 'server', 'configs');
+const configsDir = path.join(process.cwd(), 'src', 'server', 'configs');
 const staticDir = path.join(process.cwd(), 'static');
 const assetsDir = path.join(staticDir, 'assets');
 
@@ -23,7 +23,7 @@ function localAssetPaths(config) {
     }
   });
   // socialMedia.image.url is relative (joined with a host in
-  // utils/shared/metaUtils.js), geoJson layer urls are absolute.
+  // src/shared/utils/metaUtils.js), geoJson layer urls are absolute.
   return urls.map(url => url.replace(/^\//, ''));
 }
 
@@ -43,17 +43,12 @@ describe('static asset references', () => {
   });
 
   it('has no unreferenced files under static/assets', () => {
-    const referenced = new Set(
-      assetsByConfig.flatMap(([, assetPaths]) => assetPaths),
-    );
+    const referenced = new Set(assetsByConfig.flatMap(([, assetPaths]) => assetPaths));
     const files = fs
       .readdirSync(assetsDir, { recursive: true, withFileTypes: true })
       .filter(entry => entry.isFile())
       .map(entry =>
-        path
-          .relative(staticDir, path.join(entry.parentPath, entry.name))
-          .split(path.sep)
-          .join('/'),
+        path.relative(staticDir, path.join(entry.parentPath, entry.name)).split(path.sep).join('/'),
       )
       .filter(file => !IGNORED_FILES.test(path.basename(file)));
 

@@ -12,11 +12,7 @@ import CompressionPlugin from 'compression-webpack-plugin';
 // eslint-plugin-import's resolver.
 // eslint-disable-next-line import/no-unresolved
 import { WebpackAssetsManifest } from 'webpack-assets-manifest';
-import {
-  themeEntries,
-  themePath,
-  faviconPlugins,
-} from './scripts/build/contextHelper.js';
+import { themeEntries, themePath, faviconPlugins } from './scripts/build/contextHelper.js';
 import sassConfigFunctions from './scripts/build/sassConfigFunctions.js';
 
 const require = createRequire(import.meta.url);
@@ -75,16 +71,12 @@ export default {
   mode,
   entry: {
     main: [
-      './app/client/publicPath',
+      './src/client/publicPath',
       // Dev-only: first so that it declares the cascade layer order.
       ...(isDevelopment
-        ? [
-            themePath(
-              process.env.CONFIG || process.env.BASE_CONFIG || 'default',
-            ),
-          ]
+        ? [themePath(process.env.CONFIG || process.env.BASE_CONFIG || 'default')]
         : []),
-      './app/client/client',
+      './src/client/client',
     ],
     ...(isProduction ? themeEntries : {}),
   },
@@ -100,13 +92,9 @@ export default {
     rules: [
       {
         test: /\.jsx?$/,
-        include: [
-          path.resolve(rootDir, 'app'),
-          path.resolve(rootDir, 'utils/client'),
-          path.resolve(rootDir, 'utils/shared'),
-        ],
+        include: [path.resolve(rootDir, 'src/client'), path.resolve(rootDir, 'src/shared')],
         // The repo is `"type": "module"`, so webpack5 would otherwise treat
-        // every `app/`/`utils/client/`/`utils/shared/` file as strict ESM:
+        // every `src/client/`/`src/shared/` file as strict ESM:
         // (1) it'd demand an explicit extension on every relative import
         // (the client bundle keeps its long-standing extensionless style
         // instead), and (2) several files default-import third-party UMD
@@ -135,28 +123,20 @@ export default {
                 // both this config and the Lightning CSS minimizer below.
                 modules: false,
                 bugfixes: true,
-                // Expands `import 'core-js/stable'` in app/client/client.jsx
+                // Expands `import 'core-js/stable'` in src/client/client.jsx
                 // to the modules the targets lack. Keep the corejs version
                 // in sync with the installed core-js minor.
                 useBuiltIns: 'entry',
                 corejs: { version: '3.51' },
               },
             ],
-            [
-              '@babel/preset-react',
-              { development: isDevelopment, runtime: 'automatic' },
-            ],
+            ['@babel/preset-react', { development: isDevelopment, runtime: 'automatic' }],
           ],
           plugins: [
             'relay',
             ['@babel/plugin-transform-runtime', { helpers: true }],
             ...(isProduction
-              ? [
-                  [
-                    'transform-react-remove-prop-types',
-                    { mode: 'remove', removeImport: true },
-                  ],
-                ]
+              ? [['transform-react-remove-prop-types', { mode: 'remove', removeImport: true }]]
               : []),
           ],
         },
@@ -173,15 +153,7 @@ export default {
         loader: 'babel-loader',
         options: {
           configFile: false,
-          presets: [
-            [
-              '@babel/preset-env',
-              {
-                modules: false,
-                bugfixes: true,
-              },
-            ],
-          ],
+          presets: [['@babel/preset-env', { modules: false, bugfixes: true }]],
         },
       },
       {
@@ -197,15 +169,7 @@ export default {
           loader: 'babel-loader',
           options: {
             configFile: false,
-            presets: [
-              [
-                '@babel/preset-env',
-                {
-                  modules: false,
-                  bugfixes: true,
-                },
-              ],
-            ],
+            presets: [['@babel/preset-env', { modules: false, bugfixes: true }]],
           },
         },
       },
@@ -214,13 +178,13 @@ export default {
         // their raw source/tests run as native ESM) - which webpack, following
         // that package.json field, parses as strict `javascript/esm` rather
         // than `auto`. This causes two distinct problems when bundled directly
-        // into the app (not through app/**'s lenient babel-loader rule):
+        // into the client (not through src/client/**'s lenient babel-loader rule):
         //   1. Several packages default-import third-party CJS dependencies
         //      (e.g. `@hsl-fi/modal`) that use Babel's userland `__esModule`-
         //      marker convention instead of a real "exports"/"module" field.
         //      Webpack's *lenient* `javascript/auto` interop recognizes that
         //      marker and unwraps `.default` (matching what Babel itself
-        //      does, and what every `app/` file gets); its *strict* ESM
+        //      does, and what every `src/client/` file gets); its *strict* ESM
         //      interop follows real Node semantics instead, where a CJS
         //      default import is simply the whole `module.exports` - silently
         //      handing components like `Modal` the entire exports object
@@ -228,11 +192,11 @@ export default {
         //      time with "Element type is invalid".
         //   2. Strict ESM also requires relative imports to be "fully
         //      specified" (explicit file extension) - but these packages'
-        //      own `import/extensions` policy is "never" (matching app/**),
+        //      own `import/extensions` policy is "never" (matching src/client/**),
         //      so an extensionless relative import (valid and required by
         //      lint) would otherwise fail to resolve here.
         // Force `javascript/auto` here so these packages get the same
-        // lenient interop as the rest of the app. `type: 'javascript/auto'`
+        // lenient interop as the rest of the client. `type: 'javascript/auto'`
         // alone only changes CJS/ESM interop, not extension-resolution
         // strictness, so `resolve.fullySpecified: false` is needed too
         // (matching the `.mjs`/node_modules rule above) to fix problem 2.
@@ -246,19 +210,12 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           {
             loader: 'css-loader',
             // `import styles from './x.module.scss'`, as in the packages.
             options: {
-              modules: {
-                auto: true,
-                namedExport: false,
-                exportLocalsConvention: 'as-is',
-              },
+              modules: { auto: true, namedExport: false, exportLocalsConvention: 'as-is' },
             },
           },
           {
@@ -285,10 +242,7 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           'css-loader',
         ],
       },
@@ -298,18 +252,15 @@ export default {
         use: [
           isDevelopment
             ? 'style-loader'
-            : {
-                loader: MiniCssExtractPlugin.loader,
-                options: { publicPath: 'auto' },
-              },
+            : { loader: MiniCssExtractPlugin.loader, options: { publicPath: 'auto' } },
           'css-loader',
         ],
       },
       {
         test: /\.(eot|gif|png|ttf|woff|svg|jpeg|jpg)$/,
         // webpack5 built-in asset modules, replacing file-loader/url-loader.
-        // Never inlines as a data URL: app/client/assetUrl.js makes every
-        // image under app/assets/images/ reachable from the main chunk, and
+        // Never inlines as a data URL: src/client/assets/assetUrl.js makes every
+        // image under src/client/assets/images/ reachable from the main chunk, and
         // inlining the small ones would add ~130 kB of base64 to it.
         type: 'asset/resource',
         generator: { filename: 'assets/[contenthash][ext]' },
@@ -326,7 +277,7 @@ export default {
     // behavior, so any bundled code (ours or a dependency's) that
     // references one of these bare globals now throws "X is not defined"
     // at runtime unless we provide it ourselves. Needed in both dev and
-    // prod. Our own app code doesn't need either of these (it reads
+    // prod. Our own client code doesn't need either of these (it reads
     // window.config instead of process.env client-side, and doesn't use
     // Buffer at all), but:
     // - @hsl-fi/hsl-link (a transitive dependency of @hsl-fi/button, used
@@ -336,7 +287,7 @@ export default {
     //   process/browser's process.env is always {} (no real env values),
     //   so this only prevents crashes; it doesn't expose actual
     //   build-time environment variables to the browser.
-    // - mqtt-packet (a dependency of mqtt, used by utils/client/mqttClient.js
+    // - mqtt-packet (a dependency of mqtt, used by src/client/utils/mqttClient.js
     //   for real-time vehicle-position streaming) calls Buffer.from/
     //   Buffer.alloc etc. as bare, unguarded module-top-level globals -
     //   this crashes without the "Buffer" shim.
@@ -348,19 +299,15 @@ export default {
   ],
   optimization: {
     minimizer: [
-      new TerserJsPlugin({
-        parallel: true,
-      }),
+      new TerserJsPlugin({ parallel: true }),
       new CssMinimizerPlugin({
         minify: CssMinimizerPlugin.lightningCssMinify,
         minimizerOptions: {
           // Keep `min-width`/`max-width` media queries instead of range
-          // syntax (`width>=…`): browsers older than the targets (and the
-          // e2e suite's Chromium) would otherwise get the mobile layout.
+          // syntax (`width>=…`): browsers older than the targets would
+          // otherwise get the mobile layout.
           include: Features.MediaRangeSyntax,
-          targets: browserslistToTargets(
-            browserslist(undefined, { path: rootDir }),
-          ),
+          targets: browserslistToTargets(browserslist(undefined, { path: rootDir })),
         },
       }),
     ],
@@ -393,50 +340,46 @@ export default {
     runtimeChunk: isProduction ? 'single' : false,
   },
   performance: { hints: false },
-  cache: {
-    type: 'filesystem',
-    // `CONFIG` decides which theme entries and favicons get built.
-    version: process.env.CONFIG || 'all',
-    // Invalidate the cache when the build config itself changes, including
-    // package.json's `browserslist` (Babel and Lightning CSS targets).
-    buildDependencies: {
-      config: [
-        import.meta.filename,
-        path.join(rootDir, 'scripts/build/contextHelper.js'),
-        path.join(rootDir, 'package.json'),
-      ],
-    },
-  },
+  // The dev server uses the in-memory cache: the shared disk cache went stale
+  // after branch switches and package rebuilds (e.g. modules cached with an
+  // undefined source) and had to be deleted by hand, while saving only a few
+  // seconds per start. Watch-mode rebuilds are equally fast either way.
+  cache: isProduction
+    ? {
+        type: 'filesystem',
+        // `CONFIG` decides which theme entries and favicons get built.
+        version: process.env.CONFIG || 'all',
+        // Invalidate the cache when the build config itself changes,
+        // including package.json's `browserslist` (Babel and Lightning CSS
+        // targets).
+        buildDependencies: {
+          config: [
+            import.meta.filename,
+            path.join(rootDir, 'scripts/build/contextHelper.js'),
+            path.join(rootDir, 'package.json'),
+          ],
+        },
+      }
+    : { type: 'memory' },
   resolve: {
     extensions: ['.mjs', '.js', '.jsx', '.json'],
     mainFields: ['browser', 'module', 'main'],
-    alias: {
-      lodash: 'lodash-es',
-      'lodash.merge': 'lodash-es/merge',
-    },
+    alias: { lodash: 'lodash-es', 'lodash.merge': 'lodash-es/merge' },
     // webpack5 no longer auto-polyfills Node core modules. `net`/`tls`
     // are already stubbed to `false` by mqtt's own package.json `browser`
     // field remapping, but its `url.parse()` call for parsing broker URLs
     // is real (reachable) code in the browser bundle, so it needs an
     // actual browser-compatible implementation, not an empty stub.
-    fallback: {
-      url: require.resolve('url/'),
-    },
+    fallback: { url: require.resolve('url/') },
   },
   devServer: {
     compress: true,
     host: '::1',
     hot: false,
     port: process.env.HOT_LOAD_PORT || 9000,
-    devMiddleware: {
-      publicPath: '/',
-    },
+    devMiddleware: { publicPath: '/' },
     static: false,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-    },
-    client: {
-      overlay: true,
-    },
+    headers: { 'Access-Control-Allow-Origin': '*' },
+    client: { overlay: true },
   },
 };

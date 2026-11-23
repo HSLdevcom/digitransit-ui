@@ -23,25 +23,25 @@ The URL path is the only source of the page language; there is no language cooki
 - `/{defaultLanguage}/…` gets a 301 to the same path without the prefix (`/fi/x` → `/x`). With
   `redirectReittiopasParams`, old reittiopas prefixes that aren't available (e.g. `/ru/`) get a 302.
 - Paths with repeated slashes or backslashes get a 301 to single slashes (`//sv/x` → `/sv/x`,
-  `server/middleware/slashMiddleware.js`) before anything else runs.
+  `src/server/middleware/slashMiddleware.js`) before anything else runs.
 
 ### Server
 
-`server/middleware/languageMiddleware.js` reads the prefix with `getLanguageFromPath`
-(`utils/shared/languageUtils.js`) and sets `res.locals.language`, which `shell.js` renders as
+`src/server/middleware/languageMiddleware.js` reads the prefix with `getLanguageFromPath`
+(`src/shared/utils/languageUtils.js`) and sets `res.locals.language`, which `shell.js` renders as
 `<html lang>`. The shell also adds `hreflang` links for every available language, an `x-default`
 link (the default language) and a self-referencing `canonical` link. These have no query: our
 parameters only change the time, view or tracking of a page, not which page it is.
 
 Automatic SSO login starts on the same pages in every language (`isSsoLoginPage` in
-`server/passport-openid-connect/openidConnect.js`). The page a user logs in or out from decides
+`src/server/passport-openid-connect/openidConnect.js`). The page a user logs in or out from decides
 the language of the identity provider and of the page shown after logout.
 
 ### Client
 
-`app/client/client.jsx` reads the language from `document.documentElement.lang` and gives the
+`src/client/client.jsx` reads the language from `document.documentElement.lang` and gives the
 router a basename of `getLanguagePrefix(config, language)` (farce's basename middleware, see
-`createHistoryMiddlewares` in `app/routes/routes.jsx`). So routes, links and `router.push()` use
+`createHistoryMiddlewares` in `src/client/routes/routes.jsx`). So routes, links and `router.push()` use
 paths without the prefix, and the router adds it to the browser URL.
 
 Which location to use:

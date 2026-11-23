@@ -1,0 +1,223 @@
+import 'core-js/stable';
+import { Fragment } from 'react';
+import { createRoot } from 'react-dom/client';
+import BrowserProtocol from 'farce/BrowserProtocol';
+import createFarceRouter from 'found/createFarceRouter';
+import makeRouteConfig from 'found/makeRouteConfig';
+import { Resolver } from 'found-relay';
+import debug from 'debug';
+import {
+  RelayNetworkLayer,
+  urlMiddleware,
+  retryMiddleware,
+  errorMiddleware,
+  cacheMiddleware,
+} from 'react-relay-network-modern';
+import { Helmet } from 'react-helmet';
+import { Environment, RecordSource, Store } from 'relay-runtime';
+import { RelayEnvironmentProvider } from 'react-relay';
+import { setRelayEnvironment } from '@digitransit-search-util/digitransit-search-util-query-utils';
+import { Settings } from 'luxon';
+import { IntlProvider } from 'react-intl';
+import i18n from './i18n';
+import routes, { createHistoryMiddlewares, render } from './routes/routes';
+import ErrorBoundary from './component/ErrorBoundary';
+import { BreakpointProvider } from './hooks/BreakpointContext';
+import getMetadata from '../shared/utils/metaUtils';
+import { getLanguagePrefix } from '../shared/utils/languageUtils';
+import {
+  initAnalyticsClientSide,
+  addAnalyticsEvent,
+  handleUserAnalytics,
+} from '../shared/utils/analyticsUtils';
+import { getCountries } from './utils/localStorage';
+import { configureCountry } from './utils/configureCountry';
+import { getUser } from './utils/apiUtils';
+import favouriteStore from './data/FavouriteData';
+import searchServices from './data/SearchServices';
+import { initHslfiLocale } from './utils/hslfiLocale';
+import { ConfigProvider } from './hooks/ConfigContext';
+import { FavouriteProvider } from './hooks/FavouriteContext';
+import { MapLayerProvider } from './hooks/MapLayerContext';
+import { PositionProvider } from './hooks/PositionContext';
+import { MessageProvider } from './hooks/MessageContext';
+import { TimeProvider } from './hooks/TimeContext';
+import { RealTimeInformationProvider } from './hooks/RealTimeInformationContext';
+import { ItineraryLocationProvider } from './hooks/ItineraryLocationContext';
+import { isPersonalizationEnabled } from './utils/modeUtils';
+import { getSettings } from './utils/planParamUtil';
+// Last import: the app's styles override those of the components above.
+import '../styles/main.scss';
+
+window.debug = debug; // Allow _debug.enable('*') in browser console
+
+const { config } = window;
+
+const AppProviders = props => {
+  const providers = [
+    [ConfigProvider, { value: props.config }],
+    [BreakpointProvider],
+    [IntlProvider, { locale: props.language, messages: props.messages, textComponent: 'span' }],
+    [RelayEnvironmentProvider, { environment: props.environment }],
+    [MessageProvider],
+    [FavouriteProvider],
+    [MapLayerProvider],
+    [PositionProvider],
+    [TimeProvider],
+    [RealTimeInformationProvider],
+    [ItineraryLocationProvider],
+  ];
+  return providers.reduceRight(
+    (children, [Provider, value]) => <Provider {...value}>{children}</Provider>,
+    props.children,
+  );
+};
+
+async function init() {
+  // Get additional feedIds and searchParams from localstorage
+  if (config.mainMenu.countrySelection) {
+    configureCountry(config, getCountries());
+  }
+
+  // For Google Tag Manager
+  initAnalyticsClientSide(config);
+
+  // Query parameter is used instead of header because browsers send
+  // OPTIONS queries where you can't define headers
+  const queryParameters = config.hasAPISubscriptionQueryParameter
+    ? `?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+    : '';
+
+  // Rendered by the server from the request's resolved language; checked in
+  // case something (e.g. browser translation) has rewritten it.
+  const htmlLang = document.documentElement.lang;
+  const language = config.availableLanguages.includes(htmlLang) ? htmlLang : config.defaultLanguage;
+  const basename = getLanguagePrefix(config, language);
+  const translations = await import(`./translations/${language}`);
+  i18n.changeLanguage(language);
+  initHslfiLocale(language, translations.default[language]);
+
+  const network = new RelayNetworkLayer([
+    cacheMiddleware({ size: 200, ttl: 60 * 60 * 1000 }),
+    urlMiddleware({ url: () => Promise.resolve(`${config.URL.OTP}gtfs/v1${queryParameters}`) }),
+    errorMiddleware(),
+    retryMiddleware({ fetchTimeout: config.OTPTimeout + 1000 }),
+    next => async req => {
+      req.fetchOpts.headers.OTPTimeout = config.OTPTimeout;
+      req.fetchOpts.headers['Accept-Language'] = language;
+      return next(req);
+    },
+  ]);
+
+  const environment = new Environment({
+    network,
+    // Default buffer of 10 evicts stop page data during normal browsing
+    store: new Store(new RecordSource(), { gcReleaseBufferSize: 100 }),
+  });
+
+  setRelayEnvironment(environment);
+
+  const resolver = new Resolver(environment);
+
+  const routeConfig = makeRouteConfig(routes(config));
+
+  const historyProtocol = new BrowserProtocol();
+
+  const Router = await createFarceRouter({
+    historyProtocol,
+    historyMiddlewares: createHistoryMiddlewares(basename),
+    routeConfig,
+    resolver,
+    render,
+  });
+
+  // configure luxon timezone and locale
+  Settings.defaultLocale = language;
+  if (config.timeZone) {
+    Settings.defaultZone = config.timeZone;
+  }
+
+  // send tracking call for initial page load.
+  // tracking page changes is done in TopLevel component
+  addAnalyticsEvent({
+    event: 'Pageview',
+    // The router isn't running yet, so the browser is the only source.
+    // eslint-disable-next-line no-restricted-syntax
+    url: window.location.pathname,
+  });
+
+  // fetch Userdata and favourites
+  favouriteStore.init(config);
+  searchServices.init(config, language);
+  if (config.allowLogin) {
+    getUser()
+      .then(user => {
+        config.user = user || {};
+        handleUserAnalytics(config);
+        favouriteStore.fetchFavourites();
+      })
+      .catch(() => {
+        config.user = { notLogged: true };
+        favouriteStore.fetchComplete();
+      })
+      .finally(() => {
+        addAnalyticsEvent({
+          event: 'personalization_status',
+          personalization_setting: isPersonalizationEnabled(config, getSettings(config))
+            ? 'on'
+            : 'off',
+        });
+      });
+  }
+
+  const content = (
+    <AppProviders
+      config={config}
+      language={language}
+      messages={translations.default[language]}
+      environment={environment}
+    >
+      <ErrorBoundary>
+        <Fragment>
+          <Helmet
+            {...getMetadata(
+              language,
+              window.location.host,
+              // Outside the <Router>: the initial og:url.
+              // eslint-disable-next-line no-restricted-syntax
+              window.location.href,
+              config,
+            )}
+          />
+          <Router resolver={resolver} />
+        </Fragment>
+      </ErrorBoundary>
+    </AppProviders>
+  );
+
+  const rootNode = document.getElementById('app');
+  createRoot(rootNode).render(content);
+
+  // Listen for Web App Install Banner events
+  window.addEventListener('beforeinstallprompt', e => {
+    addAnalyticsEvent({
+      event: 'sendMatomoEvent',
+      category: 'installprompt',
+      action: 'fired',
+      name: 'fired',
+    });
+    // e.userChoice will return a Promise. (Only in chrome, not IE)
+    if (e.userChoice) {
+      e.userChoice.then(choiceResult =>
+        addAnalyticsEvent({
+          event: 'sendMatomoEvent',
+          category: 'installprompt',
+          action: 'result',
+          name: choiceResult.outcome,
+        }),
+      );
+    }
+  });
+}
+
+init();

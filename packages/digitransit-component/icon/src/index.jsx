@@ -190,9 +190,10 @@ const iconMap = {
  *    color="#007ac9" // Color of image, optional
  *    rotate={90}     // How many degrees to rotate image, optional
  *    className="foo" // Extra class name on the svg, optional
+ *    ariaLabel="Closed" // Accessible name for an icon that carries information. Without it the icon is decorative and hidden from assistive technology, optional
  * />
  */
-export default function Icon({ className, color, img, height, width, rotate }) {
+export default function Icon({ className, color, img, height, width, rotate, ariaLabel }) {
   const style = {
     fill: color || null,
     height: height ? `${height}em` : null,
@@ -200,8 +201,11 @@ export default function Icon({ className, color, img, height, width, rotate }) {
     transform: rotate ? `rotate(${rotate}deg)` : null,
   };
   const Component = iconMap[img] || BusStopDigitransit;
+  const a11yProps = ariaLabel
+    ? { role: 'img', 'aria-label': ariaLabel }
+    : { 'aria-hidden': 'true', focusable: 'false' };
 
-  return <Component className={className} style={style} />;
+  return <Component className={className} style={style} {...a11yProps} />;
 }
 
 Icon.propTypes = {
@@ -211,4 +215,5 @@ Icon.propTypes = {
   width: PropTypes.number,
   height: PropTypes.number,
   rotate: PropTypes.number,
+  ariaLabel: PropTypes.string,
 };

@@ -1,15 +1,15 @@
 import { vi } from 'vitest';
-import * as ConfigContext from '../../../app/hooks/ConfigContext';
-import * as scheduleParamUtils from '../../../app/component/routepage/schedule/scheduleParamUtils';
-import * as scheduleDataUtils from '../../../app/component/routepage/schedule/scheduleDataUtils';
-import * as scheduleTripsUtils from '../../../app/component/routepage/schedule/scheduleTripsUtils';
+import * as ConfigContext from '../../../src/client/hooks/ConfigContext';
+import * as scheduleParamUtils from '../../../src/client/component/routepage/schedule/scheduleParamUtils';
+import * as scheduleDataUtils from '../../../src/client/component/routepage/schedule/scheduleDataUtils';
+import * as scheduleTripsUtils from '../../../src/client/component/routepage/schedule/scheduleTripsUtils';
 import { mockContext } from './mock-context';
 
 /**
  * Create all common schedule-related mocks/stubs.
  * Returns mocks and stubs for schedule component tests. Stubs are vi mocks,
  * auto-restored between tests via the `restoreMocks: true` Vitest config
- * option (vitest.config.js's `app` project) - no manual sandbox/restore needed.
+ * option (vitest.config.js's `client` project) - no manual sandbox/restore needed.
  *
  * @param {Object} overrides - Optional overrides for mock data
  * @param {Object} overrides.config - Override config mock
@@ -41,16 +41,8 @@ export const createScheduleTestContext = (overrides = {}) => {
         {
           id: 'trip-1',
           stoptimes: [
-            {
-              serviceDay: 1547503200,
-              scheduledDeparture: 28080,
-              scheduledArrival: 28080,
-            },
-            {
-              serviceDay: 1547503200,
-              scheduledDeparture: 30060,
-              scheduledArrival: 30060,
-            },
+            { serviceDay: 1547503200, scheduledDeparture: 28080, scheduledArrival: 28080 },
+            { serviceDay: 1547503200, scheduledDeparture: 30060, scheduledArrival: 30060 },
           ],
         },
       ],
@@ -64,18 +56,14 @@ export const createScheduleTestContext = (overrides = {}) => {
   // already stubs react-relay's useFragment globally with the same
   // pass-through behavior.
   const stubs = {
-    useConfigContext: vi
-      .spyOn(ConfigContext, 'useConfigContext')
-      .mockReturnValue(mocks.config),
+    useConfigContext: vi.spyOn(ConfigContext, 'useConfigContext').mockReturnValue(mocks.config),
     calculateRedirectDecision: vi
       .spyOn(scheduleParamUtils, 'calculateRedirectDecision')
       .mockReturnValue(mocks.redirectDecision),
     buildAvailableDates: vi
       .spyOn(scheduleDataUtils, 'buildAvailableDates')
       .mockReturnValue(mocks.availableDates),
-    getTripsList: vi
-      .spyOn(scheduleTripsUtils, 'getTripsList')
-      .mockReturnValue(mocks.tripsResult),
+    getTripsList: vi.spyOn(scheduleTripsUtils, 'getTripsList').mockReturnValue(mocks.tripsResult),
   };
 
   return { mocks, stubs };

@@ -1,0 +1,181 @@
+import { DateTime, Settings } from 'luxon';
+import {
+  formatDateLabel,
+  formatWeekLabel,
+  processDates,
+  groupDatesByWeek,
+} from '../../../../src/client/utils/dateSelectUtils';
+import { createTestIntl } from '../../helpers/mock-providers';
+
+describe('dateSelectUtils', () => {
+  const intl = createTestIntl();
+
+  beforeEach(() => {
+    Settings.now = () => new Date('2024-01-15T10:00:00Z').getTime();
+    Settings.defaultZone = 'UTC';
+    Settings.defaultLocale = 'en';
+  });
+
+  describe('formatDateLabel', () => {
+    it('should return "Today" for today\'s date', () => {
+      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+      const date = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+
+      const result = formatDateLabel(date, today, intl);
+
+      expect(result).toBe('Today');
+    });
+
+    it('should return "Tomorrow" for tomorrow\'s date', () => {
+      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+      const date = DateTime.fromISO('2024-01-16', { zone: 'UTC' });
+
+      const result = formatDateLabel(date, today, intl);
+
+      expect(result).toBe('Tomorrow');
+    });
+
+    it('should return formatted date for other dates', () => {
+      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+      const date = DateTime.fromISO('2024-01-20', { zone: 'UTC' });
+
+      const result = formatDateLabel(date, today, intl);
+
+      expect(result).toBe('Sat 20.1.');
+    });
+  });
+
+  describe('formatWeekLabel', () => {
+    it('should return "This week" for the current week', () => {
+      expect(formatWeekLabel(3, 0, intl)).toBe('This week');
+    });
+
+    it('should return "Next week" for the following week', () => {
+      expect(formatWeekLabel(4, 1, intl)).toBe('Next week');
+    });
+
+    it('should return week number for other weeks', () => {
+      expect(formatWeekLabel(5, 2, intl)).toBe('Week 5');
+    });
+  });
+
+  describe('processDates', () => {
+    it('should process dates with correct labels and values', () => {
+      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+      const dates = [
+        DateTime.fromISO('2024-01-15', { zone: 'UTC' }),
+        DateTime.fromISO('2024-01-16', { zone: 'UTC' }),
+        DateTime.fromISO('2024-01-17', { zone: 'UTC' }),
+      ];
+
+      const result = processDates(dates, today, intl);
+
+      expect(result).toHaveLength(3);
+      expect(result[0].textLabel).toBe('Today');
+      expect(result[0].value).toBe('20240115');
+      expect(result[1].textLabel).toBe('Tomorrow');
+      expect(result[1].value).toBe('20240116');
+      expect(result[2].value).toBe('20240117');
+    });
+
+    it('should include dateObj in processed dates', () => {
+      const today = DateTime.fromISO('2024-01-15', { zone: 'UTC' });
+      const dates = [DateTime.fromISO('2024-01-15', { zone: 'UTC' })];
+
+      const result = processDates(dates, today, intl);
+
+      expect(result[0]).toHaveProperty('dateObj');
+    });
+  });
+
+  describe('groupDatesByWeek', () => {
+    it('should group dates by week number', () => {
+      const processedDates = [
+        {
+          value: '20240115',
+          textLabel: 'Mon 15.1.',
+          ariaLabel: 'Monday 15.1.',
+          dateObj: DateTime.fromISO('2024-01-15'),
+        },
+        {
+          value: '20240116',
+          textLabel: 'Tue 16.1.',
+          ariaLabel: 'Tuesday 16.1.',
+          dateObj: DateTime.fromISO('2024-01-16'),
+        },
+        {
+          value: '20240122',
+          textLabel: 'Mon 22.1.',
+          ariaLabel: 'Monday 22.1.',
+          dateObj: DateTime.fromISO('2024-01-22'),
+        },
+      ];
+
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
+
+      expect(result).toHaveLength(2);
+      expect(result[0].label).toBe('This week');
+      expect(result[0].options).toHaveLength(2);
+      expect(result[1].label).toBe('Next week');
+      expect(result[1].options).toHaveLength(1);
+    });
+
+    it('should include accessibility labels in grouped options', () => {
+      const processedDates = [
+        {
+          value: '20240115',
+          textLabel: 'Mon 15.1.',
+          ariaLabel: 'Monday 15.1.',
+          dateObj: DateTime.fromISO('2024-01-15', { zone: 'UTC' }),
+        },
+      ];
+
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
+
+      expect(result[0].options[0]).toHaveProperty('ariaLabel');
+      expect(result[0].options[0].ariaLabel).toBe('Monday 15.1.');
+    });
+
+    it('should keep week 1 of the next year after the last week of this year', () => {
+      const days = ['2026-12-28', '2027-01-04', '2027-01-11'];
+      const processedDates = days.map(d => {
+        const dateObj = DateTime.fromISO(d);
+        return { value: d, textLabel: d, ariaLabel: d, dateObj };
+      });
+
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2026-12-28'), intl);
+
+      expect(result.map(g => g.label)).toEqual(['This week', 'Next week', 'Week 2']);
+    });
+
+    it('should sort weeks in ascending order', () => {
+      const processedDates = [
+        {
+          value: '20240129',
+          textLabel: 'Mon 29.1.',
+          ariaLabel: 'Monday 29.1.',
+          dateObj: DateTime.fromISO('2024-01-29'),
+        },
+        {
+          value: '20240115',
+          textLabel: 'Mon 15.1.',
+          ariaLabel: 'Monday 15.1.',
+          dateObj: DateTime.fromISO('2024-01-15'),
+        },
+        {
+          value: '20240122',
+          textLabel: 'Mon 22.1.',
+          ariaLabel: 'Monday 22.1.',
+          dateObj: DateTime.fromISO('2024-01-22'),
+        },
+      ];
+
+      const result = groupDatesByWeek(processedDates, DateTime.fromISO('2024-01-15'), intl);
+
+      expect(result).toHaveLength(3);
+      expect(result[0].label).toBe('This week');
+      expect(result[1].label).toBe('Next week');
+      expect(result[2].label).toBe('Week 5');
+    });
+  });
+});

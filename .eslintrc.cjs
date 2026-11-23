@@ -1,12 +1,14 @@
 // Extended below instead of replaced, so Airbnb's entries keep applying.
-const airbnbRestrictedSyntax = require('eslint-config-airbnb-base/rules/style')
-  .rules['no-restricted-syntax'];
+const airbnbRestrictedSyntax = require('eslint-config-airbnb-base/rules/style').rules[
+  'no-restricted-syntax'
+];
 
 const BROWSER_URL_MESSAGE =
   'Use match.location for app logic, or router.createHref for the browser URL.';
 
 module.exports = {
   parser: '@babel/eslint-parser',
+  reportUnusedDisableDirectives: true,
   extends: [
     'plugin:compat/recommended',
     'plugin:jsx-a11y/recommended',
@@ -26,37 +28,35 @@ module.exports = {
     'import/extensions': ['error', 'never', { ignorePackages: true }],
     'import/prefer-default-export': 'off',
     // uuid has only an exports map, which eslint-import-resolver-node does not support
-    'import/no-unresolved': [
-      'error',
-      { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] },
-    ],
+    'import/no-unresolved': ['error', { commonjs: true, caseSensitive: true, ignore: ['^uuid$'] }],
     'import/no-restricted-paths': [
       'error',
       {
         zones: [
           {
-            target: ['./server/**/*', './utils/server/**/*'],
-            from: ['./app/**/*', './utils/client/**/*'],
+            target: './src/server/**/*',
+            from: './src/client/**/*',
             message:
-              'server/** and utils/server/** must not import client-only code. Put cross-cutting code in utils/shared/** instead.',
+              'src/server/** must not import client-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
-            target: ['./app/**/*', './utils/client/**/*'],
-            from: ['./server/**/*', './utils/server/**/*'],
+            target: './src/client/**/*',
+            from: './src/server/**/*',
             message:
-              'app/** and utils/client/** must not import server-only code. Put cross-cutting code in utils/shared/** instead.',
+              'src/client/** must not import server-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
-            target: './utils/shared/**/*',
-            from: ['./utils/client/**/*', './utils/server/**/*'],
+            target: './src/shared/**/*',
+            from: ['./src/client/**/*', './src/server/**/*'],
             message:
-              'utils/shared/** must only depend on other utils/shared/** code (or external packages) so it stays safely importable by both server and client.',
+              'src/shared/** must only depend on other src/shared/** code (or external packages) so it stays safely importable by both server and client.',
           },
           {
-            target: './utils/**/*',
-            from: './app/**/*',
+            target: './src/client/utils/**/*',
+            from: './src/client',
+            except: ['./utils'],
             message:
-              'utils/** must not import app/**; keep dependencies flowing from app to reusable utilities.',
+              'src/client/utils/** must not import the rest of src/client/**; keep dependencies flowing from the client to its utilities.',
           },
         ],
       },
@@ -94,19 +94,9 @@ module.exports = {
     'compat/compat': 'warn',
 
     // prettier
-    'prettier/prettier': [
-      'error',
-      {
-        arrowParens: 'avoid',
-        endOfLine: 'auto',
-        singleQuote: true,
-        trailingComma: 'all',
-      },
-    ],
+    'prettier/prettier': 'error', // options in package.json "prettier"
   },
-  env: {
-    browser: true,
-  },
+  env: { browser: true },
   plugins: ['react', 'react-hooks', 'compat', 'prettier', 'jsx-a11y'],
   overrides: [
     {
@@ -114,30 +104,19 @@ module.exports = {
       // (no bundler/transpiler in between - webpack/Babel/Vitest are all
       // extension-agnostic and cover everything else), so relative imports
       // here *must* keep an explicit extension or Node's ESM loader fails.
-      files: [
-        'server/**/*.js',
-        'utils/shared/**/*.js',
-        'utils/server/**/*.js',
-        'webpack.config.js',
-        'scripts/**/*.js',
-      ],
-      rules: {
-        'import/extensions': ['error', 'always', { ignorePackages: true }],
-      },
+      files: ['src/server/**/*.js', 'src/shared/**/*.js', 'webpack.config.js', 'scripts/**/*.js'],
+      rules: { 'import/extensions': ['error', 'always', { ignorePackages: true }] },
     },
     {
       // Server-only code and dev scripts run in Node: logging to the console
       // is legitimate there, and browser-compatibility checks don't apply.
-      files: ['server/**/*.js', 'utils/server/**/*.js', 'scripts/**/*.js'],
-      rules: {
-        'no-console': 'off',
-        'compat/compat': 'off',
-      },
+      files: ['src/server/**/*.js', 'scripts/**/*.js'],
+      rules: { 'no-console': 'off', 'compat/compat': 'off' },
     },
     {
       // Client code reads the router location: match.location for app logic,
       // router.createHref for a real URL.
-      files: ['app/**/*.{js,jsx}', 'utils/client/**/*.js'],
+      files: ['src/client/**/*.{js,jsx}'],
       rules: {
         'no-restricted-syntax': [
           ...airbnbRestrictedSyntax,
@@ -155,26 +134,15 @@ module.exports = {
         ],
       },
     },
-    {
-      files: ['*.js', '*.jsx'],
-      processor: '@graphql-eslint/graphql',
-    },
+    { files: ['*.js', '*.jsx'], processor: '@graphql-eslint/graphql' },
     {
       files: ['*.graphql'],
-      extends: [
-        'plugin:@graphql-eslint/operations-recommended',
-        'plugin:@graphql-eslint/relay',
-      ],
+      extends: ['plugin:@graphql-eslint/operations-recommended', 'plugin:@graphql-eslint/relay'],
       // Available rules can be found at https://the-guild.dev/graphql/eslint/rules/naming-convention
       rules: {
         '@graphql-eslint/no-deprecated': 'warn',
         // Recommended naming conventions have some clashes with relay conventions
-        '@graphql-eslint/naming-convention': [
-          'error',
-          {
-            VariableDefinition: 'camelCase',
-          },
-        ],
+        '@graphql-eslint/naming-convention': ['error', { VariableDefinition: 'camelCase' }],
         // Relay directives caused errors and ignoring them didn't work for some reason
         '@graphql-eslint/known-directives': 'off',
 
@@ -192,9 +160,7 @@ module.exports = {
         '@graphql-eslint/unique-fragment-name': 'off',
         '@graphql-eslint/unique-operation-name': 'off',
       },
-      parserOptions: {
-        schema: './packages/private/schema/schema.graphql',
-      },
+      parserOptions: { schema: './packages/private/schema/schema.graphql' },
     },
   ],
 };

@@ -132,10 +132,7 @@ export default function MobileView({
           }
           // select the first item if none is highlighted
           if (oldState.highlightedIndex === -1) {
-            return {
-              ...changes,
-              selectedItem: state.suggestions[0],
-            };
+            return { ...changes, selectedItem: state.suggestions[0] };
           }
           return changes;
         // allows tabbing out of input field without closing
@@ -155,19 +152,19 @@ export default function MobileView({
   getInputProps({}, { suppressRefError: true });
 
   const handleValueChange = useCallback(
-    newValue =>
-      state.renderMobile && dispatch({ type: 'INPUT_CHANGE', value: newValue }),
+    newValue => state.renderMobile && dispatch({ type: 'INPUT_CHANGE', value: newValue }),
     [state.renderMobile, dispatch],
   );
 
   const handleClearHistory = useCallback(() => setDialogOpen(true), []);
 
   const { ariaRequiredText, SearchBarId, ariaCurrentSuggestion } = ariaProps;
-  const ariaLabel = ariaRequiredText
+  const ariaDescription = ariaRequiredText
     .concat(' ')
     .concat(SearchBarId)
     .concat(' ')
-    .concat(ariaCurrentSuggestion);
+    .concat(ariaCurrentSuggestion)
+    .trim();
   return (
     <ReactModal
       isOpen={state.renderMobile}
@@ -204,29 +201,20 @@ export default function MobileView({
             <Icon img="arrow" color={colors.primary} />
           </button>
           <span className={styles['right-column']}>
-            <span
-              className={styles['combobox-label']}
-              id={labelId}
-              {...getLabelProps()}
-            >
+            <span className={styles['combobox-label']} id={labelId} {...getLabelProps()}>
               {mobileLabel}
             </span>
             <Input
-              placeholder={
-                isPOISearch(id)
-                  ? t('address-place-or-business', { lng })
-                  : placeholder
-              }
+              placeholder={isPOISearch(id) ? t('address-place-or-business', { lng }) : placeholder}
               id={id}
               lng={lng}
               value={value}
               getInputProps={getInputProps}
-              getLabelProps={getLabelProps}
               clearInput={() => clearInput(inputRef)}
-              ariaLabel={ariaLabel}
+              ariaDescription={ariaDescription}
+              hasLabel
               inputRef={inputRef}
               styles={styles}
-              renderLabel={false}
               clearButtonColor={colors.primary}
               autoFocus
               inputClassName={inputClassName}
@@ -293,7 +281,5 @@ MobileView.propTypes = {
     loading: PropTypes.bool.isRequired,
   }).isRequired,
   dispatch: PropTypes.func.isRequired,
-  pendingEnterRef: PropTypes.shape({
-    current: PropTypes.bool,
-  }).isRequired,
+  pendingEnterRef: PropTypes.shape({ current: PropTypes.bool }).isRequired,
 };

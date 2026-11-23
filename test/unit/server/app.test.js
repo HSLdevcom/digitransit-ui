@@ -1,14 +1,14 @@
 import request from 'supertest';
 import fs from 'fs';
 import path from 'path';
-import createApp, { onError } from '../../../server/app';
+import createApp, { onError } from '../../../src/server/app';
 
-// server/app.js's import chain reaches server/html/assetManifest.js, which
+// src/server/app.js's import chain reaches src/server/html/assetManifest.js, which
 // reads manifest.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
 // webpack build present (unstubbed in the afterAll hook below).
-// server/middleware/shell.js's dev-mode branch is also re-checked live on
+// src/server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
 // per request in dev mode, hence the placeholder fixture below.
@@ -21,9 +21,7 @@ afterAll(() => {
 describe('server app', () => {
   const staticDir = path.join(process.cwd(), '_static', 'assets');
   const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
-  const staticDirPreexisted = fs.existsSync(
-    path.join(process.cwd(), '_static'),
-  );
+  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
   let app;
 
   beforeAll(() => {
@@ -37,10 +35,7 @@ describe('server app', () => {
   afterAll(() => {
     fs.rmSync(spriteFixturePath, { force: true });
     if (!staticDirPreexisted) {
-      fs.rmSync(path.join(process.cwd(), '_static'), {
-        recursive: true,
-        force: true,
-      });
+      fs.rmSync(path.join(process.cwd(), '_static'), { recursive: true, force: true });
     }
   });
 
@@ -72,9 +67,7 @@ describe('server app', () => {
     it('serves an uncached script that unregisters the old service worker', async () => {
       const response = await request(app).get('/sw.js');
       expect(response.status).toBe(200);
-      expect(response.headers['content-type']).toContain(
-        'application/javascript',
-      );
+      expect(response.headers['content-type']).toContain('application/javascript');
       expect(response.headers['cache-control']).toContain('max-age=0');
       expect(response.text).toContain('self.registration.unregister()');
     });
@@ -98,9 +91,7 @@ describe('server app', () => {
       vi.stubEnv('CONFIG', 'tampere');
       const response = await request(app).get('/favicon.ico');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toMatch(
-        /^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/,
-      );
+      expect(response.headers.location).toMatch(/^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/);
     });
   });
 
@@ -118,9 +109,7 @@ describe('server app', () => {
 
   describe('language links for search engines', () => {
     const linksOf = html =>
-      [...html.matchAll(/<link rel="(alternate|canonical)"[^>]*>/g)].map(
-        ([tag]) => tag,
-      );
+      [...html.matchAll(/<link rel="(alternate|canonical)"[^>]*>/g)].map(([tag]) => tag);
 
     it('links every language version, x-default and the canonical URL, without the query', async () => {
       const response = await request(app)
@@ -138,27 +127,19 @@ describe('server app', () => {
     it('uses the root for the front page', async () => {
       const response = await request(app).get('/sv').set('Host', 'example.com');
       const links = linksOf(response.text);
-      expect(links).toContain(
-        '<link rel="alternate" hreflang="fi" href="https://example.com/" />',
-      );
-      expect(links).toContain(
-        '<link rel="canonical" href="https://example.com/sv/" />',
-      );
+      expect(links).toContain('<link rel="alternate" hreflang="fi" href="https://example.com/" />');
+      expect(links).toContain('<link rel="canonical" href="https://example.com/sv/" />');
     });
 
     it('escapes the request URL in og:url', async () => {
-      const response = await request(app)
-        .get('/x?a=1&b=2')
-        .set('Host', 'example.com');
+      const response = await request(app).get('/x?a=1&b=2').set('Host', 'example.com');
       expect(response.text).toContain(
         '<meta property="og:url" content="https://example.com/x?a=1&amp;b=2"',
       );
     });
 
     it('keeps crafted paths inside the attribute', async () => {
-      const response = await request(app)
-        .get('/x"><y')
-        .set('Host', 'example.com');
+      const response = await request(app).get('/x"><y').set('Host', 'example.com');
       expect(linksOf(response.text)).toContain(
         '<link rel="canonical" href="https://example.com/x%22%3E%3Cy" />',
       );

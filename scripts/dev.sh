@@ -51,7 +51,7 @@ set -eo pipefail
 set -m
 
 if [ -z "$CONFIG" ]; then
-    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see server/configs/config.default.js's themeMap)."
+    echo "CONFIG is not set, using 'default'. Set CONFIG=<name> to use a regional deployment (see src/server/configs/config.default.js's themeMap)."
 fi
 
 export CONFIG="${CONFIG:-default}"
@@ -104,12 +104,10 @@ yarn sprites
 # Build the digitransit-* packages once, synchronously, before
 # starting webpack-dev-server and the package watchers below. On a fresh
 # clone (or after `lib/` is removed/out of date) the packages' `lib/*.cjs`
-# outputs don't exist yet; webpack-dev-server's persistent filesystem cache
-# (see webpack.config.js) doesn't reliably invalidate when those
-# outputs later appear via packages-watch's rollup watch, so it
-# can permanently cache a broken/missing module resolution. Building here
-# first ensures webpack-dev-server always sees valid output on its first
-# compile.
+# outputs don't exist yet; building here first ensures webpack-dev-server
+# always sees valid output on its first compile. (The dev server uses webpack's
+# in-memory cache, see webpack.config.js, so no stale disk cache survives
+# between runs.)
 yarn packages-build
 
 yarn relay-watch &
@@ -126,10 +124,10 @@ yarn workspace @digitransit-search-util/digitransit-search-util-query-utils rela
 pids+=("$!")
 
 # Node's built-in watch mode restarts the server whenever any module in its
-# loaded import graph changes (server/**, utils/{shared,server}/**, region
+# loaded import graph changes (src/server/**, src/shared/**, region
 # configs). --watch-preserve-output keeps Node from clearing the terminal on
 # every restart, which would wipe the other processes' interleaved output.
-node --watch --watch-preserve-output server/server.js &
+node --watch --watch-preserve-output src/server/server.js &
 pids+=("$!")
 
 yarn webpack-dev-server &

@@ -15,9 +15,9 @@ real ESM (`lib/index.js`, via each package's `"module"`/`exports` fields,
 preferred by webpack for `import`) with a UMD `lib/index.cjs` (`"main"`) as
 the `require`/Node fallback — and `search-util`/`util` via raw source, using
 webpack's native ESM support. Treat these packages like
-semi-external dependencies: changes to their public API should bump their
-version (see [Publishing](#publishing)) the same way a change to a real npm
-dependency would.
+semi-external dependencies: changes need a changeset (see
+[Publishing](#publishing)) with the bump type a change to a real npm
+dependency would get.
 
 ### Search services contract
 
@@ -133,7 +133,7 @@ package has actually used since the migration to Rollup). Instead:
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
 `vitest.config.js` (one `test.projects` entry per family, plus one for the
-main app suite — see `docs/Tests.md`). `component`
+client suite — see `docs/Tests.md`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`
@@ -171,7 +171,7 @@ Some `digitransit-component` packages ship their own i18next translation
 bundle (`src/helpers/translations.js` or `src/utils/translations.js`) — one
 file per package holding every locale, each nested under a `translation`
 namespace, consumed by a package-local `i18n.js` instance. This is a
-different shape from `app/translations/*.js` (one locale per file, no
+different shape from `src/client/translations/*.js` (one locale per file, no
 namespace), so it has its own tooling, separate from the root
 `sort-translations` script:
 
@@ -185,6 +185,23 @@ a missing translation, or a typo'd key duplicating another with a different
 spelling. That mismatch is never auto-fixed (there's no way to guess the
 correct key or translation), so `--fix` still exits non-zero if any remain;
 resolve those by hand in the package's `translations.js`.
+
+### Design system strings
+
+`@hsl-fi/*` components only ship `fi`, `sv` and `en` texts; for other
+languages their `lang` prop takes a locale object (`{ code, messages }`), and
+for the built-in languages the object's messages override the built-in ones.
+Missing messages fall back to the built-in texts (Finnish for other languages).
+Packages whose DS components render built-in texts export `hslfiLocales` from
+their `translations.js`: ready-made locale objects (with the package's
+`CloseButton` text) for the languages the DS has no built-in texts for, and
+components pass `lang={hslfiLocales[lang] ?? lang}`. The built-in languages
+(fi/sv/en) need no entry. The app builds one locale object from its own
+translations at client startup (`initHslfiLocale` in `src/client/client.jsx`)
+and components pass `lang={hslfiLocale}` from `src/client/utils/hslfiLocale.js`.
+Translations missing from the object (fi/sv/en) fall back to the design
+system's built-in texts; other languages must contain all of them (tested in
+`test/unit/client/utils/hslfiLocale.test.js`).
 
 ## Documentation (README generation)
 
@@ -215,48 +232,63 @@ its README (or one that only hand-edits a README) won't merge.
 
 ## Publishing
 
-```sh
-$ yarn packages-publish      # interactive, for local/manual use
-$ yarn packages-publish-ci   # non-interactive (-y), used by CI
-```
+Versions are independent per package, and PRs never edit them. Each PR
+declares what it releases, and versions are computed on `v3`, one release at
+a time:
 
-Both run `lerna publish from-package --no-git-tag-version --no-push`;
-the only difference is CI's `-y` to skip lerna's confirmation prompt.
+1. A PR that changes a package adds a changeset:
 
-Versioning is independent per package (`lerna.json`'s `"version": "independent"`)
-and bumped manually:
+   ```sh
+   $ yarn packages-changeset
+   ```
 
-```sh
-$ yarn packages-version-bump   # git fetch --tags && lerna version --include-merged-tags
-```
+   It asks which packages to release, their bump types (patch/minor/major)
+   and a summary, which becomes the changelog entry, and writes a uniquely
+   named `.changeset/*.md` file to commit with the PR. Packages that depend on a bumped package get a patch bump
+   automatically. The `check-changesets` CI job
+   (`yarn packages-changeset-check`) fails a PR when a changed package isn't
+   released or a `version` was edited by hand. The check only sees committed
+   changes and compares against the merge-base with `origin/v3`.
+2. After merging to `v3`, the `version-packages` CI job keeps a "Version
+   packages" PR open that applies all pending changesets: it bumps the
+   versions, adds the summaries to the packages' `CHANGELOG.md` files and
+   deletes the changeset files.
+3. Merging that PR publishes. The `publish-npm` job runs on every push to
+   `v3` and publishes every package whose version isn't on npm yet:
 
-`lerna version` pushes the version-bump commit and its tags to the git
-remote by default; this is intentional here so release tags actually reach
-GitHub. `git fetch --tags` first, plus `--include-merged-tags`, keep
-independent-mode change detection (which package changed since its last
-release tag) reliable even when local tags are stale or only exist on
-another branch pending merge.
+   ```sh
+   $ yarn packages-publish      # interactive, for local/manual use
+   $ yarn packages-publish-ci   # non-interactive (-y), used by CI
+   ```
 
-`yarn packages-version-check` then verifies every internal
-`@digitransit-*` dependency range across all four families is satisfied by
-the versions actually present — this runs in CI on every push/PR.
+   Both run `lerna publish from-package --no-git-tag-version --no-push`;
+   the only difference is CI's `-y` to skip lerna's confirmation prompt. No
+   git tags are created.
+
+A PR that already bumped versions by hand reverts the bump and adds a
+changeset instead. Changesets is configured in `.changeset/config.json`.
 
 ### Schema changes
 
 `digitransit-search-util-query-utils` ships `schema.graphql` in its build, so
 the schema is a private package (`packages/private/schema`; `private/`
 holds the unpublished packages) that query-utils lists as a
-`devDependency`. The root app's relay-compiler and eslint read the same file. This lets change detection see schema edits: after changing
-the schema, bump both the schema package and query-utils.
-`packages-version-bump` does this, and
-`packages-version-check` enforces it.
+`devDependency`. The root app's relay-compiler and eslint read the same file.
+Changesets doesn't bump a package for a change in one of its
+`devDependencies`, so after changing the schema, add a changeset for
+query-utils too. `packages-changeset-check` enforces this.
 
 ### Changelogs
 
-`lerna.json`'s `command.publish.conventionalCommits` is deliberately `false`
-— changelog generation is **not** automated, and there's no commitlint
-enforcing commit message format. Don't enable either; this project's commit
-history doesn't follow the Conventional Commits format the tooling expects.
+Each package's `CHANGELOG.md` is generated from changeset summaries by the
+Version packages PR, so write the summary for the package's users and don't
+edit the file by hand. Packages released only because a dependency was
+bumped get a "No changes in this release." entry. The changelogs live in
+the repository; they aren't part of the published packages.
+
+Commit messages aren't used: `lerna.json`'s
+`command.publish.conventionalCommits` is `false`, and this project's commit
+history doesn't follow the Conventional Commits format.
 
 ## Dependency Classification
 
@@ -291,8 +323,13 @@ in `package.json` as:
   `PROJECT_CWD` to the repo root): `yarn run -T` adds a Yarn process to each
   of the 12 long-running watchers, about 180 MB each.
 
-These rules (for `dependencies`/`peerDependencies`) are enforced by
-`yarn packages-dependencies-check`, part of `yarn lint`.
+References to another package in this repo, in any of these fields, are
+exactly `"workspace:^"`: Changesets only updates and cascades `workspace:`
+references, and `lerna publish` turns them into `"^<version>"` in the
+published package.
+
+These rules are enforced by `yarn packages-dependencies-check`, part of
+`yarn lint`.
 
 ## CSS Modules
 
@@ -316,9 +353,18 @@ Rollup config and the inline Babel options used to build every
 override it locally. The rollup/babel tooling itself is owned by the root
 `devDependencies` (see [Dependency classification](#dependency-classification)),
 so the config package declares none. Because it is a `devDependency` of every
-buildable package, changing it requires bumping all of them
-(`packages-version-check` enforces this). The root `babel.config.cjs`
-is unrelated: it only serves tooling (eslint parser, Jest e2e).
+buildable package, changing it requires changesets for all of them
+(`packages-changeset-check` enforces this). The root `babel.config.cjs`
+is unrelated: it only serves tooling (eslint parser).
+
+## Shared test helpers
+
+`packages/private/test-utils` (`@digitransit-ui/test-utils`, private, no build step)
+holds test helpers shared by the app and package tests, currently the axe-core
+checks (see `docs/Tests.md`). Its setup file is registered in the root
+`vitest.config.js`, so packages don't declare a dependency on it. It resolves
+through the workspace symlink in `node_modules/@digitransit-ui`, like the schema
+package, and its dependencies come from the root `devDependencies`.
 
 ## Build Caching
 
@@ -340,7 +386,7 @@ Their published versions remain on npm.
 
 - **`@digitransit-component/digitransit-component`** — this family's
   meta-package, re-exporting every sibling component. No call site in
-  `app/**` used it; every consumer imports the specific
+  `src/client/**` used it; every consumer imports the specific
   `@digitransit-component/digitransit-component-*` sub-package it needs
   directly.
 - **`@digitransit-util/digitransit-util`** — this family's equivalent
@@ -354,7 +400,7 @@ Their published versions remain on npm.
   consumers.
 - **`@digitransit-util/digitransit-util-route-pattern-option-text`** — no
   longer used by the app; route pattern option texts are built in
-  `app/component/routepage/` instead.
+  `src/client/component/routepage/` instead.
 - **`@digitransit-search-util/digitransit-search-util-execute-search-immidiate`**
   — renamed due to a spelling fix; use
   `@digitransit-search-util/digitransit-search-util-execute-search-immediate`

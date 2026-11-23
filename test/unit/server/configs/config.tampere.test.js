@@ -1,13 +1,9 @@
-import tampereConfig from '../../../../server/configs/config.tampere';
+import tampereConfig from '../../../../src/server/configs/config.tampere';
 
 describe('tampere configuration', () => {
   describe.skip('realTime', () => {
     it('routeSelector should map the given props to something', () => {
-      const props = {
-        route: {
-          shortName: 'foobar',
-        },
-      };
+      const props = { route: { shortName: 'foobar' } };
       const result = tampereConfig.realTime.tampere.routeSelector(props);
       expect(result).toBe('foobar');
     });

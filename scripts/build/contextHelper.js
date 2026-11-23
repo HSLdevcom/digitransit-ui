@@ -4,7 +4,7 @@ import fs from 'fs';
 
 import FaviconsWebpackPlugin from 'favicons-webpack-plugin';
 
-import { getNamedConfiguration } from '../../server/configs/config.js';
+import { getNamedConfiguration } from '../../src/server/configs/config.js';
 
 // Configs that only serve as a runtime `BASE_CONFIG` merge base, never a deployable `CONFIG` value.
 const BASE_ONLY_CONFIGS = ['waltti'];
@@ -14,7 +14,7 @@ function getAllConfigs() {
     return [getNamedConfiguration(process.env.CONFIG)];
   }
 
-  const srcDirectory = './server/configs';
+  const srcDirectory = './src/server/configs';
   return fs
     .readdirSync(srcDirectory)
     .filter(file => /^config\.\w+\.js$/.test(file))
@@ -24,10 +24,8 @@ function getAllConfigs() {
 }
 
 export function themePath(theme) {
-  const themeCss = `./styles/themes/${theme}/theme.scss`;
-  return fs.existsSync(themeCss)
-    ? themeCss
-    : './styles/themes/default/theme.scss';
+  const themeCss = `./src/styles/themes/${theme}/theme.scss`;
+  return fs.existsSync(themeCss) ? themeCss : './src/styles/themes/default/theme.scss';
 }
 
 function getEntries(theme, sprites = null) {
@@ -46,27 +44,19 @@ function getAllThemeEntries() {
   if (process.env.CONFIG && process.env.CONFIG !== '') {
     const config = getNamedConfiguration(process.env.CONFIG);
 
-    return {
-      ...getEntries('default'),
-      ...getEntries(process.env.CONFIG, config.sprites),
-    };
+    return { ...getEntries('default'), ...getEntries(process.env.CONFIG, config.sprites) };
   }
   return getAllConfigs().reduce(
-    (prev, config) => ({
-      ...prev,
-      ...getEntries(config.CONFIG, config.sprites),
-    }),
+    (prev, config) => ({ ...prev, ...getEntries(config.CONFIG, config.sprites) }),
     {},
   );
 }
 
 function faviconPluginFromConfig(config) {
-  let logo =
-    config.favicon ||
-    `./app/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
-  if (!fs.existsSync(logo)) {
-    logo = './app/assets/images/default/default-favicon.png';
-  }
+  const themeFavicon = `./src/client/assets/images/${config.CONFIG}/${config.CONFIG}-favicon.png`;
+  const logo = fs.existsSync(themeFavicon)
+    ? themeFavicon
+    : './src/client/assets/images/default/default-favicon.png';
 
   return new FaviconsWebpackPlugin({
     // Your source logo
@@ -92,10 +82,7 @@ function faviconPluginFromConfig(config) {
       // Merged over the package's defaults, which enable every platform.
       // Nothing references Apple startup images (~35 MB per config) or
       // Windows tiles, so only those are skipped.
-      icons: {
-        appleStartup: false,
-        windows: false,
-      },
+      icons: { appleStartup: false, windows: false },
     },
   });
 }

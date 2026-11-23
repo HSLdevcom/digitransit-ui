@@ -1,0 +1,557 @@
+@use 'sass:list';
+@use '../../../styles/abstracts' as *;
+
+.near-you-location-search {
+  position: fixed;
+  margin: 30px 30px 0 0;
+  right: 0;
+  width: 300px;
+  z-index: list.index($zindex, map-buttons);
+
+  div > div > .origin-stop-near-you-selector {
+    height: 44px;
+    box-shadow: 0 4px 20px 0 rgba(0, 0, 0, 0.15);
+    width: 100%;
+    border-radius: 8px;
+    border: none;
+    background-color: $white;
+    padding-left: 37px;
+    padding-right: 5px;
+  }
+}
+
+.near-you-spinner-container {
+  position: relative;
+  z-index: 1;
+  height: 80px;
+  animation: fadeIn 0.4s;
+}
+
+.citybike-content-container {
+  padding: 15px 20px 22px;
+  display: flex;
+  height: 45px;
+  box-sizing: content-box;
+
+  .availability-container {
+    padding-left: 15px;
+    flex: 1;
+
+    .sub-header-h4 {
+      font-size: 0.813rem;
+    }
+  }
+
+  .icon-container {
+    display: flex;
+    align-self: center;
+
+    .icon {
+      width: 36px;
+      height: 36px;
+    }
+  }
+}
+
+.near-you-page {
+  position: relative;
+  overflow: visible;
+  display: flex;
+  flex-direction: column;
+  padding: 0 60px 10px 60px;
+  min-height: calc(50vh - 60px);
+
+  .route-number {
+    .icon-container {
+      font-size: 20px;
+    }
+  }
+
+  .stop-constant-operation-container {
+    min-height: 0;
+    padding-top: var(--space-fixed-m);
+    margin-bottom: 20px;
+  }
+
+  .near-you-no-stops {
+    width: 100%;
+    background-color: $infobox-background-color;
+    font-weight: $font-weight-book;
+    font-size: 0.9375rem;
+    line-height: 1.2;
+    display: flex;
+    align-items: center;
+    padding: 17px 17px 17px 0;
+    border-radius: 5px;
+    margin-top: 23px;
+
+    .icon-container {
+      min-width: 60px;
+      justify-content: center;
+      display: flex;
+
+      .icon {
+        width: 24px;
+        height: 24px;
+      }
+    }
+  }
+
+  .no-favourites-container {
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 3em 2.5em;
+    border-top: 1px solid $light-gray;
+
+    .no-favourites-header {
+      font-size: 0.9375em;
+      margin-bottom: 8px;
+    }
+
+    .no-favourites-content {
+      color: $gray;
+      font-size: 0.9375em;
+      padding: 0 2em;
+      line-height: 1.4;
+      font-weight: $font-weight-book;
+    }
+
+    .instruction-image {
+      padding: 30px 0 15px;
+      align-self: center;
+      width: 300px;
+    }
+  }
+
+  .show-more-button {
+    margin: 0 6.25em 20px;
+    font-weight: $font-weight-medium;
+    background-color: $white;
+    color: $theme-primary-color;
+    border: 1px solid $light-gray;
+    min-height: 28px;
+    border-radius: 16px;
+    font-size: 0.9375rem;
+  }
+
+  .nearest-stops-update-container {
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    font-weight: $font-weight-book;
+    font-size: 0.9375rem;
+    text-align: center;
+    color: $gray;
+
+    .update-stops-button {
+      border: 1px solid $light-gray;
+      min-height: 30px;
+      padding: 0 16px;
+      border-radius: 15px;
+      color: $theme-primary-color;
+      font-weight: $font-weight-medium;
+      margin: 7px 0 20px;
+      background-color: $white;
+      letter-spacing: -0.5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .icon-container {
+        display: flex;
+        font-size: 20px;
+        padding-right: 13px;
+      }
+    }
+  }
+
+  .stop-near-you-container,
+  .stop-near-you-container-with-hover {
+    border: 1px solid $light-gray;
+    border-radius: 8px;
+    width: 100%;
+    margin-bottom: 8px;
+    animation: fadeIn 0.7s;
+
+    .alert-container {
+      margin: 0 14px 4px;
+    }
+
+    .stop-near-you-header-container:has(.station-page-container) {
+      padding: unset;
+    }
+
+    .stop-near-you-header-container {
+      display: flex;
+      justify-content: space-between;
+      padding: 14px 15px 1px 20px;
+
+      .stop-near-you-name {
+        font-size: 1.125rem;
+        line-height: 24px;
+        letter-spacing: -0.4px;
+        margin: 0;
+      }
+
+      .stop-header-content {
+        width: 100%;
+
+        a {
+          text-decoration: none;
+          color: $dark-gray;
+        }
+
+        .bike-station-code {
+          font-size: 0.813rem;
+          font-weight: $font-weight-book;
+        }
+
+        .station {
+          &-page-container {
+            margin: 0;
+            padding: var(--space-m) var(--space-m) var(--space-s);
+          }
+
+          &-header {
+            padding-top: 0;
+          }
+        }
+      }
+
+      .stop-near-you-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+
+        .route-stop-address-row {
+          color: $gray;
+          font-weight: $font-weight-book;
+        }
+
+        .card-code {
+          font-weight: $font-weight-book;
+          margin: 0;
+
+          &.terminal {
+            margin-right: 3px;
+          }
+        }
+
+        .platform-short {
+          @include font-medium;
+
+          font-weight: $font-weight-book;
+          white-space: nowrap;
+          font-size: 0.813rem;
+          margin-right: 5px;
+          width: unset;
+        }
+
+        .itinerary-stop-code {
+          display: flex;
+          align-items: center;
+          height: 16px;
+          padding: 0 4px;
+          align-self: center;
+        }
+
+        .zone-icon-container {
+          align-self: center;
+        }
+
+        .circle {
+          padding: 0 3px 0 3px;
+        }
+      }
+
+      .stop-favourite-container {
+        padding-top: 8px;
+      }
+
+      .bike-rental-favourite-container {
+        padding-top: 8px;
+      }
+    }
+
+    .stop-near-you-more-departures {
+      margin: 0 0 19px 20px;
+      padding: 5px 20px 5px;
+      border-radius: 25px;
+      border: solid 1px $muted-gray;
+      font-size: 16px;
+      font-weight: $font-weight-medium;
+      color: $theme-primary-color;
+    }
+  }
+
+  .stop-near-you-container-with-hover {
+    &:hover {
+      border-color: $dark-gray;
+    }
+  }
+
+  .near-departures-container {
+    padding: 2px 15px 15px 15px;
+    border-spacing: 0;
+    margin: 0;
+    width: 100%;
+    table-layout: fixed;
+
+    a {
+      text-decoration: none;
+    }
+
+    tr,
+    td {
+      margin: 0;
+      padding: 0;
+      border-spacing: 0;
+    }
+
+    .departure-row:first-child {
+      border-top: 1px solid $light-gray;
+    }
+
+    .departure-row {
+      height: 40px;
+
+      .platform-cell {
+        display: flex;
+        white-space: nowrap;
+      }
+
+      .platform-code {
+        height: 20px;
+        width: 26px;
+        font-size: 0.813rem;
+        align-self: center;
+      }
+
+      .route-number-container {
+        margin-right: 10px;
+        width: 3em;
+        height: 1.25em;
+        position: relative;
+        padding: 0 2px;
+
+        &.long {
+          width: unset;
+          min-width: 48px;
+        }
+      }
+
+      .route-headsign {
+        font-family: $font-family-narrow;
+        font-weight: $font-weight-book;
+        color: $dark-gray;
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        mask-image: linear-gradient(
+          to left,
+          transparent,
+          rgba(0, 0, 0, 0.2) 5px,
+          rgba(0, 0, 0, 1) 25px,
+          rgba(0, 0, 0, 1)
+        );
+      }
+
+      .route-time {
+        color: $dark-gray;
+
+        &.realtime {
+          color: $realtime-color;
+        }
+      }
+    }
+  }
+}
+
+.scrollable-content-wrapper {
+  .near-you-search-container {
+    margin-bottom: 22px;
+  }
+}
+
+.disruption-banner-container {
+  @include font-medium;
+
+  text-decoration: none;
+  font-weight: $font-weight-book;
+  white-space: pre-wrap;
+  background-color: $disruption-color;
+  color: white;
+  font-size: 0.9375rem;
+  padding: 12px 0 5px 0;
+  border-radius: 8px;
+  margin-bottom: 15px;
+
+  .swipe-scroll-container {
+    flex-basis: unset;
+  }
+
+  .swipe-header.disruption-banner {
+    width: unset;
+
+    .swipe-button-container {
+      padding: 0 5px;
+
+      .swipe-button {
+        margin-top: 1px;
+
+        .icon {
+          height: 0.8em;
+          width: 0.8em;
+          fill: $white;
+
+          &.disabled {
+            fill: rgb(245, 187, 208);
+          }
+        }
+      }
+    }
+  }
+
+  .swipe-tab-ball {
+    border: none;
+    background-color: rgba(255, 255, 255, 0.7);
+
+    &.selected {
+      border: none;
+      background-color: $white;
+    }
+  }
+
+  .disruption-container {
+    padding: 0 14px 9px 14px;
+    display: flex;
+  }
+
+  .disruption-icon-container {
+    margin-right: 15px;
+    height: 100%;
+    padding: 8px 0;
+
+    .icon-container {
+      font-size: 24px;
+      display: flex;
+      padding-left: 3px;
+    }
+  }
+
+  .disruption-info-container {
+    line-height: 1.2;
+    flex: 1;
+
+    .disruption-info-header {
+      color: inherit;
+      margin-bottom: 2px;
+    }
+
+    .disruption-show-more {
+      font-weight: $font-weight-medium;
+    }
+
+    .disruption-source-label {
+      font-weight: $font-weight-medium;
+    }
+
+    .disruption-message-font {
+      font-weight: $font-weight-book;
+    }
+  }
+
+  .disruption-show-more {
+    font-weight: $font-weight-medium;
+  }
+
+  .disruption-close-button {
+    height: 100%;
+    margin-left: 5px;
+
+    svg {
+      width: 13.5px;
+      height: 13.5px;
+    }
+  }
+}
+
+.mobile {
+  .near-you-location-search {
+    width: 145px;
+    margin: 25px 15px 0 0;
+    z-index: 5;
+
+    div > div > .origin-stop-near-you-selector {
+      height: 34px;
+    }
+  }
+
+  .near-you-page {
+    height: calc(100% - 20rem);
+    padding: 5px 0.625em 0;
+    background-color: white;
+    position: relative;
+
+    .near-you-container {
+      padding: 0;
+    }
+
+    .disruption-banner-container {
+      margin: 0 5px 15px;
+    }
+
+    .route-number {
+      .icon-container {
+        font-size: 1.25em;
+      }
+    }
+  }
+
+  .no-favourites-container {
+    padding-top: 14px;
+    font-size: 16px;
+    border-top: none;
+
+    .no-favourites-content {
+      padding: 0;
+    }
+
+    .instruction-image {
+      width: 140px;
+    }
+  }
+}
+
+// The design system modal sheet clips its content with overflow: hidden
+// on desktop widths to keep its rounded corners. That clips the
+// autosuggest dropdown rendered by the location search inside this
+// modal, so overflow needs to be visible here instead.
+// The selector is repeated to double its specificity (0,2,0) so this
+// override always wins over @hsl-fi/dialog's own
+// ".modalSheet { overflow: hidden }" rule (0,1,0), regardless of which
+// stylesheet happens to be injected into the page last. In production
+// server.js deliberately links the theme CSS after the digitransit-
+// components CSS so plain equal-specificity overrides like this one
+// win there, but webpack-dev-server's style-loader injects <style>
+// tags in JS module execution order instead, which can (and did) end
+// up loading the theme CSS before @hsl-fi/dialog's CSS in dev mode,
+// silently reintroducing the clipping. Relying on specificity instead
+// of load order keeps this override correct in both cases.
+.location-modal-content.location-modal-content {
+  @media (min-width: 500px) {
+    overflow: visible;
+  }
+}
+
+// While this (Radix-based) modal is open, document.body gets
+// pointer-events: none, and only the modal's own content regains
+// pointer-events: auto. The location search's mobile view renders its
+// own full-screen react-modal portaled straight to document.body
+// (outside this modal's DOM), so it would otherwise inherit
+// pointer-events: none and become unclickable. Restore it explicitly.
+[class*='mobile-modal'] {
+  pointer-events: auto;
+}

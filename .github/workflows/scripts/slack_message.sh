@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+
 set -e
 
 if [ -z "${SLACK_CHANNEL_ID}" ]; then

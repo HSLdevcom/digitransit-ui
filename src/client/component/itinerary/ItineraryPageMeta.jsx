@@ -1,0 +1,27 @@
+import { Helmet } from 'react-helmet';
+import { useIntl } from 'react-intl';
+import { useRouter } from 'found';
+
+import { otpToLocation } from '../../../shared/utils/otpStrings';
+import { generateMetaData } from '../../utils/metaUtils';
+import { useConfigContext } from '../../hooks/ConfigContext';
+
+export default function ItineraryPageMeta() {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const { router, match } = useRouter();
+  const { to, from } = match.params;
+  const params = { from: otpToLocation(from).address, to: otpToLocation(to).address };
+  const title = intl.formatMessage(
+    { id: 'summary-page.title', defaultMessage: 'Itinerary suggestions' },
+    params,
+  );
+  const description = intl.formatMessage(
+    { id: 'summary-page.description', defaultMessage: '{from} - {to}' },
+    params,
+  );
+  const props = generateMetaData({ description, title }, config, {
+    pathname: router.createHref({ pathname: match.location.pathname }),
+  });
+  return <Helmet {...props} />;
+}
