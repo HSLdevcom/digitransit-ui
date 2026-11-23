@@ -1,5 +1,5 @@
-import { getConfiguration, loadAllRawConfigurations } from '../../../../server/configs/config';
-import defaultConfig from '../../../../server/configs/config.default';
+import { getConfiguration, loadAllRawConfigurations } from '../../../../src/server/configs/config';
+import defaultConfig from '../../../../src/server/configs/config.default';
 
 describe('config', () => {
   describe('getConfiguration', () => {

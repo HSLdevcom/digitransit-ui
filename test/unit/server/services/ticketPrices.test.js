@@ -1,9 +1,9 @@
 import fetchTicketPrices, {
   processTicketTypeResult,
-} from '../../../../server/services/ticketPrices';
+} from '../../../../src/server/services/ticketPrices';
 
 const { retryFetch } = vi.hoisted(() => ({ retryFetch: vi.fn() }));
-vi.mock('../../../../utils/shared/fetchUtils', () => ({ retryFetch }));
+vi.mock('../../../../src/shared/utils/fetchUtils', () => ({ retryFetch }));
 
 const ticketTypesResponse = {
   json: async () => ({ data: { ticketTypes: [{ fareId: 'HSL:esim', price: 2.8, zones: ['A'] }] } }),

@@ -1,4 +1,4 @@
-// The one place where Relay is stubbed for the app unit tests. vitest.setup.js
+// The one place where Relay is stubbed for the client unit tests. vitest.setup.js
 // registers these stubs for both 'react-relay' and 'react-relay/hooks', so
 // every import form of a hook resolves to the same function. The stubs read
 // their behaviour from this module's state at call time. The state is reset

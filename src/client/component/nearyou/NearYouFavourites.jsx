@@ -1,0 +1,79 @@
+import PropTypes from 'prop-types';
+import { graphql, QueryRenderer, ReactRelayContext } from 'react-relay';
+import { locationShape, relayShape } from '../../utils/shapes';
+import NearYouFavouritesContainer from './NearYouFavouritesContainer';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
+import Loading from '../Loading';
+import NoFavourites from './NoFavourites';
+
+function NearYouFavourites({
+  stopIds,
+  stationIds,
+  vehicleRentalStationIds,
+  relayEnvironment,
+  searchPosition,
+  noFavourites = false,
+  isParentTabActive = false,
+}) {
+  const breakpoint = useBreakpoint();
+  if (noFavourites) {
+    return <NoFavourites breakpoint={breakpoint} />;
+  }
+  return (
+    <QueryRenderer
+      query={graphql`
+        query NearYouFavouritesQuery(
+          $stopIds: [String!]!
+          $stationIds: [String!]!
+          $vehicleRentalStationIds: [String!]!
+        ) {
+          stops: stops(ids: $stopIds) {
+            ...NearYouFavouritesFragment_stops
+          }
+          stations: stations(ids: $stationIds) {
+            ...NearYouFavouritesFragment_stations
+          }
+          vehicleStations: vehicleRentalStations(ids: $vehicleRentalStationIds) {
+            ...NearYouFavouritesFragment_vehicleStations
+          }
+        }
+      `}
+      variables={{
+        stopIds: stopIds || [],
+        stationIds: stationIds || [],
+        vehicleRentalStationIds: vehicleRentalStationIds || [],
+      }}
+      environment={relayEnvironment}
+      render={({ props }) => {
+        if (props) {
+          return (
+            <NearYouFavouritesContainer
+              searchPosition={searchPosition}
+              isParentTabActive={isParentTabActive}
+              breakpoint={breakpoint}
+              {...props}
+            />
+          );
+        }
+        return <Loading />;
+      }}
+    />
+  );
+}
+NearYouFavourites.propTypes = {
+  stopIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  stationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  vehicleRentalStationIds: PropTypes.arrayOf(PropTypes.string).isRequired,
+  relayEnvironment: relayShape.isRequired,
+  searchPosition: locationShape.isRequired,
+  noFavourites: PropTypes.bool,
+  isParentTabActive: PropTypes.bool,
+};
+
+export default function NearYouFavouritesRelayConnector(props) {
+  return (
+    <ReactRelayContext.Consumer>
+      {({ environment }) => <NearYouFavourites {...props} relayEnvironment={environment} />}
+    </ReactRelayContext.Consumer>
+  );
+}

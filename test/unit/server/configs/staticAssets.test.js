@@ -1,8 +1,8 @@
 import fs from 'fs';
 import path from 'path';
-import { getNamedConfiguration } from '../../../../server/configs/config';
+import { getNamedConfiguration } from '../../../../src/server/configs/config';
 
-const configsDir = path.join(process.cwd(), 'server', 'configs');
+const configsDir = path.join(process.cwd(), 'src', 'server', 'configs');
 const staticDir = path.join(process.cwd(), 'static');
 const assetsDir = path.join(staticDir, 'assets');
 
@@ -23,7 +23,7 @@ function localAssetPaths(config) {
     }
   });
   // socialMedia.image.url is relative (joined with a host in
-  // utils/shared/metaUtils.js), geoJson layer urls are absolute.
+  // src/shared/utils/metaUtils.js), geoJson layer urls are absolute.
   return urls.map(url => url.replace(/^\//, ''));
 }
 

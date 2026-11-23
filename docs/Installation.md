@@ -26,9 +26,9 @@ generateHosts = false
 
 Previously, using Windows Subsystem for Linux required remapping `localhost` to the IPv6
 loopback address in `/etc/hosts`, because `webpack-dev-server` binds `::1` only
-(`webpack.config.js`) and `server/server.js` used to proxy to it by the `localhost`
+(`webpack.config.js`) and `src/server/server.js` used to proxy to it by the `localhost`
 hostname — which on stock WSL resolves only to `127.0.0.1`, causing `ECONNREFUSED`.
-`server/app.js` now targets the literal `[::1]` address instead, so this is
+`src/server/app.js` now targets the literal `[::1]` address instead, so this is
 no longer required for `yarn run dev` to work. If you still hit other WSL networking issues, you may
 need to add the following to your `/etc/hosts`:
 ```
@@ -112,7 +112,7 @@ Note that you can combine multiple configuration parameters.
 
 - **`RUN_ENV`** (`development` / `production`) — deployment tier. Server-only env var; read during
   config assembly to pick dev vs prod backends and mirrored into `window.config` for the client.
-  Check it via `isDevRunEnv(config)` (`utils/shared/envUtils.js`, see its JSDoc for details).
+  Check it via `isDevRunEnv(config)` (`src/server/utils/envUtils.js`, see its JSDoc for details).
   `yarn dev` sets `RUN_ENV=development`; deployments set it via Kubernetes / `-e RUN_ENV=…`.
 - **`NODE_ENV`** (`development` / `production`) — build mode; `'development'` only for the local
   `yarn dev` server / a dev bundle. Not the deployment tier — one production bundle runs on every

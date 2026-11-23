@@ -6,13 +6,14 @@ A theme is a set of files named after its `CONFIG` value. The server config is t
 
 | What | Where |
 | --- | --- |
-| Features, behavior, URLs, texts | `server/configs/config.<theme>.js` |
+| Features, behavior, URLs, texts | `src/server/configs/config.<theme>.js` |
 | Colors used by both JS and CSS | `colors` in the config, read in CSS with `config('colors.x')` |
-| Colors, fonts and sizes used only by CSS | `styles/themes/<theme>/theme.scss` |
-| Logos, favicons and illustrations bundled into the client | `app/assets/images/<theme>/` |
-| Icons | `app/assets/icons/<theme>/<id>.svg` |
+| Colors, fonts and sizes used only by CSS | `src/styles/themes/<theme>/theme.scss` |
+| Logos and illustrations bundled into the client | `src/client/assets/images/<theme>/` |
+| Favicon and app icons | `src/client/assets/images/<theme>/<theme>-favicon.png`, a square PNG of at least 512 px; the default favicon is used if missing |
+| Icons | `src/client/assets/icons/<theme>/<id>.svg` |
 | Files served as is, e.g. share images and GeoJSON | `static/assets/<theme>/` |
-| Host names that select a theme | `themeMap` in `server/configs/config.default.js` |
+| Host names that select a theme | `themeMap` in `src/server/configs/config.default.js` |
 
 For how stylesheets are organized, see [Styles](Styles.md).
 
@@ -42,8 +43,8 @@ a `@use` of its parent, `../waltti/theme` or `../default/theme`, and sets only w
 
 To add a themeable value:
 
-1. Define its default in `styles/themes/default/theme.scss`, using the value most themes want.
-2. Add `$name: var(--name);` to `styles/abstracts/_variables.scss`.
+1. Define its default in `src/styles/themes/default/theme.scss`, using the value most themes want.
+2. Add `$name: var(--name);` to `src/styles/abstracts/_variables.scss`.
 3. Override it only in the themes that differ.
 
 Colors JS also needs belong in the config, so they exist in one place: the default theme reads them
@@ -57,10 +58,10 @@ key fails the build.
 - **Served files:** `static/assets/<theme>/`, using the exact `CONFIG` value as the directory name. They're
   served from `/assets/<theme>/...` after `scripts/build/copyStatic.js` copies them to `_static/`. A theme
   without a share image inherits `assets/default/social-share.png`.
-- **Bundled images:** `app/assets/images/<theme>/`, with fallbacks in `default/`. A config names one
-  relative to that directory, e.g. `logo: 'hsl/reittiopas-logo.svg'`, and `app/assets/assetUrl.js` resolves
+- **Bundled images:** `src/client/assets/images/<theme>/`, with fallbacks in `default/`. A config names one
+  relative to that directory, e.g. `logo: 'hsl/reittiopas-logo.svg'`, and `src/client/assets/assetUrl.js` resolves
   it to the built URL.
-- **Icons:** `app/assets/icons/default/` holds every icon, and a theme overrides or adds icons with files
+- **Icons:** `src/client/assets/icons/default/` holds every icon, and a theme overrides or adds icons with files
   of the same name. `scripts/build/buildSprites.js` builds each sprite sheet, and a config selects one with
   `sprites: 'assets/svg-sprite.<theme>.svg'` (see [Webpack](Webpack.md)).
   Use a theme's CSS when only the color differs, through `fill`, `currentColor` or a custom property. Add a
@@ -74,5 +75,5 @@ that nothing in `static/assets/` is unreferenced.
 - **Production:** `yarn start` picks the theme per request from the host name, using `themeMap`. Set
   `CONFIG=<theme> yarn start` to force one.
 - **Development:** `CONFIG=<theme> yarn dev`. Host mapping isn't available.
-- **Build:** `yarn build` builds every theme in `server/configs/`. With `CONFIG` set, it only builds that
+- **Build:** `yarn build` builds every theme in `src/server/configs/`. With `CONFIG` set, it only builds that
   theme and `default`.

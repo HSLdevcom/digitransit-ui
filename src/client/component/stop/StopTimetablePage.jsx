@@ -1,0 +1,19 @@
+import { useFragment } from 'react-relay';
+import { useMatch } from 'found';
+import { fragmentRefShape } from '../../utils/shapes';
+import { unixTime, unixToYYYYMMDD } from '../../utils/timeUtils';
+import { useConfigContext } from '../../hooks/ConfigContext';
+import Timetable from './Timetable';
+import { StopTimetablePageFragment } from './queries/StopTimetablePageFragment';
+
+export default function StopTimetablePage({ stop: stopRef }) {
+  const stop = useFragment(StopTimetablePageFragment, stopRef);
+  const config = useConfigContext();
+  const match = useMatch();
+  const startDate = unixToYYYYMMDD(unixTime(), config);
+  const date = match.location.query.date || startDate;
+
+  return <Timetable stop={stop} date={date} startDate={startDate} />;
+}
+
+StopTimetablePage.propTypes = { stop: fragmentRefShape.isRequired };

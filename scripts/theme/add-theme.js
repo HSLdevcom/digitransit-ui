@@ -18,7 +18,7 @@ if (!theme || theme === '?') {
   process.exit(0);
 }
 
-const sassDir = 'styles/themes/' + theme;
+const sassDir = 'src/styles/themes/' + theme;
 const name = theme.charAt(0).toUpperCase() + theme.slice(1); // with uppecase initial
 if(!fs.existsSync(sassDir)) {
   fs.mkdirSync(sassDir);
@@ -42,7 +42,7 @@ let textLogo;
 let logo;
 if (logoPath) {
   logo = path.basename(logoPath);
-  const imageDir = 'app/assets/images/' + theme;
+  const imageDir = 'src/client/assets/images/' + theme;
   if(!fs.existsSync(imageDir)) {
     fs.mkdirSync(imageDir);
   }
@@ -75,10 +75,10 @@ if (textLogo === 'true') {
   conf = conf.replace(regexLogo, `false,\n\n  logo: '${theme}/${logo}',`);
 }
 
-fs.writeFileSync('server/configs/config.' + theme + '.js', conf);
+fs.writeFileSync('src/server/configs/config.' + theme + '.js', conf);
 
 // update host name mapping
-const defaultConfName = 'server/configs/config.default.js';
+const defaultConfName = 'src/server/configs/config.default.js';
 const appendAfter = `matka: 'matka',`;
 
 conf = fs.readFileSync(defaultConfName, 'utf-8');

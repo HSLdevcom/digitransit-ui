@@ -1,0 +1,35 @@
+import PropTypes from 'prop-types';
+import SettingsToggle from './SettingsToggle';
+import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
+import { settingsShape } from '../../../utils/shapes';
+import { useConfigContext } from '../../../hooks/ConfigContext';
+
+export default function TransferOptions({ settings, updateSettings }) {
+  const { transferPenaltyHigh, minTransferTimeSelection, defaultSettings } = useConfigContext();
+  const avoidTransfers = settings.transferPenalty !== defaultSettings.transferPenalty;
+
+  const onToggle = () => {
+    updateSettings({
+      transferPenalty: avoidTransfers ? defaultSettings.transferPenalty : transferPenaltyHigh,
+    });
+    addAnalyticsEvent({
+      category: 'ItinerarySettings',
+      action: 'changeNumberOfTransfers',
+      name: avoidTransfers,
+    });
+  };
+
+  return (
+    <SettingsToggle
+      labelId="avoid-transfers"
+      toggled={avoidTransfers}
+      onToggle={onToggle}
+      borderStyle={minTransferTimeSelection ? 'border-top' : ''}
+    />
+  );
+}
+
+TransferOptions.propTypes = {
+  settings: settingsShape.isRequired,
+  updateSettings: PropTypes.func.isRequired,
+};
