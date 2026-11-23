@@ -51,7 +51,7 @@ describe('config', () => {
     it('derives accessiblePrimary and hover from the config own primary color', async () => {
       vi.resetModules();
       vi.stubEnv('BASE_CONFIG', 'default');
-      const { getNamedConfiguration } = await import('../../../../server/configs/config');
+      const { getNamedConfiguration } = await import('../../../../src/server/configs/config');
       const baseHover = getNamedConfiguration('default').colors.hover; // fills the base config cache
       const { colors } = getNamedConfiguration('oulu');
 
