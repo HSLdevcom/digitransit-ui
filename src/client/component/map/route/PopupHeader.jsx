@@ -1,0 +1,56 @@
+import PropTypes from 'prop-types';
+import Link from 'found/Link';
+import cx from 'classnames';
+import { routePagePath, PREFIX_STOPS } from '../../../../shared/utils/path';
+import { convertTo24HourFormat } from '../../../utils/timeUtils';
+import RouteNumber from '../../RouteNumber';
+import { getRouteMode } from '../../../utils/modeUtils';
+
+export default function PopupHeader({ route, pattern, card = false, startTime, className }) {
+  const mode = getRouteMode(route);
+
+  let startTimeEl;
+  if (startTime?.length > 3) {
+    // change to 24h format
+    const time = convertTo24HourFormat(startTime);
+    startTimeEl = <span className="route-header-trip">{time} →</span>;
+  } else {
+    startTimeEl = '';
+  }
+
+  const routeLineText = ` ${route.shortName || ''}`;
+
+  const routeLine =
+    startTime && pattern ? (
+      <Link to={routePagePath(route.gtfsId, PREFIX_STOPS, pattern.code)}>{routeLineText}</Link>
+    ) : (
+      routeLineText
+    );
+
+  return (
+    <div className={cx('route-header', className)}>
+      <h1 className={mode}>
+        <RouteNumber
+          card={card}
+          mode={mode}
+          text={routeLine}
+          color={route.color ? `#${route.color}` : undefined}
+        />
+        {startTimeEl}
+      </h1>
+    </div>
+  );
+}
+
+PopupHeader.propTypes = {
+  route: PropTypes.shape({
+    gtfsId: PropTypes.string.isRequired,
+    mode: PropTypes.string.isRequired,
+    shortName: PropTypes.string,
+    color: PropTypes.string,
+  }).isRequired,
+  startTime: PropTypes.string,
+  pattern: PropTypes.shape({ code: PropTypes.string.isRequired }),
+  className: PropTypes.string,
+  card: PropTypes.bool,
+};

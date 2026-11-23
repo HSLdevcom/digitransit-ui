@@ -1,14 +1,14 @@
 import request from 'supertest';
 import fs from 'fs';
 import path from 'path';
-import createApp, { onError } from '../../../server/app';
+import createApp, { onError } from '../../../src/server/app';
 
-// server/app.js's import chain reaches server/html/assetManifest.js, which
+// src/server/app.js's import chain reaches src/server/html/assetManifest.js, which
 // reads manifest.json from disk at *module load time* when
 // NODE_ENV isn't 'development'. vi.hoisted runs before this file's static
 // imports, so forcing 'development' here makes them safe without a real
 // webpack build present (unstubbed in the afterAll hook below).
-// server/middleware/shell.js's dev-mode branch is also re-checked live on
+// src/server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
 // per request in dev mode, hence the placeholder fixture below.
@@ -17,7 +17,7 @@ vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 // Stands in for the real OIDC setup (which needs Redis and an OIDC
 // provider): registers a route that, like the real /login and /logout,
 // reads req.cookies.
-vi.mock('../../../server/passport-openid-connect/openidConnect', () => ({
+vi.mock('../../../src/server/passport-openid-connect/openidConnect', () => ({
   default: app => {
     app.get('/login', (req, res) => res.send(req.cookies.lang));
     return undefined;

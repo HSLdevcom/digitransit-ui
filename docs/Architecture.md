@@ -4,7 +4,7 @@ Digitransit-ui is a React based web application. The following bullet points des
  - Front-end is written using modern JavaScript (ES2015)
  - Use Babel to transpile it into ES5
  - We could provide a different bundle for modern browsers using widely-supported ES6 syntax
- - Polyfills are injected at build time by `@babel/preset-env` (`useBuiltIns: 'entry'`, core-js 3) via a single `import 'core-js/stable'` in `app/client/client.jsx` based on the `browserslist` targets
+ - Polyfills are injected at build time by `@babel/preset-env` (`useBuiltIns: 'entry'`, core-js 3) via a single `import 'core-js/stable'` in `src/client/client.jsx` based on the `browserslist` targets
  - React + JSX
  - Airbnb styleguide for ES6 and React
 
@@ -27,32 +27,32 @@ Basically, division between alternatives is:
 - Non-GraphQL requests may use a focused data helper or React context
 
 Configuration is exposed by `ConfigProvider` and `useConfigContext` in
-`app/hooks/ConfigContext.jsx`. The provider wraps the other app providers in
-`app/client/client.jsx` so they can also access configuration.
+`src/client/hooks/ConfigContext.jsx`. The provider wraps the other app providers in
+`src/client/client.jsx` so they can also access configuration.
 
 Realtime vehicle information is owned by `RealTimeInformationProvider` in
-`app/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
+`src/client/hooks/RealTimeInformationContext.jsx`. `useRealTimeInformation` subscribes
 to vehicle snapshots, published at most once per second. `useRealTimeActions`
 provides stable connection and subscription controls without subscribing to
 vehicle updates. The provider closes MQTT clients and cancels pending updates
 on unmount; MQTT helpers deliver messages through callbacks rather than
 actions.
 GeoJSON fetching uses `useGeoJsonObjects` in
-`app/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
+`src/client/hooks/useGeoJsonObjects.js`. It loads configured layers from a hook and
 shares fetch promises across map and dialog consumers. Layer visibility
-settings are in `MapLayerContext` (`app/hooks/MapLayerContext.jsx`).
+settings are in `MapLayerContext` (`src/client/hooks/MapLayerContext.jsx`).
 Old-searches history is managed by
-named functions in `app/data/SearchHistory.js`, which read/write
+named functions in `src/client/data/SearchHistory.js`, which read/write
 `localStorage` directly. Unlike favourites, nothing reactively subscribes to
 this data, so it has no Context/hook layer.
 
 Search services are exposed through the framework-agnostic singleton in
-`app/data/SearchServices.js`, initialized before rendering and connected to
+`src/client/data/SearchServices.js`, initialized before rendering and connected to
 `PositionProvider` for current position access. Autosuggest adapters import
 the singleton directly and pass it through the existing `searchContext` package prop;
 it is not part of the React search context value. Each `SearchAutosuggest` or
 `SearchAutosuggestPanel` adapter mounts its own `SearchProvider` from
-`app/hooks/SearchContext.jsx`. The provider owns pending geolocation;
+`src/client/hooks/SearchContext.jsx`. The provider owns pending geolocation;
 `useSearchContext` exposes selection handling and instance-local map controls.
 `SearchSelectionBoundary` replaces the input with the map picker while
 keeping its provider mounted. Do not mount a global search provider:
@@ -60,7 +60,7 @@ different search instances have independent callbacks and embedded behavior.
 Journey endpoints remain in `ItineraryLocationContext`.
 
 Responsive layout state is owned by `BreakpointProvider` in
-`app/hooks/BreakpointContext.jsx`, mounted in `app/client/client.jsx`.
+`src/client/hooks/BreakpointContext.jsx`, mounted in `src/client/client.jsx`.
 Functional consumers use `useBreakpoint()` from that module. Breakpoints are
 `small` below 400px, `medium` from 400px to below 900px, and `large` from 900px.
 `DesktopOrMobile` calls only the selected render callback (`large` uses

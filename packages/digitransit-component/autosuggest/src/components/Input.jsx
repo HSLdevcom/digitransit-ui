@@ -10,12 +10,12 @@ export function Input({
   placeholder,
   required,
   getInputProps,
-  getLabelProps,
   clearInput,
   ariaLabel,
+  ariaDescription,
+  hasLabel = false,
   inputRef,
   styles,
-  renderLabel = false,
   isMobile,
   inputClassName,
   transportMode,
@@ -31,13 +31,11 @@ export function Input({
     onValueChange(e.target.value);
   };
 
+  const descriptionId = `${id}-description`;
+
   return (
     <div className={styles.container}>
-      {renderLabel && (
-        <label {...getLabelProps({ className: styles['sr-only'], htmlFor: id })}>{ariaLabel}</label>
-      )}
       <input
-        aria-label={ariaLabel}
         // eslint-disable-next-line jsx-a11y/no-autofocus
         autoFocus={autoFocus}
         placeholder={placeholder}
@@ -51,8 +49,22 @@ export function Input({
           inputClassName,
         )}
         id={id}
-        {...getInputProps({ ref: inputRef, onBlur: inputOnBlur, onChange: handleChange })}
+        aria-describedby={ariaDescription ? descriptionId : undefined}
+        {...getInputProps({
+          ref: inputRef,
+          onBlur: inputOnBlur,
+          onChange: handleChange,
+          // Downshift points aria-labelledby at its own label unless aria-label is given.
+          // Drop the reference when no such label is rendered.
+          ...(ariaLabel && { 'aria-label': ariaLabel }),
+          ...(!ariaLabel && !hasLabel && { 'aria-labelledby': undefined }),
+        })}
       />
+      {ariaDescription && (
+        <span id={descriptionId} className={styles['sr-only']}>
+          {ariaDescription}
+        </span>
+      )}
       {value && (
         <ClearButton
           lng={lng}
@@ -73,13 +85,13 @@ Input.propTypes = {
   required: PropTypes.bool.isRequired,
   value: PropTypes.string.isRequired,
   getInputProps: PropTypes.func.isRequired,
-  getLabelProps: PropTypes.func.isRequired,
   clearInput: PropTypes.func.isRequired,
-  ariaLabel: PropTypes.string.isRequired,
+  ariaLabel: PropTypes.string,
+  ariaDescription: PropTypes.string,
+  hasLabel: PropTypes.bool,
   inputRef: PropTypes.shape({ current: PropTypes.oneOfType([PropTypes.string, PropTypes.object]) })
     .isRequired,
   styles: PropTypes.objectOf(PropTypes.string).isRequired,
-  renderLabel: PropTypes.bool,
   isMobile: PropTypes.bool.isRequired,
   inputClassName: PropTypes.string.isRequired,
   transportMode: PropTypes.string,

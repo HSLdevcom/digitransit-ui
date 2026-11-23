@@ -1,5 +1,5 @@
 import { mockRouter, mockMatch } from './mock-router';
-import config from '../../../server/configs/config.default';
+import config from '../../../src/server/configs/config.default';
 
 /**
  * The mockContext can be used as a starting point for building a useful
