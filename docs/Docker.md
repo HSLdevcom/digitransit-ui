@@ -1,52 +1,71 @@
-## Digitransit-ui on Docker
-You can run Digitransit-ui in docker. This is probably the easiest way to see the application running.
+# Docker
 
-## Prerequisites
-- Docker with BuildKit support (Docker 23+ recommended)
+The `Dockerfile` has two stages:
+- **builder** installs the dependencies and builds the packages and the app.
+- **runtime** contains the built app and its production dependencies only.
 
-## Run latest national white label version for testing
-- `docker run -p 8080:8080 hsldevcom/digitransit-ui`
+The image serves on port 8080 and has a health check on `/`.
 
-## Run latest HSL version for testing
-- `docker run -p 8080:8080 -e CONFIG=hsl hsldevcom/digitransit-ui`
-- Runtime `-e CONFIG=<name>` only works against an image built without `--build-arg CONFIG=...`;
-  a single-CONFIG build only serves that one config.
+## Run a published image
 
-## Access running application
-On Linux:
-- open `http://localhost:8080`
+```sh
+docker run -p 8080:8080 hsldevcom/digitransit-ui:v3
+```
 
-On Mac:
-- run `docker-machine env default`
-- see IP of `DOCKER_HOST`
-- open `http://[DOCKER_HOST]:8080`
+Then open http://localhost:8080.
 
-## Running in production
-You must use the following additional variable:
-- `-e CONFIG=<..>`
+- Without `CONFIG`, the server picks the config by the request's host name (`themeMap` in
+  `src/server/configs/config.default.js`), so `localhost` gets the white-label `default` config.
+- Add `-e CONFIG=hsl` to serve one region's config regardless of the host.
 
-There are also optional variables:
-- `-e RUN_ENV=<development|production>` — deployment run environment (default `production`,
-  server-only). Set `development` on dev/staging instances so the server picks dev backends (dev
-  MQTT broker, dev stop-monitor URLs) when it assembles the config. Also surfaced to the browser
-  as `window.config.RUN_ENV`.
-- `-e API_URL=<..>`
-- `-e MAP_URL=<..>`
-- `-e OTP_URL=<..>`
-- `-e GEOCODING_BASE_URL=<..>`
-- `-e ASSET_URL=<..>`
-- `-e STATIC_MESSAGE_URL=<..>`
-- `-e NODE_OPTS=<..>`
-- `-e BASE_CONFIG=true`
-- `-e API_SUBSCRIPTION_QUERY_PARAMETER_NAME=<..>`
-- `-e API_SUBSCRIPTION_HEADER_NAME=<..>`
-- `-e API_SUBSCRIPTION_TOKEN=<..>`
+Tags, pushed by CI:
+- **Branch tags:** `v3`, `next` and `hotfix` point to the latest build of that branch.
+- **Single builds:** each build also gets a permanent `<branch>-<timestamp>-<commit>` tag.
+- **Releases:** `v3-prod` (plus a timestamped variant) points to the image of the latest release.
 
-## Build new snapshot image
-Only Linux and Mac OS are supported.
+## Build an image
 
-### Build a new docker image
-- `docker build -t hsldevcom/digitransit-ui .`
+```sh
+docker build -t digitransit-ui .
+```
 
-### Releases
-- Done through automated builds in github actions triggered by github releases
+This needs BuildKit, which is the default in Docker 23 and later. Build arguments:
+- **`--build-arg CONFIG=<name>`** builds assets for that config only. The build is faster, but the
+  image then serves only that config.
+- **`--build-arg WEBPACK_DEVTOOL=<devtool>`** sets webpack's source map type (default `source-map`);
+  `false` builds no source maps.
+
+`.dockerignore` is an allow-list. If the build needs a new file or directory, add a `!path` line for it.
+
+## Environment variables
+
+Set these with `-e NAME=value` when running the image.
+
+| Variable | Use |
+| --- | --- |
+| `CONFIG` | Config to serve. Empty: chosen by host name. |
+| `BASE_CONFIG` | Config to merge the served config onto, instead of `default`. Also served when `CONFIG` is empty and no host matches. |
+| `RUN_ENV` | `development` makes the server use development backends. Anything else, or empty, means production. |
+| `PORT` | Port the server listens on, default `8080`. |
+| `API_URL` | Base URL of the Digitransit APIs, default `https://dev-api.digitransit.fi`. |
+| `OTP_URL` | OpenTripPlanner URL, default derived from `API_URL` and the config. |
+| `GEOCODING_BASE_URL` | Geocoding API URL, default `${API_URL}/geocoding/v1`. |
+| `MAP_URL` | Base URL of the map tiles, default `https://dev-cdn.digitransit.fi`. |
+| `ASSET_URL` | URL prefix for the built assets, e.g. a CDN. Empty: served by the app. |
+| `STATIC_MESSAGE_URL` | URL of the static messages (`matka` config only). |
+| `API_SUBSCRIPTION_TOKEN` | API subscription key sent with API requests. |
+| `API_SUBSCRIPTION_HEADER_NAME`, `API_SUBSCRIPTION_QUERY_PARAMETER_NAME` | Header and query parameter names for the key. |
+| `NODE_OPTS` | Node.js command-line options, default `--title=digitransit-ui`. |
+
+`src/server/configs/` reads more variables for specific features. Search it for `process.env`.
+
+## CI
+
+`.github/workflows/dev-pipeline.yml` runs on every push to `v3`, `next` or `hotfix`. It:
+1. builds the image;
+2. runs `.github/workflows/scripts/docker_smoke_test.sh`, which checks that the front page loads and
+   that missing assets return 404;
+3. pushes the branch and timestamped tags.
+
+Publishing a GitHub release runs `.github/workflows/prod-pipeline.yml`, which re-tags the release
+branch's image as `v3-prod`.

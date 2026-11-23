@@ -1,0 +1,44 @@
+import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
+import { memo } from 'react';
+import SearchAutosuggest from '../SearchAutosuggest';
+import { getLocationSearchTargets } from '../../utils/searchUtils';
+import { countLocations } from '../../data/FavouriteData';
+import { useFavourites } from '../../hooks/FavouriteContext';
+import { useConfigContext } from '../../hooks/ConfigContext';
+
+function Search({ onMap = false, ...rest }) {
+  const config = useConfigContext();
+  const intl = useIntl();
+  const favourites = useFavourites();
+  const searchProps = {
+    id: 'origin-stop-near-you',
+    placeholder: 'origin',
+    translatedPlaceholder: onMap ? intl.formatMessage({ id: 'move-on-map' }) : undefined,
+    mobileLabel: onMap ? intl.formatMessage({ id: 'position' }) : undefined,
+    inputClassName: onMap ? 'origin-stop-near-you-selector' : undefined,
+    colors: config.colors,
+    modeSet: config.iconModeSet,
+    getAutoSuggestIcons: config.getAutoSuggestIcons,
+    lang: config.language,
+  };
+  const sources = ['History', 'Datasource'];
+  if (countLocations(favourites)) {
+    sources.push('Favourite');
+  }
+  return (
+    <SearchAutosuggest
+      appElement="#app"
+      icon="search"
+      sources={sources}
+      targets={getLocationSearchTargets(config, false)}
+      value=""
+      {...searchProps}
+      {...rest}
+    />
+  );
+}
+
+Search.propTypes = { onMap: PropTypes.bool };
+
+export default memo(Search);

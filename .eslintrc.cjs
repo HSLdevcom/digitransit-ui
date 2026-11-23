@@ -26,28 +26,29 @@ module.exports = {
       {
         zones: [
           {
-            target: ['./server/**/*', './utils/server/**/*'],
-            from: ['./app/**/*', './utils/client/**/*'],
+            target: './src/server/**/*',
+            from: './src/client/**/*',
             message:
-              'server/** and utils/server/** must not import client-only code. Put cross-cutting code in utils/shared/** instead.',
+              'src/server/** must not import client-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
-            target: ['./app/**/*', './utils/client/**/*'],
-            from: ['./server/**/*', './utils/server/**/*'],
+            target: './src/client/**/*',
+            from: './src/server/**/*',
             message:
-              'app/** and utils/client/** must not import server-only code. Put cross-cutting code in utils/shared/** instead.',
+              'src/client/** must not import server-only code. Put cross-cutting code in src/shared/** instead.',
           },
           {
-            target: './utils/shared/**/*',
-            from: ['./utils/client/**/*', './utils/server/**/*'],
+            target: './src/shared/**/*',
+            from: ['./src/client/**/*', './src/server/**/*'],
             message:
-              'utils/shared/** must only depend on other utils/shared/** code (or external packages) so it stays safely importable by both server and client.',
+              'src/shared/** must only depend on other src/shared/** code (or external packages) so it stays safely importable by both server and client.',
           },
           {
-            target: './utils/**/*',
-            from: './app/**/*',
+            target: './src/client/utils/**/*',
+            from: './src/client',
+            except: ['./utils'],
             message:
-              'utils/** must not import app/**; keep dependencies flowing from app to reusable utilities.',
+              'src/client/utils/** must not import the rest of src/client/**; keep dependencies flowing from the client to its utilities.',
           },
         ],
       },
@@ -95,19 +96,13 @@ module.exports = {
       // (no bundler/transpiler in between - webpack/Babel/Vitest are all
       // extension-agnostic and cover everything else), so relative imports
       // here *must* keep an explicit extension or Node's ESM loader fails.
-      files: [
-        'server/**/*.js',
-        'utils/shared/**/*.js',
-        'utils/server/**/*.js',
-        'webpack.config.js',
-        'scripts/**/*.js',
-      ],
+      files: ['src/server/**/*.js', 'src/shared/**/*.js', 'webpack.config.js', 'scripts/**/*.js'],
       rules: { 'import/extensions': ['error', 'always', { ignorePackages: true }] },
     },
     {
       // Server-only code and dev scripts run in Node: logging to the console
       // is legitimate there, and browser-compatibility checks don't apply.
-      files: ['server/**/*.js', 'utils/server/**/*.js', 'scripts/**/*.js'],
+      files: ['src/server/**/*.js', 'scripts/**/*.js'],
       rules: { 'no-console': 'off', 'compat/compat': 'off' },
     },
     { files: ['*.js', '*.jsx'], processor: '@graphql-eslint/graphql' },

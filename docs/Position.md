@@ -13,7 +13,7 @@ Note that in this context "Position" is not the same thing as "Location" (see be
 
 ![Position](https://raw.githubusercontent.com/HSLdevcom/digitransit-ui/master/docs/images/position.png)
 
-Position state is tracked in `PositionContext` (`app/hooks/PositionContext.jsx`) via the `status` property:
+Position state is tracked in `PositionContext` (`src/client/hooks/PositionContext.jsx`) via the `status` property:
 
 |State (`POSITION_STATUS` constant)|Description|
 |--------|-------|

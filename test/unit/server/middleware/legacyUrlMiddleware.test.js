@@ -1,11 +1,11 @@
 import {
   validateParams,
   dropPathLanguageAndFixLocaleParam,
-} from '../../../../server/middleware/legacyUrlMiddleware';
+} from '../../../../src/server/middleware/legacyUrlMiddleware';
 
-import config from '../../../../server/configs/config.default';
-import { LEGACY_LOCALES, LEGACY_LOCALE_PATHS } from '../../../../utils/shared/constants';
-import { PREFIX_ITINERARY_SUMMARY } from '../../../../utils/shared/path';
+import config from '../../../../src/server/configs/config.default';
+import { LEGACY_LOCALES, LEGACY_LOCALE_PATHS } from '../../../../src/shared/utils/constants';
+import { PREFIX_ITINERARY_SUMMARY } from '../../../../src/shared/utils/path';
 
 describe('legacyUrlMiddleware', () => {
   describe('validateParams', () => {

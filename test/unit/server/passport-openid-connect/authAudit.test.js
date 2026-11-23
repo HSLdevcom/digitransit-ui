@@ -38,7 +38,7 @@ describe('authAudit', () => {
   });
 
   it('does not log a device-change event for the first request on a session', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
 
     const events = auditedEvents(consoleSpy);
@@ -47,7 +47,7 @@ describe('authAudit', () => {
   });
 
   it('does not log a device-change event when the device class is unchanged', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-1', MAC_UA));
 
@@ -57,7 +57,7 @@ describe('authAudit', () => {
   });
 
   it('flags a same-build device class change as likely devtools emulation', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-1', ANDROID_SAME_BUILD_UA));
 
@@ -71,7 +71,7 @@ describe('authAudit', () => {
   });
 
   it('flags a different-build device class change as a closer-look case', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-1', ANDROID_DIFFERENT_BUILD_UA));
 
@@ -83,7 +83,7 @@ describe('authAudit', () => {
   });
 
   it('flags a device class change when one side has no engine build (e.g. iOS Safari)', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-1', IPHONE_UA));
 
@@ -95,7 +95,7 @@ describe('authAudit', () => {
   });
 
   it('keeps per-session device history independent across sessions', async () => {
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-2', IPHONE_UA));
 
@@ -106,7 +106,7 @@ describe('authAudit', () => {
 
   it('logs nothing at all when auditing is disabled', async () => {
     process.env.AUTH_AUDIT = 'false';
-    const { audit } = await import('../../../../server/passport-openid-connect/authAudit');
+    const { audit } = await import('../../../../src/server/passport-openid-connect/authAudit');
     audit('api_user', buildReq('sid-1', MAC_UA));
     audit('api_user', buildReq('sid-1', IPHONE_UA));
 

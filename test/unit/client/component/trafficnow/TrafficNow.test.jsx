@@ -1,0 +1,168 @@
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import { relayMock } from '../../../helpers/mock-relay';
+import { mockMatch } from '../../../helpers/mock-router';
+import { createTestConfig } from '../../../helpers/mock-context';
+import TrafficNow from '../../../../../src/client/component/trafficnow/TrafficNow';
+import AlertsQuery from '../../../../../src/client/component/trafficnow/queries/AlertsQuery';
+import CanceledTripsOverviewQuery from '../../../../../src/client/component/trafficnow/queries/CanceledTripsOverviewQuery';
+import CanceledTripsForModeQuery from '../../../../../src/client/component/trafficnow/queries/CanceledTripsForModeQuery';
+import * as breakpointContext from '../../../../../src/client/hooks/BreakpointContext';
+
+const baseConfig = createTestConfig({
+  colors: { primary: '#007ac9' },
+  feedIds: ['MATKA'],
+  URL: { OTP: 'https://example.com/otp/' },
+});
+
+// Minimal Relay query result fixtures. Only what each consuming component
+// (Disruptions / CanceledTripsContainer / DisruptionDetailsContainer)
+// actually destructures/reads is included, kept empty by default so
+// "no disruptions/cancelations" branches render deterministically.
+const EMPTY_ALERTS_FIXTURE = { alerts: [] };
+const EMPTY_CANCELATIONS_OVERVIEW_FIXTURE = {};
+const EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE = { canceledTripsSummary: { routes: [] } };
+
+const ALERT_ONE = {
+  id: 'alert-1',
+  alertSeverityLevel: 'WARNING',
+  alertEffect: 'REDUCED_SERVICE',
+  alertHeaderText: 'Alert one header',
+  alertDescriptionText: 'Alert one description',
+  effectiveStartDate: 1000,
+  effectiveEndDate: 2000,
+  alertUrl: null,
+  entities: undefined,
+};
+
+/**
+ * Registers canned fixture data for the queries that child components
+ * (Disruptions, CanceledTripsContainer, DisruptionDetailsContainer) run, so
+ * they render without a real Relay environment/network response.
+ * `alertsFixture` is swappable per test so the alertId (details) view can be
+ * exercised with a matching alert.
+ */
+function stubRelayQueries({ alertsFixture = EMPTY_ALERTS_FIXTURE } = {}) {
+  relayMock.query(AlertsQuery, alertsFixture);
+  relayMock.query(CanceledTripsOverviewQuery, EMPTY_CANCELATIONS_OVERVIEW_FIXTURE);
+  relayMock.query(CanceledTripsForModeQuery, EMPTY_CANCELED_TRIPS_FOR_MODE_FIXTURE);
+}
+
+describe('<TrafficNow />', () => {
+  const renderTrafficNow = ({ breakpoint, mode, alertId, alertsFixture }) => {
+    vi.spyOn(breakpointContext, 'useBreakpoint').mockReturnValue(breakpoint);
+    stubRelayQueries({ alertsFixture });
+    // jsdom doesn't implement window.scrollTo; TrafficNow calls it (via
+    // src/client/utils/scroll.js) on mount and whenever mode/alertId change.
+    vi.spyOn(window, 'scrollTo').mockImplementation(() => {});
+    return renderWithProviders(<TrafficNow dateTime="2024-01-01T00:00:00.000Z" />, {
+      config: baseConfig,
+      match: { ...mockMatch, params: { mode, alertId } },
+    });
+  };
+
+  // Each `it` below renders TrafficNow once for its scenario (rather than
+  // once per assertion): the repo's global `afterEach` unmounts the DOM via
+  // RTL's `cleanup()` after every test, so a single shared render can't be
+  // reused across multiple `it`s — consolidating instead means one render
+  // per distinct prop combination, with all of that render's expectations
+  // grouped into that one test.
+  describe('Desktop layout — no mode param', () => {
+    it('renders the header, desktop Filters panel, and Disruptions (empty state); no mobile classes/containers', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'large' });
+
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
+
+      const filtersContainer = container.querySelector('.traffic-now__filters-container');
+      expect(filtersContainer).not.toBeNull();
+      // Filters renders a "validity period" filter group as one of its parts.
+      expect(filtersContainer.querySelector('.separator.horizontal')).not.toBeNull();
+
+      expect(container.querySelector('.disruptions')).not.toBeNull();
+      expect(container.querySelector('.disruptions-empty')).not.toBeNull();
+
+      expect(container.querySelector('.traffic-now__filters-button-container')).toBeNull();
+      expect(container.querySelector('.traffic-now__body--mobile')).toBeNull();
+    });
+  });
+
+  describe('Mobile layout — no mode param', () => {
+    it('renders the header, mobile filters button, and Disruptions (empty state); applies the mobile body class', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'small' });
+
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
+
+      expect(container.querySelector('.traffic-now__filters-button-container')).not.toBeNull();
+      expect(container.querySelector('.traffic-now__filters-container')).toBeNull();
+
+      expect(container.querySelector('.disruptions')).not.toBeNull();
+
+      expect(container.querySelector('.traffic-now__body--mobile')).not.toBeNull();
+    });
+  });
+
+  describe('Desktop layout — with mode param', () => {
+    it('shows the header and renders CanceledTripsContainer in non-mobile layout; hides Disruptions', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'large', mode: 'CANCELED' });
+
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
+
+      expect(container.querySelector('.canceled-trips__body')).not.toBeNull();
+      // Cards (rather than bare fragments) are only used in the non-mobile layout.
+      expect(container.querySelector('.canceled-trips__footer')).not.toBeNull();
+      expect(container.querySelector('.traffic-now__body--mobile')).toBeNull();
+
+      expect(container.querySelector('.disruptions')).toBeNull();
+    });
+  });
+
+  describe('Mobile layout — with mode param (isMobileCanceledTripsView)', () => {
+    it('hides the header/separator and renders CanceledTripsContainer with the mobile body class', () => {
+      const { container } = renderTrafficNow({ breakpoint: 'medium', mode: 'CANCELED' });
+
+      expect(container.querySelector('.traffic-now__header')).toBeNull();
+      expect(container.querySelector('.separator.horizontal')).toBeNull();
+
+      expect(container.querySelector('.canceled-trips__body')).not.toBeNull();
+      expect(container.querySelector('.traffic-now__body--mobile')).not.toBeNull();
+    });
+  });
+
+  describe('Desktop layout — with alertId param (details view)', () => {
+    it('shows the header and renders DisruptionDetailsContainer in non-mobile layout with alert content; hides Disruptions/CanceledTripsContainer', () => {
+      const { container } = renderTrafficNow({
+        breakpoint: 'large',
+        alertId: 'alert-1',
+        alertsFixture: { alerts: [ALERT_ONE] },
+      });
+
+      expect(container.querySelector('.traffic-now__header')).not.toBeNull();
+
+      expect(container.querySelector('.detail-view__cta-container')).not.toBeNull();
+      expect(container.textContent).toContain('Alert one header');
+      expect(container.textContent).toContain('Alert one description');
+      expect(container.querySelector('.detail-view__cta-container--mobile')).toBeNull();
+      expect(container.querySelector('.disruption-details__container')).not.toBeNull();
+
+      expect(container.querySelector('.disruptions')).toBeNull();
+      expect(container.querySelector('.canceled-trips__body')).toBeNull();
+    });
+  });
+
+  describe('Mobile layout — with alertId param (details view)', () => {
+    it('hides the header and renders DisruptionDetailsContainer in mobile layout with the mobile body class', () => {
+      const { container } = renderTrafficNow({
+        breakpoint: 'medium',
+        alertId: 'alert-1',
+        alertsFixture: { alerts: [ALERT_ONE] },
+      });
+
+      expect(container.querySelector('.traffic-now__header')).toBeNull();
+
+      expect(container.textContent).toContain('Alert one header');
+      expect(container.querySelector('.detail-view__cta-container--mobile')).not.toBeNull();
+      expect(container.querySelector('.disruption-details--mobile')).not.toBeNull();
+
+      expect(container.querySelector('.traffic-now__body--mobile')).not.toBeNull();
+    });
+  });
+});

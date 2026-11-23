@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
-import { getNamedConfiguration } from '../../../../server/configs/config';
+import { getNamedConfiguration } from '../../../../src/server/configs/config';
 import { buildSprite, iconsDir, listThemes } from '../../../../scripts/build/buildSprites';
 
 const configNames = fs
-  .readdirSync(path.join(process.cwd(), 'server', 'configs'))
+  .readdirSync(path.join(process.cwd(), 'src', 'server', 'configs'))
   .filter(file => /^config\.\w+\.js$/.test(file))
   .map(file => file.replace('config.', '').replace('.js', ''));
 

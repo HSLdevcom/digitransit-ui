@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
-// Vitest setup for the app unit suite (replaces the former Mocha
+// Vitest setup for the client unit suite (replaces the former Mocha
 // test/unit/helpers/init.js, now removed). jsdom's own `environment: 'jsdom'`
-// (vitest.config.js's `app` project) already provides window/document/navigator/
+// (vitest.config.js's `client` project) already provides window/document/navigator/
 // localStorage/sessionStorage globally, so this file doesn't need to
 // construct a JSDOM instance or copy its properties onto `global` by hand.
 import { cleanup } from '@testing-library/react';
@@ -9,9 +9,9 @@ import Link from 'found/Link';
 import axios from 'axios';
 import { Settings } from 'luxon';
 import ReactModal from 'react-modal';
-import { initAnalyticsClientSide } from '../../../utils/shared/analyticsUtils';
-import { initHslfiLocale } from '../../../utils/client/hslfiLocale';
-import translations from '../../../app/translations/en';
+import { initAnalyticsClientSide } from '../../../src/shared/utils/analyticsUtils';
+import { initHslfiLocale } from '../../../src/client/utils/hslfiLocale';
+import translations from '../../../src/client/translations/en';
 import { relayMock, withRelayStubs } from './mock-relay';
 
 // Components pass the design system locale to @hsl-fi components; the client
@@ -46,7 +46,7 @@ Object.defineProperty(window.navigator, 'userAgent', { value: 'node.js', configu
 // the old Mocha suite's @hsl-fi/* stubbing hack has been dropped - see
 // docs/Tests.md) requires an `appElement`/`#app` DOM node to exist for its
 // aria-hidden accessibility handling, mirroring the real `<div id="app">`
-// root element `server/middleware/shell.js` renders the app into. The test
+// root element `src/server/middleware/shell.js` renders the app into. The test
 // files of a worker share one document, so the element is created once.
 let appRoot = document.getElementById('app');
 if (!appRoot) {
