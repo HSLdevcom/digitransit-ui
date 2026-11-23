@@ -1,4 +1,4 @@
-import config from '../../../../server/configs/config.hsl';
+import config from '../../../../src/server/configs/config.hsl';
 
 describe('HSL Configuration', () => {
   describe('fareMapping', () => {

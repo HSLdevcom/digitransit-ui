@@ -1,0 +1,56 @@
+import PropTypes from 'prop-types';
+import { useEffect } from 'react';
+import Modal from 'react-modal';
+import { CloseButton } from '@hsl-fi/layout-primitives';
+import { hslfiLocale } from '../utils/hslfiLocale';
+
+export default function MenuDrawer({
+  open,
+  label,
+  children,
+  onRequestChange,
+  breakpoint,
+  className = '',
+  closeLabel = '',
+}) {
+  useEffect(() => Modal.setAppElement(document.querySelector('#app')), []);
+  const classNames = {
+    base: `${className} ${breakpoint !== 'large' ? 'mobile' : ''} menu-content`,
+    afterOpen: 'menu-content-open',
+    beforeClose: 'menu-content-close',
+  };
+  const overlayClassNames = {
+    base: `${breakpoint !== 'large' ? 'mobile' : ''} menu-background`,
+    afterOpen: 'menu-background-open',
+    beforeClose: 'menu-background-close',
+  };
+  return (
+    <Modal
+      isOpen={open}
+      contentLabel={label}
+      closeTimeoutMS={450}
+      className={classNames}
+      overlayClassName={overlayClassNames}
+      onRequestClose={onRequestChange}
+      shouldFocusAfterRender={false}
+    >
+      <CloseButton
+        className="menu-drawer-close"
+        lang={hslfiLocale}
+        {...(closeLabel && { 'aria-label': closeLabel })}
+        onClick={onRequestChange}
+      />
+      {children}
+    </Modal>
+  );
+}
+
+MenuDrawer.propTypes = {
+  open: PropTypes.bool.isRequired,
+  label: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  onRequestChange: PropTypes.func.isRequired,
+  breakpoint: PropTypes.string.isRequired,
+  className: PropTypes.string,
+  closeLabel: PropTypes.string,
+};

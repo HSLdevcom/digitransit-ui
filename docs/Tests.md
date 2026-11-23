@@ -16,17 +16,20 @@ Other agents: use their own MCP configuration with the same command and argument
 ## Unit tests
 
 Unit tests can be run locally. This uses the [Vitest](https://vitest.dev/) test
-runner (`vitest.config.js`'s `app` project, plus a `server` project that runs
-`test/unit/server/**` and `test/unit/utils/server/**` in a plain Node environment
-instead of jsdom) with globals enabled, so `describe`/
-`it`/`expect`/`vi` are available without imports (imports are still used
+runner (`vitest.config.js`'s `client` project, plus a `server` project that runs
+`test/unit/server/**` in a plain Node environment instead of jsdom) with globals
+enabled, so `describe`/`it`/`expect`/`vi` are available without imports (imports are still used
 throughout the suite for clarity/lint compliance). The pattern being watched
 is `'test/unit/**/*.test.{js,jsx}'`. Assertions use Vitest's native `expect` API and
-mocking uses `vi.fn()`/`vi.spyOn()` (`vi.mock()` only in the server tests and the app
-setup file, see [Shared environment of the app tests](#shared-environment-of-the-app-tests)).
+mocking uses `vi.fn()`/`vi.spyOn()` (`vi.mock()` only in the server tests and the client
+setup file, see [Shared environment of the client tests](#shared-environment-of-the-client-tests)).
 Set environment variables with `vi.stubEnv()`
 (undone by `vi.unstubAllEnvs()`) rather than assigning to `process.env`, which can't restore an
 originally unset variable.
+
+`test/unit/` mirrors `src/`: the tests of `src/client/component/Foo.jsx` are in
+`test/unit/client/component/Foo.test.jsx`. Shared helpers are in `test/unit/helpers/`, and
+fixtures used by several files are in `test/unit/test-data/`.
 
 Using yarn
 
@@ -34,20 +37,19 @@ Using yarn
 yarn run test-unit
 ```
 
-Run only the app or only the server tests (`test/unit/server/**` and
-`test/unit/utils/server/**`)
+Run only the client or only the server tests (`test/unit/server/**`)
 
 ```sh
-yarn test-unit:app
-yarn test-unit:server
+yarn test-unit-client
+yarn test-unit-server
 ```
 
 Run a single test file (any part of its path) or tests by describe/it name. Use
-`test-unit:server` instead for server tests.
+`test-unit-server` instead for server tests.
 
 ```sh
-yarn test-unit:app <path-substring>
-yarn test-unit:app -t "<name-pattern>"
+yarn test-unit-client <path-substring>
+yarn test-unit-client -t "<name-pattern>"
 ```
 
 Using the continuous watch mode
@@ -56,9 +58,9 @@ Using the continuous watch mode
 yarn run test-unit -- --watch
 ```
 
-### Shared environment of the app tests
+### Shared environment of the client tests
 
-The `app` project runs with `isolate: false`: the test files of a worker share one
+The `client` project runs with `isolate: false`: the test files of a worker share one
 jsdom environment and one module registry instead of recreating them for every
 file, which makes the suite several times faster. The other projects keep
 Vitest's default isolation. A test must therefore leave nothing behind that a
@@ -88,8 +90,8 @@ the Luxon `Settings` (zone, locale, `now`) to the setup file's values, and clear
   transforms can be stubbed (Vitest throws for externalized ones):
 
   ```jsx
-  import * as timeUtils from '../../../utils/client/timeUtils';
-  import * as DepartureRowModule from '../../../app/component/DepartureRow';
+  import * as timeUtils from '../../../../src/client/utils/timeUtils';
+  import * as DepartureRowModule from '../../../../src/client/component/DepartureRow';
 
   const DepartureRowStub = () => <tr />;
 
@@ -128,12 +130,12 @@ If a test passes alone but fails in the full run, another file has likely left
 state behind. This runs all files in one worker in a reproducible random order:
 
 ```sh
-yarn test-unit:app --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
+yarn test-unit-client --maxWorkers=1 --sequence.shuffle.files --sequence.seed=<n>
 ```
 
 ### Accessibility tests
 
-Every test in the app and component package suites is checked with
+Every test in the client and component package suites is checked with
 [axe-core](https://github.com/dequelabs/axe-core): after each test, an automatic
 scan runs the WCAG 2.x A/AA and axe best-practice rules on `document.body`
 and fails the test on any violation. The checks come from the private
@@ -191,7 +193,7 @@ browser-based test. Static JSX checks come from
 `eslint-plugin-jsx-a11y` in `yarn lint`.
 
 Components from `packages/digitransit-component` are resolved from their built
-`lib/` in app tests, so run `yarn packages-build` after changing them (as
+`lib/` in client tests, so run `yarn packages-build` after changing them (as
 `yarn test-unit` does).
 
 ### Troubleshooting: HSL modal app element warning
@@ -202,7 +204,7 @@ Opening `@hsl-fi/modal` can fail with:
 react-modal: App element is not defined. Please use `Modal.setAppElement(el)` or set `appElement={el}`.
 ```
 
-The app test setup turns `console.error` into an exception, so this warning
+The client test setup turns `console.error` into an exception, so this warning
 fails the test. With `@hsl-fi/modal` 0.3.2, two details cause this:
 
 - The package can resolve a separate installed copy of `react-modal`. Calling
@@ -218,7 +220,7 @@ a wrapper component, not the underlying `react-modal` component or its static
 methods. Creating a `#app` element alone therefore does not resolve this issue.
 
 For tests focused on content and callbacks, stub the wrapper as in
-[NavigatorIntroModal.test.jsx](../test/unit/component/itinerary/navigator/navigatorintro/NavigatorIntroModal.test.jsx):
+[NavigatorIntroModal.test.jsx](../test/unit/client/component/itinerary/navigator/navigatorintro/NavigatorIntroModal.test.jsx):
 
 ```jsx
 import * as HslModalModule from '@hsl-fi/modal';

@@ -8,13 +8,13 @@ Consumed via the `build` script (`webpack --progress --color`, run with
 `NODE_ENV=production`) and via `webpack-dev-server` during `yarn run dev`.
 Two env vars change its behavior: `NODE_ENV` (production vs. anything else)
 and `CONFIG` (regional deployment — `hsl`/`tampere`/`matka`/etc., see
-`server/configs/config.*.js`).
+`src/server/configs/config.*.js`).
 
 ## Bootstrapping
 
 The repo is `"type": "module"`, so this config is native ESM — no
 `@babel/register` bootstrap needed to `import` `./scripts/build/
-contextHelper.js` (and, transitively, `server/configs/config.js` and the regional
+contextHelper.js` (and, transitively, `src/server/configs/config.js` and the regional
 configs). `import.meta.dirname` (as `rootDir`) replaces `__dirname`;
 `createRequire(import.meta.url)` is kept only for the two
 `require.resolve(...)` polyfill lookups in `resolve.fallback`/`plugins`
@@ -26,15 +26,15 @@ and output settings.
 
 ## Entries & per-deployment theming
 
-- `main` is the real app entry (`app/client/publicPath` + `app/client/client`).
-  `client.jsx` imports `styles/main.scss`, so every theme shares one stylesheet.
+- `main` is the real client entry (`src/client/publicPath` + `src/client/client`).
+  `client.jsx` imports `src/styles/main.scss`, so every theme shares one stylesheet.
 - In production, `scripts/build/contextHelper.js` adds one `<theme>_theme`
-  entry per regional theme's `styles/themes/<theme>/theme.scss`, plus a
+  entry per regional theme's `src/styles/themes/<theme>/theme.scss`, plus a
   `<sprite>` entry for any config-declared SVG sprite sheet (`config.sprites`),
   which content-hashes it into `manifest.json`. The sprite itself is
   generated before webpack runs (see "SVG sprite sheets" below). With `CONFIG`
   set, only the `default` theme and the selected config's theme build;
-  otherwise every `server/configs/config.*.js` deployment does.
+  otherwise every `src/server/configs/config.*.js` deployment does.
 - `faviconPlugins` (same file) generates one `favicons-webpack-plugin`
   instance per deployment, producing per-deployment favicons/app icons
   under `assets/icons-<CONFIG>-[contenthash]/`. Apple startup images and
@@ -54,8 +54,8 @@ and output settings.
   and matches the `[contenthash]` already used for CSS output below.
 - `publicPath`: `/proxy/` in dev (see `devServer` below), `/` in prod. This
   `/` only matters for webpack's own JS-runtime asset resolution (chunk/
-  script loading, images imported from `.jsx`), which `app/client/
-  publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
+  script loading, images imported from `.jsx`), which
+  `src/client/publicPath.js` overrides at runtime from `window.ASSET_URL` (the actual
   CDN base path) before anything else runs. It does **not** reach `url()`
   references baked into compiled CSS (background images, e.g. the
   `.scss`-defined dotted-line assets) — those are static text,
@@ -101,12 +101,12 @@ the dev server runs aren't picked up — re-run `yarn static`.
 
 ## SVG sprite sheets
 
-Icons live as one file per icon in `app/assets/icons/<theme>/<id>.svg`, and
+Icons live as one file per icon in `src/client/assets/icons/<theme>/<id>.svg`, and
 `scripts/build/buildSprites.js` (`yarn sprites`, run by `prebuild` and
 `scripts/dev.sh`) assembles them into `_static/assets/svg-sprite.<theme>.svg`.
 `default/` holds every icon; any other theme directory only holds the icons
 it adds or re-skins, layered on top of the default set. Each file's name is
-its symbol id, the key `<Icon img>` and `utils/client/mapIconUtils.js` use.
+its symbol id, the key `<Icon img>` and `src/client/utils/mapIconUtils.js` use.
 Every file must be well-formed XML with an `<svg>` root, or the build fails.
 `test/unit/server/configs/sprites.test.js` also requires id-safe filenames and
 that no `id` repeats within a sprite: all symbols share one page, so an
@@ -116,7 +116,7 @@ formatted with Prettier (`@prettier/plugin-xml`; `yarn prettier-icons`, fixed by
 `yarn format`).
 
 At runtime the sprite is inlined into the page (see `buildBody` in
-`server/middleware/shell.js`): in development it's read from `_static` on
+`src/server/middleware/shell.js`): in development it's read from `_static` on
 every request, in production it's fetched from its content-hashed URL.
 `yarn dev` also runs `yarn sprites --watch`, so an icon edit shows up on the
 next page refresh without a restart.
@@ -127,22 +127,22 @@ JS or HTML, that would need a small plugin emitting the file instead.
 
 All configs' assets are copied regardless of `$CONFIG`, because a deployment
 with no `$CONFIG` set resolves its config per request from the `Host` header
-(`getConfiguration` in `server/configs/config.js`) and so can serve any
+(`getConfiguration` in `src/server/configs/config.js`) and so can serve any
 region, and because `ASSEMBLE_GEOJSON` deployments reference *every* region's
 zone layer.
 
 Only assets the server hands out per request belong in `static/`. Images
-that are bundled into the client live in `app/assets/images/<CONFIG>/`
+that are bundled into the client live in `src/client/assets/images/<CONFIG>/`
 (`default/` holding the fallbacks) and go through the asset-module rule
 below.
 
 ## Module rules (loaders)
 
-- **`app/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
+- **`src/client/**/*.js`** — `babel-loader`, config inline (`configFile: false`;
   `.babelrc`/`babel.config.cjs` are only for tooling: the eslint parser).
   Also sets
   `resolve.fullySpecified: false`: under `"type": "module"` webpack5 would
-  otherwise treat every `app/` file as strict ESM and demand an explicit
+  otherwise treat every `src/client/` file as strict ESM and demand an explicit
   extension on every relative import, but the client bundle keeps the
   project's long-standing extensionless import style.
   `@babel/preset-env` has no explicit `targets` — it inherits the
@@ -157,7 +157,7 @@ below.
   (here and in the `node_modules` rules below) sets `bugfixes: true`.
 - **`@hsl-fi`/`@radix-ui`/`@floating-ui` under `node_modules`** — these
   ship untranspiled modern syntax (ES2018+/ESM), so they get the same
-  `@babel/preset-env` pass normally reserved for `app/**` (all other
+  `@babel/preset-env` pass normally reserved for `src/client/**` (all other
   `node_modules` are skipped for build speed). Also sets
   `resolve.fullySpecified: false`: these packages are `"type": "module"`
   and reference extensionless subpaths (e.g. `react/jsx-runtime`) that
@@ -196,14 +196,14 @@ below.
 - **Images/fonts** (`eot|gif|png|ttf|woff|svg|jpeg|jpg`) — webpack5 built-in
   asset modules, replacing `file-loader`/`url-loader`. `asset/resource` in
   both dev and prod: always emits a real, content-hashed file and never
-  inlines as a data URI. `app/assets/assetUrl.js` makes every image under
-  `app/assets/images/` reachable from the main chunk (see below), so inlining
+  inlines as a data URI. `src/client/assets/assetUrl.js` makes every image under
+  `src/client/assets/images/` reachable from the main chunk (see below), so inlining
   the small ones would add ~130 kB of base64 to it.
 
 ## `import.meta.webpackContext`
 
-`app/assets/assetUrl.js` is the only module bound to a webpack-specific API.
-It builds a compile-time map of every image under `app/assets/images/` so a
+`src/client/assets/assetUrl.js` is the only module bound to a webpack-specific API.
+It builds a compile-time map of every image under `src/client/assets/images/` so a
 config-supplied path (`config.logo`, `config.thumbsUpGraphic`, ...) resolves
 to its content-hashed URL synchronously, with no dynamic `import()` and so no
 loading state or render flash.
@@ -243,7 +243,7 @@ Production gets (development gets none of these):
 - **`WebpackAssetsManifest`** — writes `../manifest.json`: a
   name→hashed-filename map, plus (`entrypoints: true`) an `entrypoints`
   key listing each entry's files grouped by extension, in load order
-  (`entrypoints.main.assets.{js,css}`). `server/html/assetManifest.js`
+  (`entrypoints.main.assets.{js,css}`). `src/server/html/assetManifest.js`
   reads both: the map for theme CSS/sprite lookups, `entrypoints.main` for
   which hashed JS/CSS files to preload/link and which runtime chunk to
   inline. Imported via its named export (`{ WebpackAssetsManifest }`); v6
@@ -265,7 +265,7 @@ Both dev and prod also always get:
     Next.js router internals reading `process.env.__NEXT_*` flags with no
     guard.
   - `Buffer` — `mqtt-packet` (required by the `mqtt` package,
-    dynamically imported by `utils/client/mqttClient.js` for real-time
+    dynamically imported by `src/client/utils/mqttClient.js` for real-time
     vehicle-position streaming) calls bare `Buffer.from`/`Buffer.alloc`
     at module-init time with no guard.
 
@@ -348,8 +348,8 @@ Only used by `webpack-dev-server` during `yarn run dev`. Notable:
 `publicPath: '/'` under `/proxy/` (matches `output.publicPath`), `hot:
 false` (full reload on change, no HMR), IPv6 loopback host (`::1`), and a
 permissive CORS header so the separately-running app server
-(`server/app.js`) can proxy asset requests to this dev server.
-Since `devServer.host` is IPv6-only, `server/app.js` targets the
+(`src/server/app.js`) can proxy asset requests to this dev server.
+Since `devServer.host` is IPv6-only, `src/server/app.js` targets the
 literal `[::1]` address rather than the `localhost` hostname when
 proxying — this avoids depending on how the machine's resolver orders
 `localhost`'s A/AAAA records (a resolver that prefers `127.0.0.1` would
@@ -380,8 +380,8 @@ once it is ~6 months old).
 ## Polyfills
 
 Polyfills are added at build time, driven by the browserslist above.
-`app/client/client.jsx` starts with `import 'core-js/stable'`, and
-`@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `app/` loader
+`src/client/client.jsx` starts with `import 'core-js/stable'`, and
+`@babel/preset-env` (`useBuiltIns: 'entry'`, `corejs` in the `src/client/` loader
 rule of `webpack.config.js`) rewrites that import into only the core-js
 modules the targets lack. The packages (built with
 `@digitransit-ui/rollup-config`) do not polyfill themselves. The polyfills are global, so they also cover

@@ -42,6 +42,34 @@ const feature3 = {
     label: 'test',
   },
 };
+
+const testdata = {
+  stop: {
+    accuracy: 'centroid',
+    confidence: 0.542497680890538,
+    country: 'Suomi',
+    country_a: 'FIN',
+    country_gid: 'whosonfirst:country:85633143',
+    gid: 'gtfshsl:stop:GTFS:HSL:1293163#1636',
+    id: 'GTFS:HSL:1293163#1636',
+    label: 'Teuvo Pakkalan tie 1636, Pohjois-Haaga, Helsinki',
+    layer: 'stop',
+    localadmin: 'Helsinki',
+    localadmin_gid: 'whosonfirst:localadmin:907199715',
+    locality: 'Helsinki',
+    locality_gid: 'whosonfirst:locality:101748417',
+    name: 'Teuvo Pakkalan tie 1636',
+    neighbourhood: 'Pohjois-Haaga',
+    neighbourhood_gid: 'whosonfirst:neighbourhood:85907969',
+    postalcode: '00400',
+    postalcode_gid: 'whosonfirst:postalcode:421473047',
+    region: 'Uusimaa',
+    region_gid: 'whosonfirst:region:85683067',
+    source: 'gtfshsl',
+    source_id: 'gtfs:hsl:1293163#1636',
+  },
+};
+
 describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label module', () => {
   describe('uniqByLabel()', () => {
     it('Checking that returns unique results by label', () => {
@@ -78,6 +106,39 @@ describe('Testing @digitransit-search-util/digitransit-search-util-uniq-by-label
       expect(output.length).toBe(2);
       expect(output[0]).toBe('Koti');
       expect(output[1]).toBe('Vermonrinne 1, Espoo');
+    });
+
+    it('should include locality in plaintext gtfs stop label', () => {
+      const label = getNameLabel(testdata.stop, true);
+      expect(label[1]).toBe('Helsinki');
+    });
+
+    it('should include agency in the plaintext for routes', () => {
+      const properties = {
+        agency: { name: 'Tampereen joukkoliikenne' },
+        layer: 'route-BUS',
+        longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+        shortName: '32',
+      };
+
+      const label = getNameLabel(properties, true);
+      expect(label).toEqual([
+        '32',
+        'TAYS - Hervanta - Hatanpää-Tampella',
+        'Tampereen joukkoliikenne',
+      ]);
+    });
+
+    it('should ignore a missing agency in the plaintext for routes', () => {
+      const properties = {
+        agency: null,
+        layer: 'route-BUS',
+        longName: 'TAYS - Hervanta - Hatanpää-Tampella',
+        shortName: '32',
+      };
+
+      const label = getNameLabel(properties, true);
+      expect(label).toEqual(['32', 'TAYS - Hervanta - Hatanpää-Tampella', undefined]);
     });
   });
 

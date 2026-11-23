@@ -1,7 +1,7 @@
 import fetchCitybikeConfigurations, {
   buildCitybikeConfig,
   handleCitybikeSeasonConfigurations,
-} from '../../../../server/services/citybikeSeasons';
+} from '../../../../src/server/services/citybikeSeasons';
 
 const { fetchAll, loadAllRawConfigurations, setAvailableCitybikeConfigurations } = vi.hoisted(
   () => ({
@@ -18,7 +18,7 @@ vi.mock('@azure/cosmos', () => ({
     }
   },
 }));
-vi.mock('../../../../server/configs/config', () => ({
+vi.mock('../../../../src/server/configs/config', () => ({
   loadAllRawConfigurations,
   setAvailableCitybikeConfigurations,
 }));
