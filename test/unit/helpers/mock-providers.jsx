@@ -4,19 +4,24 @@ import { ReactRelayContext } from 'react-relay';
 import PropTypes from 'prop-types';
 import { IntlProvider, createIntl, createIntlCache } from 'react-intl';
 import { render } from '@testing-library/react';
-import { routerShape, matchShape, configShape, vehicleShape } from '../../../utils/client/shapes';
-import { ConfigProvider } from '../../../app/hooks/ConfigContext';
-import { MapLayerProvider } from '../../../app/hooks/MapLayerContext';
-import { PositionProvider } from '../../../app/hooks/PositionContext';
-import { TimeProvider, TimeContext } from '../../../app/hooks/TimeContext';
+import {
+  routerShape,
+  matchShape,
+  configShape,
+  vehicleShape,
+} from '../../../src/client/utils/shapes';
+import { ConfigProvider } from '../../../src/client/hooks/ConfigContext';
+import { MapLayerProvider } from '../../../src/client/hooks/MapLayerContext';
+import { PositionProvider } from '../../../src/client/hooks/PositionContext';
+import { TimeProvider, TimeContext } from '../../../src/client/hooks/TimeContext';
 import {
   RealTimeInformationProvider,
   useRealTimeActions,
-} from '../../../app/hooks/RealTimeInformationContext';
-import translations from '../../../app/translations/en';
+} from '../../../src/client/hooks/RealTimeInformationContext';
+import translations from '../../../src/client/translations/en';
 import { mockContext } from './mock-context';
 import { mockRelayEnvironment } from './mock-relay';
-import { BreakpointContext } from '../../../app/hooks/BreakpointContext';
+import { BreakpointContext } from '../../../src/client/hooks/BreakpointContext';
 
 const defaultMessages = translations.en;
 const intlCache = createIntlCache();

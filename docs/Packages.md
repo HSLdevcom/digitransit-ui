@@ -133,7 +133,7 @@ package has actually used since the migration to Rollup). Instead:
 
 Tests run on [Vitest](https://vitest.dev), configured from a single root
 `vitest.config.js` (one `test.projects` entry per family, plus one for the
-main app suite — see `docs/Tests.md`). `component`
+client suite — see `docs/Tests.md`). `component`
 runs under a jsdom environment, configured entirely in `vitest.config.js`
 (no setup file): `environmentOptions.jsdom.html` seeds a persistent
 `<div id="app">` for `@hsl-fi/modal`'s `appElement` prop, and `globals: true`
@@ -171,7 +171,7 @@ Some `digitransit-component` packages ship their own i18next translation
 bundle (`src/helpers/translations.js` or `src/utils/translations.js`) — one
 file per package holding every locale, each nested under a `translation`
 namespace, consumed by a package-local `i18n.js` instance. This is a
-different shape from `app/translations/*.js` (one locale per file, no
+different shape from `src/client/translations/*.js` (one locale per file, no
 namespace), so it has its own tooling, separate from the root
 `sort-translations` script:
 
@@ -197,11 +197,11 @@ their `translations.js`: ready-made locale objects (with the package's
 `CloseButton` text) for the languages the DS has no built-in texts for, and
 components pass `lang={hslfiLocales[lang] ?? lang}`. The built-in languages
 (fi/sv/en) need no entry. The app builds one locale object from its own
-translations at client startup (`initHslfiLocale` in `app/client/client.jsx`)
-and components pass `lang={hslfiLocale}` from `utils/client/hslfiLocale.js`.
+translations at client startup (`initHslfiLocale` in `src/client/client.jsx`)
+and components pass `lang={hslfiLocale}` from `src/client/utils/hslfiLocale.js`.
 Translations missing from the object (fi/sv/en) fall back to the design
 system's built-in texts; other languages must contain all of them (tested in
-`test/unit/utils/client/hslfiLocale.test.js`).
+`test/unit/client/utils/hslfiLocale.test.js`).
 
 ## Documentation (README generation)
 
@@ -386,7 +386,7 @@ Their published versions remain on npm.
 
 - **`@digitransit-component/digitransit-component`** — this family's
   meta-package, re-exporting every sibling component. No call site in
-  `app/**` used it; every consumer imports the specific
+  `src/client/**` used it; every consumer imports the specific
   `@digitransit-component/digitransit-component-*` sub-package it needs
   directly.
 - **`@digitransit-util/digitransit-util`** — this family's equivalent
@@ -400,7 +400,7 @@ Their published versions remain on npm.
   consumers.
 - **`@digitransit-util/digitransit-util-route-pattern-option-text`** — no
   longer used by the app; route pattern option texts are built in
-  `app/component/routepage/` instead.
+  `src/client/component/routepage/` instead.
 - **`@digitransit-search-util/digitransit-search-util-execute-search-immidiate`**
   — renamed due to a spelling fix; use
   `@digitransit-search-util/digitransit-search-util-execute-search-immediate`

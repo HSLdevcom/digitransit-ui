@@ -1,4 +1,4 @@
-import tampereConfig from '../../../../server/configs/config.tampere';
+import tampereConfig from '../../../../src/server/configs/config.tampere';
 
 describe('tampere configuration', () => {
   describe.skip('realTime', () => {

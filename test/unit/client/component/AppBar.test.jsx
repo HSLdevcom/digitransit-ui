@@ -1,0 +1,39 @@
+import { fireEvent } from '@testing-library/react';
+import { renderWithProviders } from '../../helpers/mock-providers';
+import AppBar from '../../../../src/client/component/AppBar';
+import { mockContext } from '../../helpers/mock-context';
+
+describe('<AppBar />', () => {
+  beforeAll(() => {
+    vi.stubGlobal('requestAnimationFrame', cb => setTimeout(cb, 0));
+    vi.stubGlobal('cancelAnimationFrame', id => clearTimeout(id));
+  });
+
+  afterAll(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it('should show logo', () => {
+    const { container } = renderWithProviders(
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" showLogo breakpoint="large" />,
+    );
+    expect(container.querySelector('.logo')).not.toBeNull();
+  });
+
+  it('should show text logo when textLogo is true', () => {
+    const { container } = renderWithProviders(
+      <AppBar titleClicked={() => {}} homeUrl="/" breakpoint="large" />,
+      { config: { ...mockContext.config, textLogo: true, mainMenu: { show: true } } },
+    );
+    expect(container.querySelector('section.title.title')).not.toBeNull();
+  });
+
+  it('should open the menu modal on button click', () => {
+    const { container } = renderWithProviders(
+      <AppBar titleClicked={() => {}} logo="/" homeUrl="/" breakpoint="large" />,
+    );
+    expect(document.body.querySelector('.main-menu')).toBeNull();
+    fireEvent.click(container.querySelector('#openMenuButton'));
+    expect(document.body.querySelector('.main-menu')).not.toBeNull();
+  });
+});

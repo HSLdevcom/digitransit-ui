@@ -1,0 +1,34 @@
+import { renderWithProviders } from '../../../helpers/mock-providers';
+import NearYouFavouritesContainer from '../../../../../src/client/component/nearyou/NearYouFavouritesContainer';
+
+const searchPosition = { lat: 60.17, lon: 24.94 };
+
+describe('<NearYouFavouritesContainer />', () => {
+  it('shows the no-favourites guidance when every favourite is stale', () => {
+    const { container } = renderWithProviders(
+      <NearYouFavouritesContainer
+        stops={[null]}
+        stations={[null]}
+        vehicleStations={[null]}
+        searchPosition={searchPosition}
+        isParentTabActive
+        breakpoint="large"
+      />,
+    );
+    expect(container.querySelector('.no-favourites-container')).not.toBeNull();
+  });
+
+  it('renders nothing extra when there are no favourites at all', () => {
+    const { container } = renderWithProviders(
+      <NearYouFavouritesContainer
+        stops={[]}
+        stations={[]}
+        vehicleStations={[]}
+        searchPosition={searchPosition}
+        isParentTabActive
+        breakpoint="large"
+      />,
+    );
+    expect(container.querySelector('.no-favourites-container')).not.toBeNull();
+  });
+});

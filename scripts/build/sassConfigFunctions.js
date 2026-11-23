@@ -1,7 +1,7 @@
 import get from 'lodash/get.js';
 import * as sass from 'sass';
 
-import { getNamedConfiguration } from '../../server/configs/config.js';
+import { getNamedConfiguration } from '../../src/server/configs/config.js';
 
 // Sass functions for a theme's theme.scss: config('colors.primary') reads
 // that value from the theme's config, so it's only defined in one place.
