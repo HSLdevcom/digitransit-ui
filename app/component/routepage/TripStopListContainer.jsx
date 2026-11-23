@@ -8,6 +8,8 @@ import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
 import { getTripOrRouteMode } from '../../../utils/client/modeUtils';
 import { getModeIconColor } from '../../../utils/shared/colorUtils';
 import TripRouteStop from './TripRouteStop';
+import SkippedStops from './SkippedStops';
+import groupSkippedStops from './groupSkippedStops';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { useCurrentTime } from '../../hooks/TimeContext';
 import TripStopListContainerFragment from './queries/TripStopListContainerFragment';
@@ -27,6 +29,11 @@ export default function TripStopListContainer({
   const trip = useFragment(TripStopListContainerFragment, tripRef);
 
   const mode = getTripOrRouteMode(trip, trip.route, config);
+
+  // scheduled stops outside of a detour have no stoptime, so they are not listed
+  const rows = groupSkippedStops(trip.stoptimesForDate, trip.pattern.stops || []).filter(
+    item => item.stoptime,
+  );
 
   const vehiclesByStop = groupBy(
     values(vehicles).filter(vehicle => currentTime - vehicle.timestamp < 5 * 60),
@@ -61,7 +68,8 @@ export default function TripStopListContainer({
         role="tabpanel"
         aria-labelledby="route-stop-tab"
       >
-        {trip.stoptimesForDate.map((stoptime, index) => {
+        {rows.map(item => {
+          const { index, stoptime } = item;
           if (nextStop === stoptime.stop.gtfsId) {
             stopPassed = false;
           } else if (
@@ -69,6 +77,20 @@ export default function TripStopListContainer({
             (!vehicle || !vehicle.next_stop || !nextStopExistsOnRoute)
           ) {
             stopPassed = false;
+          }
+          const routeColor =
+            trip.route && trip.route.color
+              ? `#${trip.route.color}`
+              : getModeIconColor(config, mode);
+          if (item.skipped) {
+            return (
+              <SkippedStops
+                key={`skipped-${item.skipped[0].gtfsId}-${item.index}`}
+                stops={item.skipped}
+                color={routeColor}
+                stopPassed={stopPassed}
+              />
+            );
           }
           const nextStoptimeForDate = trip.stoptimesForDate[index + 1];
           const prevStop = trip.stoptimesForDate[index - 1]?.stop;
@@ -81,11 +103,7 @@ export default function TripStopListContainer({
               nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
               prevStop={prevStop || null}
               mode={mode}
-              color={
-                trip.route && trip.route.color
-                  ? `#${trip.route.color}`
-                  : getModeIconColor(config, mode)
-              }
+              color={routeColor}
               vehicles={vehiclesByStop[stoptime.stop.gtfsId]}
               selectedVehicle={vehicle}
               stopPassed={stopPassed}

@@ -243,6 +243,15 @@ type ArrivalDepartureTime {
   arrival: OffsetDateTime
   "Departure time as an ISO-8601-formatted datetime."
   departure: OffsetDateTime
+  """
+  If set to `true`, indicates that the scheduled arrival and departure times for a stop are strictly
+  adhered to and not approximated. If the vehicle is early it will wait until the scheduled departure
+  time before departing.
+    
+  If set to `false`, then times are approximated. If the vehicle is early it might not wait until the
+  scheduled departure time before departing.
+  """
+  timePoint: Boolean!
 }
 
 "Bike park represents a location where bicycles can be parked."
@@ -456,7 +465,7 @@ type Cluster implements Node {
   "ID of the cluster"
   gtfsId: String! @deprecated(reason : "Not implemented")
   "Global object ID provided by Relay. This value can be used to refetch this object using **node** query."
-  id: ID! @deprecated(reason : "Not implemented")
+  id: ID!
   "Latitude of the center of this cluster (i.e. average latitude of stops in this cluster)"
   lat: Float! @deprecated(reason : "Not implemented")
   "Longitude of the center of this cluster (i.e. average longitude of stops in this cluster)"
@@ -2687,7 +2696,7 @@ type Stop implements Node & PlaceInterface {
     radius of `maxDistance`.
     """
     maxDistance: Int
-  ): [stopAtDistance] @timingData
+  ): [stopAtDistance]
   url(
     """
     If translated url is found from gtfs translation.txt and wanted language is not same as
@@ -2817,9 +2826,14 @@ type Stoptime {
   "Real-time prediction of departure time. Format: seconds since midnight of the departure date"
   realtimeDeparture: Int
   """
-  State of real-time data. Currently used to determine, whether a stop has been canceled.
-  Disclaimer: this is, in most cases the trips realtime state, unless the stop is canceled,
-  then the Trips State will be overwritten to be CANCELED.
+  Real-time state of this stop.
+    
+  `CANCELED` if the stop or its trip is canceled. Otherwise this is the trip's real-time state,
+  unless the trip's stop pattern has been modified (e.g. by a GTFS-RT `REPLACEMENT` trip update).
+  In that case it is `ADDED` if the stop is not part of the scheduled trip, `UPDATED` if the stop
+  has real-time data and `SCHEDULED` if it does not. Scheduled stops left out of a modified trip
+  are not listed.
+    
   It is recommended to avoid using this field.
   """
   realtimeState: RealtimeState
@@ -4743,7 +4757,11 @@ input CarParkingPreferencesInput {
   unpreferredCost: Cost
 }
 
-"Preferences related to traveling on a car (excluding car travel on transit services such as taxi)."
+"""
+Preferences for street car legs. These can affect such legs in both direct and transit itineraries.
+They do not apply to flex services or to the transit taxi mode, which is different from the street
+taxi mode.
+"""
 input CarPreferencesInput {
   "Cost of boarding a vehicle with a car."
   boardCost: Cost
@@ -5199,10 +5217,7 @@ transit.
 input PlanStreetPreferencesInput {
   "Cycling related preferences."
   bicycle: BicyclePreferencesInput
-  """
-  Car related preferences. These are not used for car travel as part of transit, such as
-  taxi travel.
-  """
+  "Car related preferences."
   car: CarPreferencesInput
   "Scooter (kick or electrical) related preferences."
   scooter: ScooterPreferencesInput

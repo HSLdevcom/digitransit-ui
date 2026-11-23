@@ -118,6 +118,7 @@ export default function TripRouteStop({
           <Icon img={badgeImg} className="route-stop-status-badge" />
         ) : (
           <svg
+            className={cx({ 'route-stop-replacement': stoptime.realtimeState === 'ADDED' })}
             width="16"
             height="16"
             viewBox="0 0 16 16"
@@ -133,6 +134,16 @@ export default function TripRouteStop({
               stroke={(!stopPassed && color) || 'currentColor'}
               strokeWidth="4"
             />
+            {stoptime.realtimeState === 'ADDED' && (
+              // a replacement stop has a dot in the center
+              <circle
+                cx="8"
+                cy="8"
+                r="2"
+                stroke="none"
+                fill={(!stopPassed && color) || 'currentColor'}
+              />
+            )}
           </svg>
         )}
         <div
@@ -205,6 +216,7 @@ TripRouteStop.propTypes = {
     realtimeDeparture: PropTypes.number,
     realtimeArrival: PropTypes.number,
     serviceDay: PropTypes.number,
+    realtimeState: PropTypes.string,
   }).isRequired,
   currentTime: PropTypes.number.isRequired,
   pattern: PropTypes.string.isRequired,

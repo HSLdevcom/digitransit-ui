@@ -1,3 +1,4 @@
+import { fireEvent } from '@testing-library/react';
 import TripStopListContainer from '../../../app/component/routepage/TripStopListContainer';
 import { renderWithProviders } from '../helpers/mock-providers';
 import { mockContext } from '../helpers/mock-context';
@@ -80,5 +81,119 @@ describe('<TripStopListContainer />', () => {
     });
     expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
     expect(container.querySelectorAll('.route-stop-now')).toHaveLength(1);
+  });
+
+  it('should group skipped stops and mark added stops', () => {
+    const serviceDay = 1551650400;
+    const st = (id, realtimeState) => ({
+      realtimeDeparture: 1000,
+      serviceDay,
+      realtimeState,
+      stop: { gtfsId: `stop:${id}`, name: `Name ${id}`, alerts: [] },
+    });
+    const props = {
+      trip: {
+        gtfsId: 'feed:1',
+        pattern: {
+          code: 'foobar-1-1',
+          directionId: 1,
+          stops: [1, 2, 3, 4, 5].map(id => ({ gtfsId: `stop:${id}`, name: `Name ${id}` })),
+        },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
+        stoptimesForDate: [st(1, 'UPDATED'), st(2, 'CANCELED'), st(6, 'ADDED'), st(5, 'UPDATED')],
+      },
+      tripStart: '',
+    };
+    const { container, getAllByRole, queryByText } = renderWithProviders(
+      <TripStopListContainer {...props} />,
+      {
+        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+        currentTime: serviceDay,
+      },
+    );
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(3);
+    expect(queryByText('Name 2')).toBeNull();
+    const toggles = getAllByRole('button', { expanded: false });
+    expect(toggles).toHaveLength(1);
+    fireEvent.click(toggles[0]);
+    ['Name 2', 'Name 3', 'Name 4'].forEach(name => expect(queryByText(name)).not.toBeNull());
+    expect(container.querySelectorAll('.route-stop-replacement')).toHaveLength(1);
+  });
+
+  it('should show one group for a run of canceled stops at the trip edges', () => {
+    const serviceDay = 1551650400;
+    const st = (id, realtimeState) => ({
+      realtimeDeparture: 1000,
+      serviceDay,
+      realtimeState,
+      stop: { gtfsId: `stop:${id}`, name: `Name ${id}`, alerts: [] },
+    });
+    const props = {
+      trip: {
+        gtfsId: 'feed:1',
+        pattern: { code: 'foobar-1-1', directionId: 1, stops: [] },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
+        stoptimesForDate: [
+          st(1, 'CANCELED'),
+          st(2, 'CANCELED'),
+          st(3, 'UPDATED'),
+          st(4, 'CANCELED'),
+          st(5, 'CANCELED'),
+          st(6, 'CANCELED'),
+        ],
+      },
+      tripStart: '',
+    };
+    const { container, getAllByRole } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: serviceDay,
+    });
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
+    expect(getAllByRole('button', { expanded: false })).toHaveLength(2);
+  });
+
+  it('should show one group for a detour with interleaved canceled and added stops', () => {
+    const serviceDay = 1551650400;
+    const st = (id, realtimeState) => ({
+      realtimeDeparture: 1000,
+      serviceDay,
+      realtimeState,
+      stop: { gtfsId: `stop:${id}`, name: `Name ${id}`, alerts: [] },
+    });
+    const props = {
+      trip: {
+        gtfsId: 'feed:1',
+        pattern: {
+          code: 'foobar-1-1',
+          directionId: 1,
+          stops: ['a', 'c1', 'c2', 'c3', 'b'].map(id => ({
+            gtfsId: `stop:${id}`,
+            name: `Name ${id}`,
+          })),
+        },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
+        stoptimesForDate: [
+          st('a', 'UPDATED'),
+          st('c1', 'CANCELED'),
+          st('x1', 'ADDED'),
+          st('c2', 'CANCELED'),
+          st('x2', 'ADDED'),
+          st('c3', 'CANCELED'),
+          st('x3', 'ADDED'),
+          st('b', 'UPDATED'),
+        ],
+      },
+      tripStart: '',
+    };
+    const { container, getAllByRole } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: serviceDay,
+    });
+    expect(getAllByRole('button', { expanded: false })).toHaveLength(1);
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(5);
+    expect(container.querySelectorAll('.route-stop-replacement')).toHaveLength(3);
+    // the group comes before the added stops
+    const html = container.innerHTML;
+    expect(html.indexOf('aria-expanded')).toBeLessThan(html.indexOf('Name x1'));
   });
 });

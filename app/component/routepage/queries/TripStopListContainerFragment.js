@@ -16,6 +16,13 @@ const TripStopListContainerFragment = graphql`
     pattern {
       code
       directionId
+      stops {
+        gtfsId
+        name
+        desc
+        code
+        zoneId
+      }
     }
     stoptimesForDate {
       stop {

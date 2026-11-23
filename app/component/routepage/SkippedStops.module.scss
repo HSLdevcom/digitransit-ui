@@ -1,0 +1,148 @@
+@use '../../../styles/abstracts' as *;
+
+.container {
+  display: flex;
+  max-width: 100%;
+}
+
+// Continues the stop list's vertical line through the group
+.line {
+  position: relative;
+  min-width: 15px;
+}
+
+.line-bar {
+  position: absolute;
+  top: 0;
+
+  // Stop lines overlap the next row by 17px (circle offset), do the same
+  bottom: -17px;
+  left: 4px;
+  width: 8px;
+  background-color: currentcolor;
+
+  &.passed {
+    background-color: $muted-gray;
+  }
+}
+
+.box {
+  flex: 1;
+  min-width: 0;
+  margin: 8px 15px 24px;
+  padding: 0 16px 16px;
+  border: 1px solid $light-gray;
+  border-radius: 8px;
+
+  // The heading is hidden, the box is a card instead of an outlined group
+  &.open {
+    padding: 16px;
+    border-color: transparent;
+    border-radius: 16px;
+    box-shadow: 0 2px 8px rgb(0 0 0 / 15%);
+  }
+}
+
+.legend {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 8px;
+  font-size: $font-size-small;
+  color: $dark-gray;
+}
+
+.count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  border-radius: 10px;
+  background: $cancelation-red;
+  color: $white;
+  font-size: $font-size-xxsmall;
+}
+
+.list {
+  $skipped-line-bg: #fdf3f6;
+
+  position: relative;
+  margin: 0 0 16px 16px;
+  padding: 0;
+  list-style: none;
+
+  // Pale strip behind the dashed line
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    z-index: 0;
+    border-radius: 3px;
+  }
+
+  &::before {
+    // centers the 6px strip on the 16px markers
+    left: 5px;
+    width: 6px;
+    background: $skipped-line-bg;
+  }
+
+  &::after {
+    left: 6.5px;
+    width: 3px;
+    border-radius: 1.5px;
+    background: repeating-linear-gradient(to bottom, $cancelation-red 0 6px, transparent 6px 11px);
+  }
+}
+
+.stop {
+  position: relative;
+  display: flex;
+  gap: 16px;
+  padding: 8px 0;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.cross {
+  position: relative;
+  z-index: 1;
+  flex-shrink: 0;
+
+  // the white ring is drawn outside the 16px box
+  overflow: visible;
+  margin-top: 2px;
+  fill: $cancelation-red;
+}
+
+.address {
+  display: flex;
+  align-items: center;
+}
+
+.name {
+  font-size: $font-size-normal;
+  color: $dark-gray;
+}
+
+.toggle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  padding: 8px 16px;
+  border: 1px solid $light-gray;
+  border-radius: 20px;
+  background: $white;
+  color: $link-color;
+  font-family: $font-family;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+  cursor: pointer;
+}
