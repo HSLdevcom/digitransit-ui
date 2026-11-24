@@ -121,7 +121,7 @@ function getTripDescriptionText(
  * @param {number} params.duration - Total itinerary duration in milliseconds
  * @returns {string}
  */
-export function getSummaryDescriptionText(intl, { rowNumber, co2value = null, ...tripParams }) {
+export function getItineraryScreenReaderText(intl, { rowNumber, co2value = null, ...tripParams }) {
   return [
     intl.formatMessage({ id: 'summary-page.row-label' }, { number: rowNumber }),
     getTripDescriptionText(intl, tripParams),

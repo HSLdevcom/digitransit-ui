@@ -14,7 +14,7 @@ import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../utils/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
-import { getItineraryLegSummary, getSummaryDescriptionText } from './itineraryUtils';
+import { getItineraryLegSummary, getItineraryScreenReaderText } from './itineraryUtils';
 import useItineraryNavigation from './useItineraryNavigation';
 import useItineraryDisplayState from './useItineraryDisplayState';
 import ItineraryTimeSummary from './ItineraryTimeSummary';
@@ -126,8 +126,7 @@ export default function Itinerary({
   const showCo2Info =
     config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
 
-  // accessible representation for summary
-  const summaryDescription = getSummaryDescriptionText(intl, {
+  const screenReaderText = getItineraryScreenReaderText(intl, {
     rowNumber: props.hash + 1,
     co2value: showCo2Info ? co2value : null,
     hasCallAgencyLeg,
@@ -160,7 +159,7 @@ export default function Itinerary({
       ])}
       aria-atomic="true"
     >
-      <div className="sr-only">{summaryDescription}</div>
+      <div className="sr-only">{screenReaderText}</div>
       <div
         className="itinerary-summary-visible"
         style={{ display: 'flex' }}
