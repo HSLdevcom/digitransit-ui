@@ -11078,7 +11078,6 @@ __metadata:
     async: "npm:^3.2.6"
     autoprefixer: "npm:^10.6.2"
     axe-core: "npm:4.14.0"
-    axios: "npm:1.21.0"
     babel-loader: "npm:^10.1.1"
     babel-plugin-dynamic-import-node: "npm:2.3.3"
     babel-plugin-optimize-clsx: "npm:2.6.2"
