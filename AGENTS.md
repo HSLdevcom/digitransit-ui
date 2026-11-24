@@ -52,6 +52,7 @@ and watchman. See `docs/Installation.md`.
 | Dev server at http://localhost:8080 | `API_SUBSCRIPTION_TOKEN=<key> yarn dev`, optionally with `API_TYPE=<type>` |
 | Production build and server | `CONFIG=hsl yarn build && yarn start`, with `API_URL=…` for another backend |
 | Lint, or fix what can be fixed | `yarn lint`, `yarn format` (also sorts translations) |
+| Lint specific files | `yarn exec eslint <files>` |
 | All unit tests | `yarn test-unit` |
 | Client or server tests only | `yarn test-unit-client`, `yarn test-unit-server`; add a path substring or `-t "<name>"` |
 | Relay artifacts | `yarn relay` (`yarn dev` watches) |
@@ -62,6 +63,7 @@ and watchman. See `docs/Installation.md`.
   - `production`: `api.digitransit.fi`;
   - `local`: OTP at `http://localhost:9080/otp/`.
 - Pushing runs the whole unit suite (the pre-push hook), so a push can be slow or rejected.
+- `yarn run -T eslint <files>` invokes the root `eslint` script, which lints the entire repository.
 - The Playwright MCP server in `.mcp.json` can drive the dev server for exploring. It is not a test runner.
 
 ## Data flow
