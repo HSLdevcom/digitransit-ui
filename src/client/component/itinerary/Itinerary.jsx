@@ -4,7 +4,7 @@ import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { locationShape, itineraryShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import Feedback from './Feedback';
+import AnimatedFeedback from './AnimatedFeedback';
 import { getTotalDistance, getZones, isCallAgencyLeg, isBoardableLeg } from '../../utils/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../utils/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
@@ -17,7 +17,7 @@ import FirstLegStartTime from './FirstLegStartTime';
 import { getItineraryScreenReaderText } from './itineraryUtils';
 import { getLegStripModel, formatVehicleNames } from './legStripModel';
 import useItineraryNavigation from './useItineraryNavigation';
-import useItineraryDisplayState from './useItineraryDisplayState';
+import useOverflowDetection from './useOverflowDetection';
 import TimeRow from './TimeRow';
 import LegStrip from './LegStrip';
 import RentalDurationWarning from './RentalDurationWarning';
@@ -101,14 +101,7 @@ export default function Itinerary({
     duration,
   });
 
-  const gotFeedback = props.feedback !== undefined;
-  const {
-    itineraryContainerOverflowRef,
-    showOverflowIcon,
-    isExpanded,
-    feedbackExpandDone,
-    handleFeedbackTransitionEnd,
-  } = useItineraryDisplayState(gotFeedback);
+  const { overflowRef, showOverflowIcon } = useOverflowDetection();
 
   return (
     <div
@@ -171,7 +164,7 @@ export default function Itinerary({
                 </TimeRow>
               </div>
               <LegStrip
-                ref={itineraryContainerOverflowRef}
+                ref={overflowRef}
                 items={items}
                 showOverflowIcon={showOverflowIcon}
                 iconLegsInPixels={iconLegsInPixels}
@@ -191,24 +184,11 @@ export default function Itinerary({
               )}
             </div>
             {props.giveFeedback && props.recommended && (
-              <div
-                className={
-                  gotFeedback
-                    ? ''
-                    : cx('feedback-animated', { open: isExpanded, expanded: feedbackExpandDone })
-                }
-                onTransitionEnd={handleFeedbackTransitionEnd}
-              >
-                <div className={gotFeedback ? '' : 'feedback-motion'}>
-                  <div className="feedback-frame">
-                    <Feedback
-                      recommended={props.recommended}
-                      feedback={props.feedback}
-                      giveFeedback={props.giveFeedback}
-                    />
-                  </div>
-                </div>
-              </div>
+              <AnimatedFeedback
+                recommended={props.recommended}
+                feedback={props.feedback}
+                giveFeedback={props.giveFeedback}
+              />
             )}
             <div className="summary-separator" />
           </div>
