@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { Fragment } from 'react';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { isBikeRentalLeg } from '../../utils/legUtils';
 import { configShape, legShape } from '../../utils/shapes';
 import Icon from '../Icon';
@@ -11,6 +11,7 @@ import {
 } from '../../../shared/utils/vehicleRentalUtils';
 
 export default function VehicleRentalDurationInfo({ legs, config }) {
+  const { locale } = useIntl();
   const rentalBikeNetworks = new Set();
   legs.filter(isBikeRentalLeg).forEach(leg => {
     const network = leg.from.vehicleRentalStation?.rentalNetwork.networkId;
@@ -29,15 +30,13 @@ export default function VehicleRentalDurationInfo({ legs, config }) {
     return null;
   }
 
-  const lang = config.language;
-
   if (networks.length === 1) {
     const vehicleRentalStationNetwork = getRentalNetworkId(networks);
     const vehicleIcon = getRentalNetworkIcon(
       getRentalNetworkConfig(vehicleRentalStationNetwork, config),
     );
     const vehicleRentalStationNetworkDurationInfoLink =
-      config.vehicleRental.networks[vehicleRentalStationNetwork].durationInstructions[lang];
+      config.vehicleRental.networks[vehicleRentalStationNetwork].durationInstructions[locale];
     const duration =
       config.vehicleRental.networks[vehicleRentalStationNetwork].timeBeforeSurcharge / 60;
 
@@ -81,11 +80,11 @@ export default function VehicleRentalDurationInfo({ legs, config }) {
           {networks.map(value => (
             <Fragment key={value}>
               <a
-                href={config.vehicleRental.networks[value].durationInstructions[lang]}
+                href={config.vehicleRental.networks[value].durationInstructions[locale]}
                 target="_blank"
                 rel="noreferrer"
               >
-                {config.vehicleRental.networks[value].name[lang]}
+                {config.vehicleRental.networks[value].name[locale]}
                 {' - '}
                 <FormattedMessage id="read-more" defaultMessage="Read more" />›
               </a>

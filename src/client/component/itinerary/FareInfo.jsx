@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { shouldShowFareInfo, shouldShowMobilePurchaseInfo } from '../../utils/fareUtils';
 import MobileTicketPurchaseInformation from './MobileTicketPurchaseInformation';
 import TicketInformation from './TicketInformation';
@@ -7,6 +8,8 @@ import { getZones } from '../../utils/legUtils';
 import { configShape, fareShape, legShape } from '../../utils/shapes';
 
 export function FareInfo({ config, legs, fares, isMobile }) {
+  const { locale } = useIntl();
+
   if (!shouldShowFareInfo(config, legs, fares)) {
     return null;
   }
@@ -20,7 +23,7 @@ export function FareInfo({ config, legs, fares, isMobile }) {
       fares={fares}
       zones={getZones(legs)}
       legs={legs}
-      ticketLink={localizedUrl(config.ticketLink, config.language)}
+      ticketLink={localizedUrl(config.ticketLink, locale)}
     />
   );
 }

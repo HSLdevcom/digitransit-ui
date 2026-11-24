@@ -14,7 +14,7 @@ export default function LoginPrompt({
   descriptionId = 'login-content',
 }) {
   const intl = useIntl();
-  const { match } = useRouter();
+  const { router, match } = useRouter();
 
   const login = intl.formatMessage({ id: 'login', defaultMessage: 'Log in' });
   const cancel = intl.formatMessage({ id: 'cancel', defaultMessage: 'cancel' });
@@ -23,7 +23,7 @@ export default function LoginPrompt({
 
   const handlePrimaryClick = () => {
     addAnalyticsEvent({ category: 'Favourite', action: 'login', name: null });
-    window.location.assign(getLoginPath(match.location));
+    window.location.assign(getLoginPath(router.createHref(match.location)));
   };
 
   const handleSecondaryClick = () => {

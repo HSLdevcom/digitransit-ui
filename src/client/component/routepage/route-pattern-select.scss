@@ -232,6 +232,19 @@
       background: $suggestion-highlight-color;
     }
 
+    // the pale background alone is not enough contrast
+    &--highlighted {
+      outline: 2px solid $theme-primary-color;
+      outline-offset: -2px;
+      border-radius: 4px;
+    }
+
+    // separators would be drawn over the outline
+    &--highlighted::after,
+    &:has(+ .suggestion--highlighted)::after {
+      display: none;
+    }
+
     .icon.check {
       height: 16px;
       width: 16px;

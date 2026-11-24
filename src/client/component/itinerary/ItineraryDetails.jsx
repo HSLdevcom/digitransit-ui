@@ -74,8 +74,8 @@ export default function ItineraryDetails({
   const itinerary = useFragment(ItineraryDetailsFragment, itineraryRef);
   const { match } = useRouter();
   const config = useConfigContext();
-  const { language } = config;
   const intl = useIntl();
+  const { locale } = intl;
   if (!itinerary?.legs[0]) {
     return null;
   }
@@ -213,7 +213,7 @@ export default function ItineraryDetails({
                 config={config}
                 itinerary={itinerary}
                 carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[language]}
+                emissionsInfolink={config.URL.EMISSIONS_INFO?.[locale]}
               />
             )}
             {shouldShowDisclaimer && (

@@ -8,7 +8,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import FareDisclaimer from './FareDisclaimer';
 import RouteDisclaimer from './RouteDisclaimer';
 
-function getReplacementBusNotification(route, trip, config, language) {
+function getReplacementBusNotification(route, trip, config, locale) {
   const isReplacementRoute =
     route &&
     (getTripOrRouteMode(trip, route, config)?.includes('replacement') ||
@@ -26,15 +26,15 @@ function getReplacementBusNotification(route, trip, config, language) {
     key: `replacementBusNotification-${route.gtfsId || trip?.gtfsId}`,
     content: useRouteDescription
       ? route.desc
-      : config.replacementBusNotification?.content?.[language]?.join(' '),
-    link: useRouteDescription ? route.url : config.replacementBusNotification?.link?.[language],
+      : config.replacementBusNotification?.content?.[locale]?.join(' '),
+    link: useRouteDescription ? route.url : config.replacementBusNotification?.link?.[locale],
   };
 }
 
 export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
   const config = useConfigContext();
-  const { language } = config;
   const intl = useIntl();
+  const { locale } = intl;
   const disclaimers = [];
   const externalOperatorJourneys =
     hasScooterLegs({ legs: compressedLegs }) || hasTaxiLegs({ legs: compressedLegs });
@@ -47,7 +47,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
     legs.forEach(leg => {
       if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
         found[leg.mode] = true;
-        const disclaimer = config.modeDisclaimers[leg.mode][language];
+        const disclaimer = config.modeDisclaimers[leg.mode][locale];
         disclaimers.push(
           <FareDisclaimer
             key={leg.mode}
@@ -59,7 +59,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
       }
     });
 
-    const callAgencyInfo = config.callAgencyInfo?.[language];
+    const callAgencyInfo = config.callAgencyInfo?.[locale];
     if (
       callAgencyInfo &&
       legs.some(
@@ -86,7 +86,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
             agencyName:
               typeof config.primaryAgencyName === 'string'
                 ? config.primaryAgencyName
-                : config.primaryAgencyName?.[language],
+                : config.primaryAgencyName?.[locale],
           }}
         />,
       );
@@ -95,7 +95,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
 
   if (config.replacementBusNotification) {
     legs.forEach(({ route, trip }) => {
-      const notification = getReplacementBusNotification(route, trip, config, language);
+      const notification = getReplacementBusNotification(route, trip, config, locale);
       if (
         notification &&
         !disclaimers.some(disclaimer => disclaimer.props?.text === notification.content)

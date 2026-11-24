@@ -1,6 +1,7 @@
 /* eslint-disable react/no-unstable-nested-components */
 import PropTypes from 'prop-types';
 import { Fragment, useEffect, useRef } from 'react';
+import { useRouter } from 'found';
 import some from 'lodash/some';
 import { matchShape } from '../utils/shapes';
 import {
@@ -23,6 +24,7 @@ import { useConfigContext } from '../hooks/ConfigContext';
 export default function TopLevel({ children, header, map, content, title, meta, match }) {
   const origin = useOrigin();
   const config = useConfigContext();
+  const { router } = useRouter();
   const prevMatchRef = useRef(match);
 
   useEffect(() => {
@@ -38,7 +40,11 @@ export default function TopLevel({ children, header, map, content, title, meta, 
     const newLocation = match.location.pathname;
     if (oldLocation && newLocation && oldLocation !== newLocation) {
       handleUserAnalytics(config);
-      addAnalyticsEvent({ event: 'Pageview', url: newLocation });
+      addAnalyticsEvent({
+        event: 'Pageview',
+        // The browser path, language prefix included.
+        url: router.createHref({ pathname: newLocation }),
+      });
     }
 
     // send tracking calls when visiting a new stop or route

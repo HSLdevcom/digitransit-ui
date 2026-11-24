@@ -35,7 +35,7 @@ export default function VehicleRentalLeg({
   const breakpoint = useBreakpoint();
   const intl = useIntl();
   const config = useConfigContext();
-  const { language } = config;
+  const { locale } = intl;
 
   if (!vehicleRentalStation && !isScooter) {
     return null;
@@ -145,7 +145,7 @@ export default function VehicleRentalLeg({
       {rentalVehicle && !returnBike && isScooter && (
         <ScooterLinkContainer
           rentalVehicle={rentalVehicle}
-          language={language}
+          language={locale}
           mobileReturn={mobileReturn}
         />
       )}
@@ -157,7 +157,7 @@ export default function VehicleRentalLeg({
           <ScooterLinkContainer
             key={`nearestScooter-${nearestScooter.node.place.vehicleId}`}
             rentalVehicle={nearestScooter.node.place}
-            language={language}
+            language={locale}
             mobileReturn={mobileReturn}
           />
         ))}

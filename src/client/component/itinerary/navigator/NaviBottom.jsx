@@ -11,7 +11,7 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 export default function NaviBottom({ setNavigation, arrival, time, legs }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const currentLanguage = config.language;
+  const { locale } = intl;
 
   const handleClose = () => {
     addAnalyticsEvent({ category: 'Itinerary', event: 'navigator', action: 'cancel_navigation' });
@@ -68,7 +68,7 @@ export default function NaviBottom({ setNavigation, arrival, time, legs }) {
         /* TODO HSL hack, make link below configurable */
         <a
           className="navi-ticket-button"
-          href={localizedUrl(config.navigatorTicketLink, currentLanguage)}
+          href={localizedUrl(config.navigatorTicketLink, locale)}
           onClick={handleTicketButtonClick}
           target="_blank"
           rel="noopener noreferrer"

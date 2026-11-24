@@ -1,4 +1,5 @@
 import L from 'leaflet';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { useRef, Fragment } from 'react';
 import { default as Geojson } from 'react-leaflet/es/GeoJSON';
@@ -83,7 +84,8 @@ const haloArray = [
 
 export default function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest }) {
   const config = useConfigContext();
-  const { colors, geoJsonSvgSize, language } = config;
+  const { colors, geoJsonSvgSize } = config;
+  const { locale } = useIntl();
   // cache dynamic icons to allow references by id without data duplication
   const icons = useRef(getIcons(data?.features));
 
@@ -158,7 +160,7 @@ export default function GeoJSON({ bounds, data, geoJsonZoomLevel = 0, ...rest })
           // eslint-disable-next-line react/no-array-index-key
           key={String(feature.id) + index}
           size={geoJsonSvgSize}
-          language={language}
+          language={locale}
           {...rest}
         />
       ))}

@@ -6,13 +6,7 @@ const tr = ms => ({
   estimated: { time: new Date(ms).toISOString(), delay: 0 },
 });
 
-export const config = {
-  CONFIG: 'test',
-  colors: { primary: '#000000' },
-  feedIds: [],
-  zones: {},
-  language: 'en',
-};
+export const config = { CONFIG: 'test', colors: { primary: '#000000' }, feedIds: [], zones: {} };
 
 export const tram2 = {
   mode: 'TRAM',

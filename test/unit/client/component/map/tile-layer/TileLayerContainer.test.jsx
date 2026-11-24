@@ -46,6 +46,7 @@ describe('<TileLayerContainer />', () => {
       sendSelectionAnalytics(
         [{ layer: 'stop', feature: { properties: { stops: 'HSL:1234', type: 'BUS' } } }],
         config,
+        '/',
       );
       expect(spy).toHaveBeenCalledTimes(1);
       expect(spy.mock.calls[0][0]).toEqual({
@@ -60,14 +61,14 @@ describe('<TileLayerContainer />', () => {
     it('should send analytics for multiple targets', () => {
       const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
       const target = { layer: 'stop', feature: { properties: {} } };
-      sendSelectionAnalytics([target, target], config);
+      sendSelectionAnalytics([target, target], config, '/');
       expect(spy.mock.calls[0][0]).toMatchObject({ name: 'multiple' });
     });
 
     it('should not send analytics when there are no selected targets', () => {
       const spy = vi.spyOn(analytics, 'addAnalyticsEvent');
-      sendSelectionAnalytics([], config);
-      sendSelectionAnalytics(undefined, config);
+      sendSelectionAnalytics([], config, '/');
+      sendSelectionAnalytics(undefined, config, '/');
       expect(spy).not.toHaveBeenCalled();
     });
   });
@@ -117,7 +118,7 @@ describe('<TileLayerContainer />', () => {
       };
       update({}, initialTime + 1);
       expect(onTimeChange).toHaveBeenCalledTimes(1);
-      expect(onTimeChange).toHaveBeenCalledWith(config.language);
+      expect(onTimeChange).toHaveBeenCalledWith('en');
     });
   });
 });
