@@ -2,7 +2,8 @@
  * Compares the stoptimes of a (possibly modified) trip to the scheduled stops
  * and returns the rows of a stop list, in order. A detour is a run of
  * CANCELED / ADDED stoptimes and scheduled stops missing from the trip. It
- * becomes one skipped row, followed by the added stops:
+ * becomes one skipped row, followed by the added stops. Canceled stops at the
+ * end of the trip with no added stops after them are not grouped:
  * - { skipped: [stops], stoptime, index } - the skipped stops of a detour;
  *   stoptime and index belong to the first stoptime of the detour
  * - { stoptime, index, scheduledIndex } - a stop of the trip; scheduledIndex is
@@ -20,13 +21,8 @@ export default function groupSkippedStops(stoptimes, scheduledStops) {
 
   const flush = (next, nextIndex) => {
     if (pending.some(p => p.stop)) {
-      // a trailing group falls back to the last stoptime so it always has one
-      const last = stoptimes.length - 1;
-      const first = pending.find(p => p.stoptime) ||
-        (next && { stoptime: next, index: nextIndex }) || {
-          stoptime: stoptimes[last],
-          index: last,
-        };
+      // a group of only missing stops borrows the next stoptime; the trailing flush always has one
+      const first = pending.find(p => p.stoptime) || { stoptime: next, index: nextIndex };
       items.push({
         skipped: pending.filter(p => p.stop).map(p => p.stop),
         stoptime: first.stoptime,
@@ -50,7 +46,7 @@ export default function groupSkippedStops(stoptimes, scheduledStops) {
         scheduledIndex = k;
         for (let n = j; n < k; n += 1) {
           if (served || pending.length > 0) {
-            pending.push({ stop: scheduledStops[n] });
+            pending.push({ stop: scheduledStops[n], scheduledIndex: n });
           } else {
             items.push({ scheduledIndex: n });
           }
@@ -69,7 +65,15 @@ export default function groupSkippedStops(stoptimes, scheduledStops) {
     }
   });
 
-  flush();
+  // canceled stops at the end of the trip, without replacements, are shown as plain rows
+  if (pending.some(p => p.stoptime?.realtimeState === 'ADDED')) {
+    flush();
+  } else {
+    pending.forEach(({ stoptime, index, scheduledIndex }) => {
+      items.push(stoptime ? { stoptime, index, scheduledIndex } : { scheduledIndex });
+    });
+    pending = [];
+  }
   for (let n = j; n < scheduledStops.length; n += 1) {
     items.push({ scheduledIndex: n });
   }

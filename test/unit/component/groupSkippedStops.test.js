@@ -36,16 +36,46 @@ describe('groupSkippedStops', () => {
     expect(items.filter(item => item.stoptime && !item.skipped)).toHaveLength(4);
   });
 
-  it('keeps a group of canceled stops at the end of the trip', () => {
+  it('groups scheduled stops missing from the trip using the next stoptime', () => {
+    const items = groupSkippedStops(
+      [st('a', 'UPDATED'), st('c', 'UPDATED')],
+      scheduled.slice(0, 3),
+    );
+    const skipped = items.find(item => item.skipped);
+    expect(skipped.skipped.map(s => s.gtfsId)).toEqual(['b']);
+    expect(skipped.stoptime.stop.gtfsId).toBe('c');
+    expect(skipped.index).toBe(1);
+  });
+
+  it('does not group canceled stops at the end of the trip', () => {
     const items = groupSkippedStops(
       [st('a', 'UPDATED'), st('b', 'UPDATED'), st('c', 'CANCELED'), st('d', 'CANCELED')],
       scheduled.slice(0, 4),
     );
+    expect(items.some(item => item.skipped)).toBe(false);
+    expect(items.filter(item => item.stoptime)).toHaveLength(4);
+  });
+
+  it('groups trailing canceled stops when added stops follow them', () => {
+    const items = groupSkippedStops(
+      [st('a', 'UPDATED'), st('b', 'CANCELED'), st('c', 'CANCELED'), st('x', 'ADDED')],
+      scheduled.slice(0, 3),
+    );
     const skipped = items.filter(item => item.skipped);
     expect(skipped).toHaveLength(1);
-    expect(skipped[0].skipped.map(s => s.gtfsId)).toEqual(['c', 'd']);
-    expect(skipped[0].stoptime).toBeDefined();
+    expect(skipped[0].skipped.map(s => s.gtfsId)).toEqual(['b', 'c']);
+    expect(items.filter(item => item.stoptime && !item.skipped)).toHaveLength(2);
+  });
+
+  it('keeps a scheduled stop missing before trailing canceled stops as a scheduled row', () => {
+    const items = groupSkippedStops(
+      [st('a', 'UPDATED'), st('c', 'CANCELED'), st('d', 'CANCELED')],
+      scheduled.slice(0, 4),
+    );
+    expect(items.some(item => item.skipped)).toBe(false);
+    expect(items.every(item => item.stoptime || item.scheduledIndex !== undefined)).toBe(true);
     expect(items.filter(item => item.stoptime)).toHaveLength(3);
+    expect(items.filter(item => !item.stoptime)).toEqual([{ scheduledIndex: 1 }]);
   });
 
   it('does not group when every stop is canceled', () => {

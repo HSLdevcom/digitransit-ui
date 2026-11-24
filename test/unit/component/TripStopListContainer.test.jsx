@@ -120,7 +120,7 @@ describe('<TripStopListContainer />', () => {
     expect(container.querySelectorAll('.route-stop-replacement')).toHaveLength(1);
   });
 
-  it('should show one group for a run of canceled stops at the trip edges', () => {
+  it('should group canceled stops at the start but not at the end of the trip', () => {
     const serviceDay = 1551650400;
     const st = (id, realtimeState) => ({
       realtimeDeparture: 1000,
@@ -148,8 +148,42 @@ describe('<TripStopListContainer />', () => {
       config: { ...mockContext.config, colors: { primary: '#007AC9' } },
       currentTime: serviceDay,
     });
-    expect(container.querySelectorAll('.route-stop')).toHaveLength(1);
-    expect(getAllByRole('button', { expanded: false })).toHaveLength(2);
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(4);
+    expect(getAllByRole('button', { expanded: false })).toHaveLength(1);
+    // the trailing canceled stops are plain rows reached by dotted lines
+    expect(container.querySelectorAll('.route-stop-now_line.canceled')).toHaveLength(3);
+  });
+
+  it('should not draw a dotted line to canceled stops inside a group', () => {
+    const serviceDay = 1551650400;
+    const st = (id, realtimeState) => ({
+      realtimeDeparture: 1000,
+      serviceDay,
+      realtimeState,
+      stop: { gtfsId: `stop:${id}`, name: `Name ${id}`, alerts: [] },
+    });
+    const props = {
+      trip: {
+        gtfsId: 'feed:1',
+        pattern: { code: 'foobar-1-1', directionId: 1, stops: [] },
+        route: { gtfsId: 'foobar:1', mode: 'BUS' },
+        stoptimesForDate: [
+          st(1, 'UPDATED'),
+          st(2, 'CANCELED'),
+          st(3, 'CANCELED'),
+          st(4, 'UPDATED'),
+        ],
+      },
+      tripStart: '',
+    };
+    const { container, getAllByRole } = renderWithProviders(<TripStopListContainer {...props} />, {
+      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+      currentTime: serviceDay,
+    });
+    expect(getAllByRole('button', { expanded: false })).toHaveLength(1);
+    expect(container.querySelectorAll('.route-stop-now_line.canceled')).toHaveLength(0);
+    // no divider between the last normal stop and the group
+    expect(container.querySelectorAll('.route-stop.before-skipped')).toHaveLength(1);
   });
 
   it('should show one group for a detour with interleaved canceled and added stops', () => {

@@ -52,6 +52,9 @@ export default function TripStopListContainer({
     .filter(vehicle => vehicle.tripStartTime === undefined || vehicle.tripStartTime === tripStart)
     .filter(vehicle => vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId);
 
+  // canceled stops inside a group of skipped stops are not drawn as rows of their own
+  const plainIndexes = new Set(rows.filter(r => !r.skipped).map(r => r.index));
+
   // selected vehicle
   const vehicle = matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
   const nextStop = vehicle?.next_stop;
@@ -68,7 +71,7 @@ export default function TripStopListContainer({
         role="tabpanel"
         aria-labelledby="route-stop-tab"
       >
-        {rows.map(item => {
+        {rows.map((item, rowIndex) => {
           const { index, stoptime } = item;
           if (nextStop === stoptime.stop.gtfsId) {
             stopPassed = false;
@@ -101,6 +104,9 @@ export default function TripStopListContainer({
               stoptime={stoptime}
               stop={stoptime.stop}
               nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
+              nextCanceled={
+                nextStoptimeForDate?.realtimeState === 'CANCELED' && plainIndexes.has(index + 1)
+              }
               prevStop={prevStop || null}
               mode={mode}
               color={routeColor}
@@ -114,7 +120,7 @@ export default function TripStopListContainer({
               route={trip.route.gtfsId}
               last={index === trip.stoptimesForDate.length - 1}
               first={index === 0}
-              className={`bp-${breakpoint}`}
+              className={cx(`bp-${breakpoint}`, { 'before-skipped': rows[rowIndex + 1]?.skipped })}
               shortName={trip.route && trip.route.shortName}
               keepTracking={keepTracking}
               setHumanScrolling={setHumanScrolling}

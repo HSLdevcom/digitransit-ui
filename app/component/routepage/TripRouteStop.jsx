@@ -33,6 +33,7 @@ export default function TripRouteStop({
   mode,
   stop,
   nextStop,
+  nextCanceled = false,
   stopPassed,
   stoptime,
   shortName,
@@ -106,6 +107,7 @@ export default function TripRouteStop({
     ...(config.showStopStatusMarkers && getServiceAvailability(stop.firstDeparture, currentTime)),
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
+  const canceled = stoptime.realtimeState === 'CANCELED';
 
   const vehicleLinks = vehicles.map(
     vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
@@ -114,9 +116,15 @@ export default function TripRouteStop({
     <div className={cx('route-stop location-details_container', { passed: stopPassed }, className)}>
       {vehicleLinks}
       <div className={cx('route-stop-now_circleline', mode)}>
-        {badgeImg ? (
-          <Icon img={badgeImg} className="route-stop-status-badge" />
-        ) : (
+        {canceled && (
+          <Icon
+            img="icon_canceled-stop"
+            viewBox="0 0 20 20"
+            className="route-stop-status-badge canceled-badge"
+          />
+        )}
+        {!canceled && badgeImg && <Icon img={badgeImg} className="route-stop-status-badge" />}
+        {!canceled && !badgeImg && (
           <svg
             className={cx({ 'route-stop-replacement': stoptime.realtimeState === 'ADDED' })}
             width="16"
@@ -147,8 +155,8 @@ export default function TripRouteStop({
           </svg>
         )}
         <div
-          className={cx('route-stop-now_line', mode)}
-          style={{ backgroundColor: !stopPassed ? color : null }}
+          className={cx('route-stop-now_line', mode, { canceled: nextCanceled })}
+          style={{ backgroundColor: !stopPassed && !nextCanceled ? color : null }}
         />
       </div>
       <div className="route-stop-row_content-container">
@@ -171,7 +179,7 @@ export default function TripRouteStop({
               </div>
               <div className="departure-times-container">
                 <div className="route-stop-time">
-                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime)}
+                  {!isEmpty(stoptime) && fromStopTime(stoptime, currentTime, false)}
                 </div>
               </div>
             </div>
@@ -211,6 +219,7 @@ TripRouteStop.propTypes = {
     ),
   }).isRequired,
   nextStop: PropTypes.shape({ name: PropTypes.string }),
+  nextCanceled: PropTypes.bool,
   prevStop: PropTypes.shape({ name: PropTypes.string }),
   stoptime: PropTypes.shape({
     realtimeDeparture: PropTypes.number,

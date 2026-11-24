@@ -24,7 +24,8 @@
   margin: 0 0 0 2px;
   padding: 0;
 
-  .route-stop:last-child .route-stop-row_content-container {
+  .route-stop:last-child .route-stop-row_content-container,
+  .route-stop.before-skipped .route-stop-row_content-container {
     border-bottom: none;
   }
 
@@ -132,18 +133,30 @@
     min-width: 15px;
     top: 6px;
 
+    --line-width: 8px;
+    --dotted-line-width: 4px;
+    --line-left: 4px;
+
+    @include screen.min-width(tablet) {
+      --line-left: 4.25px;
+    }
+
     .route-stop-now_line {
-      width: 8px;
+      width: var(--line-width);
       height: 100%;
       background-color: currentcolor;
       position: absolute;
       border-radius: 4px;
       top: 11px;
-      left: 4px;
+      left: var(--line-left);
+    }
 
-      @include screen.min-width(tablet) {
-        left: 4.25px;
-      }
+    // Line leading to a canceled stop is dotted, centered on the solid line
+    .route-stop-now_line.canceled {
+      width: var(--dotted-line-width);
+      left: calc(var(--line-left) + (var(--line-width) - var(--dotted-line-width)) / 2);
+      border-radius: 2px;
+      background: repeating-linear-gradient(to bottom, $cancelation-red 0 4px, transparent 4px 9px);
     }
 
     svg {
@@ -156,6 +169,10 @@
     .route-stop-status-badge {
       width: 16px;
       height: 16px;
+
+      &.canceled-badge {
+        color: $cancelation-red;
+      }
     }
   }
 
@@ -268,6 +285,16 @@
             margin: 0;
             line-height: 14px;
             min-width: 2.35rem;
+
+            // the strikethrough comes from the global .canceled class
+            &.canceled {
+              color: $cancelation-red;
+
+              // no strikethrough over a missing relative time
+              &:empty::after {
+                display: none;
+              }
+            }
 
             &.first {
               font-size: 15px;
