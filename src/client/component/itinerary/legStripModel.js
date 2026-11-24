@@ -1,0 +1,289 @@
+import {
+  compressLegs,
+  getLegMode,
+  getTripOrRouteText,
+  hasOneTransitLeg,
+  isCarLeg,
+  isLegWithRoute,
+  isWalkOrBicycleWalkLeg,
+  legTime,
+  LegMode,
+  splitLegsAtViaPoints,
+} from '../../utils/legUtils';
+import { modeToTranslationId } from '../../utils/modeUtils';
+import {
+  getRentalNetworkConfig,
+  getRentalNetworkIcon,
+} from '../../../shared/utils/vehicleRentalUtils';
+import { ViaLocationType } from '../../../shared/utils/constants';
+import { normalizeLegLengths } from './itineraryLegProcessor';
+import { getItineraryStreetLegData } from './itineraryStreetLegUtils';
+import { getItineraryTransitPresentation } from './itineraryTransitUtils';
+
+const NAME_LENGTH_THRESHOLD = 65;
+const WAIT_THRESHOLD = 180000;
+
+const getBikeParkedIndex = legs => {
+  const index = legs.findIndex(leg => leg.to?.vehicleParking);
+  return index === -1 ? legs.length : index;
+};
+
+const stationId = place => place.stop?.parentStation?.gtfsId || place.stop?.gtfsId;
+
+/**
+ * Merges and splits the legs and derives the whole-trip facts and layout limits
+ * that steer how the leg strip is drawn.
+ */
+export function analyzeLegs({ legs, intermediatePlaces, config, breakpoint, duration }) {
+  const usingOwnBicycle = legs.some(
+    leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
+  );
+  const usingOwnBicycleWholeTrip = usingOwnBicycle && legs.every(leg => !leg.to.vehicleParking);
+  const usingOwnCar = legs.some(isCarLeg);
+  const usingOwnCarWholeTrip = usingOwnCar && legs.every(leg => !leg.to.vehicleParking);
+  const compressedLegs = compressLegs(splitLegsAtViaPoints(legs, intermediatePlaces)).map(leg => ({
+    ...leg,
+  }));
+
+  let intermediateSlack = 0;
+  let legWithRouteCount = 0;
+  let containsScooterLeg = false;
+  let nameLengthSum = 0;
+
+  compressedLegs.forEach((leg, index) => {
+    if (isLegWithRoute(leg, config.taxiZone.allowedRouteTypes)) {
+      legWithRouteCount += 1;
+      nameLengthSum += getTripOrRouteText(leg.trip, leg.route, config).length;
+    }
+
+    nameLengthSum += 10;
+    if (index > 0 && (leg.from.viaLocationType || leg.to.viaLocationType)) {
+      intermediateSlack += legTime(leg.start) - legTime(compressedLegs[index - 1].end);
+    }
+    containsScooterLeg = leg.mode === 'SCOOTER' || containsScooterLeg;
+  });
+
+  const durationWithoutSlack = duration - intermediateSlack;
+  const relativeLength = durationMs =>
+    durationWithoutSlack > 0 ? (100 * durationMs) / durationWithoutSlack : 0;
+  const lastLeg = compressedLegs[compressedLegs.length - 1];
+  const lastLegLength = lastLeg ? relativeLength(lastLeg.duration * 1000) : 0;
+  const normalizedLegs = normalizeLegLengths(compressedLegs, {
+    relativeLength,
+    renderBarThreshold: breakpoint === 'small' ? 8.5 : 6,
+    lastLegLength,
+    waitThreshold: WAIT_THRESHOLD,
+  });
+
+  return {
+    compressedLegs,
+    normalizedLegs,
+    usingOwnBicycle,
+    usingOwnBicycleWholeTrip,
+    usingOwnCarWholeTrip,
+    containsScooterLeg,
+    shortenLabels: nameLengthSum > NAME_LENGTH_THRESHOLD,
+    fitAllRouteNumbers: legWithRouteCount < 4,
+    legWithRouteCount,
+    bikeParkedIndex: usingOwnBicycle ? getBikeParkedIndex(compressedLegs) : undefined,
+    renderModeIcons: compressedLegs.length < 10,
+  };
+}
+
+/**
+ * Turns an itinerary into a plain description of its leg strip. Contains no React.
+ *
+ * items: ordered strip parts, each { type: 'via' | 'street' | 'transit' | 'wait', key, ... }
+ * vehicles: untranslated { messageId, routeName } per boarded vehicle, parallel to stopNames
+ * rental: { network, networkCount, icon } for the rental bike duration warning
+ */
+export function getLegStripModel({ itinerary, intermediatePlaces, config, breakpoint, duration }) {
+  const analysis = analyzeLegs({
+    legs: itinerary.legs,
+    intermediatePlaces,
+    config,
+    breakpoint,
+    duration,
+  });
+  const {
+    compressedLegs,
+    normalizedLegs,
+    usingOwnBicycle,
+    usingOwnBicycleWholeTrip,
+    usingOwnCarWholeTrip,
+    containsScooterLeg,
+    shortenLabels,
+    fitAllRouteNumbers,
+    legWithRouteCount,
+    bikeParkedIndex,
+    renderModeIcons,
+  } = analysis;
+
+  const items = [];
+  let onlyIconLegCount = 0;
+  const vehicles = [];
+  const stopNames = [];
+  let bikeNetwork;
+  const citybikeNetworks = new Set();
+  let citybikeicon;
+
+  // Keep markers from duplicating when a following leg starts at another
+  // platform in the same station after a transfer walk.
+  let markedStationId;
+  const addViaItem = (place, key) => {
+    markedStationId = stationId(place);
+    onlyIconLegCount += 1;
+    items.push({ type: 'via', key });
+  };
+
+  normalizedLegs.forEach(processedLeg => {
+    if (processedLeg.skipped) {
+      return;
+    }
+
+    const {
+      leg,
+      index,
+      legLength,
+      renderBar,
+      waiting,
+      waitTime,
+      waitLength,
+      interliningWithRoute,
+      nextLeg,
+    } = processedLeg;
+    const startMs = legTime(leg.start);
+    const routeName = leg.route && getTripOrRouteText(leg.trip, leg.route, config);
+    const longName = !routeName || routeName.length > 5;
+    const viaKey = `via_${leg.mode}_${startMs}`;
+    const startsAtMarkedStation = !!markedStationId && stationId(leg.from) === markedStationId;
+
+    if (!isWalkOrBicycleWalkLeg(leg)) {
+      markedStationId = undefined;
+    }
+
+    let viaPointAdded = false;
+    if (leg.from.viaLocationType === ViaLocationType.Visit && !startsAtMarkedStation) {
+      viaPointAdded = true;
+      addViaItem(leg.from, viaKey);
+    }
+
+    const transitPresentation = getItineraryTransitPresentation({
+      leg,
+      legLength,
+      longName,
+      fitAllRouteNumbers,
+      legWithRouteCount,
+      startsAtMarkedStation,
+      viaPointAdded,
+      nextLeg,
+      usingOwnBicycleWholeTrip,
+      usingOwnCarWholeTrip,
+      config,
+      waiting,
+      waitTime,
+      waitLength,
+    });
+    const streetLeg = getItineraryStreetLegData({
+      leg,
+      index,
+      startMs,
+      legLength,
+      renderBar,
+      renderModeIcons,
+      usingOwnBicycle,
+      bikeParkedIndex,
+      config,
+    });
+
+    if (streetLeg) {
+      items.push({
+        type: 'street',
+        key: streetLeg.key,
+        leg: streetLeg.leg,
+        duration: streetLeg.duration,
+        mode: streetLeg.mode,
+        legLength: streetLeg.legLength,
+        renderModeIcons: streetLeg.renderModeIcons,
+        icon: streetLeg.icon,
+        parkingIndicator: streetLeg.parkingIndicator,
+      });
+      if (streetLeg.parkingIndicator) {
+        onlyIconLegCount += 1;
+      }
+      if (streetLeg.vehicleNameId) {
+        vehicles.push({ messageId: streetLeg.vehicleNameId });
+        stopNames.push(streetLeg.stopName);
+      }
+      if (streetLeg.rentalBike) {
+        bikeNetwork = streetLeg.rentalBike.networkId;
+        if (streetLeg.rentalBike.durationOverSurchargeLimit) {
+          citybikeNetworks.add(bikeNetwork);
+        }
+        if (streetLeg.rentalBike.rentalWarningEnabled && !citybikeicon) {
+          citybikeicon = getRentalNetworkIcon(getRentalNetworkConfig(bikeNetwork, config));
+        }
+      }
+    }
+
+    if (leg.route) {
+      if (transitPresentation.showFromViaPoint) {
+        addViaItem(leg.from, viaKey);
+      }
+      if (transitPresentation.showTransitBar) {
+        items.push({
+          type: 'transit',
+          key: `${leg.mode}_${startMs}`,
+          leg,
+          fitRouteNumber: transitPresentation.fitRouteNumber,
+          interliningWithRoute,
+          legLength,
+          withBicycle: transitPresentation.withBicycle,
+          withCar: transitPresentation.withCar,
+          hasOneTransitLeg: hasOneTransitLeg(itinerary),
+          shortenLabels,
+        });
+      }
+      vehicles.push({
+        messageId: modeToTranslationId(leg.mode, config),
+        routeName: routeName || '',
+      });
+      stopNames.push(leg.from.name);
+      if (transitPresentation.showToViaPoint) {
+        addViaItem(leg.to, viaKey);
+      }
+    }
+
+    if (transitPresentation.showWaitBar) {
+      items.push({
+        type: 'wait',
+        key: `${leg.mode}_${startMs}_wait`,
+        leg,
+        legLength: transitPresentation.waitLength,
+        renderModeIcons,
+        duration: transitPresentation.waitDuration,
+        mode: LegMode.Wait,
+        icon: transitPresentation.waitIcon,
+      });
+    }
+  });
+
+  const normalLegCount = items.length - onlyIconLegCount;
+
+  return {
+    items,
+    iconLegsInPixels: normalLegCount > 0 ? (24 * onlyIconLegCount) / normalLegCount : 0,
+    compressedLegs,
+    containsScooterLeg,
+    vehicles,
+    stopNames,
+    rental: { network: bikeNetwork, networkCount: citybikeNetworks.size, icon: citybikeicon },
+  };
+}
+
+/** Formats the untranslated vehicle descriptions produced by getLegStripModel. */
+export const formatVehicleNames = (formatMessage, vehicles) =>
+  vehicles.map(({ messageId, routeName }) => {
+    const name = formatMessage({ id: messageId });
+    return routeName === undefined ? name : `${name} ${routeName}`;
+  });

@@ -1,5 +1,8 @@
-import { getItineraryLegSummary } from '../../../../../src/client/component/itinerary/itineraryUtils';
-import buildItineraryLegStrip from '../../../../../src/client/component/itinerary/buildItineraryLegStrip';
+import {
+  analyzeLegs,
+  formatVehicleNames,
+  getLegStripModel,
+} from '../../../../../src/client/component/itinerary/legStripModel';
 import { mockContext } from '../../../helpers/mock-context';
 
 const startTime = Date.parse('2026-01-01T10:00:00Z');
@@ -29,47 +32,43 @@ const makeLeg = (mode, startMin, durationMin, overrides = {}) => ({
   ...overrides,
 });
 
-const element = el => {
-  const { leg, ...props } = el.props;
-  const rounded = Object.fromEntries(
-    Object.entries(props).map(([k, v]) => [k, typeof v === 'number' ? Math.round(v * 10) / 10 : v]),
-  );
-  return {
-    type: el.type.displayName || el.type.name,
-    key: el.key,
-    leg: leg && `${leg.mode}`,
-    ...rounded,
-  };
+const typeNames = {
+  via: 'ViaPoint',
+  street: 'ItineraryStreetLeg',
+  transit: 'TransitBar',
+  wait: 'StreetBar',
 };
 
+const element = ({ type, key, leg, ...props }) => ({
+  type: typeNames[type],
+  key,
+  leg: leg && `${leg.mode}`,
+  ...Object.fromEntries(
+    Object.entries(props).map(([k, v]) => [k, typeof v === 'number' ? Math.round(v * 10) / 10 : v]),
+  ),
+});
+
 const buildStrip = (legs, intermediatePlaces = []) => {
-  const itinerary = { legs };
-  const summary = getItineraryLegSummary({
-    legs,
+  const model = getLegStripModel({
+    itinerary: { legs },
     intermediatePlaces,
     config,
     breakpoint: 'large',
     duration: legs.reduce((sum, l) => sum + l.duration * 1000, 0),
   });
-  const result = buildItineraryLegStrip({
-    ...summary,
-    itinerary,
-    config,
-    formatMessage: ({ id }) => id,
-  });
   return {
-    elements: result.legs.map(element),
-    iconLegsInPixels: Math.round(result.iconLegsInPixels * 10) / 10,
-    vehicleNames: result.vehicleNames,
-    stopNames: result.stopNames,
-    bikeNetwork: result.bikeNetwork,
-    citybikeNetworkCount: result.citybikeNetworkCount,
-    showRentalBikeDurationWarning: result.showRentalBikeDurationWarning,
-    citybikeicon: result.citybikeicon,
+    elements: model.items.map(element),
+    iconLegsInPixels: Math.round(model.iconLegsInPixels * 10) / 10,
+    vehicleNames: formatVehicleNames(({ id }) => id, model.vehicles),
+    stopNames: model.stopNames,
+    bikeNetwork: model.rental.network,
+    citybikeNetworkCount: model.rental.networkCount,
+    showRentalBikeDurationWarning: model.rental.networkCount > 0,
+    citybikeicon: model.rental.icon,
   };
 };
 
-describe('buildItineraryLegStrip', () => {
+describe('getLegStripModel', () => {
   it('walk, rail, walk, bus', () => {
     expect(
       buildStrip([
@@ -502,5 +501,81 @@ describe('buildItineraryLegStrip', () => {
         ],
       }
     `);
+  });
+});
+
+const getSummary = (legs, options = {}) =>
+  analyzeLegs({
+    legs,
+    intermediatePlaces: [],
+    config,
+    breakpoint: 'large',
+    duration: legs.reduce((total, leg) => total + leg.duration * 1000, 0),
+    ...options,
+  });
+
+describe('analyzeLegs', () => {
+  it('normalizes leg widths against itinerary duration', () => {
+    const summary = getSummary([makeLeg('RAIL', 0, 10)]);
+
+    expect(summary.normalizedLegs).toMatchObject([
+      { legLength: 100, renderBar: true, skipped: false },
+    ]);
+    expect(summary.fitAllRouteNumbers).toBe(true);
+    expect(summary.renderModeIcons).toBe(true);
+  });
+
+  it('uses the breakpoint threshold when deciding whether to render a short walk', () => {
+    const legs = [makeLeg('WALK', 0, 2 / 3), makeLeg('RAIL', 2 / 3, 28 / 3)];
+
+    const largeSummary = getSummary(legs);
+    const smallSummary = getSummary(legs, { breakpoint: 'small' });
+
+    expect(largeSummary.normalizedLegs[0].renderBar).toBe(true);
+    expect(smallSummary.normalizedLegs[0].renderBar).toBe(false);
+  });
+
+  it('reports own-bicycle and parking state from compressed legs', () => {
+    const summary = getSummary([
+      makeLeg('BICYCLE', 0, 5, { rentedBike: false, to: { vehicleParking: true } }),
+      makeLeg('RAIL', 5, 5),
+    ]);
+
+    expect(summary.usingOwnBicycle).toBe(true);
+    expect(summary.usingOwnBicycleWholeTrip).toBe(false);
+    expect(summary.bikeParkedIndex).toBe(0);
+  });
+
+  it('reports route label and route-number display settings', () => {
+    const legs = Array.from({ length: 4 }, (_, index) =>
+      makeLeg('RAIL', index * 10, 10, {
+        route: { mode: 'RAIL', shortName: `Long route name ${index}`, alerts: [] },
+      }),
+    );
+    const summary = getSummary(legs, { duration: 2400000 });
+
+    expect(summary.legWithRouteCount).toBe(4);
+    expect(summary.fitAllRouteNumbers).toBe(false);
+    expect(summary.shortenLabels).toBe(true);
+  });
+
+  it('reports whole-trip car use and scooter presence', () => {
+    const carSummary = getSummary([makeLeg('CAR', 0, 10)]);
+    const scooterSummary = getSummary([makeLeg('SCOOTER', 0, 10)]);
+
+    expect(carSummary.usingOwnCarWholeTrip).toBe(true);
+    expect(scooterSummary.containsScooterLeg).toBe(true);
+  });
+
+  it.each([3, 4])('sets route-number fitting at %i transit legs', count => {
+    const legs = Array.from({ length: count }, (_, index) =>
+      makeLeg('RAIL', index * 10, 10, {
+        route: { mode: 'RAIL', shortName: `R${index}`, alerts: [] },
+      }),
+    );
+    const summary = getSummary(legs);
+
+    expect(summary.legWithRouteCount).toBe(count);
+    expect(summary.fitAllRouteNumbers).toBe(count < 4);
   });
 });

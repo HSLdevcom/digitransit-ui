@@ -14,12 +14,13 @@ import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../utils/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
-import { getItineraryLegSummary, getItineraryScreenReaderText } from './itineraryUtils';
+import { getItineraryScreenReaderText } from './itineraryUtils';
+import { getLegStripModel, formatVehicleNames } from './legStripModel';
 import useItineraryNavigation from './useItineraryNavigation';
 import useItineraryDisplayState from './useItineraryDisplayState';
 import TimeRow from './TimeRow';
-import ItineraryLegs from './ItineraryLegs';
-import buildItineraryLegStrip from './buildItineraryLegStrip';
+import LegStrip from './LegStrip';
+import RentalDurationWarning from './RentalDurationWarning';
 
 export default function Itinerary({
   itinerary: itineraryRef,
@@ -51,47 +52,15 @@ export default function Itinerary({
   const co2value = getCo2Value(itinerary);
   const mobile = bp => !(bp === 'large');
   const {
-    compressedLegs,
-    normalizedLegs,
-    usingOwnBicycle,
-    usingOwnBicycleWholeTrip,
-    usingOwnCarWholeTrip,
-    containsScooterLeg,
-    shortenLabels,
-    fitAllRouteNumbers,
-    legWithRouteCount,
-    bikeParkedIndex,
-    renderModeIcons,
-  } = getItineraryLegSummary({
-    legs: itinerary.legs,
-    intermediatePlaces,
-    config,
-    breakpoint,
-    duration,
-  });
-  const {
-    legs,
+    items,
     iconLegsInPixels,
-    vehicleNames,
+    compressedLegs,
+    containsScooterLeg,
+    vehicles,
     stopNames,
-    bikeNetwork,
-    showRentalBikeDurationWarning,
-    citybikeNetworkCount,
-    citybikeicon,
-  } = buildItineraryLegStrip({
-    normalizedLegs,
-    itinerary,
-    config,
-    formatMessage,
-    usingOwnBicycle,
-    usingOwnBicycleWholeTrip,
-    usingOwnCarWholeTrip,
-    shortenLabels,
-    fitAllRouteNumbers,
-    legWithRouteCount,
-    bikeParkedIndex,
-    renderModeIcons,
-  });
+    rental,
+  } = getLegStripModel({ itinerary, intermediatePlaces, config, breakpoint, duration });
+  const vehicleNames = formatVehicleNames(formatMessage, vehicles);
   const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
 
   const firstDeparture = compressedLegs.find(leg =>
@@ -209,9 +178,9 @@ export default function Itinerary({
                   )}
                 </TimeRow>
               </div>
-              <ItineraryLegs
+              <LegStrip
                 ref={itineraryContainerOverflowRef}
-                legs={legs}
+                items={items}
                 showOverflowIcon={showOverflowIcon}
                 iconLegsInPixels={iconLegsInPixels}
               />
@@ -222,25 +191,13 @@ export default function Itinerary({
               >
                 {firstLegStartTime}
               </div>
-              {showRentalBikeDurationWarning &&
-                (citybikeNetworkCount === 1 ? (
-                  <div className="citybike-duration-info-short">
-                    <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage
-                      id="citybike-duration-info-short"
-                      values={{
-                        duration:
-                          config.vehicleRental.networks[bikeNetwork].timeBeforeSurcharge / 60,
-                      }}
-                      defaultMessage=""
-                    />
-                  </div>
-                ) : (
-                  <div className="citybike-duration-info-short">
-                    <Icon img={citybikeicon} height={1.2} width={1.2} />
-                    <FormattedMessage id="citybike-duration-general-header" defaultMessage="" />
-                  </div>
-                ))}
+              {rental.networkCount > 0 && (
+                <RentalDurationWarning
+                  network={rental.network}
+                  networkCount={rental.networkCount}
+                  icon={rental.icon}
+                />
+              )}
             </div>
             {props.giveFeedback && props.recommended && (
               <div
