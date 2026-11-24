@@ -14,7 +14,7 @@ import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../utils/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
-import { getItineraryLegSummary, getSummaryDescriptionText } from './itinerarySummaryUtils';
+import { getItineraryLegSummary, getSummaryDescriptionText } from './itineraryUtils';
 import useItineraryNavigation from './useItineraryNavigation';
 import useItinerarySummaryUIState from './useItinerarySummaryUIState';
 import ItineraryTimeSummary from './ItineraryTimeSummary';
