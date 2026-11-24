@@ -1,6 +1,7 @@
 import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 
-export default function useItinerarySummaryUIState(gotFeedback) {
+// Display state of an itinerary row: leg strip overflow detection and the feedback panel animation.
+export default function useItineraryDisplayState(gotFeedback) {
   const itineraryContainerOverflowRef = useRef(null);
   const [showOverflowIcon, setShowOverflowIcon] = useState(false);
   const [isExpanded, setIsExpanded] = useState(gotFeedback);

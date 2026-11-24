@@ -16,7 +16,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
 import { getItineraryLegSummary, getSummaryDescriptionText } from './itineraryUtils';
 import useItineraryNavigation from './useItineraryNavigation';
-import useItinerarySummaryUIState from './useItinerarySummaryUIState';
+import useItineraryDisplayState from './useItineraryDisplayState';
 import ItineraryTimeSummary from './ItineraryTimeSummary';
 import ItineraryLegs from './ItineraryLegs';
 import buildItineraryLegStrip from './buildItineraryLegStrip';
@@ -153,7 +153,7 @@ export default function Itinerary({
     isExpanded,
     feedbackExpandDone,
     handleFeedbackTransitionEnd,
-  } = useItinerarySummaryUIState(gotFeedback);
+  } = useItineraryDisplayState(gotFeedback);
 
   return (
     <div

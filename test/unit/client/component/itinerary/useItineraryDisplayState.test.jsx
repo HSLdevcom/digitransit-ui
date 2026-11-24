@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { act, fireEvent, render } from '@testing-library/react';
-import useItinerarySummaryUIState from '../../../../../src/client/component/itinerary/useItinerarySummaryUIState';
+import useItineraryDisplayState from '../../../../../src/client/component/itinerary/useItineraryDisplayState';
 
 const UIStateProbe = ({ gotFeedback = false }) => {
   const {
@@ -9,7 +9,7 @@ const UIStateProbe = ({ gotFeedback = false }) => {
     isExpanded,
     feedbackExpandDone,
     handleFeedbackTransitionEnd,
-  } = useItinerarySummaryUIState(gotFeedback);
+  } = useItineraryDisplayState(gotFeedback);
 
   return (
     <div
@@ -28,7 +28,7 @@ const UIStateProbe = ({ gotFeedback = false }) => {
 
 UIStateProbe.propTypes = { gotFeedback: PropTypes.bool };
 
-describe('useItinerarySummaryUIState', () => {
+describe('useItineraryDisplayState', () => {
   afterEach(() => {
     vi.useRealTimers();
   });
