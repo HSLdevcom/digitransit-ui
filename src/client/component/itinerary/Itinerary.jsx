@@ -9,13 +9,12 @@ import { getTotalDistance, getZones, isCallAgencyLeg, isBoardableLeg } from '../
 import { dateOrEmpty, isTomorrow, timeStr } from '../../utils/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
-import { getSummaryDescriptionText } from '../../utils/localeUtils';
 import getCo2Value from '../../utils/emissions';
 import { ItineraryFragment } from './queries/ItineraryFragment';
 import { getTicketString } from '../../utils/fareUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import FirstLegStartTime from './FirstLegStartTime';
-import { getItineraryLegSummary } from './itinerarySummaryUtils';
+import { getItineraryLegSummary, getSummaryDescriptionText } from './itinerarySummaryUtils';
 import useItineraryNavigation from './useItineraryNavigation';
 import useItinerarySummaryUIState from './useItinerarySummaryUIState';
 import ItineraryTimeSummary from './ItineraryTimeSummary';
@@ -107,27 +106,6 @@ export default function Itinerary({
     />
   );
 
-  //  accessible representation for summary
-  const summaryDescription = getSummaryDescriptionText(intl, {
-    hasCallAgencyLeg,
-    startTime,
-    endTime,
-    refTime,
-    departureTime,
-    arrivalTime,
-    vehicleNames,
-    firstDeparture,
-    stopNames,
-    duration,
-  });
-  const co2summary = (
-    <FormattedMessage
-      id="itinerary-co2.description-simple"
-      defaultMessage="CO₂ emissions for this route"
-      values={{ co2value }}
-    />
-  );
-
   const ariaLabelMessage = intl.formatMessage(
     { id: 'itinerary-page.show-details-label' },
     { number: props.hash + 1 },
@@ -152,6 +130,22 @@ export default function Itinerary({
   const showCo2Info =
     config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
 
+  // accessible representation for summary
+  const summaryDescription = getSummaryDescriptionText(intl, {
+    rowNumber: props.hash + 1,
+    co2value: showCo2Info ? co2value : null,
+    hasCallAgencyLeg,
+    startTime,
+    endTime,
+    refTime,
+    departureTime,
+    arrivalTime,
+    vehicleNames,
+    firstDeparture,
+    stopNames,
+    duration,
+  });
+
   const gotFeedback = props.feedback !== undefined;
   const {
     itineraryContainerOverflowRef,
@@ -170,11 +164,7 @@ export default function Itinerary({
       ])}
       aria-atomic="true"
     >
-      <div className="sr-only">
-        <FormattedMessage id="summary-page.row-label" values={{ number: props.hash + 1 }} />{' '}
-        {summaryDescription}
-        {showCo2Info && <> {co2summary}</>}
-      </div>
+      <div className="sr-only">{summaryDescription}</div>
       <div
         className="itinerary-summary-visible"
         style={{ display: 'flex' }}

@@ -1,4 +1,7 @@
-import { getItineraryLegSummary } from '../../../../../src/client/component/itinerary/itinerarySummaryUtils';
+import {
+  getItineraryLegSummary,
+  getSummaryDescriptionText,
+} from '../../../../../src/client/component/itinerary/itinerarySummaryUtils';
 import { mockContext } from '../../../helpers/mock-context';
 
 const startTime = Date.parse('2026-01-01T10:00:00Z');
@@ -89,5 +92,22 @@ describe('getItineraryLegSummary', () => {
 
     expect(summary.legWithRouteCount).toBe(count);
     expect(summary.fitAllRouteNumbers).toBe(count < 4);
+  });
+});
+
+describe('getSummaryDescriptionText', () => {
+  const intl = { formatMessage: ({ id }, values = {}) => `[${id} ${JSON.stringify(values)}]` };
+  const params = { rowNumber: 2, hasCallAgencyLeg: true, vehicleNames: [], stopNames: [] };
+
+  it('joins the row label, description and co2 into one text', () => {
+    expect(getSummaryDescriptionText(intl, { ...params, co2value: 120 })).toBe(
+      '[summary-page.row-label {"number":2}] [itinerary-summary-row.call-agency-description {}] ' +
+        '[itinerary-co2.description-simple {"co2value":120}]',
+    );
+  });
+
+  it('leaves out co2 when it is not shown', () => {
+    expect(getSummaryDescriptionText(intl, { ...params, co2value: null })).not.toContain('co2');
+    expect(getSummaryDescriptionText(intl, params)).not.toContain('co2');
   });
 });
