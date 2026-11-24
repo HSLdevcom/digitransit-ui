@@ -66,14 +66,6 @@ export default function Itinerary({
   const firstDeparture = compressedLegs.find(leg =>
     isBoardableLeg(leg, config.taxiZone.allowedRouteTypes),
   );
-  const firstLegStartTime = (
-    <FirstLegStartTime
-      firstDeparture={firstDeparture}
-      hasCallAgencyLeg={hasCallAgencyLeg}
-      breakpoint={breakpoint}
-      stopNames={stopNames}
-    />
-  );
 
   const ariaLabelMessage = intl.formatMessage(
     { id: 'itinerary-page.show-details-label' },
@@ -184,13 +176,12 @@ export default function Itinerary({
                 showOverflowIcon={showOverflowIcon}
                 iconLegsInPixels={iconLegsInPixels}
               />
-              <div
-                className="itinerary-first-leg-start-time-container"
-                key="endtime-distance"
-                aria-hidden="true"
-              >
-                {firstLegStartTime}
-              </div>
+              <FirstLegStartTime
+                firstDeparture={firstDeparture}
+                hasCallAgencyLeg={hasCallAgencyLeg}
+                breakpoint={breakpoint}
+                stopNames={stopNames}
+              />
               {rental.networkCount > 0 && (
                 <RentalDurationWarning
                   network={rental.network}

@@ -140,52 +140,39 @@
     }
   }
 
-  .itinerary-first-leg-start-time-container {
-    top: 3.77em;
-    left: 2.3em;
-
+  .itinerary-first-leg-start-time {
     @include font-book;
 
+    font-size: 13px;
     padding-top: 8px;
     width: 100%;
     max-width: 100%;
     color: $dark-gray;
+    overflow: hidden;
+    white-space: normal;
+    display: flex;
+    align-items: center;
 
-    .itinerary-first-leg-start-time {
-      font-size: 13px;
-      overflow: hidden;
-      white-space: normal;
-      display: inline-flex;
-      align-items: center;
-      vertical-align: middle;
-
-      .platform-or-track {
-        text-transform: lowercase;
-      }
-
-      .start-time {
-        font-weight: $font-weight-medium;
-      }
-
-      .icon-container {
-        display: inline-block;
-        vertical-align: text-bottom;
-        margin-right: var(--space-xxs);
-        color: #fcbc19;
-        height: 16px;
-        width: 16px;
-
-        .icon {
-          height: 16px;
-          width: 16px;
-        }
-      }
+    .platform-or-track {
+      text-transform: lowercase;
     }
 
-    &.small {
-      font-size: $font-size-small;
-      left: 1.2em;
-      top: 2.6em;
+    .start-time {
+      font-weight: $font-weight-medium;
+    }
+
+    .icon-container {
+      display: inline-block;
+      vertical-align: text-bottom;
+      margin-right: var(--space-xxs);
+      color: #fcbc19;
+      height: 16px;
+      width: 16px;
+
+      .icon {
+        height: 16px;
+        width: 16px;
+      }
     }
   }
 
