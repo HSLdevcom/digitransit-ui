@@ -123,8 +123,7 @@ export default function Itinerary({
       </>
     )
   );
-  const showCo2Info =
-    config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
+  const showCo2Info = config.showCO2InItinerarySummary && co2value !== null && !containsScooterLeg;
 
   const screenReaderText = getItineraryScreenReaderText(intl, {
     rowNumber: props.hash + 1,
