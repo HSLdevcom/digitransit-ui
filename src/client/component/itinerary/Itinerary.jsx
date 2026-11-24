@@ -5,6 +5,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { locationShape, itineraryShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import AnimatedFeedback from './AnimatedFeedback';
+import ShowDetailsButton from './ShowDetailsButton';
 import { getTotalDistance, getZones, isCallAgencyLeg, isBoardableLeg } from '../../utils/legUtils';
 import { dateOrEmpty, isTomorrow, timeStr } from '../../utils/timeUtils';
 import { useBreakpoint } from '../../hooks/BreakpointContext';
@@ -192,24 +193,12 @@ export default function Itinerary({
             )}
             <div className="summary-separator" />
           </div>
-          {mobile(breakpoint) !== true && (
-            <div
-              tabIndex="0"
-              role="button"
+          {!mobile(breakpoint) && (
+            <ShowDetailsButton
               title={formatMessage({ id: 'itinerary-page.show-details' })}
-              key="arrow"
-              className="action-arrow-click-area cursor-pointer"
-              onClick={e => {
-                e.stopPropagation();
-                onSelectImmediately();
-              }}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && onSelectImmediately()}
-              aria-label={ariaLabelMessage}
-            >
-              <div className="action-arrow flex-grow">
-                <Icon img="icon_arrow-collapse--right" />
-              </div>
-            </div>
+              ariaLabel={ariaLabelMessage}
+              onClick={onSelectImmediately}
+            />
           )}
         </div>
       </div>

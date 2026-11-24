@@ -630,14 +630,16 @@
     }
   }
 
-  .action-arrow {
+  .show-details-button {
     display: flex;
-    padding: 2.2em $padding-xxsmall 0 $padding-xxsmall;
+    padding: 44px calc(#{$padding-xxsmall} + 15px) 0 calc(#{$padding-xxsmall} + 20px);
+    border: 0;
+    background: none;
+    font-size: 20px;
+    cursor: pointer;
 
     svg {
       color: $action-color;
-      transition: transform 300ms;
-      transform-origin: 50% 50%;
     }
   }
 
@@ -674,25 +676,6 @@
       .vehicle-number {
         font-size: $font-size-small;
       }
-    }
-
-    .action-arrow-click-area {
-      padding: 0 15px 0 20px;
-    }
-
-    .action-arrow {
-      font-size: 20px;
-      border: 0;
-    }
-
-    &.open {
-      flex-wrap: wrap;
-
-      .action-arrow span > svg {
-        transform: rotate(-90deg);
-      }
-
-      min-height: 75px;
     }
   }
 
@@ -749,13 +732,6 @@
   }
 
   .itinerary-summary-header {
-    display: block;
-  }
-}
-
-@media print {
-  .itinerary-summary-row.bp-large.open {
-    height: auto;
     display: block;
   }
 }
