@@ -17,7 +17,7 @@ import FirstLegStartTime from './FirstLegStartTime';
 import { getItineraryLegSummary, getItineraryScreenReaderText } from './itineraryUtils';
 import useItineraryNavigation from './useItineraryNavigation';
 import useItineraryDisplayState from './useItineraryDisplayState';
-import ItineraryTimeSummary from './ItineraryTimeSummary';
+import TimeRow from './TimeRow';
 import ItineraryLegs from './ItineraryLegs';
 import buildItineraryLegStrip from './buildItineraryLegStrip';
 
@@ -188,7 +188,7 @@ export default function Itinerary({
                 <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
               </span>
               <div className="itinerary-duration-container" aria-hidden="true">
-                <ItineraryTimeSummary
+                <TimeRow
                   startDate={startDate}
                   hasCallAgencyLeg={hasCallAgencyLeg}
                   departureTime={departureTime}
@@ -208,7 +208,7 @@ export default function Itinerary({
                       <div className="itinerary-co2-value">{co2value} g</div>
                     </div>
                   )}
-                </ItineraryTimeSummary>
+                </TimeRow>
               </div>
               <ItineraryLegs
                 ref={itineraryContainerOverflowRef}

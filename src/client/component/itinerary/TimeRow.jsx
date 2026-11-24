@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { durationToString } from '../../utils/timeUtils';
 
-export default function ItineraryTimeSummary({
+export default function TimeRow({
   startDate,
   hasCallAgencyLeg,
   departureTime,
@@ -30,7 +30,7 @@ export default function ItineraryTimeSummary({
   );
 }
 
-ItineraryTimeSummary.propTypes = {
+TimeRow.propTypes = {
   startDate: PropTypes.node,
   hasCallAgencyLeg: PropTypes.bool.isRequired,
   departureTime: PropTypes.string.isRequired,
