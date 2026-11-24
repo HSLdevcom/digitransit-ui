@@ -194,11 +194,7 @@ export default function Itinerary({
             <div className="summary-separator" />
           </div>
           {!mobile(breakpoint) && (
-            <ShowDetailsButton
-              title={formatMessage({ id: 'itinerary-page.show-details' })}
-              ariaLabel={ariaLabelMessage}
-              onClick={onSelectImmediately}
-            />
+            <ShowDetailsButton ariaLabel={ariaLabelMessage} onClick={onSelectImmediately} />
           )}
         </div>
       </div>

@@ -1,12 +1,15 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import Icon from '../Icon';
 
-export default function ShowDetailsButton({ title, ariaLabel, onClick }) {
+export default function ShowDetailsButton({ ariaLabel, onClick }) {
+  const { formatMessage } = useIntl();
+
   return (
     <button
       type="button"
       className="show-details-button"
-      title={title}
+      title={formatMessage({ id: 'itinerary-page.show-details' })}
       aria-label={ariaLabel}
       onClick={onClick}
     >
@@ -16,7 +19,6 @@ export default function ShowDetailsButton({ title, ariaLabel, onClick }) {
 }
 
 ShowDetailsButton.propTypes = {
-  title: PropTypes.string.isRequired,
   ariaLabel: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
 };
