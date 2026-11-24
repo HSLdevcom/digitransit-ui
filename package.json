@@ -189,7 +189,7 @@
     "react-select": "5.10.2",
     "react-swipe": "6.0.4",
     "react-truncate-markup": "5.1.2",
-    "redis": "2.8.0",
+    "redis": "3.1.1",
     "relay-runtime": "16.2.0",
     "serialize-javascript": "7.1.4",
     "suncalc": "1.8.0",
