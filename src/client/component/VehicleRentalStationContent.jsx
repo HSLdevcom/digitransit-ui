@@ -1,5 +1,5 @@
 import { graphql, useFragment } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import { fragmentRefShape, errorShape } from '../utils/shapes';
 import VehicleRentalStation from './VehicleRentalStation';
@@ -37,6 +37,7 @@ export default function VehicleRentalStationContent({
 }) {
   const breakpoint = useBreakpoint();
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { router } = useRouter();
   const vehicleRentalStation = useFragment(
     VehicleRentalStationContentFragment,
@@ -59,10 +60,10 @@ export default function VehicleRentalStationContent({
     vehicleRentalStation.rentalNetwork.networkId,
     config,
   );
-  const { vehicleRental, language } = config;
-  const returnInstructionsUrl = networkConfig.returnInstructions?.[language];
-  const href = vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
-  const linkLabelId = vehicleRental.buyUrl?.[language]
+  const { vehicleRental } = config;
+  const returnInstructionsUrl = networkConfig.returnInstructions?.[locale];
+  const href = vehicleRental.buyUrl?.[locale] || networkConfig?.url?.[locale];
+  const linkLabelId = vehicleRental.buyUrl?.[locale]
     ? 'citybike-purchase-link'
     : 'citybike-start-using-info';
   return (
@@ -93,7 +94,7 @@ export default function VehicleRentalStationContent({
           <br />
           <Disclaimer
             header={<FormattedMessage id="citybike-start-using" />}
-            text={vehicleRental.buyInstructions?.[language]}
+            text={vehicleRental.buyInstructions?.[locale]}
             href={href}
             linkLabel={<FormattedMessage id={linkLabelId} />}
           />

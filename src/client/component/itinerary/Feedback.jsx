@@ -15,7 +15,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const config = useConfigContext();
   const { colors } = config;
   const intl = useIntl();
-  const { match } = useRouter();
+  const { router, match } = useRouter();
 
   const favIcon = recommended ? 'icon_star-with-circle' : 'icon_star-unselected';
   const iconMap = {
@@ -43,7 +43,7 @@ function FeedbackLayer({ recommended, status, giveFeedback, animationClass }) {
   const middleTexts = loginNeeded ? (
     <div>
       {statusText}
-      <ArrowLink href={getLoginPath(match.location)}>
+      <ArrowLink href={getLoginPath(router.createHref(match.location))}>
         <Text variant="routes-s-bold">
           {intl.formatMessage({ id: 'personalization-login-for-voting' })}
         </Text>

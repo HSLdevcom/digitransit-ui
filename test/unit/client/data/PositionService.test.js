@@ -18,7 +18,7 @@ describe('PositionService', () => {
       }
     });
 
-    service = createPositionService({ searchParams: {}, URL: {} }, vi.fn(), () => ({
+    service = createPositionService({ searchParams: {}, URL: {} }, 'en', vi.fn(), () => ({
       hasLocation: false,
     }));
     service.dispose();
@@ -44,7 +44,7 @@ describe('PositionService', () => {
       value: { watchPosition, clearWatch: vi.fn() },
     });
     const dispatch = vi.fn();
-    const service = createPositionService({ searchParams: {}, URL: {} }, dispatch, () => ({
+    const service = createPositionService({ searchParams: {}, URL: {} }, 'en', dispatch, () => ({
       hasLocation: false,
     }));
     onTestFinished(() => {
@@ -78,7 +78,7 @@ describe('PositionService', () => {
       const addMessage = vi.spyOn(messageActions, 'addMessage');
       const markMessageAsRead = vi.spyOn(messageActions, 'markMessageAsRead');
       const dispatch = vi.fn();
-      const service = createPositionService({ searchParams: {}, URL: {} }, dispatch, () => ({
+      const service = createPositionService({ searchParams: {}, URL: {} }, 'en', dispatch, () => ({
         hasLocation: false,
       }));
       service.showGeolocationDeniedMessage();

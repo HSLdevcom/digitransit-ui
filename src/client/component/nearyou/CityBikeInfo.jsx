@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIntl } from 'react-intl';
 import { getReadMessageIds, setReadMessageId } from '../../utils/localStorage';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
@@ -9,7 +10,8 @@ import Disclaimer from '../Disclaimer';
 
 export default function CityBikeInfo() {
   const config = useConfigContext();
-  const { vehicleRental, language } = config;
+  const { vehicleRental } = config;
+  const { locale } = useIntl();
   const [showCityBikeTeaser, setShowCityBikeTeaser] = useState(
     !getReadMessageIds().includes('citybike_teaser'),
   );
@@ -23,12 +25,12 @@ export default function CityBikeInfo() {
     Object.keys(vehicleRental.networks).length === 1 &&
     getRentalNetworkConfig(getRentalNetworkId(Object.keys(vehicleRental.networks)), config);
 
-  const href = vehicleRental.buyUrl?.[language] || networkConfig?.url?.[language];
+  const href = vehicleRental.buyUrl?.[locale] || networkConfig?.url?.[locale];
 
   if (!showCityBikeTeaser || !href) {
     return null;
   }
-  const linkLabelId = vehicleRental.buyUrl?.[language]
+  const linkLabelId = vehicleRental.buyUrl?.[locale]
     ? 'citybike-purchase-link'
     : 'citybike-start-using-info';
 
@@ -36,7 +38,7 @@ export default function CityBikeInfo() {
     <>
       <Disclaimer
         headerId="citybike-start-using"
-        text={vehicleRental.buyInstructions?.[language]}
+        text={vehicleRental.buyInstructions?.[locale]}
         href={href}
         linkLabelId={linkLabelId}
         closable

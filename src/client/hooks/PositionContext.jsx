@@ -1,5 +1,6 @@
 import { createContext, useContext, useEffect, useMemo, useReducer, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { getGeolocationState, setGeolocationState } from '../utils/localStorage';
 import { useConfigContext } from './ConfigContext';
 import { createPositionService } from '../data/PositionService';
@@ -163,6 +164,7 @@ const PositionActionsContext = createContext(null);
 
 export function PositionProvider({ children = null }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const [state, dispatch] = useReducer(positionReducer, undefined, createInitialPositionState);
   const stateRef = useRef(state);
   stateRef.current = state;
@@ -174,7 +176,7 @@ export function PositionProvider({ children = null }) {
   }, [state.fields.savedState]);
 
   const service = useMemo(
-    () => createPositionService(config, dispatch, () => stateRef.current.position),
+    () => createPositionService(config, locale, dispatch, () => stateRef.current.position),
     [],
   );
   const actions = useMemo(

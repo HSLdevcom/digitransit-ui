@@ -10,16 +10,15 @@ import LogoSmall from './LogoSmall';
 import LoginButton from './LoginButton';
 import UserMenu from './UserMenu';
 import { useConfigContext } from '../hooks/ConfigContext';
+import { getLoginPath, getLogoutPath } from '../../shared/utils/path';
 
 export default function AppBar({ showLogo = false, homeUrl, logo, breakpoint, titleClicked }) {
   const intl = useIntl();
   const config = useConfigContext();
   const { user } = config;
-  const { match } = useRouter();
-  const { location } = match;
+  const { router, match } = useRouter();
+  const returnTo = router.createHref(match.location);
   const [menuOpen, setMenuOpen] = useState(window.sessionStorage.menuOpen === 'true');
-  const url = encodeURI(`${window.location?.origin || ''}${location.pathname}`);
-  const params = location.search && location.search.substring(1);
 
   const setMenuOpenWithAnalytics = newState => {
     addAnalyticsEvent({
@@ -51,7 +50,7 @@ export default function AppBar({ showLogo = false, homeUrl, logo, breakpoint, ti
         <section className="controls">
           {config.allowLogin &&
             (!user.name ? (
-              <LoginButton loginUrl={`/login?url=${url}&${params}`} />
+              <LoginButton loginUrl={getLoginPath(returnTo)} />
             ) : (
               <UserMenu
                 user={user}
@@ -59,10 +58,10 @@ export default function AppBar({ showLogo = false, homeUrl, logo, breakpoint, ti
                   {
                     key: 'dropdown-item-1',
                     messageId: 'logout',
-                    href: '/logout',
+                    href: getLogoutPath(returnTo),
                     onClick: event => {
                       event.preventDefault();
-                      window.location.href = '/logout';
+                      window.location.href = getLogoutPath(returnTo);
                     },
                   },
                 ]}

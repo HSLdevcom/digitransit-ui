@@ -6,11 +6,7 @@ import config from '../../../src/server/configs/config.default';
  * context for testing different types of React components and fulfilling
  * their propType requirements.
  */
-export const mockContext = {
-  config: { ...config, language: config.defaultLanguage || 'en' },
-  match: mockMatch,
-  router: mockRouter,
-};
+export const mockContext = { config: { ...config }, match: mockMatch, router: mockRouter };
 
 /**
  * Builds a test config by shallow-merging overrides onto the real default

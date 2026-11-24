@@ -1,4 +1,4 @@
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import cx from 'classnames';
 import {
@@ -14,7 +14,7 @@ import ExternalLink from '../ExternalLink';
 
 export default function ScooterLinkContainer({ rentalVehicle, mobileReturn = false }) {
   const config = useConfigContext();
-  const { language } = config;
+  const { locale } = useIntl();
 
   const network = rentalVehicle.rentalNetwork.networkId;
   const networkConfig = getRentalNetworkConfig(network, config);
@@ -23,7 +23,7 @@ export default function ScooterLinkContainer({ rentalVehicle, mobileReturn = fal
   const scooterHeadsign = (
     <FormattedMessage
       id="open-operator-app"
-      values={{ operator: networkConfig.name[language] || network }}
+      values={{ operator: networkConfig.name[locale] || network }}
       defaultMessage="Open the app to use a scooter"
     />
   );

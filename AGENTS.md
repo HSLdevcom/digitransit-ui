@@ -84,6 +84,10 @@ See `docs/Architecture.md` and `docs/Navigation.md`.
   - Use object spread, not `Object.assign`.
   - `no-console` is an error except in `src/server/` and `scripts/`.
 - Only `.jsx` files contain JSX.
+- The page language is not in config: use `useIntl().locale` (`document.documentElement.lang`
+  before React starts). It comes from the URL path: see "Language in URLs" in `docs/Navigation.md`.
+- Use `match.location` for app logic and `router.createHref(match.location)` for the browser URL
+  (it includes the `/{lang}/` prefix); read `window.location` only outside the router.
 - Inline default exports: `export default function Foo() {}`.
 - No `defaultProps` in function components:
   - Destructure defaults instead, and only for valid values, never `undefined`.
