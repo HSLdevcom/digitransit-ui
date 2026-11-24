@@ -11105,7 +11105,7 @@ __metadata:
     helmet: "npm:4.1.0"
     hoist-non-react-statics: "npm:2.5.5"
     husky: "npm:4.3.8"
-    i18next: "npm:22.5.1"
+    i18next: "npm:26.3.4"
     jsdom: "npm:26.0.0"
     leaflet: "npm:1.6.0"
     lerna: "npm:10.1.1"
@@ -14344,12 +14344,15 @@ __metadata:
   languageName: node
   linkType: hard
 
-"i18next@npm:22.5.1":
-  version: 22.5.1
-  resolution: "i18next@npm:22.5.1"
-  dependencies:
-    "@babel/runtime": "npm:^7.20.6"
-  checksum: 10/ab1a0adee97911917fc46fb4216b8eb7c4ec0a243966609dda6a384e4b22acd25386a817dc51146328d5272ce1c6133558361788ebc4a36fbca250b8b3e90bd1
+"i18next@npm:26.3.4":
+  version: 26.3.4
+  resolution: "i18next@npm:26.3.4"
+  peerDependencies:
+    typescript: ^5 || ^6
+  peerDependenciesMeta:
+    typescript:
+      optional: true
+  checksum: 10/133ba9a5f76c1d57337f0dcc1b0ab0ff987714a1863813dcc95024531074c6d92603a19b0bac9c16a6b04c734742d8d098da0c222bef5a9562bdde231ea4b221
   languageName: node
   linkType: hard
 
