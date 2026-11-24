@@ -112,20 +112,16 @@ export default function Itinerary({
   );
 
   const dateString = dateOrEmpty(startTime, refTime);
-  const date = (
-    <>
-      {dateString}
-      <span> </span>
-      {dateString && <FormattedMessage id="at-time" />}
-    </>
-  );
-
   const startDate = isTomorrow(startTime, refTime) ? (
     <div className="tomorrow">
       <FormattedMessage id="tomorrow" />
     </div>
   ) : (
-    date
+    dateString && (
+      <>
+        {dateString} <FormattedMessage id="at-time" />
+      </>
+    )
   );
   const showCo2Info =
     config.showCO2InItinerarySummary && co2value !== null && co2value >= 0 && !containsScooterLeg;
