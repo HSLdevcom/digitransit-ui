@@ -27,26 +27,29 @@ const renderItem = ({ type, key, ...props }) => {
   }
 };
 
-const LegStrip = forwardRef(({ items, showOverflowIcon, iconLegsInPixels }, overflowRef) => (
-  <div
-    className="legs-container"
-    style={{ '--minus': `${iconLegsInPixels}px` }}
-    key="legs"
-    aria-hidden="true"
-  >
+const LegStrip = forwardRef(function LegStrip(
+  { items, showOverflowIcon, iconLegsInPixels },
+  overflowRef,
+) {
+  return (
     <div
-      className={cx('itinerary-legs', showOverflowIcon ? 'overflow-icon' : '')}
-      ref={overflowRef}
+      className="legs-container"
+      style={{ '--minus': `${iconLegsInPixels}px` }}
+      key="legs"
+      aria-hidden="true"
     >
-      {items.map(renderItem)}
+      <div
+        className={cx('itinerary-legs', showOverflowIcon ? 'overflow-icon' : '')}
+        ref={overflowRef}
+      >
+        {items.map(renderItem)}
+      </div>
+      <div className="overflow-icon-container">
+        {showOverflowIcon && <Icon img="icon_three-dots" className="overflow-icon" />}
+      </div>
     </div>
-    <div className="overflow-icon-container">
-      {showOverflowIcon && <Icon img="icon_three-dots" className="overflow-icon" />}
-    </div>
-  </div>
-));
-
-LegStrip.displayName = 'LegStrip';
+  );
+});
 
 LegStrip.propTypes = {
   items: PropTypes.arrayOf(
