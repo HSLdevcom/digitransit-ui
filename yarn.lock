@@ -10922,6 +10922,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"denque@npm:^1.5.0":
+  version: 1.5.1
+  resolution: "denque@npm:1.5.1"
+  checksum: 10/dbde01a987d95205f7563c67411e0964073a6b38e4cf2ff190cf91f71e2ce3f51c40bacd31f2a5497e0ff82366bcfd8231d3659cb03f987279130058d512aa29
+  languageName: node
+  linkType: hard
+
 "depd@npm:2.0.0, depd@npm:^2.0.0, depd@npm:~2.0.0":
   version: 2.0.0
   resolution: "depd@npm:2.0.0"
@@ -11141,7 +11148,7 @@ __metadata:
     react-select: "npm:5.10.2"
     react-swipe: "npm:6.0.4"
     react-truncate-markup: "npm:5.1.2"
-    redis: "npm:2.8.0"
+    redis: "npm:3.1.1"
     relay-compiler: "npm:16.2.0"
     relay-runtime: "npm:16.2.0"
     rollup: "npm:4.67.4"
@@ -11435,13 +11442,6 @@ __metadata:
     find-up: "npm:^3.0.0"
     minimatch: "npm:^3.0.4"
   checksum: 10/84b00ad4d3b75c2eef8d8502d83fffe6000999213ef3a7089680957b1c33b521cf41f15081f693899a17d180e8b49a148063cc39ce7407a8d35acb82047e6daa
-  languageName: node
-  linkType: hard
-
-"double-ended-queue@npm:^2.1.0-0":
-  version: 2.1.0-0
-  resolution: "double-ended-queue@npm:2.1.0-0"
-  checksum: 10/873661712790b1e1b7f598255cc6fa272f080ddfa74ea916277d96ef1a9bc02bf236103f493384593b39b9433c6831a1e6b2b27f5149cc610765da7b16b0db0e
   languageName: node
   linkType: hard
 
@@ -20524,28 +20524,38 @@ __metadata:
   languageName: node
   linkType: hard
 
-"redis-commands@npm:^1.2.0":
+"redis-commands@npm:^1.7.0":
   version: 1.7.0
   resolution: "redis-commands@npm:1.7.0"
   checksum: 10/c3c86ecefb7552d4333024dba8e0f1f6516568c2a74fd41643768781fb909524c7a581027d75e2456be1f0b7f08505c4c2252c6234abe044626455ef645c9459
   languageName: node
   linkType: hard
 
-"redis-parser@npm:^2.6.0":
-  version: 2.6.0
-  resolution: "redis-parser@npm:2.6.0"
-  checksum: 10/79786a19680eed2d8d05055f9942f8b5ad52bbc901943dd557b2032f2fffe545e03bf24e7c903d68a89586adaaa70421f7d52f432dd0992503fc6c3ba5523f1b
+"redis-errors@npm:^1.0.0, redis-errors@npm:^1.2.0":
+  version: 1.2.0
+  resolution: "redis-errors@npm:1.2.0"
+  checksum: 10/001c11f63ddd52d7c80eb4f4ede3a9433d29a458a7eea06b9154cb37c9802a218d93b7988247aa8c958d4b5d274b18354e8853c148f1096fda87c6e675cfd3ee
   languageName: node
   linkType: hard
 
-"redis@npm:2.8.0":
-  version: 2.8.0
-  resolution: "redis@npm:2.8.0"
+"redis-parser@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "redis-parser@npm:3.0.0"
   dependencies:
-    double-ended-queue: "npm:^2.1.0-0"
-    redis-commands: "npm:^1.2.0"
-    redis-parser: "npm:^2.6.0"
-  checksum: 10/2ce08ac5fd1ee7a0a48dedf3a886e878c208391cbe65f3d36df9e32e06dca161c5b0a1e922a877221b17c30bc1c31ca96947aaee1bddeaea9a0fe53c3494d96e
+    redis-errors: "npm:^1.0.0"
+  checksum: 10/b10846844b4267f19ce1a6529465819c3d78c3e89db7eb0c3bb4eb19f83784797ec411274d15a77dbe08038b48f95f76014b83ca366dc955a016a3a0a0234650
+  languageName: node
+  linkType: hard
+
+"redis@npm:3.1.1":
+  version: 3.1.1
+  resolution: "redis@npm:3.1.1"
+  dependencies:
+    denque: "npm:^1.5.0"
+    redis-commands: "npm:^1.7.0"
+    redis-errors: "npm:^1.2.0"
+    redis-parser: "npm:^3.0.0"
+  checksum: 10/54a57873ab3d0d3fea4aab7caf8d6df5daf644f00f2e2d133a24f8bd0c93ba0042ab75ccc34c76fc7674ea1121200944e25ffc85fea37591f53224b4492dce1a
   languageName: node
   linkType: hard
 
