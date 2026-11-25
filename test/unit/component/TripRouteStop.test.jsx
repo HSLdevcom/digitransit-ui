@@ -70,4 +70,22 @@ describe('<TripRouteStop />', () => {
     expect(container.querySelector('.route-stop-status-badge')).not.toBeNull();
     expect(container.querySelector('.route-stop-now_circleline circle')).toBeNull();
   });
+
+  it.each([
+    ['the stop is canceled', { realtimeState: 'CANCELED' }, false, true],
+    ['the next stop is canceled', {}, true, true],
+    ['neither is canceled', {}, false, false],
+  ])('should draw the line dotted correctly when %s', (_, stoptime, nextCanceled, dotted) => {
+    const { container } = renderWithProviders(
+      <TripRouteStop
+        {...statusProps}
+        stop={{ alerts: [] }}
+        stoptime={stoptime}
+        nextCanceled={nextCanceled}
+      />,
+      { config: statusConfig },
+    );
+    const line = container.querySelector('.route-stop-now_line');
+    expect(line.classList.contains('canceled')).toBe(dotted);
+  });
 });

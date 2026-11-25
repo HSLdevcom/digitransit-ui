@@ -52,9 +52,6 @@ export default function TripStopListContainer({
     .filter(vehicle => vehicle.tripStartTime === undefined || vehicle.tripStartTime === tripStart)
     .filter(vehicle => vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId);
 
-  // canceled stops inside a group of skipped stops are not drawn as rows of their own
-  const plainIndexes = new Set(rows.filter(r => !r.skipped).map(r => r.index));
-
   // selected vehicle
   const vehicle = matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
   const nextStop = vehicle?.next_stop;
@@ -100,12 +97,14 @@ export default function TripStopListContainer({
 
           return (
             <TripRouteStop
-              key={stoptime.stop.gtfsId}
+              key={`${stoptime.stop.gtfsId}-${index}`}
               stoptime={stoptime}
               stop={stoptime.stop}
               nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
               nextCanceled={
-                nextStoptimeForDate?.realtimeState === 'CANCELED' && plainIndexes.has(index + 1)
+                !!rows[rowIndex + 1] &&
+                !rows[rowIndex + 1].skipped &&
+                rows[rowIndex + 1].stoptime.realtimeState === 'CANCELED'
               }
               prevStop={prevStop || null}
               mode={mode}

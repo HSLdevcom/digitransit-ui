@@ -120,7 +120,7 @@ describe('<TripStopListContainer />', () => {
     expect(container.querySelectorAll('.route-stop-replacement')).toHaveLength(1);
   });
 
-  it('should group canceled stops at the start but not at the end of the trip', () => {
+  it('should show canceled stops at the start and end of the trip as plain rows', () => {
     const serviceDay = 1551650400;
     const st = (id, realtimeState) => ({
       realtimeDeparture: 1000,
@@ -144,14 +144,17 @@ describe('<TripStopListContainer />', () => {
       },
       tripStart: '',
     };
-    const { container, getAllByRole } = renderWithProviders(<TripStopListContainer {...props} />, {
-      config: { ...mockContext.config, colors: { primary: '#007AC9' } },
-      currentTime: serviceDay,
-    });
-    expect(container.querySelectorAll('.route-stop')).toHaveLength(4);
-    expect(getAllByRole('button', { expanded: false })).toHaveLength(1);
-    // the trailing canceled stops are plain rows reached by dotted lines
-    expect(container.querySelectorAll('.route-stop-now_line.canceled')).toHaveLength(3);
+    const { container, queryAllByRole } = renderWithProviders(
+      <TripStopListContainer {...props} />,
+      {
+        config: { ...mockContext.config, colors: { primary: '#007AC9' } },
+        currentTime: serviceDay,
+      },
+    );
+    expect(container.querySelectorAll('.route-stop')).toHaveLength(6);
+    expect(queryAllByRole('button', { expanded: false })).toHaveLength(0);
+    // the line is dotted on either side of every canceled stop
+    expect(container.querySelectorAll('.route-stop-now_line.canceled')).toHaveLength(6);
   });
 
   it('should not draw a dotted line to canceled stops inside a group', () => {

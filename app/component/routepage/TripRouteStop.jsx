@@ -108,6 +108,8 @@ export default function TripRouteStop({
   });
   const badgeImg = stopStatus && STOP_STATUS_BADGE_IMGS[stopStatus];
   const canceled = stoptime.realtimeState === 'CANCELED';
+  // the line is dotted on either side of a canceled stop
+  const dottedLine = canceled || nextCanceled;
 
   const vehicleLinks = vehicles.map(
     vehicle => vehicle.route === route && getVehiclePatternLink(vehicle),
@@ -155,8 +157,8 @@ export default function TripRouteStop({
           </svg>
         )}
         <div
-          className={cx('route-stop-now_line', mode, { canceled: nextCanceled })}
-          style={{ backgroundColor: !stopPassed && !nextCanceled ? color : null }}
+          className={cx('route-stop-now_line', mode, { canceled: dottedLine })}
+          style={{ backgroundColor: !stopPassed && !dottedLine ? color : null }}
         />
       </div>
       <div className="route-stop-row_content-container">
