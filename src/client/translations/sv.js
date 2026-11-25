@@ -289,7 +289,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Ruttbeskrivningen laddade',
     'itinerary-page.loading-itineraries': 'Laddar ruttbeskrivningar',
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
-    'itinerary-page.show-details-label': 'Öppna ruttbeskrivningen, ruttförslag {number}',
+    'itinerary-page.show-details-label': 'Öppna ruttförslag {number}',
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-row.call-agency-description':

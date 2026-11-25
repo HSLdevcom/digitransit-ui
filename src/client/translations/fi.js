@@ -281,7 +281,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Hakutulokset ladattu',
     'itinerary-page.loading-itineraries': 'Ladataan hakutuloksia',
     'itinerary-page.show-details': 'Näytä reittiohje',
-    'itinerary-page.show-details-label': 'Avaa reittiohje, reittiehdotus {number}',
+    'itinerary-page.show-details-label': 'Avaa reittiehdotus {number}',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.call-agency-description': 'Kutsuliikennettä, lisätiedot reittiohjeessa.',

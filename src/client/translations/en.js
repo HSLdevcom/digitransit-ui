@@ -290,7 +290,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Search results downloaded',
     'itinerary-page.loading-itineraries': 'Downloading search results',
     'itinerary-page.show-details': 'Show itinerary details',
-    'itinerary-page.show-details-label': 'Open itinerary details, itinerary suggestion {number}',
+    'itinerary-page.show-details-label': 'Open itinerary suggestion {number}',
     'itinerary-page.title': 'Itinerary',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-row.call-agency-description':
