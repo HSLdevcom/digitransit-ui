@@ -3,6 +3,7 @@ import { useRouter } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useFragment } from 'react-relay';
+import { Divider, Spacer } from '@hsl-fi/layout-primitives';
 import { getFaresFromLegs, shouldShowMobilePurchaseInfo } from '../../utils/fareUtils';
 import {
   compressLegs,
@@ -176,12 +177,12 @@ export default function ItineraryDetails({
         )}
         {shouldShowFeedback && (
           <div className="itinerary-disclaimer">
-            <div className="separator" />
-            <div className="itinerary-empty-space" />
+            <Divider />
+            <Spacer size="xs" fixed />
             <Feedback recommended={recommended} feedback={feedback} giveFeedback={giveFeedback} />
           </div>
         )}
-        <div className="itinerary-empty-space" />
+        <Spacer size="xs" fixed />
       </div>
     </div>
   );

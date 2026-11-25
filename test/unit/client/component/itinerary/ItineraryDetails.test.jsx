@@ -889,7 +889,8 @@ describe('<ItineraryDetails />', () => {
   describe('footer blocks', () => {
     const itineraryDisclaimerTexts = container =>
       [...container.querySelectorAll('.itinerary-disclaimer')].map(el => el.textContent);
-    const feedbackBlock = container => container.querySelector('.itinerary-disclaimer .separator');
+    const feedbackBlock = container =>
+      container.querySelector('.itinerary-disclaimer .feedback-layer');
     const personalizationConfig = (overrides = {}) => ({
       personalization: true,
       defaultSettings: { ...mockContext.config.defaultSettings, personalization: true },
