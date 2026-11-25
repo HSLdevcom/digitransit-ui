@@ -111,7 +111,6 @@ export default function Itinerary({
         'itinerary-summary-row',
         { passive, 'bp-large': breakpoint === 'large', 'no-border': hideSelectionIndicator },
       ])}
-      aria-atomic="true"
     >
       <div className="sr-only">{screenReaderText}</div>
       <div
