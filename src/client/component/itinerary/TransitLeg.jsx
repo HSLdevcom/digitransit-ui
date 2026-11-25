@@ -233,7 +233,7 @@ export default function TransitLeg({
             <div className="description-container">
               <span className="accent">
                 <FormattedMessage id="pay-attention" />
-              </span>
+              </span>{' '}
               <FormattedMessage id="separate-ticket-required" />
             </div>
             <div className="ticket-info">
