@@ -115,7 +115,7 @@ export default function Itinerary({
     <div
       role="listitem"
       className={cx([
-        'itinerary-summary-row',
+        'itinerary-row',
         { passive, 'bp-large': breakpoint === 'large', 'no-border': hideSelectionIndicator },
       ])}
     >
@@ -123,14 +123,14 @@ export default function Itinerary({
         {screenReaderText}
       </div>
       <div
-        className="itinerary-summary-visible"
+        className="itinerary-row-content"
         style={{ display: 'flex' }}
         data-ticket-type={`${getTicketString(itinerary.legs, getZones(itinerary.legs), config)}`}
       >
-        <div className="itinerary-summary-header">
+        <div className="itinerary-row-body">
           <div>
             <div
-              className="summary-clickable-area cursor-pointer"
+              className="itinerary-row-button cursor-pointer"
               onClick={e => {
                 if (mobile(breakpoint)) {
                   e.stopPropagation();
@@ -193,7 +193,7 @@ export default function Itinerary({
                 giveFeedback={props.giveFeedback}
               />
             )}
-            <div className="summary-separator" />
+            <div className="itinerary-row-separator" />
           </div>
           {!mobile(breakpoint) && (
             <ShowDetailsButton ariaLabel={detailsLabel} onClick={onSelectImmediately} />

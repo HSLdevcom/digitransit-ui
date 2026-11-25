@@ -2,7 +2,7 @@
 @use '@hsl-fi/sass/animations/fade';
 @use '@hsl-fi/sass/mixins/screen';
 
-.desktop .itinerary-summary-row::before {
+.desktop .itinerary-row::before {
   content: '';
   position: absolute;
   left: 0;
@@ -11,7 +11,7 @@
   border-left: 8px solid $theme-primary-color;
 }
 
-.desktop .itinerary-summary-row.passive::before {
+.desktop .itinerary-row.passive::before {
   content: '';
   position: absolute;
   left: 0;
@@ -20,7 +20,7 @@
   border-left: 8px solid transparent;
 }
 
-.itinerary-summary-row {
+.itinerary-row {
   min-height: 50px;
   padding-left: 15px;
   padding-right: 15px;
@@ -46,7 +46,7 @@
     line-height: 1.5;
   }
 
-  .itinerary-time-row {
+  .itinerary-row-time {
     width: 100%;
     overflow: hidden;
     text-align: right;
@@ -655,7 +655,7 @@
     border-left-width: 8px;
     padding: 0 0 0 60px;
 
-    .summary-clickable-area {
+    .itinerary-row-button {
       max-width: 385px;
     }
 
@@ -664,7 +664,7 @@
       margin-top: 10px;
     }
 
-    .itinerary-time-row {
+    .itinerary-row-time {
       min-width: 50px;
     }
 
@@ -679,26 +679,26 @@
     }
   }
 
-  .summary-clickable-area {
+  .itinerary-row-button {
     display: flex;
     flex: auto;
     flex-wrap: wrap;
     transition: border 0.4s ease;
   }
 
-  .summary-separator {
+  .itinerary-row-separator {
     border-bottom: 1px solid $light-gray;
     width: 100%;
     margin-top: 15px;
   }
 
-  .itinerary-summary-visible {
+  .itinerary-row-content {
     flex: auto;
     flex-direction: column;
     max-width: 100%;
   }
 
-  .itinerary-summary-header {
+  .itinerary-row-body {
     display: flex;
     flex: auto;
   }
@@ -731,7 +731,7 @@
     left: -0.3em;
   }
 
-  .itinerary-summary-header {
+  .itinerary-row-body {
     display: block;
   }
 }
