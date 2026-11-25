@@ -2,10 +2,21 @@ import data from '../../../test-data/dcw31';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import ItinerarySummary from '../../../../../src/client/component/itinerary/ItinerarySummary';
 
+const NONE = { distance: 0, duration: 0 };
+const baseProps = {
+  walking: NONE,
+  biking: NONE,
+  driving: NONE,
+  futureText: '',
+  isMultiRow: false,
+  isMobile: false,
+  hideBottomDivider: false,
+};
+
 describe('<ItinerarySummary />', () => {
   it('should show biking distance and walking distance', () => {
     const props = {
-      children: <div />,
+      ...baseProps,
       itinerary: data.bikingAndWalking,
       biking: { distance: 1000, duration: 180 },
       walking: { distance: 555, duration: 300 },
@@ -16,7 +27,7 @@ describe('<ItinerarySummary />', () => {
 
   it('should show walking distance before biking distance', () => {
     const props = {
-      children: <div />,
+      ...baseProps,
       itinerary: data.bikingAndWalking,
       biking: { distance: 1000, duration: 180 },
       walking: { distance: 555, duration: 300 },
@@ -29,7 +40,7 @@ describe('<ItinerarySummary />', () => {
 
   it('should show only biking distance for only biking itinerary', () => {
     const props = {
-      children: <div />,
+      ...baseProps,
       itinerary: data.onlyBiking,
       biking: { distance: 1000, duration: 180 },
     };
