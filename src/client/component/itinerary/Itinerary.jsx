@@ -145,29 +145,27 @@ export default function Itinerary({
               aria-label={rowLabel}
               aria-describedby={descriptionId}
             >
-              <div className="itinerary-duration-container" aria-hidden="true">
-                <TimeRow
-                  startDate={startDate}
-                  hasCallAgencyLeg={hasCallAgencyLeg}
-                  departureTime={departureTime}
-                  arrivalTime={arrivalTime}
-                  duration={duration}
-                >
-                  {config.showDistanceInItinerarySummary && (
-                    <div className="itinerary-total-distance">
-                      {(getTotalDistance(itinerary) / 1000).toFixed(1)} km
-                    </div>
-                  )}
-                  {showCo2Info && (
-                    <div className="itinerary-co2-value-container">
-                      {lowestCo2value === co2value && (
-                        <Icon img="icon_co2_leaf" className="co2-leaf" />
-                      )}
-                      <div className="itinerary-co2-value">{co2value} g</div>
-                    </div>
-                  )}
-                </TimeRow>
-              </div>
+              <TimeRow
+                startDate={startDate}
+                hasCallAgencyLeg={hasCallAgencyLeg}
+                departureTime={departureTime}
+                arrivalTime={arrivalTime}
+                duration={duration}
+              >
+                {config.showDistanceInItinerarySummary && (
+                  <div className="itinerary-total-distance">
+                    {(getTotalDistance(itinerary) / 1000).toFixed(1)} km
+                  </div>
+                )}
+                {showCo2Info && (
+                  <div className="itinerary-co2-value-container">
+                    {lowestCo2value === co2value && (
+                      <Icon img="icon_co2_leaf" className="co2-leaf" />
+                    )}
+                    <div className="itinerary-co2-value">{co2value} g</div>
+                  </div>
+                )}
+              </TimeRow>
               <LegStrip
                 ref={overflowRef}
                 items={items}
