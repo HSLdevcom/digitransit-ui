@@ -113,18 +113,10 @@ export default function ItineraryDetails({
     bikePublicItineraryCount,
     carPublicItineraryCount,
   });
-  let itineraryIndex = match.params.secondHash
-    ? Number(match.params.secondHash)
-    : Number(match.params.hash);
-  if (Number.isNaN(itineraryIndex)) {
-    itineraryIndex = 1;
-  } else {
-    itineraryIndex += 1;
-  }
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only">
-        <FormattedMessage id="summary-page.row-label" values={{ number: itineraryIndex }} />
+        <FormattedMessage id="summary-page.row-label" values={{ number: tabIndex + 1 }} />
         <FormattedMessage id="leaves">
           {msg => (
             <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(

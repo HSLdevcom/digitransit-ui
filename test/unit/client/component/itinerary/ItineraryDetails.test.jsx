@@ -229,27 +229,19 @@ describe('<ItineraryDetails />', () => {
   });
 
   describe('itinerary number in the heading', () => {
-    const headingText = params => renderDetails({ params }).querySelector('h2.sr-only').textContent;
+    const headingText = props => renderDetails({ props }).querySelector('h2.sr-only').textContent;
 
-    it('defaults to 1 without a hash', () => {
-      expect(headingText({})).toContain('Itinerary suggestion 1');
+    it('is the zero based tab index plus one', () => {
+      expect(headingText({ tabIndex: 0 })).toContain('Itinerary suggestion 1');
+      expect(headingText({ tabIndex: 2 })).toContain('Itinerary suggestion 3');
     });
 
-    it('uses the zero based hash plus one', () => {
-      expect(headingText({ hash: '0' })).toContain('Itinerary suggestion 1');
-      expect(headingText({ hash: '2' })).toContain('Itinerary suggestion 3');
-    });
-
-    it('prefers secondHash over hash', () => {
-      expect(headingText({ hash: 'bikeAndVehicle', secondHash: '2' })).toContain(
-        'Itinerary suggestion 3',
-      );
-      expect(headingText({ hash: '5', secondHash: '1' })).toContain('Itinerary suggestion 2');
-    });
-
-    it('falls back to 1 for street hashes', () => {
-      expect(headingText({ hash: 'walk' })).toContain('Itinerary suggestion 1');
-      expect(headingText({ hash: 'bike' })).toContain('Itinerary suggestion 1');
+    it('does not depend on the url hash', () => {
+      const container = renderDetails({
+        props: { tabIndex: 1 },
+        params: { hash: 'bikeAndVehicle', secondHash: '4' },
+      });
+      expect(container.querySelector('h2.sr-only').textContent).toContain('Itinerary suggestion 2');
     });
   });
 
@@ -1331,7 +1323,7 @@ describe('<ItineraryDetails />', () => {
     });
 
     it('includes itinerary number in screen reader heading', () => {
-      const container = renderDetails({ params: { hash: '2' } });
+      const container = renderDetails({ props: { tabIndex: 2 } });
       const heading = container.querySelector('h2.sr-only');
       expect(heading.textContent).toContain('3');
     });
