@@ -36,6 +36,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
   const intl = useIntl();
   const { locale } = intl;
   const disclaimers = [];
+  const shownTexts = new Set();
   const externalOperatorJourneys =
     hasScooterLegs({ legs: compressedLegs }) || hasTaxiLegs({ legs: compressedLegs });
 
@@ -48,6 +49,7 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
       if (config.modeDisclaimers?.[leg.mode] && !found[leg.mode]) {
         found[leg.mode] = true;
         const disclaimer = config.modeDisclaimers[leg.mode][locale];
+        shownTexts.add(disclaimer.disclaimer);
         disclaimers.push(
           <FareDisclaimer
             key={leg.mode}
@@ -96,10 +98,8 @@ export default function ItineraryDisclaimers({ legs, compressedLegs, fares }) {
   if (config.replacementBusNotification) {
     legs.forEach(({ route, trip }) => {
       const notification = getReplacementBusNotification(route, trip, config, locale);
-      if (
-        notification &&
-        !disclaimers.some(disclaimer => disclaimer.props?.text === notification.content)
-      ) {
+      if (notification?.content && !shownTexts.has(notification.content)) {
+        shownTexts.add(notification.content);
         disclaimers.push(
           <RouteDisclaimer
             key={notification.key}

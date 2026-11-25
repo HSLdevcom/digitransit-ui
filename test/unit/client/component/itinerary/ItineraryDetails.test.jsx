@@ -744,9 +744,7 @@ describe('<ItineraryDetails />', () => {
     });
 
     describe('known quirks', () => {
-      // characterizes current behavior: missing content for the language
-      // makes the duplicate check match any disclaimer without a text prop
-      it('is dropped when content is missing and a textId disclaimer exists', () => {
+      it('is dropped when content is missing for the language', () => {
         const container = renderDetails({
           itinerary: makeItinerary([
             makeCallAgencyLeg('EXT:1'),
@@ -772,21 +770,17 @@ describe('<ItineraryDetails />', () => {
         expect(notifications(container)).toHaveLength(0);
       });
 
-      // characterizes current behavior: without that accidental match the
-      // notification has no text or textId and crashes the render
-      it('throws when content is missing and nothing else is shown', () => {
-        silenceConsoleError();
-        expect(() =>
-          renderDetails({
-            itinerary: makeItinerary([makeRailLeg({ trip: replacementTrip })]),
-            config: replacementConfig({
-              replacementBusNotification: {
-                content: { fi: ['Vain suomeksi'] },
-                link: { en: 'https://example.com/replacement' },
-              },
-            }),
+      it('is dropped without throwing when nothing else is shown', () => {
+        const container = renderDetails({
+          itinerary: makeItinerary([makeRailLeg({ trip: replacementTrip })]),
+          config: replacementConfig({
+            replacementBusNotification: {
+              content: { fi: ['Vain suomeksi'] },
+              link: { en: 'https://example.com/replacement' },
+            },
           }),
-        ).toThrow();
+        });
+        expect(notifications(container)).toHaveLength(0);
       });
     });
   });
