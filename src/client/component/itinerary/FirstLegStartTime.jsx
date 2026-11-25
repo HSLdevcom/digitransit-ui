@@ -20,7 +20,7 @@ export default function FirstLegStartTime({
   if (hasCallAgencyLeg) {
     content = (
       <>
-        <Icon img="icon_alert-circle" className="itinerary-summary-icon" omitViewBox />
+        <Icon img="icon_alert-circle" omitViewBox />
         <FormattedMessage id="itinerary-row.call-agency-description" />
       </>
     );
