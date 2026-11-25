@@ -34,7 +34,7 @@ const MessageConsumer = ({ controlRef }) => {
   return <div data-message-count={messages.length} />;
 };
 
-MessageConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }) };
+MessageConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.shape({}) }) };
 
 const flushEffects = async () => {
   await act(async () => {
