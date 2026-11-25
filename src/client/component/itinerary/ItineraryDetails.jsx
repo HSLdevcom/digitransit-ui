@@ -17,7 +17,7 @@ import {
 } from '../../utils/legUtils';
 import { itineraryShape, relayShape } from '../../utils/shapes';
 import { getFutureText } from '../../utils/timeUtils';
-import { BreakpointConsumer } from '../../hooks/BreakpointContext';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
 import { getItineraryDisplayFlags, getSettings } from '../../utils/planParamUtil';
 import BackButton from '../BackButton';
 import Emissions from './Emissions';
@@ -61,7 +61,7 @@ export default function ItineraryDetails({
   tabIndex,
   hideTitle = false,
   carEmissions,
-  changeHash = () => {},
+  changeHash,
   openSettings,
   startNavigation,
   bikePublicItineraryCount = 0,
@@ -76,6 +76,7 @@ export default function ItineraryDetails({
   const config = useConfigContext();
   const intl = useIntl();
   const { locale } = intl;
+  const breakpoint = useBreakpoint();
   if (!itinerary?.legs[0]) {
     return null;
   }
@@ -132,113 +133,76 @@ export default function ItineraryDetails({
           )}
         </FormattedMessage>
       </h2>
-      <BreakpointConsumer>
-        {breakpoint => [
-          breakpoint === 'large' && !hideTitle && (
-            <div className="desktop-title" key="header">
-              <BackButton
-                title={
-                  <FormattedMessage
-                    id="itinerary-page.title"
-                    defaultMessage="Itinerary suggestions"
-                  />
-                }
-                fallback="pop"
-              />
-            </div>
-          ),
-          <ItinerarySummary
-            itinerary={itinerary}
-            key="summary"
-            walking={walking}
-            biking={biking}
-            driving={driving}
-            futureText={futureText}
-            isMultiRow={isMultiRow}
-            isMobile={isMobile}
-            hideBottomDivider={shouldShowMobilePurchaseInfo(
-              config,
-              itinerary.legs,
-              fares,
-              isMobile,
-            )}
-          />,
-          <VehicleRentalDurationInfo
-            key="rentaldurationinfo"
-            legs={compressedLegs}
-            config={config}
-          />,
-          <FareInfo
-            key="fareinfo"
-            config={config}
+      {breakpoint === 'large' && !hideTitle && (
+        <div className="desktop-title">
+          <BackButton
+            title={
+              <FormattedMessage id="itinerary-page.title" defaultMessage="Itinerary suggestions" />
+            }
+            fallback="pop"
+          />
+        </div>
+      )}
+      <ItinerarySummary
+        itinerary={itinerary}
+        walking={walking}
+        biking={biking}
+        driving={driving}
+        futureText={futureText}
+        isMultiRow={isMultiRow}
+        isMobile={isMobile}
+        hideBottomDivider={shouldShowMobilePurchaseInfo(config, itinerary.legs, fares, isMobile)}
+      />
+      <VehicleRentalDurationInfo legs={compressedLegs} config={config} />
+      <FareInfo config={config} legs={itinerary.legs} fares={fares} isMobile={isMobile} />
+      {showStartNavi && <StartNavi startNavigation={startNavigation} />}
+      {showEmissions && <EmissionsInfo itinerary={itinerary} isMobile={isMobile} />}
+      <div className={cx('momentum-scroll itinerary-tabs__scroll', { multirow: isMultiRow })}>
+        <div className={cx('itinerary-main', { 'bp-large': breakpoint === 'large' })}>
+          <ItineraryDisclaimers
             legs={itinerary.legs}
+            compressedLegs={compressedLegs}
             fares={fares}
-            isMobile={isMobile}
-          />,
-          showStartNavi && <StartNavi key="navigation" startNavigation={startNavigation} />,
-          showEmissions && (
-            <EmissionsInfo key="emissionsummary" itinerary={itinerary} isMobile={isMobile} />
-          ),
-          <div
-            className={cx('momentum-scroll itinerary-tabs__scroll', { multirow: isMultiRow })}
-            key="legs"
-          >
-            <div
-              className={cx('itinerary-main', { 'bp-large': breakpoint === 'large' })}
-              key="legwrapper"
-            >
-              <ItineraryDisclaimers
-                legs={itinerary.legs}
-                compressedLegs={compressedLegs}
-                fares={fares}
-              />
-              <Legs
-                key="itinerarylegs"
-                fares={fares}
-                itinerary={itinerary}
-                focusToPoint={focusToPoint}
-                focusToLeg={focusToLeg}
-                changeHash={changeHash}
-                tabIndex={tabIndex}
-                openSettings={openSettings}
-                showBikeBoardingInformation={showBikeBoardingInformation}
-                showCarBoardingInformation={showCarBoardingInformation}
-                usingOwnCarWholeTrip={usingOwnCarWholeTrip}
-                relayEnvironment={relayEnvironment}
-              />
-            </div>
-            {showEmissions && (
-              <Emissions
-                key="emissionsinfo"
-                config={config}
-                itinerary={itinerary}
-                carEmissions={carEmissions}
-                emissionsInfolink={config.URL.EMISSIONS_INFO?.[locale]}
-              />
-            )}
-            {shouldShowDisclaimer && (
-              <div className="itinerary-disclaimer" key="disclaimer">
-                <FormattedMessage
-                  id="disclaimer"
-                  defaultMessage="Results are based on estimated travel times"
-                />
-              </div>
-            )}
-            {shouldShowFeedback && (
-              <div className="itinerary-disclaimer" key="feedback">
-                <div className="separator" />
-                <div className="itinerary-empty-space" />
-                <Feedback
-                  recommended={recommended}
-                  feedback={feedback}
-                  giveFeedback={giveFeedback}
-                />
-              </div>
-            )}
-            <div className="itinerary-empty-space" key="emptyspace" />
-          </div>,
-        ]}
-      </BreakpointConsumer>
+          />
+          <Legs
+            fares={fares}
+            itinerary={itinerary}
+            focusToPoint={focusToPoint}
+            focusToLeg={focusToLeg}
+            changeHash={changeHash}
+            tabIndex={tabIndex}
+            openSettings={openSettings}
+            showBikeBoardingInformation={showBikeBoardingInformation}
+            showCarBoardingInformation={showCarBoardingInformation}
+            usingOwnCarWholeTrip={usingOwnCarWholeTrip}
+            relayEnvironment={relayEnvironment}
+          />
+        </div>
+        {showEmissions && (
+          <Emissions
+            config={config}
+            itinerary={itinerary}
+            carEmissions={carEmissions}
+            emissionsInfolink={config.URL.EMISSIONS_INFO?.[locale]}
+          />
+        )}
+        {shouldShowDisclaimer && (
+          <div className="itinerary-disclaimer">
+            <FormattedMessage
+              id="disclaimer"
+              defaultMessage="Results are based on estimated travel times"
+            />
+          </div>
+        )}
+        {shouldShowFeedback && (
+          <div className="itinerary-disclaimer">
+            <div className="separator" />
+            <div className="itinerary-empty-space" />
+            <Feedback recommended={recommended} feedback={feedback} giveFeedback={giveFeedback} />
+          </div>
+        )}
+        <div className="itinerary-empty-space" />
+      </div>
     </div>
   );
 }
