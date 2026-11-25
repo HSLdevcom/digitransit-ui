@@ -3,3 +3,6 @@ _static
 static
 packages/private/schema/schema.graphql
 packages/*/*/lib
+digitransit-component/packages/*/lib
+digitransit-search-util/packages/*/lib
+digitransit-store/packages/*/lib
