@@ -1,6 +1,7 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { legShape } from '../../utils/shapes';
+import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { getLegBadgeProps, isLocalCallAgency } from '../../utils/legUtils';
 import {
@@ -9,6 +10,11 @@ import {
 } from '../../../shared/utils/vehicleRentalUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
+const parkingIndicators = {
+  bike: { className: 'bike_park', icon: 'icon-bike_parking' },
+  car: { className: 'car_park', icon: 'icon_car-park' },
+};
+
 export default function StreetBar({
   leg,
   mode,
@@ -16,6 +22,7 @@ export default function StreetBar({
   duration,
   renderModeIcons = false,
   icon,
+  parkingIndicator,
 }) {
   const config = useConfigContext();
   let networkIcon;
@@ -29,24 +36,33 @@ export default function StreetBar({
     networkIcon = 'icon_scooter_rider';
   }
 
+  const parking = parkingIndicator && parkingIndicators[parkingIndicator];
+
   return (
-    <div
-      className={cx('leg', mode.toLowerCase(), renderModeIcons ? 'render-icon' : '')}
-      style={{ '--width': `${legLength}%` }}
-    >
-      <RouteNumber
-        mode={mode}
-        text=""
-        className={cx('line', mode.toLowerCase())}
-        duration={duration}
-        renderModeIcons={renderModeIcons}
-        vertical
-        withBar
-        icon={networkIcon || icon}
-        appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
-        {...getLegBadgeProps(leg, config)}
-      />
-    </div>
+    <>
+      <div
+        className={cx('leg', mode.toLowerCase(), renderModeIcons ? 'render-icon' : '')}
+        style={{ '--width': `${legLength}%` }}
+      >
+        <RouteNumber
+          mode={mode}
+          text=""
+          className={cx('line', mode.toLowerCase())}
+          duration={duration}
+          renderModeIcons={renderModeIcons}
+          vertical
+          withBar
+          icon={networkIcon || icon}
+          appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
+          {...getLegBadgeProps(leg, config)}
+        />
+      </div>
+      {parking && (
+        <div className={`leg ${parking.className}`}>
+          <Icon img={parking.icon} className={`itinerary-icon ${parking.className}`} />
+        </div>
+      )}
+    </>
   );
 }
 
@@ -57,4 +73,5 @@ StreetBar.propTypes = {
   renderModeIcons: PropTypes.bool,
   duration: PropTypes.number,
   icon: PropTypes.string,
+  parkingIndicator: PropTypes.oneOf(['bike', 'car']),
 };

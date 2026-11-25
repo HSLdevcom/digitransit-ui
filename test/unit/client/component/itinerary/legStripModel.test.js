@@ -34,7 +34,7 @@ const makeLeg = (mode, startMin, durationMin, overrides = {}) => ({
 
 const typeNames = {
   via: 'ViaPoint',
-  street: 'ItineraryStreetLeg',
+  street: 'StreetBar',
   transit: 'TransitBar',
   wait: 'StreetBar',
 };
@@ -92,7 +92,7 @@ describe('getLegStripModel', () => {
             "mode": "walk",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,
@@ -115,7 +115,7 @@ describe('getLegStripModel', () => {
             "mode": "walk",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,
@@ -225,7 +225,7 @@ describe('getLegStripModel', () => {
             "mode": "walk",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "key": "via_RAIL_1767262500000",
@@ -279,7 +279,7 @@ describe('getLegStripModel', () => {
             "mode": "BICYCLE",
             "parkingIndicator": "bike",
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "duration": 5,
@@ -290,7 +290,7 @@ describe('getLegStripModel', () => {
             "mode": "walk",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,
@@ -334,7 +334,7 @@ describe('getLegStripModel', () => {
             "mode": "BICYCLE",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,
@@ -379,7 +379,7 @@ describe('getLegStripModel', () => {
             "mode": "CAR",
             "parkingIndicator": "car",
             "renderModeIcons": undefined,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "duration": 5,
@@ -390,7 +390,7 @@ describe('getLegStripModel', () => {
             "mode": "walk",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
         ],
         "iconLegsInPixels": 24,
@@ -428,7 +428,7 @@ describe('getLegStripModel', () => {
             "mode": "CITYBIKE",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,
@@ -474,7 +474,7 @@ describe('getLegStripModel', () => {
             "mode": "SCOOTER",
             "parkingIndicator": undefined,
             "renderModeIcons": true,
-            "type": "ItineraryStreetLeg",
+            "type": "StreetBar",
           },
           {
             "fitRouteNumber": true,

@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import Icon from '../Icon';
 import StreetBar from './StreetBar';
 import TransitBar from './TransitBar';
-import ItineraryStreetLeg from './ItineraryStreetLeg';
 
 const ViaPoint = () => (
   <div className="leg via">
@@ -16,10 +15,9 @@ const renderItem = ({ type, key, ...props }) => {
   switch (type) {
     case 'via':
       return <ViaPoint key={key} />;
-    case 'street':
-      return <ItineraryStreetLeg key={key} {...props} />;
     case 'transit':
       return <TransitBar key={key} {...props} />;
+    case 'street':
     case 'wait':
       return <StreetBar key={key} {...props} />;
     default:
