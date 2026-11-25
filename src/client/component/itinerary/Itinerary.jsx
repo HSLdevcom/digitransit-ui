@@ -137,9 +137,6 @@ export default function Itinerary({
               role="button"
               aria-label={ariaLabelMessage}
             >
-              <span key="ShowOnMapScreenReader" className="sr-only">
-                <FormattedMessage id="itinerary-summary-row.clickable-area-description" />
-              </span>
               <div className="itinerary-duration-container" aria-hidden="true">
                 <TimeRow
                   startDate={startDate}
