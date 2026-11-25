@@ -292,28 +292,27 @@ export default {
     'itinerary-page.show-details': 'Show itinerary details',
     'itinerary-page.show-details-label': 'Open itinerary suggestion {number}',
     'itinerary-page.title': 'Itinerary',
-    'itinerary-summary-page.description': 'Route suggestions',
-    'itinerary-summary-row.call-agency-description':
-      'Dial-a-ride service; see the itinerary for details.',
-    'itinerary-summary-row.clickable-area-description': 'Show on map',
-    'itinerary-summary-row.description':
+    'itinerary-row.call-agency-description': 'Dial-a-ride service; see the itinerary for details.',
+    'itinerary-row.clickable-area-description': 'Show on map',
+    'itinerary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time':
+    'itinerary-row.first-leg-start-time':
       'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
+    'itinerary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
-    'itinerary-summary-row.first-leg-start-time-scooter':
+    'itinerary-row.first-leg-start-time-scooter':
       'Departure at {firstDepartureTime} from the scooter pickup location',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
-    'itinerary-summary-row.first-leg-start-time-taxi':
+    'itinerary-row.first-leg-start-time-taxi':
       'Departure at {firstDepartureTime} from the taxi pickup location',
-    'itinerary-summary-row.hint-open': 'Open itinerary details.',
-    'itinerary-summary-row.hint-select': 'Select to show on map.',
-    'itinerary-summary-row.hint-selected': 'Selected. Activate again to open itinerary details.',
-    'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
-    'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
-    'itinerary-summary-row.transfers-to-rental': 'Transfer to {vehicle}',
+    'itinerary-row.hint-open': 'Open itinerary details.',
+    'itinerary-row.hint-select': 'Select to show on map.',
+    'itinerary-row.hint-selected': 'Selected. Activate again to open itinerary details.',
+    'itinerary-row.no-transit-legs': 'Leave when it suits you',
+    'itinerary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-row.transfers-to-rental': 'Transfer to {vehicle}',
+    'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
     'itinerary-summary.bikeAndPublic-bus-title': 'Take your bike with you on the bus',

@@ -310,7 +310,7 @@ export default function WalkLeg({
             />
             <ItineraryMapAction
               target=""
-              ariaLabelId="itinerary-summary-row.clickable-area-description"
+              ariaLabelId="itinerary-row.clickable-area-description"
               focusAction={focusToLeg}
             />
           </div>

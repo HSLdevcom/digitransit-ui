@@ -119,18 +119,18 @@ export default {
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.show-details-label': 'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
-    'itinerary-summary-page.description': 'Reisevorschläge',
-    'itinerary-summary-row.clickable-area-description': 'Auf der Karte zeigen',
-    'itinerary-summary-row.description':
+    'itinerary-row.clickable-area-description': 'Auf der Karte zeigen',
+    'itinerary-row.description':
       'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time':
+    'itinerary-row.first-leg-start-time':
       'Fährt ab um {firstDepartureTime} von {firstDepartureStopType} {firstDepartureStop}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
+    'itinerary-row.first-leg-start-time-citybike':
       'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
-    'itinerary-summary-row.no-transit-legs': 'Start jederzeit möglich',
-    'itinerary-summary-row.transfers': 'Umstieg auf {vehicle} an Halt {stopName}',
+    'itinerary-row.no-transit-legs': 'Start jederzeit möglich',
+    'itinerary-row.transfers': 'Umstieg auf {vehicle} an Halt {stopName}',
+    'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
       'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',
     'itinerary-summary.bikeAndPublic-rail-title': 'Nehmen Sie Ihr Rad mit in den Zug',

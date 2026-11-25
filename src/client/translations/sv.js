@@ -291,28 +291,28 @@ export default {
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
     'itinerary-page.show-details-label': 'Öppna ruttförslag {number}',
     'itinerary-page.title': 'Ruttinformation',
-    'itinerary-summary-page.description': 'Ruttförslag',
-    'itinerary-summary-row.call-agency-description':
+    'itinerary-row.call-agency-description':
       'Anropsstyrd trafik, mer information i ruttbeskrivningen.',
-    'itinerary-summary-row.clickable-area-description': 'Visa på kartan',
-    'itinerary-summary-row.description':
+    'itinerary-row.clickable-area-description': 'Visa på kartan',
+    'itinerary-row.description':
       'Avgång {departureDate} klockan {departureTime}. Framme {arrivalDate} klockan {arrivalTime}. {firstDeparture} {transfers} Restid {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time':
+    'itinerary-row.first-leg-start-time':
       'Avgår kl {firstDepartureTime} från {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
+    'itinerary-row.first-leg-start-time-citybike':
       'Avgång kl {firstDepartureTime} från {firstDepartureStop} stadscykelstation',
-    'itinerary-summary-row.first-leg-start-time-scooter':
+    'itinerary-row.first-leg-start-time-scooter':
       'Avgång kl {firstDepartureTime} från elsparkcykelns upphämtningsplats',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} avgår från {firstDepartureStopType} {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
-    'itinerary-summary-row.first-leg-start-time-taxi':
+    'itinerary-row.first-leg-start-time-taxi':
       'Avgång kl {firstDepartureTime} från taxins upphämtningsplats',
-    'itinerary-summary-row.hint-open': 'Öppna ruttbeskrivningen.',
-    'itinerary-summary-row.hint-select': 'Välj för att visa på kartan.',
-    'itinerary-summary-row.hint-selected': 'Vald. Tryck igen för att öppna ruttbeskrivningen.',
-    'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
-    'itinerary-summary-row.transfers': 'Byte {vehicle} vid hållplats {stopName}',
-    'itinerary-summary-row.transfers-to-rental': 'Byte {vehicle}',
+    'itinerary-row.hint-open': 'Öppna ruttbeskrivningen.',
+    'itinerary-row.hint-select': 'Välj för att visa på kartan.',
+    'itinerary-row.hint-selected': 'Vald. Tryck igen för att öppna ruttbeskrivningen.',
+    'itinerary-row.no-transit-legs': 'Avgå när det passar för dig',
+    'itinerary-row.transfers': 'Byte {vehicle} vid hållplats {stopName}',
+    'itinerary-row.transfers-to-rental': 'Byte {vehicle}',
+    'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary.bike-boarding-information':
       'Du får ta med cykeln ombord på fordonet. Kontrollera med trafikoperatören om det är avgiftsbelagt att transportera cyklar',
     'itinerary-summary.bikeAndPublic-bus-title': 'Ta cykeln med på bussen',

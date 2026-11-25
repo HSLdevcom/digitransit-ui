@@ -101,13 +101,13 @@ export default {
     'itinerary-hide-stops': 'Ascunde stațiile',
     'itinerary-page.show-details': 'Afișează detalierea itinerarului',
     'itinerary-page.title': 'Itinerar',
-    'itinerary-summary-page.description': 'Sugestii de trasee',
-    'itinerary-summary-row.clickable-area-description': 'Afișați pe hartă',
-    'itinerary-summary-row.description':
+    'itinerary-row.clickable-area-description': 'Afișați pe hartă',
+    'itinerary-row.description':
       'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} pleacă la {firstDepartureTime} de la {firstDepartureStop}.',
-    'itinerary-summary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
+    'itinerary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
+    'itinerary-summary-page.description': 'Sugestii de trasee',
     'itinerary-summary.show-on-map': 'Vedeți pe hartă {target}',
     'itinerary-ticket.title': 'Bilet necesar',
     'itinerary-tickets.title': 'Bilete necesare',

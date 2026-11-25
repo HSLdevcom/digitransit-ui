@@ -127,13 +127,13 @@ export function getBoardingInformationText(intl, leg, showPlatformChangeLabel = 
 export function getFirstDepartureMessageId(firstDepartureLeg, isScreenReaderMessage) {
   if (isBikeOrScooterRentalLeg(firstDepartureLeg)) {
     return isScooterLeg(firstDepartureLeg)
-      ? 'itinerary-summary-row.first-leg-start-time-scooter'
-      : 'itinerary-summary-row.first-leg-start-time-citybike';
+      ? 'itinerary-row.first-leg-start-time-scooter'
+      : 'itinerary-row.first-leg-start-time-citybike';
   }
   if (isTaxiLeg(firstDepartureLeg)) {
-    return 'itinerary-summary-row.first-leg-start-time-taxi';
+    return 'itinerary-row.first-leg-start-time-taxi';
   }
   return isScreenReaderMessage
-    ? 'itinerary-summary-row.first-leg-start-time-sr'
-    : 'itinerary-summary-row.first-leg-start-time';
+    ? 'itinerary-row.first-leg-start-time-sr'
+    : 'itinerary-row.first-leg-start-time';
 }

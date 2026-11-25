@@ -226,18 +226,18 @@ export default {
     'itinerary-page.show-details': 'Pokaż szczegóły planu podróży',
     'itinerary-page.show-details-label': 'Pokaż szczegóły planu podróży {number}',
     'itinerary-page.title': 'Trasa podróży',
-    'itinerary-summary-page.description': 'Propozycje trasy',
-    'itinerary-summary-row.clickable-area-description': 'Pokaż na mapie',
-    'itinerary-summary-row.description':
+    'itinerary-row.clickable-area-description': 'Pokaż na mapie',
+    'itinerary-row.description':
       'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time':
+    'itinerary-row.first-leg-start-time':
       'Odjeżdża o {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
+    'itinerary-row.first-leg-start-time-citybike':
       'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
-    'itinerary-summary-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
-    'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
+    'itinerary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-summary-page.description': 'Propozycje trasy',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
     'itinerary-summary.bikeAndPublic-bus-title': 'Weź rower ze sobą do autobusu',

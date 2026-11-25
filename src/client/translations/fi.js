@@ -283,27 +283,27 @@ export default {
     'itinerary-page.show-details': 'Näytä reittiohje',
     'itinerary-page.show-details-label': 'Avaa reittiehdotus {number}',
     'itinerary-page.title': 'Reittiohje',
-    'itinerary-summary-page.description': 'Reittiehdotukset',
-    'itinerary-summary-row.call-agency-description': 'Kutsuliikennettä, lisätiedot reittiohjeessa.',
-    'itinerary-summary-row.clickable-area-description': 'Näytä kartalla',
-    'itinerary-summary-row.description':
+    'itinerary-row.call-agency-description': 'Kutsuliikennettä, lisätiedot reittiohjeessa.',
+    'itinerary-row.clickable-area-description': 'Näytä kartalla',
+    'itinerary-row.description':
       'Lähtö {departureDate} kello {departureTime}. Perillä {arrivalDate} kello {arrivalTime}. {firstDeparture} {transfers} Matka-aika {totalTime}',
-    'itinerary-summary-row.first-leg-start-time':
+    'itinerary-row.first-leg-start-time':
       'Lähtee klo {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
+    'itinerary-row.first-leg-start-time-citybike':
       'Lähtö klo {firstDepartureTime} kaupunkipyöräasemalta {firstDepartureStop}',
-    'itinerary-summary-row.first-leg-start-time-scooter':
+    'itinerary-row.first-leg-start-time-scooter':
       'Lähtö klo {firstDepartureTime} sähköpotkulaudan noutopaikasta',
-    'itinerary-summary-row.first-leg-start-time-sr':
+    'itinerary-row.first-leg-start-time-sr':
       '{vehicle} lähtee {firstDepartureStopType} {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
-    'itinerary-summary-row.first-leg-start-time-taxi':
+    'itinerary-row.first-leg-start-time-taxi':
       'Lähtö klo {firstDepartureTime} taksin noutopaikasta',
-    'itinerary-summary-row.hint-open': 'Avaa reittiohje.',
-    'itinerary-summary-row.hint-select': 'Valitse näyttääksesi kartalla.',
-    'itinerary-summary-row.hint-selected': 'Valittu. Avaa reittiohje painamalla uudelleen.',
-    'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
-    'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
-    'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',
+    'itinerary-row.hint-open': 'Avaa reittiohje.',
+    'itinerary-row.hint-select': 'Valitse näyttääksesi kartalla.',
+    'itinerary-row.hint-selected': 'Valittu. Avaa reittiohje painamalla uudelleen.',
+    'itinerary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
+    'itinerary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
+    'itinerary-row.transfers-to-rental': 'Vaihto {vehicle}',
+    'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary.bike-boarding-information':
       'Kulkuneuvossa mahdollisuus kuljettaa pyörää. Tarkasta pyörän kuljettamisen mahdollinen maksullisuus operaattorilta.',
     'itinerary-summary.bikeAndPublic-bus-title': 'Ota pyöräsi mukaan bussiin',

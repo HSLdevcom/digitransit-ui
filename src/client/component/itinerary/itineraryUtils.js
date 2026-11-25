@@ -31,7 +31,7 @@ function getTripDescriptionText(
   },
 ) {
   if (hasCallAgencyLeg) {
-    return intl.formatMessage({ id: 'itinerary-summary-row.call-agency-description' });
+    return intl.formatMessage({ id: 'itinerary-row.call-agency-description' });
   }
 
   const firstDepartureTime = firstDeparture ? legTimeStr(firstDeparture.start) : '';
@@ -60,9 +60,7 @@ function getTripDescriptionText(
       return ensureSentence(
         intl.formatMessage(
           {
-            id: stopNames[index]
-              ? 'itinerary-summary-row.transfers'
-              : 'itinerary-summary-row.transfers-to-rental',
+            id: stopNames[index] ? 'itinerary-row.transfers' : 'itinerary-row.transfers-to-rental',
           },
           { vehicle: name, stopName: stopNames[index] },
         ),
@@ -73,7 +71,7 @@ function getTripDescriptionText(
 
   return intl
     .formatMessage(
-      { id: 'itinerary-summary-row.description' },
+      { id: 'itinerary-row.description' },
       {
         departureDate: dateOrEmpty(startTime, refTime),
         departureTime,
@@ -89,9 +87,9 @@ function getTripDescriptionText(
 }
 
 const actionHintIds = {
-  open: 'itinerary-summary-row.hint-open',
-  select: 'itinerary-summary-row.hint-select',
-  selected: 'itinerary-summary-row.hint-selected',
+  open: 'itinerary-row.hint-open',
+  select: 'itinerary-row.hint-select',
+  selected: 'itinerary-row.hint-selected',
 };
 
 /**
