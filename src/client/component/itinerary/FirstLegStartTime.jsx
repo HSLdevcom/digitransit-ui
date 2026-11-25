@@ -46,7 +46,7 @@ export default function FirstLegStartTime({
   }
 
   return (
-    <div className={cx('itinerary-first-leg-start-time', { small })} aria-hidden="true">
+    <div className={cx('itinerary-row-first-departure', { small })} aria-hidden="true">
       {content}
     </div>
   );
