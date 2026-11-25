@@ -14,6 +14,8 @@
  * 5. Every (non-workspace) peer range is "^<version the root declares>" in
  *    the root's dependencies.
  * 6. @hsl-fi/* packages are peers, except HSL_FI_DEPENDENCY_EXCEPTIONS.
+ * 7. Every reference to a sibling workspace package (in any dependency
+ *    field, private packages included) is exactly "workspace:^".
  *
  * "Published code" is the module graph reachable from the package's build
  * entry point via relative JS/JSX/SCSS imports, so tests and test helpers
@@ -149,7 +151,6 @@ function collectImports(entry) {
   return { imported, unresolved };
 }
 
-// Private workspaces (the schema package) aren't published and have no code.
 function findPackages() {
   const { workspaces } = readJson(path.join(repoRoot, 'package.json'));
   return workspaces
@@ -157,8 +158,19 @@ function findPackages() {
     .map(packageJsonPath => ({
       directory: path.join(repoRoot, path.dirname(packageJsonPath)),
       packageJson: readJson(path.join(repoRoot, packageJsonPath)),
-    }))
-    .filter(({ packageJson }) => !packageJson.private);
+    }));
+}
+
+// Changesets and lerna only rewrite and cascade version bumps through
+// `workspace:` references; anything else would silently resolve from npm.
+const WORKSPACE_SPEC = 'workspace:^';
+
+function checkWorkspaceReferences({ packageJson }, workspaceNames) {
+  return ['dependencies', 'peerDependencies', 'devDependencies'].flatMap(field =>
+    Object.entries(packageJson[field] || {})
+      .filter(([name, spec]) => workspaceNames.has(name) && spec !== WORKSPACE_SPEC)
+      .map(([name, spec]) => `${field} "${name}": "${spec}" must be "${WORKSPACE_SPEC}"`),
+  );
 }
 
 function checkPackage({ directory, packageJson }, packagesByName, rootVersions) {
@@ -229,12 +241,19 @@ function checkPackage({ directory, packageJson }, packagesByName, rootVersions) 
 // Peers are provided by the app at runtime, so only the root's (non-dev)
 // dependencies count.
 const rootVersions = readJson(path.join(repoRoot, 'package.json')).dependencies;
-const packages = findPackages();
+const allPackages = findPackages();
+const workspaceNames = new Set(allPackages.map(({ packageJson }) => packageJson.name));
+// Private workspaces (schema, rollup-config) aren't published.
+const packages = allPackages.filter(({ packageJson }) => !packageJson.private);
 const packagesByName = new Map(packages.map(({ packageJson }) => [packageJson.name, packageJson]));
 
 let failed = false;
-packages.forEach(pkg => {
-  checkPackage(pkg, packagesByName, rootVersions).forEach(error => {
+allPackages.forEach(pkg => {
+  const errors = [
+    ...checkWorkspaceReferences(pkg, workspaceNames),
+    ...(pkg.packageJson.private ? [] : checkPackage(pkg, packagesByName, rootVersions)),
+  ];
+  errors.forEach(error => {
     failed = true;
     console.error(red(`✗ ${pkg.packageJson.name}: ${error}`));
   });
@@ -245,4 +264,4 @@ if (failed) {
   process.exit(1);
 }
 
-console.log(green(`✓ All ${packages.length} packages declare their dependencies correctly.`));
+console.log(green(`✓ All ${allPackages.length} packages declare their dependencies correctly.`));

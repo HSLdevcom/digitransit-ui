@@ -121,6 +121,9 @@ input[type='text'] {
 
 .suggestionHighlighted {
   background-color: $search-result-text-highlight-background-color;
+  outline: 1px solid var(--accessible-primary-color, #000);
+  outline-offset: -1px;
+  border-radius: 4px; // keeps the frame inside the rounded corners of the list
 }
 
 .autosuggest-input-container {

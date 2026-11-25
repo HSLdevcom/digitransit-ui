@@ -1,0 +1,41 @@
+import { Helmet } from 'react-helmet';
+import { useRouter } from 'found';
+import { useFragment, graphql } from 'react-relay';
+import { useIntl } from 'react-intl';
+import { stopShape } from '../../utils/shapes';
+import { generateMetaData } from '../../utils/metaUtils';
+import { useConfigContext } from '../../hooks/ConfigContext';
+
+export default function StopPageMeta({ stop: stopRef }) {
+  const config = useConfigContext();
+  const { router, match } = useRouter();
+  const stop = useFragment(
+    graphql`
+      fragment StopPageMeta_stop on Stop {
+        name
+        code
+        desc
+      }
+    `,
+    stopRef,
+  );
+  const intl = useIntl();
+
+  if (!stop) {
+    return false;
+  }
+
+  const title = intl.formatMessage(
+    { id: 'stop-page.title', defaultMessage: 'Stop - {name} {code}' },
+    stop,
+  );
+  const description = intl.formatMessage(
+    { id: 'stop-page.description', defaultMessage: 'Stop - {name} {code}, {desc}' },
+    stop,
+  );
+  const props = generateMetaData({ description, title }, config, {
+    pathname: router.createHref({ pathname: match.location.pathname }),
+  });
+  return <Helmet {...props} />;
+}
+StopPageMeta.propTypes = { stop: stopShape.isRequired };

@@ -1,0 +1,36 @@
+import { generateManifestUrl } from './manifestUtils';
+
+/**
+ * This helper function generates a manifest and some social media meta tags
+ * based on the given parameters.
+ *
+ * @param {{ title: string, description: string}} props The title and description to apply to the meta data.
+ * @param {*} config The configuration for the software installation.
+ * @param {{ pathname: string }} location The browser path, language prefix included (`router.createHref`).
+ */
+export default function generateMetaData({ title, description }, config, { pathname } = {}) {
+  return {
+    title,
+    meta: [
+      { name: 'description', content: description },
+      { property: 'og:title', content: title },
+      { property: 'og:description', content: description },
+      { property: 'twitter:title', content: title },
+      { property: 'twitter:description', content: description },
+    ],
+    ...(config && {
+      link: [
+        {
+          rel: 'manifest',
+          href: generateManifestUrl(
+            config,
+            { host: window.location.host, pathname, protocol: window.location.protocol },
+            { title, description },
+          ),
+        },
+      ],
+    }),
+  };
+}
+
+export { generateMetaData };

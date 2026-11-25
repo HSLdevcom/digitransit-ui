@@ -1,0 +1,141 @@
+import PropTypes from 'prop-types';
+import { useFragment } from 'react-relay';
+import cx from 'classnames';
+import groupBy from 'lodash/groupBy';
+import values from 'lodash/values';
+import { fragmentRefShape } from '../../utils/shapes';
+import { useRealTimeInformation } from '../../hooks/RealTimeInformationContext';
+import { getTripOrRouteMode } from '../../utils/modeUtils';
+import { getModeIconColor } from '../../../shared/utils/colorUtils';
+import TripRouteStop from './TripRouteStop';
+import SkippedStops from './SkippedStops';
+import groupSkippedStops from './groupSkippedStops';
+import { useBreakpoint } from '../../hooks/BreakpointContext';
+import { useCurrentTime } from '../../hooks/TimeContext';
+import TripStopListContainerFragment from './queries/TripStopListContainerFragment';
+import { useConfigContext } from '../../hooks/ConfigContext';
+
+export default function TripStopListContainer({
+  trip: tripRef,
+  className = undefined,
+  tripStart,
+  keepTracking = false,
+  setHumanScrolling = () => {},
+}) {
+  const config = useConfigContext();
+  const currentTime = useCurrentTime();
+  const breakpoint = useBreakpoint();
+  const { vehicles } = useRealTimeInformation();
+  const trip = useFragment(TripStopListContainerFragment, tripRef);
+
+  const mode = getTripOrRouteMode(trip, trip.route, config);
+
+  // scheduled stops outside of a detour have no stoptime, so they are not listed
+  const rows = groupSkippedStops(trip.stoptimesForDate, trip.pattern.stops || []).filter(
+    item => item.stoptime,
+  );
+
+  const vehiclesByStop = groupBy(
+    values(vehicles).filter(vehicle => currentTime - vehicle.timestamp < 5 * 60),
+    vehicle => vehicle.next_stop,
+  );
+
+  const matchingVehicles = Object.keys(vehicles)
+    .map(key => vehicles[key])
+    .filter(
+      vehicle =>
+        vehicle.direction === undefined ||
+        trip.pattern.directionId === undefined ||
+        trip.pattern.directionId === -1 ||
+        vehicle.direction === trip.pattern.directionId,
+    )
+    .filter(vehicle => vehicle.tripStartTime === undefined || vehicle.tripStartTime === tripStart)
+    .filter(vehicle => vehicle.tripId === undefined || vehicle.tripId === trip.gtfsId);
+
+  // selected vehicle
+  const vehicle = matchingVehicles.length > 0 ? matchingVehicles[0] : undefined;
+  const nextStop = vehicle?.next_stop;
+  let stopPassed = true;
+
+  const nextStopExistsOnRoute =
+    nextStop && trip.stoptimesForDate.some(stoptime => stoptime.stop.gtfsId === nextStop);
+
+  return (
+    <>
+      <div
+        id="route-stop-panel"
+        className={cx('route-stop-list', className)}
+        role="tabpanel"
+        aria-labelledby="route-stop-tab"
+      >
+        {rows.map((item, rowIndex) => {
+          const { index, stoptime } = item;
+          if (nextStop === stoptime.stop.gtfsId) {
+            stopPassed = false;
+          } else if (
+            stoptime.realtimeDeparture + stoptime.serviceDay > currentTime &&
+            (!vehicle || !vehicle.next_stop || !nextStopExistsOnRoute)
+          ) {
+            stopPassed = false;
+          }
+          const routeColor =
+            trip.route && trip.route.color
+              ? `#${trip.route.color}`
+              : getModeIconColor(config, mode);
+          if (item.skipped) {
+            return (
+              <SkippedStops
+                key={`skipped-${item.skipped[0].gtfsId}-${item.index}`}
+                stops={item.skipped}
+                color={routeColor}
+                stopPassed={stopPassed}
+              />
+            );
+          }
+          const nextStoptimeForDate = trip.stoptimesForDate[index + 1];
+          const prevStop = trip.stoptimesForDate[index - 1]?.stop;
+
+          return (
+            <TripRouteStop
+              key={`${stoptime.stop.gtfsId}-${index}`}
+              stoptime={stoptime}
+              stop={stoptime.stop}
+              nextStop={nextStoptimeForDate ? nextStoptimeForDate.stop : null}
+              nextCanceled={
+                !!rows[rowIndex + 1] &&
+                !rows[rowIndex + 1].skipped &&
+                rows[rowIndex + 1].stoptime.realtimeState === 'CANCELED'
+              }
+              prevStop={prevStop || null}
+              mode={mode}
+              color={routeColor}
+              vehicles={vehiclesByStop[stoptime.stop.gtfsId]}
+              selectedVehicle={vehicle}
+              stopPassed={stopPassed}
+              realtime={stoptime.realtime}
+              currentTime={currentTime}
+              realtimeDeparture={stoptime.realtimeDeparture}
+              pattern={trip.pattern.code}
+              route={trip.route.gtfsId}
+              last={index === trip.stoptimesForDate.length - 1}
+              first={index === 0}
+              className={cx(`bp-${breakpoint}`, { 'before-skipped': rows[rowIndex + 1]?.skipped })}
+              shortName={trip.route && trip.route.shortName}
+              keepTracking={keepTracking}
+              setHumanScrolling={setHumanScrolling}
+            />
+          );
+        })}
+      </div>
+      <div className="bottom-whitespace" />
+    </>
+  );
+}
+
+TripStopListContainer.propTypes = {
+  trip: fragmentRefShape.isRequired,
+  className: PropTypes.string,
+  tripStart: PropTypes.string.isRequired,
+  keepTracking: PropTypes.bool,
+  setHumanScrolling: PropTypes.func,
+};

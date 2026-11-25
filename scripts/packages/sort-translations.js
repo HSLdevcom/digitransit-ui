@@ -3,7 +3,7 @@
 /**
  * Sorts and checks digitransit-component packages' own translation bundles
  * (`src/{helpers,utils}/translations.js`) - a different shape from
- * `app/translations/*.js` (handled separately by ../sort-translations.js):
+ * `src/client/translations/*.js` (handled separately by ../sort-translations.js):
  * one file per package holding EVERY locale, each nested under an i18next
  * `translation` namespace, e.g.
  *
@@ -74,7 +74,7 @@ function isSorted(keys) {
 }
 
 // Only fi/sv/en are required to be in parity, mirroring
-// test/unit/translations.test.js's own scope for app/translations - de/pl
+// test/unit/client/translations/translations.test.js's own scope for src/client/translations - de/pl
 // (etc.) coverage is incomplete today across most of these files and isn't
 // enforced.
 const PARITY_LOCALES = ['fi', 'sv', 'en'];

@@ -1,4 +1,4 @@
-import { getZoneUrl } from '../../../../server/services/geoJsonZones';
+import { getZoneUrl } from '../../../../src/server/services/geoJsonZones';
 
 const { getJson, loadAllRawConfigurations, setAssembledZones } = vi.hoisted(() => ({
   getJson: vi.fn(),
@@ -6,7 +6,7 @@ const { getJson, loadAllRawConfigurations, setAssembledZones } = vi.hoisted(() =
   setAssembledZones: vi.fn(),
 }));
 vi.mock('@digitransit-search-util/digitransit-search-util-get-json', () => ({ default: getJson }));
-vi.mock('../../../../server/configs/config', () => ({
+vi.mock('../../../../src/server/configs/config', () => ({
   loadAllRawConfigurations,
   setAssembledZones,
 }));
@@ -43,7 +43,7 @@ describe('geoJsonZones', () => {
     // module for each test.
     const loadCollectGeoJsonZones = async () => {
       vi.resetModules();
-      return (await import('../../../../server/services/geoJsonZones')).default;
+      return (await import('../../../../src/server/services/geoJsonZones')).default;
     };
 
     afterEach(() => {

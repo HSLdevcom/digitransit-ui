@@ -1,0 +1,295 @@
+import PropTypes from 'prop-types';
+import { useState, useEffect, useRef } from 'react';
+import { useIntl } from 'react-intl';
+import LeafletMap from 'react-leaflet/es/Map';
+import TileLayer from 'react-leaflet/es/TileLayer';
+import AttributionControl from 'react-leaflet/es/AttributionControl';
+import ScaleControl from 'react-leaflet/es/ScaleControl';
+import ZoomControl from 'react-leaflet/es/ZoomControl';
+import L from 'leaflet';
+import get from 'lodash/get';
+import isString from 'lodash/isString';
+import isEmpty from 'lodash/isEmpty';
+import VehicleMarkerContainer from './VehicleMarkerContainer';
+import { useRealTimeActions } from '../../hooks/RealTimeInformationContext';
+import PositionMarker from './PositionMarker';
+import VectorTileLayerContainer from './tile-layer/VectorTileLayerContainer';
+import { boundWithMinimumArea } from '../../../shared/utils/geo-utils';
+import events from '../../utils/events';
+import { getLayerBaseUrl } from '../../utils/mapLayerUtils';
+import GeoJSON from './GeoJSON';
+import { useConfigContext } from '../../hooks/ConfigContext';
+import { mapLayerShape } from '../../utils/shapes';
+
+const zoomOutText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_minus"/></svg>`;
+const zoomInText = `<svg class="icon"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#icon_plus"/></svg>`;
+const EXTRA_PADDING = 100;
+
+const startClient = (actions, config) => {
+  const { realTime } = config;
+  let feedId;
+  /* handle multiple feedid case */
+  config.feedIds.forEach(f => {
+    if (!feedId && realTime[f]) {
+      feedId = f;
+    }
+  });
+  const source = feedId && realTime[feedId];
+  if (source && source.active) {
+    const rtConfig = {
+      ...source,
+      feedId,
+      options: config.feedIds.filter(f => realTime[f]?.active).map(f => ({ feedId: f })),
+    };
+    actions.start(rtConfig);
+  }
+};
+
+const onPopupopen = () => events.emit('popupOpened');
+
+const DEFAULT_MAP_LAYERS = { geoJson: {} };
+
+export default function Map({
+  animate = true,
+  lat,
+  lon,
+  zoom,
+  bounds,
+  leafletEvents,
+  leafletObjs,
+  leafletMapRef,
+  mapLayerRef,
+  bottomPadding,
+  bottomButtons,
+  topButtons,
+  geoJson,
+  mapLayers = DEFAULT_MAP_LAYERS,
+  breakpoint,
+  locationPopup,
+  onSelectLocation,
+  ...rest
+}) {
+  const config = useConfigContext();
+  const realTime = useRealTimeActions();
+  const intl = useIntl();
+
+  const [ownZoom, setOwnZoom] = useState(14);
+  const boundsOptions = useRef();
+  const map = useRef();
+  const ready = useRef();
+
+  const updateZoom = () => {
+    // eslint-disable-next-line no-underscore-dangle
+    const z = map.current?.leafletElement?._zoom || zoom || 16;
+    if (z !== ownZoom) {
+      setOwnZoom(z);
+    }
+  };
+
+  useEffect(() => {
+    if (breakpoint !== 'large') {
+      boundsOptions.current = {
+        paddingTopLeft: [0, EXTRA_PADDING],
+        paddingBottomRight: [0, (window.innerHeight - 64) / 2],
+      };
+    }
+    updateZoom();
+  }, []);
+
+  useEffect(() => {
+    updateZoom();
+    if (mapLayers.vehicles) {
+      startClient(realTime, config);
+      return () => realTime.stop();
+    }
+    return undefined;
+  }, [mapLayers.vehicles]);
+
+  useEffect(() => {
+    // move leaflet attribution control elements according to given padding
+    // leaflet api doesn't allow controlling element position so have to use this hack
+    if (bottomPadding !== undefined) {
+      const bottomControls = document.getElementsByClassName('leaflet-bottom');
+      Array.prototype.forEach.call(bottomControls, elem => {
+        // eslint-disable-next-line no-param-reassign
+        elem.style.transform = `translate(0, -${bottomPadding}px)`;
+      });
+    }
+  }, [bottomPadding]);
+
+  const zoomEnd = () => {
+    leafletEvents?.onZoomend?.(); // pass event to parent
+    updateZoom();
+  };
+
+  const naviProps = {}; // these define map center and zoom
+  if (bottomPadding !== undefined && boundsOptions.current) {
+    boundsOptions.current.paddingBottomRight = [
+      0,
+      Math.min(bottomPadding + EXTRA_PADDING, window.innerHeight - 60),
+    ];
+  }
+  if (bounds) {
+    // bounds overrule center & zoom
+    naviProps.bounds = boundWithMinimumArea(bounds); // validate
+  } else if (lat && lon) {
+    if (boundsOptions.current?.paddingBottomRight !== undefined) {
+      // bounds fitting can take account the wanted padding, so convert to bounds
+      naviProps.bounds = boundWithMinimumArea([[lat, lon]], zoom);
+    } else {
+      naviProps.center = [lat, lon];
+      if (zoom) {
+        naviProps.zoom = zoom;
+      }
+    }
+  }
+
+  // When this option is set, the map restricts the view to the given geographical bounds,
+  // bouncing the user back if the user tries to pan outside the view.
+  const mapAreaBounds = L.latLngBounds(
+    L.latLng(config.map.areaBounds.corner1[0], config.map.areaBounds.corner1[1]),
+    L.latLng(config.map.areaBounds.corner2[0], config.map.areaBounds.corner2[1]),
+  );
+  naviProps.maxBounds = mapAreaBounds;
+
+  if (naviProps.bounds || (naviProps.center && naviProps.zoom)) {
+    ready.current = true;
+  }
+
+  if (!ready.current) {
+    return null;
+  }
+
+  const mapBaseUrl = getLayerBaseUrl(config.URL.MAP, intl.locale);
+  const mapUrl = config.hasAPISubscriptionQueryParameter
+    ? `${mapBaseUrl}{z}/{x}/{y}{size}.png?${config.API_SUBSCRIPTION_QUERY_PARAMETER_NAME}=${config.API_SUBSCRIPTION_TOKEN}`
+    : `${mapBaseUrl}{z}/{x}/{y}{size}.png`;
+
+  const leafletObjNew = leafletObjs.concat([
+    <VectorTileLayerContainer
+      key="vectorTileLayerContainer"
+      mapLayers={mapLayers}
+      locationPopup={locationPopup}
+      onSelectLocation={onSelectLocation}
+      {...rest}
+    />,
+  ]);
+
+  if (mapLayers.vehicles) {
+    const useLargeIcon = ownZoom >= config.stopsMinZoom;
+    leafletObjNew.push(<VehicleMarkerContainer key="vehicles" useLargeIcon={useLargeIcon} />);
+  }
+
+  let attribution = get(config, 'map.attribution');
+  if (!isString(attribution) || isEmpty(attribution)) {
+    attribution = false;
+  }
+
+  if (geoJson) {
+    Object.keys(geoJson)
+      .filter(
+        key =>
+          mapLayers.geoJson[key] !== false &&
+          (mapLayers.geoJson[key] === true || geoJson[key].isOffByDefault !== true),
+      )
+      .forEach((key, i) => {
+        leafletObjNew.push(
+          <GeoJSON
+            key={key.concat(i)}
+            data={geoJson[key].data}
+            geoJsonZoomLevel={ownZoom}
+            locationPopup={locationPopup}
+            onSelectLocation={onSelectLocation}
+          />,
+        );
+      });
+  }
+
+  return (
+    <div ref={mapLayerRef}>
+      <span>{topButtons}</span>
+      <span className="overlay-mover" style={{ transform: `translate(0, -${bottomPadding}px)` }}>
+        {bottomButtons}
+      </span>
+      <div aria-hidden="true">
+        <LeafletMap
+          {...naviProps}
+          className={`z${ownZoom}`}
+          keyboard={false}
+          ref={el => {
+            // inline ref is detached and reattached on each render; zoomend can fire in between
+            if (el) {
+              map.current = el;
+            }
+            if (leafletMapRef) {
+              leafletMapRef(el);
+            }
+          }}
+          minZoom={config.map.minZoom}
+          maxZoom={config.map.maxZoom}
+          zoomControl={false}
+          attributionControl={false}
+          animate={animate}
+          boundsOptions={boundsOptions.current}
+          {...leafletEvents}
+          onZoomend={zoomEnd}
+          onPopupopen={onPopupopen}
+          closePopupOnClick={false}
+        >
+          <TileLayer
+            url={mapUrl}
+            tileSize={config.map.tileSize || 256}
+            zoomOffset={config.map.zoomOffset || 0}
+            updateWhenIdle={false}
+            size={config.map.useRetinaTiles && L.Browser.retina ? '@2x' : ''}
+            minZoom={config.map.minZoom}
+            maxZoom={config.map.maxZoom}
+            attribution={attribution}
+          />
+          {attribution && (
+            <AttributionControl
+              position={breakpoint === 'large' ? 'bottomright' : 'bottomleft'}
+              prefix=""
+            />
+          )}
+          {config.map.showScaleBar && (
+            <ScaleControl imperial={false} position={config.map.controls.scale.position} />
+          )}
+          {breakpoint === 'large' && config.map.showZoomControl && (
+            <ZoomControl
+              position={config.map.controls.zoom.position}
+              zoomInText={zoomInText}
+              zoomOutText={zoomOutText}
+              zoomInTitle={intl.formatMessage({ id: 'map-zoom-in-button' })}
+              zoomOutTitle={intl.formatMessage({ id: 'map-zoom-out-button' })}
+            />
+          )}
+          {leafletObjNew}
+          <PositionMarker key="position" />
+        </LeafletMap>
+      </div>
+    </div>
+  );
+}
+
+Map.propTypes = {
+  animate: PropTypes.bool,
+  lat: PropTypes.number,
+  lon: PropTypes.number,
+  zoom: PropTypes.number,
+  bounds: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
+  // eslint-disable-next-line react/forbid-prop-types
+  leafletEvents: PropTypes.object,
+  leafletObjs: PropTypes.arrayOf(PropTypes.node),
+  leafletMapRef: PropTypes.func,
+  mapLayerRef: PropTypes.oneOfType([PropTypes.func, PropTypes.object]),
+  bottomPadding: PropTypes.number,
+  bottomButtons: PropTypes.node,
+  topButtons: PropTypes.node,
+  // eslint-disable-next-line react/forbid-prop-types
+  geoJson: PropTypes.object,
+  mapLayers: mapLayerShape,
+  breakpoint: PropTypes.string,
+  locationPopup: PropTypes.string,
+  onSelectLocation: PropTypes.func,
+};

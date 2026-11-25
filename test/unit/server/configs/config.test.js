@@ -1,5 +1,5 @@
-import { getConfiguration, loadAllRawConfigurations } from '../../../../server/configs/config';
-import defaultConfig from '../../../../server/configs/config.default';
+import { getConfiguration, loadAllRawConfigurations } from '../../../../src/server/configs/config';
+import defaultConfig from '../../../../src/server/configs/config.default';
 
 describe('config', () => {
   describe('getConfiguration', () => {
@@ -39,6 +39,26 @@ describe('config', () => {
       const config = getConfiguration(request);
       expect(config.realTimePatch).toEqual({});
       expect(config.realTime.HSL.mqtt).toBe(defaultConfig.realTime.HSL.mqtt);
+    });
+  });
+
+  describe('getNamedConfiguration with BASE_CONFIG', () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    });
+
+    it('derives accessiblePrimary and hover from the config own primary color', async () => {
+      vi.resetModules();
+      vi.stubEnv('BASE_CONFIG', 'default');
+      const { getNamedConfiguration } = await import('../../../../src/server/configs/config');
+      const baseHover = getNamedConfiguration('default').colors.hover; // fills the base config cache
+      const { colors } = getNamedConfiguration('oulu');
+
+      expect(colors.primary).toBe('#e10669');
+      expect(colors.accessiblePrimary).toBe('#e10669');
+      expect(colors.hover).not.toBe(baseHover);
+      expect(getNamedConfiguration('hsl').colors.accessiblePrimary).toBe('#0074be');
     });
   });
 

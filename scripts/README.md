@@ -2,13 +2,13 @@
 
 ## Using `sort-translations.js`
 
-This script sorts translation files in the [`app/translations`](/app/translations) directory.
+This script sorts translation files in the [`src/client/translations`](/src/client/translations) directory.
 See the `sort-translations` and `format` scripts in [`package.json`](/package.json).
 
 ## `dev.sh` API options
 
 `scripts/dev.sh` (run via `yarn run dev`) reads env vars to pick which API/config to run against.
-See the `themeMap` in `server/configs/config.default.js` for `CONFIG` options.
+See the `themeMap` in `src/server/configs/config.default.js` for `CONFIG` options.
 
 - `CONFIG` — deployment config to use, e.g. `hsl`, `matka` (default: `default`).
 - `API_TYPE` — `development` (default, `dev-api.digitransit.fi`), `production`
@@ -57,7 +57,7 @@ migration; note that `_static` is populated once at startup, so `static/` edits 
 ## Using `build/buildSprites.js`
 
 Builds the SVG sprite sheets `_static/assets/svg-sprite.<theme>.svg` from the per-icon files in
-[`app/assets/icons/`](/app/assets/icons), run via `yarn sprites` (which both `prebuild` and
+[`src/client/assets/icons/`](/src/client/assets/icons), run via `yarn sprites` (which both `prebuild` and
 `dev.sh` invoke):
 
 ```
@@ -67,42 +67,30 @@ yarn sprites --watch
 
 `default/` holds every icon and other theme directories hold only their overrides and additions;
 each file's name becomes its symbol id. A malformed icon file fails the build. `--watch` (used by
-`dev.sh`) rebuilds on every change under `app/assets/icons/` and only logs errors, so a
+`dev.sh`) rebuilds on every change under `src/client/assets/icons/` and only logs errors, so a
 half-saved file doesn't stop `yarn dev`. See [`docs/Webpack.md`](/docs/Webpack.md).
 
 ## Using `theme/add-theme.js`
 
-Scaffolds a new theme: creates `styles/themes/<name>`, a config file at
-`server/configs/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
+Scaffolds a new theme: creates `src/styles/themes/<name>`, a config file at
+`src/server/configs/config.<name>.js` (from `theme/template.waltti.js`), and registers the theme
 in `config.default.js`'s host-name mapping. See [`docs/Themes.md`](/docs/Themes.md).
 
 ```
 yarn add-theme <name> '#RRGGBB' <optional navbar logo>
 ```
 
-## Using `packages/check-versions.js`
+## Using `packages/check-changesets.js`
 
-Runs two checks against the packages (`digitransit-component`,
-`digitransit-search-util`, `digitransit-store`, `digitransit-util`); both are enforced in CI on
-pull requests.
-
-1. **Internal reference protocol.** Every `@digitransit-*` `dependencies`/`peerDependencies`
-   entry that points at another package must be declared as exactly `"workspace:^"`.
-   `lerna version` only rewrites/cascades an internal cross-reference (and `yarn` only links the
-   local copy instead of pulling a stale published one) when it uses the `workspace:` protocol; a
-   plain semver pin is silently left behind on version bumps. `lerna publish` resolves
-   `"workspace:^"` to `"^<version>"` in the published tarball, so consumers outside the monorepo
-   are unaffected. This check always runs, regardless of `BASE_SHA`.
-
-2. **Version bumps.** Fails if a package changed since a given base commit but its
-   `package.json` `version` wasn't bumped accordingly (or was bumped in the wrong direction).
-   `lerna publish from-package` only republishes a package when its committed version is greater
-   than what's already on npm, so a changed-but-unbumped package would otherwise silently never
-   get published. This check runs only when `BASE_SHA` is set. Run `yarn bump-versions-workspaces`
-   (`lerna version`) to bump the changed packages and cascade bumps to their dependents.
+Fails if a package changed since the merge-base with `origin/$BASE_REF` (default `v3`) isn't
+released by a changeset, or if a package's `version` was edited by hand. Changed packages include
+their dependents, so a change to a private package such as the schema or `rollup-config` needs
+changesets for the packages that depend on it. Packages Changesets bumps automatically count as
+released. Only committed changes are seen. CI runs it on pull requests (the `check-changesets`
+job), except on the "Version packages" PR. See "Publishing" in `docs/Packages.md`.
 
 ```
-BASE_SHA=<git ref> yarn packages-version-check
+yarn packages-changeset-check
 ```
 
 ## Using `packages/check-dependencies.js`
@@ -120,6 +108,8 @@ documented in `docs/Packages.md` ("Dependency Classification"):
 5. Every non-`workspace:` peer is exactly `^<version the root package.json's dependencies
    declare>`.
 6. `@hsl-fi/*` packages are peers (`@hsl-fi/hooks` is the one allowed exception).
+7. Every reference to another package in this repo (dependencies, peers or devDependencies,
+   private packages included) is exactly `workspace:^`.
 
 ```
 yarn packages-dependencies-check
@@ -141,7 +131,7 @@ node scripts/packages/generate-readmes.js
 ## Using `packages/sort-translations.js`
 
 Sorts and checks `digitransit-component` packages' own translation bundles
-(`src/{helpers,utils}/translations.js`) — a different shape from `app/translations`, so
+(`src/{helpers,utils}/translations.js`) — a different shape from `src/client/translations`, so
 separate from the `sort-translations.js` script above. Flags any key missing from a `fi`/`sv`/`en`
 locale. See the `packages-translations-check`/`-fix` scripts in
 [`package.json`](/package.json).
