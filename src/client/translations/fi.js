@@ -281,7 +281,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Hakutulokset ladattu',
     'itinerary-page.loading-itineraries': 'Ladataan hakutuloksia',
     'itinerary-page.show-details': 'Näytä reittiohje',
-    'itinerary-page.show-details-label': 'Näytä reittiohje {number}',
+    'itinerary-page.show-details-label': 'Avaa reittiohje, reittiehdotus {number}',
     'itinerary-page.title': 'Reittiohje',
     'itinerary-summary-page.description': 'Reittiehdotukset',
     'itinerary-summary-row.call-agency-description': 'Kutsuliikennettä, lisätiedot reittiohjeessa.',
@@ -298,6 +298,9 @@ export default {
       '{vehicle} lähtee {firstDepartureStopType} {firstDepartureStop} kello {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Lähtö klo {firstDepartureTime} taksin noutopaikasta',
+    'itinerary-summary-row.hint-open': 'Avaa reittiohje.',
+    'itinerary-summary-row.hint-select': 'Valitse näyttääksesi kartalla.',
+    'itinerary-summary-row.hint-selected': 'Valittu. Avaa reittiohje painamalla uudelleen.',
     'itinerary-summary-row.no-transit-legs': 'Lähde, kun sinulle sopii',
     'itinerary-summary-row.transfers': 'Vaihto {vehicle} pysäkillä {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Vaihto {vehicle}',

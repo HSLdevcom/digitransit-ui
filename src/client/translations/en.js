@@ -290,7 +290,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Search results downloaded',
     'itinerary-page.loading-itineraries': 'Downloading search results',
     'itinerary-page.show-details': 'Show itinerary details',
-    'itinerary-page.show-details-label': 'Show itinerary {number} details',
+    'itinerary-page.show-details-label': 'Open itinerary details, itinerary suggestion {number}',
     'itinerary-page.title': 'Itinerary',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary-row.call-agency-description':
@@ -308,6 +308,9 @@ export default {
       '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Departure at {firstDepartureTime} from the taxi pickup location',
+    'itinerary-summary-row.hint-open': 'Open itinerary details.',
+    'itinerary-summary-row.hint-select': 'Select to show on map.',
+    'itinerary-summary-row.hint-selected': 'Selected. Activate again to open itinerary details.',
     'itinerary-summary-row.no-transit-legs': 'Leave when it suits you',
     'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Transfer to {vehicle}',

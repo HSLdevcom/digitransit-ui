@@ -88,13 +88,20 @@ function getTripDescriptionText(
     .trim();
 }
 
+const actionHintIds = {
+  open: 'itinerary-summary-row.hint-open',
+  select: 'itinerary-summary-row.hint-select',
+  selected: 'itinerary-summary-row.hint-selected',
+};
+
 /**
- * Builds the localized accessible text for an itinerary row (for screen readers): the row label,
- * the trip description and, if given, the CO2 emissions.
+ * Builds the localized accessible description of an itinerary row (for screen readers): the trip
+ * description, the CO2 emissions if given and a hint about what activating the row does. The row
+ * number is not included, it is the accessible name of the row.
  *
  * @param {Object} intl - react-intl intl object
  * @param {Object} params
- * @param {number} params.rowNumber - 1-based number of the itinerary row
+ * @param {'open'|'select'|'selected'} params.actionHint - What activating the row does
  * @param {number|null} params.co2value - Emissions in grams, or null when they are not shown
  * @param {boolean} params.hasCallAgencyLeg - Whether the itinerary contains a call-agency leg
  * @param {number} params.startTime - Itinerary start time in ms since epoch
@@ -108,13 +115,15 @@ function getTripDescriptionText(
  * @param {number} params.duration - Total itinerary duration in milliseconds
  * @returns {string}
  */
-export function getItineraryScreenReaderText(intl, { rowNumber, co2value = null, ...tripParams }) {
+export function getItineraryScreenReaderText(intl, { actionHint, co2value = null, ...tripParams }) {
   return [
-    intl.formatMessage({ id: 'summary-page.row-label' }, { number: rowNumber }),
-    getTripDescriptionText(intl, tripParams),
+    ensureSentence(getTripDescriptionText(intl, tripParams)),
     co2value === null
       ? ''
-      : intl.formatMessage({ id: 'itinerary-co2.description-simple' }, { co2value }),
+      : ensureSentence(
+          intl.formatMessage({ id: 'itinerary-co2.description-simple' }, { co2value }),
+        ),
+    intl.formatMessage({ id: actionHintIds[actionHint] }),
   ]
     .filter(Boolean)
     .join(' ');

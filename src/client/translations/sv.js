@@ -289,7 +289,7 @@ export default {
     'itinerary-page.itineraries-loaded': 'Ruttbeskrivningen laddade',
     'itinerary-page.loading-itineraries': 'Laddar ruttbeskrivningar',
     'itinerary-page.show-details': 'Visa ruttbeskrivningen',
-    'itinerary-page.show-details-label': 'Visa ruttbeskrivningen {number}',
+    'itinerary-page.show-details-label': 'Öppna ruttbeskrivningen, ruttförslag {number}',
     'itinerary-page.title': 'Ruttinformation',
     'itinerary-summary-page.description': 'Ruttförslag',
     'itinerary-summary-row.call-agency-description':
@@ -307,6 +307,9 @@ export default {
       '{vehicle} avgår från {firstDepartureStopType} {firstDepartureStop} klockan {firstDepartureTime} {firstDeparturePlatform}.',
     'itinerary-summary-row.first-leg-start-time-taxi':
       'Avgång kl {firstDepartureTime} från taxins upphämtningsplats',
+    'itinerary-summary-row.hint-open': 'Öppna ruttbeskrivningen.',
+    'itinerary-summary-row.hint-select': 'Välj för att visa på kartan.',
+    'itinerary-summary-row.hint-selected': 'Vald. Tryck igen för att öppna ruttbeskrivningen.',
     'itinerary-summary-row.no-transit-legs': 'Avgå när det passar för dig',
     'itinerary-summary-row.transfers': 'Byte {vehicle} vid hållplats {stopName}',
     'itinerary-summary-row.transfers-to-rental': 'Byte {vehicle}',

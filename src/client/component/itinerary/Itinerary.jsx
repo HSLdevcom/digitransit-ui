@@ -70,10 +70,15 @@ export default function Itinerary({
     isBoardableLeg(leg, config.taxiZone.allowedRouteTypes),
   );
 
-  const ariaLabelMessage = intl.formatMessage(
+  const rowLabel = intl.formatMessage({ id: 'summary-page.row-label' }, { number: props.hash + 1 });
+  const detailsLabel = intl.formatMessage(
     { id: 'itinerary-page.show-details-label' },
     { number: props.hash + 1 },
   );
+  let actionHint = 'open';
+  if (!mobile(breakpoint)) {
+    actionHint = passive ? 'select' : 'selected';
+  }
 
   const dateString = dateOrEmpty(startTime, refTime);
   const startDate = isTomorrow(startTime, refTime) ? (
@@ -90,7 +95,7 @@ export default function Itinerary({
   const showCo2Info = config.showCO2InItinerarySummary && co2value !== null && !containsScooterLeg;
 
   const screenReaderText = getItineraryScreenReaderText(intl, {
-    rowNumber: props.hash + 1,
+    actionHint,
     co2value: showCo2Info ? co2value : null,
     hasCallAgencyLeg,
     startTime,
@@ -139,7 +144,7 @@ export default function Itinerary({
               onKeyPress={e => isKeyboardSelectionEvent(e) && onSelectActive()}
               tabIndex="0"
               role="button"
-              aria-label={ariaLabelMessage}
+              aria-label={rowLabel}
               aria-describedby={descriptionId}
             >
               <div className="itinerary-duration-container" aria-hidden="true">
@@ -195,7 +200,7 @@ export default function Itinerary({
             <div className="summary-separator" />
           </div>
           {!mobile(breakpoint) && (
-            <ShowDetailsButton ariaLabel={ariaLabelMessage} onClick={onSelectImmediately} />
+            <ShowDetailsButton ariaLabel={detailsLabel} onClick={onSelectImmediately} />
           )}
         </div>
       </div>
