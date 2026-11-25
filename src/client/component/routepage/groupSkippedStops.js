@@ -5,8 +5,8 @@
  * becomes one skipped row, followed by the added stops. Canceled stops at the
  * start of the trip (and added stops directly following them), or at the end
  * with no added stops after them, are not grouped:
- * - { skipped: [stops], stoptime, index } - the skipped stops of a detour;
- *   stoptime and index belong to the first stoptime of the detour
+ * - { skipped: [stops], skippedIndices, stoptime, index } - the skipped stops of a detour and
+ *   their indices in scheduledStops; stoptime and index belong to the first stoptime of the detour
  * - { stoptime, index, scheduledIndex } - a stop of the trip; scheduledIndex is
  *   undefined for stops added by a realtime update
  * - { scheduledIndex } - a scheduled stop that is not part of the trip but is
@@ -33,6 +33,7 @@ export default function groupSkippedStops(stoptimes, scheduledStops) {
         (next ? { stoptime: next, index: nextIndex } : pending.find(p => p.stoptime));
       items.push({
         skipped: pending.filter(p => p.stop).map(p => p.stop),
+        skippedIndices: pending.filter(p => p.stop).map(p => p.scheduledIndex),
         stoptime: first.stoptime,
         index: first.index,
       });

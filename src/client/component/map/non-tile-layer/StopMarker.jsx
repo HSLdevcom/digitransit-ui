@@ -14,7 +14,8 @@ import {
 import { addAnalyticsEvent } from '../../../../shared/utils/analyticsUtils';
 import { PREFIX_STOPS } from '../../../../shared/utils/path';
 import { useConfigContext } from '../../../hooks/ConfigContext';
-import { STOP_STATUS, STOP_STATUS_BADGE_IMGS } from '../../../utils/stopStatusUtils';
+import { STOP_CALL_STATUS, resolveMarkerBadge } from '../../../utils/stopCallStatusUtils';
+import { STOP_STATUS } from '../../../utils/stopStatusUtils';
 
 // Below this zoom the status badge is drawn as a plain colored dot.
 const STATUS_BADGE_ZOOM_THRESHOLD = 15;
@@ -133,6 +134,7 @@ export default function StopMarker({
   colorOverride,
   appendClass,
   stopStatus,
+  stopCallStatus,
 }) {
   const config = useConfigContext();
   const { router, match } = useRouter();
@@ -163,13 +165,14 @@ export default function StopMarker({
       selected,
     });
 
-    const badgeImg = radius > 0 && STOP_STATUS_BADGE_IMGS[stopStatus];
-    if (badgeImg) {
+    const badge = radius > 0 ? resolveMarkerBadge(stopCallStatus, stopStatus) : null;
+    if (badge) {
+      const { status: badgeStatus, badgeImg } = badge;
       const badgeSize = radius * 3.5;
       if (zoom < STATUS_BADGE_ZOOM_THRESHOLD) {
         const cr = badgeSize / 2;
         return L.divIcon({
-          html: `<svg viewBox="0 0 ${badgeSize} ${badgeSize}" width="${badgeSize}" height="${badgeSize}"><circle class="stop-badge-${stopStatus}" cx="${cr}" cy="${cr}" r="${
+          html: `<svg viewBox="0 0 ${badgeSize} ${badgeSize}" width="${badgeSize}" height="${badgeSize}"><circle class="stop-badge-${badgeStatus}" cx="${cr}" cy="${cr}" r="${
             cr - 1.5
           }" stroke="#fff" stroke-width="2.5"/></svg>`,
           iconSize: [badgeSize, badgeSize],
@@ -180,18 +183,26 @@ export default function StopMarker({
       const borderWidth = 0.5;
       const innerSize = badgeSize - borderWidth * 2;
       const center = badgeSize / 2;
-      const isAlertBadge = stopStatus === STOP_STATUS.ALERT;
-      const background = isAlertBadge
-        ? ''
-        : `<circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/>`;
+      const isAlertBadge = badgeStatus === STOP_STATUS.ALERT;
+      const isCanceledBadge = badgeStatus === STOP_CALL_STATUS.CANCELED;
+      // the alert and canceled icons draw their own background
+      const background =
+        isAlertBadge || isCanceledBadge
+          ? ''
+          : `<circle cx="${center}" cy="${center}" r="${center}" fill="#fff"/>`;
       // map.scss clips leaflet-marker-icon svgs to a circle; override it so
       // the non-circular triangle isn't cut off at its corners.
       const svgStyle = `filter:drop-shadow(0 1px 2px var(--color-shadow-strong));${
         isAlertBadge ? 'border-radius:0;' : ''
       }`;
-      const viewBox = isAlertBadge ? '-8 -8 302.46 302.46' : '0 0 40 40';
+      let viewBox = '0 0 40 40';
+      if (isAlertBadge) {
+        viewBox = '-8 -8 302.46 302.46';
+      } else if (isCanceledBadge) {
+        viewBox = '0 0 20 20';
+      }
       return L.divIcon({
-        html: `<svg width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`,
+        html: `<svg class="stop-badge-${badgeStatus}-icon" width="${badgeSize}" height="${badgeSize}" style="${svgStyle}">${background}<svg x="${borderWidth}" y="${borderWidth}" width="${innerSize}" height="${innerSize}" viewBox="${viewBox}" ><use href="#${badgeImg}" width="100%" height="100%"/></svg></svg>`,
         iconSize: [badgeSize, badgeSize],
         className: getStopIconClassName(mode, true),
       });
@@ -237,4 +248,5 @@ StopMarker.propTypes = {
   colorOverride: PropTypes.string,
   appendClass: PropTypes.string,
   stopStatus: PropTypes.string,
+  stopCallStatus: PropTypes.string,
 };

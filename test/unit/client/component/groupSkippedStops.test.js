@@ -29,6 +29,7 @@ describe('groupSkippedStops', () => {
     const skipped = items.filter(item => item.skipped);
     expect(skipped).toHaveLength(1);
     expect(skipped[0].skipped.map(s => s.gtfsId)).toEqual(['b', 'c', 'd']);
+    expect(skipped[0].skippedIndices).toEqual([1, 2, 3]);
     // the group comes before the added stops
     expect(items.indexOf(skipped[0])).toBeLessThan(
       items.findIndex(item => item.stoptime?.stop.gtfsId === 'x'),

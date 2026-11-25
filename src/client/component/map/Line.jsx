@@ -11,6 +11,7 @@ export default function Line({
   thin = false,
   opaque = false,
   passive = false,
+  dashed = false,
   color,
   mode,
   geometry,
@@ -89,6 +90,37 @@ export default function Line({
     legWeight *= 0.5;
   }
 
+  if (dashed) {
+    // pale strip with a narrower dotted line in the middle, like the skipped stops in the stop list
+    return (
+      <div style={{ display: 'none' }}>
+        <Polyline
+          key="strip"
+          positions={filteredPoints}
+          className={`leg-strip ${className} ${appendClass}`}
+          color={lineConfig.canceledBackgroundColor}
+          opacity={1}
+          weight={legWeight}
+          lineCap="butt"
+          interactive={false}
+        />
+        <Polyline
+          key="dots"
+          ref={line}
+          positions={filteredPoints}
+          className={`leg ${className} ${appendClass}`}
+          color={
+            passive && lineConfig.passiveColor ? lineConfig.passiveColor : lineConfig.canceledColor
+          }
+          weight={legWeight / 2}
+          dashArray="6 5"
+          lineCap="butt"
+          interactive={false}
+        />
+      </div>
+    );
+  }
+
   return (
     <div style={{ display: 'none' }}>
       <Polyline
@@ -116,6 +148,7 @@ Line.propTypes = {
   thin: PropTypes.bool,
   opaque: PropTypes.bool,
   passive: PropTypes.bool,
+  dashed: PropTypes.bool,
   color: PropTypes.string,
   mode: PropTypes.string.isRequired,
   geometry: PropTypes.arrayOf(

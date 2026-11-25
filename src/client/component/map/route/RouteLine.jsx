@@ -1,13 +1,17 @@
+import { useMemo } from 'react';
 import PropTypes from 'prop-types';
 import { graphql, useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
 import Line from '../Line';
+import groupSkippedStops from '../../routepage/groupSkippedStops';
+import { getSkippedRanges, splitByRanges } from './skippedSegments';
 import { getClosestPoint } from '../../../../shared/utils/geo-utils';
 import { getTripOrRouteMode } from '../../../utils/modeUtils';
 import { fragmentRefShape, tripShape } from '../../../utils/shapes';
 import { useConfigContext } from '../../../hooks/ConfigContext';
+import { STOP_CALL_STATUS } from '../../../utils/stopCallStatusUtils';
 import { getStopStatusFromStopData } from '../../../utils/stopStatusUtils';
 
 /**
@@ -37,6 +41,24 @@ function getSplitIndex(points, position) {
 }
 
 const EMPTY_FILTERED_STOPS = [];
+const EMPTY_STOPTIMES = [];
+
+/**
+ * Indices of the scheduled stops that the trip does not serve
+ */
+function getCanceledStopIndices(stops, stoptimes) {
+  const indices = new Set();
+  if (stoptimes.length) {
+    groupSkippedStops(stoptimes, stops).forEach(item => {
+      if (item.skipped) {
+        item.skippedIndices.forEach(i => indices.add(i));
+      } else if (item.stoptime?.realtimeState === 'CANCELED' && item.scheduledIndex >= 0) {
+        indices.add(item.scheduledIndex);
+      }
+    });
+  }
+  return indices;
+}
 
 const RouteLineFragment = graphql`
   fragment RouteLineFragment on Pattern {
@@ -75,9 +97,24 @@ export default function RouteLine({
   thin = false,
   filteredStops = EMPTY_FILTERED_STOPS,
   vehiclePosition = null,
+  stoptimes = EMPTY_STOPTIMES,
 }) {
   const config = useConfigContext();
   const pattern = useFragment(RouteLineFragment, patternRef);
+  const patternPoints = pattern?.geometry || pattern?.stops;
+  const patternStops = pattern?.stops;
+  const { allPoints, canceledStops, skippedRanges } = useMemo(() => {
+    if (!patternPoints || !patternStops) {
+      return { allPoints: [], canceledStops: new Set(), skippedRanges: [] };
+    }
+    const points = patternPoints.filter(point => point.lat !== null && point.lon !== null);
+    const ids = getCanceledStopIndices(patternStops, stoptimes);
+    return {
+      allPoints: points,
+      canceledStops: new Set(patternStops.filter((_, i) => ids.has(i))),
+      skippedRanges: getSkippedRanges(points, patternStops, ids),
+    };
+  }, [patternPoints, patternStops, stoptimes]);
 
   if (!pattern) {
     return false;
@@ -99,6 +136,37 @@ export default function RouteLine({
 
   const filteredIds = filteredStops.map(stop => stop.stopId);
 
+  const getStopStatus = stop =>
+    getStopStatusFromStopData({
+      stop,
+      nowUnixTime,
+      showStopStatusMarkers: config.showStopStatusMarkers,
+    });
+  const getStopCallStatus = stop => (canceledStops.has(stop) ? STOP_CALL_STATUS.CANCELED : null);
+  const lineColor = pattern.route.color ? `#${pattern.route.color}` : null;
+  const renderLines = (points, color, keyPrefix, offset) =>
+    splitByRanges(points, skippedRanges, offset).map((segment, i) =>
+      segment.dashed ? (
+        <Line
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${keyPrefix}-${i}`}
+          geometry={segment.points}
+          mode={modeClass}
+          thin={thin}
+          dashed
+        />
+      ) : (
+        <Line
+          // eslint-disable-next-line react/no-array-index-key
+          key={`${keyPrefix}-${i}`}
+          color={color}
+          geometry={segment.points}
+          mode={modeClass}
+          thin={thin}
+        />
+      ),
+    );
+
   if (!vehiclePosition) {
     const markers = pattern.stops
       .filter(stop => !filteredIds.includes(stop.gtfsId))
@@ -108,24 +176,15 @@ export default function RouteLine({
           key={`${stop.gtfsId}-${pattern.code}${i === pattern.stops.length - 1 && '-last'}`}
           mode={modeClass + (thin ? ' thin' : '')}
           thin={thin}
-          stopStatus={getStopStatusFromStopData({
-            stop,
-            nowUnixTime,
-            showStopStatusMarkers: config.showStopStatusMarkers,
-          })}
+          stopStatus={getStopStatus(stop)}
+          stopCallStatus={getStopCallStatus(stop)}
         />
       ));
 
     return (
       <div style={{ display: 'none' }}>
         {objs}
-        <Line
-          key="line"
-          color={pattern.route.color ? `#${pattern.route.color}` : null}
-          geometry={pattern.geometry || pattern.stops}
-          mode={modeClass}
-          thin={thin}
-        />
+        {renderLines(allPoints, lineColor, 'line', 0)}
         {markers}
       </div>
     );
@@ -133,13 +192,15 @@ export default function RouteLine({
 
   // if vehicle position is known, split into two lines: before and after vehicle
   const beforeSplitColor = '#888888';
-  const stops = pattern.geometry || pattern.stops;
-  const filteredPoints = stops.filter(point => point.lat !== null && point.lon !== null);
+  const filteredPoints = allPoints;
   const lineSplitIndex = getSplitIndex(filteredPoints, vehiclePosition);
 
   const beforeSplit = filteredPoints.slice(0, lineSplitIndex);
   const afterSplit = filteredPoints.slice(lineSplitIndex);
+  let afterOffset = lineSplitIndex;
   if (lineSplitIndex !== 0 && lineSplitIndex !== filteredPoints.length - 1) {
+    // the projected point is first in afterSplit, between geometry points L - 1 and L
+    afterOffset = lineSplitIndex - 1;
     // calculate new point at vehicle position that is first/last element of the two splits
     const lastBefore = beforeSplit[lineSplitIndex - 1];
     const firstAfter = afterSplit[0];
@@ -158,31 +219,15 @@ export default function RouteLine({
         mode={modeClass + (thin ? ' thin' : '')}
         colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
         thin={thin}
-        stopStatus={getStopStatusFromStopData({
-          stop,
-          nowUnixTime,
-          showStopStatusMarkers: config.showStopStatusMarkers,
-        })}
+        stopStatus={getStopStatus(stop)}
       />
     ));
 
   return (
     <div style={{ display: 'none' }}>
       {objs}
-      <Line
-        key="line_before"
-        color={beforeSplitColor}
-        geometry={beforeSplit}
-        mode={modeClass}
-        thin={thin}
-      />
-      <Line
-        key="line_after"
-        color={pattern.route.color ? `#${pattern.route.color}` : null}
-        geometry={afterSplit}
-        mode={modeClass}
-        thin={thin}
-      />
+      {renderLines(beforeSplit, beforeSplitColor, 'line_before', 0)}
+      {renderLines(afterSplit, lineColor, 'line_after', afterOffset)}
       {markers}
     </div>
   );
@@ -194,4 +239,10 @@ RouteLine.propTypes = {
   thin: PropTypes.bool,
   filteredStops: PropTypes.arrayOf(PropTypes.string.isRequired),
   vehiclePosition: PropTypes.shape({ lat: PropTypes.number, lon: PropTypes.number }),
+  stoptimes: PropTypes.arrayOf(
+    PropTypes.shape({
+      realtimeState: PropTypes.string,
+      stop: PropTypes.shape({ gtfsId: PropTypes.string }),
+    }),
+  ),
 };

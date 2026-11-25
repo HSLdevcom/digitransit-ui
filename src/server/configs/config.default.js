@@ -246,6 +246,10 @@ export default {
       leg: { weight: 6, thinWeight: 2 },
 
       passiveColor: '#758993',
+
+      // dotted line and the pale strip behind it, drawn next to canceled stops
+      canceledColor: '#dc0451',
+      canceledBackgroundColor: '#fad9e5',
     },
 
     showZoomControl: true,

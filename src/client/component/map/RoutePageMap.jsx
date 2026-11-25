@@ -61,6 +61,10 @@ const RoutePageMapFragment = {
     fragment RoutePageMap_trip on Trip {
       stoptimesForDate {
         scheduledDeparture
+        realtimeState
+        stop {
+          gtfsId
+        }
       }
       isReplacement
       gtfsId
@@ -175,7 +179,12 @@ function RoutePageMap({ pattern, lat, lon, trip, error, ...rest }) {
   }
   const tripSelected = lat && lon && trip?.gtfsId && isActiveDate(pattern);
   const leafletObjs = [
-    <RouteLine key="line" pattern={pattern} vehiclePosition={tripSelected ? { lat, lon } : null} />,
+    <RouteLine
+      key="line"
+      pattern={pattern}
+      stoptimes={trip?.stoptimesForDate}
+      vehiclePosition={tripSelected ? { lat, lon } : null}
+    />,
   ];
   if (isActiveDate(pattern)) {
     leafletObjs.push(
@@ -212,7 +221,15 @@ RoutePageMap.propTypes = {
   pattern: patternShape.isRequired,
   lat: PropTypes.number,
   lon: PropTypes.number,
-  trip: PropTypes.shape({ gtfsId: PropTypes.string }),
+  trip: PropTypes.shape({
+    gtfsId: PropTypes.string,
+    stoptimesForDate: PropTypes.arrayOf(
+      PropTypes.shape({
+        realtimeState: PropTypes.string,
+        stop: PropTypes.shape({ gtfsId: PropTypes.string }),
+      }),
+    ),
+  }),
   error: errorShape,
 };
 

@@ -821,8 +821,13 @@ div.origin-popup {
 }
 
 .map .stop-badge-out-of-service,
-.map .stop-badge-alert {
+.map .stop-badge-alert,
+.map .stop-badge-canceled {
   fill: $cancelation-red;
+}
+
+.map .stop-badge-canceled-icon {
+  color: $cancelation-red;
 }
 
 .map .stop-badge-info,

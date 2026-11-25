@@ -124,6 +124,22 @@ export function combineStopStatuses(statusA, statusB) {
   return STOP_STATUS.INFO;
 }
 
+/** Returns the non-null alerts that are valid at the given time. */
+function getActiveAlerts(alerts, nowUnixTime) {
+  return (alerts || []).filter(alert => alert && isAlertValid(alert, nowUnixTime));
+}
+
+/**
+ * Returns unique alert effects, dropping INFO-level alerts when a higher tier is present.
+ */
+function getDominantTierEffects(activeAlerts, maxSeverity) {
+  const relevantAlerts =
+    maxSeverity !== AlertSeverityLevelType.Info
+      ? activeAlerts.filter(a => a.alertSeverityLevel !== AlertSeverityLevelType.Info)
+      : activeAlerts;
+  return [...new Set(relevantAlerts.map(a => a.alertEffect).filter(Boolean))];
+}
+
 /**
  * Returns all unique alert effects from alerts that are valid at the given time,
  * filtered to the highest severity tier present. When any ALERT-tier alert
@@ -135,13 +151,8 @@ export function combineStopStatuses(statusA, statusB) {
  * @returns {string[]} list of unique active alert effects at the dominant severity tier
  */
 export function getStopAlertEffects(alerts, nowUnixTime) {
-  const activeAlerts = (alerts || []).filter(alert => alert && isAlertValid(alert, nowUnixTime));
-  const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
-  const isAlertTier = maxSeverity !== AlertSeverityLevelType.Info;
-  const relevantAlerts = isAlertTier
-    ? activeAlerts.filter(a => a.alertSeverityLevel !== AlertSeverityLevelType.Info)
-    : activeAlerts;
-  return [...new Set(relevantAlerts.map(a => a.alertEffect).filter(Boolean))];
+  const activeAlerts = getActiveAlerts(alerts, nowUnixTime);
+  return getDominantTierEffects(activeAlerts, getMaximumAlertSeverityLevel(activeAlerts));
 }
 
 /**
@@ -190,45 +201,22 @@ export function resolveNoDeparturesBadge(
   if (!showStopStatusMarkers) {
     return { stopStatus: null, badgeImg: null, alertEffects: null };
   }
-  const activeAlerts = (alerts || []).filter(a => a && isAlertValid(a, currentTime));
-  if (isClosedByServiceAlert(activeAlerts)) {
-    return {
-      stopStatus: STOP_STATUS.OUT_OF_SERVICE,
-      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
-      alertEffects: null,
-    };
-  }
-  if (servicesRunningInFuture === false) {
-    return {
-      stopStatus: STOP_STATUS.OUT_OF_SERVICE,
-      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.OUT_OF_SERVICE],
-      alertEffects: null,
-    };
+  const badge = (stopStatus, alertEffects = null) => ({
+    stopStatus,
+    badgeImg: STOP_STATUS_BADGE_IMGS[stopStatus],
+    alertEffects,
+  });
+  const activeAlerts = getActiveAlerts(alerts, currentTime);
+  if (isClosedByServiceAlert(activeAlerts) || servicesRunningInFuture === false) {
+    return badge(STOP_STATUS.OUT_OF_SERVICE);
   }
   const maxSeverity = getMaximumAlertSeverityLevel(activeAlerts);
   if (severityToStatus(maxSeverity) === STOP_STATUS.ALERT) {
-    const effects = [
-      ...new Set(
-        activeAlerts
-          .filter(a => a.alertSeverityLevel !== AlertSeverityLevelType.Info)
-          .map(a => a.alertEffect)
-          .filter(Boolean),
-      ),
-    ];
-    return {
-      stopStatus: STOP_STATUS.ALERT,
-      badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.ALERT],
-      alertEffects: effects.length > 0 ? effects : null,
-    };
+    const effects = getDominantTierEffects(activeAlerts, maxSeverity);
+    return badge(STOP_STATUS.ALERT, effects.length > 0 ? effects : null);
   }
-  return {
-    stopStatus: STOP_STATUS.NO_SERVICE_TODAY,
-    badgeImg: STOP_STATUS_BADGE_IMGS[STOP_STATUS.NO_SERVICE_TODAY],
-    alertEffects: null,
-  };
+  return badge(STOP_STATUS.NO_SERVICE_TODAY);
 }
-
-const DAY_SECONDS = 24 * 60 * 60;
 
 /**
  * Derives service availability from a stop's earliest non-canceled departure
@@ -245,14 +233,17 @@ export function getServiceAvailability(firstDeparture, nowUnixTime) {
   if (!Array.isArray(firstDeparture)) {
     return {};
   }
-  const stoptime = firstDeparture?.[0];
+  const stoptime = firstDeparture[0];
   if (!stoptime) {
     return { servicesRunningOnServiceDate: false, servicesRunningInFuture: false };
   }
-  const startOfDay = DateTime.fromSeconds(nowUnixTime).startOf('day').toUnixInteger();
+  // plus({ days: 1 }) keeps the boundary correct on DST days
+  const endOfDay = DateTime.fromSeconds(nowUnixTime)
+    .startOf('day')
+    .plus({ days: 1 })
+    .toUnixInteger();
   return {
-    servicesRunningOnServiceDate:
-      stoptime.serviceDay + stoptime.realtimeDeparture < startOfDay + DAY_SECONDS,
+    servicesRunningOnServiceDate: stoptime.serviceDay + stoptime.realtimeDeparture < endOfDay,
     servicesRunningInFuture: true,
   };
 }
@@ -280,9 +271,7 @@ export function getStopStatusFromStopData({
   if (!showStopStatusMarkers || !stop) {
     return null;
   }
-  const activeAlerts = (stop.alerts || []).filter(
-    alert => alert && isAlertValid(alert, nowUnixTime),
-  );
+  const activeAlerts = getActiveAlerts(stop.alerts, nowUnixTime);
   return getStopStatus({
     showStopStatusMarkers,
     closedByServiceAlert: isClosedByServiceAlert(activeAlerts),
