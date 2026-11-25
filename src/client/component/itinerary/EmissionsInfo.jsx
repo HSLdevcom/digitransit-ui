@@ -7,34 +7,29 @@ import getCo2Value from '../../utils/emissions';
 
 export default function EmissionsInfo({ itinerary, isMobile }) {
   const co2value = getCo2Value(itinerary);
+  if (co2value === null) {
+    return null;
+  }
+
   return (
-    co2value !== null &&
-    co2value >= 0 && (
-      <div className={cx('itinerary-co2-information', { mobile: isMobile })}>
-        <div className="itinerary-co2-line">
-          <div className={cx('co2-container', { mobile: isMobile })}>
-            <div className="co2-title-container">
-              <Icon img="icon_co2_leaf" className="co2-leaf" />
-              <span aria-hidden="true" className="itinerary-co2-title">
-                <FormattedMessage
-                  id="itinerary-co2.title"
-                  defaultMessage="CO2 emissions for this route"
-                />
-              </span>
-              <span className="sr-only">
-                <FormattedMessage
-                  id="itinerary-co2.title-sr"
-                  defaultMessage="CO2 emissions for this route"
-                />
-              </span>
-            </div>
-            <div className="itinerary-co2-value-container">
-              <div className="itinerary-co2-value">{co2value} g</div>
-            </div>
+    <div className={cx('itinerary-co2-information', { mobile: isMobile })}>
+      <div className="itinerary-co2-line">
+        <div className={cx('co2-container', { mobile: isMobile })}>
+          <div className="co2-title-container">
+            <Icon img="icon_co2_leaf" className="co2-leaf" />
+            <span aria-hidden="true" className="itinerary-co2-title">
+              <FormattedMessage id="itinerary-co2.title" />
+            </span>
+            <span className="sr-only">
+              <FormattedMessage id="itinerary-co2.title-sr" />
+            </span>
+          </div>
+          <div className="itinerary-co2-value-container">
+            <div className="itinerary-co2-value">{co2value} g</div>
           </div>
         </div>
       </div>
-    )
+    </div>
   );
 }
 
