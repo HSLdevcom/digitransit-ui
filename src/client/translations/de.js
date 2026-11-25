@@ -114,22 +114,22 @@ export default {
     'itinerary-details.walk-leg':
       'Um {time} {distance} zu Fuß von {origin} nach {destination} laufen. Geschätzte Dauer: {duration}',
     'itinerary-hide-stops': 'Zwischenstopps ausblenden',
+    'itinerary-list-row.clickable-area-description': 'Auf der Karte zeigen',
+    'itinerary-list-row.description':
+      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
+    'itinerary-list-row.first-leg-start-time':
+      'Fährt ab um {firstDepartureTime} von {firstDepartureStopType} {firstDepartureStop}',
+    'itinerary-list-row.first-leg-start-time-citybike':
+      'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
+    'itinerary-list-row.first-leg-start-time-sr':
+      '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
+    'itinerary-list-row.no-transit-legs': 'Start jederzeit möglich',
+    'itinerary-list-row.transfers': 'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-page.itineraries-loaded': 'Suchergebnisse geladen',
     'itinerary-page.loading-itineraries': 'Suchergebnisse werden geladen',
     'itinerary-page.show-details': 'Details zeigen',
     'itinerary-page.show-details-label': 'Zeige Details zu Routenvorschlag {number}',
     'itinerary-page.title': 'Reisebeschreibung',
-    'itinerary-row.clickable-area-description': 'Auf der Karte zeigen',
-    'itinerary-row.description':
-      'Route fährt ab {departureDate} {departureTime} mit Ankunft {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Gesamte Dauer {totalTime}.',
-    'itinerary-row.first-leg-start-time':
-      'Fährt ab um {firstDepartureTime} von {firstDepartureStopType} {firstDepartureStop}',
-    'itinerary-row.first-leg-start-time-citybike':
-      'Abfahrt um {firstDepartureTime} von {firstDepartureStop} Leihrad-Station',
-    'itinerary-row.first-leg-start-time-sr':
-      '{vehicle} fährt um {firstDepartureTime} von {firstDepartureStop}.',
-    'itinerary-row.no-transit-legs': 'Start jederzeit möglich',
-    'itinerary-row.transfers': 'Umstieg auf {vehicle} an Halt {stopName}',
     'itinerary-summary-page.description': 'Reisevorschläge',
     'itinerary-summary.bikeAndPublic-rail-subway-title':
       'Nehmen Sie Ihr Rad mit in den Zug oder die Bahn',

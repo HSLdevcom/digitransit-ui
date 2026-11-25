@@ -1132,7 +1132,7 @@ describe('<Itinerary />', () => {
         replace,
         push,
       });
-      fireEvent.click(container.querySelector('.itinerary-row-button'));
+      fireEvent.click(container.querySelector('.itinerary-list-row-button'));
       expect(replace.mock.calls.length).toBe(1);
       expect(push.mock.calls.length).toBe(1);
       expect(focusToHeader.mock.calls.length).toBe(1);
@@ -1154,7 +1154,7 @@ describe('<Itinerary />', () => {
         { match },
       );
 
-      fireEvent.click(container.querySelector('.itinerary-row-button'));
+      fireEvent.click(container.querySelector('.itinerary-list-row-button'));
 
       expect(replace.mock.calls[0][0].pathname).toBe('/reitti/origin/destination/bikeAndVehicle/');
       expect(push.mock.calls[0][0].pathname).toBe('/reitti/origin/destination/bikeAndVehicle/2');
@@ -1171,7 +1171,7 @@ describe('<Itinerary />', () => {
         replace,
         push,
       });
-      fireEvent.click(container.querySelector('.itinerary-row-button'));
+      fireEvent.click(container.querySelector('.itinerary-list-row-button'));
       expect(push.mock.calls.length > 0).toBe(false);
       expect(replace.mock.calls.length).toBe(1);
       expect(replace.mock.calls[0][0].state.selectedItineraryIndex).toBe(2);
@@ -1189,7 +1189,7 @@ describe('<Itinerary />', () => {
         { ...mockContext.router, replace, push },
         'small',
       );
-      fireEvent.click(container.querySelector('.itinerary-row-button'));
+      fireEvent.click(container.querySelector('.itinerary-list-row-button'));
       expect(push.mock.calls.length).toBe(1);
       expect(focusToHeader.mock.calls.length).toBe(1);
     });
@@ -1203,7 +1203,7 @@ describe('<Itinerary />', () => {
         push,
       });
 
-      fireEvent.keyPress(container.querySelector('.itinerary-row-button'), {
+      fireEvent.keyPress(container.querySelector('.itinerary-list-row-button'), {
         key: 'Enter',
         charCode: 13,
         keyCode: 13,

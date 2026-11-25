@@ -21,7 +21,7 @@ export default function FirstLegStartTime({
     content = (
       <>
         <Icon img="icon_alert-circle" omitViewBox />
-        <FormattedMessage id="itinerary-row.call-agency-description" />
+        <FormattedMessage id="itinerary-list-row.call-agency-description" />
       </>
     );
   } else if (firstDeparture) {
@@ -42,11 +42,11 @@ export default function FirstLegStartTime({
       />
     );
   } else {
-    content = <FormattedMessage id="itinerary-row.no-transit-legs" />;
+    content = <FormattedMessage id="itinerary-list-row.no-transit-legs" />;
   }
 
   return (
-    <div className={cx('itinerary-row-first-departure', { small })} aria-hidden="true">
+    <div className={cx('itinerary-list-row-first-departure', { small })} aria-hidden="true">
       {content}
     </div>
   );

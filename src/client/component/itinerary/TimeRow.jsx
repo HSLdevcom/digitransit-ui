@@ -13,7 +13,7 @@ export default function TimeRow({
   const intl = useIntl();
 
   return (
-    <div className="itinerary-row-time" aria-hidden="true">
+    <div className="itinerary-list-row-time" aria-hidden="true">
       {startDate && <div className="itinerary-start-date">{startDate}</div>}
       <div className="itinerary-start-time-and-end-time">
         {hasCallAgencyLeg && <FormattedMessage id="estimate" />}{' '}

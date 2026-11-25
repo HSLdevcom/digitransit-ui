@@ -52,8 +52,8 @@ Selector | Component | Z-Index | Comment
 `.trip-from, .trip-to` | Route schedule times | 1 |
 `.route-stop { div { .route-now-content { svg` | Selected trip icon with tail | 1 |
 `.origin-destination-bar { .field-link { span:first-child { &::before` | Summary search bar from/to marker letters | 1 | Could be removed through new icon components
-`.itinerary-row { .itinerary-legs { .line` | Summary result row leg lines | 1 |
-`.itinerary-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
+`.itinerary-list-row { .itinerary-legs { .line` | Summary result row leg lines | 1 |
+`.itinerary-list-row { .itinerary-legs { .line { :after` | Hides the Summary result row leg lines behind the mode icon. | -1 |
 `.desktop .map-content .map` | Contains map overlay stacking so buttons/attribution stay within the map | 1 |
 `.map-cluster-number-marker` | Cluster group marker for indoor route steps | 13000 |
 `.map-indoor-step-marker` | Indoor route step markers | 13050 |

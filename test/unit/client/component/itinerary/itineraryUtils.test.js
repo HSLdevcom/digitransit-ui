@@ -6,9 +6,9 @@ describe('getItineraryScreenReaderText', () => {
 
   it('joins the description, co2 and action hint into one text', () => {
     expect(getItineraryScreenReaderText(intl, { ...params, co2value: 120 })).toBe(
-      '[itinerary-row.call-agency-description {}]. ' +
+      '[itinerary-list-row.call-agency-description {}]. ' +
         '[itinerary-co2.description-simple {"co2value":120}]. ' +
-        '[itinerary-row.hint-open {}]',
+        '[itinerary-list-row.hint-open {}]',
     );
   });
 
@@ -19,7 +19,7 @@ describe('getItineraryScreenReaderText', () => {
 
   it.each(['open', 'select', 'selected'])('ends with the %s hint', hint => {
     expect(getItineraryScreenReaderText(intl, { ...params, actionHint: hint })).toMatch(
-      new RegExp(`\\[itinerary-row.hint-${hint} \\{\\}\\]$`),
+      new RegExp(`\\[itinerary-list-row.hint-${hint} \\{\\}\\]$`),
     );
   });
 });

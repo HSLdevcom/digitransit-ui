@@ -287,31 +287,32 @@ export default {
     'itinerary-in-the-past-link': 'Depart now ›',
     'itinerary-in-the-past-title': 'The route options cannot be displayed',
     'itinerary-indoor-route': 'Indoor route',
+    'itinerary-list-row.call-agency-description':
+      'Dial-a-ride service; see the itinerary for details.',
+    'itinerary-list-row.clickable-area-description': 'Show on map',
+    'itinerary-list-row.description':
+      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
+    'itinerary-list-row.first-leg-start-time':
+      'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
+    'itinerary-list-row.first-leg-start-time-citybike':
+      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-list-row.first-leg-start-time-scooter':
+      'Departure at {firstDepartureTime} from the scooter pickup location',
+    'itinerary-list-row.first-leg-start-time-sr':
+      '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
+    'itinerary-list-row.first-leg-start-time-taxi':
+      'Departure at {firstDepartureTime} from the taxi pickup location',
+    'itinerary-list-row.hint-open': 'Open itinerary details.',
+    'itinerary-list-row.hint-select': 'Select to show on map.',
+    'itinerary-list-row.hint-selected': 'Selected. Activate again to open itinerary details.',
+    'itinerary-list-row.no-transit-legs': 'Leave when it suits you',
+    'itinerary-list-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
+    'itinerary-list-row.transfers-to-rental': 'Transfer to {vehicle}',
     'itinerary-page.itineraries-loaded': 'Search results downloaded',
     'itinerary-page.loading-itineraries': 'Downloading search results',
     'itinerary-page.show-details': 'Show itinerary details',
     'itinerary-page.show-details-label': 'Open itinerary suggestion {number}',
     'itinerary-page.title': 'Itinerary',
-    'itinerary-row.call-agency-description': 'Dial-a-ride service; see the itinerary for details.',
-    'itinerary-row.clickable-area-description': 'Show on map',
-    'itinerary-row.description':
-      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-row.first-leg-start-time':
-      'Leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-row.first-leg-start-time-citybike':
-      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
-    'itinerary-row.first-leg-start-time-scooter':
-      'Departure at {firstDepartureTime} from the scooter pickup location',
-    'itinerary-row.first-leg-start-time-sr':
-      '{vehicle} leaves at {firstDepartureTime} from {firstDepartureStopType} {firstDepartureStop} {firstDeparturePlatform}.',
-    'itinerary-row.first-leg-start-time-taxi':
-      'Departure at {firstDepartureTime} from the taxi pickup location',
-    'itinerary-row.hint-open': 'Open itinerary details.',
-    'itinerary-row.hint-select': 'Select to show on map.',
-    'itinerary-row.hint-selected': 'Selected. Activate again to open itinerary details.',
-    'itinerary-row.no-transit-legs': 'Leave when it suits you',
-    'itinerary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
-    'itinerary-row.transfers-to-rental': 'Transfer to {vehicle}',
     'itinerary-summary-page.description': 'Route suggestions',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',

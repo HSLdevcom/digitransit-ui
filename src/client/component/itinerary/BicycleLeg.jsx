@@ -340,7 +340,7 @@ export default function BicycleLeg({
               />
               <ItineraryMapAction
                 target=""
-                ariaLabelId="itinerary-row.clickable-area-description"
+                ariaLabelId="itinerary-list-row.clickable-area-description"
                 focusAction={focusToLeg}
               />
             </div>
@@ -368,7 +368,7 @@ export default function BicycleLeg({
           {stopsDescription}
           <ItineraryMapAction
             target=""
-            ariaLabelId="itinerary-row.clickable-area-description"
+            ariaLabelId="itinerary-list-row.clickable-area-description"
             focusAction={focusToLeg}
           />
         </div>
