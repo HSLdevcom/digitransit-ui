@@ -131,12 +131,17 @@ export default function RoutePatternSelectContainer({
   }
   const specialRoutes = nonFutureOptions.slice(mainRoutes.length);
 
-  const canSwapDirection = mainRoutes.length === 2;
-  const otherPattern = canSwapDirection
-    ? mainRoutes.find(
-        o => o.code !== params.patternId && o.directionId !== currentPattern?.directionId,
-      )
-    : undefined;
+  // Swap target: opposite direction pattern with the same variant suffix (e.g. :0:02 -> :1:02),
+  // otherwise the best opposite pattern, future patterns last
+  let otherPattern;
+  if (currentPattern) {
+    const opposite = [...mainRoutes, ...specialRoutes, ...futureOptions].filter(
+      o => o.directionId !== currentPattern.directionId,
+    );
+    const variant = currentPattern.code.split(':').pop();
+    otherPattern = opposite.find(o => o.code.split(':').pop() === variant) ?? opposite[0];
+  }
+  const canSwapDirection = !!otherPattern;
 
   const origin = currentPattern?.stops[0].name ?? '';
   const destination =

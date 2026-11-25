@@ -68,6 +68,80 @@ describe('<RoutePatternSelectContainer />', () => {
     expect(container.querySelector('.route-pattern-location-name').textContent).toBe('Origin');
   });
 
+  it('should swap to a future pattern in the opposite direction', () => {
+    const futureDate = DateTime.now().plus({ days: 8 }).toFormat('yyyyLLdd');
+    let selectedCode;
+    const { container } = renderWithProviders(
+      <RoutePatternSelectContainer
+        {...baseProps}
+        onSelectChange={code => {
+          selectedCode = code;
+        }}
+        route={{
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+            {
+              ...makePattern('ROUTE:1:1:01', 1, 'Origin'),
+              activeDates: [{ serviceId: 'future-service', day: [futureDate] }],
+            },
+          ],
+        }}
+      />,
+      { config: baseConfig, match: baseMatch },
+    );
+    fireEvent.click(container.querySelector('.route-pattern-swap-button'));
+    expect(selectedCode).toBe('ROUTE:1:1:01');
+  });
+
+  it('should prefer the opposite pattern with the same variant suffix', () => {
+    let selectedCode;
+    const { container } = renderWithProviders(
+      <RoutePatternSelectContainer
+        {...baseProps}
+        onSelectChange={code => {
+          selectedCode = code;
+        }}
+        route={{
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [
+            makePattern('ROUTE:1:0:01', 0, 'Destination', [makeTripForDate()]),
+            makePattern('ROUTE:1:1:02', 1, 'Variant', [makeTripForDate(), makeTripForDate()]),
+            makePattern('ROUTE:1:1:01', 1, 'Origin', [makeTripForDate()]),
+          ],
+        }}
+      />,
+      { config: baseConfig, match: baseMatch },
+    );
+    fireEvent.click(container.querySelector('.route-pattern-swap-button'));
+    expect(selectedCode).toBe('ROUTE:1:1:01');
+  });
+
+  it('should swap when both directions are future patterns', () => {
+    const futureDate = DateTime.now().plus({ days: 8 }).toFormat('yyyyLLdd');
+    const future = (code, dir) => ({
+      ...makePattern(code, dir, 'Future'),
+      activeDates: [{ serviceId: 'future-service', day: [futureDate] }],
+    });
+    const { container } = renderWithProviders(
+      <RoutePatternSelectContainer
+        {...baseProps}
+        route={{
+          shortName: '1',
+          mode: 'BUS',
+          gtfsId: 'ROUTE:1',
+          patterns: [future('ROUTE:1:0:01', 0), future('ROUTE:1:1:01', 1)],
+        }}
+      />,
+      { config: baseConfig, match: baseMatch },
+    );
+    expect(container.querySelector('.route-pattern-swap-button')).not.toBeNull();
+  });
+
   it('should select the other pattern when the swap button is clicked', () => {
     let selectedCode;
     const { container } = renderWithProviders(
