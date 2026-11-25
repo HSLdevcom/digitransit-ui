@@ -1,5 +1,6 @@
 import cx from 'classnames';
 import PropTypes from 'prop-types';
+import { useId } from 'react';
 import { useFragment } from 'react-relay';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { locationShape, itineraryShape } from '../../utils/shapes';
@@ -33,6 +34,7 @@ export default function Itinerary({
   ...props
 }) {
   const intl = useIntl();
+  const descriptionId = useId();
   const config = useConfigContext();
   const { formatMessage } = intl;
   const itinerary = useFragment(ItineraryFragment, itineraryRef);
@@ -112,7 +114,9 @@ export default function Itinerary({
         { passive, 'bp-large': breakpoint === 'large', 'no-border': hideSelectionIndicator },
       ])}
     >
-      <div className="sr-only">{screenReaderText}</div>
+      <div id={descriptionId} className="sr-only" aria-hidden="true">
+        {screenReaderText}
+      </div>
       <div
         className="itinerary-summary-visible"
         style={{ display: 'flex' }}
@@ -136,6 +140,7 @@ export default function Itinerary({
               tabIndex="0"
               role="button"
               aria-label={ariaLabelMessage}
+              aria-describedby={descriptionId}
             >
               <div className="itinerary-duration-container" aria-hidden="true">
                 <TimeRow
