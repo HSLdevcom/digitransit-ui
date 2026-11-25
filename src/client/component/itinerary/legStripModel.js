@@ -16,7 +16,7 @@ import {
   getRentalNetworkIcon,
 } from '../../../shared/utils/vehicleRentalUtils';
 import { ViaLocationType } from '../../../shared/utils/constants';
-import { getStreetBarProps, getTransitLegLayout, normalizeLegLengths } from './legStripUtils';
+import { getStreetBarProps, getTransitLegLayout, computeBarLayout } from './legStripUtils';
 
 const NAME_LENGTH_THRESHOLD = 65;
 const WAIT_THRESHOLD = 180000;
@@ -66,7 +66,7 @@ export function analyzeLegs({ legs, intermediatePlaces, config, breakpoint, dura
     durationWithoutSlack > 0 ? (100 * durationMs) / durationWithoutSlack : 0;
   const lastLeg = compressedLegs[compressedLegs.length - 1];
   const lastLegLength = lastLeg ? relativeLength(lastLeg.duration * 1000) : 0;
-  const normalizedLegs = normalizeLegLengths(compressedLegs, {
+  const normalizedLegs = computeBarLayout(compressedLegs, {
     relativeLength,
     renderBarThreshold: breakpoint === 'small' ? 8.5 : 6,
     lastLegLength,

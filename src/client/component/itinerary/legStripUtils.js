@@ -20,7 +20,7 @@ const ROUTE_NUMBER_THRESHOLD = 12;
  *     waitTime, waitLength, interliningWithRoute, nextLeg,
  *     skipped: false }
  */
-export function normalizeLegLengths(
+export function computeBarLayout(
   compressedLegs,
   { relativeLength, renderBarThreshold, lastLegLength, waitThreshold },
 ) {
