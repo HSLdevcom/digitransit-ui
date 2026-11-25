@@ -1,8 +1,8 @@
 import {
   analyzeLegs,
-  formatVehicleNames,
   getLegStripModel,
 } from '../../../../../src/client/component/itinerary/legStripModel';
+import { formatVehicleNames } from '../../../../../src/client/component/itinerary/itineraryUtils';
 import { mockContext } from '../../../helpers/mock-context';
 
 const startTime = Date.parse('2026-01-01T10:00:00Z');

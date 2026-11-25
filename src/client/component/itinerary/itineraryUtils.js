@@ -126,3 +126,10 @@ export function getItineraryScreenReaderText(intl, { actionHint, co2value = null
     .filter(Boolean)
     .join(' ');
 }
+
+/** Formats the untranslated vehicle descriptions produced by getLegStripModel. */
+export const formatVehicleNames = (formatMessage, vehicles) =>
+  vehicles.map(({ messageId, routeName }) => {
+    const name = formatMessage({ id: messageId });
+    return routeName === undefined ? name : `${name} ${routeName}`;
+  });

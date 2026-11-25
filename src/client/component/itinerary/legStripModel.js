@@ -16,9 +16,7 @@ import {
   getRentalNetworkIcon,
 } from '../../../shared/utils/vehicleRentalUtils';
 import { ViaLocationType } from '../../../shared/utils/constants';
-import { normalizeLegLengths } from './itineraryLegProcessor';
-import { getItineraryStreetLegData } from './itineraryStreetLegUtils';
-import { getItineraryTransitPresentation } from './itineraryTransitUtils';
+import { getStreetBarProps, getTransitLegLayout, normalizeLegLengths } from './legStripUtils';
 
 const NAME_LENGTH_THRESHOLD = 65;
 const WAIT_THRESHOLD = 180000;
@@ -168,7 +166,7 @@ export function getLegStripModel({ itinerary, intermediatePlaces, config, breakp
       addViaItem(leg.from, viaKey);
     }
 
-    const transitPresentation = getItineraryTransitPresentation({
+    const transitLayout = getTransitLegLayout({
       leg,
       legLength,
       longName,
@@ -184,7 +182,7 @@ export function getLegStripModel({ itinerary, intermediatePlaces, config, breakp
       waitTime,
       waitLength,
     });
-    const streetLeg = getItineraryStreetLegData({
+    const streetBar = getStreetBarProps({
       leg,
       index,
       startMs,
@@ -196,50 +194,50 @@ export function getLegStripModel({ itinerary, intermediatePlaces, config, breakp
       config,
     });
 
-    if (streetLeg) {
+    if (streetBar) {
       items.push({
         type: 'street',
-        key: streetLeg.key,
-        leg: streetLeg.leg,
-        duration: streetLeg.duration,
-        mode: streetLeg.mode,
-        legLength: streetLeg.legLength,
-        renderModeIcons: streetLeg.renderModeIcons,
-        icon: streetLeg.icon,
-        parkingIndicator: streetLeg.parkingIndicator,
+        key: streetBar.key,
+        leg: streetBar.leg,
+        duration: streetBar.duration,
+        mode: streetBar.mode,
+        legLength: streetBar.legLength,
+        renderModeIcons: streetBar.renderModeIcons,
+        icon: streetBar.icon,
+        parkingIndicator: streetBar.parkingIndicator,
       });
-      if (streetLeg.parkingIndicator) {
+      if (streetBar.parkingIndicator) {
         onlyIconLegCount += 1;
       }
-      if (streetLeg.vehicleNameId) {
-        vehicles.push({ messageId: streetLeg.vehicleNameId });
-        stopNames.push(streetLeg.stopName);
+      if (streetBar.vehicleNameId) {
+        vehicles.push({ messageId: streetBar.vehicleNameId });
+        stopNames.push(streetBar.stopName);
       }
-      if (streetLeg.rentalBike) {
-        bikeNetwork = streetLeg.rentalBike.networkId;
-        if (streetLeg.rentalBike.durationOverSurchargeLimit) {
+      if (streetBar.rentalBike) {
+        bikeNetwork = streetBar.rentalBike.networkId;
+        if (streetBar.rentalBike.durationOverSurchargeLimit) {
           citybikeNetworks.add(bikeNetwork);
         }
-        if (streetLeg.rentalBike.rentalWarningEnabled && !citybikeicon) {
+        if (streetBar.rentalBike.rentalWarningEnabled && !citybikeicon) {
           citybikeicon = getRentalNetworkIcon(getRentalNetworkConfig(bikeNetwork, config));
         }
       }
     }
 
     if (leg.route) {
-      if (transitPresentation.showFromViaPoint) {
+      if (transitLayout.showFromViaPoint) {
         addViaItem(leg.from, viaKey);
       }
-      if (transitPresentation.showTransitBar) {
+      if (transitLayout.showTransitBar) {
         items.push({
           type: 'transit',
           key: `${leg.mode}_${startMs}`,
           leg,
-          fitRouteNumber: transitPresentation.fitRouteNumber,
+          fitRouteNumber: transitLayout.fitRouteNumber,
           interliningWithRoute,
           legLength,
-          withBicycle: transitPresentation.withBicycle,
-          withCar: transitPresentation.withCar,
+          withBicycle: transitLayout.withBicycle,
+          withCar: transitLayout.withCar,
           hasOneTransitLeg: hasOneTransitLeg(itinerary),
           shortenLabels,
         });
@@ -249,21 +247,21 @@ export function getLegStripModel({ itinerary, intermediatePlaces, config, breakp
         routeName: routeName || '',
       });
       stopNames.push(leg.from.name);
-      if (transitPresentation.showToViaPoint) {
+      if (transitLayout.showToViaPoint) {
         addViaItem(leg.to, viaKey);
       }
     }
 
-    if (transitPresentation.showWaitBar) {
+    if (transitLayout.showWaitBar) {
       items.push({
         type: 'wait',
         key: `${leg.mode}_${startMs}_wait`,
         leg,
-        legLength: transitPresentation.waitLength,
+        legLength: transitLayout.waitLength,
         renderModeIcons,
-        duration: transitPresentation.waitDuration,
+        duration: transitLayout.waitDuration,
         mode: LegMode.Wait,
-        icon: transitPresentation.waitIcon,
+        icon: transitLayout.waitIcon,
       });
     }
   });
@@ -280,10 +278,3 @@ export function getLegStripModel({ itinerary, intermediatePlaces, config, breakp
     rental: { network: bikeNetwork, networkCount: citybikeNetworks.size, icon: citybikeicon },
   };
 }
-
-/** Formats the untranslated vehicle descriptions produced by getLegStripModel. */
-export const formatVehicleNames = (formatMessage, vehicles) =>
-  vehicles.map(({ messageId, routeName }) => {
-    const name = formatMessage({ id: messageId });
-    return routeName === undefined ? name : `${name} ${routeName}`;
-  });
