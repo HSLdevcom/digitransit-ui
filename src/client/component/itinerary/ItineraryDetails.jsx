@@ -116,23 +116,14 @@ export default function ItineraryDetails({
   return (
     <div className="itinerary-tab">
       <h2 className="sr-only">
-        <FormattedMessage id="summary-page.row-label" values={{ number: tabIndex + 1 }} />
-        <FormattedMessage id="leaves">
-          {msg => (
-            <span id={`tab-${tabIndex}-context`}>{`, ${msg} ${legTimeStr(
-              itinerary.legs[0].start,
-            )}.`}</span>
-          )}
-        </FormattedMessage>
+        {intl.formatMessage({ id: 'summary-page.row-label' }, { number: tabIndex + 1 })}
+        <span id={`tab-${tabIndex}-context`}>
+          {`, ${intl.formatMessage({ id: 'leaves' })} ${legTimeStr(itinerary.legs[0].start)}.`}
+        </span>
       </h2>
       {breakpoint === 'large' && !hideTitle && (
         <div className="desktop-title">
-          <BackButton
-            title={
-              <FormattedMessage id="itinerary-page.title" defaultMessage="Itinerary suggestions" />
-            }
-            fallback="pop"
-          />
+          <BackButton title={<FormattedMessage id="itinerary-page.title" />} fallback="pop" />
         </div>
       )}
       <ItinerarySummary
@@ -180,10 +171,7 @@ export default function ItineraryDetails({
         )}
         {shouldShowDisclaimer && (
           <div className="itinerary-disclaimer">
-            <FormattedMessage
-              id="disclaimer"
-              defaultMessage="Results are based on estimated travel times"
-            />
+            <FormattedMessage id="disclaimer" />
           </div>
         )}
         {shouldShowFeedback && (
