@@ -24,6 +24,7 @@ import {
   legTime,
   markViaPoints,
   getBoardingLeg,
+  LegMode,
 } from '../../utils/legUtils';
 import { getTripOrRouteMode } from '../../utils/modeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
@@ -33,6 +34,15 @@ import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 const stopCode = stop => stop?.code && <StopCode code={stop.code} />;
+
+// there can be an arbitrary amount of interlining legs following the given leg
+function getInterliningLegs(legs, index) {
+  const interliningLegs = [];
+  for (let i = index + 1; legs[i]?.interlineWithPreviousLeg; i++) {
+    interliningLegs.push(legs[i]);
+  }
+  return interliningLegs;
+}
 
 export default function Legs({
   itinerary,
@@ -61,7 +71,7 @@ export default function Legs({
     focusToLeg(leg);
   };
 
-  const { waitThreshold } = config.itinerary;
+  const waitThresholdInMs = config.itinerary.waitThreshold * 1000;
   const { location } = match;
   const intermediatePlaces = getIntermediatePlaces(location.query);
   const itineraryLegs = markViaPoints(itinerary.legs, intermediatePlaces);
@@ -78,7 +88,44 @@ export default function Legs({
     return null;
   }
 
-  const bikeParked = compressedLegs.some(leg => leg.to.vehicleParking && leg.mode === 'BICYCLE');
+  const bikeParked = compressedLegs.some(
+    leg => leg.to.vehicleParking && leg.mode === LegMode.Bicycle,
+  );
+
+  // Returns a WaitLeg element when the passenger waits between the leg and the next one.
+  const createWaitLeg = (leg, nextLeg, j) => {
+    if (!nextLeg) {
+      return undefined;
+    }
+    const waitTime = legTime(nextLeg.start) - legTime(leg.end);
+    const isSameStopTransfer =
+      leg.transitLeg && nextLeg.transitLeg && leg.to.stop.gtfsId === nextLeg.from.stop.gtfsId;
+
+    if (
+      !(waitTime > waitThresholdInMs || isSameStopTransfer) ||
+      nextLeg.mode === LegMode.Airplane ||
+      leg.mode === LegMode.Airplane ||
+      nextLeg.intermediatePlace ||
+      nextLeg.interlineWithPreviousLeg ||
+      !leg.to.stop
+    ) {
+      return undefined;
+    }
+
+    return (
+      <WaitLeg
+        index={j}
+        leg={{ ...leg, isViaPoint: leg.isViaPoint || nextLeg.isViaPoint }}
+        start={leg.end}
+        waitTime={waitTime}
+        focusAction={focus(leg.to)}
+        icon={usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'}
+        hasPreviousTransitLeg={leg.transitLeg}
+      >
+        {stopCode(leg.to.stop)}
+      </WaitLeg>
+    );
+  };
 
   const legs = [];
 
@@ -87,19 +134,8 @@ export default function Legs({
     const nextLeg = compressedLegs[j + 1];
 
     const startTime = previousLeg?.end || leg.start;
-    let index = j;
-    const interliningLegs = [];
-    // there can be an arbitrary amount of interlining legs, search for the last one
-    while (compressedLegs[index + 1] && compressedLegs[index + 1].interlineWithPreviousLeg) {
-      interliningLegs.push(compressedLegs[index + 1]);
-      index += 1;
-    }
-
-    const isNextLegInterlining = nextLeg?.interlineWithPreviousLeg;
-    const bikePark = previousLeg?.mode === 'BICYCLE' && previousLeg.to.vehicleParking;
-    const carPark = previousLeg?.mode === 'CAR' && previousLeg.to.vehicleParking;
-    const isSameStopTransfer =
-      leg.transitLeg && nextLeg?.transitLeg && leg.to.stop.gtfsId === nextLeg.from.stop.gtfsId;
+    const bikePark = previousLeg?.mode === LegMode.Bicycle && previousLeg.to.vehicleParking;
+    const carPark = previousLeg?.mode === LegMode.Car && previousLeg.to.vehicleParking;
 
     const focusFrom = focus(leg.from);
     const legProps = { leg, index: j, focusAction: focusFrom, focusToLeg: focusLeg(leg) };
@@ -107,47 +143,17 @@ export default function Legs({
     const transitLegProps = {
       leg,
       index: j,
-      interliningLegs,
+      interliningLegs: leg.transitLeg ? getInterliningLegs(compressedLegs, j) : [],
       focusAction: focusFrom,
       changeHash,
       tabIndex,
       usingOwnCarWholeTrip,
     };
 
-    let waitLeg;
-    if (nextLeg) {
-      const waitThresholdInMs = waitThreshold * 1000;
-      const waitTime = legTime(nextLeg.start) - legTime(leg.end);
-
-      if (
-        (waitTime > waitThresholdInMs || isSameStopTransfer) &&
-        nextLeg.mode !== 'AIRPLANE' &&
-        leg.mode !== 'AIRPLANE' &&
-        !nextLeg.intermediatePlace &&
-        !isNextLegInterlining &&
-        leg.to.stop
-      ) {
-        const waitLegProps = { ...leg };
-
-        if (nextLeg.isViaPoint) {
-          waitLegProps.isViaPoint = true;
-          nextLeg.isViaPoint = false;
-        }
-
-        waitLeg = (
-          <WaitLeg
-            index={j}
-            leg={waitLegProps}
-            start={leg.end}
-            waitTime={waitTime}
-            focusAction={focus(leg.to)}
-            icon={usingOwnCarWholeTrip ? 'icon_wait-car' : 'icon_wait_standing'}
-            hasPreviousTransitLeg={leg.transitLeg}
-          >
-            {stopCode(leg.to.stop)}
-          </WaitLeg>
-        );
-      }
+    const waitLeg = createWaitLeg(leg, nextLeg, j);
+    if (waitLeg && nextLeg.isViaPoint) {
+      // the via point is shown on the wait leg instead of the next leg
+      nextLeg.isViaPoint = false;
     }
 
     if (isCallAgencyLeg(leg)) {
@@ -171,7 +177,7 @@ export default function Legs({
           {stopCode(leg.from.stop)}
         </WalkLeg>,
       );
-    } else if (leg.mode === 'AIRPLANE') {
+    } else if (leg.mode === LegMode.Airplane) {
       legs.push(
         <AirportCheckInLeg index={j - 0.5} leg={leg} start={startTime} focusAction={focusFrom} />,
       );
@@ -185,22 +191,18 @@ export default function Legs({
       );
 
       legs.push(<TransitLeg mode={mode} {...transitLegProps} />);
-    } else if (leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'SCOOTER') {
+    } else if (leg.rentedBike || leg.mode === LegMode.Bicycle || leg.mode === LegMode.Scooter) {
       let bicycleWalkLeg;
-
-      if (nextLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
-        bicycleWalkLeg = nextLeg;
-      }
-      if (previousLeg?.mode === 'BICYCLE_WALK' && !bikeParked) {
-        bicycleWalkLeg = previousLeg;
-      }
-      // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
-      // currently bike walk leg is not rendered if there is waiting at stop, because
-      // 'walk bike to train and wait x minutes' is too confusing instruction
-      // This cannot be fixed as long as bicycle leg renders also bike walking
-      const boardingLeg = getBoardingLeg(nextLeg, previousLeg, waitLeg, leg, 'BICYCLE_WALK');
-      if (!bikeParked && boardingLeg !== undefined) {
-        bicycleWalkLeg = boardingLeg;
+      if (!bikeParked) {
+        // if there is a transit leg after or before a bicycle leg, render a bicycle_walk leg without distance information
+        // currently bike walk leg is not rendered if there is waiting at stop, because
+        // 'walk bike to train and wait x minutes' is too confusing instruction
+        // This cannot be fixed as long as bicycle leg renders also bike walking
+        const boardingLeg = getBoardingLeg(nextLeg, previousLeg, waitLeg, leg, LegMode.BicycleWalk);
+        const adjacentBikeWalkLeg = [previousLeg, nextLeg].find(
+          l => l?.mode === LegMode.BicycleWalk,
+        );
+        bicycleWalkLeg = boardingLeg ?? adjacentBikeWalkLeg;
       }
 
       legs.push(
@@ -212,7 +214,7 @@ export default function Legs({
           relayEnvironment={relayEnvironment}
         />,
       );
-    } else if (leg.mode === 'CAR') {
+    } else if (leg.mode === LegMode.Car) {
       // If there is a transit leg after or before a car leg, render a car boarding leg without distance information.
       const carBoardingLeg = getBoardingLeg(nextLeg, previousLeg, waitLeg, leg, 'CAR_BOARDING');
       legs.push(
@@ -256,7 +258,7 @@ export default function Legs({
 
   legs.push(<Profile itinerary={itinerary} />);
 
-  const hasCallAgencyLeg = itinerary.legs.some(leg => isCallAgencyLeg(leg));
+  const hasCallAgencyLeg = compressedLegs.some(isCallAgencyLeg);
 
   return (
     <span
