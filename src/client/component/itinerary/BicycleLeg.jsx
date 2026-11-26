@@ -25,6 +25,7 @@ import PlatformNumber from '../PlatformNumber';
 import useNearestScooters from './useNearestScooters';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
+import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 
 export default function BicycleLeg({
   focusAction,
@@ -231,22 +232,14 @@ export default function BicycleLeg({
               <FormattedMessage
                 id="bicycle-walk-from-transit-no-duration"
                 values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
+                  transportMode: getFromLocalizedMode(bicycleWalkLeg.from.stop.vehicleMode, intl),
                 }}
               />
             ) : (
               <FormattedMessage
                 id="bicycle-walk-from-transit"
                 values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`from-${bicycleWalkLeg.from.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
+                  transportMode: getFromLocalizedMode(bicycleWalkLeg.from.stop.vehicleMode, intl),
                   duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),
@@ -306,22 +299,14 @@ export default function BicycleLeg({
               <FormattedMessage
                 id="bicycle-walk-to-transit-no-duration"
                 values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`to-${bicycleWalkLeg.to.stop?.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
+                  transportMode: getToLocalizedMode(bicycleWalkLeg.to.stop.vehicleMode, intl),
                 }}
               />
             ) : (
               <FormattedMessage
                 id="bicycle-walk-to-transit"
                 values={{
-                  transportMode: (
-                    <FormattedMessage
-                      id={`to-${bicycleWalkLeg.to.stop.vehicleMode.toLowerCase()}`}
-                    />
-                  ),
+                  transportMode: getToLocalizedMode(bicycleWalkLeg.to.stop.vehicleMode, intl),
                   duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
                   distance: displayDistance(
                     parseInt(bicycleWalkLeg.distance, 10),

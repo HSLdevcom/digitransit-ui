@@ -13,6 +13,7 @@ import LegCircleLineLong from './LegCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegArrowIcon from './LegArrowIcon';
+import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 
 export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {
   const intl = useIntl();
@@ -80,11 +81,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             <FormattedMessage
               id="car-drive-from-transit-no-duration"
               values={{
-                transportMode: (
-                  <FormattedMessage
-                    id={`from-${carBoardingLeg.from.stop.vehicleMode.toLowerCase()}`}
-                  />
-                ),
+                transportMode: getFromLocalizedMode(carBoardingLeg.from.stop.vehicleMode, intl),
               }}
             />
             <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
@@ -106,11 +103,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             <FormattedMessage
               id="car-drive-to-transit-no-duration"
               values={{
-                transportMode: (
-                  <FormattedMessage
-                    id={`to-${carBoardingLeg.to.stop?.vehicleMode.toLowerCase()}`}
-                  />
-                ),
+                transportMode: getToLocalizedMode(carBoardingLeg.to.stop.vehicleMode, intl),
               }}
             />
             <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />

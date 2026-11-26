@@ -331,3 +331,15 @@ export function modeToTranslationId(mode, config) {
   }
   return mode.toLowerCase();
 }
+
+export const getLocalizedMode = (mode, intl, config) => {
+  return intl.formatMessage({ id: modeToTranslationId(mode, config) });
+};
+
+export const getFromLocalizedMode = (mode, intl) => {
+  return intl.formatMessage({ id: `from-${mode.toLowerCase()}`, defaultMessage: `${mode}` });
+};
+
+export const getToLocalizedMode = (mode, intl) => {
+  return intl.formatMessage({ id: `to-${mode.toLowerCase()}`, defaultMessage: `${mode}` });
+};
