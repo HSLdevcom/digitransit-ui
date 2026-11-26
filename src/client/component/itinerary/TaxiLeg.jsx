@@ -128,7 +128,7 @@ export default function TaxiLeg(props) {
               <FormattedMessage
                 id="taxi-distance-duration"
                 values={{ distance, duration }}
-                defaultMessage="Travel for {distance} ({duration})}"
+                defaultMessage="Travel for {distance} ({duration})"
               />
               <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusToLeg} />
             </div>

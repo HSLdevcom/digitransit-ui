@@ -15,12 +15,12 @@ export default function CallAgencyLeg({ leg, ...props }) {
   const modeClassName = 'call';
   const { route } = leg;
   const mobile = breakpoint === 'small' || breakpoint === 'medium';
-  const notification =
-    config.showRouteDescNotification &&
-    route.desc?.length &&
-    config.flex.infoLanguage === intl.locale // No translations available in the data at the moment
-      ? { content: route.desc, link: route.url }
-      : { content: intl.formatMessage({ id: 'call-agency-disclaimer' }), link: '' };
+  // No translations available in the data at the moment
+  const hasDescription =
+    config.showRouteDescNotification && route.desc && config.flex.infoLanguage === intl.locale;
+  const notification = hasDescription
+    ? { content: route.desc, link: route.url }
+    : { content: intl.formatMessage({ id: 'call-agency-disclaimer' }), link: '' };
   const key = `callAgencyNotification-${route.gtfsId}`;
   const routeNumber = (
     <RouteNumberContainer
