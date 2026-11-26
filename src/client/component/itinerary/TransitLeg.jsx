@@ -97,6 +97,7 @@ export default function TransitLeg({
   const isRouteConstantOperation = config.constantOperationRoutes?.[leg.route.gtfsId];
 
   const isCallAgency = mode === 'call';
+  const routeColor = leg.route.color ? `#${leg.route.color}` : undefined;
 
   const displayAlternativeLegs =
     config.showAlternativeLegs &&
@@ -180,7 +181,7 @@ export default function TransitLeg({
         return (
           <IntermediateLeg
             placesCount={places.length}
-            color={leg.route.color ? `#${leg.route.color}` : undefined}
+            color={routeColor}
             key={place.stop.gtfsId}
             gtfsId={place.stop.gtfsId}
             mode={mode}
@@ -225,7 +226,7 @@ export default function TransitLeg({
         );
       }
 
-      if (mode !== 'call') {
+      if (!isCallAgency) {
         return (
           <div className="disclaimer-container unknown-fare-disclaimer__leg">
             <div className="description-container">
@@ -287,7 +288,7 @@ export default function TransitLeg({
   );
 
   const alerts = getActiveLegAlerts(leg, startMs / 1000);
-  const alert = alerts && alerts.length > 0 ? alerts.sort(alertSeverityCompare)[0] : undefined;
+  const alert = [...alerts].sort(alertSeverityCompare)[0];
   const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
 
   let alertSeverityDescription = null;
@@ -431,7 +432,7 @@ export default function TransitLeg({
         <ItineraryCircleLine
           index={index}
           modeClassName={modeClassName}
-          color={leg.route.color ? `#${leg.route.color}` : undefined}
+          color={routeColor}
           renderBottomMarker={
             !showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
@@ -442,7 +443,7 @@ export default function TransitLeg({
         />
 
         <div
-          style={{ color: leg.route.color ? `#${leg.route.color}` : undefined }}
+          style={{ color: routeColor }}
           className={cx(
             'small-9 columns itinerary-instruction-column',
             { first: index === 0 },
@@ -508,7 +509,7 @@ export default function TransitLeg({
               />
 
               <div className="stop-code-container">
-                {stopCode(leg.from.stop && leg.from.stop.code)}
+                {stopCode(leg.from.stop?.code)}
                 <PlatformNumber
                   number={leg.from.stop.platformCode}
                   short
