@@ -3,7 +3,6 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
-import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
@@ -19,13 +18,13 @@ import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import { getSettings } from '../../utils/planParamUtil';
-import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 import useNearestScooters from './useNearestScooters';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
 import BicycleWalkNote from './BicycleWalkNote';
+import ScooterSettingsPrompt from './ScooterSettingsPrompt';
 
 const rentedModes = { BICYCLE: 'CITYBIKE', WALK: 'CITYBIKE_WALK' };
 
@@ -202,37 +201,7 @@ export default function BicycleLeg({
           />
         )}
         {isScooter && !scooterSettingsOn && (
-          <div>
-            <div className={cx('itinerary-leg-action', 'scooter', 'itinerary-leg-action-content')}>
-              <FormattedMessage
-                id="settings-e-scooter-on"
-                defaultMessage="Turn scooter settings on permanently"
-              />
-              <ShowOnMapButton
-                target=""
-                ariaLabelId="itinerary-list-row.clickable-area-description"
-                focusAction={focusToLeg}
-              />
-            </div>
-            <div
-              role="button"
-              tabIndex="0"
-              onClick={() => openSettings(true, true)}
-              onKeyPress={e => isKeyboardSelectionEvent(e) && openSettings(true, true)}
-              className="itinerary-transit-leg-route-with-link"
-            >
-              <div className="itinerary-with-link">
-                <div className="itinerary-with-link-text-container">
-                  <span className={cx('settings')}>
-                    <FormattedMessage id="open-settings" defaultMessage="Go to settings" />
-                  </span>
-                </div>
-              </div>
-              <div className="link-to-e-scooter-operator">
-                <Icon img="icon_arrow-collapse--right" height={1} width={1} />
-              </div>
-            </div>
-          </div>
+          <ScooterSettingsPrompt focusToLeg={focusToLeg} openSettings={openSettings} />
         )}
         <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
           {stopsDescription}
