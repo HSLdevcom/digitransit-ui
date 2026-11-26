@@ -17,10 +17,9 @@ import {
   getActiveLegAlerts,
   getActiveLegAlertSeverityLevel,
   getMaximumAlertSeverityLevel,
-  hasEntitiesOfType,
 } from '../../utils/alertUtils';
 import { modeToTranslationId } from '../../utils/modeUtils';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../shared/utils/path';
+import { stopPagePath } from '../../../shared/utils/path';
 import { durationToString } from '../../utils/timeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
@@ -33,7 +32,6 @@ import {
   isLocalCallAgency,
 } from '../../utils/legUtils';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
-import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { legShape } from '../../utils/shapes';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -46,6 +44,8 @@ import {
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useCanceledStopIds from './useCanceledStopIds';
 import LegNotification from './LegNotification';
+import LegAlertLink from './LegAlertLink';
+import AlertSeverityDescription from './AlertSeverityDescription';
 import ZoneChange from './ZoneChange';
 import LegFareDisclaimer from './LegFareDisclaimer';
 import IntermediateStops from './IntermediateStops';
@@ -147,27 +147,6 @@ export default function TransitLeg({
   const alerts = getActiveLegAlerts(leg, startMs / 1000);
   const alert = [...alerts].sort(alertSeverityCompare)[0];
   const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
-
-  let alertSeverityDescription = null;
-  if (alertSeverityLevel) {
-    let id;
-    switch (alertSeverityLevel) {
-      case AlertSeverityLevelType.Info:
-        id = 'itinerary-details.route-has-info-alert';
-        break;
-      case AlertSeverityLevelType.Warning:
-        id = 'itinerary-details.route-has-warning-alert';
-        break;
-      case AlertSeverityLevelType.Severe:
-        id = 'itinerary-details.route-has-severe-alert';
-        break;
-      case AlertSeverityLevelType.Unknown:
-      default:
-        id = 'itinerary-details.route-has-unknown-alert';
-        break;
-    }
-    alertSeverityDescription = <FormattedMessage id={id} />;
-  }
 
   const hasNoShortName =
     leg.route.shortName &&
@@ -352,33 +331,7 @@ export default function TransitLeg({
             />
           )}
 
-          {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
-            alertSeverityLevel === AlertSeverityLevelType.Severe ||
-            alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
-            <div className="disruption disruption-link-container">
-              <Link
-                to={
-                  (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                    routePagePath(leg.route.gtfsId, PREFIX_DISRUPTION, leg.trip.pattern.code)) ||
-                  (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                    stopPagePath(false, alert.entities[0].gtfsId, PREFIX_DISRUPTION))
-                }
-                className="disruption-link"
-              >
-                <div className="disruption-icon">
-                  <ServiceAlertIcon className="inline-icon" severityLevel={alertSeverityLevel} />
-                </div>
-                <div className="description">
-                  {config.showAlertHeader ? alert.alertHeaderText : alert.alertDescriptionText}
-                </div>
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="disruption-link-arrow"
-                  color={config.colors.primary}
-                />
-              </Link>
-            </div>
-          )}
+          <LegAlertLink leg={leg} alert={alert} severityLevel={alertSeverityLevel} />
 
           {interliningLegs.length > 0 ? (
             <InterlineInfo
@@ -419,7 +372,7 @@ export default function TransitLeg({
           <LegFareDisclaimer leg={leg} mode={mode} />
         </div>
 
-        <span className="sr-only">{alertSeverityDescription}</span>
+        <AlertSeverityDescription severityLevel={alertSeverityLevel} />
       </div>
 
       {showIntermediateStops && (
