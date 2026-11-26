@@ -105,14 +105,14 @@ export default function LegInfo({
           aria-label={`${formatMessage({
             id: modeToTranslationId(mode, config),
             defaultMessage: 'Vehicle',
-          })} ${(leg.route.shortName || leg.trip?.tripShortName)?.toLowerCase()}`}
+          })} ${(leg.route.shortName || leg.trip.tripShortName)?.toLowerCase()}`}
         >
           <span aria-hidden="true">
             <RouteNumber
               mode={mode}
               alertSeverityLevel={alertSeverityLevel}
               color={leg.route.color ? `#${leg.route.color}` : undefined}
-              text={leg.route.shortName || leg.trip?.tripShortName}
+              text={leg.route.shortName || leg.trip.tripShortName}
               realtime={false}
               withBar
               fadeLong
