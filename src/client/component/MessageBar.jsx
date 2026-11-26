@@ -108,7 +108,7 @@ export default function MessageBar({ getServiceAlertsAsync = fetchServiceAlerts,
   const messages = useMessages();
   const duplicateMessageCounter = useDuplicateMessageCounter();
   const { markMessageAsRead } = useMessageActions();
-  const { language: lang } = config;
+  const { locale } = intl;
   const [slideIndex, setSlideIndex] = useState(0);
   const [allAlertsOpen, setAllAlertsOpen] = useState(false);
   const [ready, setReady] = useState(false);
@@ -161,9 +161,9 @@ export default function MessageBar({ getServiceAlertsAsync = fetchServiceAlerts,
       alert => readMessageIds.indexOf(getServiceAlertId(alert)) === -1,
     );
     return [
-      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config, lang)),
+      ...filteredServiceAlerts.map(alert => toMessage(alert, intl, config, locale)),
       ...messages,
-    ].filter(el => hasContent(el, lang));
+    ].filter(el => hasContent(el, locale));
   };
 
   const getTabContent = (textColor, index) =>
@@ -171,7 +171,7 @@ export default function MessageBar({ getServiceAlertsAsync = fetchServiceAlerts,
       <div key={el.id} className={`swipeable-tab ${index !== i && 'inactive'}`}>
         <MessageBarMessage
           key={el.id}
-          content={resolveContent(el, lang, intl)}
+          content={resolveContent(el, locale, intl)}
           textColor={textColor}
           truncate={!allAlertsOpen}
           onShowMore={openAllAlerts}
@@ -220,7 +220,7 @@ export default function MessageBar({ getServiceAlertsAsync = fetchServiceAlerts,
   return (
     <>
       <span className="sr-only" role="alert">
-        {currentMessages.map(el => ariaContent(resolveContent(el, lang, intl), el.id))}
+        {currentMessages.map(el => ariaContent(resolveContent(el, locale, intl), el.id))}
       </span>
       <section
         key={duplicateMessageCounter}

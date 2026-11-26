@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import Icon from '../../Icon';
 import SettingsToggle from './SettingsToggle';
 import {
@@ -16,6 +17,7 @@ import { useConfigContext } from '../../../hooks/ConfigContext';
 
 export default function NetworkSelector({ type, updateSettings }) {
   const config = useConfigContext();
+  const { locale } = useIntl();
   const networks = mapDefaultNetworkProperties(config).filter(
     network => network.type === type.toLowerCase(),
   );
@@ -27,10 +29,7 @@ export default function NetworkSelector({ type, updateSettings }) {
     <>
       {networks.map(network => (
         <SettingsToggle
-          label={getRentalNetworkName(
-            getRentalNetworkConfig(network.networkName, config),
-            config.language,
-          )}
+          label={getRentalNetworkName(getRentalNetworkConfig(network.networkName, config), locale)}
           key={`toggle-network-${network.networkName}`}
           leftElement={
             <Icon

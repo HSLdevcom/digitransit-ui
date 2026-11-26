@@ -1,6 +1,6 @@
 import { DateTime } from 'luxon';
 import * as getGeocodingResultsModule from '@digitransit-search-util/digitransit-search-util-get-geocoding-results';
-import legacyParamParser from '../../../../src/shared/utils/legacyParamParser';
+import legacyParamParser from '../../../../src/server/utils/legacyParamParser';
 import defaultConfig from '../../../../src/server/configs/config.default';
 import { PREFIX_ITINERARY_SUMMARY } from '../../../../src/shared/utils/path';
 

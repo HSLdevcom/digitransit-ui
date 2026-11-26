@@ -110,6 +110,14 @@ export function getNamedConfiguration(configName) {
       config.searchParams = config.searchParams || {};
       config.searchParams['boundary.polygon'] = pointsParam;
     }
+    if (baseConfig && additionalConfig?.colors?.primary) {
+      // the cached base config has derived colors of its own primary; derive them again
+      ['accessiblePrimary', 'hover'].forEach(key => {
+        if (!additionalConfig.colors[key]) {
+          delete config.colors[key];
+        }
+      });
+    }
     if (!config.colors.accessiblePrimary) {
       config.colors.accessiblePrimary = config.colors.primary;
     }

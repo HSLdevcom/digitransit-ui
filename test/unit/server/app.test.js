@@ -1,5 +1,5 @@
 import request from 'supertest';
-import fs from 'fs';
+import fs, { existsSync, readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import createApp, { onError } from '../../../src/server/app';
 
@@ -11,42 +11,26 @@ import createApp, { onError } from '../../../src/server/app';
 // src/server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
-// per request in dev mode, hence the placeholder fixture below.
+// per request in dev mode, hence the readFileSync stub below.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
-
-// Stands in for the real OIDC setup (which needs Redis and an OIDC
-// provider): registers a route that, like the real /login and /logout,
-// reads req.cookies.
-vi.mock('../../../src/server/passport-openid-connect/openidConnect', () => ({
-  default: app => {
-    app.get('/login', (req, res) => res.send(req.cookies.lang));
-    return undefined;
-  },
-}));
 
 afterAll(() => {
   vi.unstubAllEnvs();
 });
 
 describe('server app', () => {
-  const staticDir = path.join(process.cwd(), '_static', 'assets');
-  const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
-  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
+  const spritePath = path.join(process.cwd(), '_static', 'assets', 'svg-sprite.default.svg');
   let app;
 
   beforeAll(() => {
-    fs.mkdirSync(staticDir, { recursive: true });
-    fs.writeFileSync(spriteFixturePath, '<svg></svg>');
-
     vi.stubEnv('CONFIG', undefined);
     ({ app } = createApp());
   });
 
-  afterAll(() => {
-    fs.rmSync(spriteFixturePath, { force: true });
-    if (!staticDirPreexisted) {
-      fs.rmSync(path.join(process.cwd(), '_static'), { recursive: true, force: true });
-    }
+  beforeEach(() => {
+    vi.spyOn(fs, 'readFileSync').mockImplementation((file, ...args) =>
+      file === spritePath ? Buffer.from('<svg></svg>') : readFileSync(file, ...args),
+    );
   });
 
   afterEach(() => {
@@ -60,10 +44,15 @@ describe('server app', () => {
     });
   });
 
-  describe('repeated slashes in redirect path', () => {
+  describe('repeated slashes', () => {
+    it('permanently redirects to single slashes, keeping the query', async () => {
+      const response = await request(app).get('//sv//reitti?a=b');
+      expect(response.status).toBe(301);
+      expect(response.headers.location).toBe('/sv/reitti?a=b');
+    });
+
     it('does not redirect to a protocol-relative URL', async () => {
-      const response = await request(app).get('//example.com/x?time=abc');
-      expect(response.status).toBe(302);
+      const response = await request(app).get('//example.com/x');
       expect(response.headers.location).toBe('/example.com/x');
     });
   });
@@ -79,24 +68,24 @@ describe('server app', () => {
   });
 
   describe('/favicon.ico', () => {
-    // Configs are cached on first use, so the icon directory must exist
-    // before the first tampere request. A real build may have left one too,
-    // hence the pattern rather than the fixture's exact name.
-    const iconDir = path.join(staticDir, 'icons-tampere-fixture');
+    // Configs are cached on first use, so the icon directory must be listed
+    // before the first tampere request.
+    const assetsDir = path.join(process.cwd(), '_static', 'assets');
 
-    beforeAll(() => {
-      fs.mkdirSync(iconDir, { recursive: true });
-    });
-
-    afterAll(() => {
-      fs.rmSync(iconDir, { recursive: true, force: true });
+    beforeEach(() => {
+      vi.spyOn(fs, 'existsSync').mockImplementation(file =>
+        file === assetsDir ? true : existsSync(file),
+      );
+      vi.spyOn(fs, 'readdirSync').mockImplementation((dir, ...args) =>
+        dir === assetsDir ? ['icons-tampere-fixture'] : readdirSync(dir, ...args),
+      );
     });
 
     it("redirects to the requesting config's generated favicon", async () => {
       vi.stubEnv('CONFIG', 'tampere');
       const response = await request(app).get('/favicon.ico');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toMatch(/^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/);
+      expect(response.headers.location).toBe('/assets/icons-tampere-fixture/favicon.ico');
     });
   });
 
@@ -108,39 +97,77 @@ describe('server app', () => {
       expect(response.text).toContain('<!doctype html>');
       expect(response.text).toContain('window.config=');
       expect(response.text).toContain('<div id="app"');
+      expect(response.headers['cache-control']).toBe('private, no-cache');
+    });
+  });
+
+  describe('language links for search engines', () => {
+    const linksOf = html =>
+      [...html.matchAll(/<link rel="(alternate|canonical)"[^>]*>/g)].map(([tag]) => tag);
+
+    it('links every language version, x-default and the canonical URL, without the query', async () => {
+      const response = await request(app)
+        .get('/en/reitti/a/b?time=1&arriveBy=true&utm_source=x&homescreen=1')
+        .set('Host', 'example.com');
+      expect(linksOf(response.text)).toEqual([
+        '<link rel="alternate" hreflang="fi" href="https://example.com/reitti/a/b" />',
+        '<link rel="alternate" hreflang="sv" href="https://example.com/sv/reitti/a/b" />',
+        '<link rel="alternate" hreflang="en" href="https://example.com/en/reitti/a/b" />',
+        '<link rel="alternate" hreflang="x-default" href="https://example.com/reitti/a/b" />',
+        '<link rel="canonical" href="https://example.com/en/reitti/a/b" />',
+      ]);
+    });
+
+    it('uses the root for the front page', async () => {
+      const response = await request(app).get('/sv').set('Host', 'example.com');
+      const links = linksOf(response.text);
+      expect(links).toContain('<link rel="alternate" hreflang="fi" href="https://example.com/" />');
+      expect(links).toContain('<link rel="canonical" href="https://example.com/sv/" />');
+    });
+
+    it('escapes the request URL in og:url', async () => {
+      const response = await request(app).get('/x?a=1&b=2').set('Host', 'example.com');
+      expect(response.text).toContain(
+        '<meta property="og:url" content="https://example.com/x?a=1&amp;b=2"',
+      );
+    });
+
+    it('keeps crafted paths inside the attribute', async () => {
+      const response = await request(app).get('/x"><y').set('Host', 'example.com');
+      expect(linksOf(response.text)).toContain(
+        '<link rel="canonical" href="https://example.com/x%22%3E%3Cy" />',
+      );
     });
   });
 
   describe('the page language', () => {
-    it("serializes the request's cookie language into window.config", async () => {
-      const response = await request(app).get('/').set('Cookie', 'lang=sv');
-      expect(response.text).toContain('"language":"sv"');
+    it('renders the URL language as <html lang>, not into window.config', async () => {
+      const response = await request(app).get('/sv/');
+      expect(response.status).toBe(200);
+      expect(response.text).toContain('<html lang="sv">');
+      expect(response.text).not.toContain('"language":');
     });
-  });
 
-  describe('legacy locale path redirects', () => {
-    it('redirects /fi/ to /?locale=fi for a deployment with redirectReittiopasParams enabled', async () => {
-      vi.stubEnv('CONFIG', 'hsl');
+    it('serves the default language without a prefix, ignoring cookies and Accept-Language', async () => {
+      const response = await request(app)
+        .get('/')
+        .set('Cookie', 'lang=sv')
+        .set('Accept-Language', 'en-GB,en;q=0.9');
+      expect(response.text).toContain('<html lang="fi">');
+      expect(response.headers['set-cookie']).toBeUndefined();
+    });
+
+    it('permanently redirects /fi/ to /', async () => {
       const response = await request(app).get('/fi/');
-      expect(response.status).toBe(302);
-      expect(response.headers.location).toBe('/?locale=fi');
+      expect(response.status).toBe(301);
+      expect(response.headers.location).toBe('/');
     });
-  });
-});
 
-describe('OIDC routes', () => {
-  afterEach(() => {
-    vi.stubEnv('OIDC_CLIENT_ID', undefined);
-  });
-
-  it('can read cookies, since cookie parsing is registered before them', async () => {
-    vi.stubEnv('OIDC_CLIENT_ID', 'test-client');
-    const { app } = createApp();
-
-    const response = await request(app).get('/login').set('Cookie', 'lang=sv');
-
-    expect(response.status).toBe(200);
-    expect(response.text).toBe('sv');
+    it('keeps the language prefix in legacy URL redirects', async () => {
+      const response = await request(app).get('/en/reitti?time=x&a=b');
+      expect(response.status).toBe(302);
+      expect(response.headers.location).toBe('/en/reitti?a=b');
+    });
   });
 });
 

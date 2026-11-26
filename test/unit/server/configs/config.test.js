@@ -42,6 +42,26 @@ describe('config', () => {
     });
   });
 
+  describe('getNamedConfiguration with BASE_CONFIG', () => {
+    afterEach(() => {
+      vi.unstubAllEnvs();
+      vi.resetModules();
+    });
+
+    it('derives accessiblePrimary and hover from the config own primary color', async () => {
+      vi.resetModules();
+      vi.stubEnv('BASE_CONFIG', 'default');
+      const { getNamedConfiguration } = await import('../../../../src/server/configs/config');
+      const baseHover = getNamedConfiguration('default').colors.hover; // fills the base config cache
+      const { colors } = getNamedConfiguration('oulu');
+
+      expect(colors.primary).toBe('#e10669');
+      expect(colors.accessiblePrimary).toBe('#e10669');
+      expect(colors.hover).not.toBe(baseHover);
+      expect(getNamedConfiguration('hsl').colors.accessiblePrimary).toBe('#0074be');
+    });
+  });
+
   describe('loadAllRawConfigurations', () => {
     it('loads every region config file, but not the shared config.js module', async () => {
       const configs = await loadAllRawConfigurations();

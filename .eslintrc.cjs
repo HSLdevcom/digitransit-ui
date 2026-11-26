@@ -1,3 +1,11 @@
+// Extended below instead of replaced, so Airbnb's entries keep applying.
+const airbnbRestrictedSyntax = require('eslint-config-airbnb-base/rules/style').rules[
+  'no-restricted-syntax'
+];
+
+const BROWSER_URL_MESSAGE =
+  'Use match.location for app logic, or router.createHref for the browser URL.';
+
 module.exports = {
   parser: '@babel/eslint-parser',
   reportUnusedDisableDirectives: true,
@@ -104,6 +112,27 @@ module.exports = {
       // is legitimate there, and browser-compatibility checks don't apply.
       files: ['src/server/**/*.js', 'scripts/**/*.js'],
       rules: { 'no-console': 'off', 'compat/compat': 'off' },
+    },
+    {
+      // Client code reads the router location: match.location for app logic,
+      // router.createHref for a real URL.
+      files: ['src/client/**/*.{js,jsx}'],
+      rules: {
+        'no-restricted-syntax': [
+          ...airbnbRestrictedSyntax,
+          // Reads of the browser URL; assigning `window.location.href` navigates and is fine.
+          {
+            selector:
+              "MemberExpression[object.object.name=/^(window|document)$/][object.property.name='location'][property.name=/^(pathname|search|href)$/]:not(AssignmentExpression > MemberExpression.left)",
+            message: BROWSER_URL_MESSAGE,
+          },
+          {
+            selector:
+              "VariableDeclarator[init.object.name=/^(window|document)$/][init.property.name='location'] > ObjectPattern > Property[key.name=/^(pathname|search|href)$/]",
+            message: BROWSER_URL_MESSAGE,
+          },
+        ],
+      },
     },
     { files: ['*.js', '*.jsx'], processor: '@graphql-eslint/graphql' },
     {

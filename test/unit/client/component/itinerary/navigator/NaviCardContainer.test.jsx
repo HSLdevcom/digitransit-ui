@@ -17,7 +17,6 @@ const config = {
   colors: { bus: '#007ac9', primary: '#000000' },
   feedIds: [],
   zones: {},
-  language: 'en',
 };
 
 const settings = { minTransferTime: 3 * 60000 };

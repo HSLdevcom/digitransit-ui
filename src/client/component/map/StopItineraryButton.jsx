@@ -13,6 +13,7 @@ import {
   PREFIX_ITINERARY_SUMMARY,
 } from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import { hslfiLocale } from '../../utils/hslfiLocale';
 
 // The place type decides the wording of the button and the dialog title.
 // Keys: route-to-<type> and set-<type>-as-routes
@@ -85,13 +86,13 @@ export default function StopItineraryButton({ stop, citybike = false, scooter = 
         <FormattedMessage id={`route-to-${placeType}`} defaultMessage="Route to the stop" />
       </button>
       {showModal && (
-        <Modal lang={config.language} open onOpenChange={closeModal}>
+        <Modal lang={hslfiLocale} open onOpenChange={closeModal}>
           <ModalContent
             title={intl.formatMessage({
               id: `set-${placeType}-as-routes`,
               defaultMessage: "Set the stop as route's",
             })}
-            lang={config.language}
+            lang={hslfiLocale}
             className="stop-itinerary-modal-sheet"
             onCloseAutoFocus={e => {
               e.preventDefault();

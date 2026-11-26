@@ -110,7 +110,7 @@ export default configMerger(walttiConfig, {
       {
         header: 'Om tjänsten',
         paragraphs: [
-          'Den här tjänsten erbjuds av Uleåborgregionens trafik för reseplanering inom Oulu, Karlö, Ii, Kempele, Limingo, Lumijoki, Muhos och Tyrnävä region.',
+          'Den här tjänsten erbjuds av Uleåborgregionens trafik för reseplanering inom Uleåborg, Karlö, Ii, Kempele, Limingo, Lumijoki, Muhos och Tyrnävä region.',
         ],
       },
     ],

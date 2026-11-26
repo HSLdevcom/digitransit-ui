@@ -21,15 +21,13 @@ afterAll(() => {
   Link.render = previousLinkRender;
 });
 
-const config = {
-  CONFIG: 'default',
-  URL: {},
-  language: 'fi',
-  colors: { primary: '#007ac9', caution: '#dc0451' },
-};
+const config = { CONFIG: 'default', URL: {}, colors: { primary: '#007ac9', caution: '#dc0451' } };
 
 const render = props =>
-  renderWithProviders(<AlertBanner linkAddress="/pysakit/HSL:1" {...props} />, { config });
+  renderWithProviders(<AlertBanner linkAddress="/pysakit/HSL:1" {...props} />, {
+    config,
+    locale: 'fi',
+  });
 
 describe('<AlertBanner />', () => {
   it('should render nothing if the alert has no header or description', () => {
