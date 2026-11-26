@@ -32,7 +32,7 @@ import BikeParkLeg from './BikeParkLeg';
 import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
+const stopCode = stop => stop?.code && <StopCode code={stop.code} />;
 
 export default function Legs({
   itinerary,
