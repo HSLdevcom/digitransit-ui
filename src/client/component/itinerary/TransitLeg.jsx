@@ -65,7 +65,7 @@ const filterNextLegs = l => {
 
 export default function TransitLeg({
   leg,
-  interliningLegs = [],
+  interliningLegs,
   index,
   mode,
   focusAction,
@@ -390,7 +390,7 @@ export default function TransitLeg({
 
 TransitLeg.propTypes = {
   leg: legShape.isRequired,
-  interliningLegs: PropTypes.arrayOf(legShape),
+  interliningLegs: PropTypes.arrayOf(legShape).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,
