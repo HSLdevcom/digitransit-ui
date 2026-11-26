@@ -9,6 +9,7 @@ import { legShape, parkShape } from '../../utils/shapes';
 import { durationToString } from '../../utils/timeUtils';
 import Icon from '../Icon';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
 import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -33,9 +34,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
           }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{time}</div>
-      </div>
+      <LegTimeColumn time={time} />
       <LegCircleLineWithIcon
         bikePark
         index={index}

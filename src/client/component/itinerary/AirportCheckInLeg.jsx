@@ -4,6 +4,7 @@ import { Link } from 'found';
 import { legShape, legTimeShape } from '../../utils/shapes';
 import { legTimeStr } from '../../utils/legUtils';
 import LegCircleLine from './LegCircleLine';
+import LegTimeColumn from './LegTimeColumn';
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import { stopPagePath } from '../../../shared/utils/path';
@@ -16,9 +17,8 @@ export default function AirportCheckInLeg({ leg, start, focusAction, index, chil
   const { name } = leg.from;
   return (
     <div className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
-      </div>
+      <span className="sr-only">{legTimeStr(start)}</span>
+      <LegTimeColumn time={legTimeStr(start)} />
       <LegCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}

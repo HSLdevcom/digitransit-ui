@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import Link from 'found/Link';
-import { Text } from '@hsl-fi/layout-primitives';
 import { legShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
@@ -18,6 +17,7 @@ import {
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
 import PlatformNumber from '../PlatformNumber';
 import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
@@ -130,30 +130,11 @@ export default function WalkLeg({
           }}
         />
       </span>
-      <div
-        className={cx('small-2', 'columns', 'itinerary-time-column', {
-          'has-estimate': previousLeg && isCallAgencyLeg(previousLeg),
-        })}
-        aria-hidden="true"
-      >
-        <div className="itinerary-time-column-time-group">
-          <div className="itinerary-time-column-time">
-            <span className={cx({ realtime: previousLeg?.realTime })}>
-              {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
-            </span>
-          </div>
-          {previousLeg && isCallAgencyLeg(previousLeg) && (
-            <Text
-              as="span"
-              variant="routes-xxs"
-              color="weak"
-              className="itinerary-time-column-estimate"
-            >
-              <FormattedMessage id="estimate" />
-            </Text>
-          )}
-        </div>
-      </div>
+      <LegTimeColumn
+        time={leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
+        estimate={!!previousLeg && isCallAgencyLeg(previousLeg)}
+        realTime={!!previousLeg?.realTime}
+      />
       <LegCircleLineWithIcon
         appendClass={appendClass}
         index={index}

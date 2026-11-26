@@ -8,6 +8,7 @@ import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
 import { PREFIX_CARPARK } from '../../../shared/utils/path';
 import LegCircleLine from './LegCircleLine';
 import { legTimeStr, legDestination } from '../../utils/legUtils';
@@ -37,9 +38,7 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
           />
         )}
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
-      </div>
+      <LegTimeColumn time={legTimeStr(leg.start)} />
       {noWalk ? (
         <LegCircleLine
           index={index}

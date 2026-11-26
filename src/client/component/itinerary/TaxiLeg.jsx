@@ -12,6 +12,7 @@ import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/leg
 import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import LegCircleLine from './LegCircleLine';
+import LegTimeColumn from './LegTimeColumn';
 
 export default function TaxiLeg(props) {
   const intl = useIntl();
@@ -50,9 +51,7 @@ export default function TaxiLeg(props) {
     <>
       {index === 0 && (
         <div key="taxi-start" className="row itinerary-row">
-          <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-            <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
-          </div>
+          <LegTimeColumn time={legTimeStr(props.leg.start)} />
           <LegCircleLine
             index={index}
             modeClassName="walk"
@@ -96,9 +95,7 @@ export default function TaxiLeg(props) {
             }}
           />
         </span>
-        <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-          <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
-        </div>
+        <LegTimeColumn time={legTimeStr(props.leg.start)} />
         <LegCircleLineWithIcon
           index={props.index}
           modeClassName={modeClassName}

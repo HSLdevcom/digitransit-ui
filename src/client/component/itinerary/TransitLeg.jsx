@@ -2,7 +2,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
 import LegCircleLine from './LegCircleLine';
 import ShowOnMapButton from './ShowOnMapButton';
@@ -41,6 +40,7 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import useCanceledStopIds from './useCanceledStopIds';
 import LegNotification from './LegNotification';
 import LegOrigin from './LegOrigin';
+import LegTimeColumn from './LegTimeColumn';
 import LegAlertLink from './LegAlertLink';
 import AlertSeverityDescription from './AlertSeverityDescription';
 import ZoneChange from './ZoneChange';
@@ -146,35 +146,14 @@ export default function TransitLeg({
     <>
       <div className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
-        <div
-          className={cx('small-2', 'columns', 'itinerary-time-column', {
-            'has-estimate': isCallAgency,
-          })}
-        >
-          <span className="sr-only">
-            {`${intl.formatMessage({
-              id: modeToTranslationId(mode, config),
-            })} ${leg.route.shortName || ''} ${headsign || ''}`}
-          </span>
-          <span aria-hidden="true">
-            <div className="itinerary-time-column-time-group">
-              <div className="itinerary-time-column-time">
-                <span className={cx({ realtime: leg.realTime })}>{time}</span>
-              </div>
-              {isCallAgency && (
-                <Text
-                  as="span"
-                  variant="routes-xxs"
-                  color="weak"
-                  className="itinerary-time-column-estimate"
-                >
-                  <FormattedMessage id="estimate" />
-                </Text>
-              )}
-            </div>
-            <ZoneChange leg={leg} showIntermediateStops={showIntermediateStops} />
-          </span>
-        </div>
+        <span className="sr-only">
+          {`${intl.formatMessage({
+            id: modeToTranslationId(mode, config),
+          })} ${leg.route.shortName || ''} ${headsign || ''}`}
+        </span>
+        <LegTimeColumn time={time} estimate={isCallAgency} realTime={leg.realTime}>
+          <ZoneChange leg={leg} showIntermediateStops={showIntermediateStops} />
+        </LegTimeColumn>
 
         <span className="sr-only">{textVersionAfterLink}</span>
 

@@ -9,6 +9,7 @@ import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLine from './LegCircleLine';
+import LegTimeColumn from './LegTimeColumn';
 import LegCircleLineLong from './LegCircleLineLong';
 import { stopPagePath } from '../../../shared/utils/path';
 import {
@@ -174,9 +175,7 @@ export default function BicycleLeg({
           }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{time}</div>
-      </div>
+      <LegTimeColumn time={time} />
       {circleLine}
 
       <div

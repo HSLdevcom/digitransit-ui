@@ -8,6 +8,7 @@ import ShowOnMapButton from './ShowOnMapButton';
 import { parseLocation } from '../../../shared/utils/path';
 import { timeStr } from '../../utils/timeUtils';
 import { getValidatedLegName } from '../../utils/legUtils';
+import LegTimeColumn from './LegTimeColumn';
 
 export default function EndLeg(props) {
   const match = useMatch();
@@ -30,9 +31,7 @@ export default function EndLeg(props) {
           values={{ time, destination: props.to.name }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{time}</div>
-      </div>
+      <LegTimeColumn time={time} />
       <div className={`leg-before ${modeClassName}`} aria-hidden="true">
         <div className={`leg-before-circle circle ${modeClassName}`} />
         <div className="itinerary-icon-container">

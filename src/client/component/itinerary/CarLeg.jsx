@@ -7,6 +7,7 @@ import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import LegCircleLineLong from './LegCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
@@ -56,9 +57,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
           }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
-      </div>
+      <LegTimeColumn time={legTimeStr(leg.start)} />
       {circleLine}
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}

@@ -5,6 +5,7 @@ import { legShape } from '../../utils/shapes';
 import { legTimeStr } from '../../utils/legUtils';
 import Icon from '../Icon';
 import LegCircleLine from './LegCircleLine';
+import LegTimeColumn from './LegTimeColumn';
 import ShowOnMapButton from './ShowOnMapButton';
 import { stopPagePath } from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -16,9 +17,8 @@ export default function AirportCollectLuggageLeg({ index, leg, focusAction, chil
   const { name } = leg.to;
   return (
     <div className="row itinerary-row">
-      <div className="small-2 columns itinerary-time-column">
-        <div className="itinerary-time-column-time">{legTimeStr(leg.end)}</div>
-      </div>
+      <span className="sr-only">{legTimeStr(leg.end)}</span>
+      <LegTimeColumn time={legTimeStr(leg.end)} />
       <LegCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}

@@ -11,6 +11,7 @@ import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/le
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { ViaLocationType } from '../../../shared/utils/constants';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegTimeColumn from './LegTimeColumn';
 
 export default function WaitLeg({
   children,
@@ -36,9 +37,7 @@ export default function WaitLeg({
           values={{ duration: durationToString(intl, waitTime) }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
-      </div>
+      <LegTimeColumn time={legTimeStr(start)} />
       <LegCircleLineWithIcon
         modeClassName={modeClassName}
         index={index}
