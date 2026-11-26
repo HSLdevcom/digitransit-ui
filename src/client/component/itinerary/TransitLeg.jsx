@@ -154,13 +154,11 @@ export default function TransitLeg({
     ) {
       const places = leg.intermediatePlaces.slice();
 
-      if (interliningLegs) {
-        let previousLeg = leg;
-        interliningLegs.forEach(iLeg => {
-          places.push({ ...previousLeg.to, arrival: previousLeg.end }, ...iLeg.intermediatePlaces);
-          previousLeg = iLeg;
-        });
-      }
+      let previousLeg = leg;
+      interliningLegs.forEach(iLeg => {
+        places.push({ ...previousLeg.to, arrival: previousLeg.end }, ...iLeg.intermediatePlaces);
+        previousLeg = iLeg;
+      });
 
       const stopList = places.map((place, i, array) => {
         const isFirstPlace = i === 0;
@@ -237,7 +235,7 @@ export default function TransitLeg({
               <FormattedMessage id="separate-ticket-required" />
             </div>
             <div className="ticket-info">
-              <div className="accent">{leg.from.name.concat(' - ').concat(leg.to.name)}</div>
+              <div className="accent">{`${leg.from.name} - ${leg.to.name}`}</div>
               {leg.fare.agency && !config.hideExternalOperator(leg.fare.agency) && (
                 <>
                   {leg.fare.agency.name}
@@ -322,13 +320,10 @@ export default function TransitLeg({
 
   const headsign = getLegHeadsign(leg);
 
-  let intermediateStopCount = leg.intermediatePlaces.length;
-  if (interliningLegs) {
-    intermediateStopCount = interliningLegs.reduce(
-      (prev, curr) => prev + curr.intermediatePlaces.length + 1,
-      leg.intermediatePlaces.length,
-    );
-  }
+  const intermediateStopCount = interliningLegs.reduce(
+    (prev, curr) => prev + curr.intermediatePlaces.length + 1,
+    leg.intermediatePlaces.length,
+  );
 
   const { showBikeBoardingInformation, showCarBoardingInformation } = leg;
 
@@ -386,7 +381,7 @@ export default function TransitLeg({
               'no-header': !notification.header,
               'no-link': !notification.link,
             })}
-            key={`note-${index}`}
+            key={`note-${i}`}
           >
             {notification.link
               ? createNotificationWithLink(notification)
@@ -399,7 +394,7 @@ export default function TransitLeg({
 
   return (
     <>
-      <div key={index} className="row itinerary-row">
+      <div className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
         <div
           className={cx('small-2', 'columns', 'itinerary-time-column', {
