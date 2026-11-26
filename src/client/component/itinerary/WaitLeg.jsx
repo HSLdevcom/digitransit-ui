@@ -22,21 +22,18 @@ export default function WaitLeg({
   hasPreviousTransitLeg = false,
 }) {
   const intl = useIntl();
-  const modeClassName = 'wait';
   const legName = getValidatedLegName(leg.to.name, intl, true);
+  const duration = durationToString(intl, waitTime);
   const [address, place] = splitStringToAddressAndPlace(legName);
 
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
-        <FormattedMessage
-          id="wait-amount-of-time"
-          values={{ duration: durationToString(intl, waitTime) }}
-        />
+        <FormattedMessage id="wait-amount-of-time" values={{ duration }} />
       </span>
       <LegTimeColumn time={legTimeStr(start)} />
       <LegCircleLineWithIcon
-        modeClassName={modeClassName}
+        modeClassName="wait"
         index={index}
         icon={icon}
         isNotFirstLeg
@@ -60,14 +57,10 @@ export default function WaitLeg({
             )}
             <div className="stop-code-container">{children}</div>
           </div>
-          <ShowOnMapButton target={legName || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={legName} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
-          <FormattedMessage
-            id="wait-amount-of-time"
-            values={{ duration: `(${durationToString(intl, waitTime)})` }}
-            defaultMessage="Wait {duration}"
-          />
+          <FormattedMessage id="wait-amount-of-time" values={{ duration: `(${duration})` }} />
           <ShowOnMapButton target="" focusAction={focusAction} />
         </div>
       </div>
