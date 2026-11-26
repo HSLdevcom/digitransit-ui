@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import Link from 'found/Link';
-import { fetchQuery } from 'react-relay';
 import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import Icon from '../Icon';
@@ -24,7 +22,7 @@ import { getSettings } from '../../utils/planParamUtil';
 import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
-import nearestQuery from './NearestQuery';
+import useNearestScooters from './useNearestScooters';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function BicycleLeg({
@@ -60,11 +58,12 @@ export default function BicycleLeg({
   const isScooter = networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
   const scooterSettingsOn = settings.scooterNetworks?.length > 0;
-  const LOADSTATE = { UNSET: 'unset', DONE: 'done' };
-  const [nearestScooterState, setNearestScooterState] = useState({
-    nearest: [],
-    loading: LOADSTATE.UNSET,
-  });
+  const nearestScooters = useNearestScooters(
+    relayEnvironment,
+    leg.from,
+    rentalVehicleNetwork,
+    !!isScooter,
+  );
 
   if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
     modeClassName = leg.mode.toLowerCase();
@@ -109,11 +108,7 @@ export default function BicycleLeg({
   }
 
   if (isScooter) {
-    const style = {
-      '--scooter-amount': nearestScooterState.nearest?.length
-        ? `${nearestScooterState.nearest?.length}%`
-        : '0%',
-    };
+    const style = { '--scooter-amount': `${nearestScooters.length}%` };
 
     circleLine = (
       <LegCircleLineWithIcon
@@ -162,50 +157,6 @@ export default function BicycleLeg({
       : address;
   const destination = bicycleWalkLeg?.to.stop ? bicycleWalkLeg?.to.name : leg.to.name;
 
-  async function makeNearestScooterQuery(from) {
-    const planParams = {
-      lat: from.lat,
-      lon: from.lon,
-      maxResults: config.vehicleRental.maxNearbyRentalVehicleAmount,
-      first: config.vehicleRental.maxNearbyRentalVehicleAmount,
-      maxDistance: config.vehicleRental.maxDistanceToRentalVehiclesInMeters,
-      filterByModes: ['SCOOTER'],
-      filterByPlaceTypes: ['VEHICLE_RENT'],
-    };
-
-    try {
-      const result = await fetchQuery(relayEnvironment, nearestQuery, planParams, {
-        force: true,
-      }).toPromise();
-      if (!result) {
-        setNearestScooterState({ loading: LOADSTATE.DONE });
-      } else {
-        const nearest = result.viewer.nearest.edges;
-        // filter out the ones that are not scooters or from the same network as the original scooter
-        const filteredNearest = nearest
-          ?.filter(
-            n =>
-              n.node.place.__typename === 'RentalVehicle' && // eslint-disable-line no-underscore-dangle
-              n.node.place.rentalNetwork.networkId !== rentalVehicleNetwork,
-          )
-          // show only one scooter from each network
-          .filter(
-            (n, i, self) =>
-              self.findIndex(
-                t => t.node.place.rentalNetwork.networkId === n.node.place.rentalNetwork.networkId,
-              ) === i,
-          );
-
-        setNearestScooterState({ nearest: filteredNearest, loading: LOADSTATE.DONE });
-      }
-    } catch (error) {
-      setNearestScooterState({ nearest: [], loading: LOADSTATE.DONE });
-    }
-  }
-
-  if (isScooter && nearestScooterState.loading === LOADSTATE.UNSET) {
-    makeNearestScooterQuery(leg.from);
-  }
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
@@ -292,7 +243,7 @@ export default function BicycleLeg({
               isScooter={isScooter}
               vehicleRentalStation={leg.from.vehicleRentalStation}
               rentalVehicle={leg.from.rentalVehicle}
-              nearestScooters={nearestScooterState.nearest}
+              nearestScooters={nearestScooters}
             />
           </div>
         )}
