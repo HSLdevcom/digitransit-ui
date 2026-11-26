@@ -98,7 +98,6 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
                 : 'car-distance-duration'
             }
             values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
           />
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusToLeg} />
         </div>
