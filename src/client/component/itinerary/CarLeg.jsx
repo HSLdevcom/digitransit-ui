@@ -12,6 +12,7 @@ import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/leg
 import LegCircleLineLong from './LegCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegArrowIcon from './LegArrowIcon';
 
 export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {
   const intl = useIntl();
@@ -67,13 +68,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             <div className="address">
               {address}
               {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
-              {leg.from.stop && (
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color="#333"
-                />
-              )}
+              {leg.from.stop && <LegArrowIcon />}
             </div>
             <div className="place">{place}</div>
           </div>

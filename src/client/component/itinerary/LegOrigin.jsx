@@ -1,44 +1,32 @@
 import PropTypes from 'prop-types';
-import Link from 'found/Link';
 import Icon from '../Icon';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { stopPagePath } from '../../../shared/utils/path';
 import { legShape } from '../../utils/shapes';
-import { useConfigContext } from '../../hooks/ConfigContext';
+import LegPlaceLink from './LegPlaceLink';
 
 /**
  * Name of the place where a transit leg starts. A call agency leg has no stop page to link to,
  * and a flex trip origin is shown as an address and a place.
  */
 export default function LegOrigin({ leg, mode, index, name }) {
-  const config = useConfigContext();
   const viaIcon = leg.from.viaLocationType && (
     <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
   );
 
   if (mode !== 'call') {
     return (
-      <Link
-        aria-label={name?.toLowerCase()}
-        onClick={e => {
-          e.stopPropagation();
-          addAnalyticsEvent({
-            category: 'Itinerary',
-            action: 'OpenRouteFromItinerary',
-            name: mode,
-          });
-        }}
+      <LegPlaceLink
+        ariaLabel={name?.toLowerCase()}
+        onClick={() =>
+          addAnalyticsEvent({ category: 'Itinerary', action: 'OpenRouteFromItinerary', name: mode })
+        }
         to={stopPagePath(false, leg.from.stop.gtfsId)}
+        isViaPoint={!!leg.from.viaLocationType}
       >
         {name}
-        {viaIcon}
-        <Icon
-          img="icon_arrow-collapse--right"
-          className="itinerary-arrow-icon"
-          color={config.colors.primary}
-        />
-      </Link>
+      </LegPlaceLink>
     );
   }
 

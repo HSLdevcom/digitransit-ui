@@ -2,7 +2,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
-import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { displayDistance } from '../../../shared/utils/geo-utils';
@@ -13,6 +12,7 @@ import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import LegCircleLine from './LegCircleLine';
 import LegTimeColumn from './LegTimeColumn';
+import LegArrowIcon from './LegArrowIcon';
 
 export default function TaxiLeg(props) {
   const intl = useIntl();
@@ -65,13 +65,7 @@ export default function TaxiLeg(props) {
               <div className="address-container">
                 <div className="address">
                   {address}
-                  {leg.from.stop && (
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={config.colors.primary}
-                    />
-                  )}
+                  {leg.from.stop && <LegArrowIcon />}
                 </div>
                 <div className="place">{place}</div>
               </div>

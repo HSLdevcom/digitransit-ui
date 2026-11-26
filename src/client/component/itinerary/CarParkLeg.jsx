@@ -1,9 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import { Link } from 'found';
 import { legShape, parkShape } from '../../utils/shapes';
-import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
@@ -13,6 +11,7 @@ import { PREFIX_CARPARK } from '../../../shared/utils/path';
 import LegCircleLine from './LegCircleLine';
 import { legTimeStr, legDestination } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegPlaceLink from './LegPlaceLink';
 
 export default function CarParkLeg({ leg, index, focusAction, children, carPark, noWalk = false }) {
   const config = useConfigContext();
@@ -60,26 +59,13 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
       >
         <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
           <div className="address-container">
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
+            <LegPlaceLink
               to={`/${PREFIX_CARPARK}/${carPark.vehicleParkingId}`}
+              isViaPoint={leg.isViaPoint}
+              asAddress
             >
-              <div className="address">
-                <FormattedMessage id="car-park" defaultMessage="Park & Ride" />
-                {leg.isViaPoint && (
-                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                )}
-                {carPark && (
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={config.colors.primary}
-                  />
-                )}
-              </div>
-            </Link>
+              <FormattedMessage id="car-park" defaultMessage="Park & Ride" />
+            </LegPlaceLink>
             <div className="place">{carPark.name}</div>
           </div>
           <div>{children}</div>

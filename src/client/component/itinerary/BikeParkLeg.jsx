@@ -1,5 +1,4 @@
 import cx from 'classnames';
-import { Link } from 'found';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { displayDistance } from '../../../shared/utils/geo-utils';
@@ -7,11 +6,11 @@ import { legDestination, legTimeStr } from '../../utils/legUtils';
 import { PREFIX_BIKEPARK } from '../../../shared/utils/path';
 import { legShape, parkShape } from '../../utils/shapes';
 import { durationToString } from '../../utils/timeUtils';
-import Icon from '../Icon';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
 import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegPlaceLink from './LegPlaceLink';
 
 export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
   const config = useConfigContext();
@@ -45,26 +44,13 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
       <div className="small-9 columns itinerary-instruction-column">
         <div className={cx('itinerary-leg-first-row', 'bicycle')}>
           <div className="address-container">
-            <Link
-              onClick={e => {
-                e.stopPropagation();
-              }}
+            <LegPlaceLink
               to={`/${PREFIX_BIKEPARK}/${bikePark.vehicleParkingId}`}
+              isViaPoint={leg.isViaPoint}
+              asAddress
             >
-              <div className="address">
-                <FormattedMessage id="bike-park" />
-                {leg.isViaPoint && (
-                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                )}
-                {bikePark && (
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={config.colors.primary}
-                  />
-                )}
-              </div>
-            </Link>
+              <FormattedMessage id="bike-park" />
+            </LegPlaceLink>
             <div className="place">{bikePark.name}</div>
           </div>
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />

@@ -1,7 +1,6 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
-import Link from 'found/Link';
 import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import Icon from '../Icon';
@@ -25,6 +24,7 @@ import StopCode from '../StopCode';
 import PlatformNumber from '../PlatformNumber';
 import useNearestScooters from './useNearestScooters';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegPlaceLink from './LegPlaceLink';
 
 export default function BicycleLeg({
   focusAction,
@@ -199,22 +199,12 @@ export default function BicycleLeg({
               <div className="address-container">
                 <div className="address">
                   {fromStop ? (
-                    <Link
-                      onClick={e => {
-                        e.stopPropagation();
-                      }}
+                    <LegPlaceLink
                       to={stopPagePath(false, fromStop.gtfsId)}
+                      isViaPoint={leg.isViaPoint}
                     >
                       {origin}
-                      {leg.isViaPoint && (
-                        <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                      )}
-                      <Icon
-                        img="icon_arrow-collapse--right"
-                        className="itinerary-arrow-icon"
-                        color={config.colors.primary}
-                      />
-                    </Link>
+                    </LegPlaceLink>
                   ) : (
                     address
                   )}

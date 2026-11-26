@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types';
-import Link from 'found/Link';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
-import Icon from '../Icon';
 import { durationToString } from '../../utils/timeUtils';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
@@ -10,8 +8,8 @@ import { PREFIX_STOPS } from '../../../shared/utils/path';
 import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/legUtils';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { ViaLocationType } from '../../../shared/utils/constants';
-import { useConfigContext } from '../../hooks/ConfigContext';
 import LegTimeColumn from './LegTimeColumn';
+import LegPlaceLink from './LegPlaceLink';
 
 export default function WaitLeg({
   children,
@@ -25,7 +23,6 @@ export default function WaitLeg({
 }) {
   const intl = useIntl();
   const modeClassName = 'wait';
-  const { colors } = useConfigContext();
   const legName = getValidatedLegName(leg.to.name, intl, true);
   const [address, place] = splitStringToAddressAndPlace(legName);
 
@@ -57,22 +54,12 @@ export default function WaitLeg({
                 <div className="place">{place}</div>
               </div>
             ) : (
-              <Link
-                onClick={e => {
-                  e.stopPropagation();
-                }}
+              <LegPlaceLink
                 to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}
+                isViaPoint={leg.from.viaLocationType === ViaLocationType.PassThrough}
               >
                 {legName}
-                {leg.from.viaLocationType === ViaLocationType.PassThrough && (
-                  <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                )}
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color={colors.primary}
-                />
-              </Link>
+              </LegPlaceLink>
             )}
             <div className="stop-code-container">{children}</div>
           </div>

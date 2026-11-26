@@ -2,7 +2,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Link from 'found/Link';
 import { legShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
@@ -14,7 +13,6 @@ import {
   getValidatedLegName,
   isBikeOrScooterRentalLeg,
 } from '../../utils/legUtils';
-import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
@@ -42,6 +40,8 @@ import {
 } from '../../utils/indoorUtils';
 import IndoorStep from './IndoorStep';
 import { IndoorLegType } from '../../../shared/utils/constants';
+import LegPlaceLink from './LegPlaceLink';
+import LegArrowIcon from './LegArrowIcon';
 
 export default function WalkLeg({
   children,
@@ -56,7 +56,7 @@ export default function WalkLeg({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { colors, emphasizeDistance } = config;
+  const { emphasizeDistance } = config;
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg).length === 1,
@@ -157,13 +157,7 @@ export default function WalkLeg({
             <div className="address-container">
               <div className="address">
                 {address}
-                {leg[toOrFrom].stop && !isFlexArrival && (
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={colors.primary}
-                  />
-                )}
+                {leg[toOrFrom].stop && !isFlexArrival && <LegArrowIcon />}
               </div>
               <div className="place">{place}</div>
             </div>
@@ -179,34 +173,21 @@ export default function WalkLeg({
           >
             <div className="itinerary-leg-row">
               {leg[toOrFrom].stop && !alightNotice && !isFlexArrival ? (
-                <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
+                <LegPlaceLink
                   to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
+                  isViaPoint={leg.isViaPoint}
+                  trailing={
+                    <ServiceAlertIcon
+                      className="inline-icon"
+                      severityLevel={getActiveAlertSeverityLevel(
+                        leg[toOrFrom].stop.alerts,
+                        startMs / 1000,
+                      )}
+                    />
+                  }
                 >
                   {returnNotice || validatedLegName}
-                  {leg.isViaPoint && (
-                    <>
-                      <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                      <span className="sr-only">{intl.formatMessage({ id: 'via-point' })}</span>
-                    </>
-                  )}
-                  {leg[toOrFrom].stop && (
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={colors.primary}
-                    />
-                  )}
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      startMs / 1000,
-                    )}
-                  />
-                </Link>
+                </LegPlaceLink>
               ) : (
                 <div>
                   {isFlexArrival && (
@@ -236,13 +217,7 @@ export default function WalkLeg({
                     !alightNotice &&
                     !isFlexArrival &&
                     (leg.viaAddress || validatedLegName)}
-                  {leg[toOrFrom].stop && !alightNotice && !isFlexArrival && (
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={colors.primary}
-                    />
-                  )}
+                  {leg[toOrFrom].stop && !alightNotice && !isFlexArrival && <LegArrowIcon />}
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
