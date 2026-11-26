@@ -99,8 +99,8 @@ export default function LegInfo({
           to={routePagePath(
             leg.route.gtfsId,
             PREFIX_STOPS,
-            leg.trip.pattern.code,
-            shouldLinkToTrip && leg.trip.gtfsId,
+            leg.trip?.pattern?.code,
+            shouldLinkToTrip && leg.trip?.gtfsId,
           )}
           aria-label={`${formatMessage({
             id: modeToTranslationId(mode, config),
