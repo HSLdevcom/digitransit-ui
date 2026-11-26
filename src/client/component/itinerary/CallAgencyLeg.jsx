@@ -18,27 +18,23 @@ export default function CallAgencyLeg({ leg, ...props }) {
   // No translations available in the data at the moment
   const hasDescription =
     config.showRouteDescNotification && route.desc && config.flex.infoLanguage === intl.locale;
-  const notification = hasDescription
-    ? { content: route.desc, link: route.url }
-    : { content: intl.formatMessage({ id: 'call-agency-disclaimer' }), link: '' };
-  const key = `callAgencyNotification-${route.gtfsId}`;
+  const text = hasDescription ? route.desc : intl.formatMessage({ id: 'call-agency-disclaimer' });
   const routeNumber = (
     <RouteNumberContainer
-      route={leg.route}
+      route={route}
       className={`line ${modeClassName}`}
       mode={modeClassName}
       vertical
       withBar
       isTransitLeg
-      text={leg.route && leg.route.shortName}
+      text={route.shortName}
       appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
     />
   );
   return (
     <TransitLeg mode={modeClassName} leg={leg} mobile={mobile} omitDivider {...props}>
       <CallAgencyDisclaimer
-        key={key}
-        text={notification.content}
+        text={text}
         routeNumber={routeNumber}
         pickupBookingInfo={leg.pickupBookingInfo}
         agency={route.agency}
@@ -52,8 +48,4 @@ export default function CallAgencyLeg({ leg, ...props }) {
   );
 }
 
-CallAgencyLeg.propTypes = {
-  leg: legShape.isRequired,
-  index: PropTypes.number.isRequired,
-  showRouteDescNotification: PropTypes.bool,
-};
+CallAgencyLeg.propTypes = { leg: legShape.isRequired, index: PropTypes.number.isRequired };
