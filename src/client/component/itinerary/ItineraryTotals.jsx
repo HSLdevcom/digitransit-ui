@@ -19,7 +19,7 @@ const printItinerary = e => {
   window.print();
 };
 
-export default function Profile({ itinerary, small = false }) {
+export default function ItineraryTotals({ itinerary, small = false }) {
   const intl = useIntl();
   const config = useConfigContext();
   return (
@@ -45,4 +45,4 @@ export default function Profile({ itinerary, small = false }) {
   );
 }
 
-Profile.propTypes = { itinerary: itineraryShape.isRequired, small: PropTypes.bool };
+ItineraryTotals.propTypes = { itinerary: itineraryShape.isRequired, small: PropTypes.bool };

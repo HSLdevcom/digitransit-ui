@@ -4,8 +4,8 @@ import { legShape, legTimeShape } from '../../utils/shapes';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import { legTime, legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import ItineraryMapAction from './ItineraryMapAction';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -88,7 +88,7 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
         </div>
         <div className="itinerary-time-column-time via-departure-time">{startTime}</div>
       </div>
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         viaType={leg.from.viaLocationType}
         isStop={!!leg.from.stop}
         index={index}
@@ -118,11 +118,11 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
             )}
             {children}
           </div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
           {getDescription(leg.mode, distance, duration)}
-          <ItineraryMapAction target="" focusAction={focusToLeg} />
+          <ShowOnMapButton target="" focusAction={focusToLeg} />
         </div>
       </div>
     </div>

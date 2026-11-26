@@ -7,7 +7,7 @@ import {
   getVerticalTransportationUseIconId,
 } from '../../utils/indoorUtils';
 import { IndoorLegType, IndoorStepType, VerticalDirection } from '../../../shared/utils/constants';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 
 export default function IndoorStep({
   focusAction,
@@ -67,7 +67,7 @@ export default function IndoorStep({
               values={{ toLevelName }}
             />
           </div>
-          <ItineraryMapAction target="" focusAction={focusAction} />
+          <ShowOnMapButton target="" focusAction={focusAction} />
         </div>
       </div>
     </div>

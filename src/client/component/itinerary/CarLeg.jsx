@@ -3,12 +3,12 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
-import ItineraryCircleLineLong from './ItineraryCircleLineLong';
+import LegCircleLineLong from './LegCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -21,14 +21,14 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
   const modeClassName = 'car';
 
   const circleLine = carBoardingLeg ? (
-    <ItineraryCircleLineLong
+    <LegCircleLineLong
       index={index}
       modeClassName={modeClassName}
       boardingLeg={carBoardingLeg}
       viaType={leg.from.viaLocationType}
     />
   ) : (
-    <ItineraryCircleLineWithIcon
+    <LegCircleLineWithIcon
       index={index}
       modeClassName={modeClassName}
       icon="icon_car"
@@ -79,7 +79,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             <div className="place">{place}</div>
           </div>
           <div>{children}</div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {carBoardingLeg?.from.stop && (
           <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
@@ -93,7 +93,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
                 ),
               }}
             />
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         <div className="itinerary-leg-action itinerary-leg-action-content">
@@ -106,7 +106,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             values={{ distance, duration }}
             defaultMessage="Drive {distance} ({duration})}"
           />
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusToLeg} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusToLeg} />
         </div>
         {carBoardingLeg?.to.stop && (
           <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
@@ -120,7 +120,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
                 ),
               }}
             />
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
       </div>

@@ -4,7 +4,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { parseLocation } from '../../../shared/utils/path';
 import { timeStr } from '../../utils/timeUtils';
 import { getValidatedLegName } from '../../utils/legUtils';
@@ -51,7 +51,7 @@ export default function EndLeg(props) {
             <div className="address">{!stop ? address : addressFromUrl}</div>
             <div className="place">{place || placeFromUrl}</div>
           </div>
-          <ItineraryMapAction target={props.to.name} focusAction={props.focusAction} />
+          <ShowOnMapButton target={props.to.name} focusAction={props.focusAction} />
         </div>
       </div>
     </div>

@@ -3,15 +3,15 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import LegCircleLine from './LegCircleLine';
 
 export default function TaxiLeg(props) {
   const intl = useIntl();
@@ -54,7 +54,7 @@ export default function TaxiLeg(props) {
           <div className="small-2 columns itinerary-time-column" aria-hidden="true">
             <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
           </div>
-          <ItineraryCircleLine
+          <LegCircleLine
             index={index}
             modeClassName="walk"
             appendClass="taxi"
@@ -100,7 +100,7 @@ export default function TaxiLeg(props) {
         <div className="small-2 columns itinerary-time-column" aria-hidden="true">
           <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>
         </div>
-        <ItineraryCircleLineWithIcon
+        <LegCircleLineWithIcon
           index={props.index}
           modeClassName={modeClassName}
           taxi
@@ -113,10 +113,7 @@ export default function TaxiLeg(props) {
         >
           <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
             <div className="itinerary-leg-row-with-link">{legDescription}</div>
-            <ItineraryMapAction
-              target={props.leg.from.name || ''}
-              focusAction={props.focusAction}
-            />
+            <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusAction} />
           </div>
           <TaxiLinkContainer
             operatorName={props.leg.route.agency.name}
@@ -143,10 +140,7 @@ export default function TaxiLeg(props) {
                 values={{ distance, duration }}
                 defaultMessage="Travel for {distance} ({duration})}"
               />
-              <ItineraryMapAction
-                target={props.leg.from.name || ''}
-                focusAction={props.focusToLeg}
-              />
+              <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusToLeg} />
             </div>
           </div>
         </div>

@@ -9,7 +9,7 @@ import Icon from '../Icon';
 import { splitGtfsId } from '../../../shared/utils/gtfs';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-export default function IntermediateLeg({
+export default function IntermediateStopRow({
   placesCount = 0,
   color,
   mode,
@@ -159,7 +159,7 @@ export default function IntermediateLeg({
   );
 }
 
-IntermediateLeg.propTypes = {
+IntermediateStopRow.propTypes = {
   placesCount: PropTypes.number,
   name: PropTypes.string.isRequired,
   arrival: legTimeShape.isRequired,

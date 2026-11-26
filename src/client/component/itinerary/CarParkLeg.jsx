@@ -4,12 +4,12 @@ import cx from 'classnames';
 import { Link } from 'found';
 import { legShape, parkShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { PREFIX_CARPARK } from '../../../shared/utils/path';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import LegCircleLine from './LegCircleLine';
 import { legTimeStr, legDestination } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -41,14 +41,14 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
         <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
       </div>
       {noWalk ? (
-        <ItineraryCircleLine
+        <LegCircleLine
           index={index}
           modeClassName="car-park-walk"
           carPark
           viaType={leg.from.viaLocationType}
         />
       ) : (
-        <ItineraryCircleLineWithIcon
+        <LegCircleLineWithIcon
           index={index}
           modeClassName="walk"
           carPark
@@ -84,7 +84,7 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
             <div className="place">{carPark.name}</div>
           </div>
           <div>{children}</div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {!noWalk && (
           <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
@@ -93,7 +93,7 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
               values={{ distance, duration }}
               defaultMessage="Walk {distance} ({duration})"
             />
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
       </div>

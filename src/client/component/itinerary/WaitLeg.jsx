@@ -4,8 +4,8 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import { durationToString } from '../../utils/timeUtils';
-import ItineraryMapAction from './ItineraryMapAction';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../../shared/utils/path';
 import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/legUtils';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
@@ -39,7 +39,7 @@ export default function WaitLeg({
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
       </div>
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         modeClassName={modeClassName}
         index={index}
         icon={icon}
@@ -77,7 +77,7 @@ export default function WaitLeg({
             )}
             <div className="stop-code-container">{children}</div>
           </div>
-          <ItineraryMapAction target={legName || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={legName || ''} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
           <FormattedMessage
@@ -85,7 +85,7 @@ export default function WaitLeg({
             values={{ duration: `(${durationToString(intl, waitTime)})` }}
             defaultMessage="Wait {duration}"
           />
-          <ItineraryMapAction target="" focusAction={focusAction} />
+          <ShowOnMapButton target="" focusAction={focusAction} />
         </div>
       </div>
     </div>

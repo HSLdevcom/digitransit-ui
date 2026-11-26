@@ -3,9 +3,9 @@ import { FormattedMessage } from 'react-intl';
 import { Link } from 'found';
 import { legShape, legTimeShape } from '../../utils/shapes';
 import { legTimeStr } from '../../utils/legUtils';
-import ItineraryCircleLine from './ItineraryCircleLine';
+import LegCircleLine from './LegCircleLine';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { stopPagePath } from '../../../shared/utils/path';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -19,7 +19,7 @@ export default function AirportCheckInLeg({ leg, start, focusAction, index, chil
       <div className="small-2 columns itinerary-time-column">
         <div className="itinerary-time-column-time">{legTimeStr(start)}</div>
       </div>
-      <ItineraryCircleLine index={index} modeClassName={modeClassName} />
+      <LegCircleLine index={index} modeClassName={modeClassName} />
       <div
         onClick={focusAction}
         className="small-9 columns itinerary-instruction-column airport-wait"
@@ -41,7 +41,7 @@ export default function AirportCheckInLeg({ leg, start, focusAction, index, chil
             </Link>
             <div className="stop-code-container">{children}</div>
           </div>
-          <ItineraryMapAction target={name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={name || ''} focusAction={focusAction} />
         </div>
 
         <div className="info-message">

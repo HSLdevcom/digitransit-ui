@@ -25,7 +25,7 @@ CircleMarker.propTypes = {
   appendClass: PropTypes.string,
 };
 
-export default function ItineraryCircleLine({
+export default function LegCircleLine({
   index,
   modeClassName,
   viaType = null,
@@ -109,7 +109,7 @@ export default function ItineraryCircleLine({
   );
 }
 
-ItineraryCircleLine.propTypes = {
+LegCircleLine.propTypes = {
   index: PropTypes.number.isRequired,
   modeClassName: PropTypes.string.isRequired,
   viaType: PropTypes.string,

@@ -16,8 +16,8 @@ import {
   isBikeOrScooterRentalLeg,
 } from '../../utils/legUtils';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import PlatformNumber from '../PlatformNumber';
 import SubwayEntranceInfo from './SubwayEntranceInfo';
 import ServiceAlertIcon from '../ServiceAlertIcon';
@@ -155,7 +155,7 @@ export default function WalkLeg({
           )}
         </div>
       </div>
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         appendClass={appendClass}
         index={index}
         modeClassName={modeClassName}
@@ -187,7 +187,7 @@ export default function WalkLeg({
               </div>
               <div className="place">{place}</div>
             </div>
-            <ItineraryMapAction target={validatedLegName || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={validatedLegName || ''} focusAction={focusAction} />
           </div>
         ) : (
           <div
@@ -286,7 +286,7 @@ export default function WalkLeg({
               )}
             </div>
             {!returnNotice && (
-              <ItineraryMapAction target={validatedLegName || ''} focusAction={focusAction} />
+              <ShowOnMapButton target={validatedLegName || ''} focusAction={focusAction} />
             )}
           </div>
         )}
@@ -308,7 +308,7 @@ export default function WalkLeg({
               values={{ distance: emphasizeDistance ? <b>{distance}</b> : distance, duration }}
               defaultMessage="Walk {distance} ({duration})"
             />
-            <ItineraryMapAction
+            <ShowOnMapButton
               target=""
               ariaLabelId="itinerary-list-row.clickable-area-description"
               focusAction={focusToLeg}

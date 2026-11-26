@@ -1,5 +1,5 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import IntermediateLeg from '../../../../../src/client/component/itinerary/IntermediateLeg';
+import IntermediateStopRow from '../../../../../src/client/component/itinerary/IntermediateStopRow';
 
 const emptyProps = {
   arrival: { scheduledTime: '2024-04-05T14:48:00.000Z' },
@@ -9,7 +9,7 @@ const emptyProps = {
   focusFunction: () => {},
 };
 
-describe('<IntermediateLeg />', () => {
+describe('<IntermediateStopRow />', () => {
   it('should apply class zone-dual for dual zones', () => {
     const props = {
       ...emptyProps,
@@ -18,7 +18,7 @@ describe('<IntermediateLeg />', () => {
       showZoneLimits: true,
       gtfsId: 'foo:1',
     };
-    const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
+    const { container } = renderWithProviders(<IntermediateStopRow {...props} />, {
       config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(1);
@@ -34,7 +34,7 @@ describe('<IntermediateLeg />', () => {
       showZoneLimits: true,
       gtfsId: 'foo:1',
     };
-    const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
+    const { container } = renderWithProviders(<IntermediateStopRow {...props} />, {
       config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-triple')).toHaveLength(1);
@@ -50,7 +50,7 @@ describe('<IntermediateLeg />', () => {
       showZoneLimits: true,
       gtfsId: 'foo:1',
     };
-    const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
+    const { container } = renderWithProviders(<IntermediateStopRow {...props} />, {
       config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);
@@ -64,7 +64,7 @@ describe('<IntermediateLeg />', () => {
       showZoneLimits: true,
       gtfsId: 'foo:1',
     };
-    const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
+    const { container } = renderWithProviders(<IntermediateStopRow {...props} />, {
       config: { CONFIG: 'default', feedIds: ['foo'], colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-previous')).toHaveLength(1);
@@ -79,7 +79,7 @@ describe('<IntermediateLeg />', () => {
       previousZoneId: 'baz',
       showZoneLimits: false,
     };
-    const { container } = renderWithProviders(<IntermediateLeg {...props} />, {
+    const { container } = renderWithProviders(<IntermediateStopRow {...props} />, {
       config: { CONFIG: 'default', colors: { primary: '#007ac9' } },
     });
     expect(container.querySelectorAll('.zone-dual')).toHaveLength(0);

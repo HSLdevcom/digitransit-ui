@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import IntermediateLeg from './IntermediateLeg';
+import IntermediateStopRow from './IntermediateStopRow';
 import { getZoneLabel } from '../../utils/legUtils';
 import { legShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -36,7 +36,7 @@ export default function IntermediateStops({ leg, interliningLegs, mode, color, c
     const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
 
     return (
-      <IntermediateLeg
+      <IntermediateStopRow
         placesCount={places.length}
         color={color}
         key={place.stop.gtfsId}

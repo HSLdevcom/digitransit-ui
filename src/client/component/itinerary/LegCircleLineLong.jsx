@@ -5,7 +5,7 @@ import RouteNumber from '../RouteNumber';
 import { legShape } from '../../utils/shapes';
 import { ViaLocationType } from '../../../shared/utils/constants';
 
-export default function ItineraryCircleLineLong({
+export default function LegCircleLineLong({
   index,
   color,
   renderBottomMarker = false,
@@ -131,7 +131,7 @@ export default function ItineraryCircleLineLong({
   );
 }
 
-ItineraryCircleLineLong.propTypes = {
+LegCircleLineLong.propTypes = {
   index: PropTypes.number.isRequired,
   color: PropTypes.string,
   renderBottomMarker: PropTypes.bool,

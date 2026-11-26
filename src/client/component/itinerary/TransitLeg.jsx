@@ -4,8 +4,8 @@ import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryMapAction from './ItineraryMapAction';
+import LegCircleLine from './LegCircleLine';
+import ShowOnMapButton from './ShowOnMapButton';
 import PlatformNumber from '../PlatformNumber';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import StopCode from '../StopCode';
@@ -178,7 +178,7 @@ export default function TransitLeg({
 
         <span className="sr-only">{textVersionAfterLink}</span>
 
-        <ItineraryCircleLine
+        <LegCircleLine
           index={index}
           modeClassName={modeClassName}
           color={routeColor}
@@ -223,7 +223,7 @@ export default function TransitLeg({
               </div>
             </div>
 
-            <ItineraryMapAction target={validatedFromLegName || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={validatedFromLegName || ''} focusAction={focusAction} />
           </div>
 
           <LegInfo

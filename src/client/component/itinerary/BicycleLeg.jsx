@@ -7,17 +7,17 @@ import { fetchQuery } from 'react-relay';
 import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
+import ShowOnMapButton from './ShowOnMapButton';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryCircleLineLong from './ItineraryCircleLineLong';
+import LegCircleLine from './LegCircleLine';
+import LegCircleLineLong from './LegCircleLineLong';
 import { stopPagePath } from '../../../shared/utils/path';
 import {
   getRentalNetworkConfig,
   RentalNetworkType,
 } from '../../../shared/utils/vehicleRentalUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import { getSettings } from '../../utils/planParamUtil';
@@ -117,7 +117,7 @@ export default function BicycleLeg({
     };
 
     circleLine = (
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         index={index}
         modeClassName={mode.toLowerCase()}
         icon="icon_scooter_rider"
@@ -129,7 +129,7 @@ export default function BicycleLeg({
     );
   } else if (bicycleWalkLeg) {
     circleLine = (
-      <ItineraryCircleLineLong
+      <LegCircleLineLong
         index={index}
         modeClassName={modeClassName}
         boardingLeg={bicycleWalkLeg}
@@ -139,7 +139,7 @@ export default function BicycleLeg({
     );
   } else if (mode === 'BICYCLE') {
     circleLine = (
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         index={index}
         modeClassName={modeClassName}
         viaType={leg.from.viaLocationType}
@@ -148,7 +148,7 @@ export default function BicycleLeg({
     );
   } else {
     circleLine = (
-      <ItineraryCircleLine
+      <LegCircleLine
         index={index}
         modeClassName={modeClassName}
         viaType={leg.from.viaLocationType}
@@ -282,7 +282,7 @@ export default function BicycleLeg({
                 )}
                 <div className="place">{place}</div>
               </div>
-              <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+              <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
             </div>
           </>
         ) : (
@@ -328,7 +328,7 @@ export default function BicycleLeg({
                 }}
               />
             )}
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         {isScooter && !scooterSettingsOn && (
@@ -338,7 +338,7 @@ export default function BicycleLeg({
                 id="settings-e-scooter-on"
                 defaultMessage="Turn scooter settings on permanently"
               />
-              <ItineraryMapAction
+              <ShowOnMapButton
                 target=""
                 ariaLabelId="itinerary-list-row.clickable-area-description"
                 focusAction={focusToLeg}
@@ -366,7 +366,7 @@ export default function BicycleLeg({
         )}
         <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
           {stopsDescription}
-          <ItineraryMapAction
+          <ShowOnMapButton
             target=""
             ariaLabelId="itinerary-list-row.clickable-area-description"
             focusAction={focusToLeg}
@@ -403,7 +403,7 @@ export default function BicycleLeg({
                 }}
               />
             )}
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
         )}
         {isScooter && (

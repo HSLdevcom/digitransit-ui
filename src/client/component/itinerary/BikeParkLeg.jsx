@@ -8,8 +8,8 @@ import { PREFIX_BIKEPARK } from '../../../shared/utils/path';
 import { legShape, parkShape } from '../../utils/shapes';
 import { durationToString } from '../../utils/timeUtils';
 import Icon from '../Icon';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import ItineraryMapAction from './ItineraryMapAction';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
 export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
@@ -36,7 +36,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
       <div className="small-2 columns itinerary-time-column" aria-hidden="true">
         <div className="itinerary-time-column-time">{time}</div>
       </div>
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         bikePark
         index={index}
         modeClassName="walk"
@@ -68,7 +68,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
             </Link>
             <div className="place">{bikePark.name}</div>
           </div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
           <FormattedMessage
@@ -76,7 +76,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
             values={{ distance, duration }}
             defaultMessage="Walk {distance} ({duration})"
           />
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
       </div>
     </div>

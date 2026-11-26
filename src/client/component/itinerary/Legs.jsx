@@ -29,7 +29,7 @@ import {
 } from '../../utils/legUtils';
 import { getTripOrRouteMode } from '../../utils/modeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
-import Profile from './Profile';
+import ItineraryTotals from './ItineraryTotals';
 import BikeParkLeg from './BikeParkLeg';
 import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -257,7 +257,7 @@ export default function Legs({
     />,
   );
 
-  legs.push(<Profile itinerary={itinerary} />);
+  legs.push(<ItineraryTotals itinerary={itinerary} />);
 
   const hasCallAgencyLeg = compressedLegs.some(isCallAgencyLeg);
 

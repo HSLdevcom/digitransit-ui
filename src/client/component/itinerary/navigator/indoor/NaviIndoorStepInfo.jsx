@@ -6,7 +6,7 @@ import {
   getVerticalTransportationUseIconId,
 } from '../../../../utils/indoorUtils';
 import { IndoorStepType, VerticalDirection } from '../../../../../shared/utils/constants';
-import ItineraryMapAction from '../../ItineraryMapAction';
+import ShowOnMapButton from '../../ShowOnMapButton';
 import { isKeyboardSelectionEvent } from '../../../../../shared/utils/browser';
 
 export default function NaviIndoorStepInfo({ focusAction, type, verticalDirection, toLevelName }) {
@@ -31,7 +31,7 @@ export default function NaviIndoorStepInfo({ focusAction, type, verticalDirectio
           values={{ toLevelName }}
         />
       </div>
-      <ItineraryMapAction target="" focusAction={focusAction} />
+      <ShowOnMapButton target="" focusAction={focusAction} />
     </div>
   );
 }
