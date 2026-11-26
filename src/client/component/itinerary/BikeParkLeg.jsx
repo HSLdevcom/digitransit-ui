@@ -19,7 +19,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start);
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.walk-leg"

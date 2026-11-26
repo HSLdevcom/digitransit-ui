@@ -57,7 +57,6 @@ export default function BicycleLeg({
     leg.from.rentalVehicle?.rentalNetwork.networkId;
   const networkConfig =
     leg.rentedBike && rentalVehicleNetwork && getRentalNetworkConfig(rentalVehicleNetwork, config);
-  const isFirstLeg = i => i === 0;
   const isScooter = networkConfig && networkConfig.type === RentalNetworkType.Scooter;
   const settings = getSettings(config);
   const scooterSettingsOn = settings.scooterNetworks?.length > 0;
@@ -208,7 +207,7 @@ export default function BicycleLeg({
     makeNearestScooterQuery(leg.from);
   }
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         {leg.rentedBike === true && <>{legDescription}. </>}
         {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') && <>{stopsDescription}. </>}
@@ -243,7 +242,7 @@ export default function BicycleLeg({
             }}
           />
         </span>
-        {isFirstLeg(index) || bicycleWalkLeg?.from.stop || leg.from.viaLocationType ? (
+        {index === 0 || bicycleWalkLeg?.from.stop || leg.from.viaLocationType ? (
           <>
             {leg.from.viaLocationType ? <div className="divider" /> : null}
             <div className={cx('itinerary-leg-first-row', 'bicycle', 'first')}>

@@ -17,7 +17,6 @@ export default function TaxiLeg(props) {
   const intl = useIntl();
   const config = useConfigContext();
   const { leg, index } = props;
-  const isFirstLeg = i => i === 0;
   const alternativeOperators = [
     // for testing only
   ];
@@ -49,7 +48,7 @@ export default function TaxiLeg(props) {
   const { bookingUrl, infoUrl } = props.leg.pickupBookingInfo?.contactInfo ?? {};
   return (
     <>
-      {isFirstLeg(index) && (
+      {index === 0 && (
         <div key="taxi-start" className="row itinerary-row">
           <div className="small-2 columns itinerary-time-column" aria-hidden="true">
             <div className="itinerary-time-column-time">{legTimeStr(props.leg.start)}</div>

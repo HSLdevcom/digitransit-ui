@@ -21,7 +21,7 @@ export default function CarParkLeg({ leg, index, focusAction, children, carPark,
   const firstLegClassName = index === 0 ? 'first' : '';
 
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         {!noWalk && (
           <FormattedMessage

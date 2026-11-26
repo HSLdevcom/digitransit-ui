@@ -53,7 +53,7 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
   const duration = durationToString(intl, leg.duration * 1000);
   const stayDuration = legTime(leg.start) - arrivalMs;
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.via-leg"

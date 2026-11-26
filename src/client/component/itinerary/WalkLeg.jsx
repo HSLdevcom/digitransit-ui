@@ -74,7 +74,6 @@ export default function WalkLeg({
   const isFlexArrival = isCallAgencyLeg(leg) || (previousLeg && isCallAgencyLeg(previousLeg));
   const modeClassName = 'walk';
   const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
-  const isFirstLeg = i => i === 0;
   const network =
     previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
     previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
@@ -116,7 +115,7 @@ export default function WalkLeg({
     (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY') && !hideSubwayEntrances;
 
   const getMainRow = () => (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         {returnNotice}{' '}
         <FormattedMessage
@@ -172,7 +171,7 @@ export default function WalkLeg({
             values={{ target: validatedLegName || '' }}
           />
         </span>
-        {isFirstLeg(index) ? (
+        {index === 0 ? (
           <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
             <div className="address-container">
               <div className="address">

@@ -42,7 +42,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
   const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
 
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.car-leg"
