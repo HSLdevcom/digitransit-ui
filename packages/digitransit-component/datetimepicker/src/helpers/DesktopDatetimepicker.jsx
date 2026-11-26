@@ -4,7 +4,7 @@ import { DateTime, Settings } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import cx from 'classnames';
-import { parseTypedTime, validateInput, getTs } from './utils';
+import { parseTypedTime, validateInput, getTs, getDateDisplay, getTimeDisplay } from './utils';
 import styles from './styles.scss';
 
 const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
@@ -15,7 +15,6 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
  * @param {Object} props
  * @param {Number} props.value    Currently selected time. Unix timestamp in milliseconds
  * @param {function} props.onChange     This is called with new timestamp when input is changed
- * @param {function} props.getDisplay   Function to get a string representation from a timestamp
  * @param {array}    props.timeChoices  Array of timestamps to choose from
  * @param {string} id                   Id prefix for labels and aria attributes. Should be unique in page
  * @param {string} label                Text to show as input label
@@ -27,7 +26,6 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
  * <DesktopDatetimepicker
  *   value={1590133823000}
  *   onChange={timestamp => update(timestamp)}
- *   getDisplay={timestamp => formatTime(timestamp)}
  *   timeChoices={[1590133823000]}
  *   id="timeinput"
  *   icon="<Icon />"
@@ -37,7 +35,6 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
 export default function DesktopDatetimepicker({
   value,
   onChange,
-  getDisplay,
   timeChoices,
   id,
   label,
@@ -49,6 +46,8 @@ export default function DesktopDatetimepicker({
 }) {
   Settings.defaultZone = timeZone;
   const [t] = useTranslation();
+  const getDisplay = ts =>
+    datePicker ? getDateDisplay(ts, t, translationSettings.lng) : getTimeDisplay(ts);
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
@@ -274,7 +273,6 @@ export default function DesktopDatetimepicker({
 DesktopDatetimepicker.propTypes = {
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  getDisplay: PropTypes.func.isRequired,
   timeChoices: PropTypes.arrayOf(PropTypes.number).isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,

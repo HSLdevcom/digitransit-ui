@@ -21,9 +21,7 @@ Settings.defaultLocale = 'en';
  * @param {function} props.onSubmit Called when the user submits the selected date and time
  * @param {function} props.onCancel called when the user cancels the selection
  * @param {number} props.timestamp Initial timestamp to display in the picker
- * @param {function} props.getTimeDisplay Called to get the display string for a given timestamp
  * @param {number} props.dateSelectItemCount Determines how many date options are shown in the date picker
- * @param {function} props.getDateDisplay Called to get the display string for a given date
  * @returns {JSX.Element}
  */
 export default function MobilePickerModal({
@@ -35,9 +33,7 @@ export default function MobilePickerModal({
   onSubmit,
   onCancel,
   timestamp,
-  getTimeDisplay,
   dateSelectItemCount,
-  getDateDisplay,
   onAfterClose,
 }) {
   Settings.defaultZone = timeZone;
@@ -130,7 +126,6 @@ export default function MobilePickerModal({
         <div className={styles['input-row']}>
           <MobileDatepicker
             value={displayTimestamp}
-            getDisplay={getDateDisplay}
             onChange={changeTimestamp}
             itemCount={dateSelectItemCount}
             startTime={dateSelectStartTime}
@@ -142,10 +137,10 @@ export default function MobilePickerModal({
               </span>
             }
             timeZone={timeZone}
+            lang={lang}
           />
           <MobileTimepicker
             value={displayTimestamp}
-            getDisplay={getTimeDisplay}
             onChange={changeTimestamp}
             id={`${htmlId}-time`}
             label={t('time', translationSettings)}
@@ -184,7 +179,5 @@ MobilePickerModal.propTypes = {
   onCancel: PropTypes.func.isRequired,
   onAfterClose: PropTypes.func.isRequired,
   timestamp: PropTypes.number.isRequired,
-  getTimeDisplay: PropTypes.func.isRequired,
   dateSelectItemCount: PropTypes.number.isRequired,
-  getDateDisplay: PropTypes.func.isRequired,
 };

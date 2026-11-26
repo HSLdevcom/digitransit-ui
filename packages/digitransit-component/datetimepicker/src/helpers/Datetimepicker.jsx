@@ -9,6 +9,7 @@ import styles from './styles.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';
+import { getDateDisplay, getTimeDisplay } from './utils';
 
 Settings.defaultLocale = 'en';
 
@@ -126,31 +127,6 @@ export default function Datetimepicker({
     return () => clearInterval(newId);
   }, [displayTimestamp]);
 
-  /**
-   * @param {number} date Date in milliseconds since unix epoch
-   * @returns {string} formatted date
-   */
-  const getDateDisplay = date => {
-    const time = DateTime.fromMillis(date);
-    const now = DateTime.now();
-    let formatted;
-    if (time.hasSame(now, 'day')) {
-      formatted = t('today', translationSettings);
-      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
-    } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
-      formatted = t('tomorrow', translationSettings);
-      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
-    } else {
-      formatted = time.toFormat('ccc d.L.');
-    }
-    return formatted;
-  };
-
-  // param time is timestamp
-  const getTimeDisplay = time => {
-    return DateTime.fromMillis(time).toFormat('HH:mm');
-  };
-
   // compute choices only when timestamp changes instead of every render
   const [timeChoices, dateChoices] = useMemo(() => {
     const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
@@ -255,12 +231,9 @@ export default function Datetimepicker({
                 openPickerRef.current?.focus();
               })
             }
-            getTimeDisplay={getTimeDisplay}
             timeZone={timeZone}
             timestamp={displayTimestamp}
-            getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
-            getDisplay={getTimeDisplay}
           />
         )
       );
@@ -362,7 +335,6 @@ export default function Datetimepicker({
                 onChange={newValue => {
                   onDateChange(newValue);
                 }}
-                getDisplay={getDateDisplay}
                 timeChoices={dateChoices}
                 validate={() => null}
                 icon={
@@ -374,6 +346,7 @@ export default function Datetimepicker({
                 label={t('date', translationSettings)}
                 disableTyping
                 timeZone={timeZone}
+                translationSettings={translationSettings}
                 datePicker
               />
             </span>
@@ -383,7 +356,6 @@ export default function Datetimepicker({
                 onChange={newValue => {
                   onTimeChange(newValue);
                 }}
-                getDisplay={getTimeDisplay}
                 timeChoices={timeChoices}
                 icon={
                   <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
@@ -407,7 +379,7 @@ export default function Datetimepicker({
     if (nowSelected && departureOrArrival === 'departure') {
       return t('departure-now', translationSettings);
     }
-    const dateDisplay = getDateDisplay(displayTimestamp);
+    const dateDisplay = getDateDisplay(displayTimestamp, t, lang);
     const timeDisplay = getTimeDisplay(displayTimestamp);
     const summary = t(
       departureOrArrival === 'departure' ? 'departure' : 'arrival',

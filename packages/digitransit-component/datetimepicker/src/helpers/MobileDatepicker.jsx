@@ -1,9 +1,11 @@
 import PropTypes from 'prop-types';
+import { useTranslation } from 'react-i18next';
 import { DateTime, Settings } from 'luxon';
 import { useSelect } from 'downshift';
 import cx from 'classnames';
 import styles from './styles.scss';
 import { isAndroid } from './mobileDetection';
+import { getDateDisplay } from './utils';
 
 const AndroidSelect = ({ value, dateChoices, id, getDisplay, onChange, labelId, inputId }) => {
   const items = dateChoices.map(date => ({ value: date, label: getDisplay(date) }));
@@ -61,7 +63,6 @@ AndroidSelect.propTypes = {
  */
 export default function MobileDatepicker({
   value,
-  getDisplay,
   onChange,
   itemCount,
   startTime,
@@ -69,8 +70,11 @@ export default function MobileDatepicker({
   label,
   icon,
   timeZone = 'Europe/Helsinki',
+  lang = 'fi',
 }) {
   Settings.defaultZone = timeZone;
+  const [t] = useTranslation();
+  const getDisplay = date => getDateDisplay(date, t, lang);
   const dateChoices = Array(itemCount)
     .fill()
     .map((_, i) => DateTime.fromMillis(startTime).plus({ days: i }).toMillis());
@@ -107,7 +111,6 @@ export default function MobileDatepicker({
 }
 MobileDatepicker.propTypes = {
   value: PropTypes.number.isRequired,
-  getDisplay: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   itemCount: PropTypes.number.isRequired,
   startTime: PropTypes.number.isRequired,
@@ -115,4 +118,5 @@ MobileDatepicker.propTypes = {
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
   timeZone: PropTypes.string,
+  lang: PropTypes.string,
 };
