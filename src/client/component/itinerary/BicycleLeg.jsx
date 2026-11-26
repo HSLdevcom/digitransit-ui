@@ -27,6 +27,15 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
 import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 
+const rentedModes = { BICYCLE: 'CITYBIKE', WALK: 'CITYBIKE_WALK' };
+
+function getStopsMessageId(isWalking, isScooter) {
+  if (isWalking) {
+    return isScooter ? 'scooterwalk-distance-duration' : 'cyclewalk-distance-duration';
+  }
+  return isScooter ? 'scooter-distance-duration' : 'cycle-distance-duration';
+}
+
 export default function BicycleLeg({
   focusAction,
   index,
@@ -39,15 +48,14 @@ export default function BicycleLeg({
 }) {
   const config = useConfigContext();
   const intl = useIntl();
-  let stopsDescription;
-  let circleLine;
   const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start); // hh:mm
-  let { mode } = leg;
-  let legDescription = <span>{leg.from ? leg.from.name : ''}</span>;
+  const isWalking = leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
+  const mode = (leg.rentedBike && rentedModes[leg.mode]) || leg.mode;
+  const walkingClassName = isWalking ? leg.mode.toLowerCase() : 'bicycle';
+  const modeClassName = leg.rentedBike ? 'citybike' : walkingClassName;
   const firstLegClassName = index === 0 ? 'start' : '';
-  let modeClassName = 'bicycle';
   const [name, place] = splitStringToAddressAndPlace(
     getValidatedLegName(leg.from.name, intl, true),
   );
@@ -67,92 +75,43 @@ export default function BicycleLeg({
     !!isScooter,
   );
 
-  if (leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') {
-    modeClassName = leg.mode.toLowerCase();
-    stopsDescription = (
-      <FormattedMessage
-        id={isScooter ? 'scooterwalk-distance-duration' : 'cyclewalk-distance-duration'}
-        values={{ distance, duration }}
-        defaultMessage="Walk your bike {distance} ({duration})"
-      />
-    );
-  } else {
-    stopsDescription = (
-      <FormattedMessage
-        id={isScooter ? 'scooter-distance-duration' : 'cycle-distance-duration'}
-        values={{ distance, duration }}
-        defaultMessage="Cycle {distance} ({duration})"
-      />
-    );
-  }
+  const stopsDescription = (
+    <FormattedMessage
+      id={getStopsMessageId(isWalking, isScooter)}
+      values={{ distance, duration }}
+    />
+  );
 
-  if (leg.rentedBike === true) {
-    modeClassName = 'citybike';
-    legDescription = (
-      <FormattedMessage
-        id={isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at'}
-        values={{ station: leg.from.name }}
-        defaultMessage="Fetch a bike"
-      />
-    );
+  const circleLineProps = { index, viaType: leg.from.viaLocationType, isStop: !!leg.from.stop };
 
-    if (leg.mode === 'BICYCLE') {
-      mode = 'CITYBIKE';
+  const getCircleLine = () => {
+    if (isScooter) {
+      return (
+        <LegCircleLineWithIcon
+          {...circleLineProps}
+          modeClassName={mode.toLowerCase()}
+          icon="icon_scooter_rider"
+          appendClass={scooterSettingsOn ? 'scooter' : 'settings'}
+          style={{ '--scooter-amount': `${nearestScooters.length}%` }}
+        />
+      );
     }
-
-    if (leg.mode === 'WALK') {
-      mode = 'CITYBIKE_WALK';
+    if (bicycleWalkLeg) {
+      return (
+        <LegCircleLineLong
+          {...circleLineProps}
+          modeClassName={modeClassName}
+          boardingLeg={bicycleWalkLeg}
+        />
+      );
     }
-
-    if (leg.mode === 'SCOOTER') {
-      mode = 'SCOOTER';
+    if (mode === 'BICYCLE') {
+      return <LegCircleLineWithIcon {...circleLineProps} modeClassName={modeClassName} />;
     }
-  }
+    return <LegCircleLine {...circleLineProps} modeClassName={modeClassName} />;
+  };
 
-  if (isScooter) {
-    const style = { '--scooter-amount': `${nearestScooters.length}%` };
-
-    circleLine = (
-      <LegCircleLineWithIcon
-        index={index}
-        modeClassName={mode.toLowerCase()}
-        icon="icon_scooter_rider"
-        appendClass={!scooterSettingsOn ? 'settings' : 'scooter'}
-        style={style}
-        viaType={leg.from.viaLocationType}
-        isStop={!!leg.from.stop}
-      />
-    );
-  } else if (bicycleWalkLeg) {
-    circleLine = (
-      <LegCircleLineLong
-        index={index}
-        modeClassName={modeClassName}
-        boardingLeg={bicycleWalkLeg}
-        viaType={leg.from.viaLocationType}
-        isStop={!!leg.from.stop}
-      />
-    );
-  } else if (mode === 'BICYCLE') {
-    circleLine = (
-      <LegCircleLineWithIcon
-        index={index}
-        modeClassName={modeClassName}
-        viaType={leg.from.viaLocationType}
-        isStop={!!leg.from.stop}
-      />
-    );
-  } else {
-    circleLine = (
-      <LegCircleLine
-        index={index}
-        modeClassName={modeClassName}
-        viaType={leg.from.viaLocationType}
-        isStop={!!leg.from.stop}
-      />
-    );
-  }
-  const fromStop = leg?.from.stop || bicycleWalkLeg?.from.stop;
+  const fromStop = leg.from.stop || bicycleWalkLeg?.from.stop;
   const origin =
     bicycleWalkLeg?.from.stop && !bicycleWalkLeg?.from.viaLocationType
       ? bicycleWalkLeg.from.name
@@ -162,8 +121,16 @@ export default function BicycleLeg({
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
-        {leg.rentedBike === true && <>{legDescription}. </>}
-        {(leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK') && <>{stopsDescription}. </>}
+        {leg.rentedBike && (
+          <>
+            <FormattedMessage
+              id={isScooter ? 'rent-e-scooter-at' : 'rent-cycle-at'}
+              values={{ station: leg.from.name }}
+            />
+            .{' '}
+          </>
+        )}
+        {isWalking && <>{stopsDescription}. </>}
         <FormattedMessage
           id={isScooter ? 'itinerary-details.scooter-leg' : 'itinerary-details.biking-leg'}
           values={{
@@ -177,7 +144,7 @@ export default function BicycleLeg({
         />
       </span>
       <LegTimeColumn time={time} />
-      {circleLine}
+      {getCircleLine()}
 
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
@@ -293,7 +260,7 @@ export default function BicycleLeg({
             focusAction={focusToLeg}
           />
         </div>
-        {bicycleWalkLeg && bicycleWalkLeg?.to.stop && (
+        {bicycleWalkLeg?.to.stop && (
           <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
             {bicycleWalkLeg.distance === -1 ? (
               <FormattedMessage
