@@ -181,17 +181,6 @@ export default function BicycleLeg({
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
       >
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{
-              target:
-                leg.from.name?.toLowerCase() === 'scooter'
-                  ? intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })
-                  : leg.from.name || '',
-            }}
-          />
-        </span>
         {index === 0 || bicycleWalkLeg?.from.stop || leg.from.viaLocationType ? (
           <>
             {leg.from.viaLocationType ? <div className="divider" /> : null}

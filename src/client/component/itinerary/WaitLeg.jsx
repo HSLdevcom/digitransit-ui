@@ -43,9 +43,6 @@ export default function WaitLeg({
         hasPreviousTransitLeg={hasPreviousTransitLeg}
       />
       <div className="small-9 columns itinerary-instruction-column wait">
-        <span className="sr-only">
-          <FormattedMessage id="itinerary-summary.show-on-map" values={{ target: legName || '' }} />
-        </span>
         <div className="itinerary-leg-first-row wait">
           <div className="itinerary-leg-row">
             {isCallAgencyLeg(leg) ? (

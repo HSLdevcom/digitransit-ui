@@ -175,13 +175,6 @@ export default function TransitLeg({
             modeClassName,
           )}
         >
-          <span className="sr-only">
-            <FormattedMessage
-              id="itinerary-summary.show-on-map"
-              values={{ target: validatedFromLegName || '' }}
-            />
-          </span>
-
           <div className={cx('itinerary-leg-first-row', 'transit', { first: index === 0 })}>
             <div className="itinerary-leg-row">
               <LegOrigin leg={leg} mode={mode} index={index} name={validatedFromLegName} />

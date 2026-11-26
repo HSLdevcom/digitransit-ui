@@ -146,12 +146,6 @@ export default function WalkLeg({
         indoorStepsLength={indoorSteps.length}
       />
       <div className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}>
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: validatedLegName || '' }}
-          />
-        </span>
         {index === 0 ? (
           <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
             <div className="address-container">

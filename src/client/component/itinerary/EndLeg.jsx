@@ -39,12 +39,6 @@ export default function EndLeg(props) {
         </div>
       </div>
       <div className="small-9 columns itinerary-instruction-column to end">
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: props.to.name || '' }}
-          />
-        </span>
         <div className="itinerary-leg-first-row">
           <div className="address-container">
             <div className="address">{!stop ? address : addressFromUrl}</div>

@@ -95,12 +95,6 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
         modeClassName={leg.mode.toLowerCase()}
       />
       <div className="small-9 columns itinerary-instruction-column via">
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: leg.from.name || '' }}
-          />
-        </span>
         <div className="itinerary-leg-first-row via">
           <div>
             <div className="address-container">
