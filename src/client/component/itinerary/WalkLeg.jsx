@@ -52,7 +52,6 @@ export default function WalkLeg({
   leg,
   previousLeg,
   nextLeg,
-  useOriginAddress = false,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
@@ -62,24 +61,25 @@ export default function WalkLeg({
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg).length === 1,
   );
 
+  const isWalk = leg.mode === 'WALK';
   const distance = displayDistance(
-    parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
+    parseInt(isWalk ? leg.distance : 0, 10),
     config,
     intl.formatNumber,
   );
-  const duration = durationToString(intl, leg.mode !== 'WALK' ? 0 : leg.duration * 1000);
+  const duration = durationToString(intl, isWalk ? leg.duration * 1000 : 0);
   const startMs = legTime(leg.start);
-  // If mode is not WALK, WalkLeg should get information from "to". If useOriginAddress is true, force WalkLeg to get information from "from".
-  const toOrFrom = leg.mode !== 'WALK' && !useOriginAddress ? 'to' : 'from';
+  // If mode is not WALK, WalkLeg should get information from "to"
+  const walkPlace = isWalk ? leg.from : leg.to;
   const isFlexArrival = isCallAgencyLeg(leg) || (previousLeg && isCallAgencyLeg(previousLeg));
-  const modeClassName = 'walk';
-  const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
+  const fromMode = walkPlace.stop?.vehicleMode || '';
+  const previousPlace = isWalk ? previousLeg?.from : previousLeg?.to;
   const network =
-    previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
-    previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
-  const validatedLegName = getValidatedLegName(leg[toOrFrom].name, intl, toOrFrom === 'to');
+    previousPlace?.vehicleRentalStation?.rentalNetwork.networkId ||
+    previousPlace?.rentalVehicle?.rentalNetwork.networkId;
+  const validatedLegName = getValidatedLegName(walkPlace.name, intl, !isWalk);
   const [name, place] = splitStringToAddressAndPlace(validatedLegName);
-  const address = leg[toOrFrom].viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const address = walkPlace.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const networkType = getRentalNetworkConfig(
     isBikeOrScooterRentalLeg(previousLeg) && network,
     config,
@@ -90,15 +90,12 @@ export default function WalkLeg({
   const returnNotice = isBikeOrScooterRentalLeg(previousLeg) ? (
     <FormattedMessage
       id={networkType === RentalNetworkType.Scooter ? 'return-e-scooter-to' : 'return-cycle-to'}
-      values={{ station: leg[toOrFrom] ? validatedLegName : '' }}
+      values={{ station: validatedLegName }}
       defaultMessage="Return the bike to {station} station"
     />
   ) : null;
 
-  let appendClass;
-  if (returnNotice) {
-    appendClass = !isScooter ? 'return-citybike' : '';
-  }
+  const appendClass = returnNotice && !isScooter ? 'return-citybike' : undefined;
 
   const destinationLabel =
     leg.to.name?.toLowerCase() === 'scooter'
@@ -125,8 +122,8 @@ export default function WalkLeg({
             to: legDestination(intl, leg),
             distance,
             duration,
-            origin: leg[toOrFrom] ? validatedLegName : '',
-            destination: leg.to ? destinationLabel : '',
+            origin: validatedLegName,
+            destination: destinationLabel,
           }}
         />
       </span>
@@ -138,7 +135,7 @@ export default function WalkLeg({
       <LegCircleLineWithIcon
         appendClass={appendClass}
         index={index}
-        modeClassName={modeClassName}
+        modeClassName="walk"
         viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
         isStop={!!leg.from.stop}
         indoorLegType={indoorLegType}
@@ -151,7 +148,7 @@ export default function WalkLeg({
             <div className="address-container">
               <div className="address">
                 {address}
-                {leg[toOrFrom].stop && !isFlexArrival && <LegArrowIcon />}
+                {walkPlace.stop && !isFlexArrival && <LegArrowIcon />}
               </div>
               <div className="place">{place}</div>
             </div>
@@ -166,15 +163,15 @@ export default function WalkLeg({
             )}
           >
             <div className="itinerary-leg-row">
-              {leg[toOrFrom].stop && !alightNotice && !isFlexArrival ? (
+              {walkPlace.stop && !alightNotice && !isFlexArrival ? (
                 <LegPlaceLink
-                  to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
+                  to={`/${PREFIX_STOPS}/${walkPlace.stop.gtfsId}`}
                   isViaPoint={leg.isViaPoint}
                   trailing={
                     <ServiceAlertIcon
                       className="inline-icon"
                       severityLevel={getActiveAlertSeverityLevel(
-                        leg[toOrFrom].stop.alerts,
+                        walkPlace.stop.alerts,
                         startMs / 1000,
                       )}
                     />
@@ -196,9 +193,9 @@ export default function WalkLeg({
                       <VehicleRentalLeg
                         isScooter={isScooter}
                         stationName={validatedLegName}
-                        vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
+                        vehicleRentalStation={walkPlace.vehicleRentalStation}
                         returnBike
-                        rentalVehicle={leg.from.rentalVehicle}
+                        rentalVehicle={walkPlace.rentalVehicle}
                       />
                     </>
                   )}
@@ -211,11 +208,11 @@ export default function WalkLeg({
                     !alightNotice &&
                     !isFlexArrival &&
                     (leg.viaAddress || validatedLegName)}
-                  {leg[toOrFrom].stop && !alightNotice && !isFlexArrival && <LegArrowIcon />}
+                  {walkPlace.stop && !alightNotice && !isFlexArrival && <LegArrowIcon />}
                   <ServiceAlertIcon
                     className="inline-icon"
                     severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
+                      walkPlace.stop?.alerts,
                       startMs / 1000,
                     )}
                   />
@@ -224,12 +221,8 @@ export default function WalkLeg({
               {networkType !== RentalNetworkType.Scooter && (
                 <div className="stop-code-container">
                   {children}
-                  {leg[toOrFrom].stop && (
-                    <PlatformNumber
-                      number={leg[toOrFrom].stop.platformCode}
-                      short
-                      mode={fromMode}
-                    />
+                  {walkPlace.stop && (
+                    <PlatformNumber number={walkPlace.stop.platformCode} short mode={fromMode} />
                   )}
                 </div>
               )}
@@ -321,5 +314,4 @@ WalkLeg.propTypes = {
   nextLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
   focusToPoint: PropTypes.func.isRequired,
-  useOriginAddress: PropTypes.bool,
 };
