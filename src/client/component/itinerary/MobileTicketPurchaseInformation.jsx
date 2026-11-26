@@ -72,5 +72,3 @@ MobileTicketPurchaseInformation.propTypes = {
   fares: PropTypes.arrayOf(fareShape),
   zones: PropTypes.arrayOf(PropTypes.string),
 };
-
-MobileTicketPurchaseInformation.displayName = 'TicketInformation';
