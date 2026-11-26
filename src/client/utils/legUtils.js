@@ -478,6 +478,12 @@ export function isAirplaneLeg(leg) {
 export function isCarLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
+/**
+ * Whether the user's own car is used and never parked during the itinerary.
+ */
+export function isUsingOwnCarWholeTrip(legs) {
+  return legs.some(isCarLeg) && legs.every(leg => !leg.to.vehicleParking);
+}
 export function isCarParkLeg(leg) {
   return LegMode.Car === getLegMode(leg) && leg.to.vehicleParking;
 }

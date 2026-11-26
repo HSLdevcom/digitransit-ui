@@ -24,6 +24,7 @@ import {
   legTime,
   markViaPoints,
   getBoardingLeg,
+  isUsingOwnCarWholeTrip,
   LegMode,
 } from '../../utils/legUtils';
 import { getTripOrRouteMode } from '../../utils/modeUtils';
@@ -54,7 +55,6 @@ export default function Legs({
   openSettings,
   showBikeBoardingInformation,
   showCarBoardingInformation,
-  usingOwnCarWholeTrip,
   relayEnvironment,
 }) {
   const config = useConfigContext();
@@ -71,6 +71,7 @@ export default function Legs({
     focusToLeg(leg);
   };
 
+  const usingOwnCarWholeTrip = isUsingOwnCarWholeTrip(itinerary.legs);
   const waitThresholdInMs = config.itinerary.waitThreshold * 1000;
   const { location } = match;
   const intermediatePlaces = getIntermediatePlaces(location.query);
@@ -284,6 +285,5 @@ Legs.propTypes = {
   openSettings: PropTypes.func.isRequired,
   showBikeBoardingInformation: PropTypes.bool,
   showCarBoardingInformation: PropTypes.bool,
-  usingOwnCarWholeTrip: PropTypes.bool,
   relayEnvironment: relayShape,
 };

@@ -3,7 +3,7 @@ import {
   getLegMode,
   getTripOrRouteText,
   hasOneTransitLeg,
-  isCarLeg,
+  isUsingOwnCarWholeTrip,
   isLegWithRoute,
   isWalkOrBicycleWalkLeg,
   legTime,
@@ -37,8 +37,7 @@ export function analyzeLegs({ legs, intermediatePlaces, config, breakpoint, dura
     leg => getLegMode(leg) === 'BICYCLE' && leg.rentedBike === false,
   );
   const usingOwnBicycleWholeTrip = usingOwnBicycle && legs.every(leg => !leg.to.vehicleParking);
-  const usingOwnCar = legs.some(isCarLeg);
-  const usingOwnCarWholeTrip = usingOwnCar && legs.every(leg => !leg.to.vehicleParking);
+  const usingOwnCarWholeTrip = isUsingOwnCarWholeTrip(legs);
   const compressedLegs = compressLegs(splitLegsAtViaPoints(legs, intermediatePlaces)).map(leg => ({
     ...leg,
   }));

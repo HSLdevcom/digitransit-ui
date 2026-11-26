@@ -94,12 +94,6 @@ export default function ItineraryDetails({
   const compressedLegs = compressLegs(itinerary.legs);
   const extraProps = getExtraProps(itinerary, intl, compressedLegs);
   const { biking, walking, driving, futureText, isMultiRow } = extraProps;
-  // This does not take into account if the user is using a car at the time of using transit,
-  // instead this just calculates if the car is used for the whole trip.
-  // A smarter approach would be to store the current personal mode of transport (walk, bike, car)
-  // this could then be used to set the waiting icon legs that need it.
-  const usingOwnCarWholeTrip =
-    walking.distance === 0 && biking.distance === 0 && driving.distance > 0;
   const hasLegsWithScooter = hasScooterLegs({ legs: compressedLegs });
   const showEmissions = config.showCO2InItinerarySummary && !hasLegsWithScooter;
   const showStartNavi = shouldShowStartNavigation({
@@ -158,7 +152,6 @@ export default function ItineraryDetails({
             openSettings={openSettings}
             showBikeBoardingInformation={showBikeBoardingInformation}
             showCarBoardingInformation={showCarBoardingInformation}
-            usingOwnCarWholeTrip={usingOwnCarWholeTrip}
             relayEnvironment={relayEnvironment}
           />
         </div>

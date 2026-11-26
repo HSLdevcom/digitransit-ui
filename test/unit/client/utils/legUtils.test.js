@@ -515,4 +515,22 @@ describe('legUtils', () => {
       expect(utils.getTripOrRouteText({ tripShortName: 'T1' }, {}, {}, '2')).toBe('T1 / 2');
     });
   });
+
+  describe('isUsingOwnCarWholeTrip', () => {
+    const car = { mode: 'CAR', to: {} };
+    const parkedCar = { mode: 'CAR', to: { vehicleParking: { id: 'p' } } };
+    const rail = { mode: 'RAIL', to: {} };
+
+    it('is true when a car leg is never parked', () => {
+      expect(utils.isUsingOwnCarWholeTrip([car, rail])).toBe(true);
+    });
+
+    it('is false when the car is parked', () => {
+      expect(utils.isUsingOwnCarWholeTrip([parkedCar, rail])).toBe(false);
+    });
+
+    it('is false without car legs', () => {
+      expect(utils.isUsingOwnCarWholeTrip([rail])).toBe(false);
+    });
+  });
 });

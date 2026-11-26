@@ -15,7 +15,6 @@ const LegsStub = props => (
     className="legs-stub"
     data-bike-boarding={String(!!props.showBikeBoardingInformation)}
     data-car-boarding={String(!!props.showCarBoardingInformation)}
-    data-own-car-whole-trip={String(!!props.usingOwnCarWholeTrip)}
     data-leg-modes={props.itinerary.legs.map(leg => leg.mode).join(',')}
     data-fares={
       props.fares?.map(fare => (fare.isUnknown ? 'unknown' : fare.ticketName)).join(',') ?? 'null'
@@ -26,7 +25,6 @@ const LegsStub = props => (
 LegsStub.propTypes = {
   showBikeBoardingInformation: PropTypes.bool,
   showCarBoardingInformation: PropTypes.bool,
-  usingOwnCarWholeTrip: PropTypes.bool,
   itinerary: PropTypes.shape({ legs: PropTypes.arrayOf(PropTypes.shape({})) }).isRequired,
   fares: PropTypes.arrayOf(PropTypes.shape({})),
 };
@@ -872,18 +870,6 @@ describe('<ItineraryDetails />', () => {
       ).toBe('true');
       expect(legsStub(renderDetails({ itinerary })).dataset.carBoarding).toBe('false');
     });
-
-    it('flags a trip driven entirely with an own car', () => {
-      expect(
-        legsStub(renderDetails({ itinerary: makeItinerary([makeLeg({ mode: 'CAR' })]) })).dataset
-          .ownCarWholeTrip,
-      ).toBe('true');
-      expect(
-        legsStub(
-          renderDetails({ itinerary: makeItinerary([makeWalkLeg(), makeLeg({ mode: 'CAR' })]) }),
-        ).dataset.ownCarWholeTrip,
-      ).toBe('false');
-    });
   });
 
   describe('footer blocks', () => {
@@ -1478,35 +1464,6 @@ describe('<ItineraryDetails />', () => {
         props: { carPublicItineraryCount: 1 },
       });
       expect(container.querySelector('.legs-stub').dataset.carBoarding).toBe('false');
-    });
-  });
-
-  describe('own car whole trip flag', () => {
-    it('is true only when driving is the only mode with distance', () => {
-      const container = renderDetails({
-        itinerary: makeItinerary([makeLeg({ mode: 'CAR', distance: 5000 })]),
-      });
-      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('true');
-    });
-
-    it('is false when walking is present', () => {
-      const container = renderDetails({
-        itinerary: makeItinerary([
-          makeLeg({ mode: 'WALK', distance: 100 }),
-          makeLeg({ mode: 'CAR', distance: 5000 }),
-        ]),
-      });
-      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('false');
-    });
-
-    it('is false when biking is present', () => {
-      const container = renderDetails({
-        itinerary: makeItinerary([
-          makeLeg({ mode: 'BICYCLE', rentedBike: false, distance: 1000 }),
-          makeLeg({ mode: 'CAR', distance: 5000 }),
-        ]),
-      });
-      expect(container.querySelector('.legs-stub').dataset.ownCarWholeTrip).toBe('false');
     });
   });
 
