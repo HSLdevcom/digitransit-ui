@@ -1,0 +1,72 @@
+@use '../../../../styles/abstracts' as *;
+
+$tail-width: 28px;
+$tail-height: 8px;
+
+// Tail overlap with the bubble, hides the gap at the rounded edge
+$tail-overlap: 10px;
+
+// The tail points sideways at the item. --marker-reach and --pin-lift are set from labelPlacement.js
+.label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 3px var(--space-xs);
+  border-radius: var(--radius-pill);
+  background: var(--label-color);
+  color: $white;
+  font-family: $font-family;
+  font-size: 11px;
+  font-weight: 350;
+  line-height: 13px;
+  letter-spacing: -0.3px;
+  white-space: nowrap;
+  pointer-events: none;
+
+  &::after {
+    content: '';
+    z-index: -1;
+    position: absolute;
+    top: calc(50% + var(--tail-dy, 0px) - #{$tail-height * 0.5});
+    transform: rotate(var(--tail-angle, 0deg));
+    width: $tail-width;
+    height: $tail-height;
+    background: var(--label-color);
+  }
+}
+
+// Bubble on the right of the item. The tip ends at the marker anchor point.
+.right,
+.pin {
+  transform: translate(
+    calc(#{$tail-width - $tail-overlap} + var(--marker-reach, 10px)),
+    calc(-50% + var(--label-dy, 0px))
+  );
+
+  &::after {
+    right: calc(100% - #{$tail-overlap});
+    transform-origin: #{$tail-width - $tail-overlap} 50%;
+    clip-path: polygon(100% 0, 0 65%, 100% 100%);
+  }
+}
+
+.pin {
+  transform: translate(
+    calc(#{$tail-width - $tail-overlap} + var(--marker-reach, 10px)),
+    calc(-50% + var(--pin-lift, -8px) + var(--label-dy, 0px))
+  );
+}
+
+// Bubble on the left of the item
+.left {
+  transform: translate(
+    calc(-100% - #{$tail-width - $tail-overlap}),
+    calc(-50% + var(--label-dy, 0px))
+  );
+
+  &::after {
+    left: calc(100% - #{$tail-overlap});
+    transform-origin: #{$tail-overlap} 50%;
+    clip-path: polygon(0 0, 100% 65%, 0 100%);
+  }
+}

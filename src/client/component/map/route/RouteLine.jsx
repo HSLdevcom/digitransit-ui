@@ -1,9 +1,11 @@
 import { useMemo } from 'react';
+import { useIntl } from 'react-intl';
 import PropTypes from 'prop-types';
 import { graphql, useFragment } from 'react-relay';
 import distance from '@digitransit-search-util/digitransit-search-util-distance';
 import StopMarker from '../non-tile-layer/StopMarker';
 import LocationMarker from '../LocationMarker';
+import RouteLineLabels from './RouteLineLabels';
 import Line from '../Line';
 import groupSkippedStops from '../../routepage/groupSkippedStops';
 import { getSkippedRanges, splitByRanges } from './skippedSegments';
@@ -100,6 +102,7 @@ export default function RouteLine({
   stoptimes = EMPTY_STOPTIMES,
 }) {
   const config = useConfigContext();
+  const intl = useIntl();
   const pattern = useFragment(RouteLineFragment, patternRef);
   const patternPoints = pattern?.geometry || pattern?.stops;
   const patternStops = pattern?.stops;
@@ -116,6 +119,52 @@ export default function RouteLine({
     };
   }, [patternPoints, patternStops, stoptimes]);
 
+  const routeColor = pattern?.route.color;
+  const { firstStop, lastStop, labels } = useMemo(() => {
+    if (!patternStops?.length) {
+      return { firstStop: null, lastStop: null, labels: [] };
+    }
+    // Start/end markers move past canceled stops at either end of the route
+    const served = patternStops.filter(stop => !canceledStops.has(stop));
+    const first = served.length ? served[0] : patternStops[0];
+    const last = served.length ? served[served.length - 1] : patternStops.at(-1);
+    const result = [];
+    if (served.length) {
+      const stopColor = routeColor ? `#${routeColor}` : config.colors.primary;
+      if (first !== patternStops[0]) {
+        result.push({
+          key: 'from-label',
+          position: first,
+          text: intl.formatMessage({ id: 'route-start-stop' }),
+          color: stopColor,
+          placement: 'right',
+        });
+      }
+      if (last !== patternStops.at(-1)) {
+        result.push({
+          key: 'to-label',
+          position: last,
+          text: intl.formatMessage({ id: 'route-end-stop' }),
+          color: stopColor,
+          placement: 'pin',
+        });
+      }
+      skippedRanges.forEach(([start, end], i) => {
+        const middle = allPoints[Math.floor((start + end) / 2)];
+        if (middle) {
+          result.push({
+            key: `canceled-label-${i}`,
+            position: middle,
+            text: intl.formatMessage({ id: 'route-canceled-section' }),
+            color: config.map.line.canceledColor,
+            placement: 'left',
+          });
+        }
+      });
+    }
+    return { firstStop: first, lastStop: last, labels: result };
+  }, [patternStops, canceledStops, skippedRanges, allPoints, routeColor, intl]);
+
   if (!pattern) {
     return false;
   }
@@ -127,11 +176,13 @@ export default function RouteLine({
   if (!thin) {
     // We are drawing a background line under an itinerary line,
     // so we don't want many markers cluttering the map
-    objs.push(<LocationMarker key="from" position={pattern.stops[0]} type="from" />);
-
-    objs.push(
-      <LocationMarker key="to" position={pattern.stops[pattern.stops.length - 1]} type="to" />,
-    );
+    if (firstStop && lastStop) {
+      objs.push(<LocationMarker key="from" position={firstStop} type="from" />);
+      objs.push(<LocationMarker key="to" position={lastStop} type="to" />);
+    }
+    if (labels.length) {
+      objs.push(<RouteLineLabels key="labels" labels={labels} linePoints={allPoints} />);
+    }
   }
 
   const filteredIds = filteredStops.map(stop => stop.stopId);
@@ -220,6 +271,7 @@ export default function RouteLine({
         colorOverride={i < markerSplitIndex ? beforeSplitColor : null}
         thin={thin}
         stopStatus={getStopStatus(stop)}
+        stopCallStatus={getStopCallStatus(stop)}
       />
     ));
 
