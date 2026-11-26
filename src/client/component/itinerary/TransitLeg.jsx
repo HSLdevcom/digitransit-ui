@@ -6,7 +6,6 @@ import Link from 'found/Link';
 import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
 import Icon from '../Icon';
-import IntermediateLeg from './IntermediateLeg';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
 import PlatformNumber from '../PlatformNumber';
@@ -26,7 +25,6 @@ import { durationToString } from '../../utils/timeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
   getLegHeadsign,
-  getZoneLabel,
   showBikeBoardingNote,
   showCarBoardingNote,
   legTimeStr,
@@ -35,23 +33,24 @@ import {
   getValidatedLegName,
   isLocalCallAgency,
 } from '../../utils/legUtils';
-import { shouldShowFareInfo } from '../../utils/fareUtils';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { legShape } from '../../utils/shapes';
-import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
-import ExternalLink from '../ExternalLink';
 import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
 } from '../../utils/localeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../shared/utils/gtfs';
 import useCanceledStopIds from './useCanceledStopIds';
+import RouteNotification from './RouteNotification';
+import DisruptionLink from './DisruptionLink';
+import ZoneChange from './ZoneChange';
+import LegFareDisclaimer from './LegFareDisclaimer';
+import IntermediateStops from './IntermediateStops';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -64,209 +63,6 @@ const filterNextLegs = l => {
     return [];
   }
   return l.nextLegs.filter(nextLeg => legTime(nextLeg.start) - legTime(l.start) < 12 * 3600 * 1000);
-};
-
-function RouteNotification({ notification }) {
-  const { locale } = useIntl();
-  return (
-    <>
-      <div className="disruption-icon notification-icon">
-        <ServiceAlertIcon className="inline-icon" severityLevel={AlertSeverityLevelType.Info} />
-      </div>
-      <div className={cx('info-notification', { 'no-header': !notification.header })}>
-        {notification.header && <h3 className="info-header">{notification.header[locale]}</h3>}
-        <div className={cx('info-content', { 'no-header': !notification.header })}>
-          {notification.content[locale].join(' ')}
-        </div>
-      </div>
-    </>
-  );
-}
-
-const notificationShape = PropTypes.shape({
-  header: PropTypes.objectOf(PropTypes.string),
-  content: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
-  link: PropTypes.objectOf(PropTypes.string),
-});
-
-RouteNotification.propTypes = { notification: notificationShape.isRequired };
-
-function DisruptionLink({ notification }) {
-  const config = useConfigContext();
-  const { locale } = useIntl();
-  return (
-    <a
-      href={`https://www.${notification.link?.[locale]}`}
-      className="disruption-link"
-      target="_blank"
-      rel="noreferrer"
-    >
-      <RouteNotification notification={notification} />
-      <Icon
-        img="icon_arrow-collapse--right"
-        className="disruption-link-arrow"
-        color={config.colors.primary}
-      />
-    </a>
-  );
-}
-
-DisruptionLink.propTypes = { notification: notificationShape.isRequired };
-
-function ZoneChange({ leg, showIntermediateStops }) {
-  const config = useConfigContext();
-  const startZone = leg.from.stop.zoneId;
-  const endZone = leg.to.stop.zoneId;
-
-  const { feedId } = splitGtfsId(leg.from.stop.gtfsId);
-  const renderZoneIcons =
-    config.zones.itinerary && leg.from.stop.gtfsId && config.feedIds.includes(feedId);
-
-  if (
-    startZone !== endZone &&
-    (!showIntermediateStops || leg.intermediatePlaces.length === 0) &&
-    renderZoneIcons
-  ) {
-    return (
-      <div className="time-column-zone-icons-container">
-        <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
-        <ZoneIcon zoneId={getZoneLabel(endZone, config)} className="zone-delimiter" showUnknown />
-      </div>
-    );
-  }
-
-  if (startZone === endZone && renderZoneIcons) {
-    return (
-      <div className="time-column-zone-icons-container single">
-        <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
-      </div>
-    );
-  }
-
-  return null;
-}
-
-ZoneChange.propTypes = {
-  leg: legShape.isRequired,
-  showIntermediateStops: PropTypes.bool.isRequired,
-};
-
-function FareDisclaimer({ leg, mode }) {
-  const config = useConfigContext();
-  const { locale } = useIntl();
-  const isCallAgency = mode === 'call';
-  if (leg.fare?.isUnknown && !config.hideUnknownFares && shouldShowFareInfo(config)) {
-    const modeDisclaimer = config.modeDisclaimers?.[mode]?.[locale];
-    if (modeDisclaimer) {
-      return (
-        <div className="disclaimer-container unknown-fare-disclaimer__leg description-container">
-          {modeDisclaimer.disclaimer}
-          <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
-            {modeDisclaimer.text}
-          </a>
-        </div>
-      );
-    }
-
-    if (!isCallAgency) {
-      return (
-        <div className="disclaimer-container unknown-fare-disclaimer__leg">
-          <div className="description-container">
-            <span className="accent">
-              <FormattedMessage id="pay-attention" />
-            </span>{' '}
-            <FormattedMessage id="separate-ticket-required" />
-          </div>
-          <div className="ticket-info">
-            <div className="accent">{`${leg.from.name} - ${leg.to.name}`}</div>
-            {leg.fare.agency && !config.hideExternalOperator(leg.fare.agency) && (
-              <>
-                {leg.fare.agency.name}
-                {leg.fare.agency.fareUrl && (
-                  <ExternalLink className="agency-link" href={leg.fare.agency.fareUrl}>
-                    <FormattedMessage id="extra-info" />
-                  </ExternalLink>
-                )}
-              </>
-            )}
-          </div>
-        </div>
-      );
-    }
-  }
-  return null;
-}
-
-FareDisclaimer.propTypes = { leg: legShape.isRequired, mode: PropTypes.string.isRequired };
-
-function IntermediateStops({ leg, interliningLegs, mode, color, canceledStopIds }) {
-  const config = useConfigContext();
-  const places = leg.intermediatePlaces.slice();
-
-  let previousLeg = leg;
-  interliningLegs.forEach(iLeg => {
-    places.push({ ...previousLeg.to, arrival: previousLeg.end }, ...iLeg.intermediatePlaces);
-    previousLeg = iLeg;
-  });
-
-  if (places.length === 0) {
-    return null;
-  }
-
-  const stopList = places.map((place, i, array) => {
-    const isFirstPlace = i === 0;
-    const isLastPlace = i === array.length - 1;
-    const isCanceled = canceledStopIds.has(place.stop.gtfsId);
-
-    const previousZoneId =
-      (array[i - 1] && array[i - 1].stop.zoneId) || (isFirstPlace && leg.from.stop.zoneId);
-    const currentZoneId = place.stop.zoneId;
-    const nextZoneId =
-      (array[i + 1] && array[i + 1].stop.zoneId) ||
-      (isLastPlace && interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
-      leg.to.stop.zoneId;
-
-    const previousZoneIdDiffers = previousZoneId && previousZoneId !== currentZoneId;
-    const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
-    const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
-
-    return (
-      <IntermediateLeg
-        placesCount={places.length}
-        color={color}
-        key={place.stop.gtfsId}
-        gtfsId={place.stop.gtfsId}
-        mode={mode}
-        name={place.stop.name}
-        arrival={place.arrival}
-        realTime={leg.realTime}
-        stopCode={place.stop.code}
-        showZoneLimits={config.zones.itinerary}
-        showCurrentZoneDelimiter={previousZoneIdDiffers}
-        previousZoneId={
-          (isFirstPlace && previousZoneIdDiffers && getZoneLabel(previousZoneId, config)) ||
-          undefined
-        }
-        currentZoneId={(showCurrentZoneId && getZoneLabel(currentZoneId, config)) || undefined}
-        nextZoneId={
-          (isLastPlace && nextZoneIdDiffers && getZoneLabel(nextZoneId, config)) || undefined
-        }
-        isViaPoint={place.isViaPoint}
-        isLastPlace={isLastPlace}
-        isCanceled={isCanceled}
-      />
-    );
-  });
-
-  return <div className="itinerary-leg-container">{stopList}</div>;
-}
-
-IntermediateStops.propTypes = {
-  leg: legShape.isRequired,
-  interliningLegs: PropTypes.arrayOf(legShape).isRequired,
-  mode: PropTypes.string.isRequired,
-  color: PropTypes.string,
-  canceledStopIds: PropTypes.instanceOf(Set).isRequired,
 };
 
 export default function TransitLeg({
@@ -653,7 +449,7 @@ export default function TransitLeg({
               )}
             </div>
           )}
-          <FareDisclaimer leg={leg} mode={mode} />
+          <LegFareDisclaimer leg={leg} mode={mode} />
         </div>
 
         <span className="sr-only">{alertSeverityDescription}</span>
