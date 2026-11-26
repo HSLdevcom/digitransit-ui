@@ -25,7 +25,7 @@ import PlatformNumber from '../PlatformNumber';
 import useNearestScooters from './useNearestScooters';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
-import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
+import BicycleWalkNote from './BicycleWalkNote';
 
 const rentedModes = { BICYCLE: 'CITYBIKE', WALK: 'CITYBIKE_WALK' };
 
@@ -194,30 +194,12 @@ export default function BicycleLeg({
           </div>
         )}
         {bicycleWalkLeg?.from.stop && (
-          <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
-            {bicycleWalkLeg.distance === -1 ? (
-              <FormattedMessage
-                id="bicycle-walk-from-transit-no-duration"
-                values={{
-                  transportMode: getFromLocalizedMode(bicycleWalkLeg.from.stop.vehicleMode, intl),
-                }}
-              />
-            ) : (
-              <FormattedMessage
-                id="bicycle-walk-from-transit"
-                values={{
-                  transportMode: getFromLocalizedMode(bicycleWalkLeg.from.stop.vehicleMode, intl),
-                  duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
-            )}
-            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          <BicycleWalkNote
+            walkLeg={bicycleWalkLeg}
+            direction="from"
+            target={leg.from.name || ''}
+            focusAction={focusAction}
+          />
         )}
         {isScooter && !scooterSettingsOn && (
           <div>
@@ -261,30 +243,12 @@ export default function BicycleLeg({
           />
         </div>
         {bicycleWalkLeg?.to.stop && (
-          <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
-            {bicycleWalkLeg.distance === -1 ? (
-              <FormattedMessage
-                id="bicycle-walk-to-transit-no-duration"
-                values={{
-                  transportMode: getToLocalizedMode(bicycleWalkLeg.to.stop.vehicleMode, intl),
-                }}
-              />
-            ) : (
-              <FormattedMessage
-                id="bicycle-walk-to-transit"
-                values={{
-                  transportMode: getToLocalizedMode(bicycleWalkLeg.to.stop.vehicleMode, intl),
-                  duration: durationToString(intl, bicycleWalkLeg.duration * 1000),
-                  distance: displayDistance(
-                    parseInt(bicycleWalkLeg.distance, 10),
-                    config,
-                    intl.formatNumber,
-                  ),
-                }}
-              />
-            )}
-            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          <BicycleWalkNote
+            walkLeg={bicycleWalkLeg}
+            direction="to"
+            target={leg.from.name || ''}
+            focusAction={focusAction}
+          />
         )}
         {isScooter && (
           <VehicleRentalLeg
