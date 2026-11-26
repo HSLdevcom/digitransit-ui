@@ -9,34 +9,9 @@ import ShowOnMapButton from './ShowOnMapButton';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const getDescription = (mode, distance, duration) => {
-  if (mode === 'BICYCLE_WALK') {
-    return (
-      <FormattedMessage
-        id="cyclewalk-distance-duration"
-        values={{ distance, duration }}
-        defaultMessage="Walk your bike {distance} ({duration})"
-      />
-    );
-  }
-
-  if (mode === 'BICYCLE') {
-    return (
-      <FormattedMessage
-        id="cycle-distance-duration"
-        values={{ distance, duration }}
-        defaultMessage="Cycle {distance} ({duration})"
-      />
-    );
-  }
-
-  return (
-    <FormattedMessage
-      id="walk-distance-duration"
-      values={{ distance, duration }}
-      defaultMessage="Walk {distance} ({duration})"
-    />
-  );
+const DESCRIPTION_IDS = {
+  BICYCLE_WALK: 'cyclewalk-distance-duration',
+  BICYCLE: 'cycle-distance-duration',
 };
 
 export default function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
@@ -48,37 +23,26 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
   );
   const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
   const startTime = legTimeStr(leg.start);
-  const arrivalMs = legTime(arrival);
   const arrivalTime = legTimeStr(arrival);
   const duration = durationToString(intl, leg.duration * 1000);
-  const stayDuration = legTime(leg.start) - arrivalMs;
+  const stayDuration = legTime(leg.start) - legTime(arrival);
+  const leaveAction = intl.formatMessage(
+    { id: leg.mode === 'BICYCLE' ? 'itinerary-details.biking-leg' : 'itinerary-details.walk-leg' },
+    {
+      time: startTime,
+      to: legDestination(intl, leg),
+      distance,
+      origin: leg.from.name,
+      destination: leg.to.name,
+      duration,
+    },
+  );
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.via-leg"
-          defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
-          values={{
-            arrivalTime,
-            viaPoint: leg.from.name,
-            leaveAction: (
-              <FormattedMessage
-                id={
-                  leg.mode === 'BICYCLE'
-                    ? 'itinerary-details.biking-leg'
-                    : 'itinerary-details.walk-leg'
-                }
-                values={{
-                  time: startTime,
-                  to: legDestination(intl, leg),
-                  distance,
-                  origin: leg.from ? leg.from.name : '',
-                  destination: leg.to ? leg.to.name : '',
-                  duration,
-                }}
-              />
-            ),
-          }}
+          values={{ arrivalTime, viaPoint: leg.from.name, leaveAction }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column via-time-column" aria-hidden="true">
@@ -106,7 +70,6 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
                 <FormattedMessage
                   id="via-leg-stop-duration"
                   values={{ stayDuration: durationToString(intl, stayDuration) }}
-                  defaultMessage="At via point {stayDuration}"
                 />
               </div>
             )}
@@ -115,7 +78,10 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         <div className="itinerary-leg-action itinerary-leg-action-content">
-          {getDescription(leg.mode, distance, duration)}
+          <FormattedMessage
+            id={DESCRIPTION_IDS[leg.mode] || 'walk-distance-duration'}
+            values={{ distance, duration }}
+          />
           <ShowOnMapButton target="" focusAction={focusToLeg} />
         </div>
       </div>
