@@ -2,10 +2,8 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Link from 'found/Link';
 import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
-import Icon from '../Icon';
 import ItineraryCircleLine from './ItineraryCircleLine';
 import ItineraryMapAction from './ItineraryMapAction';
 import PlatformNumber from '../PlatformNumber';
@@ -19,7 +17,6 @@ import {
   getMaximumAlertSeverityLevel,
 } from '../../utils/alertUtils';
 import { modeToTranslationId } from '../../utils/modeUtils';
-import { stopPagePath } from '../../../shared/utils/path';
 import { durationToString } from '../../utils/timeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
@@ -31,7 +28,6 @@ import {
   getValidatedLegName,
   isLocalCallAgency,
 } from '../../utils/legUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { legShape } from '../../utils/shapes';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
@@ -44,6 +40,7 @@ import {
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useCanceledStopIds from './useCanceledStopIds';
 import LegNotification from './LegNotification';
+import LegOrigin from './LegOrigin';
 import LegAlertLink from './LegAlertLink';
 import AlertSeverityDescription from './AlertSeverityDescription';
 import ZoneChange from './ZoneChange';
@@ -85,21 +82,30 @@ export default function TransitLeg({
     }
     return leg.intermediatePlaces.length < 2;
   });
-
-  const canceledStopIds = useCanceledStopIds([leg, ...interliningLegs], showIntermediateStops);
-
   const [showAlternativeLegs, setShowAlternativeLegs] = useState(false);
 
+  const canceledStopIds = useCanceledStopIds([leg, ...interliningLegs], showIntermediateStops);
   const isRouteConstantOperation = config.constantOperationRoutes?.[leg.route.gtfsId];
-
   const isCallAgency = mode === 'call';
   const routeColor = leg.route.color ? `#${leg.route.color}` : undefined;
-
+  const nextLegs = filterNextLegs(leg);
   const displayAlternativeLegs =
-    config.showAlternativeLegs &&
-    !isCallAgency &&
-    filterNextLegs(leg).length > 0 &&
-    !isRouteConstantOperation;
+    config.showAlternativeLegs && !isCallAgency && nextLegs.length > 0 && !isRouteConstantOperation;
+  const startMs = legTime(leg.start);
+  const time = legTimeStr(leg.start);
+  const modeClassName = mode.toLowerCase();
+  const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
+  const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
+  const platformChanged = isPlatformChanged(leg);
+  const alerts = getActiveLegAlerts(leg, startMs / 1000);
+  const alert = [...alerts].sort(alertSeverityCompare)[0];
+  const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
+  const headsign = getLegHeadsign(leg);
+  const intermediateStopCount = interliningLegs.reduce(
+    (prev, curr) => prev + curr.intermediatePlaces.length + 1,
+    leg.intermediatePlaces.length,
+  );
+  const notifications = getLegNotifications(leg, config);
 
   const toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
@@ -112,20 +118,12 @@ export default function TransitLeg({
     setShowIntermediateStops(prevState => !prevState);
   };
 
-  const startMs = legTime(leg.start);
-  const time = legTimeStr(leg.start);
-  const modeClassName = mode.toLowerCase();
-  const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
-  const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
-
   const textVersionBeforeLink = (
     <FormattedMessage
       id="itinerary-details.transit-leg-part-1"
       values={{ time, realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '' }}
     />
   );
-
-  const platformChanged = isPlatformChanged(leg);
 
   const textVersionAfterLink = (
     <>
@@ -142,28 +140,6 @@ export default function TransitLeg({
       />
       {platformChanged && getTrackOrPierOrPlatformChangeText(intl, mode)}
     </>
-  );
-
-  const alerts = getActiveLegAlerts(leg, startMs / 1000);
-  const alert = [...alerts].sort(alertSeverityCompare)[0];
-  const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
-
-  const hasNoShortName =
-    leg.route.shortName &&
-    /^([^0-9]*)$/.test(leg.route.shortName) &&
-    leg.route.shortName.length > 3;
-
-  const headsign = getLegHeadsign(leg);
-
-  const intermediateStopCount = interliningLegs.reduce(
-    (prev, curr) => prev + curr.intermediatePlaces.length + 1,
-    leg.intermediatePlaces.length,
-  );
-
-  const notifications = getLegNotifications(leg, config);
-  const isFlexOrigin = isCallAgency && index === 0;
-  const [flexOriginAddress, flexOriginPlace] = splitStringToAddressAndPlace(
-    validatedFromLegName || '',
   );
 
   return (
@@ -206,10 +182,7 @@ export default function TransitLeg({
           index={index}
           modeClassName={modeClassName}
           color={routeColor}
-          renderBottomMarker={
-            !showIntermediateStops ||
-            (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
-          }
+          renderBottomMarker={!showIntermediateStops || intermediateStopCount === 0}
           viaType={leg.from.viaLocationType}
           isStop
           appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
@@ -232,46 +205,7 @@ export default function TransitLeg({
 
           <div className={cx('itinerary-leg-first-row', 'transit', { first: index === 0 })}>
             <div className="itinerary-leg-row">
-              {isCallAgency ? (
-                <span>
-                  {isFlexOrigin ? (
-                    <div className="address-container">
-                      <div className="address">
-                        {flexOriginAddress}
-                        {leg.from.viaLocationType && (
-                          <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                        )}
-                      </div>
-                      <div className="place">{flexOriginPlace}</div>
-                    </div>
-                  ) : (
-                    validatedFromLegName
-                  )}
-                </span>
-              ) : (
-                <Link
-                  aria-label={validatedFromLegName?.toLowerCase()}
-                  onClick={e => {
-                    e.stopPropagation();
-                    addAnalyticsEvent({
-                      category: 'Itinerary',
-                      action: 'OpenRouteFromItinerary',
-                      name: mode,
-                    });
-                  }}
-                  to={stopPagePath(false, leg.from.stop.gtfsId)}
-                >
-                  {validatedFromLegName}
-                  {leg.from.viaLocationType && (
-                    <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                  )}
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={config.colors.primary}
-                  />
-                </Link>
-              )}
+              <LegOrigin leg={leg} mode={mode} index={index} name={validatedFromLegName} />
 
               <ServiceAlertIcon
                 className="inline-icon"
@@ -294,7 +228,6 @@ export default function TransitLeg({
 
           <LegInfo
             leg={leg}
-            hasNoShortName={hasNoShortName}
             headsign={headsign}
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
@@ -307,12 +240,10 @@ export default function TransitLeg({
           />
 
           {showAlternativeLegs &&
-            !isRouteConstantOperation &&
-            leg.nextLegs.map(l => (
+            nextLegs.map(l => (
               <LegInfo
                 key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
-                hasNoShortName={hasNoShortName}
                 headsign={getLegHeadsign(l)}
                 isAlternativeLeg
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(l)}
@@ -325,7 +256,7 @@ export default function TransitLeg({
 
           {displayAlternativeLegs && (
             <AlternativeLegsInfo
-              legs={filterNextLegs(leg)}
+              legs={nextLegs}
               showAlternativeLegs={showAlternativeLegs}
               toggle={() => setShowAlternativeLegs(prev => !prev)}
             />
@@ -358,12 +289,7 @@ export default function TransitLeg({
                   toggleFunction={toggleShowIntermediateStops}
                   leg={leg}
                   intermediateStopCount={intermediateStopCount}
-                  duration={
-                    interliningLegs.length > 0
-                      ? legTime(interliningLegs[interliningLegs.length - 1].end) -
-                        legTime(leg.start)
-                      : leg.duration * 1000
-                  }
+                  duration={legTime((interliningLegs.at(-1) ?? leg).end) - startMs}
                   showIntermediateStops={showIntermediateStops}
                 />
               )}
