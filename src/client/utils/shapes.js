@@ -456,6 +456,7 @@ export const stylesShape = PropTypes.objectOf(
 );
 
 export const routeNotificationShape = PropTypes.shape({
+  id: PropTypes.string,
   header: PropTypes.objectOf(PropTypes.string),
   content: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
   link: PropTypes.objectOf(PropTypes.string),

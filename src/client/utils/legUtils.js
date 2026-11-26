@@ -808,6 +808,25 @@ export const showCarBoardingNote = (leg, config) => {
 };
 
 /**
+ * Returns the configured route notifications that apply to a transit leg.
+ *
+ * @param {object} leg - The transit leg.
+ * @param {object} config - Config data.
+ * @returns {Array<object>} the matching entries of config.routeNotifications.
+ */
+export const getLegNotifications = (leg, config) =>
+  (config.routeNotifications || []).filter(
+    notification =>
+      (leg.showBikeBoardingInformation &&
+        notification.showForBikeWithPublic &&
+        showBikeBoardingNote(leg, config)) ||
+      (leg.showCarBoardingInformation &&
+        notification.showForCarWithPublic &&
+        showCarBoardingNote(leg, config)) ||
+      (!isCallAgencyLeg(leg) && notification.showForRoute?.(leg.route)),
+  );
+
+/**
  * Determines whether a leg after walk leg contains rental vehicles
  * @param {object} leg - The leg object
  * @param {object} nextLeg - The Leg after the current leg

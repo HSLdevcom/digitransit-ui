@@ -25,8 +25,7 @@ import { durationToString } from '../../utils/timeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
   getLegHeadsign,
-  showBikeBoardingNote,
-  showCarBoardingNote,
+  getLegNotifications,
   legTimeStr,
   legTime,
   isPlatformChanged,
@@ -46,8 +45,7 @@ import {
 } from '../../utils/localeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import useCanceledStopIds from './useCanceledStopIds';
-import RouteNotification from './RouteNotification';
-import DisruptionLink from './DisruptionLink';
+import LegNotification from './LegNotification';
 import ZoneChange from './ZoneChange';
 import LegFareDisclaimer from './LegFareDisclaimer';
 import IntermediateStops from './IntermediateStops';
@@ -183,44 +181,11 @@ export default function TransitLeg({
     leg.intermediatePlaces.length,
   );
 
-  const { showBikeBoardingInformation, showCarBoardingInformation } = leg;
-
-  const routeNotifications = [];
+  const notifications = getLegNotifications(leg, config);
   const isFlexOrigin = isCallAgency && index === 0;
   const [flexOriginAddress, flexOriginPlace] = splitStringToAddressAndPlace(
     validatedFromLegName || '',
   );
-
-  if (config.routeNotifications && config.routeNotifications.length > 0) {
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const notification = config.routeNotifications[i];
-      if (
-        (showBikeBoardingInformation &&
-          notification.showForBikeWithPublic &&
-          showBikeBoardingNote(leg, config)) ||
-        (showCarBoardingInformation &&
-          notification.showForCarWithPublic &&
-          showCarBoardingNote(leg, config)) ||
-        (notification.showForRoute?.(leg.route) && !isCallAgency)
-      ) {
-        routeNotifications.push(
-          <div
-            className={cx('disruption', {
-              'no-header': !notification.header,
-              'no-link': !notification.link,
-            })}
-            key={`note-${i}`}
-          >
-            {notification.link ? (
-              <DisruptionLink notification={notification} />
-            ) : (
-              <RouteNotification notification={notification} />
-            )}
-          </div>,
-        );
-      }
-    }
-  }
 
   return (
     <>
@@ -423,11 +388,13 @@ export default function TransitLeg({
             />
           ) : (
             !omitDivider &&
-            routeNotifications.length === 0 &&
+            notifications.length === 0 &&
             intermediateStopCount > 1 && <div className="divider" />
           )}
 
-          {routeNotifications}
+          {notifications.map(notification => (
+            <LegNotification key={notification.id} notification={notification} />
+          ))}
 
           <LegAgencyInfo leg={leg} />
           {children}

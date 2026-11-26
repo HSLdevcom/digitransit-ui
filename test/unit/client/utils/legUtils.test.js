@@ -533,4 +533,31 @@ describe('legUtils', () => {
       expect(utils.isUsingOwnCarWholeTrip([rail])).toBe(false);
     });
   });
+
+  describe('getLegNotifications', () => {
+    const route = { type: 702 };
+    const forRoute = { id: 'a', showForRoute: r => r.type === 702 };
+    const forBike = { id: 'b', showForBikeWithPublic: true };
+    const config = {
+      routeNotifications: [forRoute, forBike],
+      bikeBoardingModes: { RAIL: { showNotification: true } },
+    };
+
+    it('selects notifications by route', () => {
+      expect(utils.getLegNotifications({ mode: 'BUS', route }, config)).toEqual([forRoute]);
+    });
+
+    it('does not select route notifications for call agency legs', () => {
+      expect(utils.getLegNotifications({ mode: 'BUS', route: { type: 715 } }, config)).toEqual([]);
+    });
+
+    it('selects bike notifications when bike boarding information is shown', () => {
+      const leg = { mode: 'RAIL', route: { type: 109 }, showBikeBoardingInformation: true };
+      expect(utils.getLegNotifications(leg, config)).toEqual([forBike]);
+    });
+
+    it('returns nothing without configured notifications', () => {
+      expect(utils.getLegNotifications({ route }, {})).toEqual([]);
+    });
+  });
 });
