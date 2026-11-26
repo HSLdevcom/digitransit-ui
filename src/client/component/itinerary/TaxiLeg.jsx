@@ -50,7 +50,7 @@ export default function TaxiLeg(props) {
   return (
     <>
       {index === 0 && (
-        <div key="taxi-start" className="row itinerary-row">
+        <div className="row itinerary-row">
           <LegTimeColumn time={legTimeStr(props.leg.start)} />
           <LegCircleLine
             index={index}
@@ -75,7 +75,7 @@ export default function TaxiLeg(props) {
         </div>
       )}
 
-      <div key={props.index} className="row itinerary-row">
+      <div className="row itinerary-row">
         <span className="sr-only">
           <FormattedMessage
             id="itinerary-details.taxi-leg"

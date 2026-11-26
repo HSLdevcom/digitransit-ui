@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types';
-import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import { stopShape } from '../../utils/shapes';
@@ -24,7 +23,7 @@ export default function EndLeg(props) {
   const time = timeStr(props.endTime);
 
   return (
-    <div key={props.index} className={cx('row', 'itinerary-row')}>
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
@@ -54,6 +53,5 @@ export default function EndLeg(props) {
 EndLeg.propTypes = {
   endTime: PropTypes.string.isRequired,
   to: stopShape.isRequired,
-  index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
 };

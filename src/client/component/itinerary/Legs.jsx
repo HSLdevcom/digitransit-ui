@@ -248,14 +248,7 @@ export default function Legs({
     );
   }
 
-  legs.push(
-    <EndLeg
-      index={numberOfLegs}
-      endTime={itinerary.end}
-      focusAction={focus(lastLeg.to)}
-      to={lastLeg.to}
-    />,
-  );
+  legs.push(<EndLeg endTime={itinerary.end} focusAction={focus(lastLeg.to)} to={lastLeg.to} />);
 
   legs.push(<ItineraryTotals itinerary={itinerary} />);
 
