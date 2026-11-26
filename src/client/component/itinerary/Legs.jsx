@@ -150,7 +150,7 @@ export default function Legs({
       }
     }
 
-    if (leg.mode !== 'WALK' && isCallAgencyLeg(leg)) {
+    if (isCallAgencyLeg(leg)) {
       legs.push(<CallAgencyLeg {...transitLegProps} />);
     } else if (leg.intermediatePlace) {
       legs.push(<ViaLeg {...legProps} arrival={startTime} />);
