@@ -1,5 +1,5 @@
 import request from 'supertest';
-import fs from 'fs';
+import fs, { existsSync, readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import createApp, { onError } from '../../../src/server/app';
 
@@ -11,7 +11,7 @@ import createApp, { onError } from '../../../src/server/app';
 // src/server/middleware/shell.js's dev-mode branch is also re-checked live on
 // every request though, so NODE_ENV stays 'development' for this suite's
 // test bodies too - it still reads the region's sprite file from _static/
-// per request in dev mode, hence the placeholder fixture below.
+// per request in dev mode, hence the readFileSync stub below.
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 afterAll(() => {
@@ -19,24 +19,18 @@ afterAll(() => {
 });
 
 describe('server app', () => {
-  const staticDir = path.join(process.cwd(), '_static', 'assets');
-  const spriteFixturePath = path.join(staticDir, 'svg-sprite.default.svg');
-  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
+  const spritePath = path.join(process.cwd(), '_static', 'assets', 'svg-sprite.default.svg');
   let app;
 
   beforeAll(() => {
-    fs.mkdirSync(staticDir, { recursive: true });
-    fs.writeFileSync(spriteFixturePath, '<svg></svg>');
-
     vi.stubEnv('CONFIG', undefined);
     ({ app } = createApp());
   });
 
-  afterAll(() => {
-    fs.rmSync(spriteFixturePath, { force: true });
-    if (!staticDirPreexisted) {
-      fs.rmSync(path.join(process.cwd(), '_static'), { recursive: true, force: true });
-    }
+  beforeEach(() => {
+    vi.spyOn(fs, 'readFileSync').mockImplementation((file, ...args) =>
+      file === spritePath ? Buffer.from('<svg></svg>') : readFileSync(file, ...args),
+    );
   });
 
   afterEach(() => {
@@ -74,24 +68,24 @@ describe('server app', () => {
   });
 
   describe('/favicon.ico', () => {
-    // Configs are cached on first use, so the icon directory must exist
-    // before the first tampere request. A real build may have left one too,
-    // hence the pattern rather than the fixture's exact name.
-    const iconDir = path.join(staticDir, 'icons-tampere-fixture');
+    // Configs are cached on first use, so the icon directory must be listed
+    // before the first tampere request.
+    const assetsDir = path.join(process.cwd(), '_static', 'assets');
 
-    beforeAll(() => {
-      fs.mkdirSync(iconDir, { recursive: true });
-    });
-
-    afterAll(() => {
-      fs.rmSync(iconDir, { recursive: true, force: true });
+    beforeEach(() => {
+      vi.spyOn(fs, 'existsSync').mockImplementation(file =>
+        file === assetsDir ? true : existsSync(file),
+      );
+      vi.spyOn(fs, 'readdirSync').mockImplementation((dir, ...args) =>
+        dir === assetsDir ? ['icons-tampere-fixture'] : readdirSync(dir, ...args),
+      );
     });
 
     it("redirects to the requesting config's generated favicon", async () => {
       vi.stubEnv('CONFIG', 'tampere');
       const response = await request(app).get('/favicon.ico');
       expect(response.status).toBe(302);
-      expect(response.headers.location).toMatch(/^\/assets\/icons-tampere-[^/]+\/favicon\.ico$/);
+      expect(response.headers.location).toBe('/assets/icons-tampere-fixture/favicon.ico');
     });
   });
 

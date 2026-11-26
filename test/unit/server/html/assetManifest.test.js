@@ -17,23 +17,8 @@ import {
 vi.hoisted(() => vi.stubEnv('NODE_ENV', 'development'));
 
 describe('assetManifest', () => {
-  const fixtureRelativePath = 'assetManifest.test-fixture.txt';
-  const fixtureAbsolutePath = path.join(process.cwd(), '_static', fixtureRelativePath);
-  const staticDirPreexisted = fs.existsSync(path.join(process.cwd(), '_static'));
-
-  beforeAll(() => {
-    if (!staticDirPreexisted) {
-      fs.mkdirSync(path.join(process.cwd(), '_static'));
-    }
-    fs.writeFileSync(fixtureAbsolutePath, 'fixture content');
-  });
-
   afterAll(() => {
     vi.unstubAllEnvs();
-    fs.rmSync(fixtureAbsolutePath, { force: true });
-    if (!staticDirPreexisted) {
-      fs.rmdirSync(path.join(process.cwd(), '_static'));
-    }
   });
 
   describe('in development (no webpack build output present)', () => {
@@ -90,7 +75,12 @@ describe('assetManifest', () => {
 
   describe('readStaticFile', () => {
     it('reads a file from _static/ regardless of NODE_ENV', () => {
-      expect(readStaticFile(fixtureRelativePath).toString()).toBe('fixture content');
+      const readFileSync = vi
+        .spyOn(fs, 'readFileSync')
+        .mockReturnValue(Buffer.from('fixture content'));
+
+      expect(readStaticFile('fixture.txt').toString()).toBe('fixture content');
+      expect(readFileSync).toHaveBeenCalledWith(path.join(process.cwd(), '_static', 'fixture.txt'));
     });
   });
 });

@@ -150,4 +150,17 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     expect(radios.map(r => r.checked)).toEqual([true, false, false, true]);
     expect(new Set(radios.map(r => r.name)).size).toBe(2);
   });
+
+  it('lists every quarter hour of a 25-hour day when DST ends', () => {
+    // 2023-10-29T00:00:00+03:00: clocks in Europe/Helsinki go back from 04:00 to 03:00.
+    const { container, openButton } = renderPicker({ initialTimestamp: 1698526800 });
+    fireEvent.click(openButton());
+    const timeInput = container.querySelector('input[id$="-time-input"]');
+    fireEvent.keyDown(timeInput, { key: 'ArrowDown' });
+    const labels = screen.getAllByRole('option').map(o => o.textContent);
+    expect(labels).toHaveLength(100);
+    expect(labels[0]).toBe('00:00');
+    expect(labels.at(-1)).toBe('23:45');
+    expect(labels.filter(l => l === '03:00')).toHaveLength(2);
+  });
 });
