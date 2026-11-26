@@ -465,7 +465,7 @@ export default function TransitLeg({
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
           }
           viaType={leg.from.viaLocationType}
-          isStop={!!leg.from.stop}
+          isStop
           appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
         />
 
@@ -529,14 +529,11 @@ export default function TransitLeg({
 
               <ServiceAlertIcon
                 className="inline-icon"
-                severityLevel={getActiveAlertSeverityLevel(
-                  leg.from.stop && leg.from.stop.alerts,
-                  startMs / 1000,
-                )}
+                severityLevel={getActiveAlertSeverityLevel(leg.from.stop.alerts, startMs / 1000)}
               />
 
               <div className="stop-code-container">
-                {stopCode(leg.from.stop?.code)}
+                {stopCode(leg.from.stop.code)}
                 <PlatformNumber
                   number={leg.from.stop.platformCode}
                   short
