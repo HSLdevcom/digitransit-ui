@@ -572,7 +572,7 @@ export default function TransitLeg({
               <Link
                 to={
                   (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                    routePagePath(leg.route.gtfsId, PREFIX_DISRUPTION, leg.trip?.pattern?.code)) ||
+                    routePagePath(leg.route.gtfsId, PREFIX_DISRUPTION, leg.trip.pattern.code)) ||
                   (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
                     stopPagePath(false, alert.entities[0].gtfsId, PREFIX_DISRUPTION))
                 }
