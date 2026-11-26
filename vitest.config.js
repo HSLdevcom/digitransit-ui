@@ -116,6 +116,10 @@ export default {
           // not leave global state behind, and must stub modules with
           // vi.spyOn() rather than per-file vi.mock() (see docs/Tests.md).
           isolate: false,
+          // Heavy component tests, such as IndexPage's axe check, can take
+          // longer than 5 s when Vitest's default worker count shares the
+          // CPU of a machine with many threads.
+          testTimeout: 10_000,
           // Restores vi.spyOn() stubs, including those on this repo's own ESM
           // exports, before each test.
           restoreMocks: true,

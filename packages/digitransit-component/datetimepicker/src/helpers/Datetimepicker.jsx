@@ -154,17 +154,12 @@ export default function Datetimepicker({
   // compute choices only when timestamp changes instead of every render
   const [timeChoices, dateChoices] = useMemo(() => {
     const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
-    const timeSelectStartTime = selectedMoment.startOf('day').toMillis();
-    const isMobileCurrently = isMobile();
+    const dayStart = selectedMoment.startOf('day').toMillis();
+    const dayEnd = selectedMoment.endOf('day').toMillis();
+    const step = (isMobile() ? 15 : 1) * 60 * 1000;
     let newTimeChoices = [];
-    let current = selectedMoment.startOf('day');
-    while (current.hasSame(timeSelectStartTime, 'day')) {
-      newTimeChoices.push(current.valueOf());
-      if (isMobileCurrently) {
-        current = current.plus({ minutes: 15 });
-      } else {
-        current = current.plus({ minutes: 1 });
-      }
+    for (let time = dayStart; time <= dayEnd; time += step) {
+      newTimeChoices.push(time);
     }
     if (timestamp === null) {
       // if time is set to now
