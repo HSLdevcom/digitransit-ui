@@ -182,7 +182,7 @@ export default function TransitLeg({
         return (
           <IntermediateLeg
             placesCount={places.length}
-            color={leg.route?.color ? `#${leg.route.color}` : undefined}
+            color={leg.route.color ? `#${leg.route.color}` : undefined}
             key={place.stop.gtfsId}
             gtfsId={place.stop.gtfsId}
             mode={mode}
@@ -409,7 +409,7 @@ export default function TransitLeg({
           <span className="sr-only">
             {`${intl.formatMessage({
               id: modeToTranslationId(mode, config),
-            })} ${leg.route?.shortName || ''} ${headsign || ''}`}
+            })} ${leg.route.shortName || ''} ${headsign || ''}`}
           </span>
           <span aria-hidden="true">
             <div className="itinerary-time-column-time-group">
@@ -436,7 +436,7 @@ export default function TransitLeg({
         <ItineraryCircleLine
           index={index}
           modeClassName={modeClassName}
-          color={leg.route?.color ? `#${leg.route.color}` : undefined}
+          color={leg.route.color ? `#${leg.route.color}` : undefined}
           renderBottomMarker={
             !showIntermediateStops ||
             (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
@@ -447,7 +447,7 @@ export default function TransitLeg({
         />
 
         <div
-          style={{ color: leg.route?.color ? `#${leg.route.color}` : undefined }}
+          style={{ color: leg.route.color ? `#${leg.route.color}` : undefined }}
           className={cx(
             'small-9 columns itinerary-instruction-column',
             { first: index === 0 },

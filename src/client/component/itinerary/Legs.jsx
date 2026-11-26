@@ -177,18 +177,10 @@ export default function Legs({
       );
       legs.push(<TransitLeg mode="airplane" omitDivider {...transitLegProps} />);
       legs.push(<AirportCollectLuggageLeg index={j + 0.5} leg={leg} focusAction={focus(leg.to)} />);
-    } else if (
-      (leg.mode === 'BUS' ||
-        leg.mode === 'TRAM' ||
-        leg.mode === 'RAIL' ||
-        leg.mode === 'SUBWAY' ||
-        leg.mode === 'FERRY' ||
-        leg.mode === 'FUNICULAR') &&
-      !leg.interlineWithPreviousLeg
-    ) {
+    } else if (leg.transitLeg && !leg.interlineWithPreviousLeg) {
       const mode = getTripOrRouteMode(
         leg.trip,
-        { mode: leg.mode, type: leg.route?.type, gtfsId: leg.route?.gtfsId },
+        { mode: leg.mode, type: leg.route.type, gtfsId: leg.route.gtfsId },
         config,
       );
 
