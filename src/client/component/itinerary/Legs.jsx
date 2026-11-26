@@ -36,7 +36,7 @@ const stopCode = stop => stop && stop.code && <StopCode code={stop.code} />;
 
 export default function Legs({
   itinerary,
-  fares = [],
+  fares,
   focusToPoint,
   focusToLeg,
   changeHash,
@@ -80,15 +80,11 @@ export default function Legs({
 
   const bikeParked = compressedLegs.some(leg => leg.to.vehicleParking && leg.mode === 'BICYCLE');
 
-  let previousLeg;
-  let nextLeg;
   const legs = [];
 
   compressedLegs.forEach((leg, j) => {
-    nextLeg = j + 1 < numberOfLegs ? compressedLegs[j + 1] : undefined;
-    if (j > 0) {
-      previousLeg = compressedLegs[j - 1];
-    }
+    const previousLeg = compressedLegs[j - 1];
+    const nextLeg = compressedLegs[j + 1];
 
     const startTime = previousLeg?.end || leg.start;
     let index = j;
@@ -105,13 +101,14 @@ export default function Legs({
     const isSameStopTransfer =
       leg.transitLeg && nextLeg?.transitLeg && leg.to.stop.gtfsId === nextLeg.from.stop.gtfsId;
 
-    const legProps = { leg, index: j, focusAction: focus(leg.from), focusToLeg: focusLeg(leg) };
+    const focusFrom = focus(leg.from);
+    const legProps = { leg, index: j, focusAction: focusFrom, focusToLeg: focusLeg(leg) };
 
     const transitLegProps = {
       leg,
       index: j,
       interliningLegs,
-      focusAction: focus(leg.from),
+      focusAction: focusFrom,
       changeHash,
       tabIndex,
       usingOwnCarWholeTrip,
@@ -192,12 +189,7 @@ export default function Legs({
       legs.push(<TransitLeg mode={mode} {...transitLegProps} />);
     } else if (leg.mode === 'AIRPLANE') {
       legs.push(
-        <AirportCheckInLeg
-          index={j - 0.5}
-          leg={leg}
-          start={startTime}
-          focusAction={focus(leg.from)}
-        />,
+        <AirportCheckInLeg index={j - 0.5} leg={leg} start={startTime} focusAction={focusFrom} />,
       );
       legs.push(<TransitLeg mode="airplane" omitDivider {...transitLegProps} />);
       legs.push(<AirportCollectLuggageLeg index={j + 0.5} leg={leg} focusAction={focus(leg.to)} />);
@@ -252,7 +244,6 @@ export default function Legs({
         index={numberOfLegs}
         leg={{ ...lastLeg, isViaPoint: false }}
         previousLeg={lastLeg}
-        nextLeg={compressedLegs[numberOfLegs]}
         focusAction={focus(lastLeg.to)}
         focusToLeg={focusLeg(lastLeg)}
         focusToPoint={focusToPoint}
