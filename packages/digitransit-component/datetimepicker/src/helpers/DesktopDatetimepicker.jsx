@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import cx from 'classnames';
 import { parseTypedTime, validateInput, getTs, getDateDisplay, getTimeDisplay } from './utils';
 import styles from './styles.scss';
-
-const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
 
 /**
  * Component to display a date or time input on desktop.
@@ -40,14 +38,11 @@ export default function DesktopDatetimepicker({
   label,
   icon,
   disableTyping = false,
-  timeZone = 'Europe/Helsinki',
   datePicker = false,
-  translationSettings = DEFAULT_TRANSLATION_SETTINGS,
+  lang,
 }) {
-  Settings.defaultZone = timeZone;
-  const [t] = useTranslation();
-  const getDisplay = ts =>
-    datePicker ? getDateDisplay(ts, t, translationSettings.lng) : getTimeDisplay(ts);
+  const [t] = useTranslation(undefined, { lng: lang });
+  const getDisplay = ts => (datePicker ? getDateDisplay(ts, t) : getTimeDisplay(ts));
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
@@ -124,7 +119,7 @@ export default function DesktopDatetimepicker({
     const comp = hour.length === 1 ? '0'.concat(input) : input;
     return isValidHour ? option.label.split(':')[0] === comp.split(':')[0] : true;
   };
-  const ariaError = t('invalid-input', translationSettings);
+  const ariaError = t('invalid-input');
   return (
     <label className={styles['combobox-container']} htmlFor={inputId}>
       <span className={styles['sr-only']} id={labelId}>
@@ -278,7 +273,6 @@ DesktopDatetimepicker.propTypes = {
   label: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
-  timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
-  translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
+  lang: PropTypes.string.isRequired,
 };

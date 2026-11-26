@@ -105,20 +105,19 @@ export const getTs = (inputValue, currentTimestamp) => {
 };
 
 /**
- * @param {number} date Date in milliseconds since unix epoch
- * @param {object} t translations object
- * @param {string} lng selected language
+ * @param {number} date time in milliseconds since unix epoch
+ * @param {function} t translation function, bound to the selected language
  * @returns {string} formatted date
  */
-export const getDateDisplay = (date, t, lng) => {
+export const getDateDisplay = (date, t) => {
   const time = DateTime.fromMillis(date);
   const now = DateTime.now();
   let formatted;
   if (time.hasSame(now, 'day')) {
-    formatted = t('today', { lng });
+    formatted = t('today');
     formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
   } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
-    formatted = t('tomorrow', { lng });
+    formatted = t('tomorrow');
     formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
   } else {
     formatted = time.toFormat('ccc d.L.');
@@ -126,7 +125,9 @@ export const getDateDisplay = (date, t, lng) => {
   return formatted;
 };
 
-// param time is timestamp
+/**
+ * @param {number} time timestamp in milliseconds
+ */
 export const getTimeDisplay = time => DateTime.fromMillis(time).toFormat('HH:mm');
 
 export default { parseTypedTime, validateInput, getTs, getDateDisplay, getTimeDisplay };

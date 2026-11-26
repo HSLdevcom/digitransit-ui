@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { I18nextProvider } from 'react-i18next';
 import { Settings, DateTime } from 'luxon';
 import debounce from 'lodash/debounce';
@@ -64,8 +64,11 @@ export default function DatetimepickerStateContainer({
   openPicker,
   showUpdateInstructions = false,
 }) {
-  Settings.defaultLocale = lang;
-  Settings.defaultZone = timeZone;
+  // Set during render, so they are in place before the initial DateTime calls and the children's render
+  useMemo(() => {
+    Settings.defaultLocale = lang;
+    Settings.defaultZone = timeZone;
+  }, [lang, timeZone]);
   const initialNow = realtime ? null : DateTime.now().toMillis();
   const [timestamp, changeTimestampState] = useState(
     initialTimestamp ? initialTimestamp * 1000 : initialNow,
@@ -174,7 +177,6 @@ export default function DatetimepickerStateContainer({
         embedWhenOpen={embedWhenOpen}
         lang={lang}
         color={color}
-        timeZone={timeZone}
         onModalSubmit={onModalSubmit}
         serviceTimeRange={serviceTimeRange}
         onOpen={onOpen}

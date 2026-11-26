@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useTranslation } from 'react-i18next';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import { useSelect } from 'downshift';
 import cx from 'classnames';
 import styles from './styles.scss';
@@ -69,12 +69,10 @@ export default function MobileDatepicker({
   id,
   label,
   icon,
-  timeZone = 'Europe/Helsinki',
-  lang = 'fi',
+  lang,
 }) {
-  Settings.defaultZone = timeZone;
-  const [t] = useTranslation();
-  const getDisplay = date => getDateDisplay(date, t, lang);
+  const [t] = useTranslation(undefined, { lng: lang });
+  const getDisplay = date => getDateDisplay(date, t);
   const dateChoices = Array(itemCount)
     .fill()
     .map((_, i) => DateTime.fromMillis(startTime).plus({ days: i }).toMillis());
@@ -117,6 +115,5 @@ MobileDatepicker.propTypes = {
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
-  timeZone: PropTypes.string,
-  lang: PropTypes.string,
+  lang: PropTypes.string.isRequired,
 };

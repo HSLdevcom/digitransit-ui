@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import uniqueId from 'lodash/uniqueId';
 import Modal from 'react-modal';
@@ -9,15 +9,12 @@ import MobileDatepicker from './MobileDatepicker';
 import MobileTimepicker from './MobileTimepicker';
 import styles from './styles.scss';
 
-Settings.defaultLocale = 'en';
-
 /**
  * @param {object} props
  * @param {'arrival'|'departure'} props.departureOrArrival Whether the picker is for arrival or departure time
  * @param {function} props.onNowClick Called when the "Now" button is clicked
  * @param {string} props.lang Language code for translations
  * @param {string} props.color Color for the component, used in styles
- * @param {string} props.timeZone Time zone to use for date and time calculations
  * @param {function} props.onSubmit Called when the user submits the selected date and time
  * @param {function} props.onCancel called when the user cancels the selection
  * @param {number} props.timestamp Initial timestamp to display in the picker
@@ -29,16 +26,13 @@ export default function MobilePickerModal({
   onNowClick,
   lang,
   color = '#007ac9',
-  timeZone = 'Europe/Helsinki',
   onSubmit,
   onCancel,
   timestamp,
   dateSelectItemCount,
   onAfterClose,
 }) {
-  Settings.defaultZone = timeZone;
-  const [t] = useTranslation();
-  const translationSettings = { lng: lang };
+  const [t] = useTranslation(undefined, { lng: lang });
 
   const [displayTimestamp, changeTimestamp] = useState(timestamp);
 
@@ -72,17 +66,17 @@ export default function MobilePickerModal({
     >
       <div id="digitransit-mobile-datetime" style={{ '--color': `${color}` }}>
         <div className={styles['top-row']}>
-          <h3 className={styles['modal-title']}>{t('choose-time', translationSettings)}</h3>
+          <h3 className={styles['modal-title']}>{t('choose-time')}</h3>
           <button
             type="button"
             className={styles['departure-now-button']}
             onClick={onNowClick}
             aria-describedby={`${htmlId}-now-description`}
           >
-            {t('departure-now', translationSettings)}
+            {t('departure-now')}
           </button>
           <span id={`${htmlId}-now-description`} className={styles['sr-only']}>
-            {t('accessible-departure-now', translationSettings)}
+            {t('accessible-departure-now')}
           </span>
         </div>
         <div className={styles['tab-row']}>
@@ -91,7 +85,7 @@ export default function MobilePickerModal({
             className={`${styles['radio-tab-label']}
                 ${styles[departureOrArrivalCurrent === 'departure' ? 'active' : undefined]}`}
           >
-            {t('departure', translationSettings)}
+            {t('departure')}
             <input
               id={`${htmlId}-modal-departure`}
               name={`${htmlId}-departureOrArrival`}
@@ -109,7 +103,7 @@ export default function MobilePickerModal({
             className={`${styles['radio-tab-label']}
                 ${styles[departureOrArrivalCurrent === 'arrival' ? 'active' : undefined]}`}
           >
-            {t('arrival', translationSettings)}
+            {t('arrival')}
             <input
               id={`${htmlId}-modal-arrival`}
               name={`${htmlId}-departureOrArrival`}
@@ -130,26 +124,24 @@ export default function MobilePickerModal({
             itemCount={dateSelectItemCount}
             startTime={dateSelectStartTime}
             id={`${htmlId}-date`}
-            label={t('date', translationSettings)}
+            label={t('date')}
             icon={
               <span className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}>
                 <Icon img="calendar" color={color} />
               </span>
             }
-            timeZone={timeZone}
             lang={lang}
           />
           <MobileTimepicker
             value={displayTimestamp}
             onChange={changeTimestamp}
             id={`${htmlId}-time`}
-            label={t('time', translationSettings)}
+            label={t('time')}
             icon={
               <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
                 <Icon img="time" color={color} />
               </span>
             }
-            timeZone={timeZone}
           />
         </div>
         <div className={styles['buttons-row']}>
@@ -158,10 +150,10 @@ export default function MobilePickerModal({
             className={styles['ready-button']}
             onClick={() => onSubmit(displayTimestamp, departureOrArrivalCurrent)}
           >
-            {t('ready', translationSettings)}
+            {t('ready')}
           </button>
           <button type="button" className={styles['cancel-button']} onClick={onCancel}>
-            {t('cancel', translationSettings)}
+            {t('cancel')}
           </button>
         </div>
       </div>
@@ -170,7 +162,6 @@ export default function MobilePickerModal({
 }
 
 MobilePickerModal.propTypes = {
-  timeZone: PropTypes.string,
   departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,
   onNowClick: PropTypes.func.isRequired,
   lang: PropTypes.string.isRequired,
