@@ -171,6 +171,12 @@ export default function Legs({
           {stopCode(leg.from.stop)}
         </WalkLeg>,
       );
+    } else if (leg.mode === 'AIRPLANE') {
+      legs.push(
+        <AirportCheckInLeg index={j - 0.5} leg={leg} start={startTime} focusAction={focusFrom} />,
+      );
+      legs.push(<TransitLeg mode="airplane" omitDivider {...transitLegProps} />);
+      legs.push(<AirportCollectLuggageLeg index={j + 0.5} leg={leg} focusAction={focus(leg.to)} />);
     } else if (
       (leg.mode === 'BUS' ||
         leg.mode === 'TRAM' ||
@@ -187,12 +193,6 @@ export default function Legs({
       );
 
       legs.push(<TransitLeg mode={mode} {...transitLegProps} />);
-    } else if (leg.mode === 'AIRPLANE') {
-      legs.push(
-        <AirportCheckInLeg index={j - 0.5} leg={leg} start={startTime} focusAction={focusFrom} />,
-      );
-      legs.push(<TransitLeg mode="airplane" omitDivider {...transitLegProps} />);
-      legs.push(<AirportCollectLuggageLeg index={j + 0.5} leg={leg} focusAction={focus(leg.to)} />);
     } else if (leg.rentedBike || leg.mode === 'BICYCLE' || leg.mode === 'SCOOTER') {
       let bicycleWalkLeg;
 
