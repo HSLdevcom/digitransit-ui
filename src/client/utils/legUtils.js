@@ -489,6 +489,14 @@ export function isUsingOwnCarWholeTrip(legs) {
 export function isCarParkLeg(leg) {
   return LegMode.Car === getLegMode(leg) && leg.to.vehicleParking;
 }
+/** Rental network id of the bike station or vehicle at the place, if any. */
+export function rentalNetworkId(place) {
+  return (
+    place?.vehicleRentalStation?.rentalNetwork.networkId ||
+    place?.rentalVehicle?.rentalNetwork.networkId
+  );
+}
+
 export function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
 }
@@ -873,7 +881,7 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
  */
 export const legSummaryValues = (intl, config, leg) => ({
   time: legTimeStr(leg.start),
-  distance: displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber),
+  distance: displayDistance(leg.distance, config, intl.formatNumber),
   duration: durationToString(intl, leg.duration * 1000),
   to: legDestination(intl, leg),
   origin: leg.from.name,

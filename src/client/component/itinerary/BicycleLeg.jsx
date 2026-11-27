@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape, relayShape } from '../../utils/shapes';
-import { legTimeStr, legDestination, legPlaceAddress } from '../../utils/legUtils';
+import { legTimeStr, legDestination, legPlaceAddress, rentalNetworkId } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
 import { displayDistance } from '../../../shared/utils/geo-utils';
@@ -48,18 +48,15 @@ export default function BicycleLeg({
 }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
+  const distance = displayDistance(leg.distance, config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start); // hh:mm
   const isWalking = leg.mode === 'WALK' || leg.mode === 'BICYCLE_WALK';
   const mode = (leg.rentedBike && rentedModes[leg.mode]) || leg.mode;
   const walkingClassName = isWalking ? leg.mode.toLowerCase() : 'bicycle';
   const modeClassName = leg.rentedBike ? 'citybike' : walkingClassName;
-  const firstLegClassName = index === 0 ? 'start' : '';
   const [address, place] = legPlaceAddress(intl, leg);
-  const rentalVehicleNetwork =
-    leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
-    leg.from.rentalVehicle?.rentalNetwork.networkId;
+  const rentalVehicleNetwork = rentalNetworkId(leg.from);
   const networkConfig =
     leg.rentedBike && rentalVehicleNetwork && getRentalNetworkConfig(rentalVehicleNetwork, config);
   const isScooter = networkConfig && networkConfig.type === RentalNetworkType.Scooter;
@@ -144,7 +141,11 @@ export default function BicycleLeg({
       {getCircleLine()}
 
       <div
-        className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${mode.toLowerCase()}`}
+        className={cx(
+          'small-9 columns itinerary-instruction-column',
+          { start: index === 0 },
+          mode.toLowerCase(),
+        )}
       >
         {index === 0 || bicycleWalkLeg?.from.stop || leg.from.viaLocationType ? (
           <>

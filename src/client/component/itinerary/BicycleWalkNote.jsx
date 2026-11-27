@@ -38,7 +38,7 @@ export default function BicycleWalkNote({ walkLeg, direction, target, focusActio
           values={{
             transportMode,
             duration: durationToString(intl, walkLeg.duration * 1000),
-            distance: displayDistance(parseInt(walkLeg.distance, 10), config, intl.formatNumber),
+            distance: displayDistance(walkLeg.distance, config, intl.formatNumber),
           }}
         />
       )}

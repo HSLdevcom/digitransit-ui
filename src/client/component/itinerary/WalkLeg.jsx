@@ -13,6 +13,7 @@ import {
   getValidatedLegName,
   legPlaceAddress,
   isBikeOrScooterRentalLeg,
+  rentalNetworkId,
 } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegCircleLine from './LegCircleLine';
@@ -63,7 +64,7 @@ export default function WalkLeg({
   );
 
   const isWalk = leg.mode === 'WALK';
-  const meters = parseInt(isWalk ? leg.distance : 0, 10);
+  const meters = isWalk ? leg.distance : 0;
   const distance = displayDistance(meters, config, intl.formatNumber);
   const duration = durationToString(intl, isWalk ? leg.duration * 1000 : 0);
   const startMs = legTime(leg.start);
@@ -72,9 +73,7 @@ export default function WalkLeg({
   const isFlexArrival = isCallAgencyLeg(leg) || (previousLeg && isCallAgencyLeg(previousLeg));
   const fromMode = walkPlace.stop?.vehicleMode || '';
   const previousPlace = isWalk ? previousLeg?.from : previousLeg?.to;
-  const network =
-    previousPlace?.vehicleRentalStation?.rentalNetwork.networkId ||
-    previousPlace?.rentalVehicle?.rentalNetwork.networkId;
+  const network = rentalNetworkId(previousPlace);
   const validatedLegName = getValidatedLegName(walkPlace.name, intl, !isWalk);
   const [address, place] = legPlaceAddress(intl, leg, walkPlace, !isWalk);
   const networkType = getRentalNetworkConfig(
@@ -113,6 +112,8 @@ export default function WalkLeg({
   const showWalkInfo = meters >= 5;
   // Without a walk only a dotted connector links the stop or notice row to the next leg
   const noWalk = !showWalkInfo && !showSubwayExit && !showSubwayEntrance;
+  // The return notice box is tall, so its row keeps the normal height
+  const compactRow = noWalk && !returnNotice;
 
   const alertIcon = (
     <ServiceAlertIcon
@@ -165,7 +166,7 @@ export default function WalkLeg({
         )}
         <div
           className={cx('small-9 columns itinerary-instruction-column', leg.mode.toLowerCase(), {
-            'no-walk': noWalk && !returnNotice,
+            'no-walk': compactRow,
           })}
         >
           {index === 0 ? (
@@ -182,7 +183,7 @@ export default function WalkLeg({
                 returnNotice ? 'itinerary-leg-first-row-return-bike' : 'itinerary-leg-first-row',
                 isScooter && 'scooter',
                 alightNotice && 'alight',
-                noWalk && 'no-walk',
+                compactRow && 'no-walk',
               )}
             >
               <div className="itinerary-leg-row">
