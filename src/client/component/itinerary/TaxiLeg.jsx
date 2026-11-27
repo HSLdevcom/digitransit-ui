@@ -11,11 +11,11 @@ import LegCircleLine from './LegCircleLine';
 import LegTimeColumn from './LegTimeColumn';
 import LegArrowIcon from './LegArrowIcon';
 import AddressPlace from './AddressPlace';
+import LegAction from './LegAction';
 
-export default function TaxiLeg(props) {
+export default function TaxiLeg({ leg, index, focusAction, focusToLeg }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { leg, index } = props;
   const alternativeOperators = [
     // for testing only
   ];
@@ -27,10 +27,10 @@ export default function TaxiLeg(props) {
     '--taxi-leg-line-bottom': addedPixels ? `${addedPixels * (1 - topBottomRatio)}px` : '0px',
   };
 
-  const values = legSummaryValues(intl, config, props.leg);
+  const values = legSummaryValues(intl, config, leg);
   const { time, distance, duration } = values;
-  const firstLegClassName = props.index === 0 ? 'first' : '';
-  const lowerCaseLegMode = props.leg.mode.toLowerCase();
+  const firstLegClassName = index === 0 ? 'first' : '';
+  const lowerCaseLegMode = leg.mode.toLowerCase();
   const modeClassName = 'taxi-external';
 
   const legDescription = (
@@ -39,8 +39,8 @@ export default function TaxiLeg(props) {
     </span>
   );
 
-  const [address, place] = legPlaceAddress(intl, props.leg);
-  const { bookingUrl, infoUrl } = props.leg.pickupBookingInfo?.contactInfo ?? {};
+  const [address, place] = legPlaceAddress(intl, leg);
+  const { bookingUrl, infoUrl } = leg.pickupBookingInfo?.contactInfo ?? {};
   return (
     <>
       {index === 0 && (
@@ -50,7 +50,7 @@ export default function TaxiLeg(props) {
             index={index}
             modeClassName="walk"
             appendClass="taxi"
-            viaType={props.leg.from.viaLocationType}
+            viaType={leg.from.viaLocationType}
           />
           <div
             className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${lowerCaseLegMode}`}
@@ -71,22 +71,22 @@ export default function TaxiLeg(props) {
         </span>
         <LegTimeColumn time={time} />
         <LegCircleLineWithIcon
-          index={props.index}
+          index={index}
           modeClassName={modeClassName}
           taxi
           style={style}
           isNotFirstLeg
-          viaType={props.leg.from.viaLocationType}
+          viaType={leg.from.viaLocationType}
         />
         <div
           className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${lowerCaseLegMode}`}
         >
           <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
             <div className="itinerary-leg-row-with-link">{legDescription}</div>
-            <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusAction} />
+            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
           </div>
           <TaxiLinkContainer
-            operatorName={props.leg.route.agency.name}
+            operatorName={leg.route.agency.name}
             infoUrl={infoUrl}
             bookingUrl={bookingUrl}
             icon={config.flex.taxiExternalIcon}
@@ -103,12 +103,9 @@ export default function TaxiLeg(props) {
                 />
               );
             })}
-          <div className="itinerary-leg-action">
-            <div className="itinerary-leg-action-content">
-              <FormattedMessage id="taxi-distance-duration" values={{ distance, duration }} />
-              <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusToLeg} />
-            </div>
-          </div>
+          <LegAction focusAction={focusToLeg} target={leg.from.name}>
+            <FormattedMessage id="taxi-distance-duration" values={{ distance, duration }} />
+          </LegAction>
         </div>
       </div>
     </>
