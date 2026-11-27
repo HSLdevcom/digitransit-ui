@@ -120,6 +120,7 @@ export const planConnection = graphql`
                 time
               }
             }
+            serviceDate
             legGeometry {
               points
             }
@@ -185,7 +186,11 @@ export const planConnection = graphql`
               tripHeadsign
               isReplacement
               tripShortName
+              pattern {
+                code
+              }
               stoptimesForDate {
+                realtimeState
                 stop {
                   gtfsId
                   platformCode

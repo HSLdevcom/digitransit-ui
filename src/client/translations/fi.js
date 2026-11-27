@@ -592,6 +592,7 @@ export default {
     'route-canceled-section': 'Pois jäävä reittiosuus',
     'route-destination-arrives': 'Vain poistuminen',
     'route-destination-endpoint': 'Saapuu / Päätepysäkki',
+    'route-detour': 'Poikkeusreitti',
     'route-end-stop': 'Päätepysäkki',
     'route-from-here': 'Lähtöpaikka',
     'route-guide': 'Linjaohje',

@@ -10,8 +10,8 @@ const SHIFT = 16;
 export const PIN_LIFT = -8; // lift of the pin label, also passed to the stylesheet
 const MAX_TAIL_ANGLE = 30; // degrees
 const MAX_TAIL_SHIFT = 5; // tail base offset towards the bubble edge nearer the anchor
-const SHIFTS = [0, -SHIFT, SHIFT, -2 * SHIFT, 2 * SHIFT];
-const MAX_SHIFT = 2 * SHIFT;
+const SHIFTS = [0, -SHIFT, SHIFT, -2 * SHIFT, 2 * SHIFT, -3 * SHIFT, 3 * SHIFT];
+const MAX_SHIFT = 3 * SHIFT;
 const SIDE_ORDER = { right: ['right', 'left'], pin: ['right', 'left'], left: ['left', 'right'] };
 
 let measureContext;
@@ -83,12 +83,14 @@ function segmentsNear(linePoints, area) {
   return near;
 }
 
-const hitsLine = (segments, rect) => segments.some(([a, b]) => segmentHitsRect(a, b, rect));
+const countHits = (segments, rect) =>
+  segments.filter(([a, b]) => segmentHitsRect(a, b, rect)).length;
 
 /**
  * Chooses the side and vertical shift of a label so that it does not cover the line.
  * @param {{x:number,y:number}} anchor anchor in pixels
- * @param {Array<{x:number,y:number}>} linePoints route geometry in pixels
+ * @param {Array<{x:number,y:number}>|Array<Array<{x:number,y:number}>>} linePoints route geometry
+ *   in pixels, or several separate lines
  * @param {string} text label text
  * @param {'right'|'left'|'pin'} preferred preferred placement
  * @param {Array} occupied pixel rectangles of the labels already placed
@@ -112,21 +114,33 @@ export default function chooseLabelPlacement(anchor, linePoints, text, preferred
   // all candidate rects lie within this area, so scan only the nearby line segments
   const reachX = MARKER_REACH + TAIL_REACH + width + LINE_CLEARANCE;
   const reachY = MAX_SHIFT + LABEL_HEIGHT / 2 + LINE_CLEARANCE;
-  const nearby = segmentsNear(linePoints, {
+  const lines = Array.isArray(linePoints[0]) ? linePoints : [linePoints];
+  const area = {
     x0: anchor.x - reachX,
     x1: anchor.x + reachX,
     y0: anchor.y + baseY - reachY,
     y1: anchor.y + baseY + reachY,
-  });
-  const isFree = rect =>
-    !occupied.some(other => rectsOverlap(rect, other)) && !hitsLine(nearby, rect);
+  };
+  const nearby = lines.flatMap(line => segmentsNear(line, area));
+  // number of labels and line segments that the rect would cover
+  const clashes = rect =>
+    occupied.filter(other => rectsOverlap(rect, other)).length * 100 + countHits(nearby, rect);
 
   const sides = SIDE_ORDER[preferred];
   const candidates = SHIFTS.flatMap(dy =>
     sides.map(side => ({ side, dy, rect: rectFor(side, dy) })),
   );
-  // nothing fits: fall back to the preferred spot
-  const found = candidates.find(candidate => isFree(candidate.rect)) || candidates[0];
+  // the first free spot wins; if there is none, the one with the least clashes
+  let found = candidates[0];
+  let fewest = Infinity;
+  candidates.some(candidate => {
+    const count = clashes(candidate.rect);
+    if (count < fewest) {
+      found = candidate;
+      fewest = count;
+    }
+    return count === 0;
+  });
 
   let placement = 'left';
   if (found.side === 'right') {

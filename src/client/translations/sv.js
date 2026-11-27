@@ -602,6 +602,7 @@ export default {
     'route-canceled-section': 'Inställd sträcka',
     'route-destination-arrives': 'Endast för avstigning',
     'route-destination-endpoint': 'Ankomst / Ändhållplats',
+    'route-detour': 'Avvikande rutt',
     'route-end-stop': 'Sluthållplats',
     'route-from-here': 'Avfärdsplats',
     'route-guide': 'Linjeguide',

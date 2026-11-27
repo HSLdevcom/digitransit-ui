@@ -8,7 +8,7 @@ import chooseLabelPlacement from './labelPlacement';
 const NO_LINE = [];
 
 /**
- * Renders labels so that they cover neither the route line nor each other.
+ * Renders labels so that they cover neither the route line(s) nor each other.
  * Earlier labels in the list get their preferred spot first.
  */
 export default function RouteLineLabels({ labels, linePoints = NO_LINE }) {
@@ -23,7 +23,9 @@ export default function RouteLineLabels({ labels, linePoints = NO_LINE }) {
 
   const placed = useMemo(() => {
     const project = point => map.project(L.latLng(point.lat, point.lon), zoom);
-    const pixels = linePoints.map(project);
+    const pixels = Array.isArray(linePoints[0])
+      ? linePoints.map(line => line.map(project))
+      : linePoints.map(project);
     const occupied = [];
     return labels.map(label => {
       const result = chooseLabelPlacement(
@@ -65,5 +67,8 @@ RouteLineLabels.propTypes = {
       placement: PropTypes.oneOf(['right', 'left', 'pin']).isRequired,
     }),
   ).isRequired,
-  linePoints: PropTypes.arrayOf(pointShape),
+  linePoints: PropTypes.oneOfType([
+    PropTypes.arrayOf(pointShape),
+    PropTypes.arrayOf(PropTypes.arrayOf(pointShape)),
+  ]),
 };

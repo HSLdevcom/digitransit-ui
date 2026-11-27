@@ -604,6 +604,7 @@ export default {
     'route-canceled-section': 'Canceled section',
     'route-destination-arrives': 'Drop-off only',
     'route-destination-endpoint': 'Arrives / Terminus',
+    'route-detour': 'Detour route',
     'route-end-stop': 'Last stop',
     'route-from-here': 'Origin',
     'route-guide': 'Route guide',

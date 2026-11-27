@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Supercluster from 'supercluster';
 import { useLeaflet } from 'react-leaflet/es/context';
 import polyUtil from 'polyline-encoded';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 import { useIntl } from 'react-intl';
 import { getMiddleOf } from '../../../shared/utils/geo-utils';
 import {
@@ -25,6 +25,11 @@ import TransitLegMarkers from './non-tile-layer/TransitLegMarkers';
 import VehicleMarker from './non-tile-layer/VehicleMarker';
 import SpeechBubble from './SpeechBubble';
 import EntranceMarker from './EntranceMarker';
+import RouteLineLabels from './route/RouteLineLabels';
+import { getDetourSegments } from './route/skippedSegments';
+import usePatternGeometries from './usePatternGeometries';
+import useCanceledStopIds from '../itinerary/useCanceledStopIds';
+import { STOP_CALL_STATUS } from '../../utils/stopCallStatusUtils';
 import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorStepMarker from './IndoorStepMarker';
 import { createFeatureObjects } from '../../utils/clusterUtils';
@@ -36,6 +41,132 @@ import {
   getIndoorStepsWithVerticalTransportation,
   isVerticalTransportationUse,
 } from '../../utils/indoorUtils';
+
+const NO_CANCELED_STOPS = {
+  segments: null,
+  points: [],
+  labels: [],
+  canceledIds: new Set(),
+  extraStops: [],
+};
+
+/**
+ * Canceled stop calls of a transit leg: the diverging line sections and the labels
+ * for the first and last stop actually served, when those differ from the leg ends.
+ */
+function getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, config) {
+  const callStops = leg.stopCalls?.map(sc => sc.stopLocation);
+  if (
+    !canceledStopIds.size ||
+    !callStops?.length ||
+    callStops.some(s => !s?.gtfsId || s.lat == null)
+  ) {
+    return NO_CANCELED_STOPS;
+  }
+  const pattern = patterns[leg.trip?.pattern?.code];
+  // Canceled stops of the scheduled pattern right before or after the stop calls are not
+  // stop calls of the leg, so they are taken from the pattern.
+  const patternStops = pattern?.stops ?? [];
+  // Stop calls are matched in order, so a loop pattern's repeated stop maps to the right index.
+  let searchFrom = 0;
+  const patternIndices = [];
+  callStops.forEach(call => {
+    const at = patternStops.findIndex((s, i) => i >= searchFrom && s.gtfsId === call.gtfsId);
+    if (at >= 0) {
+      patternIndices.push(at);
+      searchFrom = at + 1;
+    }
+  });
+  const firstAt = patternIndices.length ? patternIndices[0] : -1;
+  const lastAt = patternIndices.length ? patternIndices[patternIndices.length - 1] : -1;
+  const isCanceled = s => canceledStopIds.has(s.gtfsId);
+  // only the canceled stops adjacent to the stop calls are needed
+  let leadingFrom = firstAt;
+  while (firstAt > 0 && leadingFrom > 0 && isCanceled(patternStops[leadingFrom - 1])) {
+    leadingFrom -= 1;
+  }
+  const leading = firstAt > 0 ? patternStops.slice(leadingFrom, firstAt) : [];
+  let trailingTo = lastAt + 1;
+  while (lastAt >= 0 && trailingTo < patternStops.length && isCanceled(patternStops[trailingTo])) {
+    trailingTo += 1;
+  }
+  const trailing = lastAt >= 0 ? patternStops.slice(lastAt + 1, trailingTo) : [];
+  const stops = [...leading, ...callStops, ...trailing];
+  const canceled = new Set();
+  stops.forEach((stop, i) => {
+    if (canceledStopIds.has(stop.gtfsId)) {
+      canceled.add(i);
+    }
+  });
+  if (!canceled.size) {
+    return NO_CANCELED_STOPS;
+  }
+  const addedIds = new Set(
+    leg.trip?.stoptimesForDate
+      ?.filter(st => st.realtimeState === 'ADDED')
+      .map(st => st.stop?.gtfsId),
+  );
+  const added = new Set();
+  stops.forEach((stop, i) => {
+    if (addedIds.has(stop.gtfsId)) {
+      added.add(i);
+    }
+  });
+  const segments = getDetourSegments(geometry, stops, canceled, added, pattern?.geometry);
+  const served = stops.filter((_, i) => !canceled.has(i));
+  const labels = [];
+  if (served.length) {
+    const color = leg.route?.color ? `#${leg.route.color}` : config.colors.primary;
+    if (served[0] !== stops[0]) {
+      labels.push({
+        key: 'from-label',
+        position: served[0],
+        text: intl.formatMessage({ id: 'route-start-stop' }),
+        color,
+        placement: 'right',
+      });
+    }
+    if (served.at(-1) !== stops.at(-1)) {
+      labels.push({
+        key: 'to-label',
+        position: served.at(-1),
+        text: intl.formatMessage({ id: 'route-end-stop' }),
+        color,
+        placement: 'pin',
+      });
+    }
+    segments
+      .filter(segment => segment.detour)
+      .forEach((segment, i) => {
+        const [lat, lon] = segment.points[Math.floor(segment.points.length / 2)];
+        labels.push({
+          key: `detour-label-${i}`,
+          position: { lat, lon },
+          text: intl.formatMessage({ id: 'route-detour' }),
+          color: leg.route?.color ? `#${leg.route.color}` : config.colors.primary,
+          placement: 'right',
+        });
+      });
+    segments
+      .filter(segment => segment.dashed)
+      .forEach((segment, i) => {
+        const [lat, lon] = segment.points[Math.floor(segment.points.length / 2)];
+        labels.push({
+          key: `canceled-label-${i}`,
+          position: { lat, lon },
+          text: intl.formatMessage({ id: 'route-canceled-section' }),
+          color: config.map.line.canceledColor,
+          placement: 'left',
+        });
+      });
+  }
+  return {
+    segments,
+    labels,
+    canceledIds: new Set(stops.filter((_, i) => canceled.has(i)).map(s => s.gtfsId)),
+    extraStops: [...leading, ...trailing],
+  };
+}
 
 export default function ItineraryLine({
   legs,
@@ -50,6 +181,11 @@ export default function ItineraryLine({
   const config = useConfigContext();
   const intl = useIntl();
   const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
+  const tripLegs = useMemo(() => legs.filter(leg => leg?.transitLeg), [legs]);
+  const canceledStopIds = useCanceledStopIds(tripLegs, !passive);
+  const patterns = usePatternGeometries(
+    canceledStopIds.size ? tripLegs.map(leg => leg.trip?.pattern?.code).filter(Boolean) : [],
+  );
 
   // TODO when we upgrade to react-leaflet v3 and react v17, this should be changed.
   useEffect(() => {
@@ -137,6 +273,7 @@ export default function ItineraryLine({
     objs,
     clusterObjs,
     appendClass,
+    segments,
   ) {
     const entranceObject = getEntranceObject(previousLeg, leg);
     const indoorLegType = getIndoorLegType(previousLeg, leg, nextLeg);
@@ -153,15 +290,28 @@ export default function ItineraryLine({
         indoorLegType,
       );
     } else {
-      objs.push(
-        <Line
-          color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
-          key={`${hash}_${i}_${mode}`}
-          geometry={geometry}
-          mode={mode}
-          passive={passive}
-          appendClass={appendClass}
-        />,
+      (segments || [{ points: geometry, dashed: false }]).forEach((segment, j) =>
+        objs.push(
+          segment.dashed ? (
+            <Line
+              key={`${hash}_${i}_${mode}_${j}`}
+              geometry={segment.points}
+              mode={mode}
+              passive={passive}
+              appendClass={appendClass}
+              dashed
+            />
+          ) : (
+            <Line
+              color={leg.route && leg.route.color ? `#${leg.route.color}` : null}
+              key={`${hash}_${i}_${mode}_${j}`}
+              geometry={segment.points}
+              mode={mode}
+              passive={passive}
+              appendClass={appendClass}
+            />
+          ),
+        ),
       );
     }
   }
@@ -175,11 +325,12 @@ export default function ItineraryLine({
     }
   }
 
-  function handleIntermediateStops(leg, mode, objs) {
-    if (!passive && showIntermediateStops && leg.stopCalls != null) {
+  function handleIntermediateStops(leg, mode, objs, canceledIds) {
+    if (!passive && leg.stopCalls != null) {
       leg.stopCalls
         .slice(1, -1)
         .filter(sc => sc.stopLocation)
+        .filter(sc => showIntermediateStops || canceledIds.has(sc.stopLocation.gtfsId))
         .forEach(sc =>
           objs.push(
             <StopMarker
@@ -189,6 +340,9 @@ export default function ItineraryLine({
               key={`intermediate-${sc.stopLocation.gtfsId}`}
               mode={mode}
               thin
+              stopCallStatus={
+                canceledIds.has(sc.stopLocation.gtfsId) ? STOP_CALL_STATUS.CANCELED : null
+              }
             />,
           ),
         );
@@ -292,6 +446,9 @@ export default function ItineraryLine({
 
   const objs = [];
   const transitLegs = [];
+  // labels of all legs are placed together, clear of every line and of each other
+  const labels = [];
+  const labelLines = [];
 
   legs.forEach((leg, i) => {
     const clusterObjs = [];
@@ -337,9 +494,45 @@ export default function ItineraryLine({
       end = interliningLegs[interliningLegs.length - 1].end;
     }
 
-    handleLine(previousLeg, leg, nextLeg, mode, i, geometry, objs, clusterObjs, appendClass);
+    const cancelations = passive
+      ? NO_CANCELED_STOPS
+      : getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, config);
+
+    handleLine(
+      previousLeg,
+      leg,
+      nextLeg,
+      mode,
+      i,
+      geometry,
+      objs,
+      clusterObjs,
+      appendClass,
+      cancelations.segments,
+    );
+    if (!passive) {
+      (cancelations.segments || [{ points: geometry }]).forEach(segment =>
+        labelLines.push(segment.points.map(([lat, lon]) => ({ lat, lon }))),
+      );
+      cancelations.labels.forEach(label => labels.push({ ...label, key: `${i}-${label.key}` }));
+    }
     handleDurationBubble(leg, mode, i, objs, middle);
-    handleIntermediateStops(leg, mode, objs);
+    handleIntermediateStops(leg, mode, objs, cancelations.canceledIds);
+    if (!passive) {
+      cancelations.extraStops.forEach(stop =>
+        objs.push(
+          <StopMarker
+            disableModeIcons
+            limitZoom={14}
+            stop={stop}
+            key={`canceled-${stop.gtfsId}`}
+            mode={mode}
+            thin
+            stopCallStatus={STOP_CALL_STATUS.CANCELED}
+          />,
+        ),
+      );
+    }
     handleIndoorStepMarkers(previousLeg, leg, nextLeg, clusterObjs);
     handleClusterObjects(previousLeg, leg, nextLeg, objs, clusterObjs);
 
@@ -391,6 +584,9 @@ export default function ItineraryLine({
             }}
             mode={mode}
             appendClass={appendClass}
+            stopCallStatus={
+              cancelations.canceledIds.has(leg.from.stop.gtfsId) ? STOP_CALL_STATUS.CANCELED : null
+            }
           />,
         );
         objs.push(
@@ -407,6 +603,9 @@ export default function ItineraryLine({
             }}
             mode={mode}
             appendClass={appendClass}
+            stopCallStatus={
+              cancelations.canceledIds.has(leg.to.stop.gtfsId) ? STOP_CALL_STATUS.CANCELED : null
+            }
           />,
         );
       }
@@ -414,6 +613,9 @@ export default function ItineraryLine({
   });
 
   handleTransitLegMarkers(transitLegs, objs);
+  if (labels.length) {
+    objs.push(<RouteLineLabels key="labels" labels={labels} linePoints={labelLines} />);
+  }
 
   return <div style={{ display: 'none' }}>{objs}</div>;
 }
