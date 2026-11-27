@@ -94,6 +94,10 @@ export default function Map({
       };
     }
     updateZoom();
+    // Leaflet's remove() leaves the debounced resize 'moveend' pending, which then
+    // crashes in _panInsideMaxBounds on the destroyed map
+    // eslint-disable-next-line no-underscore-dangle
+    return () => clearTimeout(map.current?.leafletElement?._sizeTimer);
   }, []);
 
   useEffect(() => {
