@@ -1,22 +1,31 @@
 import PropTypes from 'prop-types';
+import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
-import { displayDistance } from '../../../shared/utils/geo-utils';
-import { legDestination, legTimeStr } from '../../utils/legUtils';
-import { PREFIX_BIKEPARK } from '../../../shared/utils/path';
 import { legShape, parkShape } from '../../utils/shapes';
+import ShowOnMapButton from './ShowOnMapButton';
+import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
-import ShowOnMapButton from './ShowOnMapButton';
+import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../shared/utils/path';
+import { legTimeStr, legDestination } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
 
-export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
+const PARK_TYPES = {
+  bike: { prefix: PREFIX_BIKEPARK, labelId: 'bike-park' },
+  car: { prefix: PREFIX_CARPARK, labelId: 'car-park' },
+};
+
+/** Walk between a parked vehicle and the park & ride facility. */
+export default function ParkLeg({ leg, index, focusAction, park, type }) {
+  const { prefix, labelId } = PARK_TYPES[type];
   const config = useConfigContext();
   const intl = useIntl();
   const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
   const duration = durationToString(intl, leg.duration * 1000);
   const time = legTimeStr(leg.start);
+
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
@@ -34,27 +43,28 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
       </span>
       <LegTimeColumn time={time} />
       <LegCircleLineWithIcon
-        bikePark
         index={index}
         modeClassName="walk"
+        bikePark={type === 'bike'}
+        carPark={type === 'car'}
         viaType={leg.from.viaLocationType}
         isStop={!!leg.from.stop}
       />
       <div className="small-9 columns itinerary-instruction-column">
-        <div className="itinerary-leg-first-row bicycle">
+        <div className={cx('itinerary-leg-first-row', { first: index === 0 })}>
           <div className="address-container">
             <LegPlaceLink
-              to={`/${PREFIX_BIKEPARK}/${bikePark.vehicleParkingId}`}
+              to={`/${prefix}/${park.vehicleParkingId}`}
               isViaPoint={leg.isViaPoint}
               asAddress
             >
-              <FormattedMessage id="bike-park" />
+              <FormattedMessage id={labelId} />
             </LegPlaceLink>
-            <div className="place">{bikePark.name}</div>
+            <div className="place">{park.name}</div>
           </div>
           <ShowOnMapButton target={leg.from.name} focusAction={focusAction} />
         </div>
-        <div className="itinerary-leg-action bike itinerary-leg-action-content">
+        <div className="itinerary-leg-action itinerary-leg-action-content">
           <FormattedMessage id="walk-distance-duration" values={{ distance, duration }} />
           <ShowOnMapButton target={leg.from.name} focusAction={focusAction} />
         </div>
@@ -63,9 +73,10 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
   );
 }
 
-BikeParkLeg.propTypes = {
+ParkLeg.propTypes = {
+  leg: legShape.isRequired,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
-  bikePark: parkShape.isRequired,
-  leg: legShape.isRequired,
+  park: parkShape.isRequired,
+  type: PropTypes.oneOf(Object.keys(PARK_TYPES)).isRequired,
 };

@@ -31,7 +31,6 @@ export default function LegCircleLine({
   viaType = null,
   color = null,
   renderBottomMarker = true,
-  carPark = false,
   appendClass,
   isStop = false,
 }) {
@@ -54,14 +53,6 @@ export default function LegCircleLine({
             />
           )}
         </>
-      );
-    }
-
-    if (carPark) {
-      return (
-        <div className="itinerary-icon-container car-park">
-          <Icon img="icon_car-park" />
-        </div>
       );
     }
 
@@ -91,7 +82,7 @@ export default function LegCircleLine({
   const bottomMarker = getMarker(false);
 
   let backgroundClass = '';
-  if (modeClassName === 'car-park-walk' || modeClassName === 'walk') {
+  if (modeClassName === 'walk') {
     backgroundClass = 'default-dotted-line';
   }
 
@@ -115,7 +106,6 @@ LegCircleLine.propTypes = {
   viaType: PropTypes.string,
   color: PropTypes.string,
   renderBottomMarker: PropTypes.bool,
-  carPark: PropTypes.bool,
   appendClass: PropTypes.string,
   isStop: PropTypes.bool,
 };

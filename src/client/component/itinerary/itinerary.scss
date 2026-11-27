@@ -1609,8 +1609,7 @@
     &.indoor-step,
     &.walk,
     &.bicycle_walk,
-    &.car_boarding,
-    &.car-park-walk {
+    &.car_boarding {
       background-size: 100% auto;
       background-position-y: 8px;
       background-position-x: 0;
@@ -1838,10 +1837,6 @@
   }
 
   .itinerary-instruction-column.walk:not(.to)::after {
-    border-left-style: dotted;
-  }
-
-  .itinerary-instruction-column.car-park-walk:not(.to)::after {
     border-left-style: dotted;
   }
 

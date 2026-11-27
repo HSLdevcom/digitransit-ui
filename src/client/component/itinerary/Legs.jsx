@@ -12,7 +12,7 @@ import AirportCheckInLeg from './AirportCheckInLeg';
 import AirportCollectLuggageLeg from './AirportCollectLuggageLeg';
 import StopCode from '../StopCode';
 import CarLeg from './CarLeg';
-import CarParkLeg from './CarParkLeg';
+import ParkLeg from './ParkLeg';
 import ViaLeg from './ViaLeg';
 import CallAgencyLeg from './CallAgencyLeg';
 import TaxiLeg from './TaxiLeg';
@@ -30,7 +30,6 @@ import {
 import { getTripOrRouteMode } from '../../utils/modeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import ItineraryTotals from './ItineraryTotals';
-import BikeParkLeg from './BikeParkLeg';
 import { getIntermediatePlaces } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -162,9 +161,9 @@ export default function Legs({
     } else if (leg.intermediatePlace) {
       legs.push(<ViaLeg {...legProps} arrival={startTime} />);
     } else if (bikePark) {
-      legs.push(<BikeParkLeg {...legProps} bikePark={bikePark} />);
+      legs.push(<ParkLeg {...legProps} park={bikePark} type="bike" />);
     } else if (carPark) {
-      legs.push(<CarParkLeg {...legProps} carPark={carPark} />);
+      legs.push(<ParkLeg {...legProps} park={carPark} type="car" />);
     } else if (isTaxiLeg(leg)) {
       legs.push(<TaxiLeg {...legProps} />);
     } else if (isWalkLeg(leg)) {
