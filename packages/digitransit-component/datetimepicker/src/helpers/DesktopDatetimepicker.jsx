@@ -65,21 +65,13 @@ export default function DesktopDatetimepicker({
     }
     onChange(asNumber);
   };
-  function isinvalidInput(str) {
-    const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
-    if (str.length < displayValue?.length) {
-      const valid = validateInput(str);
-      setinvalidInput(!valid);
-
-      return true;
-    }
-    if (regex.test(str)) {
+  // Typed text is accepted when it can be part of a time. Anything else is ignored and the previous text stays.
+  function acceptTypedText(text) {
+    if (!/^[0-9:]*$/.test(text) || text.length > 5) {
       return false;
     }
-    const time = str.length > 5 ? str.slice(0, -1) : str;
-    const valid = validateInput(time);
-    setinvalidInput(!valid);
-    return str.length <= 5;
+    setinvalidInput(!validateInput(text));
+    return true;
   }
   const onInputChange = (newValue, { action }) => {
     if (action === 'menu-close') {
@@ -87,7 +79,7 @@ export default function DesktopDatetimepicker({
     } else if (showAllOptions) {
       setShowAllOptions(false);
     }
-    if (disableTyping || (newValue && !isinvalidInput(newValue))) {
+    if (disableTyping || (newValue && !acceptTypedText(newValue))) {
       return;
     }
     if (action === 'input-change') {
