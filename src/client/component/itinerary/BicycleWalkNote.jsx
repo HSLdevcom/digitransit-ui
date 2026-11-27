@@ -1,12 +1,11 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import ShowOnMapButton from './ShowOnMapButton';
+import LegAction from './LegAction';
 
 const MESSAGE_IDS = {
   from: {
@@ -30,7 +29,7 @@ export default function BicycleWalkNote({ walkLeg, direction, target, focusActio
   const transportMode = getLocalizedMode(walkLeg[direction].stop.vehicleMode, intl);
 
   return (
-    <div className={cx('itinerary-leg-action', 'bicycle', 'itinerary-leg-action-content')}>
+    <LegAction target={target} focusAction={focusAction}>
       {walkLeg.distance === -1 ? (
         <FormattedMessage id={ids.noDuration} values={{ transportMode }} />
       ) : (
@@ -43,8 +42,7 @@ export default function BicycleWalkNote({ walkLeg, direction, target, focusActio
           }}
         />
       )}
-      <ShowOnMapButton target={target} focusAction={focusAction} />
-    </div>
+    </LegAction>
   );
 }
 

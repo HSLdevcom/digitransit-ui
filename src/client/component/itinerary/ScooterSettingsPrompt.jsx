@@ -1,8 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import cx from 'classnames';
 import Icon from '../Icon';
-import ShowOnMapButton from './ShowOnMapButton';
+import LegAction from './LegAction';
 import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 
 /**
@@ -11,17 +10,12 @@ import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 export default function ScooterSettingsPrompt({ focusToLeg, openSettings }) {
   return (
     <div>
-      <div className={cx('itinerary-leg-action', 'scooter', 'itinerary-leg-action-content')}>
-        <FormattedMessage
-          id="settings-e-scooter-on"
-          defaultMessage="Turn scooter settings on permanently"
-        />
-        <ShowOnMapButton
-          target=""
-          ariaLabelId="itinerary-list-row.clickable-area-description"
-          focusAction={focusToLeg}
-        />
-      </div>
+      <LegAction
+        ariaLabelId="itinerary-list-row.clickable-area-description"
+        focusAction={focusToLeg}
+      >
+        <FormattedMessage id="settings-e-scooter-on" />
+      </LegAction>
       <div
         role="button"
         tabIndex="0"

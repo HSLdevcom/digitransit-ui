@@ -1,9 +1,9 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
+import LegAction from './LegAction';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
@@ -77,17 +77,16 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {carBoardingLeg?.from.stop && (
-          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
+          <LegAction target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-from-transit-no-duration"
               values={{
                 transportMode: getFromLocalizedMode(carBoardingLeg.from.stop.vehicleMode, intl),
               }}
             />
-            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          </LegAction>
         )}
-        <div className="itinerary-leg-action itinerary-leg-action-content">
+        <LegAction target={leg.from.name || ''} focusAction={focusToLeg}>
           <FormattedMessage
             id={
               config.hideCarSuggestionDuration
@@ -96,18 +95,16 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             }
             values={{ distance, duration }}
           />
-          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusToLeg} />
-        </div>
+        </LegAction>
         {carBoardingLeg?.to.stop && (
-          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
+          <LegAction target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-to-transit-no-duration"
               values={{
                 transportMode: getToLocalizedMode(carBoardingLeg.to.stop.vehicleMode, intl),
               }}
             />
-            <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          </LegAction>
         )}
       </div>
     </div>
