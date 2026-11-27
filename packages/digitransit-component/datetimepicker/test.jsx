@@ -1,9 +1,12 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useState } from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { I18nextProvider } from 'react-i18next';
 import { DateTime, Settings } from 'luxon';
 import Datetimepicker from './src/index';
+import DesktopDatetimepicker from './src/helpers/DesktopDatetimepicker';
 import MobileTimepicker from './src/helpers/MobileTimepicker';
+import i18n from './src/helpers/i18n';
 import {
   parseTypedTime,
   validateInput,
@@ -480,5 +483,382 @@ describe('desktop time field input filtering', () => {
     expect(container.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
     fireEvent.change(timeInput, { target: { value: '12:' } });
     expect(container.querySelector('.datetimepicker-invalid-input')).toBeNull();
+  });
+});
+
+describe('DesktopDatetimepicker', () => {
+  // 2023-11-15 12:00 in Europe/Helsinki
+  const NOON = DateTime.fromObject(
+    { year: 2023, month: 11, day: 15, hour: 12 },
+    { zone: 'Europe/Helsinki' },
+  ).toMillis();
+  const [MINUTE_CHOICES] = getPickerChoices({
+    timestamp: NOON,
+    displayTimestamp: NOON,
+    serviceTimeRange: 30,
+    stepMinutes: 1,
+  });
+
+  beforeEach(() => {
+    Settings.defaultZone = 'Europe/Helsinki';
+    Settings.defaultLocale = 'en';
+  });
+
+  afterEach(() => {
+    Settings.defaultZone = 'system';
+    Settings.defaultLocale = null;
+  });
+
+  const field = (props = {}) => (
+    <I18nextProvider i18n={i18n}>
+      <DesktopDatetimepicker
+        value={NOON}
+        timeChoices={MINUTE_CHOICES}
+        id="time"
+        label="Time"
+        icon={<span />}
+        lang="en"
+        {...props}
+      />
+    </I18nextProvider>
+  );
+
+  const renderField = (props = {}) => {
+    const onChange = vi.fn();
+    const result = render(field({ onChange, ...props }));
+    const input = result.container.querySelector('#time-input');
+    return { ...result, onChange, input };
+  };
+
+  const openList = input => {
+    fireEvent.focus(input);
+    fireEvent.keyDown(input, { key: 'ArrowDown' });
+    return screen.queryAllByRole('option').map(option => option.textContent);
+  };
+
+  const type = (input, text) => fireEvent.change(input, { target: { value: text } });
+
+  describe('time field', () => {
+    it('shows the selected time', () => {
+      expect(renderField().input.value).toBe('12:00');
+    });
+
+    it('lists only quarter hours when the list is opened', () => {
+      const { input } = renderField();
+      const labels = openList(input);
+      expect(labels).toHaveLength(96);
+      expect(labels.slice(0, 3)).toEqual(['00:00', '00:15', '00:30']);
+      expect(labels.every(label => Number(label.split(':')[1]) % 15 === 0)).toBe(true);
+    });
+
+    it('reports the chosen option', () => {
+      const { input, onChange } = renderField();
+      openList(input);
+      fireEvent.click(screen.getByRole('option', { name: '13:15' }));
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:15');
+      expect(DateTime.fromMillis(onChange.mock.calls[0][0]).toISODate()).toBe('2023-11-15');
+    });
+
+    it('selects the typed text on focus', () => {
+      const { input } = renderField();
+      const select = vi.spyOn(input, 'select');
+      fireEvent.focus(input);
+      expect(select).toHaveBeenCalled();
+    });
+
+    it('follows the value given by the parent', () => {
+      const { input, rerender, onChange } = renderField();
+      type(input, '25:');
+      rerender(field({ onChange, value: NOON + 2 * 60 * 60 * 1000 }));
+      expect(input.value).toBe('14:00');
+      expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
+    });
+
+    describe('typing', () => {
+      it('commits a complete time when focus leaves the field', () => {
+        const { input, onChange } = renderField();
+        type(input, '1330');
+        expect(input.value).toBe('13:30');
+        fireEvent.blur(input);
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:30');
+      });
+
+      it('commits a typed time with a single digit hour', () => {
+        const { input, onChange } = renderField();
+        type(input, '9:05');
+        fireEvent.blur(input);
+        expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('09:05');
+      });
+
+      it('commits the typed time with Enter', () => {
+        const { input, onChange } = renderField();
+        type(input, '13:37');
+        fireEvent.keyDown(input, { key: 'Enter' });
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:37');
+      });
+
+      it('restores the current time instead of committing an incomplete or impossible one', () => {
+        const { input, onChange } = renderField();
+        type(input, '25:');
+        fireEvent.blur(input);
+        expect(onChange).not.toHaveBeenCalled();
+        expect(input.value).toBe('12:00');
+        expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
+
+        type(input, '13:');
+        fireEvent.blur(input);
+        expect(onChange).not.toHaveBeenCalled();
+        expect(input.value).toBe('12:00');
+      });
+
+      it('does nothing on blur when nothing was typed', () => {
+        const { input, onChange } = renderField();
+        fireEvent.focus(input);
+        fireEvent.blur(input);
+        expect(onChange).not.toHaveBeenCalled();
+      });
+
+      it('narrows the list to the typed hour', () => {
+        const { input } = renderField();
+        fireEvent.focus(input);
+        type(input, '13');
+        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual([
+          '13:00',
+          '13:15',
+          '13:30',
+          '13:45',
+        ]);
+      });
+
+      it('narrows the list to the matching minutes when the minute tens digit is typed', () => {
+        const { input } = renderField();
+        fireEvent.focus(input);
+        type(input, '13:4');
+        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual([
+          '13:40',
+          '13:41',
+          '13:42',
+          '13:43',
+          '13:44',
+          '13:45',
+          '13:46',
+          '13:47',
+          '13:48',
+          '13:49',
+        ]);
+      });
+
+      it('narrows the list to the typed complete time', () => {
+        const { input } = renderField();
+        fireEvent.focus(input);
+        type(input, '13:37');
+        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual(['13:37']);
+      });
+
+      it('marks an impossible time as invalid and clears the mark when the value is fixed', () => {
+        const { input } = renderField();
+        type(input, '12:75');
+        expect(document.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
+        type(input, '12:7');
+        expect(document.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
+        type(input, '12:5');
+        expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
+      });
+    });
+  });
+
+  describe('date field', () => {
+    // Dates are listed from today on, so the clock is fixed to 2023-11-15 10:00 in Helsinki
+    let dateChoices;
+
+    beforeEach(() => {
+      vi.useFakeTimers({ toFake: ['Date'] });
+      vi.setSystemTime(Date.UTC(2023, 10, 15, 8, 0, 0));
+      [, dateChoices] = getPickerChoices({
+        timestamp: NOON,
+        displayTimestamp: NOON,
+        serviceTimeRange: 5,
+        stepMinutes: 1,
+      });
+    });
+
+    afterEach(() => {
+      vi.useRealTimers();
+    });
+
+    const renderDate = (value = NOON) =>
+      renderField({
+        id: 'date',
+        label: 'Date',
+        datePicker: true,
+        disableTyping: true,
+        timeChoices: dateChoices,
+        value,
+      });
+
+    it('shows the selected date', () => {
+      const { container } = renderDate(NOON + 2 * 24 * 60 * 60 * 1000);
+      expect(container.querySelector('.datetimepicker-select__single-value').textContent).toBe(
+        'Fri 17.11.',
+      );
+    });
+
+    it('lists today, tomorrow and the following dates and reports the chosen one', () => {
+      const { container, onChange } = renderDate();
+      const input = container.querySelector('#date-input');
+      expect(input.getAttribute('aria-readonly')).toBe('true');
+      expect(openList(input)).toEqual([
+        'Today',
+        'Tomorrow',
+        'Fri 17.11.',
+        'Sat 18.11.',
+        'Sun 19.11.',
+      ]);
+      fireEvent.click(screen.getByRole('option', { name: 'Fri 17.11.' }));
+      expect(onChange).toHaveBeenCalledTimes(1);
+      expect(onChange.mock.calls[0][0]).toBe(dateChoices[2]);
+    });
+  });
+});
+
+describe('mobile picker modal', () => {
+  const IPHONE =
+    'Mozilla/5.0 (iPhone; CPU iPhone OS 17_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/17.0 Mobile/15E148 Safari/604.1';
+  const ANDROID =
+    'Mozilla/5.0 (Linux; Android 13; Pixel 7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/118.0 Mobile Safari/537.36';
+  // 2023-11-15 12:00 in Europe/Helsinki
+  const NOW = Date.UTC(2023, 10, 15, 10, 0, 0);
+
+  beforeEach(() => {
+    // Dates are listed from today on
+    vi.useFakeTimers({ toFake: ['Date'] });
+    vi.setSystemTime(NOW);
+  });
+
+  afterEach(() => {
+    vi.useRealTimers();
+    vi.restoreAllMocks();
+  });
+
+  const renderMobilePicker = ({ userAgent = IPHONE, ...props } = {}) => {
+    vi.spyOn(window.navigator, 'userAgent', 'get').mockReturnValue(userAgent);
+    const result = renderPicker(props);
+    fireEvent.click(result.openButton());
+    return result;
+  };
+
+  const modalIsOpen = () => screen.queryByRole('heading', { name: 'Choose time' }) !== null;
+  const timeOf = seconds => DateTime.fromSeconds(seconds, { zone: 'Europe/Helsinki' });
+  const ready = () => fireEvent.click(screen.getByRole('button', { name: 'Ready' }));
+
+  it('opens a modal with the current date and time, and no desktop comboboxes', () => {
+    const { container } = renderMobilePicker();
+    expect(modalIsOpen()).toBe(true);
+    expect(screen.getByRole('dialog', { name: 'Choose time' })).toBeTruthy();
+    expect(screen.getByLabelText('Date').value).toBe(
+      screen.getByRole('option', { name: 'Today' }).value,
+    );
+    expect(screen.getByLabelText('Time').value).toBe('00:13');
+    expect(screen.getByLabelText('Departure').checked).toBe(true);
+    expect(container.querySelector('input[id$="-time-input"]')).toBeNull();
+  });
+
+  it('lists serviceTimeRange dates starting today', () => {
+    renderMobilePicker({ serviceTimeRange: 4 });
+    const labels = screen.getAllByRole('option').map(option => option.textContent);
+    expect(labels).toEqual(['Today', 'Tomorrow', 'Fri 17.11.', 'Sat 18.11.']);
+  });
+
+  it('submits the edited date, time and arrival mode with Ready', () => {
+    const { calls } = renderMobilePicker();
+    fireEvent.change(screen.getByLabelText('Date'), {
+      target: { value: screen.getByRole('option', { name: 'Fri 17.11.' }).value },
+    });
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: '14:45' } });
+    fireEvent.click(screen.getByLabelText('Arrival'));
+    // Nothing is reported before Ready
+    expect(calls.onTimeChange).toHaveLength(0);
+    ready();
+    expect(calls.onTimeChange).toHaveLength(1);
+    const [seconds, arriveBy, submitted] = calls.onTimeChange[0];
+    expect(timeOf(seconds).toFormat('yyyy-MM-dd HH:mm')).toBe('2023-11-17 14:45');
+    expect(arriveBy).toBe(true);
+    expect(submitted).toBe(true);
+    expect(modalIsOpen()).toBe(false);
+  });
+
+  it('keeps the date and time when only the departure/arrival mode is changed', () => {
+    const { calls } = renderMobilePicker();
+    fireEvent.click(screen.getByLabelText('Arrival'));
+    ready();
+    const [seconds, arriveBy] = calls.onTimeChange[0];
+    expect(seconds).toBe(FIXED_TIMESTAMP);
+    expect(arriveBy).toBe(true);
+  });
+
+  it('does not submit an incomplete time', () => {
+    const { calls } = renderMobilePicker();
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: '14:4' } });
+    ready();
+    expect(timeOf(calls.onTimeChange[0][0]).toFormat('HH:mm')).toBe('00:13');
+  });
+
+  it('closes without reporting anything on Cancel and returns focus to the open button', async () => {
+    const onClose = vi.fn();
+    const { calls, openButton } = renderMobilePicker({ onClose });
+    fireEvent.change(screen.getByLabelText('Time'), { target: { value: '14:45' } });
+    fireEvent.click(screen.getByRole('button', { name: 'Cancel' }));
+    expect(modalIsOpen()).toBe(false);
+    expect(calls.onTimeChange).toHaveLength(0);
+    expect(onClose).toHaveBeenCalledTimes(1);
+    await waitFor(() => expect(document.activeElement).toBe(openButton()));
+  });
+
+  it('closes and reports "now" with the Leaving now button', () => {
+    const { calls } = renderMobilePicker();
+    fireEvent.click(screen.getByRole('button', { name: 'Leaving now' }));
+    expect(modalIsOpen()).toBe(false);
+    expect(calls.onNowClick).toHaveLength(1);
+    expect(calls.onTimeChange).toHaveLength(0);
+  });
+
+  it('opens the modal from the url state with openPicker', () => {
+    vi.spyOn(window.navigator, 'userAgent', 'get').mockReturnValue(IPHONE);
+    renderPicker({ openPicker: true });
+    expect(modalIsOpen()).toBe(true);
+  });
+
+  it('uses the desktop picker on a desktop browser', () => {
+    vi.spyOn(window.navigator, 'userAgent', 'get').mockReturnValue(
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 Chrome/118.0 Safari/537.36',
+    );
+    const { openButton } = renderPicker();
+    fireEvent.click(openButton());
+    expect(modalIsOpen()).toBe(false);
+  });
+
+  describe('on Android', () => {
+    // Android gets a custom list instead of the native select
+    it('chooses the date from a custom list', () => {
+      const { calls } = renderMobilePicker({ userAgent: ANDROID });
+      expect(document.querySelector('select')).toBeNull();
+      const toggle = screen.getByRole('combobox', { name: 'Date' });
+      expect(toggle.textContent).toBe('Today');
+      fireEvent.click(toggle);
+      expect(
+        screen
+          .getAllByRole('option')
+          .slice(0, 3)
+          .map(o => o.textContent),
+      ).toEqual(['Today', 'Tomorrow', 'Fri 17.11.']);
+      fireEvent.click(screen.getByRole('option', { name: 'Fri 17.11.' }));
+      ready();
+      expect(timeOf(calls.onTimeChange[0][0]).toFormat('yyyy-MM-dd HH:mm')).toBe(
+        '2023-11-17 00:13',
+      );
+    });
   });
 });

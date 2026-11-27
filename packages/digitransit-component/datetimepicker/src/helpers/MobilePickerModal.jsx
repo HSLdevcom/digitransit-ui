@@ -62,11 +62,14 @@ export default function MobilePickerModal({
       isOpen
       className={styles['mobile-modal-content']}
       overlayClassName={styles['mobile-modal-overlay']}
+      aria={{ labelledby: `${htmlId}-title` }}
       onAfterClose={onAfterClose}
     >
       <div id="digitransit-mobile-datetime" style={{ '--color': `${color}` }}>
         <div className={styles['top-row']}>
-          <h3 className={styles['modal-title']}>{t('choose-time')}</h3>
+          <h3 id={`${htmlId}-title`} className={styles['modal-title']}>
+            {t('choose-time')}
+          </h3>
           <button
             type="button"
             className={styles['departure-now-button']}
