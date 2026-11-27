@@ -45,6 +45,12 @@
       height: 40px;
       padding: 5px 10px;
       font-size: $font-size-small;
+
+      &:focus-visible {
+        outline: 2px solid $dark-gray;
+        outline-offset: 2px;
+        box-shadow: 0 0 0 4px $white;
+      }
     }
 
     .brand-logo {

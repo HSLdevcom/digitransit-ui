@@ -108,20 +108,16 @@ export const Suggestions = memo(function Suggestions({
             />
           );
         })}
-        {renderClearHistoryButton && (
-          // Not a selectable downshift item, so getItemProps is intentionally
-          // not used here (its index would always be out of the items bounds).
-          <li>
-            <button
-              onClick={handleClearHistory}
-              type="button"
-              className={styles['clear-search-history']}
-            >
-              {t('clear-search-history', { lng })}
-            </button>
-          </li>
-        )}
       </ul>
+      {renderClearHistoryButton && (
+        <button
+          onClick={handleClearHistory}
+          type="button"
+          className={styles['clear-search-history']}
+        >
+          {t('clear-search-history', { lng })}
+        </button>
+      )}
     </div>
   );
 });

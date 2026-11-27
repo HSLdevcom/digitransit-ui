@@ -245,8 +245,16 @@ export default function DTAutosuggestPanel({
     destinationInputRef.current = ref;
   };
 
+  const originSet = !!origin?.lat;
+  const destinationSet = !!destination?.lat;
+  // Selecting a place when the other one is set starts the itinerary search, except in the embedded
+  // search, where the search button starts it.
+  const searchStartsDescription = isEmbedded ? '' : t('search-starts-description', { lng });
+  // Matches onFocusChange handling in DTAutosuggest: no focus move on mobile.
+  const movesFocusToDestination = !destinationSet && (!isMobile || isEmbedded);
+
   const handleFocusChange = () => {
-    if (!destination || !destination.lat) {
+    if (!destinationSet) {
       destinationInputRef.current.focus();
     }
   };
@@ -371,6 +379,8 @@ export default function DTAutosuggestPanel({
           isMobile={isMobile}
           colors={colors}
           mobileLabel={originMobileLabel}
+          extraDescription={destinationSet ? searchStartsDescription : ''}
+          movesFocusOnSelect={movesFocusToDestination}
           modeSet={modeSet}
           showScroll={showScroll}
           isEmbedded={isEmbedded}
@@ -533,6 +543,7 @@ export default function DTAutosuggestPanel({
           filterResults={filterResults}
           isMobile={isMobile}
           mobileLabel={destinationMobileLabel}
+          extraDescription={originSet ? searchStartsDescription : ''}
           modeSet={modeSet}
           colors={colors}
           showScroll={showScroll}
