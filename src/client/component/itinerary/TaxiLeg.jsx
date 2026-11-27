@@ -35,7 +35,7 @@ export default function TaxiLeg(props) {
 
   const legDescription = (
     <span className={cx('leg-header')}>
-      <FormattedMessage id="book-a-lift" defaultMessage="Use an app to book a taxi" />
+      <FormattedMessage id="book-a-lift" />
     </span>
   );
 
@@ -105,11 +105,7 @@ export default function TaxiLeg(props) {
             })}
           <div className="itinerary-leg-action">
             <div className="itinerary-leg-action-content">
-              <FormattedMessage
-                id="taxi-distance-duration"
-                values={{ distance, duration }}
-                defaultMessage="Travel for {distance} ({duration})"
-              />
+              <FormattedMessage id="taxi-distance-duration" values={{ distance, duration }} />
               <ShowOnMapButton target={props.leg.from.name || ''} focusAction={props.focusToLeg} />
             </div>
           </div>

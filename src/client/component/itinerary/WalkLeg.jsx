@@ -90,7 +90,6 @@ export default function WalkLeg({
     <FormattedMessage
       id={networkType === RentalNetworkType.Scooter ? 'return-e-scooter-to' : 'return-cycle-to'}
       values={{ station: validatedLegName }}
-      defaultMessage="Return the bike to {station} station"
     />
   ) : null;
 
@@ -98,7 +97,7 @@ export default function WalkLeg({
 
   const destinationLabel =
     leg.to.name?.toLowerCase() === 'scooter'
-      ? intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })
+      ? intl.formatMessage({ id: 'e-scooter' })
       : leg.to.name;
 
   const indoorSteps = getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg);
@@ -192,7 +191,7 @@ export default function WalkLeg({
                     )}
                     {alightNotice && (
                       <div className="itinerary-leg-action-content">
-                        <FormattedMessage id="get-off-the-ride" defaultMessage="Get off the ride" />
+                        <FormattedMessage id="get-off-the-ride" />
                       </div>
                     )}
                     {!returnNotice &&
@@ -232,7 +231,6 @@ export default function WalkLeg({
               <FormattedMessage
                 id="walk-distance-duration"
                 values={{ distance: emphasizeDistance ? <b>{distance}</b> : distance, duration }}
-                defaultMessage="Walk {distance} ({duration})"
               />
               <ShowOnMapButton
                 target=""

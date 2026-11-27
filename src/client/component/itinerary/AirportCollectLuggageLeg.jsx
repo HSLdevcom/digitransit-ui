@@ -32,7 +32,7 @@ export default function AirportCollectLuggageLeg({ index, leg, focusAction, chil
 
         <div className="info-message">
           <Icon img="icon_info" />
-          <FormattedMessage id="airport-collect-luggage" defaultMessage="Collect your luggage" />
+          <FormattedMessage id="airport-collect-luggage" />
         </div>
       </div>
     </div>
