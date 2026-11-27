@@ -130,4 +130,58 @@ export const getDateDisplay = (date, t) => {
  */
 export const getTimeDisplay = time => DateTime.fromMillis(time).toFormat('HH:mm');
 
-export default { parseTypedTime, validateInput, getTs, getDateDisplay, getTimeDisplay };
+/**
+ * Builds the selectable times and dates of the picker.
+ *
+ * @param {object} params
+ * @param {number|null} params.timestamp Selected time in milliseconds, null when "now" is selected
+ * @param {number} params.displayTimestamp Time shown in the picker in milliseconds
+ * @param {number} params.serviceTimeRange Number of selectable days
+ * @param {number} params.stepMinutes Interval between the selectable times in minutes
+ * @returns {[number[], number[]]} Time choices of the selected day and date choices, in milliseconds
+ */
+export const getPickerChoices = ({
+  timestamp,
+  displayTimestamp,
+  serviceTimeRange,
+  stepMinutes,
+}) => {
+  const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
+  const dayStart = selectedMoment.startOf('day').toMillis();
+  const dayEnd = selectedMoment.endOf('day').toMillis();
+  const step = stepMinutes * 60 * 1000;
+  let timeChoices = [];
+  for (let time = dayStart; time <= dayEnd; time += step) {
+    timeChoices.push(time);
+  }
+  if (timestamp === null) {
+    // if time is set to now
+    // add times in 5 min intervals for next 30 mins
+    const fiveMinutes = 1000 * 60 * 5;
+    const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
+    const timesToAdd = Array(7)
+      .fill()
+      .map((_, i) => nextFiveMin + i * fiveMinutes);
+    const closestIndexAfter = timeChoices
+      .map(time => displayTimestamp - time)
+      .findIndex(time => time <= 0);
+    timeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
+    timeChoices = Array.from(new Set(timeChoices)); // remove duplicates
+  }
+  const dateSelectStartTime = DateTime.now()
+    .startOf('day')
+    .set({ hour: selectedMoment.hour, minute: selectedMoment.minute });
+  const dateChoices = Array(serviceTimeRange)
+    .fill()
+    .map((_, i) => dateSelectStartTime.plus({ days: i }).toMillis());
+  return [timeChoices, dateChoices];
+};
+
+export default {
+  parseTypedTime,
+  validateInput,
+  getTs,
+  getDateDisplay,
+  getTimeDisplay,
+  getPickerChoices,
+};

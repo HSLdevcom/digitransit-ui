@@ -1,10 +1,10 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef, useMemo } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { DateTime } from 'luxon';
 import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import DesktopDatetimepicker from './DesktopDatetimepicker';
+import DesktopPickerInputs from './DesktopPickerInputs';
 import styles from './styles.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
@@ -116,39 +116,6 @@ export default function Datetimepicker({
     setTimer(newId);
     return () => clearInterval(newId);
   }, [displayTimestamp]);
-
-  // compute choices only when timestamp changes instead of every render
-  const [timeChoices, dateChoices] = useMemo(() => {
-    const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
-    const dayStart = selectedMoment.startOf('day').toMillis();
-    const dayEnd = selectedMoment.endOf('day').toMillis();
-    const step = (isMobile() ? 15 : 1) * 60 * 1000;
-    let newTimeChoices = [];
-    for (let time = dayStart; time <= dayEnd; time += step) {
-      newTimeChoices.push(time);
-    }
-    if (timestamp === null) {
-      // if time is set to now
-      // add times in 5 min intervals for next 30 mins
-      const fiveMinutes = 1000 * 60 * 5;
-      const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
-      const timesToAdd = Array(7)
-        .fill()
-        .map((_, i) => nextFiveMin + i * fiveMinutes);
-      const closestIndexAfter = newTimeChoices
-        .map(time => displayTimestamp - time)
-        .findIndex(time => time <= 0);
-      newTimeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
-      newTimeChoices = Array.from(new Set(newTimeChoices)); // remove duplicates
-    }
-    const dateSelectStartTime = DateTime.now()
-      .startOf('day')
-      .set({ hour: selectedMoment.hour, minute: selectedMoment.minute });
-    const newDateChoices = Array(serviceTimeRange)
-      .fill()
-      .map((_, i) => dateSelectStartTime.plus({ days: i }).toMillis());
-    return [newTimeChoices, newDateChoices];
-  }, [timestamp]);
 
   function showScreenreaderCloseAlert() {
     if (alertRef.current) {
@@ -311,49 +278,17 @@ export default function Datetimepicker({
               {t('accessible-departure-now')}
             </span>
           </div>
-          <div
-            className={
-              isOpen ? `${styles['picker-container']}` : `${styles.hidden} datetimepicker-top-row`
-            }
-          >
-            <span className={styles['combobox-left']}>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onDateChange(newValue);
-                }}
-                timeChoices={dateChoices}
-                validate={() => null}
-                icon={
-                  <span className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}>
-                    <Icon img="calendar" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-date`}
-                label={t('date')}
-                disableTyping
-                lang={lang}
-                datePicker
-              />
-            </span>
-            <span className={styles['combobox-right']}>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onTimeChange(newValue);
-                }}
-                timeChoices={timeChoices}
-                icon={
-                  <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
-                    <Icon img="time" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-time`}
-                label={t('time')}
-                lang={lang}
-              />
-            </span>
-          </div>
+          <DesktopPickerInputs
+            timestamp={timestamp}
+            displayTimestamp={displayTimestamp}
+            serviceTimeRange={serviceTimeRange}
+            onDateChange={onDateChange}
+            onTimeChange={onTimeChange}
+            htmlId={htmlId}
+            color={color}
+            lang={lang}
+            isOpen={isOpen}
+          />
         </div>
         <span className={isOpen ? '' : styles.hidden}>{embedWhenOpen}</span>
       </>
