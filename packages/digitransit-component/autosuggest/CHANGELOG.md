@@ -1,5 +1,15 @@
 # @digitransit-component/digitransit-component-autosuggest
 
+## 11.2.0
+
+### Minor Changes
+
+- 63227b1: Add the `extraDescription` and `movesFocusOnSelect` props to autosuggest. The panel adds a translated description that the search starts automatically to a field only when the other field is set (not in the embedded search), and the origin field no longer claims that focus moves to the destination when the destination is set or on mobile.
+
+### Patch Changes
+
+- 32817ff: Make the input's accessible name contain the visible placeholder text so voice control can target the field.
+
 ## 11.1.0
 
 ### Minor Changes
