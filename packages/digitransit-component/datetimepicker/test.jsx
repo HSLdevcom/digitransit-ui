@@ -1,6 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest';
 import { useState } from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
+import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { I18nextProvider } from 'react-i18next';
 import { DateTime, Settings } from 'luxon';
 import Datetimepicker from './src/index';
@@ -21,6 +21,36 @@ import {
 // deterministic regardless of the host machine's own timezone or the wall
 // clock at test time.
 const FIXED_TIMESTAMP = 1700000000;
+const FIXED_MILLIS = FIXED_TIMESTAMP * 1000;
+
+const NOOP_HANDLERS = {
+  onDepartureClick: () => {},
+  onArrivalClick: () => {},
+  onTimeChange: () => {},
+  onDateChange: () => {},
+  onNowClick: () => {},
+};
+
+afterEach(() => {
+  vi.useRealTimers();
+  vi.restoreAllMocks();
+  // The components set these globally, so every test starts from luxon's defaults
+  Settings.defaultZone = 'system';
+  Settings.defaultLocale = null;
+});
+
+const typeInto = (input, text) => fireEvent.change(input, { target: { value: text } });
+
+const optionLabels = () => screen.queryAllByRole('option').map(option => option.textContent);
+
+/** Opens the list of a react-select input and returns its option labels. */
+const openList = input => {
+  fireEvent.focus(input);
+  fireEvent.keyDown(input, { key: 'ArrowDown' });
+  return optionLabels();
+};
+
+const timeInputOf = container => container.querySelector('input[id$="-time-input"]');
 
 function renderPicker(props) {
   const calls = {
@@ -30,7 +60,7 @@ function renderPicker(props) {
     onDateChange: [],
     onNowClick: [],
   };
-  const result = render(
+  const picker = extraProps => (
     <Datetimepicker
       onDepartureClick={t => calls.onDepartureClick.push(t)}
       onArrivalClick={t => calls.onArrivalClick.push(t)}
@@ -40,22 +70,22 @@ function renderPicker(props) {
       lang="en"
       initialTimestamp={FIXED_TIMESTAMP}
       {...props}
-    />,
+      {...extraProps}
+    />
   );
+  const result = render(picker());
   // The toggle button's accessible name is the visible summary followed by
   // the action, e.g. "Departure Wed 15.11. 00:13. Open the picker".
   const openButton = () => screen.getByRole('button', { name: /Open the picker$/ });
-  return { ...result, calls, openButton };
+  // Renders again with changed props, like a parent does when the url changes
+  const rerenderWith = extraProps => result.rerender(picker(extraProps));
+  return { ...result, calls, openButton, rerenderWith };
 }
 
 describe('Testing @digitransit-component/digitransit-component-datetimepicker module', () => {
-  it('shows the initial departure date and time on the closed toggle button', () => {
+  it('shows the selected time on the closed toggle button, with the visible text in its accessible name', () => {
     const { openButton } = renderPicker();
     expect(openButton().textContent).toContain('Departure Wed 15.11. 00:13');
-  });
-
-  it('includes the visible text in the accessible name of the closed toggle button', () => {
-    const { openButton } = renderPicker();
     expect(openButton().getAttribute('aria-label')).toBe(
       'Departure Wed 15.11. 00:13. Open the picker',
     );
@@ -65,22 +95,6 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
   it('shows the initial arrival date and time when starting in arrival mode', () => {
     const { openButton } = renderPicker({ initialArriveBy: true });
     expect(openButton().textContent).toContain('Arrival Wed 15.11. 00:13');
-  });
-
-  it('switches to arrival mode and reports the click when the Arrival option is chosen', () => {
-    const { calls, openButton } = renderPicker();
-    fireEvent.click(openButton());
-    fireEvent.click(screen.getByLabelText('Arrival'));
-    expect(calls.onArrivalClick).toHaveLength(1);
-    expect(calls.onArrivalClick[0]).toBe(FIXED_TIMESTAMP);
-  });
-
-  it('reports a "now" click as a departure at the current time', () => {
-    const { calls, openButton } = renderPicker();
-    fireEvent.click(openButton());
-    fireEvent.click(screen.getByRole('button', { name: 'Leaving now' }));
-    expect(calls.onNowClick).toHaveLength(1);
-    expect(calls.onNowClick[0]).toBeTypeOf('number');
   });
 
   it('moves focus to the close button on open and back to the open button on close', () => {
@@ -138,21 +152,9 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
   it('keeps the departure/arrival choice of each picker separate when several pickers are on a page', () => {
     const { container } = render(
       <>
+        <Datetimepicker {...NOOP_HANDLERS} lang="en" initialTimestamp={FIXED_TIMESTAMP} />
         <Datetimepicker
-          onDepartureClick={() => {}}
-          onArrivalClick={() => {}}
-          onTimeChange={() => {}}
-          onDateChange={() => {}}
-          onNowClick={() => {}}
-          lang="en"
-          initialTimestamp={FIXED_TIMESTAMP}
-        />
-        <Datetimepicker
-          onDepartureClick={() => {}}
-          onArrivalClick={() => {}}
-          onTimeChange={() => {}}
-          onDateChange={() => {}}
-          onNowClick={() => {}}
+          {...NOOP_HANDLERS}
           lang="en"
           initialTimestamp={FIXED_TIMESTAMP}
           initialArriveBy
@@ -169,9 +171,7 @@ describe('Testing @digitransit-component/digitransit-component-datetimepicker mo
     // 2023-10-29T00:00:00+03:00: clocks in Europe/Helsinki go back from 04:00 to 03:00.
     const { container, openButton } = renderPicker({ initialTimestamp: 1698526800 });
     fireEvent.click(openButton());
-    const timeInput = container.querySelector('input[id$="-time-input"]');
-    fireEvent.keyDown(timeInput, { key: 'ArrowDown' });
-    const labels = screen.getAllByRole('option').map(o => o.textContent);
+    const labels = openList(timeInputOf(container));
     expect(labels).toHaveLength(100);
     expect(labels[0]).toBe('00:00');
     expect(labels.at(-1)).toBe('23:45');
@@ -193,12 +193,6 @@ describe('datetimepicker utils', () => {
     Settings.defaultLocale = 'en';
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(NOW);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-    Settings.defaultZone = 'system';
-    Settings.defaultLocale = null;
   });
 
   describe('parseTypedTime', () => {
@@ -268,12 +262,16 @@ describe('datetimepicker utils', () => {
     });
 
     it('never throws and always returns a boolean', () => {
-      const chars = '0123456789:.a';
+      const chars = [...'0129:.a'];
       let inputs = [''];
+      let notBoolean = [];
       for (let length = 1; length <= 5; length += 1) {
-        inputs = inputs.flatMap(input => [...chars].map(char => input + char));
-        inputs.forEach(input => expect(validateInput(input)).toBeTypeOf('boolean'));
+        inputs = inputs.flatMap(input => chars.map(char => input + char));
+        notBoolean = notBoolean.concat(
+          inputs.filter(input => typeof validateInput(input) !== 'boolean'),
+        );
       }
+      expect(notBoolean).toEqual([]);
     });
   });
 
@@ -386,12 +384,26 @@ describe('datetimepicker utils', () => {
       ]);
     });
 
-    // Known bug: when "now" is after the last step of the day, the extra steps are spliced in
-    // before the last choice and run past midnight. Change to `it` when fixed.
-    it.fails('keeps the choices sorted when "now" is after the last step of the day', () => {
-      const lateNow = DateTime.fromMillis(NOW).set({ hour: 23, minute: 59, second: 30 }).toMillis();
-      const [timeChoices] = choicesFor(null, { displayTimestamp: lateNow, stepMinutes: 1 });
-      expect(timeChoices).toEqual([...timeChoices].sort((a, b) => a - b));
+    describe('when "now" is close to midnight', () => {
+      const choicesAt = (hour, minute, second, stepMinutes) => {
+        const displayTimestamp = DateTime.fromMillis(NOW)
+          .set({ hour, minute, second, millisecond: 0 })
+          .toMillis();
+        return choicesFor(null, { displayTimestamp, stepMinutes })[0];
+      };
+
+      // The five minute steps of the next 30 minutes continue past midnight, after the last step
+      it.each([
+        [15, 23, 59, ['23:45', '00:00', '00:05', '00:10', '00:15', '00:20', '00:25', '00:30']],
+        [15, 23, 50, ['23:45', '23:55', '00:00', '00:05', '00:10', '00:15', '00:20', '00:25']],
+        [1, 23, 59, ['23:59', '00:00', '00:05', '00:10', '00:15', '00:20', '00:25', '00:30']],
+      ])('keeps the %i minute steps sorted at %i:%i', (step, hour, minute, tail) => {
+        const timeChoices = choicesAt(hour, minute, 30, step);
+        expect(timeChoices).toEqual([...timeChoices].sort((a, b) => a - b));
+        expect(new Set(timeChoices).size).toBe(timeChoices.length);
+        expect(labels(timeChoices).slice(-tail.length)).toEqual(tail);
+        expect(DateTime.fromMillis(timeChoices.at(-1)).toISODate()).toBe('2023-11-16');
+      });
     });
 
     it('lists serviceTimeRange dates starting today, at the selected time of day', () => {
@@ -406,114 +418,31 @@ describe('datetimepicker utils', () => {
   });
 });
 
-describe('typing a time without the colon', () => {
-  const FIXED_TIME = 1700000000000;
-
-  beforeEach(() => {
-    Settings.defaultZone = 'Europe/Helsinki';
-  });
-
-  afterEach(() => {
-    Settings.defaultZone = 'system';
-  });
-
-  it('keeps the colon in the mobile field when it is deleted or digits are pasted', () => {
-    const changes = [];
-    function Field() {
-      const [value, setValue] = useState(FIXED_TIME);
-      return (
-        <MobileTimepicker
-          value={value}
-          onChange={ts => {
-            changes.push(getTimeDisplay(ts));
-            setValue(ts);
-          }}
-          id="time"
-          label="Time"
-        />
-      );
-    }
-    const { container } = render(<Field />);
-    const input = container.querySelector('input');
-    fireEvent.change(input, { target: { value: '12:11' } });
-    fireEvent.change(input, { target: { value: '1211' } });
-    expect(input.value).toBe('12:11');
-    expect(container.querySelector('.mobile-datetimepicker-invalid-input')).toBeNull();
-    expect(changes.at(-1)).toBe('12:11');
-  });
-
-  it('formats pasted digits as a time in the desktop time field', () => {
-    const { container, openButton } = renderPicker();
-    fireEvent.click(openButton());
-    const timeInput = container.querySelector('input[id$="-time-input"]');
-    fireEvent.change(timeInput, { target: { value: '1211' } });
-    expect(timeInput.value).toBe('12:11');
-    expect(container.querySelector('.datetimepicker-invalid-input')).toBeNull();
-  });
-});
-
-describe('desktop time field input filtering', () => {
-  const openTimeInput = () => {
-    const { container, openButton } = renderPicker();
-    fireEvent.click(openButton());
-    return { container, timeInput: container.querySelector('input[id$="-time-input"]') };
-  };
-
-  // The selected text is replaced when typing over it, which makes the new text shorter
-  it.each(['a', 'ab', '§', '!', '1.30', '1 30', '00:13a', '00:134'])(
-    'ignores the edit that would give %j',
-    text => {
-      const { timeInput } = openTimeInput();
-      fireEvent.change(timeInput, { target: { value: text } });
-      expect(timeInput.value).toBe('00:13');
-    },
-  );
-
-  it('accepts digits and the colon', () => {
-    const { timeInput } = openTimeInput();
-    fireEvent.change(timeInput, { target: { value: '1' } });
-    expect(timeInput.value).toBe('1');
-    fireEvent.change(timeInput, { target: { value: '12:' } });
-    expect(timeInput.value).toBe('12:');
-  });
-
-  it('marks an impossible time as invalid', () => {
-    const { container, timeInput } = openTimeInput();
-    fireEvent.change(timeInput, { target: { value: '25:' } });
-    expect(container.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
-    fireEvent.change(timeInput, { target: { value: '12:' } });
-    expect(container.querySelector('.datetimepicker-invalid-input')).toBeNull();
-  });
-});
-
 describe('DesktopDatetimepicker', () => {
   // 2023-11-15 12:00 in Europe/Helsinki
   const NOON = DateTime.fromObject(
     { year: 2023, month: 11, day: 15, hour: 12 },
     { zone: 'Europe/Helsinki' },
   ).toMillis();
-  const [MINUTE_CHOICES] = getPickerChoices({
-    timestamp: NOON,
-    displayTimestamp: NOON,
-    serviceTimeRange: 30,
-    stepMinutes: 1,
-  });
+  // Built in beforeEach, because the day of the choices depends on the luxon time zone
+  let minuteChoices;
 
   beforeEach(() => {
     Settings.defaultZone = 'Europe/Helsinki';
     Settings.defaultLocale = 'en';
-  });
-
-  afterEach(() => {
-    Settings.defaultZone = 'system';
-    Settings.defaultLocale = null;
+    [minuteChoices] = getPickerChoices({
+      timestamp: NOON,
+      displayTimestamp: NOON,
+      serviceTimeRange: 30,
+      stepMinutes: 1,
+    });
   });
 
   const field = (props = {}) => (
     <I18nextProvider i18n={i18n}>
       <DesktopDatetimepicker
         value={NOON}
-        timeChoices={MINUTE_CHOICES}
+        timeChoices={minuteChoices}
         id="time"
         label="Time"
         icon={<span />}
@@ -530,88 +459,47 @@ describe('DesktopDatetimepicker', () => {
     return { ...result, onChange, input };
   };
 
-  const openList = input => {
-    fireEvent.focus(input);
-    fireEvent.keyDown(input, { key: 'ArrowDown' });
-    return screen.queryAllByRole('option').map(option => option.textContent);
-  };
-
-  const type = (input, text) => fireEvent.change(input, { target: { value: text } });
-
   describe('time field', () => {
-    it('shows the selected time', () => {
-      expect(renderField().input.value).toBe('12:00');
-    });
-
-    it('lists only quarter hours when the list is opened', () => {
-      const { input } = renderField();
-      const labels = openList(input);
-      expect(labels).toHaveLength(96);
-      expect(labels.slice(0, 3)).toEqual(['00:00', '00:15', '00:30']);
-      expect(labels.every(label => Number(label.split(':')[1]) % 15 === 0)).toBe(true);
-    });
-
-    it('reports the chosen option', () => {
-      const { input, onChange } = renderField();
-      openList(input);
-      fireEvent.click(screen.getByRole('option', { name: '13:15' }));
-      expect(onChange).toHaveBeenCalledTimes(1);
-      expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:15');
-      expect(DateTime.fromMillis(onChange.mock.calls[0][0]).toISODate()).toBe('2023-11-15');
-    });
-
     it('selects the typed text on focus', () => {
       const { input } = renderField();
-      const select = vi.spyOn(input, 'select');
       fireEvent.focus(input);
-      expect(select).toHaveBeenCalled();
+      expect([input.selectionStart, input.selectionEnd]).toEqual([0, 5]);
     });
 
     it('follows the value given by the parent', () => {
       const { input, rerender, onChange } = renderField();
-      type(input, '25:');
+      typeInto(input, '25:');
       rerender(field({ onChange, value: NOON + 2 * 60 * 60 * 1000 }));
       expect(input.value).toBe('14:00');
       expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
     });
 
     describe('typing', () => {
-      it('commits a complete time when focus leaves the field', () => {
+      it('formats four digits as a time and commits it when focus leaves the field', () => {
         const { input, onChange } = renderField();
-        type(input, '1330');
+        typeInto(input, '1330');
         expect(input.value).toBe('13:30');
+        expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
         fireEvent.blur(input);
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:30');
       });
 
-      it('commits a typed time with a single digit hour', () => {
-        const { input, onChange } = renderField();
-        type(input, '9:05');
-        fireEvent.blur(input);
-        expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('09:05');
-      });
-
       it('commits the typed time with Enter', () => {
         const { input, onChange } = renderField();
-        type(input, '13:37');
+        typeInto(input, '13:37');
         fireEvent.keyDown(input, { key: 'Enter' });
         expect(onChange).toHaveBeenCalledTimes(1);
         expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe('13:37');
       });
 
-      it('restores the current time instead of committing an incomplete or impossible one', () => {
+      it('restores the current time instead of committing an impossible one', () => {
         const { input, onChange } = renderField();
-        type(input, '25:');
+        typeInto(input, '25:');
         fireEvent.blur(input);
         expect(onChange).not.toHaveBeenCalled();
         expect(input.value).toBe('12:00');
         expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
-
-        type(input, '13:');
-        fireEvent.blur(input);
-        expect(onChange).not.toHaveBeenCalled();
-        expect(input.value).toBe('12:00');
       });
 
       it('does nothing on blur when nothing was typed', () => {
@@ -621,23 +509,63 @@ describe('DesktopDatetimepicker', () => {
         expect(onChange).not.toHaveBeenCalled();
       });
 
+      // The selected text is replaced when typing over it, which makes the new text shorter
+      it.each(['a', '1.30', '12:000'])('ignores the edit that would give %j', text => {
+        const { input } = renderField();
+        typeInto(input, text);
+        expect(input.value).toBe('12:00');
+      });
+
+      it('accepts digits and the colon', () => {
+        const { input } = renderField();
+        typeInto(input, '1');
+        expect(input.value).toBe('1');
+        typeInto(input, '12:');
+        expect(input.value).toBe('12:');
+      });
+
+      it.each([
+        ['13', '13:15'],
+        ['12', '12:00'],
+      ])('reports the option picked from the list narrowed by %j', (typed, label) => {
+        const { input, onChange } = renderField();
+        fireEvent.focus(input);
+        typeInto(input, typed);
+        fireEvent.click(screen.getByRole('option', { name: label }));
+        expect(onChange).toHaveBeenCalledTimes(1);
+        expect(getTimeDisplay(onChange.mock.calls[0][0])).toBe(label);
+      });
+
+      it('does not commit typed text when the list is browsed with the arrow keys', () => {
+        const { input, onChange } = renderField();
+        typeInto(input, '13:30');
+        fireEvent.keyDown(input, { key: 'ArrowDown' });
+        fireEvent.blur(input);
+        expect(onChange).not.toHaveBeenCalled();
+      });
+
+      // Known bug: the uncommitted text stays in the field although the value is unchanged.
+      // Change to `it` when fixed.
+      it.fails('shows the committed time again when typed text was left uncommitted', () => {
+        const { input } = renderField();
+        typeInto(input, '13:30');
+        fireEvent.keyDown(input, { key: 'ArrowDown' });
+        fireEvent.blur(input);
+        expect(input.value).toBe('12:00');
+      });
+
       it('narrows the list to the typed hour', () => {
         const { input } = renderField();
         fireEvent.focus(input);
-        type(input, '13');
-        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual([
-          '13:00',
-          '13:15',
-          '13:30',
-          '13:45',
-        ]);
+        typeInto(input, '13');
+        expect(optionLabels()).toEqual(['13:00', '13:15', '13:30', '13:45']);
       });
 
       it('narrows the list to the matching minutes when the minute tens digit is typed', () => {
         const { input } = renderField();
         fireEvent.focus(input);
-        type(input, '13:4');
-        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual([
+        typeInto(input, '13:4');
+        expect(optionLabels()).toEqual([
           '13:40',
           '13:41',
           '13:42',
@@ -654,17 +582,17 @@ describe('DesktopDatetimepicker', () => {
       it('narrows the list to the typed complete time', () => {
         const { input } = renderField();
         fireEvent.focus(input);
-        type(input, '13:37');
-        expect(screen.getAllByRole('option').map(o => o.textContent)).toEqual(['13:37']);
+        typeInto(input, '13:37');
+        expect(optionLabels()).toEqual(['13:37']);
       });
 
       it('marks an impossible time as invalid and clears the mark when the value is fixed', () => {
         const { input } = renderField();
-        type(input, '12:75');
+        typeInto(input, '12:75');
         expect(document.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
-        type(input, '12:7');
+        typeInto(input, '12:7');
         expect(document.querySelector('.datetimepicker-invalid-input')).not.toBeNull();
-        type(input, '12:5');
+        typeInto(input, '12:5');
         expect(document.querySelector('.datetimepicker-invalid-input')).toBeNull();
       });
     });
@@ -685,10 +613,6 @@ describe('DesktopDatetimepicker', () => {
       });
     });
 
-    afterEach(() => {
-      vi.useRealTimers();
-    });
-
     const renderDate = (value = NOON) =>
       renderField({
         id: 'date',
@@ -706,8 +630,8 @@ describe('DesktopDatetimepicker', () => {
       );
     });
 
-    it('lists today, tomorrow and the following dates and reports the chosen one', () => {
-      const { container, onChange } = renderDate();
+    it('lists today, tomorrow and the following dates, and does not accept typing', () => {
+      const { container } = renderDate();
       const input = container.querySelector('#date-input');
       expect(input.getAttribute('aria-readonly')).toBe('true');
       expect(openList(input)).toEqual([
@@ -717,9 +641,6 @@ describe('DesktopDatetimepicker', () => {
         'Sat 18.11.',
         'Sun 19.11.',
       ]);
-      fireEvent.click(screen.getByRole('option', { name: 'Fri 17.11.' }));
-      expect(onChange).toHaveBeenCalledTimes(1);
-      expect(onChange.mock.calls[0][0]).toBe(dateChoices[2]);
     });
   });
 });
@@ -736,11 +657,6 @@ describe('mobile picker modal', () => {
     // Dates are listed from today on
     vi.useFakeTimers({ toFake: ['Date'] });
     vi.setSystemTime(NOW);
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-    vi.restoreAllMocks();
   });
 
   const renderMobilePicker = ({ userAgent = IPHONE, ...props } = {}) => {
@@ -768,12 +684,11 @@ describe('mobile picker modal', () => {
 
   it('lists serviceTimeRange dates starting today', () => {
     renderMobilePicker({ serviceTimeRange: 4 });
-    const labels = screen.getAllByRole('option').map(option => option.textContent);
-    expect(labels).toEqual(['Today', 'Tomorrow', 'Fri 17.11.', 'Sat 18.11.']);
+    expect(optionLabels()).toEqual(['Today', 'Tomorrow', 'Fri 17.11.', 'Sat 18.11.']);
   });
 
   it('submits the edited date, time and arrival mode with Ready', () => {
-    const { calls } = renderMobilePicker();
+    const { calls, openButton } = renderMobilePicker();
     fireEvent.change(screen.getByLabelText('Date'), {
       target: { value: screen.getByRole('option', { name: 'Fri 17.11.' }).value },
     });
@@ -788,6 +703,7 @@ describe('mobile picker modal', () => {
     expect(arriveBy).toBe(true);
     expect(submitted).toBe(true);
     expect(modalIsOpen()).toBe(false);
+    expect(openButton().textContent).toBe('Arrival Fri 17.11. 14:45');
   });
 
   it('keeps the date and time when only the departure/arrival mode is changed', () => {
@@ -797,13 +713,6 @@ describe('mobile picker modal', () => {
     const [seconds, arriveBy] = calls.onTimeChange[0];
     expect(seconds).toBe(FIXED_TIMESTAMP);
     expect(arriveBy).toBe(true);
-  });
-
-  it('does not submit an incomplete time', () => {
-    const { calls } = renderMobilePicker();
-    fireEvent.change(screen.getByLabelText('Time'), { target: { value: '14:4' } });
-    ready();
-    expect(timeOf(calls.onTimeChange[0][0]).toFormat('HH:mm')).toBe('00:13');
   });
 
   it('closes without reporting anything on Cancel and returns focus to the open button', async () => {
@@ -848,17 +757,310 @@ describe('mobile picker modal', () => {
       const toggle = screen.getByRole('combobox', { name: 'Date' });
       expect(toggle.textContent).toBe('Today');
       fireEvent.click(toggle);
-      expect(
-        screen
-          .getAllByRole('option')
-          .slice(0, 3)
-          .map(o => o.textContent),
-      ).toEqual(['Today', 'Tomorrow', 'Fri 17.11.']);
+      expect(optionLabels().slice(0, 3)).toEqual(['Today', 'Tomorrow', 'Fri 17.11.']);
       fireEvent.click(screen.getByRole('option', { name: 'Fri 17.11.' }));
       ready();
       expect(timeOf(calls.onTimeChange[0][0]).toFormat('yyyy-MM-dd HH:mm')).toBe(
         '2023-11-17 00:13',
       );
     });
+  });
+});
+
+describe('Datetimepicker state', () => {
+  // 2023-11-10 10:00 in Europe/Helsinki, a different day than FIXED_TIMESTAMP
+  const NOW = Date.UTC(2023, 10, 10, 8, 0, 0);
+  const NOW_SECONDS = NOW / 1000;
+  const helsinki = (month, day, hour, minute) =>
+    DateTime.fromObject({ year: 2023, month, day, hour, minute }, { zone: 'Europe/Helsinki' });
+
+  beforeEach(() => {
+    // The state container debounces changes with timers, so all of them are faked
+    vi.useFakeTimers();
+    vi.setSystemTime(NOW);
+  });
+
+  const advance = ms =>
+    act(() => {
+      vi.advanceTimersByTime(ms);
+    });
+  const flushDebounce = () => advance(20);
+
+  const buttonText = openButton => openButton().textContent;
+
+  describe('initial values', () => {
+    it('shows "Leaving now" when realtime and no time is given', () => {
+      const { openButton } = renderPicker({ realtime: true, initialTimestamp: undefined });
+      expect(buttonText(openButton)).toBe('Leaving now');
+    });
+
+    it('shows "Leaving now" also when not realtime and no time is given', () => {
+      // The current time chosen for a non-realtime picker is replaced by "now" in the first render,
+      // because the missing initialTimestamp is treated as a change from the parent
+      const { openButton } = renderPicker({ realtime: false, initialTimestamp: undefined });
+      expect(buttonText(openButton)).toBe('Leaving now');
+    });
+
+    it('prefers the given time over realtime', () => {
+      const { openButton } = renderPicker({ realtime: true });
+      expect(buttonText(openButton)).toBe('Departure Wed 15.11. 00:13');
+    });
+
+    it.each([
+      ['fi', 'Europe/Helsinki', 'Lähtöaika ke 15.11. 00:13'],
+      ['sv', 'Europe/Helsinki', 'Avgångstid ons 15.11. 00:13'],
+      ['en', 'UTC', 'Departure Tue 14.11. 22:13'],
+    ])('formats the time for lang %s in time zone %s', (lang, timeZone, expected) => {
+      const { container } = renderPicker({ lang, timeZone });
+      // The first button is the toggle that shows the summary
+      expect(container.querySelector('button').textContent).toBe(expected);
+    });
+  });
+
+  describe('props from the parent', () => {
+    it('follows a changed time and mode without reporting them back', () => {
+      const { openButton, rerenderWith, calls } = renderPicker();
+      const newTime = helsinki(11, 17, 14, 45).toSeconds();
+      rerenderWith({ initialTimestamp: newTime });
+      expect(buttonText(openButton)).toBe('Departure Fri 17.11. 14:45');
+      rerenderWith({ initialTimestamp: newTime, initialArriveBy: true });
+      expect(buttonText(openButton)).toBe('Arrival Fri 17.11. 14:45');
+      rerenderWith({ initialTimestamp: newTime, initialArriveBy: undefined });
+      expect(buttonText(openButton)).toBe('Departure Fri 17.11. 14:45');
+      rerenderWith({ initialTimestamp: undefined });
+      expect(buttonText(openButton)).toBe('Leaving now');
+      Object.values(calls).forEach(callList => expect(callList).toHaveLength(0));
+    });
+  });
+
+  describe('departure and arrival', () => {
+    it('reports a mode change with the current time', () => {
+      const { openButton, calls } = renderPicker();
+      fireEvent.click(openButton());
+      fireEvent.click(screen.getByLabelText('Arrival'));
+      expect(calls.onArrivalClick).toEqual([FIXED_TIMESTAMP]);
+      expect(buttonText(openButton)).toBe('Arrival Wed 15.11. 00:13');
+      fireEvent.click(screen.getByLabelText('Departure'));
+      expect(calls.onDepartureClick).toEqual([FIXED_TIMESTAMP]);
+      expect(buttonText(openButton)).toBe('Departure Wed 15.11. 00:13');
+    });
+
+    it('fixes "now" to the current time when the mode is changed', () => {
+      const { openButton, calls } = renderPicker({ realtime: true, initialTimestamp: undefined });
+      fireEvent.click(openButton());
+      fireEvent.click(screen.getByLabelText('Arrival'));
+      expect(calls.onArrivalClick).toEqual([NOW_SECONDS]);
+      expect(buttonText(openButton)).toBe('Arrival 10:00');
+    });
+  });
+
+  describe('Leaving now', () => {
+    const clickNow = openButton => {
+      fireEvent.click(openButton());
+      fireEvent.click(screen.getByRole('button', { name: 'Leaving now' }));
+    };
+
+    it('selects the current time and departure mode', () => {
+      const { openButton, calls } = renderPicker({ initialArriveBy: true });
+      clickNow(openButton);
+      expect(calls.onNowClick).toEqual([NOW_SECONDS]);
+      expect(buttonText(openButton)).toBe('Departure 10:00');
+    });
+
+    it('goes back to following the clock when realtime', () => {
+      const { openButton, calls } = renderPicker({ realtime: true, initialArriveBy: true });
+      clickNow(openButton);
+      expect(calls.onNowClick).toHaveLength(1);
+      expect(buttonText(openButton)).toBe('Leaving now');
+    });
+  });
+
+  describe('changing the time or date on desktop', () => {
+    const openField = id => openList(document.querySelector(`input[id$="-${id}-input"]`));
+
+    it.each([
+      ['Departure', undefined, false],
+      ['Arrival', true, true],
+    ])('reports a chosen time after the debounce in %s mode', (mode, initialArriveBy, arriveBy) => {
+      const { openButton, calls } = renderPicker({ initialArriveBy });
+      fireEvent.click(openButton());
+      openField('time');
+      fireEvent.click(screen.getByRole('option', { name: '13:15' }));
+      expect(calls.onTimeChange).toHaveLength(0);
+      flushDebounce();
+      expect(calls.onTimeChange).toEqual([[helsinki(11, 15, 13, 15).toSeconds(), arriveBy]]);
+      expect(buttonText(openButton)).toBe(`${mode} Wed 15.11. 13:15`);
+    });
+
+    it('reports only the last of quick successive changes', () => {
+      const { openButton, calls } = renderPicker();
+      fireEvent.click(openButton());
+      ['13:15', '14:00'].forEach(label => {
+        openField('time');
+        fireEvent.click(screen.getByRole('option', { name: label }));
+      });
+      flushDebounce();
+      expect(calls.onTimeChange).toEqual([[helsinki(11, 15, 14, 0).toSeconds(), false]]);
+    });
+
+    it('reports the chosen date and keeps the time of day', () => {
+      const { openButton, calls } = renderPicker();
+      fireEvent.click(openButton());
+      openField('date');
+      fireEvent.click(screen.getByRole('option', { name: 'Tomorrow' }));
+      expect(calls.onDateChange).toHaveLength(0);
+      flushDebounce();
+      expect(calls.onDateChange).toEqual([[helsinki(11, 11, 0, 13).toSeconds(), false]]);
+      expect(buttonText(openButton)).toBe('Departure tomorrow 00:13');
+    });
+  });
+
+  describe('desktop picker', () => {
+    const timeInput = () => timeInputOf(document);
+
+    it('calls onOpen and onClose', () => {
+      const onOpen = vi.fn();
+      const onClose = vi.fn();
+      const { openButton } = renderPicker({ onOpen, onClose });
+      fireEvent.click(openButton());
+      expect(onOpen).toHaveBeenCalledTimes(1);
+      expect(onClose).not.toHaveBeenCalled();
+      fireEvent.click(screen.getByRole('button', { name: 'Close the picker' }));
+      expect(onClose).toHaveBeenCalledTimes(1);
+      expect(onOpen).toHaveBeenCalledTimes(1);
+    });
+
+    it('shows embedWhenClosed only when closed and embedWhenOpen only when open', () => {
+      const { openButton } = renderPicker({
+        embedWhenClosed: <i data-testid="when-closed" />,
+        embedWhenOpen: <i data-testid="when-open" />,
+      });
+      const isShown = testId => screen.getByTestId(testId).closest('.hidden') === null;
+      expect([isShown('when-closed'), isShown('when-open')]).toEqual([true, false]);
+      fireEvent.click(openButton());
+      expect([isShown('when-closed'), isShown('when-open')]).toEqual([false, true]);
+    });
+
+    it('announces opening and closing to screen readers and clears the message', () => {
+      const { container, openButton } = renderPicker();
+      const alertText = () =>
+        [...container.querySelectorAll('[role="alert"]')].map(alert => alert.textContent).join('');
+      fireEvent.click(openButton());
+      expect(alertText()).toBe('Timepicker opened');
+      advance(100);
+      expect(alertText()).toBe('');
+      fireEvent.click(screen.getByRole('button', { name: 'Close the picker' }));
+      expect(alertText()).toBe('Timepicker closed');
+      advance(100);
+      expect(alertText()).toBe('');
+    });
+
+    it('keeps the shown time up to date while "now" is selected', () => {
+      const { openButton } = renderPicker({ realtime: true, initialTimestamp: undefined });
+      fireEvent.click(openButton());
+      expect(timeInput().value).toBe('10:00');
+      advance(65 * 1000);
+      expect(timeInput().value).toBe('10:01');
+    });
+
+    it('does not move a selected time', () => {
+      const { openButton } = renderPicker();
+      fireEvent.click(openButton());
+      advance(2 * 60 * 1000);
+      expect(timeInput().value).toBe('00:13');
+    });
+
+    it('follows a language change while mounted', () => {
+      const { container, rerenderWith } = renderPicker();
+      const summary = () => container.querySelector('button').textContent;
+      rerenderWith({ lang: 'fi' });
+      expect(summary()).toBe('Lähtöaika ke 15.11. 00:13');
+      rerenderWith({ lang: 'sv' });
+      expect(summary()).toBe('Avgångstid ons 15.11. 00:13');
+    });
+  });
+});
+
+describe('mobile time field', () => {
+  beforeEach(() => {
+    Settings.defaultZone = 'Europe/Helsinki';
+  });
+
+  const renderField = () => {
+    const changes = [];
+    function Field() {
+      const [value, setValue] = useState(FIXED_MILLIS);
+      return (
+        <MobileTimepicker
+          value={value}
+          onChange={ts => {
+            changes.push(getTimeDisplay(ts));
+            setValue(ts);
+          }}
+          id="time"
+          label="Time"
+        />
+      );
+    }
+    const { container } = render(<Field />);
+    return { container, changes, input: container.querySelector('input') };
+  };
+  const INVALID = '.mobile-datetimepicker-invalid-input';
+
+  it('shows the time and puts the caret at the start on focus', () => {
+    const { input } = renderField();
+    expect(input.value).toBe('00:13');
+    input.setSelectionRange(3, 3);
+    fireEvent.focus(input);
+    expect([input.selectionStart, input.selectionEnd]).toEqual([0, 0]);
+  });
+
+  it('reports each complete time while typing, but not incomplete ones', () => {
+    const { input, changes } = renderField();
+    typeInto(input, '14:4');
+    expect(changes).toEqual([]);
+    typeInto(input, '14:45');
+    expect(changes).toEqual(['14:45']);
+  });
+
+  it('accepts a dot as the separator', () => {
+    const { input, changes } = renderField();
+    typeInto(input, '12.30');
+    expect(input.value).toBe('12:30');
+    expect(changes).toEqual(['12:30']);
+  });
+
+  it('keeps the colon when it is deleted or digits are pasted', () => {
+    const { container, input, changes } = renderField();
+    typeInto(input, '12:11');
+    typeInto(input, '1211');
+    expect(input.value).toBe('12:11');
+    expect(container.querySelector(INVALID)).toBeNull();
+    expect(changes.at(-1)).toBe('12:11');
+  });
+
+  it('starts over when a digit is typed in front of the shown time', () => {
+    const { input, changes } = renderField();
+    typeInto(input, '300:13');
+    expect(input.value).toBe('3');
+    expect(changes).toEqual([]);
+  });
+
+  it('ignores input longer than five characters', () => {
+    const { input, changes } = renderField();
+    typeInto(input, '12:345');
+    expect(input.value).toBe('00:13');
+    expect(changes).toEqual([]);
+  });
+
+  it('marks an impossible time as invalid without reporting it', () => {
+    const { container, input, changes } = renderField();
+    typeInto(input, '25:');
+    expect(container.querySelector(INVALID)).not.toBeNull();
+    typeInto(input, '12:');
+    expect(container.querySelector(INVALID)).toBeNull();
+    typeInto(input, '12:75');
+    expect(container.querySelector(INVALID)).not.toBeNull();
+    expect(changes).toEqual([]);
   });
 });

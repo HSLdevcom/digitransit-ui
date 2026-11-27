@@ -125,17 +125,14 @@ export const getPickerChoices = ({
   }
   if (timestamp === null) {
     // if time is set to now
-    // add times in 5 min intervals for next 30 mins
+    // add times in 5 min intervals for next 30 mins, also past midnight
     const fiveMinutes = 1000 * 60 * 5;
     const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
     const timesToAdd = Array(7)
       .fill()
       .map((_, i) => nextFiveMin + i * fiveMinutes);
-    const closestIndexAfter = timeChoices
-      .map(time => displayTimestamp - time)
-      .findIndex(time => time <= 0);
-    timeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
-    timeChoices = Array.from(new Set(timeChoices)); // remove duplicates
+    // the Set drops times that already are steps, the sort puts the added times in their place
+    timeChoices = Array.from(new Set([...timeChoices, ...timesToAdd])).sort((a, b) => a - b);
   }
   const dateSelectStartTime = DateTime.now()
     .startOf('day')
