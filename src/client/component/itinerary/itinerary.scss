@@ -1526,6 +1526,11 @@
     }
   }
 
+  // Two whole dots; the dotted background tile is 20px high
+  .leg-before.no-walk .leg-before-line {
+    height: 40px;
+  }
+
   .leg-before-line {
     height: 100%;
     top: 0.7em;
@@ -1859,6 +1864,10 @@
     min-height: 4.15em;
     padding-right: 0;
 
+    &.no-walk {
+      min-height: 52px;
+    }
+
     .divider {
       border-top: 1px solid $light-gray;
       margin-bottom: 8px;
@@ -2148,6 +2157,10 @@
       &.alight {
         display: flex;
         align-items: center;
+      }
+
+      &.no-walk {
+        min-height: 52px;
       }
     }
 

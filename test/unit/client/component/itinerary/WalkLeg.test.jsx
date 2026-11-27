@@ -62,6 +62,35 @@ describe('<WalkLeg />', () => {
     },
   );
 
+  it.each([
+    [0, false],
+    [4, false],
+    [30, true],
+  ])('should show the walk distance only for a real walk (distance %s)', (distance, shown) => {
+    const leg = {
+      distance,
+      duration: distance,
+      from: { name: 'Pasila', stop: { gtfsId: 'HSL:1' } },
+      to: { name: 'Pasilan asema', stop: null },
+      mode: 'WALK',
+      rentedBike: false,
+      start: { scheduledTime: '2026-10-15T09:00:00Z' },
+      end: { scheduledTime: '2026-10-15T09:00:00Z' },
+      steps: [],
+    };
+    const { container } = renderWithProviders(
+      <WalkLeg
+        leg={leg}
+        index={2}
+        focusAction={() => {}}
+        focusToLeg={() => {}}
+        focusToPoint={() => {}}
+      />,
+    );
+
+    expect(!!container.querySelector('.itinerary-leg-action-content')).toBe(shown);
+  });
+
   it('should show the leg starting point name', () => {
     const props = {
       focusAction: () => {},

@@ -15,6 +15,7 @@ import {
   isBikeOrScooterRentalLeg,
 } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
+import LegCircleLine from './LegCircleLine';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
 import PlatformNumber from '../PlatformNumber';
@@ -62,11 +63,8 @@ export default function WalkLeg({
   );
 
   const isWalk = leg.mode === 'WALK';
-  const distance = displayDistance(
-    parseInt(isWalk ? leg.distance : 0, 10),
-    config,
-    intl.formatNumber,
-  );
+  const meters = parseInt(isWalk ? leg.distance : 0, 10);
+  const distance = displayDistance(meters, config, intl.formatNumber);
   const duration = durationToString(intl, isWalk ? leg.duration * 1000 : 0);
   const startMs = legTime(leg.start);
   // If mode is not WALK, WalkLeg should get information from "to"
@@ -108,6 +106,13 @@ export default function WalkLeg({
   const hideSubwayEntrances = subwayTransferUsesSameStation(previousLeg, nextLeg);
   const showSubwayEntranceInfo =
     (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY') && !hideSubwayEntrances;
+  const showSubwayExit = previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
+  const showSubwayEntrance = nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
+  // A leg without distance, e.g. an arrival at a stop that is the destination, has no walk to show.
+  // Under 5 m the distance would be rounded to 0 m.
+  const showWalkInfo = meters >= 5;
+  // Without a walk only a dotted connector links the stop or notice row to the next leg
+  const noWalk = !showWalkInfo && !showSubwayExit && !showSubwayEntrance;
 
   const alertIcon = (
     <ServiceAlertIcon
@@ -138,17 +143,31 @@ export default function WalkLeg({
           estimate={!!previousLeg && isCallAgencyLeg(previousLeg)}
           realTime={!!previousLeg?.realTime}
         />
-        <LegCircleLineWithIcon
-          appendClass={appendClass}
-          index={index}
-          modeClassName="walk"
-          viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
-          isStop={!!leg.from.stop}
-          indoorLegType={indoorLegType}
-          showIntermediateSteps={showIntermediateSteps}
-          indoorStepsLength={indoorSteps.length}
-        />
-        <div className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}>
+        {noWalk ? (
+          <LegCircleLine
+            index={index}
+            modeClassName="walk"
+            appendClass="taxi"
+            className="no-walk"
+            viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
+          />
+        ) : (
+          <LegCircleLineWithIcon
+            appendClass={appendClass}
+            index={index}
+            modeClassName="walk"
+            viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
+            isStop={!!leg.from.stop}
+            indoorLegType={indoorLegType}
+            showIntermediateSteps={showIntermediateSteps}
+            indoorStepsLength={indoorSteps.length}
+          />
+        )}
+        <div
+          className={cx('small-9 columns itinerary-instruction-column', leg.mode.toLowerCase(), {
+            'no-walk': noWalk,
+          })}
+        >
           {index === 0 ? (
             <WalkLegOrigin
               address={address}
@@ -163,6 +182,7 @@ export default function WalkLeg({
                 returnNotice ? 'itinerary-leg-first-row-return-bike' : 'itinerary-leg-first-row',
                 isScooter && 'scooter',
                 alightNotice && 'alight',
+                noWalk && 'no-walk',
               )}
             >
               <div className="itinerary-leg-row">
@@ -215,37 +235,44 @@ export default function WalkLeg({
               )}
             </div>
           )}
-          <div className="itinerary-leg-action">
-            {previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
-              <SubwayEntranceInfo
-                type="exit"
-                entranceName={entranceName}
-                entranceAccessible={entranceAccessible}
-              />
-            )}
-            <div
-              className={cx('itinerary-leg-action-content', {
-                'subway-entrance-info': showSubwayEntranceInfo,
-              })}
-            >
-              <FormattedMessage
-                id="walk-distance-duration"
-                values={{ distance: emphasizeDistance ? <b>{distance}</b> : distance, duration }}
-              />
-              <ShowOnMapButton
-                target=""
-                ariaLabelId="itinerary-list-row.clickable-area-description"
-                focusAction={focusToLeg}
-              />
+          {!noWalk && (
+            <div className="itinerary-leg-action">
+              {showSubwayExit && (
+                <SubwayEntranceInfo
+                  type="exit"
+                  entranceName={entranceName}
+                  entranceAccessible={entranceAccessible}
+                />
+              )}
+              {showWalkInfo && (
+                <div
+                  className={cx('itinerary-leg-action-content', {
+                    'subway-entrance-info': showSubwayEntranceInfo,
+                  })}
+                >
+                  <FormattedMessage
+                    id="walk-distance-duration"
+                    values={{
+                      distance: emphasizeDistance ? <b>{distance}</b> : distance,
+                      duration,
+                    }}
+                  />
+                  <ShowOnMapButton
+                    target=""
+                    ariaLabelId="itinerary-list-row.clickable-area-description"
+                    focusAction={focusToLeg}
+                  />
+                </div>
+              )}
+              {showSubwayEntrance && (
+                <SubwayEntranceInfo
+                  type="entrance"
+                  entranceName={entranceName}
+                  entranceAccessible={entranceAccessible}
+                />
+              )}
             </div>
-            {nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
-              <SubwayEntranceInfo
-                type="entrance"
-                entranceName={entranceName}
-                entranceAccessible={entranceAccessible}
-              />
-            )}
-          </div>
+          )}
           {indoorLegType !== IndoorLegType.NoStepsInside && indoorSteps.length > 1 ? (
             <div className="itinerary-leg-indoor-button-container">
               <IndoorInfo

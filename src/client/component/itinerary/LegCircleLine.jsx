@@ -33,6 +33,7 @@ export default function LegCircleLine({
   renderBottomMarker = true,
   appendClass,
   isStop = false,
+  className,
 }) {
   const isFirstChild = index === 0 && !viaType;
   const showCircle = appendClass !== 'taxi';
@@ -87,7 +88,10 @@ export default function LegCircleLine({
   }
 
   return (
-    <div className={cx('leg-before', modeClassName, { first: index === 0 })} aria-hidden="true">
+    <div
+      className={cx('leg-before', modeClassName, className, { first: index === 0 })}
+      aria-hidden="true"
+    >
       {topMarker}
 
       <div
@@ -107,5 +111,6 @@ LegCircleLine.propTypes = {
   color: PropTypes.string,
   renderBottomMarker: PropTypes.bool,
   appendClass: PropTypes.string,
+  className: PropTypes.string,
   isStop: PropTypes.bool,
 };
