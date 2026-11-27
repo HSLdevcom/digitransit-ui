@@ -110,7 +110,6 @@ export const Suggestions = memo(function Suggestions({
         })}
       </ul>
       {renderClearHistoryButton && (
-        // Outside the listbox: it is not an option, so a button there is invalid.
         <button
           onClick={handleClearHistory}
           type="button"

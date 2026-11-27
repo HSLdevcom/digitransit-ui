@@ -46,7 +46,6 @@
       padding: 5px 10px;
       font-size: $font-size-small;
 
-      // Dark ring on a white halo stays visible on the primary colour and any background
       &:focus-visible {
         outline: 2px solid $dark-gray;
         outline-offset: 2px;
