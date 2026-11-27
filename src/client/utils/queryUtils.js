@@ -1,6 +1,10 @@
 import isString from 'lodash/isString';
 import { locationToOTP, getIntermediatePlaces } from '../../shared/utils/otpStrings';
-import { getPathWithEndpointObjects, PREFIX_ITINERARY_SUMMARY } from '../../shared/utils/path';
+import {
+  getPathWithEndpointObjects,
+  parseLocation,
+  PREFIX_ITINERARY_SUMMARY,
+} from '../../shared/utils/path';
 
 /**
  * Processes query so that empty arrays will be preserved in URL
@@ -71,6 +75,12 @@ export const updateItinerarySearch = (origin, destination, router, location) => 
   router.replace(newLocation);
 };
 
+const isEmptyLocation = location => !location || Object.keys(location).length === 0;
+
+/**
+ * Handles a location chosen from the map popup. The other endpoint comes from the context, or
+ * from the URL when the context is still empty, e.g. after a page reload.
+ */
 export const onLocationPopup = (
   item,
   id,
@@ -94,10 +104,20 @@ export const onLocationPopup = (
   }
 
   if (id === 'origin') {
+    let otherEnd = destination;
+    if (isEmptyLocation(destination)) {
+      otherEnd = parseLocation(match.params?.to);
+      locationActions.setDestination(otherEnd);
+    }
     locationActions.setOrigin(item);
-    updateItinerarySearch(item, destination, router, match.location);
+    updateItinerarySearch(item, otherEnd, router, match.location);
   } else {
+    let otherEnd = origin;
+    if (isEmptyLocation(origin)) {
+      otherEnd = parseLocation(match.params?.from);
+      locationActions.setOrigin(otherEnd);
+    }
     locationActions.setDestination(item);
-    updateItinerarySearch(origin, item, router, match.location);
+    updateItinerarySearch(otherEnd, item, router, match.location);
   }
 };
