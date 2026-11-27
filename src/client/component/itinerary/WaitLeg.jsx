@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
 import { durationToString } from '../../utils/timeUtils';
 import ShowOnMapButton from './ShowOnMapButton';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import AddressPlace from './AddressPlace';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../../shared/utils/path';
@@ -58,9 +58,9 @@ export default function WaitLeg({
           </div>
           <ShowOnMapButton target={legName} focusAction={focusAction} />
         </div>
-        <LegAction focusAction={focusAction}>
+        <LegDetails focusAction={focusAction}>
           <FormattedMessage id="wait-amount-of-time" values={{ duration: `(${duration})` }} />
-        </LegAction>
+        </LegDetails>
       </div>
     </div>
   );

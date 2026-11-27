@@ -20,7 +20,7 @@ import LegCircleLine from './LegCircleLine';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
 import PlatformNumber from '../PlatformNumber';
-import SubwayEntranceInfo from './SubwayEntranceInfo';
+import WalkLegDetails from './WalkLegDetails';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
 import { PREFIX_STOPS } from '../../../shared/utils/path';
@@ -57,7 +57,6 @@ export default function WalkLeg({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { emphasizeDistance } = config;
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg).length === 1,
@@ -103,8 +102,6 @@ export default function WalkLeg({
   const entranceAccessible = getEntranceWheelchairAccessibility(previousLeg, leg);
   // do not render subway exit/entrance if transfer happens within a station
   const hideSubwayEntrances = subwayTransferUsesSameStation(previousLeg, nextLeg);
-  const showSubwayEntranceInfo =
-    (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY') && !hideSubwayEntrances;
   const showSubwayExit = previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
   const showSubwayEntrance = nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
   // A leg without distance, e.g. an arrival at a stop that is the destination, has no walk to show.
@@ -114,6 +111,10 @@ export default function WalkLeg({
   const noWalk = !showWalkInfo && !showSubwayExit && !showSubwayEntrance;
   // The return notice box is tall, so its row keeps the normal height
   const compactRow = noWalk && !returnNotice;
+
+  // The place is a link to the stop, unless it is a flex or taxi arrival, which show the address
+  const showStopLink = walkPlace.stop && !alightNotice && !isFlexArrival;
+  const showPlainName = !returnNotice && !alightNotice && !isFlexArrival;
 
   const alertIcon = (
     <ServiceAlertIcon
@@ -187,7 +188,7 @@ export default function WalkLeg({
               )}
             >
               <div className="itinerary-leg-row">
-                {walkPlace.stop && !alightNotice && !isFlexArrival ? (
+                {showStopLink ? (
                   <LegPlaceLink
                     to={`/${PREFIX_STOPS}/${walkPlace.stop.gtfsId}`}
                     isViaPoint={leg.isViaPoint}
@@ -215,10 +216,7 @@ export default function WalkLeg({
                         <FormattedMessage id="get-off-the-ride" />
                       </div>
                     )}
-                    {!returnNotice &&
-                      !alightNotice &&
-                      !isFlexArrival &&
-                      (leg.viaAddress || validatedLegName)}
+                    {showPlainName && (leg.viaAddress || validatedLegName)}
                     {alertIcon}
                   </div>
                 )}
@@ -237,42 +235,16 @@ export default function WalkLeg({
             </div>
           )}
           {!noWalk && (
-            <div className="itinerary-leg-action">
-              {showSubwayExit && (
-                <SubwayEntranceInfo
-                  type="exit"
-                  entranceName={entranceName}
-                  entranceAccessible={entranceAccessible}
-                />
-              )}
-              {showWalkInfo && (
-                <div
-                  className={cx('itinerary-leg-action-content', {
-                    'subway-entrance-info': showSubwayEntranceInfo,
-                  })}
-                >
-                  <FormattedMessage
-                    id="walk-distance-duration"
-                    values={{
-                      distance: emphasizeDistance ? <b>{distance}</b> : distance,
-                      duration,
-                    }}
-                  />
-                  <ShowOnMapButton
-                    target=""
-                    ariaLabelId="itinerary-list-row.clickable-area-description"
-                    focusAction={focusToLeg}
-                  />
-                </div>
-              )}
-              {showSubwayEntrance && (
-                <SubwayEntranceInfo
-                  type="entrance"
-                  entranceName={entranceName}
-                  entranceAccessible={entranceAccessible}
-                />
-              )}
-            </div>
+            <WalkLegDetails
+              distance={distance}
+              duration={duration}
+              showWalkInfo={showWalkInfo}
+              showSubwayExit={showSubwayExit}
+              showSubwayEntrance={showSubwayEntrance}
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+              focusToLeg={focusToLeg}
+            />
           )}
           {indoorLegType !== IndoorLegType.NoStepsInside && indoorSteps.length > 1 ? (
             <div className="itinerary-leg-indoor-button-container">

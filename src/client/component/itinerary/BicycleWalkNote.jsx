@@ -5,7 +5,7 @@ import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 
 const MESSAGE_IDS = {
   from: {
@@ -29,7 +29,7 @@ export default function BicycleWalkNote({ walkLeg, direction, target, focusActio
   const transportMode = getLocalizedMode(walkLeg[direction].stop.vehicleMode, intl);
 
   return (
-    <LegAction target={target} focusAction={focusAction}>
+    <LegDetails target={target} focusAction={focusAction}>
       {walkLeg.distance === -1 ? (
         <FormattedMessage id={ids.noDuration} values={{ transportMode }} />
       ) : (
@@ -42,7 +42,7 @@ export default function BicycleWalkNote({ walkLeg, direction, target, focusActio
           }}
         />
       )}
-    </LegAction>
+    </LegDetails>
   );
 }
 

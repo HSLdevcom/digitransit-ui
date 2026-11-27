@@ -5,7 +5,7 @@ import { durationToString } from '../../utils/timeUtils';
 import { legTime, legTimeStr, legSummaryValues, legPlaceAddress } from '../../utils/legUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import ShowOnMapButton from './ShowOnMapButton';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import AddressPlace from './AddressPlace';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
@@ -63,12 +63,12 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
           </div>
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
-        <LegAction focusAction={focusToLeg}>
+        <LegDetails focusAction={focusToLeg}>
           <FormattedMessage
             id={DESCRIPTION_IDS[leg.mode] || 'walk-distance-duration'}
             values={{ distance, duration }}
           />
-        </LegAction>
+        </LegDetails>
       </div>
     </div>
   );

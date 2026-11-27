@@ -3,7 +3,7 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import AddressPlace from './AddressPlace';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
@@ -58,16 +58,16 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {carBoardingLeg?.from.stop && (
-          <LegAction target={leg.from.name || ''} focusAction={focusAction}>
+          <LegDetails target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-from-transit-no-duration"
               values={{
                 transportMode: getFromLocalizedMode(carBoardingLeg.from.stop.vehicleMode, intl),
               }}
             />
-          </LegAction>
+          </LegDetails>
         )}
-        <LegAction target={leg.from.name || ''} focusAction={focusToLeg}>
+        <LegDetails target={leg.from.name || ''} focusAction={focusToLeg}>
           <FormattedMessage
             id={
               config.hideCarSuggestionDuration
@@ -76,16 +76,16 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
             }
             values={{ distance, duration }}
           />
-        </LegAction>
+        </LegDetails>
         {carBoardingLeg?.to.stop && (
-          <LegAction target={leg.from.name || ''} focusAction={focusAction}>
+          <LegDetails target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-to-transit-no-duration"
               values={{
                 transportMode: getToLocalizedMode(carBoardingLeg.to.stop.vehicleMode, intl),
               }}
             />
-          </LegAction>
+          </LegDetails>
         )}
       </div>
     </div>

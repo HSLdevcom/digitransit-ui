@@ -11,7 +11,7 @@ import LegCircleLine from './LegCircleLine';
 import LegTimeColumn from './LegTimeColumn';
 import LegArrowIcon from './LegArrowIcon';
 import AddressPlace from './AddressPlace';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 
 export default function TaxiLeg({ leg, index, focusAction, focusToLeg }) {
   const intl = useIntl();
@@ -103,9 +103,9 @@ export default function TaxiLeg({ leg, index, focusAction, focusToLeg }) {
                 />
               );
             })}
-          <LegAction focusAction={focusToLeg} target={leg.from.name}>
+          <LegDetails focusAction={focusToLeg} target={leg.from.name}>
             <FormattedMessage id="taxi-distance-duration" values={{ distance, duration }} />
-          </LegAction>
+          </LegDetails>
         </div>
       </div>
     </>

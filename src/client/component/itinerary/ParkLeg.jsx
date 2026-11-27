@@ -3,7 +3,7 @@ import cx from 'classnames';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, parkShape } from '../../utils/shapes';
 import ShowOnMapButton from './ShowOnMapButton';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../shared/utils/path';
@@ -52,9 +52,9 @@ export default function ParkLeg({ leg, index, focusAction, park, type }) {
           </div>
           <ShowOnMapButton target={leg.from.name} focusAction={focusAction} />
         </div>
-        <LegAction target={leg.from.name} focusAction={focusAction}>
+        <LegDetails target={leg.from.name} focusAction={focusAction}>
           <FormattedMessage id="walk-distance-duration" values={{ distance, duration }} />
-        </LegAction>
+        </LegDetails>
       </div>
     </div>
   );

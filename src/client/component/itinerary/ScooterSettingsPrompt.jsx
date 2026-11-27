@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Icon from '../Icon';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 
 /**
@@ -10,12 +10,12 @@ import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 export default function ScooterSettingsPrompt({ focusToLeg, openSettings }) {
   return (
     <div>
-      <LegAction
+      <LegDetails
         ariaLabelId="itinerary-list-row.clickable-area-description"
         focusAction={focusToLeg}
       >
         <FormattedMessage id="settings-e-scooter-on" />
-      </LegAction>
+      </LegDetails>
       <div
         role="button"
         tabIndex="0"

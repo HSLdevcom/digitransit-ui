@@ -4,7 +4,7 @@ import cx from 'classnames';
 import { legShape, relayShape } from '../../utils/shapes';
 import { legTimeStr, legDestination, legPlaceAddress, rentalNetworkId } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
-import LegAction from './LegAction';
+import LegDetails from './LegDetails';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
 import LegCircleLine from './LegCircleLine';
@@ -202,12 +202,12 @@ export default function BicycleLeg({
         {isScooter && !scooterSettingsOn && (
           <ScooterSettingsPrompt focusToLeg={focusToLeg} openSettings={openSettings} />
         )}
-        <LegAction
+        <LegDetails
           ariaLabelId="itinerary-list-row.clickable-area-description"
           focusAction={focusToLeg}
         >
           {stopsDescription}
-        </LegAction>
+        </LegDetails>
         {bicycleWalkLeg?.to.stop && (
           <BicycleWalkNote
             walkLeg={bicycleWalkLeg}
