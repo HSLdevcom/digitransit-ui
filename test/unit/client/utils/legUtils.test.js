@@ -319,6 +319,25 @@ describe('legUtils', () => {
       ).toBe(true);
       expect(compressedLegs.filter(leg => !!leg.from.viaLocationType).length).toBe(2);
     });
+
+    it('preserves bicycle-walk legs before transit when requested', () => {
+      const legs = [
+        { mode: 'WALK', distance: 200, duration: 120 },
+        { mode: 'BICYCLE', distance: 1600, duration: 360 },
+        { mode: 'WALK', distance: 200, duration: 120 },
+        { mode: 'RAIL', distance: 5000, duration: 600, transitLeg: true },
+      ].map(leg => ({ rentedBike: false, from: {}, to: {}, ...leg }));
+
+      const summaryLegs = utils.compressLegs(legs);
+      const displayLegs = utils.compressLegs(legs, true);
+
+      expect(summaryLegs.map(leg => leg.mode)).toEqual(['BICYCLE', 'RAIL']);
+      expect(summaryLegs[0]).toMatchObject({ distance: 2000, duration: 600 });
+      expect(displayLegs.map(leg => leg.mode)).toEqual(['BICYCLE', 'BICYCLE_WALK', 'RAIL']);
+      expect(displayLegs[0]).toMatchObject({ distance: 1800, duration: 480 });
+      expect(displayLegs[1]).toMatchObject({ distance: 200, duration: 120 });
+      expect(legs.map(leg => leg.mode)).toEqual(['WALK', 'BICYCLE', 'WALK', 'RAIL']);
+    });
   });
 
   describe('getTotalDistance', () => {
@@ -494,6 +513,87 @@ describe('legUtils', () => {
 
     it('should fall back to the trip short name when interlining', () => {
       expect(utils.getTripOrRouteText({ tripShortName: 'T1' }, {}, {}, '2')).toBe('T1 / 2');
+    });
+  });
+
+  describe('isUsingOwnCarWholeTrip', () => {
+    const car = { mode: 'CAR', to: {} };
+    const parkedCar = { mode: 'CAR', to: { vehicleParking: { id: 'p' } } };
+    const rail = { mode: 'RAIL', to: {} };
+
+    it('is true when a car leg is never parked', () => {
+      expect(utils.isUsingOwnCarWholeTrip([car, rail])).toBe(true);
+    });
+
+    it('is false when the car is parked', () => {
+      expect(utils.isUsingOwnCarWholeTrip([parkedCar, rail])).toBe(false);
+    });
+
+    it('is false without car legs', () => {
+      expect(utils.isUsingOwnCarWholeTrip([rail])).toBe(false);
+    });
+  });
+
+  describe('getLegNotifications', () => {
+    const route = { type: 702 };
+    const forRoute = { id: 'a', showForRoute: r => r.type === 702 };
+    const forBike = { id: 'b', showForBikeWithPublic: true };
+    const config = {
+      routeNotifications: [forRoute, forBike],
+      bikeBoardingModes: { RAIL: { showNotification: true } },
+    };
+
+    it('selects notifications by route', () => {
+      expect(utils.getLegNotifications({ mode: 'BUS', route }, config)).toEqual([forRoute]);
+    });
+
+    it('does not select route notifications for call agency legs', () => {
+      expect(utils.getLegNotifications({ mode: 'BUS', route: { type: 715 } }, config)).toEqual([]);
+    });
+
+    it('selects bike notifications when bike boarding information is shown', () => {
+      const leg = { mode: 'RAIL', route: { type: 109 }, showBikeBoardingInformation: true };
+      expect(utils.getLegNotifications(leg, config)).toEqual([forBike]);
+    });
+
+    it('returns nothing without configured notifications', () => {
+      expect(utils.getLegNotifications({ route }, {})).toEqual([]);
+    });
+  });
+
+  describe('legSummaryValues', () => {
+    it('collects the values of the leg description messages', () => {
+      const leg = {
+        mode: 'WALK',
+        distance: 150,
+        duration: 180,
+        start: { scheduledTime: '2026-11-27T08:45:00+02:00' },
+        from: { name: 'Start' },
+        to: { name: 'End' },
+      };
+      const intl = createTestIntl();
+      expect(utils.legSummaryValues(intl, {}, leg)).toEqual({
+        time: '08:45',
+        distance: '150 m',
+        duration: '3 min',
+        to: intl.formatMessage({ id: 'modes.to-place' }),
+        origin: 'Start',
+        destination: 'End',
+      });
+    });
+  });
+
+  describe('isDestinationStop', () => {
+    const place = { name: 'Malmi', stop: { gtfsId: 'HSL:1' } };
+
+    it('should match a stop with the name of the destination, ignoring case and the place', () => {
+      expect(utils.isDestinationStop('MALMI, Helsinki', place)).toBe(true);
+    });
+
+    it('should not match another name or a place that is not a stop', () => {
+      expect(utils.isDestinationStop('Malmin asema, Helsinki', place)).toBe(false);
+      expect(utils.isDestinationStop('Malmi', { name: 'Malmi', stop: null })).toBe(false);
+      expect(utils.isDestinationStop(undefined, place)).toBe(false);
     });
   });
 });

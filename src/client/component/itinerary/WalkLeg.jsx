@@ -2,8 +2,6 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Link from 'found/Link';
-import { Text } from '@hsl-fi/layout-primitives';
 import { legShape } from '../../utils/shapes';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import {
@@ -13,13 +11,16 @@ import {
   isCallAgencyLeg,
   isTaxiLeg,
   getValidatedLegName,
+  legPlaceAddress,
   isBikeOrScooterRentalLeg,
+  rentalNetworkId,
 } from '../../utils/legUtils';
-import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
+import LegCircleLine from './LegCircleLine';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
 import PlatformNumber from '../PlatformNumber';
-import SubwayEntranceInfo from './SubwayEntranceInfo';
+import WalkLegDetails from './WalkLegDetails';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import { getActiveAlertSeverityLevel } from '../../utils/alertUtils';
 import { PREFIX_STOPS } from '../../../shared/utils/path';
@@ -29,19 +30,20 @@ import {
 } from '../../../shared/utils/vehicleRentalUtils';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
   subwayTransferUsesSameStation,
   getIndoorLegType,
   getIndoorStepsWithVerticalTransportation,
-  getStepFocusAction,
   getEntranceWheelchairAccessibility,
   getEntranceName,
 } from '../../utils/indoorUtils';
-import IndoorStep from './IndoorStep';
+import IndoorSteps from './IndoorSteps';
+import WalkLegOrigin from './WalkLegOrigin';
+import AddressPlace from './AddressPlace';
 import { IndoorLegType } from '../../../shared/utils/constants';
+import LegPlaceLink from './LegPlaceLink';
 
 export default function WalkLeg({
   children,
@@ -52,35 +54,27 @@ export default function WalkLeg({
   leg,
   previousLeg,
   nextLeg,
-  useOriginAddress = false,
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { colors, emphasizeDistance } = config;
   // If there is only one indoor routing step, always show it.
   const [showIntermediateSteps, setShowIntermediateSteps] = useState(
     getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg).length === 1,
   );
 
-  const distance = displayDistance(
-    parseInt(leg.mode !== 'WALK' ? 0 : leg.distance, 10),
-    config,
-    intl.formatNumber,
-  );
-  const duration = durationToString(intl, leg.mode !== 'WALK' ? 0 : leg.duration * 1000);
+  const isWalk = leg.mode === 'WALK';
+  const meters = isWalk ? leg.distance : 0;
+  const distance = displayDistance(meters, config, intl.formatNumber);
+  const duration = durationToString(intl, isWalk ? leg.duration * 1000 : 0);
   const startMs = legTime(leg.start);
-  // If mode is not WALK, WalkLeg should get information from "to". If useOriginAddress is true, force WalkLeg to get information from "from".
-  const toOrFrom = leg.mode !== 'WALK' && !useOriginAddress ? 'to' : 'from';
+  // If mode is not WALK, WalkLeg should get information from "to"
+  const walkPlace = isWalk ? leg.from : leg.to;
   const isFlexArrival = isCallAgencyLeg(leg) || (previousLeg && isCallAgencyLeg(previousLeg));
-  const modeClassName = 'walk';
-  const fromMode = (leg[toOrFrom].stop && leg[toOrFrom].stop.vehicleMode) || '';
-  const isFirstLeg = i => i === 0;
-  const network =
-    previousLeg?.[toOrFrom]?.vehicleRentalStation?.rentalNetwork.networkId ||
-    previousLeg?.[toOrFrom]?.rentalVehicle?.rentalNetwork.networkId;
-  const validatedLegName = getValidatedLegName(leg[toOrFrom].name, intl, toOrFrom === 'to');
-  const [name, place] = splitStringToAddressAndPlace(validatedLegName);
-  const address = leg[toOrFrom].viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const fromMode = walkPlace.stop?.vehicleMode || '';
+  const previousPlace = isWalk ? previousLeg?.from : previousLeg?.to;
+  const network = rentalNetworkId(previousPlace);
+  const validatedLegName = getValidatedLegName(walkPlace.name, intl, !isWalk);
+  const [address, place] = legPlaceAddress(intl, leg, walkPlace, !isWalk);
   const networkType = getRentalNetworkConfig(
     isBikeOrScooterRentalLeg(previousLeg) && network,
     config,
@@ -90,20 +84,16 @@ export default function WalkLeg({
   const alightNotice = isTaxiLeg(previousLeg) || isTaxiLeg(leg);
   const returnNotice = isBikeOrScooterRentalLeg(previousLeg) ? (
     <FormattedMessage
-      id={networkType === RentalNetworkType.Scooter ? 'return-e-scooter-to' : 'return-cycle-to'}
-      values={{ station: leg[toOrFrom] ? validatedLegName : '' }}
-      defaultMessage="Return the bike to {station} station"
+      id={isScooter ? 'return-e-scooter-to' : 'return-cycle-to'}
+      values={{ station: validatedLegName }}
     />
   ) : null;
 
-  let appendClass;
-  if (returnNotice) {
-    appendClass = !isScooter ? 'return-citybike' : '';
-  }
+  const appendClass = returnNotice && !isScooter ? 'return-citybike' : undefined;
 
   const destinationLabel =
     leg.to.name?.toLowerCase() === 'scooter'
-      ? intl.formatMessage({ id: 'e-scooter', defaultMessage: 'scooter' })
+      ? intl.formatMessage({ id: 'e-scooter' })
       : leg.to.name;
 
   const indoorSteps = getIndoorStepsWithVerticalTransportation(previousLeg, leg, nextLeg);
@@ -112,253 +102,168 @@ export default function WalkLeg({
   const entranceAccessible = getEntranceWheelchairAccessibility(previousLeg, leg);
   // do not render subway exit/entrance if transfer happens within a station
   const hideSubwayEntrances = subwayTransferUsesSameStation(previousLeg, nextLeg);
-  const showSubwayEntranceInfo =
-    (nextLeg?.mode === 'SUBWAY' || previousLeg?.mode === 'SUBWAY') && !hideSubwayEntrances;
+  const showSubwayExit = previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
+  const showSubwayEntrance = nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances;
+  // A leg without distance, e.g. an arrival at a stop that is the destination, has no walk to show.
+  // Under 5 m the distance would be rounded to 0 m.
+  const showWalkInfo = meters >= 5;
+  // Without a walk only a dotted connector links the stop or notice row to the next leg
+  const noWalk = !showWalkInfo && !showSubwayExit && !showSubwayEntrance;
+  // The return notice box is tall, so its row keeps the normal height
+  const compactRow = noWalk && !returnNotice;
 
-  const getMainRow = () => (
-    <div key={index} className="row itinerary-row">
-      <span className="sr-only">
-        {returnNotice}{' '}
-        <FormattedMessage
-          id="itinerary-details.walk-leg"
-          values={{
-            time: legTimeStr(leg.start),
-            to: legDestination(intl, leg),
-            distance,
-            duration,
-            origin: leg[toOrFrom] ? validatedLegName : '',
-            destination: leg.to ? destinationLabel : '',
-          }}
-        />
-      </span>
-      <div
-        className={cx('small-2', 'columns', 'itinerary-time-column', {
-          'has-estimate': previousLeg && isCallAgencyLeg(previousLeg),
-        })}
-        aria-hidden="true"
-      >
-        <div className="itinerary-time-column-time-group">
-          <div className="itinerary-time-column-time">
-            <span className={cx({ realtime: previousLeg?.realTime })}>
-              {leg.mode === 'WALK' ? legTimeStr(leg.start) : legTimeStr(leg.end)}
-            </span>
-          </div>
-          {previousLeg && isCallAgencyLeg(previousLeg) && (
-            <Text
-              as="span"
-              variant="routes-xxs"
-              color="weak"
-              className="itinerary-time-column-estimate"
-            >
-              <FormattedMessage id="estimate" />
-            </Text>
-          )}
-        </div>
-      </div>
-      <ItineraryCircleLineWithIcon
-        appendClass={appendClass}
-        index={index}
-        modeClassName={modeClassName}
-        viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
-        isStop={!!leg.from.stop}
-        indoorLegType={indoorLegType}
-        showIntermediateSteps={showIntermediateSteps}
-        indoorStepsLength={indoorSteps.length}
-      />
-      <div className={`small-9 columns itinerary-instruction-column ${leg.mode.toLowerCase()}`}>
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: validatedLegName || '' }}
-          />
-        </span>
-        {isFirstLeg(index) ? (
-          <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
-            <div className="address-container">
-              <div className="address">
-                {address}
-                {leg[toOrFrom].stop && !isFlexArrival && (
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={colors.primary}
-                  />
-                )}
-              </div>
-              <div className="place">{place}</div>
-            </div>
-            <ItineraryMapAction target={validatedLegName || ''} focusAction={focusAction} />
-          </div>
-        ) : (
-          <div
-            className={cx(
-              returnNotice ? 'itinerary-leg-first-row-return-bike' : 'itinerary-leg-first-row',
-              isScooter && 'scooter',
-              alightNotice && 'alight',
-            )}
-          >
-            <div className="itinerary-leg-row">
-              {leg[toOrFrom].stop && !alightNotice && !isFlexArrival ? (
-                <Link
-                  onClick={e => {
-                    e.stopPropagation();
-                  }}
-                  to={`/${PREFIX_STOPS}/${leg[toOrFrom].stop.gtfsId}`}
-                >
-                  {returnNotice || validatedLegName}
-                  {leg.isViaPoint && (
-                    <>
-                      <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                      <span className="sr-only">{intl.formatMessage({ id: 'via-point' })}</span>
-                    </>
-                  )}
-                  {leg[toOrFrom].stop && (
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={colors.primary}
-                    />
-                  )}
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      startMs / 1000,
-                    )}
-                  />
-                </Link>
-              ) : (
-                <div>
-                  {isFlexArrival && (
-                    <div className="address-container">
-                      <div className="address">{address}</div>
-                      <div className="place">{place}</div>
-                    </div>
-                  )}
-                  {returnNotice && (
-                    <>
-                      <div className="divider" />
-                      <VehicleRentalLeg
-                        isScooter={isScooter}
-                        stationName={validatedLegName}
-                        vehicleRentalStation={leg[toOrFrom].vehicleRentalStation}
-                        returnBike
-                        rentalVehicle={leg.from.rentalVehicle}
-                      />
-                    </>
-                  )}
-                  {alightNotice && (
-                    <div className="itinerary-leg-action-content">
-                      <FormattedMessage id="get-off-the-ride" defaultMessage="Get off the ride" />
-                    </div>
-                  )}
-                  {!returnNotice &&
-                    !alightNotice &&
-                    !isFlexArrival &&
-                    (leg.viaAddress || validatedLegName)}
-                  {leg[toOrFrom].stop && !alightNotice && !isFlexArrival && (
-                    <Icon
-                      img="icon_arrow-collapse--right"
-                      className="itinerary-arrow-icon"
-                      color={colors.primary}
-                    />
-                  )}
-                  <ServiceAlertIcon
-                    className="inline-icon"
-                    severityLevel={getActiveAlertSeverityLevel(
-                      leg[toOrFrom].stop && leg[toOrFrom].stop.alerts,
-                      startMs / 1000,
-                    )}
-                  />
-                </div>
-              )}
-              {networkType !== RentalNetworkType.Scooter && (
-                <div className="stop-code-container">
-                  {children}
-                  {leg[toOrFrom].stop && (
-                    <PlatformNumber
-                      number={leg[toOrFrom].stop.platformCode}
-                      short
-                      mode={fromMode}
-                    />
-                  )}
-                </div>
-              )}
-            </div>
-            {!returnNotice && (
-              <ItineraryMapAction target={validatedLegName || ''} focusAction={focusAction} />
-            )}
-          </div>
-        )}
-        <div className="itinerary-leg-action">
-          {previousLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
-            <SubwayEntranceInfo
-              type="exit"
-              entranceName={entranceName}
-              entranceAccessible={entranceAccessible}
-            />
-          )}
-          <div
-            className={cx('itinerary-leg-action-content', {
-              'subway-entrance-info': showSubwayEntranceInfo,
-            })}
-          >
-            <FormattedMessage
-              id="walk-distance-duration"
-              values={{ distance: emphasizeDistance ? <b>{distance}</b> : distance, duration }}
-              defaultMessage="Walk {distance} ({duration})"
-            />
-            <ItineraryMapAction
-              target=""
-              ariaLabelId="itinerary-summary-row.clickable-area-description"
-              focusAction={focusToLeg}
-            />
-          </div>
-          {nextLeg?.mode === 'SUBWAY' && !hideSubwayEntrances && (
-            <SubwayEntranceInfo
-              type="entrance"
-              entranceName={entranceName}
-              entranceAccessible={entranceAccessible}
-            />
-          )}
-        </div>
-        {indoorLegType !== IndoorLegType.NoStepsInside && indoorSteps.length > 1 ? (
-          <div className="itinerary-leg-indoor-button-container">
-            <IndoorInfo
-              intermediateStepCount={indoorSteps.length}
-              showIntermediateSteps={showIntermediateSteps}
-              toggleFunction={() => setShowIntermediateSteps(!showIntermediateSteps)}
-            />
-          </div>
-        ) : null}
-      </div>
-    </div>
+  // The place is a link to the stop, unless it is a flex or taxi arrival, which show the address
+  const showStopLink = walkPlace.stop && !alightNotice && !isFlexArrival;
+  const showPlainName = !returnNotice && !alightNotice && !isFlexArrival;
+
+  const alertIcon = (
+    <ServiceAlertIcon
+      className="inline-icon"
+      severityLevel={getActiveAlertSeverityLevel(walkPlace.stop?.alerts, startMs / 1000)}
+    />
   );
-
-  const getIntermediateRows = () =>
-    showIntermediateSteps ? (
-      <div className="itinerary-leg-container">
-        {indoorSteps.map((step, i) => (
-          <IndoorStep
-            // eslint-disable-next-line react/no-array-index-key
-            key={`indoorstep_lat_${step.lat}_lon_${step.lon}_index_${index}_i_${i}`}
-            // eslint-disable-next-line no-underscore-dangle
-            type={step.feature?.__typename}
-            verticalDirection={step.feature?.verticalDirection}
-            toLevelName={step.feature?.to?.name}
-            focusAction={getStepFocusAction(step.lat, step.lon, focusToPoint)}
-            isLastPlace={i === indoorSteps.length - 1}
-            onlyOneStep={indoorSteps.length === 1}
-            indoorLegType={indoorLegType}
-          />
-        ))}
-      </div>
-    ) : null;
 
   return (
     <>
-      {getMainRow()}
-      {getIntermediateRows()}
+      <div className="row itinerary-row">
+        <span className="sr-only">
+          {returnNotice}{' '}
+          <FormattedMessage
+            id="itinerary-details.walk-leg"
+            values={{
+              time: legTimeStr(leg.start),
+              to: legDestination(intl, leg),
+              distance,
+              duration,
+              origin: validatedLegName,
+              destination: destinationLabel,
+            }}
+          />
+        </span>
+        <LegTimeColumn
+          time={isWalk ? legTimeStr(leg.start) : legTimeStr(leg.end)}
+          estimate={!!previousLeg && isCallAgencyLeg(previousLeg)}
+          realTime={!!previousLeg?.realTime}
+        />
+        {noWalk ? (
+          <LegCircleLine
+            index={index}
+            modeClassName="walk"
+            appendClass="taxi"
+            className={cx('no-walk', { 'to-bottom': returnNotice })}
+            viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
+          />
+        ) : (
+          <LegCircleLineWithIcon
+            appendClass={appendClass}
+            index={index}
+            modeClassName="walk"
+            viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
+            isStop={!!leg.from.stop}
+            indoorLegType={indoorLegType}
+            showIntermediateSteps={showIntermediateSteps}
+            indoorStepsLength={indoorSteps.length}
+          />
+        )}
+        <div
+          className={cx('small-9 columns itinerary-instruction-column', leg.mode.toLowerCase(), {
+            'no-walk': compactRow,
+          })}
+        >
+          {index === 0 ? (
+            <WalkLegOrigin
+              address={address}
+              place={place}
+              showArrow={!!walkPlace.stop && !isFlexArrival}
+              target={validatedLegName || ''}
+              focusAction={focusAction}
+            />
+          ) : (
+            <div
+              className={cx(
+                returnNotice ? 'itinerary-leg-first-row-return-bike' : 'itinerary-leg-first-row',
+                isScooter && 'scooter',
+                alightNotice && 'alight',
+                compactRow && 'no-walk',
+              )}
+            >
+              <div className="itinerary-leg-row">
+                {showStopLink ? (
+                  <LegPlaceLink
+                    to={`/${PREFIX_STOPS}/${walkPlace.stop.gtfsId}`}
+                    isViaPoint={leg.isViaPoint}
+                    trailing={alertIcon}
+                  >
+                    {returnNotice || validatedLegName}
+                  </LegPlaceLink>
+                ) : (
+                  <div>
+                    {isFlexArrival && <AddressPlace address={address} place={place} />}
+                    {returnNotice && (
+                      <>
+                        <div className="divider" />
+                        <VehicleRentalLeg
+                          isScooter={isScooter}
+                          stationName={validatedLegName}
+                          vehicleRentalStation={walkPlace.vehicleRentalStation}
+                          returnBike
+                          rentalVehicle={walkPlace.rentalVehicle}
+                        />
+                      </>
+                    )}
+                    {alightNotice && (
+                      <div className="itinerary-leg-action-content">
+                        <FormattedMessage id="get-off-the-ride" />
+                      </div>
+                    )}
+                    {showPlainName && (leg.viaAddress || validatedLegName)}
+                    {alertIcon}
+                  </div>
+                )}
+                {!isScooter && (
+                  <div className="stop-code-container">
+                    {children}
+                    {walkPlace.stop && (
+                      <PlatformNumber number={walkPlace.stop.platformCode} short mode={fromMode} />
+                    )}
+                  </div>
+                )}
+              </div>
+              {!returnNotice && (
+                <ShowOnMapButton target={validatedLegName || ''} focusAction={focusAction} />
+              )}
+            </div>
+          )}
+          {!noWalk && (
+            <WalkLegDetails
+              distance={distance}
+              duration={duration}
+              showWalkInfo={showWalkInfo}
+              showSubwayExit={showSubwayExit}
+              showSubwayEntrance={showSubwayEntrance}
+              entranceName={entranceName}
+              entranceAccessible={entranceAccessible}
+              focusToLeg={focusToLeg}
+            />
+          )}
+          {indoorLegType !== IndoorLegType.NoStepsInside && indoorSteps.length > 1 ? (
+            <div className="itinerary-leg-indoor-button-container">
+              <IndoorInfo
+                intermediateStepCount={indoorSteps.length}
+                showIntermediateSteps={showIntermediateSteps}
+                toggleFunction={() => setShowIntermediateSteps(!showIntermediateSteps)}
+              />
+            </div>
+          ) : null}
+        </div>
+      </div>
+      {showIntermediateSteps && (
+        <IndoorSteps
+          steps={indoorSteps}
+          indoorLegType={indoorLegType}
+          focusToPoint={focusToPoint}
+        />
+      )}
     </>
   );
 }
@@ -372,5 +277,4 @@ WalkLeg.propTypes = {
   nextLeg: legShape,
   focusToLeg: PropTypes.func.isRequired,
   focusToPoint: PropTypes.func.isRequired,
-  useOriginAddress: PropTypes.bool,
 };

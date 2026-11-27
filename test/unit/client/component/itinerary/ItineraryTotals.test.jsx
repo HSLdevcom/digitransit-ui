@@ -1,10 +1,10 @@
 import { renderWithProviders } from '../../../helpers/mock-providers';
-import Profile from '../../../../../src/client/component/itinerary/Profile';
+import ItineraryTotals from '../../../../../src/client/component/itinerary/ItineraryTotals';
 
-describe('<Profile />', () => {
+describe('<ItineraryTotals />', () => {
   it('should only render total distance information for non-biking itineraries', () => {
     const props = { itinerary: { legs: [{ distance: 1200, mode: 'BUS' }] } };
-    const { container } = renderWithProviders(<Profile {...props} />, {
+    const { container } = renderWithProviders(<ItineraryTotals {...props} />, {
       config: { CONFIG: 'hsl', URL: {}, imperialEnabled: false },
     });
 

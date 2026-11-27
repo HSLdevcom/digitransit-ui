@@ -489,11 +489,6 @@
       width: auto;
       left: 70px;
       top: 528px;
-
-      &.simple {
-        width: auto;
-      }
-
       font-style: normal;
       font-weight: $font-weight-book;
       font-size: 15px;
@@ -842,10 +837,6 @@
   display: flex;
   align-items: center;
   letter-spacing: -0.03em;
-}
-
-.itinerary-empty-space {
-  min-height: 10px;
 }
 
 .mobile .itinerary-disclaimer {
@@ -1513,6 +1504,19 @@
       }
     }
 
+    // The transit leg's stop circle is drawn at the top of the row; the pin goes below it,
+    // joined to the circle with a short dotted line
+    &.end.after-transit {
+      > .itinerary-icon-container {
+        top: 32px;
+      }
+
+      .leg-before-line.end-connector {
+        top: 20px;
+        height: 20px;
+      }
+    }
+
     &.wait {
       .icon.wait {
         color: $dark-gray;
@@ -1533,6 +1537,17 @@
         }
       }
     }
+  }
+
+  // Two whole dots; the dotted background tile is 20px high
+  .leg-before.no-walk .leg-before-line {
+    height: 40px;
+  }
+
+  // Tall rows, such as the return rental box, are connected all the way down
+  .leg-before.no-walk.to-bottom .leg-before-line {
+    height: auto;
+    bottom: 0;
   }
 
   .leg-before-line {
@@ -1618,8 +1633,7 @@
     &.indoor-step,
     &.walk,
     &.bicycle_walk,
-    &.car_boarding,
-    &.car-park-walk {
+    &.car_boarding {
       background-size: 100% auto;
       background-position-y: 8px;
       background-position-x: 0;
@@ -1850,10 +1864,6 @@
     border-left-style: dotted;
   }
 
-  .itinerary-instruction-column.car-park-walk:not(.to)::after {
-    border-left-style: dotted;
-  }
-
   .itinerary-instruction-column.bicycle_walk:not(.to)::after {
     border-left-style: dotted;
   }
@@ -1872,6 +1882,10 @@
     padding-left: 0.5em;
     min-height: 4.15em;
     padding-right: 0;
+
+    &.no-walk {
+      min-height: 52px;
+    }
 
     .divider {
       border-top: 1px solid $light-gray;
@@ -2009,6 +2023,14 @@
 
     &.end {
       min-height: 3em;
+    }
+
+    &.end.after-transit {
+      min-height: 68px;
+
+      .place {
+        margin-top: 4px;
+      }
     }
 
     .itinerary-leg-row-with-link {
@@ -2163,9 +2185,14 @@
         display: flex;
         align-items: center;
       }
+
+      &.no-walk {
+        min-height: 52px;
+      }
     }
 
     .itinerary-transit-leg-route-with-link {
+      position: relative;
       display: flex;
       background-color: $background-color-lighter;
       border-radius: 5px;
@@ -2175,7 +2202,8 @@
       .link-to-stop {
         right: 10px;
         position: absolute;
-        top: 34%;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       .link-to-e-scooter-operator {

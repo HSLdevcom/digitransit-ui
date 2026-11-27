@@ -36,7 +36,7 @@ const SizeConsumer = ({ controlRef = null }) => {
   return <div />;
 };
 
-SizeConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }) };
+SizeConsumer.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.shape({}) }) };
 
 describe('useWindowSize()', () => {
   it('should return browser window size', () => {

@@ -1,34 +1,35 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
-import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { displayDistance } from '../../../shared/utils/geo-utils';
-import { durationToString } from '../../utils/timeUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
-import ItineraryCircleLineLong from './ItineraryCircleLineLong';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
+import ShowOnMapButton from './ShowOnMapButton';
+import LegDetails from './LegDetails';
+import AddressPlace from './AddressPlace';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import LegTimeColumn from './LegTimeColumn';
+import { legSummaryValues, legPlaceAddress } from '../../utils/legUtils';
+import LegCircleLineLong from './LegCircleLineLong';
 import { useConfigContext } from '../../hooks/ConfigContext';
+import LegArrowIcon from './LegArrowIcon';
+import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
 
 export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
-  const duration = durationToString(intl, leg.duration * 1000);
+  const values = legSummaryValues(intl, config, leg);
+  const { time, distance, duration } = values;
   const firstLegClassName = index === 0 ? 'first' : '';
   const modeClassName = 'car';
 
   const circleLine = carBoardingLeg ? (
-    <ItineraryCircleLineLong
+    <LegCircleLineLong
       index={index}
       modeClassName={modeClassName}
       boardingLeg={carBoardingLeg}
       viaType={leg.from.viaLocationType}
     />
   ) : (
-    <ItineraryCircleLineWithIcon
+    <LegCircleLineWithIcon
       index={index}
       modeClassName={modeClassName}
       icon="icon_car"
@@ -36,67 +37,37 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
     />
   );
 
-  const [name, place] = splitStringToAddressAndPlace(
-    getValidatedLegName(leg.from.name, intl, true),
-  );
-  const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const [address, place] = legPlaceAddress(intl, leg);
 
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
-        <FormattedMessage
-          id="itinerary-details.car-leg"
-          values={{
-            time: legTimeStr(leg.start),
-            distance,
-            to: legDestination(intl, leg),
-            origin: leg.from ? leg.from.name : '',
-            destination: leg.to ? leg.to.name : '',
-            duration,
-          }}
-        />
+        <FormattedMessage id="itinerary-details.car-leg" values={values} />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{legTimeStr(leg.start)}</div>
-      </div>
+      <LegTimeColumn time={time} />
       {circleLine}
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
       >
         <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
-          <div className="address-container">
-            <div className="address">
-              {address}
-              {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
-              {leg.from.stop && (
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="itinerary-arrow-icon"
-                  color="#333"
-                />
-              )}
-            </div>
-            <div className="place">{place}</div>
-          </div>
+          <AddressPlace address={address} place={place}>
+            {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
+            {leg.from.stop && <LegArrowIcon />}
+          </AddressPlace>
           <div>{children}</div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
         {carBoardingLeg?.from.stop && (
-          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
+          <LegDetails target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-from-transit-no-duration"
               values={{
-                transportMode: (
-                  <FormattedMessage
-                    id={`from-${carBoardingLeg.from.stop.vehicleMode.toLowerCase()}`}
-                  />
-                ),
+                transportMode: getFromLocalizedMode(carBoardingLeg.from.stop.vehicleMode, intl),
               }}
             />
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          </LegDetails>
         )}
-        <div className="itinerary-leg-action itinerary-leg-action-content">
+        <LegDetails target={leg.from.name || ''} focusAction={focusToLeg}>
           <FormattedMessage
             id={
               config.hideCarSuggestionDuration
@@ -104,24 +75,17 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
                 : 'car-distance-duration'
             }
             values={{ distance, duration }}
-            defaultMessage="Drive {distance} ({duration})}"
           />
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusToLeg} />
-        </div>
+        </LegDetails>
         {carBoardingLeg?.to.stop && (
-          <div className={cx('itinerary-leg-action', 'car', 'itinerary-leg-action-content')}>
+          <LegDetails target={leg.from.name || ''} focusAction={focusAction}>
             <FormattedMessage
               id="car-drive-to-transit-no-duration"
               values={{
-                transportMode: (
-                  <FormattedMessage
-                    id={`to-${carBoardingLeg.to.stop?.vehicleMode.toLowerCase()}`}
-                  />
-                ),
+                transportMode: getToLocalizedMode(carBoardingLeg.to.stop.vehicleMode, intl),
               }}
             />
-            <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
-          </div>
+          </LegDetails>
         )}
       </div>
     </div>

@@ -48,15 +48,6 @@ export default function VehicleRentalLeg({
   const returnMessageId = isScooter ? 'return-e-scooter-to' : 'return-cycle-to';
   const id = returnBike ? returnMessageId : rentMessageId;
 
-  const legDescription = (
-    <span
-      className={cx('leg-header', returnBike && isScooter && 'scooter-return')}
-      aria-hidden={isScooter} // scooter screen reader message is already defined elsewhere
-    >
-      <FormattedMessage id={id} defaultMessage="Fetch a bike" />
-    </span>
-  );
-
   const networkConfig = getRentalNetworkConfig(network, config);
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
 
@@ -78,14 +69,19 @@ export default function VehicleRentalLeg({
 
   return (
     <>
-      {(!isScooter || (nextLegMode !== 'WALK' && isScooter)) && (
+      {(!isScooter || nextLegMode !== 'WALK') && (
         <div
           className={cx(
             'itinerary-leg-row-with-link',
             (!isScooter || !returnBike) && 'withPadding',
           )}
         >
-          {legDescription}
+          <span
+            className={cx('leg-header', returnBike && isScooter && 'scooter-return')}
+            aria-hidden={isScooter} // scooter screen reader message is already defined elsewhere
+          >
+            <FormattedMessage id={id} />
+          </span>
         </div>
       )}
 
@@ -102,8 +98,8 @@ export default function VehicleRentalLeg({
                 foreground={
                   <IconBadge
                     badgeText={
-                      vehicleRentalStation && vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
-                        ? vehicleRentalStation?.availableVehicles.total
+                      vehicleCapacity !== BIKEAVL_UNKNOWN && !returnBike
+                        ? vehicleRentalStation.availableVehicles.total
                         : ''
                     }
                     badgeFill={returnBike ? null : availabilityIndicatorColor}
@@ -121,13 +117,10 @@ export default function VehicleRentalLeg({
               </span>
 
               <span className="citybike-station-text">
-                {intl.formatMessage({
-                  id: 'citybike-station-no-id',
-                  defaultMessage: 'Bike station',
-                })}
-                {vehicleRentalStation && hasVehicleRentalCode(vehicleRentalStation.stationId) && (
+                {intl.formatMessage({ id: 'citybike-station-no-id' })}
+                {hasVehicleRentalCode(vehicleRentalStation.stationId) && (
                   <span className="itinerary-stop-code">
-                    {splitGtfsId(vehicleRentalStation?.stationId).entityId}
+                    {splitGtfsId(vehicleRentalStation.stationId).entityId}
                   </span>
                 )}
               </span>
@@ -150,8 +143,7 @@ export default function VehicleRentalLeg({
         />
       )}
 
-      {nearestScooters &&
-        !returnBike &&
+      {!returnBike &&
         isScooter &&
         nearestScooters.map(nearestScooter => (
           <ScooterLinkContainer

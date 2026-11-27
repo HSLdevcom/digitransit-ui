@@ -77,6 +77,31 @@ describe('queryUtils', () => {
       expect(calledLocation.pathname).not.toContain('Stale');
     });
 
+    it('takes the other endpoint from the URL when the context is empty, e.g. after a reload', () => {
+      let calledLocation;
+      const router = {
+        replace: location => {
+          calledLocation = location;
+        },
+      };
+      const match = {
+        ...mockMatch,
+        params: {
+          from: `${origin.address}::${origin.lat},${origin.lon}`,
+          to: `${destination.address}::${destination.lat},${destination.lon}`,
+        },
+      };
+      const locationActions = createLocationActions();
+
+      utils.onLocationPopup(newOrigin, 'origin', router, match, {}, {}, locationActions, {});
+
+      expect(locationActions.setDestination).toHaveBeenCalledWith(
+        expect.objectContaining({ lat: destination.lat, lon: destination.lon }),
+      );
+      expect(calledLocation.pathname).toContain(encodeURIComponent(newOrigin.address));
+      expect(calledLocation.pathname).toContain(encodeURIComponent(destination.address));
+    });
+
     it('adds a via point and does not navigate the origin/destination path', () => {
       let calledLocation;
       const router = {

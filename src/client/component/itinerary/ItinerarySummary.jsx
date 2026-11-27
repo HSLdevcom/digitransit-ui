@@ -4,17 +4,15 @@ import TimeSummary from './TimeSummary';
 import StreetSummary from './StreetSummary';
 import { itineraryShape } from '../../utils/shapes';
 
-const EMPTY_SUMMARY = {};
-
 export default function ItinerarySummary({
   itinerary,
-  walking = EMPTY_SUMMARY,
-  biking = EMPTY_SUMMARY,
-  driving = EMPTY_SUMMARY,
-  futureText = '',
-  isMultiRow = false,
-  isMobile = false,
-  hideBottomDivider = false,
+  walking,
+  biking,
+  driving,
+  futureText,
+  isMultiRow,
+  isMobile,
+  hideBottomDivider,
 }) {
   return (
     <div className="itinerary-summary">
@@ -27,7 +25,7 @@ export default function ItinerarySummary({
         futureText={futureText}
         multiRow={isMultiRow}
       />
-      {walking?.distance > 0 && (
+      {walking.distance > 0 && (
         <StreetSummary
           className="distance--itinerary-summary"
           distance={walking.distance}
@@ -35,7 +33,7 @@ export default function ItinerarySummary({
           mode="walk"
         />
       )}
-      {biking?.distance > 0 && (
+      {biking.distance > 0 && (
         <StreetSummary
           className="distance--itinerary-summary"
           icon="icon_cyclist"
@@ -44,7 +42,7 @@ export default function ItinerarySummary({
           mode="bike"
         />
       )}
-      {driving?.distance > 0 && (
+      {driving.distance > 0 && (
         <StreetSummary
           className="distance--itinerary-summary driving-summary"
           icon="icon_car"
@@ -58,18 +56,18 @@ export default function ItinerarySummary({
   );
 }
 
-ItinerarySummary.description = () =>
-  "Displays itinerary summary; itinerary's duration and walk distance";
-
-const summaryShape = PropTypes.shape({ duration: PropTypes.number, distance: PropTypes.number });
+const summaryShape = PropTypes.shape({
+  duration: PropTypes.number.isRequired,
+  distance: PropTypes.number.isRequired,
+});
 
 ItinerarySummary.propTypes = {
   itinerary: itineraryShape.isRequired,
-  walking: summaryShape,
-  biking: summaryShape,
-  driving: summaryShape,
-  futureText: PropTypes.string,
-  isMultiRow: PropTypes.bool,
-  isMobile: PropTypes.bool,
-  hideBottomDivider: PropTypes.bool,
+  walking: summaryShape.isRequired,
+  biking: summaryShape.isRequired,
+  driving: summaryShape.isRequired,
+  futureText: PropTypes.string.isRequired,
+  isMultiRow: PropTypes.bool.isRequired,
+  isMobile: PropTypes.bool.isRequired,
+  hideBottomDivider: PropTypes.bool.isRequired,
 };

@@ -99,15 +99,15 @@ export default {
     'itinerary-details.walk-leg':
       'At {time} mergeți pe jos {distance} de la {origin} la {destination}. Va dura aproximativ {duration}',
     'itinerary-hide-stops': 'Ascunde stațiile',
+    'itinerary-list-row.clickable-area-description': 'Afișați pe hartă',
+    'itinerary-list-row.description':
+      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}.',
+    'itinerary-list-row.first-leg-start-time-sr':
+      '{vehicle} pleacă la {firstDepartureTime} de la {firstDepartureStop}.',
+    'itinerary-list-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
     'itinerary-page.show-details': 'Afișează detalierea itinerarului',
     'itinerary-page.title': 'Itinerar',
     'itinerary-summary-page.description': 'Sugestii de trasee',
-    'itinerary-summary-row.clickable-area-description': 'Afișați pe hartă',
-    'itinerary-summary-row.description':
-      'Itinerarul cu plecare la {departureDate} {departureTime} și sosire la {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Timp total {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} pleacă la {firstDepartureTime} de la {firstDepartureStop}.',
-    'itinerary-summary-row.transfers': 'Schimbați cu {vehicle} la {stopName}',
     'itinerary-summary.show-on-map': 'Vedeți pe hartă {target}',
     'itinerary-ticket.title': 'Bilet necesar',
     'itinerary-tickets.title': 'Bilete necesare',

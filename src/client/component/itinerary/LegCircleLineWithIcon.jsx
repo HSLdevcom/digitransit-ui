@@ -4,7 +4,7 @@ import Icon from '../Icon';
 import RouteNumber from '../RouteNumber';
 import { ViaLocationType, IndoorLegType } from '../../../shared/utils/constants';
 
-export default function ItineraryCircleLineWithIcon({
+export default function LegCircleLineWithIcon({
   index,
   modeClassName,
   viaType = null,
@@ -130,7 +130,7 @@ export default function ItineraryCircleLineWithIcon({
   );
 }
 
-ItineraryCircleLineWithIcon.propTypes = {
+LegCircleLineWithIcon.propTypes = {
   index: PropTypes.number.isRequired,
   modeClassName: PropTypes.string.isRequired,
   viaType: PropTypes.string,

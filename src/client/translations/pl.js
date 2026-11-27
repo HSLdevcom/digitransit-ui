@@ -221,23 +221,23 @@ export default {
     'itinerary-in-the-past': 'The route search falls within a period that is in the past.',
     'itinerary-in-the-past-link': 'Wyrusz teraz ›',
     'itinerary-in-the-past-title': 'Opcje trasy nie mogą być wyświetlone',
+    'itinerary-list-row.clickable-area-description': 'Pokaż na mapie',
+    'itinerary-list-row.description':
+      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
+    'itinerary-list-row.first-leg-start-time':
+      'Odjeżdża o {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
+    'itinerary-list-row.first-leg-start-time-citybike':
+      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
+    'itinerary-list-row.first-leg-start-time-sr':
+      '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
+    'itinerary-list-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
+    'itinerary-list-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
     'itinerary-page.itineraries-loaded': 'Pobrano wyniki wyszukiwania',
     'itinerary-page.loading-itineraries': 'Pobieranie wyników wyszukiwania',
     'itinerary-page.show-details': 'Pokaż szczegóły planu podróży',
     'itinerary-page.show-details-label': 'Pokaż szczegóły planu podróży {number}',
     'itinerary-page.title': 'Trasa podróży',
     'itinerary-summary-page.description': 'Propozycje trasy',
-    'itinerary-summary-row.clickable-area-description': 'Pokaż na mapie',
-    'itinerary-summary-row.description':
-      'Itinerary departing at {departureDate} {departureTime} and arriving at {arrivalDate} {arrivalTime}. {firstDeparture} {transfers} Total time {totalTime}.',
-    'itinerary-summary-row.first-leg-start-time':
-      'Odjeżdża o {firstDepartureTime} {firstDepartureStopType} {firstDepartureStop}{firstDeparturePlatform}',
-    'itinerary-summary-row.first-leg-start-time-citybike':
-      'Departure at {firstDepartureTime} from {firstDepartureStop} bike station',
-    'itinerary-summary-row.first-leg-start-time-sr':
-      '{vehicle} odjeżdża o {firstDepartureTime} z przystanku {firstDepartureStop}.',
-    'itinerary-summary-row.no-transit-legs': 'Wyrusz, kiedy ci to pasuje',
-    'itinerary-summary-row.transfers': 'Transfer to {vehicle} on stop {stopName}',
     'itinerary-summary.bike-boarding-information':
       'You are allowed to bring your bicycle on board the vehicle. Check with the transport operator if the transportation of bicycles is subject to a fee',
     'itinerary-summary.bikeAndPublic-bus-title': 'Weź rower ze sobą do autobusu',

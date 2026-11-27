@@ -2,13 +2,9 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'react-intl';
-import Link from 'found/Link';
-import { Text } from '@hsl-fi/layout-primitives';
 import LegAgencyInfo from './LegAgencyInfo';
-import Icon from '../Icon';
-import IntermediateLeg from './IntermediateLeg';
-import ItineraryCircleLine from './ItineraryCircleLine';
-import ItineraryMapAction from './ItineraryMapAction';
+import LegCircleLine from './LegCircleLine';
+import ShowOnMapButton from './ShowOnMapButton';
 import PlatformNumber from '../PlatformNumber';
 import ServiceAlertIcon from '../ServiceAlertIcon';
 import StopCode from '../StopCode';
@@ -18,40 +14,38 @@ import {
   getActiveLegAlerts,
   getActiveLegAlertSeverityLevel,
   getMaximumAlertSeverityLevel,
-  hasEntitiesOfType,
 } from '../../utils/alertUtils';
 import { modeToTranslationId } from '../../utils/modeUtils';
-import { PREFIX_DISRUPTION, routePagePath, stopPagePath } from '../../../shared/utils/path';
 import { durationToString } from '../../utils/timeUtils';
 import { addAnalyticsEvent } from '../../../shared/utils/analyticsUtils';
 import {
   getLegHeadsign,
-  getZoneLabel,
-  showBikeBoardingNote,
-  showCarBoardingNote,
+  getLegNotifications,
   legTimeStr,
   legTime,
   isPlatformChanged,
   getValidatedLegName,
   isLocalCallAgency,
 } from '../../utils/legUtils';
-import { shouldShowFareInfo } from '../../utils/fareUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
-import { AlertEntityType, AlertSeverityLevelType } from '../../../shared/utils/constants';
 import { legShape } from '../../utils/shapes';
-import ZoneIcon from '../ZoneIcon';
 import StopInfo from './StopInfo';
 import InterlineInfo from './InterlineInfo';
 import AlternativeLegsInfo from './AlternativeLegsInfo';
 import LegInfo from './LegInfo';
-import ExternalLink from '../ExternalLink';
 import {
   getBoardingInformationText,
   getTrackOrPierOrPlatformChangeText,
 } from '../../utils/localeUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { splitGtfsId } from '../../../shared/utils/gtfs';
 import useCanceledStopIds from './useCanceledStopIds';
+import LegNotification from './LegNotification';
+import LegOrigin from './LegOrigin';
+import LegTimeColumn from './LegTimeColumn';
+import LegAlertLink from './LegAlertLink';
+import AlertSeverityDescription from './AlertSeverityDescription';
+import ZoneChange from './ZoneChange';
+import LegFareDisclaimer from './LegFareDisclaimer';
+import IntermediateStops from './IntermediateStops';
 
 const stopCode = code => code && <StopCode code={code} />;
 
@@ -68,7 +62,7 @@ const filterNextLegs = l => {
 
 export default function TransitLeg({
   leg,
-  interliningLegs = [],
+  interliningLegs,
   index,
   mode,
   focusAction,
@@ -81,7 +75,6 @@ export default function TransitLeg({
 }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const { locale } = intl;
 
   const [showIntermediateStops, setShowIntermediateStops] = useState(() => {
     if (interliningLegs.length >= 1) {
@@ -89,20 +82,30 @@ export default function TransitLeg({
     }
     return leg.intermediatePlaces.length < 2;
   });
-
-  const canceledStopIds = useCanceledStopIds([leg, ...interliningLegs], showIntermediateStops);
-
   const [showAlternativeLegs, setShowAlternativeLegs] = useState(false);
 
+  const canceledStopIds = useCanceledStopIds([leg, ...interliningLegs], showIntermediateStops);
   const isRouteConstantOperation = config.constantOperationRoutes?.[leg.route.gtfsId];
-
   const isCallAgency = mode === 'call';
-
+  const routeColor = leg.route.color ? `#${leg.route.color}` : undefined;
+  const nextLegs = filterNextLegs(leg);
   const displayAlternativeLegs =
-    config.showAlternativeLegs &&
-    !isCallAgency &&
-    filterNextLegs(leg).length > 0 &&
-    !isRouteConstantOperation;
+    config.showAlternativeLegs && !isCallAgency && nextLegs.length > 0 && !isRouteConstantOperation;
+  const startMs = legTime(leg.start);
+  const time = legTimeStr(leg.start);
+  const modeClassName = mode.toLowerCase();
+  const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
+  const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
+  const platformChanged = isPlatformChanged(leg);
+  const alerts = getActiveLegAlerts(leg, startMs / 1000);
+  const alert = [...alerts].sort(alertSeverityCompare)[0];
+  const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
+  const headsign = getLegHeadsign(leg);
+  const intermediateStopCount = interliningLegs.reduce(
+    (prev, curr) => prev + curr.intermediatePlaces.length + 1,
+    leg.intermediatePlaces.length,
+  );
+  const notifications = getLegNotifications(leg, config);
 
   const toggleShowIntermediateStops = () => {
     addAnalyticsEvent({
@@ -115,161 +118,12 @@ export default function TransitLeg({
     setShowIntermediateStops(prevState => !prevState);
   };
 
-  const getZoneChange = () => {
-    const startZone = leg.from.stop.zoneId;
-    const endZone = leg.to.stop.zoneId;
-
-    const { feedId } = splitGtfsId(leg.from.stop.gtfsId);
-    const renderZoneIcons =
-      config.zones.itinerary && leg.from.stop.gtfsId && config.feedIds.includes(feedId);
-
-    if (
-      startZone !== endZone &&
-      (!showIntermediateStops || leg.intermediatePlaces.length === 0) &&
-      renderZoneIcons
-    ) {
-      return (
-        <div className="time-column-zone-icons-container">
-          <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
-          <ZoneIcon zoneId={getZoneLabel(endZone, config)} className="zone-delimiter" showUnknown />
-        </div>
-      );
-    }
-
-    if (startZone === endZone && renderZoneIcons) {
-      return (
-        <div className="time-column-zone-icons-container single">
-          <ZoneIcon zoneId={getZoneLabel(startZone, config)} showUnknown />
-        </div>
-      );
-    }
-
-    return null;
-  };
-
-  const renderIntermediate = () => {
-    if (
-      (leg.intermediatePlaces.length > 0 || interliningLegs.length > 0) &&
-      showIntermediateStops === true
-    ) {
-      const places = leg.intermediatePlaces.slice();
-
-      if (interliningLegs) {
-        let previousLeg = leg;
-        interliningLegs.forEach(iLeg => {
-          places.push({ ...previousLeg.to, arrival: previousLeg.end }, ...iLeg.intermediatePlaces);
-          previousLeg = iLeg;
-        });
-      }
-
-      const stopList = places.map((place, i, array) => {
-        const isFirstPlace = i === 0;
-        const isLastPlace = i === array.length - 1;
-        const isCanceled = canceledStopIds.has(place.stop.gtfsId);
-
-        const previousZoneId =
-          (array[i - 1] && array[i - 1].stop.zoneId) || (isFirstPlace && leg.from.stop.zoneId);
-        const currentZoneId = place.stop.zoneId;
-        const nextZoneId =
-          (array[i + 1] && array[i + 1].stop.zoneId) ||
-          (isLastPlace && interliningLegs[interliningLegs.length - 1]?.to.stop.zoneId) ||
-          leg.to.stop.zoneId;
-
-        const previousZoneIdDiffers = previousZoneId && previousZoneId !== currentZoneId;
-        const nextZoneIdDiffers = nextZoneId && nextZoneId !== currentZoneId;
-        const showCurrentZoneId = previousZoneIdDiffers || nextZoneIdDiffers;
-
-        return (
-          <IntermediateLeg
-            placesCount={places.length}
-            color={leg.route?.color ? `#${leg.route.color}` : undefined}
-            key={place.stop.gtfsId}
-            gtfsId={place.stop.gtfsId}
-            mode={mode}
-            name={place.stop.name}
-            arrival={place.arrival}
-            realTime={leg.realTime}
-            stopCode={place.stop.code}
-            showZoneLimits={config.zones.itinerary}
-            showCurrentZoneDelimiter={previousZoneIdDiffers}
-            previousZoneId={
-              (isFirstPlace && previousZoneIdDiffers && getZoneLabel(previousZoneId, config)) ||
-              undefined
-            }
-            currentZoneId={(showCurrentZoneId && getZoneLabel(currentZoneId, config)) || undefined}
-            nextZoneId={
-              (isLastPlace && nextZoneIdDiffers && getZoneLabel(nextZoneId, config)) || undefined
-            }
-            isViaPoint={place.isViaPoint}
-            isLastPlace={isLastPlace}
-            isCanceled={isCanceled}
-          />
-        );
-      });
-
-      return <div className="itinerary-leg-container">{stopList}</div>;
-    }
-
-    return null;
-  };
-
-  const renderFareDisclaimer = () => {
-    if (leg.fare?.isUnknown && !config.hideUnknownFares && shouldShowFareInfo(config)) {
-      const modeDisclaimer = config.modeDisclaimers?.[mode]?.[locale];
-      if (modeDisclaimer) {
-        return (
-          <div className="disclaimer-container unknown-fare-disclaimer__leg description-container">
-            {modeDisclaimer.disclaimer}
-            <a href={modeDisclaimer.link} target="_blank" rel="noreferrer">
-              {modeDisclaimer.text}
-            </a>
-          </div>
-        );
-      }
-
-      if (mode !== 'call') {
-        return (
-          <div className="disclaimer-container unknown-fare-disclaimer__leg">
-            <div className="description-container">
-              <span className="accent">
-                <FormattedMessage id="pay-attention" />
-              </span>
-              <FormattedMessage id="separate-ticket-required" />
-            </div>
-            <div className="ticket-info">
-              <div className="accent">{leg.from.name.concat(' - ').concat(leg.to.name)}</div>
-              {leg.fare.agency && !config.hideExternalOperator(leg.fare.agency) && (
-                <>
-                  {leg.fare.agency.name}
-                  {leg.fare.agency.fareUrl && (
-                    <ExternalLink className="agency-link" href={leg.fare.agency.fareUrl}>
-                      <FormattedMessage id="extra-info" />
-                    </ExternalLink>
-                  )}
-                </>
-              )}
-            </div>
-          </div>
-        );
-      }
-    }
-    return null;
-  };
-
-  const startMs = legTime(leg.start);
-  const time = legTimeStr(leg.start);
-  const modeClassName = mode.toLowerCase();
-  const validatedFromLegName = getValidatedLegName(leg.from.name, intl, true);
-  const validatedToLegName = getValidatedLegName(leg.to.name, intl, false);
-
   const textVersionBeforeLink = (
     <FormattedMessage
       id="itinerary-details.transit-leg-part-1"
       values={{ time, realtime: leg.realTime ? intl.formatMessage({ id: 'realtime' }) : '' }}
     />
   );
-
-  const platformChanged = isPlatformChanged(leg);
 
   const textVersionAfterLink = (
     <>
@@ -288,232 +142,50 @@ export default function TransitLeg({
     </>
   );
 
-  const alerts = getActiveLegAlerts(leg, startMs / 1000);
-  const alert = alerts && alerts.length > 0 ? alerts.sort(alertSeverityCompare)[0] : undefined;
-  const alertSeverityLevel = getMaximumAlertSeverityLevel(alerts);
-
-  let alertSeverityDescription = null;
-  if (alertSeverityLevel) {
-    let id;
-    switch (alertSeverityLevel) {
-      case AlertSeverityLevelType.Info:
-        id = 'itinerary-details.route-has-info-alert';
-        break;
-      case AlertSeverityLevelType.Warning:
-        id = 'itinerary-details.route-has-warning-alert';
-        break;
-      case AlertSeverityLevelType.Severe:
-        id = 'itinerary-details.route-has-severe-alert';
-        break;
-      case AlertSeverityLevelType.Unknown:
-      default:
-        id = 'itinerary-details.route-has-unknown-alert';
-        break;
-    }
-    alertSeverityDescription = <FormattedMessage id={id} />;
-  }
-
-  const zoneIcons = getZoneChange();
-
-  const hasNoShortName =
-    leg.route.shortName &&
-    /^([^0-9]*)$/.test(leg.route.shortName) &&
-    leg.route.shortName.length > 3;
-
-  const headsign = getLegHeadsign(leg);
-
-  let intermediateStopCount = leg.intermediatePlaces.length;
-  if (interliningLegs) {
-    intermediateStopCount = interliningLegs.reduce(
-      (prev, curr) => prev + curr.intermediatePlaces.length + 1,
-      leg.intermediatePlaces.length,
-    );
-  }
-
-  const { showBikeBoardingInformation, showCarBoardingInformation } = leg;
-
-  const createNotification = notification => (
-    <>
-      <div className="disruption-icon notification-icon">
-        <ServiceAlertIcon className="inline-icon" severityLevel={AlertSeverityLevelType.Info} />
-      </div>
-      <div className={cx('info-notification', { 'no-header': !notification.header })}>
-        {notification.header && <h3 className="info-header">{notification.header[locale]}</h3>}
-        <div className={cx('info-content', { 'no-header': !notification.header })}>
-          {notification.content[locale].join(' ')}
-        </div>
-      </div>
-    </>
-  );
-
-  const createNotificationWithLink = notification => (
-    <a
-      href={`https://www.${notification.link?.[locale]}`}
-      className="disruption-link"
-      target="_blank"
-      rel="noreferrer"
-    >
-      {createNotification(notification)}
-      <Icon
-        img="icon_arrow-collapse--right"
-        className="disruption-link-arrow"
-        color={config.colors.primary}
-      />
-    </a>
-  );
-
-  const routeNotifications = [];
-  const isFlexOrigin = isCallAgency && index === 0;
-  const [flexOriginAddress, flexOriginPlace] = splitStringToAddressAndPlace(
-    validatedFromLegName || '',
-  );
-
-  if (config.routeNotifications && config.routeNotifications.length > 0) {
-    for (let i = 0; i < config.routeNotifications.length; i++) {
-      const notification = config.routeNotifications[i];
-      if (
-        (showBikeBoardingInformation &&
-          notification.showForBikeWithPublic &&
-          showBikeBoardingNote(leg, config)) ||
-        (showCarBoardingInformation &&
-          notification.showForCarWithPublic &&
-          showCarBoardingNote(leg, config)) ||
-        (notification.showForRoute?.(leg.route) && !isCallAgency)
-      ) {
-        routeNotifications.push(
-          <div
-            className={cx('disruption', {
-              'no-header': !notification.header,
-              'no-link': !notification.link,
-            })}
-            key={`note-${index}`}
-          >
-            {notification.link
-              ? createNotificationWithLink(notification)
-              : createNotification(notification)}
-          </div>,
-        );
-      }
-    }
-  }
-
   return (
     <>
-      <div key={index} className="row itinerary-row">
+      <div className="row itinerary-row">
         <span className="sr-only">{textVersionBeforeLink}</span>
-        <div
-          className={cx('small-2', 'columns', 'itinerary-time-column', {
-            'has-estimate': isCallAgency,
-          })}
-        >
-          <span className="sr-only">
-            {`${intl.formatMessage({
-              id: modeToTranslationId(mode, config),
-            })} ${leg.route?.shortName || ''} ${headsign || ''}`}
-          </span>
-          <span aria-hidden="true">
-            <div className="itinerary-time-column-time-group">
-              <div className="itinerary-time-column-time">
-                <span className={cx({ realtime: leg.realTime })}>{time}</span>
-              </div>
-              {isCallAgency && (
-                <Text
-                  as="span"
-                  variant="routes-xxs"
-                  color="weak"
-                  className="itinerary-time-column-estimate"
-                >
-                  <FormattedMessage id="estimate" />
-                </Text>
-              )}
-            </div>
-            {zoneIcons}
-          </span>
-        </div>
+        <span className="sr-only">
+          {`${intl.formatMessage({
+            id: modeToTranslationId(mode, config),
+          })} ${leg.route.shortName || ''} ${headsign || ''}`}
+        </span>
+        <LegTimeColumn time={time} estimate={isCallAgency} realTime={leg.realTime}>
+          <ZoneChange leg={leg} showIntermediateStops={showIntermediateStops} />
+        </LegTimeColumn>
 
         <span className="sr-only">{textVersionAfterLink}</span>
 
-        <ItineraryCircleLine
+        <LegCircleLine
           index={index}
           modeClassName={modeClassName}
-          color={leg.route?.color ? `#${leg.route.color}` : undefined}
-          renderBottomMarker={
-            !showIntermediateStops ||
-            (leg.intermediatePlaces.length === 0 && interliningLegs.length < 1)
-          }
+          color={routeColor}
+          renderBottomMarker={!showIntermediateStops || intermediateStopCount === 0}
           viaType={leg.from.viaLocationType}
-          isStop={!!leg.from.stop}
+          isStop
           appendClass={isLocalCallAgency(leg, config) ? 'call-local' : ''}
         />
 
         <div
-          style={{ color: leg.route?.color ? `#${leg.route.color}` : undefined }}
+          style={{ color: routeColor }}
           className={cx(
             'small-9 columns itinerary-instruction-column',
             { first: index === 0 },
             modeClassName,
           )}
         >
-          <span className="sr-only">
-            <FormattedMessage
-              id="itinerary-summary.show-on-map"
-              values={{ target: validatedFromLegName || '' }}
-            />
-          </span>
-
           <div className={cx('itinerary-leg-first-row', 'transit', { first: index === 0 })}>
             <div className="itinerary-leg-row">
-              {isCallAgency ? (
-                <span>
-                  {isFlexOrigin ? (
-                    <div className="address-container">
-                      <div className="address">
-                        {flexOriginAddress}
-                        {leg.from.viaLocationType && (
-                          <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                        )}
-                      </div>
-                      <div className="place">{flexOriginPlace}</div>
-                    </div>
-                  ) : (
-                    validatedFromLegName
-                  )}
-                </span>
-              ) : (
-                <Link
-                  aria-label={validatedFromLegName?.toLowerCase()}
-                  onClick={e => {
-                    e.stopPropagation();
-                    addAnalyticsEvent({
-                      category: 'Itinerary',
-                      action: 'OpenRouteFromItinerary',
-                      name: mode,
-                    });
-                  }}
-                  to={stopPagePath(false, leg.from.stop.gtfsId)}
-                >
-                  {validatedFromLegName}
-                  {leg.from.viaLocationType && (
-                    <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />
-                  )}
-                  <Icon
-                    img="icon_arrow-collapse--right"
-                    className="itinerary-arrow-icon"
-                    color={config.colors.primary}
-                  />
-                </Link>
-              )}
+              <LegOrigin leg={leg} mode={mode} index={index} name={validatedFromLegName} />
 
               <ServiceAlertIcon
                 className="inline-icon"
-                severityLevel={getActiveAlertSeverityLevel(
-                  leg.from.stop && leg.from.stop.alerts,
-                  startMs / 1000,
-                )}
+                severityLevel={getActiveAlertSeverityLevel(leg.from.stop.alerts, startMs / 1000)}
               />
 
               <div className="stop-code-container">
-                {stopCode(leg.from.stop && leg.from.stop.code)}
+                {stopCode(leg.from.stop.code)}
                 <PlatformNumber
                   number={leg.from.stop.platformCode}
                   short
@@ -523,12 +195,11 @@ export default function TransitLeg({
               </div>
             </div>
 
-            <ItineraryMapAction target={validatedFromLegName || ''} focusAction={focusAction} />
+            <ShowOnMapButton target={validatedFromLegName || ''} focusAction={focusAction} />
           </div>
 
           <LegInfo
             leg={leg}
-            hasNoShortName={hasNoShortName}
             headsign={headsign}
             alertSeverityLevel={alertSeverityLevel}
             isAlternativeLeg={false}
@@ -541,12 +212,10 @@ export default function TransitLeg({
           />
 
           {showAlternativeLegs &&
-            !isRouteConstantOperation &&
-            leg.nextLegs.map(l => (
+            nextLegs.map(l => (
               <LegInfo
                 key={`${l.trip.gtfsId}-${legTime(l.start)}`}
                 leg={l}
-                hasNoShortName={hasNoShortName}
                 headsign={getLegHeadsign(l)}
                 isAlternativeLeg
                 alertSeverityLevel={getActiveLegAlertSeverityLevel(l)}
@@ -559,39 +228,13 @@ export default function TransitLeg({
 
           {displayAlternativeLegs && (
             <AlternativeLegsInfo
-              legs={filterNextLegs(leg)}
+              legs={nextLegs}
               showAlternativeLegs={showAlternativeLegs}
               toggle={() => setShowAlternativeLegs(prev => !prev)}
             />
           )}
 
-          {(alertSeverityLevel === AlertSeverityLevelType.Warning ||
-            alertSeverityLevel === AlertSeverityLevelType.Severe ||
-            alertSeverityLevel === AlertSeverityLevelType.Unknown) && (
-            <div className="disruption disruption-link-container">
-              <Link
-                to={
-                  (hasEntitiesOfType(alert, AlertEntityType.Route) &&
-                    routePagePath(leg.route.gtfsId, PREFIX_DISRUPTION, leg.trip.pattern.code)) ||
-                  (hasEntitiesOfType(alert, AlertEntityType.Stop) &&
-                    stopPagePath(false, alert.entities[0].gtfsId, PREFIX_DISRUPTION))
-                }
-                className="disruption-link"
-              >
-                <div className="disruption-icon">
-                  <ServiceAlertIcon className="inline-icon" severityLevel={alertSeverityLevel} />
-                </div>
-                <div className="description">
-                  {config.showAlertHeader ? alert.alertHeaderText : alert.alertDescriptionText}
-                </div>
-                <Icon
-                  img="icon_arrow-collapse--right"
-                  className="disruption-link-arrow"
-                  color={config.colors.primary}
-                />
-              </Link>
-            </div>
-          )}
+          <LegAlertLink leg={leg} alert={alert} severityLevel={alertSeverityLevel} />
 
           {interliningLegs.length > 0 ? (
             <InterlineInfo
@@ -601,11 +244,13 @@ export default function TransitLeg({
             />
           ) : (
             !omitDivider &&
-            routeNotifications.length === 0 &&
+            notifications.length === 0 &&
             intermediateStopCount > 1 && <div className="divider" />
           )}
 
-          {routeNotifications}
+          {notifications.map(notification => (
+            <LegNotification key={notification.id} notification={notification} />
+          ))}
 
           <LegAgencyInfo leg={leg} />
           {children}
@@ -616,31 +261,34 @@ export default function TransitLeg({
                   toggleFunction={toggleShowIntermediateStops}
                   leg={leg}
                   intermediateStopCount={intermediateStopCount}
-                  duration={
-                    interliningLegs.length > 0
-                      ? legTime(interliningLegs[interliningLegs.length - 1].end) -
-                        legTime(leg.start)
-                      : leg.duration * 1000
-                  }
+                  duration={legTime((interliningLegs.at(-1) ?? leg).end) - startMs}
                   showIntermediateStops={showIntermediateStops}
                 />
               )}
             </div>
           )}
-          {renderFareDisclaimer()}
+          <LegFareDisclaimer leg={leg} mode={mode} />
         </div>
 
-        <span className="sr-only">{alertSeverityDescription}</span>
+        <AlertSeverityDescription severityLevel={alertSeverityLevel} />
       </div>
 
-      {renderIntermediate()}
+      {showIntermediateStops && (
+        <IntermediateStops
+          leg={leg}
+          interliningLegs={interliningLegs}
+          mode={mode}
+          color={routeColor}
+          canceledStopIds={canceledStopIds}
+        />
+      )}
     </>
   );
 }
 
 TransitLeg.propTypes = {
   leg: legShape.isRequired,
-  interliningLegs: PropTypes.arrayOf(legShape),
+  interliningLegs: PropTypes.arrayOf(legShape).isRequired,
   index: PropTypes.number.isRequired,
   mode: PropTypes.string.isRequired,
   focusAction: PropTypes.func.isRequired,

@@ -3,7 +3,7 @@ import { useIntl } from 'react-intl';
 import { isKeyboardSelectionEvent } from '../../../shared/utils/browser';
 import Icon from '../Icon';
 
-export default function ItineraryMapAction({
+export default function ShowOnMapButton({
   target,
   focusAction,
   ariaLabelId = 'itinerary-summary.show-on-map',
@@ -23,7 +23,7 @@ export default function ItineraryMapAction({
   );
 }
 
-ItineraryMapAction.propTypes = {
+ShowOnMapButton.propTypes = {
   focusAction: PropTypes.func.isRequired,
   target: PropTypes.string.isRequired,
   ariaLabelId: PropTypes.string,

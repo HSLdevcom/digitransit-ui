@@ -4,11 +4,19 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { useMatch } from 'found';
 import { stopShape } from '../../utils/shapes';
 import Icon from '../Icon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { parseLocation } from '../../../shared/utils/path';
+import ShowOnMapButton from './ShowOnMapButton';
+import { parseLocation, PREFIX_STOPS } from '../../../shared/utils/path';
 import { timeStr } from '../../utils/timeUtils';
 import { getValidatedLegName } from '../../utils/legUtils';
+import LegTimeColumn from './LegTimeColumn';
+import AddressPlace from './AddressPlace';
+import LegPlaceLink from './LegPlaceLink';
+import PlatformNumber from '../PlatformNumber';
 
+/**
+ * The end of the itinerary. When the destination is a stop (atStop) the row links to the stop.
+ * When no walk precedes it (afterTransit), the pin is drawn below the transit leg's end circle.
+ */
 export default function EndLeg(props) {
   const match = useMatch();
   const intl = useIntl();
@@ -23,35 +31,50 @@ export default function EndLeg(props) {
   const time = timeStr(props.endTime);
 
   return (
-    <div key={props.index} className={cx('row', 'itinerary-row')}>
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.end-leg"
           values={{ time, destination: props.to.name }}
         />
       </span>
-      <div className="small-2 columns itinerary-time-column" aria-hidden="true">
-        <div className="itinerary-time-column-time">{time}</div>
-      </div>
-      <div className={`leg-before ${modeClassName}`} aria-hidden="true">
+      <LegTimeColumn time={time} />
+      <div
+        className={cx('leg-before', modeClassName, { 'after-transit': props.afterTransit })}
+        aria-hidden="true"
+      >
+        {props.afterTransit && (
+          <div className="leg-before-line end-connector walk default-dotted-line" />
+        )}
         <div className={`leg-before-circle circle ${modeClassName}`} />
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon to to-it" />
         </div>
       </div>
-      <div className="small-9 columns itinerary-instruction-column to end">
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: props.to.name || '' }}
-          />
-        </span>
+      <div
+        className={cx('small-9 columns itinerary-instruction-column to end', {
+          'after-transit': props.afterTransit,
+        })}
+      >
         <div className="itinerary-leg-first-row">
-          <div className="address-container">
-            <div className="address">{!stop ? address : addressFromUrl}</div>
-            <div className="place">{place || placeFromUrl}</div>
-          </div>
-          <ItineraryMapAction target={props.to.name} focusAction={props.focusAction} />
+          {props.atStop ? (
+            <div>
+              <div className="itinerary-leg-row">
+                <LegPlaceLink to={`/${PREFIX_STOPS}/${stop.gtfsId}`}>{address}</LegPlaceLink>
+                <div className="stop-code-container">
+                  {props.children}
+                  <PlatformNumber number={stop.platformCode} short mode={stop.vehicleMode || ''} />
+                </div>
+              </div>
+              <div className="place">{place || placeFromUrl}</div>
+            </div>
+          ) : (
+            <AddressPlace
+              address={!stop ? address : addressFromUrl}
+              place={place || placeFromUrl}
+            />
+          )}
+          <ShowOnMapButton target={props.to.name} focusAction={props.focusAction} />
         </div>
       </div>
     </div>
@@ -61,6 +84,8 @@ export default function EndLeg(props) {
 EndLeg.propTypes = {
   endTime: PropTypes.string.isRequired,
   to: stopShape.isRequired,
-  index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  atStop: PropTypes.bool,
+  afterTransit: PropTypes.bool,
+  children: PropTypes.node,
 };

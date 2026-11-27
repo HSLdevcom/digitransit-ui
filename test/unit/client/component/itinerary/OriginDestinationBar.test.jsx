@@ -31,7 +31,9 @@ function ActionsDriver({ controlRef }) {
 
   return null;
 }
-ActionsDriver.propTypes = { controlRef: PropTypes.shape({ current: PropTypes.object }).isRequired };
+ActionsDriver.propTypes = {
+  controlRef: PropTypes.shape({ current: PropTypes.shape({}) }).isRequired,
+};
 
 const buildMatch = () => ({
   location: {

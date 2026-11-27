@@ -17,7 +17,6 @@ import RouteNumberContainer from '../RouteNumberContainer';
 
 export default function LegInfo({
   leg,
-  hasNoShortName,
   headsign,
   alertSeverityLevel,
   isAlternativeLeg,
@@ -29,6 +28,8 @@ export default function LegInfo({
   isTransitLeg,
 }) {
   const { formatMessage } = useIntl();
+  const { shortName } = leg.route;
+  const hasNoShortName = shortName && /^([^0-9]*)$/.test(shortName) && shortName.length > 3;
   const config = useConfigContext();
   const [capacityModalOpen, setCapacityModalOpen] = useState(false);
   const { constantOperationRoutes } = config;
@@ -105,14 +106,14 @@ export default function LegInfo({
           aria-label={`${formatMessage({
             id: modeToTranslationId(mode, config),
             defaultMessage: 'Vehicle',
-          })} ${(leg.route.shortName || leg.trip?.tripShortName)?.toLowerCase()}`}
+          })} ${(leg.route.shortName || leg.trip.tripShortName)?.toLowerCase()}`}
         >
           <span aria-hidden="true">
             <RouteNumber
               mode={mode}
               alertSeverityLevel={alertSeverityLevel}
               color={leg.route.color ? `#${leg.route.color}` : undefined}
-              text={leg.route.shortName || leg.trip?.tripShortName}
+              text={leg.route.shortName || leg.trip.tripShortName}
               realtime={false}
               withBar
               fadeLong
@@ -167,7 +168,6 @@ export default function LegInfo({
 
 LegInfo.propTypes = {
   leg: legShape.isRequired,
-  hasNoShortName: PropTypes.bool,
   headsign: PropTypes.string.isRequired,
   alertSeverityLevel: PropTypes.string,
   isAlternativeLeg: PropTypes.bool.isRequired,

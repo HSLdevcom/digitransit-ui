@@ -25,15 +25,15 @@ CircleMarker.propTypes = {
   appendClass: PropTypes.string,
 };
 
-export default function ItineraryCircleLine({
+export default function LegCircleLine({
   index,
   modeClassName,
   viaType = null,
   color = null,
   renderBottomMarker = true,
-  carPark = false,
   appendClass,
   isStop = false,
+  className,
 }) {
   const isFirstChild = index === 0 && !viaType;
   const showCircle = appendClass !== 'taxi';
@@ -54,14 +54,6 @@ export default function ItineraryCircleLine({
             />
           )}
         </>
-      );
-    }
-
-    if (carPark) {
-      return (
-        <div className="itinerary-icon-container car-park">
-          <Icon img="icon_car-park" />
-        </div>
       );
     }
 
@@ -91,12 +83,15 @@ export default function ItineraryCircleLine({
   const bottomMarker = getMarker(false);
 
   let backgroundClass = '';
-  if (modeClassName === 'car-park-walk' || modeClassName === 'walk') {
+  if (modeClassName === 'walk') {
     backgroundClass = 'default-dotted-line';
   }
 
   return (
-    <div className={cx('leg-before', modeClassName, { first: index === 0 })} aria-hidden="true">
+    <div
+      className={cx('leg-before', modeClassName, className, { first: index === 0 })}
+      aria-hidden="true"
+    >
       {topMarker}
 
       <div
@@ -109,13 +104,13 @@ export default function ItineraryCircleLine({
   );
 }
 
-ItineraryCircleLine.propTypes = {
+LegCircleLine.propTypes = {
   index: PropTypes.number.isRequired,
   modeClassName: PropTypes.string.isRequired,
   viaType: PropTypes.string,
   color: PropTypes.string,
   renderBottomMarker: PropTypes.bool,
-  carPark: PropTypes.bool,
   appendClass: PropTypes.string,
+  className: PropTypes.string,
   isStop: PropTypes.bool,
 };

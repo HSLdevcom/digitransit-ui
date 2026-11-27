@@ -73,4 +73,3 @@ Icon.propTypes = {
   background: PropTypes.node,
   foreground: PropTypes.node,
 };
-Icon.description = 'Shows an icon from the SVG sprite';

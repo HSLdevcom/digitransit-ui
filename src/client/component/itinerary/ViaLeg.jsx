@@ -1,84 +1,37 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
-import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import { legTime, legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
-import ItineraryCircleLineWithIcon from './ItineraryCircleLineWithIcon';
-import ItineraryMapAction from './ItineraryMapAction';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
+import { legTime, legTimeStr, legSummaryValues, legPlaceAddress } from '../../utils/legUtils';
+import LegCircleLineWithIcon from './LegCircleLineWithIcon';
+import ShowOnMapButton from './ShowOnMapButton';
+import LegDetails from './LegDetails';
+import AddressPlace from './AddressPlace';
 import { useConfigContext } from '../../hooks/ConfigContext';
 
-const getDescription = (mode, distance, duration) => {
-  if (mode === 'BICYCLE_WALK') {
-    return (
-      <FormattedMessage
-        id="cyclewalk-distance-duration"
-        values={{ distance, duration }}
-        defaultMessage="Walk your bike {distance} ({duration})"
-      />
-    );
-  }
-
-  if (mode === 'BICYCLE') {
-    return (
-      <FormattedMessage
-        id="cycle-distance-duration"
-        values={{ distance, duration }}
-        defaultMessage="Cycle {distance} ({duration})"
-      />
-    );
-  }
-
-  return (
-    <FormattedMessage
-      id="walk-distance-duration"
-      values={{ distance, duration }}
-      defaultMessage="Walk {distance} ({duration})"
-    />
-  );
+const DESCRIPTION_IDS = {
+  BICYCLE_WALK: 'cyclewalk-distance-duration',
+  BICYCLE: 'cycle-distance-duration',
 };
 
 export default function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
-  const [name, place] = splitStringToAddressAndPlace(
-    getValidatedLegName(leg.from.name, intl, true),
-  );
-  const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
-  const startTime = legTimeStr(leg.start);
-  const arrivalMs = legTime(arrival);
+  const values = legSummaryValues(intl, config, leg);
+  const { time: startTime, distance, duration } = values;
+  const [address, place] = legPlaceAddress(intl, leg);
   const arrivalTime = legTimeStr(arrival);
-  const duration = durationToString(intl, leg.duration * 1000);
-  const stayDuration = legTime(leg.start) - arrivalMs;
+  const stayDuration = legTime(leg.start) - legTime(arrival);
+  const leaveAction = intl.formatMessage(
+    { id: leg.mode === 'BICYCLE' ? 'itinerary-details.biking-leg' : 'itinerary-details.walk-leg' },
+    values,
+  );
   return (
-    <div key={index} className="row itinerary-row">
+    <div className="row itinerary-row">
       <span className="sr-only">
         <FormattedMessage
           id="itinerary-details.via-leg"
-          defaultMessage="{arrivalTime} saavu välipisteeseen {viaPoint}. {leaveAction}"
-          values={{
-            arrivalTime,
-            viaPoint: leg.from.name,
-            leaveAction: (
-              <FormattedMessage
-                id={
-                  leg.mode === 'BICYCLE'
-                    ? 'itinerary-details.biking-leg'
-                    : 'itinerary-details.walk-leg'
-                }
-                values={{
-                  time: startTime,
-                  to: legDestination(intl, leg),
-                  distance,
-                  origin: leg.from ? leg.from.name : '',
-                  destination: leg.to ? leg.to.name : '',
-                  duration,
-                }}
-              />
-            ),
-          }}
+          values={{ arrivalTime, viaPoint: leg.from.name, leaveAction }}
         />
       </span>
       <div className="small-2 columns itinerary-time-column via-time-column" aria-hidden="true">
@@ -88,42 +41,34 @@ export default function ViaLeg({ leg, arrival, index, children, focusAction, foc
         </div>
         <div className="itinerary-time-column-time via-departure-time">{startTime}</div>
       </div>
-      <ItineraryCircleLineWithIcon
+      <LegCircleLineWithIcon
         viaType={leg.from.viaLocationType}
         isStop={!!leg.from.stop}
         index={index}
         modeClassName={leg.mode.toLowerCase()}
       />
       <div className="small-9 columns itinerary-instruction-column via">
-        <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-summary.show-on-map"
-            values={{ target: leg.from.name || '' }}
-          />
-        </span>
         <div className="itinerary-leg-first-row via">
           <div>
-            <div className="address-container">
-              <div className="address">{address}</div>
-              <div className="place">{place}</div>
-            </div>
+            <AddressPlace address={address} place={place} />
             {stayDuration > 0 && (
               <div className="itinerary-via-leg-duration">
                 <FormattedMessage
                   id="via-leg-stop-duration"
                   values={{ stayDuration: durationToString(intl, stayDuration) }}
-                  defaultMessage="At via point {stayDuration}"
                 />
               </div>
             )}
             {children}
           </div>
-          <ItineraryMapAction target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>
-        <div className="itinerary-leg-action itinerary-leg-action-content">
-          {getDescription(leg.mode, distance, duration)}
-          <ItineraryMapAction target="" focusAction={focusToLeg} />
-        </div>
+        <LegDetails focusAction={focusToLeg}>
+          <FormattedMessage
+            id={DESCRIPTION_IDS[leg.mode] || 'walk-distance-duration'}
+            values={{ distance, duration }}
+          />
+        </LegDetails>
       </div>
     </div>
   );

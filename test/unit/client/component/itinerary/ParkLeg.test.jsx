@@ -1,7 +1,7 @@
 import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
-import CarParkLeg from '../../../../../src/client/component/itinerary/CarParkLeg';
+import ParkLeg from '../../../../../src/client/component/itinerary/ParkLeg';
 
 const baseConfig = createTestConfig();
 
@@ -17,20 +17,27 @@ const baseProps = {
     to: { name: 'Park & Ride' },
     isViaPoint: false,
   },
-  carPark: { vehicleParkingId: 'HSL:1', name: 'Pysäköinti' },
+  park: { vehicleParkingId: 'HSL:1', name: 'Pysäköinti' },
 };
 
-describe('<CarParkLeg />', () => {
+describe('<ParkLeg />', () => {
   it('renders the park & ride instructions and the car park name', () => {
-    const { container } = renderWithProviders(<CarParkLeg {...baseProps} />, {
+    const { container } = renderWithProviders(<ParkLeg {...baseProps} type="car" />, {
       config: baseConfig,
     });
     expect(container.textContent).toContain('Park & ride');
     expect(container.textContent).toContain('Pysäköinti');
   });
 
+  it('uses the bike park label for bike parks', () => {
+    const { container } = renderWithProviders(<ParkLeg {...baseProps} type="bike" />, {
+      config: baseConfig,
+    });
+    expect(container.textContent).toContain('Park & Ride for bikes');
+  });
+
   it('applies the configured primary color to the stop icon', () => {
-    const { container } = renderWithProviders(<CarParkLeg {...baseProps} />, {
+    const { container } = renderWithProviders(<ParkLeg {...baseProps} type="car" />, {
       config: baseConfig,
     });
     expect(container.querySelector('.itinerary-arrow-icon')?.style.fill).toBe(
@@ -39,33 +46,16 @@ describe('<CarParkLeg />', () => {
   });
 
   it('renders the walk distance notice by default', () => {
-    const { container } = renderWithProviders(<CarParkLeg {...baseProps} />, {
+    const { container } = renderWithProviders(<ParkLeg {...baseProps} type="car" />, {
       config: baseConfig,
     });
     expect(container.textContent).toContain('Walk');
   });
 
-  it('hides the walk distance notice when noWalk is set', () => {
-    const { container } = renderWithProviders(<CarParkLeg {...baseProps} noWalk />, {
-      config: baseConfig,
-    });
-    expect(container.textContent).not.toContain('Walk');
-  });
-
-  it('renders the stop code passed as children', () => {
-    const { container } = renderWithProviders(
-      <CarParkLeg {...baseProps}>
-        <span>M1</span>
-      </CarParkLeg>,
-      { config: baseConfig },
-    );
-    expect(container.textContent).toContain('M1');
-  });
-
   it('calls focusAction when a map action button is clicked', () => {
     const focusAction = vi.fn();
     const { container } = renderWithProviders(
-      <CarParkLeg {...baseProps} focusAction={focusAction} />,
+      <ParkLeg {...baseProps} type="car" focusAction={focusAction} />,
       { config: baseConfig },
     );
     fireEvent.click(container.querySelector('.itinerary-map-action'));

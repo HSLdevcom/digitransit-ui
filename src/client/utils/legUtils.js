@@ -2,7 +2,9 @@ import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../../shared/utils/vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../../shared/utils/constants';
-import { stopCallTime } from './timeUtils';
+import { stopCallTime, durationToString } from './timeUtils';
+import { displayDistance } from '../../shared/utils/geo-utils';
+import { splitStringToAddressAndPlace } from '../../shared/utils/otpStrings';
 
 /**
  * Gets a (nested) property value from an object
@@ -478,9 +480,23 @@ export function isAirplaneLeg(leg) {
 export function isCarLeg(leg) {
   return LegMode.Car === getLegMode(leg);
 }
+/**
+ * Whether the user's own car is used and never parked during the itinerary.
+ */
+export function isUsingOwnCarWholeTrip(legs) {
+  return legs.some(isCarLeg) && legs.every(leg => !leg.to.vehicleParking);
+}
 export function isCarParkLeg(leg) {
   return LegMode.Car === getLegMode(leg) && leg.to.vehicleParking;
 }
+/** Rental network id of the bike station or vehicle at the place, if any. */
+export function rentalNetworkId(place) {
+  return (
+    place?.vehicleRentalStation?.rentalNetwork.networkId ||
+    place?.rentalVehicle?.rentalNetwork.networkId
+  );
+}
+
 export function isTaxiLeg(leg) {
   return LegMode.Taxi === getLegMode(leg);
 }
@@ -802,6 +818,25 @@ export const showCarBoardingNote = (leg, config) => {
 };
 
 /**
+ * Returns the configured route notifications that apply to a transit leg.
+ *
+ * @param {object} leg - The transit leg.
+ * @param {object} config - Config data.
+ * @returns {Array<object>} the matching entries of config.routeNotifications.
+ */
+export const getLegNotifications = (leg, config) =>
+  (config.routeNotifications || []).filter(
+    notification =>
+      (leg.showBikeBoardingInformation &&
+        notification.showForBikeWithPublic &&
+        showBikeBoardingNote(leg, config)) ||
+      (leg.showCarBoardingInformation &&
+        notification.showForCarWithPublic &&
+        showCarBoardingNote(leg, config)) ||
+      (!isCallAgencyLeg(leg) && notification.showForRoute?.(leg.route)),
+  );
+
+/**
  * Determines whether a leg after walk leg contains rental vehicles
  * @param {object} leg - The leg object
  * @param {object} nextLeg - The Leg after the current leg
@@ -837,6 +872,21 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
 };
+
+/**
+ * Values for the leg description messages (itinerary-details.*-leg) and the leg's visible texts.
+ * @param {object} intl react-intl instance
+ * @param {object} config app config
+ * @param {object} leg a leg with distance, duration, start, from and to
+ */
+export const legSummaryValues = (intl, config, leg) => ({
+  time: legTimeStr(leg.start),
+  distance: displayDistance(leg.distance, config, intl.formatNumber),
+  duration: durationToString(intl, leg.duration * 1000),
+  to: legDestination(intl, leg),
+  origin: leg.from.name,
+  destination: leg.to.name,
+});
 
 /** The platform status depicts the current state of changes to a platform for a leg. */
 export const PLATFORM_STATUS = { NORMAL: 'normal', CHANGED: 'changed', RESTORED: 'restored' };
@@ -906,6 +956,40 @@ export function getValidatedLegName(name, intl, start) {
     return start ? originName : terminusName;
   }
   return name;
+}
+
+/**
+ * Splits the name of a leg's place into an address and a place. A via point shows the address
+ * the user gave for it.
+ * @param {object} intl react-intl instance
+ * @param {object} leg the leg
+ * @param {object} point place of the leg to describe, the start of the leg by default
+ * @param {boolean} start true if the place is a start, used for naming a terminus or an origin
+ * @returns {string[]} [address, place]
+ */
+export function legPlaceAddress(intl, leg, point = leg.from, start = true) {
+  const [address, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(point.name, intl, start),
+  );
+  return [point.viaLocationType && leg.viaAddress ? leg.viaAddress : address, place];
+}
+
+/**
+ * Checks if the destination the user gave is the stop where the itinerary ends.
+ * @param {string} destination destination address from the URL, e.g. 'Malmi, Helsinki'
+ * @param {object} place end place of the last leg
+ * @returns {boolean} true if the destination has the same name as the stop
+ */
+export function isDestinationStop(destination, place) {
+  if (!destination || !place?.stop || !place.name) {
+    return false;
+  }
+  const mainName = name =>
+    name
+      .split(/, (.+)/)[0]
+      .trim()
+      .toLowerCase();
+  return mainName(destination) === mainName(place.name);
 }
 
 /** Checks if leg is a local call agency.

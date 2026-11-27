@@ -454,3 +454,10 @@ export const entityShape = (props, propName, componentName, ...rest) => {
 export const stylesShape = PropTypes.objectOf(
   PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 );
+
+export const routeNotificationShape = PropTypes.shape({
+  id: PropTypes.string,
+  header: PropTypes.objectOf(PropTypes.string),
+  content: PropTypes.objectOf(PropTypes.arrayOf(PropTypes.string)).isRequired,
+  link: PropTypes.objectOf(PropTypes.string),
+});
