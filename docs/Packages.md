@@ -56,9 +56,21 @@ At the repository root:
 $ yarn lint
 ```
 
-Runs `eslint`, `prettier` (for `.scss`), and `stylelint`. Follow the
-[Airbnb JavaScript style guide](https://github.com/airbnb/javascript), which
-the eslint config is based on.
+Runs ESLint, Prettier for styles and icons, Stylelint, and the package
+translation and dependency checks. Each stage is announced before it starts.
+ESLint excludes generated package `lib/` output, not package source.
+Follow the [Airbnb JavaScript style guide](https://github.com/airbnb/javascript),
+which the ESLint config is based on.
+
+To lint specific files or debug the ESLint stage:
+
+```sh
+yarn exec eslint <files>
+yarn exec eslint . --ext .js,.jsx,.cjs --debug
+```
+
+These commands run ESLint only, not the other `yarn lint` checks. Debug output
+can be verbose.
 
 ## Module Structure
 
