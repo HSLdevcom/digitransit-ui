@@ -1,16 +1,15 @@
 import PropTypes from 'prop-types';
-import { useState, useEffect, useRef, useMemo } from 'react';
-import { DateTime, Settings } from 'luxon';
+import { useState, useEffect, useRef } from 'react';
+import { DateTime } from 'luxon';
 import uniqueId from 'lodash/uniqueId';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
-import DesktopDatetimepicker from './DesktopDatetimepicker';
+import DesktopPickerInputs from './DesktopPickerInputs';
 import styles from './styles.scss';
 import { isMobile } from './mobileDetection';
 import dateTimeInputIsSupported from './dateTimeInputIsSupported';
 import MobilePickerModal from './MobilePickerModal';
-
-Settings.defaultLocale = 'en';
+import { getDateDisplay, getTimeDisplay } from './utils';
 
 /**
  * This component renders combobox style inputs for selecting date and time. This is a controlled component, timestamp is the current value of both inputs.
@@ -59,7 +58,6 @@ export default function Datetimepicker({
   embedWhenOpen,
   lang,
   color = '#007ac9',
-  timeZone = 'Europe/Helsinki',
   onModalSubmit,
   serviceTimeRange,
   onOpen,
@@ -67,8 +65,7 @@ export default function Datetimepicker({
   openPicker,
   showUpdateInstructions = false,
 }) {
-  Settings.defaultZone = timeZone;
-  const [t] = useTranslation();
+  const [t] = useTranslation(undefined, { lng: lang });
   const [isOpen, changeOpen] = useState(openPicker || false);
   const [displayTimestamp, changeDisplayTimestamp] = useState(
     timestamp || DateTime.now().toMillis(),
@@ -84,12 +81,6 @@ export default function Datetimepicker({
   const alertRef = useRef();
   // Control to focus after the next open/close render
   const pendingFocusRef = useRef(null);
-
-  const translationSettings = { lng: lang };
-
-  useEffect(() => {
-    Settings.defaultLocale = lang;
-  }, [lang]);
 
   const nowSelected = timestamp === null;
   useEffect(() => {
@@ -126,67 +117,9 @@ export default function Datetimepicker({
     return () => clearInterval(newId);
   }, [displayTimestamp]);
 
-  /**
-   * @param {number} date Date in milliseconds since unix epoch
-   * @returns {string} formatted date
-   */
-  const getDateDisplay = date => {
-    const time = DateTime.fromMillis(date);
-    const now = DateTime.now();
-    let formatted;
-    if (time.hasSame(now, 'day')) {
-      formatted = t('today', translationSettings);
-      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
-    } else if (time.hasSame(now.plus({ days: 1 }), 'day')) {
-      formatted = t('tomorrow', translationSettings);
-      formatted = `${formatted.charAt(0).toUpperCase()}${formatted.slice(1)}`;
-    } else {
-      formatted = time.toFormat('ccc d.L.');
-    }
-    return formatted;
-  };
-
-  // param time is timestamp
-  const getTimeDisplay = time => {
-    return DateTime.fromMillis(time).toFormat('HH:mm');
-  };
-
-  // compute choices only when timestamp changes instead of every render
-  const [timeChoices, dateChoices] = useMemo(() => {
-    const selectedMoment = DateTime.fromMillis(timestamp || DateTime.now().toMillis());
-    const dayStart = selectedMoment.startOf('day').toMillis();
-    const dayEnd = selectedMoment.endOf('day').toMillis();
-    const step = (isMobile() ? 15 : 1) * 60 * 1000;
-    let newTimeChoices = [];
-    for (let time = dayStart; time <= dayEnd; time += step) {
-      newTimeChoices.push(time);
-    }
-    if (timestamp === null) {
-      // if time is set to now
-      // add times in 5 min intervals for next 30 mins
-      const fiveMinutes = 1000 * 60 * 5;
-      const nextFiveMin = Math.ceil(displayTimestamp / fiveMinutes) * fiveMinutes;
-      const timesToAdd = Array(7)
-        .fill()
-        .map((_, i) => nextFiveMin + i * fiveMinutes);
-      const closestIndexAfter = newTimeChoices
-        .map(time => displayTimestamp - time)
-        .findIndex(time => time <= 0);
-      newTimeChoices.splice(closestIndexAfter, 0, ...timesToAdd);
-      newTimeChoices = Array.from(new Set(newTimeChoices)); // remove duplicates
-    }
-    const dateSelectStartTime = DateTime.now()
-      .startOf('day')
-      .set({ hour: selectedMoment.hour, minute: selectedMoment.minute });
-    const newDateChoices = Array(serviceTimeRange)
-      .fill()
-      .map((_, i) => dateSelectStartTime.plus({ days: i }).toMillis());
-    return [newTimeChoices, newDateChoices];
-  }, [timestamp]);
-
   function showScreenreaderCloseAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = t('accessible-closed', translationSettings);
+      alertRef.current.innerHTML = t('accessible-closed');
       setTimeout(() => {
         // The component may have unmounted (clearing the ref) before this
         // fires - don't crash in that case.
@@ -199,7 +132,7 @@ export default function Datetimepicker({
 
   function showScreenreaderOpenAlert() {
     if (alertRef.current) {
-      alertRef.current.innerHTML = t('accessible-opened', translationSettings);
+      alertRef.current.innerHTML = t('accessible-opened');
       setTimeout(() => {
         // The component may have unmounted (clearing the ref) before this
         // fires - don't crash in that case.
@@ -255,12 +188,8 @@ export default function Datetimepicker({
                 openPickerRef.current?.focus();
               })
             }
-            getTimeDisplay={getTimeDisplay}
-            timeZone={timeZone}
             timestamp={displayTimestamp}
-            getDateDisplay={getDateDisplay}
             dateSelectItemCount={serviceTimeRange}
-            getDisplay={getTimeDisplay}
           />
         )
       );
@@ -294,9 +223,7 @@ export default function Datetimepicker({
                 <span className={styles['close-icon']}>
                   <Icon img="close" color={color} />
                 </span>
-                <span className={styles['sr-only']}>
-                  {t('accessible-close', translationSettings)}
-                </span>
+                <span className={styles['sr-only']}>{t('accessible-close')}</span>
               </button>
             </span>
             <span className={styles['departure-or-arrival-container']}>
@@ -305,7 +232,7 @@ export default function Datetimepicker({
                 className={`${styles['radio-textbutton-label']}
                 ${styles[departureOrArrival === 'departure' ? 'active' : undefined]}`}
               >
-                {t('departure', translationSettings)}
+                {t('departure')}
                 <input
                   id={`${htmlId}-departure`}
                   name={`${htmlId}-departureOrArrival`}
@@ -323,7 +250,7 @@ export default function Datetimepicker({
                 className={`${styles['radio-textbutton-label']}
                 ${styles[departureOrArrival === 'arrival' ? 'active' : undefined]}`}
               >
-                {t('arrival', translationSettings)}
+                {t('arrival')}
                 <input
                   id={`${htmlId}-arrival`}
                   name={`${htmlId}-departureOrArrival`}
@@ -345,58 +272,23 @@ export default function Datetimepicker({
               ref={inputRef}
               aria-describedby={`${htmlId}-now-description`}
             >
-              {t('departure-now', translationSettings)}
+              {t('departure-now')}
             </button>
             <span id={`${htmlId}-now-description`} className={styles['sr-only']}>
-              {t('accessible-departure-now', translationSettings)}
+              {t('accessible-departure-now')}
             </span>
           </div>
-          <div
-            className={
-              isOpen ? `${styles['picker-container']}` : `${styles.hidden} datetimepicker-top-row`
-            }
-          >
-            <span className={styles['combobox-left']}>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onDateChange(newValue);
-                }}
-                getDisplay={getDateDisplay}
-                timeChoices={dateChoices}
-                validate={() => null}
-                icon={
-                  <span className={`${styles['combobox-icon']} ${styles['date-input-icon']}`}>
-                    <Icon img="calendar" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-date`}
-                label={t('date', translationSettings)}
-                disableTyping
-                timeZone={timeZone}
-                datePicker
-              />
-            </span>
-            <span className={styles['combobox-right']}>
-              <DesktopDatetimepicker
-                value={displayTimestamp}
-                onChange={newValue => {
-                  onTimeChange(newValue);
-                }}
-                getDisplay={getTimeDisplay}
-                timeChoices={timeChoices}
-                icon={
-                  <span className={`${styles['combobox-icon']} ${styles['time-input-icon']}`}>
-                    <Icon img="time" color={color} />
-                  </span>
-                }
-                id={`${htmlId}-time`}
-                label={t('time', translationSettings)}
-                timeZone={timeZone}
-                translationSettings={translationSettings}
-              />
-            </span>
-          </div>
+          <DesktopPickerInputs
+            timestamp={timestamp}
+            displayTimestamp={displayTimestamp}
+            serviceTimeRange={serviceTimeRange}
+            onDateChange={onDateChange}
+            onTimeChange={onTimeChange}
+            htmlId={htmlId}
+            color={color}
+            lang={lang}
+            isOpen={isOpen}
+          />
         </div>
         <span className={isOpen ? '' : styles.hidden}>{embedWhenOpen}</span>
       </>
@@ -405,14 +297,11 @@ export default function Datetimepicker({
 
   const getSummaryText = () => {
     if (nowSelected && departureOrArrival === 'departure') {
-      return t('departure-now', translationSettings);
+      return t('departure-now');
     }
-    const dateDisplay = getDateDisplay(displayTimestamp);
+    const dateDisplay = getDateDisplay(displayTimestamp, t);
     const timeDisplay = getTimeDisplay(displayTimestamp);
-    const summary = t(
-      departureOrArrival === 'departure' ? 'departure' : 'arrival',
-      translationSettings,
-    );
+    const summary = t(departureOrArrival === 'departure' ? 'departure' : 'arrival');
     const isToday = DateTime.now().hasSame(DateTime.fromMillis(displayTimestamp), 'day');
     const isTomorrow = DateTime.now()
       .plus({ days: 1 })
@@ -434,11 +323,9 @@ export default function Datetimepicker({
       id={`${htmlId}-root`}
       style={{ '--color': `${color}` }}
     >
-      <legend className={styles['sr-only']}>{t('accessible-title', translationSettings)}</legend>
+      <legend className={styles['sr-only']}>{t('accessible-title')}</legend>
       {showUpdateInstructions && (
-        <span className={styles['sr-only']}>
-          {t('accessible-update-instructions', translationSettings)}
-        </span>
+        <span className={styles['sr-only']}>{t('accessible-update-instructions')}</span>
       )}
       <div
         className={
@@ -459,7 +346,7 @@ export default function Datetimepicker({
             aria-controls={`${htmlId}-root`}
             aria-expanded="false"
             // Name starts with the visible text (WCAG 2.5.3) and exposes the selected time
-            aria-label={`${summaryText}. ${t('accessible-open', translationSettings)}`}
+            aria-label={`${summaryText}. ${t('accessible-open')}`}
             onClick={() => {
               pendingFocusRef.current = 'close';
               changeOpen(true);
@@ -486,7 +373,6 @@ export default function Datetimepicker({
 
 Datetimepicker.propTypes = {
   timestamp: PropTypes.number,
-  timeZone: PropTypes.string,
   onTimeChange: PropTypes.func.isRequired,
   onDateChange: PropTypes.func.isRequired,
   departureOrArrival: PropTypes.oneOf(['departure', 'arrival']).isRequired,

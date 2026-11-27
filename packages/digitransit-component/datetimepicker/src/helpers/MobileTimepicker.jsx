@@ -1,25 +1,15 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
-import { Settings } from 'luxon';
 import cx from 'classnames';
 import styles from './styles.scss';
-import { parseTypedTime, getTs, validateInput } from './utils';
+import { parseTypedTime, getTs, validateInput, getTimeDisplay } from './utils';
 
 /**
  * Component to display a time input on mobile
  */
-export default function MobileTimepicker({
-  value,
-  getDisplay,
-  onChange,
-  id,
-  label,
-  icon,
-  timeZone = 'Europe/Helsinki',
-}) {
-  const [inputValue, changeInputValue] = useState(getDisplay(value));
+export default function MobileTimepicker({ value, onChange, id, label, icon }) {
+  const [inputValue, changeInputValue] = useState(getTimeDisplay(value));
   const [isValidInput, setValidInput] = useState(true);
-  Settings.defaultZone = timeZone;
   const inputId = `${id}-input`;
   const labelId = `${id}-label`;
   const showError = !isValidInput;
@@ -70,10 +60,8 @@ export default function MobileTimepicker({
 }
 MobileTimepicker.propTypes = {
   value: PropTypes.number.isRequired,
-  getDisplay: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.string.isRequired,
   icon: PropTypes.node,
-  timeZone: PropTypes.string,
 };

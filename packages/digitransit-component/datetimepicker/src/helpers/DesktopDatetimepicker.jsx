@@ -1,13 +1,11 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
-import { DateTime, Settings } from 'luxon';
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Select from 'react-select';
 import cx from 'classnames';
-import { parseTypedTime, validateInput, getTs } from './utils';
+import { parseTypedTime, validateInput, getTs, getDateDisplay, getTimeDisplay } from './utils';
 import styles from './styles.scss';
-
-const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
 
 /**
  * Component to display a date or time input on desktop.
@@ -15,7 +13,6 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
  * @param {Object} props
  * @param {Number} props.value    Currently selected time. Unix timestamp in milliseconds
  * @param {function} props.onChange     This is called with new timestamp when input is changed
- * @param {function} props.getDisplay   Function to get a string representation from a timestamp
  * @param {array}    props.timeChoices  Array of timestamps to choose from
  * @param {string} id                   Id prefix for labels and aria attributes. Should be unique in page
  * @param {string} label                Text to show as input label
@@ -27,7 +24,6 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
  * <DesktopDatetimepicker
  *   value={1590133823000}
  *   onChange={timestamp => update(timestamp)}
- *   getDisplay={timestamp => formatTime(timestamp)}
  *   timeChoices={[1590133823000]}
  *   id="timeinput"
  *   icon="<Icon />"
@@ -37,18 +33,16 @@ const DEFAULT_TRANSLATION_SETTINGS = { lng: 'fi' };
 export default function DesktopDatetimepicker({
   value,
   onChange,
-  getDisplay,
   timeChoices,
   id,
   label,
   icon,
   disableTyping = false,
-  timeZone = 'Europe/Helsinki',
   datePicker = false,
-  translationSettings = DEFAULT_TRANSLATION_SETTINGS,
+  lang,
 }) {
-  Settings.defaultZone = timeZone;
-  const [t] = useTranslation();
+  const [t] = useTranslation(undefined, { lng: lang });
+  const getDisplay = ts => (datePicker ? getDateDisplay(ts, t) : getTimeDisplay(ts));
   const [displayValue, changeDisplayValue] = useState(getDisplay(value));
   const [typing, setTyping] = useState(false);
   const [showAllOptions, setShowAllOptions] = useState(true);
@@ -71,21 +65,13 @@ export default function DesktopDatetimepicker({
     }
     onChange(asNumber);
   };
-  function isinvalidInput(str) {
-    const regex = /[a-zA-Z§ÄäÖö.-\s]/g;
-    if (str.length < displayValue?.length) {
-      const valid = validateInput(str);
-      setinvalidInput(!valid);
-
-      return true;
-    }
-    if (regex.test(str)) {
+  // Typed text is accepted when it can be part of a time. Anything else is ignored and the previous text stays.
+  function acceptTypedText(text) {
+    if (!/^[0-9:]*$/.test(text) || text.length > 5) {
       return false;
     }
-    const time = str.length > 5 ? str.slice(0, -1) : str;
-    const valid = validateInput(time);
-    setinvalidInput(!valid);
-    return str.length <= 5;
+    setinvalidInput(!validateInput(text));
+    return true;
   }
   const onInputChange = (newValue, { action }) => {
     if (action === 'menu-close') {
@@ -93,7 +79,7 @@ export default function DesktopDatetimepicker({
     } else if (showAllOptions) {
       setShowAllOptions(false);
     }
-    if (disableTyping || (newValue && !isinvalidInput(newValue))) {
+    if (disableTyping || (newValue && !acceptTypedText(newValue))) {
       return;
     }
     if (action === 'input-change') {
@@ -125,7 +111,7 @@ export default function DesktopDatetimepicker({
     const comp = hour.length === 1 ? '0'.concat(input) : input;
     return isValidHour ? option.label.split(':')[0] === comp.split(':')[0] : true;
   };
-  const ariaError = t('invalid-input', translationSettings);
+  const ariaError = t('invalid-input');
   return (
     <label className={styles['combobox-container']} htmlFor={inputId}>
       <span className={styles['sr-only']} id={labelId}>
@@ -274,13 +260,11 @@ export default function DesktopDatetimepicker({
 DesktopDatetimepicker.propTypes = {
   value: PropTypes.number.isRequired,
   onChange: PropTypes.func.isRequired,
-  getDisplay: PropTypes.func.isRequired,
   timeChoices: PropTypes.arrayOf(PropTypes.number).isRequired,
   id: PropTypes.string.isRequired,
   label: PropTypes.node.isRequired,
   icon: PropTypes.node.isRequired,
   disableTyping: PropTypes.bool,
-  timeZone: PropTypes.string,
   datePicker: PropTypes.bool,
-  translationSettings: PropTypes.shape({ lng: PropTypes.string.isRequired }),
+  lang: PropTypes.string.isRequired,
 };
