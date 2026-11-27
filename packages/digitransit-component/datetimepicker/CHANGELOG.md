@@ -1,5 +1,11 @@
 # @digitransit-component/digitransit-component-datetimepicker
 
+## 9.1.16
+
+### Patch Changes
+
+- 21a538d: Build the list of time choices faster.
+
 ## 9.1.15
 
 ### Patch Changes
