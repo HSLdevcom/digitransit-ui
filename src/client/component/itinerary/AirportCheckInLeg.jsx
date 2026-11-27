@@ -32,10 +32,7 @@ export default function AirportCheckInLeg({ leg, start, focusAction, index, chil
 
         <div className="info-message">
           <Icon img="icon_info" />
-          <FormattedMessage
-            id="airport-check-in"
-            values={{ agency: leg.agency && leg.agency.name }}
-          />
+          <FormattedMessage id="airport-check-in" values={{ agency: leg.agency?.name }} />
         </div>
         <div className="info-message">
           <Icon img="icon_info" />
