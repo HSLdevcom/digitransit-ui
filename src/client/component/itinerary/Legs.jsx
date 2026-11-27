@@ -211,6 +211,7 @@ export default function Legs({
         <BicycleLeg
           {...legProps}
           bicycleWalkLeg={bicycleWalkLeg}
+          focusEnd={focus(leg.to)}
           openSettings={openSettings}
           nextLegMode={nextLeg?.mode}
           relayEnvironment={relayEnvironment}

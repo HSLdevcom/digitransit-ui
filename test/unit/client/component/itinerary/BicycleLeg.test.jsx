@@ -1,3 +1,4 @@
+import { fireEvent } from '@testing-library/react';
 import { renderWithProviders } from '../../../helpers/mock-providers';
 import { createTestConfig } from '../../../helpers/mock-context';
 import BicycleLeg from '../../../../../src/client/component/itinerary/BicycleLeg';
@@ -206,5 +207,38 @@ describe('<BicycleLeg />', () => {
       },
     });
     expect(container.textContent).toContain('Walk your kick scooter');
+  });
+
+  it('should focus the end of the leg from the note about walking the bike to transit', () => {
+    const focusAction = vi.fn();
+    const focusEnd = vi.fn();
+    const props = {
+      focusAction,
+      focusEnd,
+      focusToLeg: () => {},
+      openSettings: () => {},
+      index: 1,
+      leg: {
+        distance: 1000,
+        duration: 300,
+        mode: 'BICYCLE',
+        start: { scheduledTime: new Date().toISOString() },
+        end: { scheduledTime: new Date().toISOString() },
+        from: { name: 'Lähtö' },
+        to: { name: 'Asema', stop: { vehicleMode: 'RAIL' } },
+      },
+      bicycleWalkLeg: {
+        distance: -1,
+        duration: 0,
+        mode: 'BICYCLE_WALK',
+        from: { name: 'Lähtö' },
+        to: { name: 'Asema', stop: { vehicleMode: 'RAIL' } },
+      },
+    };
+    const { container } = renderWithProviders(<BicycleLeg {...props} />, { config: baseConfig });
+    const buttons = container.querySelectorAll('.itinerary-map-action');
+    fireEvent.click(buttons[buttons.length - 1]);
+    expect(focusEnd).toHaveBeenCalledTimes(1);
+    expect(focusAction).not.toHaveBeenCalled();
   });
 });

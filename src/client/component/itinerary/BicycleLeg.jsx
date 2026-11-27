@@ -37,6 +37,7 @@ function getStopsMessageId(isWalking, isScooter) {
 
 export default function BicycleLeg({
   focusAction,
+  focusEnd,
   index,
   leg,
   focusToLeg,
@@ -210,8 +211,8 @@ export default function BicycleLeg({
           <BicycleWalkNote
             walkLeg={bicycleWalkLeg}
             direction="to"
-            target={leg.from.name || ''}
-            focusAction={focusAction}
+            target={leg.to.name || ''}
+            focusAction={focusEnd}
           />
         )}
         {isScooter && (
@@ -234,6 +235,7 @@ BicycleLeg.propTypes = {
   bicycleWalkLeg: legShape,
   index: PropTypes.number.isRequired,
   focusAction: PropTypes.func.isRequired,
+  focusEnd: PropTypes.func,
   focusToLeg: PropTypes.func.isRequired,
   openSettings: PropTypes.func.isRequired,
   nextLegMode: PropTypes.string,
