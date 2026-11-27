@@ -71,17 +71,32 @@ function followPattern(pattern, from, to) {
  * @param {Set<number>} canceledIndices indices of the canceled stops
  * @param {Set<number>} addedIndices indices of the stops added by a realtime update
  * @param {Array<[number, number]>} [pattern] scheduled pattern geometry, which the dashed path follows
+ * @param {[number, number]} [callRange] inclusive indices of the stops that lie on the geometry;
+ *   stops before it are placed at the line start and stops after it at the line end
  * @returns {Array<{points: Array, dashed: boolean, detour?: boolean}>} detour marks the solid
  *   path of a detour that has added stops
  */
-export function getDetourSegments(points, stops, canceledIndices, addedIndices, pattern) {
+export function getDetourSegments(
+  points,
+  stops,
+  canceledIndices,
+  addedIndices,
+  pattern,
+  callRange = [0, stops.length - 1],
+) {
   if (!canceledIndices.size || points.length < 2) {
     return [{ points, dashed: false }];
   }
-  const indices = getStopIndices(
-    points.map(([lat, lon]) => ({ lat, lon })),
-    stops,
-  );
+  const [firstCall, lastCall] = callRange;
+  // stops outside the geometry would otherwise match arbitrary points and skip parts of the line
+  const indices = [
+    ...stops.slice(0, firstCall).map(() => 0),
+    ...getStopIndices(
+      points.map(([lat, lon]) => ({ lat, lon })),
+      stops.slice(firstCall, lastCall + 1),
+    ),
+    ...stops.slice(lastCall + 1).map(() => points.length - 1),
+  ];
   const coord = i => [stops[i].lat, stops[i].lon];
   const last = stops.length - 1;
   const segments = [];

@@ -31,7 +31,8 @@ export default function usePatternGeometries(codes) {
               geometry: response?.pattern?.geometry?.map(({ lat, lon }) => [lat, lon]) ?? [],
               stops: response?.pattern?.stops ?? [],
             },
-          ]),
+          ])
+          .catch(() => [code, { geometry: [], stops: [] }]),
       ),
     )
       .then(entries => {

@@ -6,6 +6,8 @@ import { useConfigContext } from '../../hooks/ConfigContext';
 import { tripStopCancelationsQuery } from './queries/TripStopCancelationsQuery';
 
 const NO_CANCELATIONS = new Set();
+const NO_CANCELATIONS_BY_LEG = new Map();
+export const legKey = (tripId, serviceDate) => `${tripId}|${serviceDate}`;
 const HALF_DAY_SECONDS = 12 * 3600;
 
 const toCanceledStopIds = stoptimes =>
@@ -20,7 +22,7 @@ const toCanceledStopIds = stoptimes =>
  * Midday of the service day is used to be safe on DST changes.
  * Empty stoptimes do not tell the day they were resolved for, so they are not trusted.
  */
-const hasStoptimesForServiceDate = (leg, timeZone) => {
+export const hasStoptimesForServiceDate = (leg, timeZone) => {
   const first = leg.trip.stoptimesForDate?.[0];
   return (
     !!first &&
@@ -37,18 +39,21 @@ const hasStoptimesForServiceDate = (leg, timeZone) => {
  *
  * @param {Array} legs transit legs having trip and serviceDate (YYYYMMDD).
  * @param {boolean} enabled whether fetching other days' cancelations is needed.
- * @returns {Set<string>} gtfsIds of stops with a canceled call.
+ * @returns {Map<string, string[]>} gtfsIds of stops with a canceled call by leg.
  */
-export default function useCanceledStopIds(legs, enabled = true) {
+export function useCanceledStopIdsByLeg(legs, enabled = true) {
   const { environment } = useContext(ReactRelayContext);
   const { timeZone } = useConfigContext();
-  const [fetched, setFetched] = useState({ key: '', ids: NO_CANCELATIONS });
+  const [fetched, setFetched] = useState({ key: '', byLeg: NO_CANCELATIONS_BY_LEG });
 
   const transitLegs = legs.filter(leg => leg.trip?.gtfsId && leg.serviceDate);
   const loadedLegs = transitLegs.filter(leg => hasStoptimesForServiceDate(leg, timeZone));
   // primitive keys keep the memo and the effect stable over new legs array identities
   const loadedKey = JSON.stringify(
-    loadedLegs.flatMap(leg => toCanceledStopIds(leg.trip.stoptimesForDate)),
+    loadedLegs.map(leg => [
+      legKey(leg.trip.gtfsId, leg.serviceDate),
+      toCanceledStopIds(leg.trip.stoptimesForDate),
+    ]),
   );
   const fetchKey = JSON.stringify(
     transitLegs
@@ -75,10 +80,13 @@ export default function useCanceledStopIds(legs, enabled = true) {
     )
       .then(responses => {
         if (active) {
-          const ids = responses.flatMap(response =>
-            toCanceledStopIds(response?.trip?.stoptimesForDate),
+          const byLeg = new Map(
+            requests.map(([tripId, serviceDate], i) => [
+              legKey(tripId, serviceDate),
+              toCanceledStopIds(responses[i]?.trip?.stoptimesForDate),
+            ]),
           );
-          setFetched({ key: fetchKey, ids: new Set(ids) });
+          setFetched({ key: fetchKey, byLeg });
         }
       })
       .catch(() => {
@@ -90,11 +98,22 @@ export default function useCanceledStopIds(legs, enabled = true) {
   }, [environment, fetchKey, enabled, fetched.key]);
 
   return useMemo(() => {
-    const fetchedIds = fetched.key === fetchKey ? fetched.ids : NO_CANCELATIONS;
-    const loadedIds = JSON.parse(loadedKey);
-    if (!loadedIds.length && !fetchedIds.size) {
-      return NO_CANCELATIONS;
+    const byLeg = new Map(JSON.parse(loadedKey));
+    if (fetched.key === fetchKey) {
+      fetched.byLeg.forEach((ids, key) => byLeg.set(key, ids));
     }
-    return new Set([...loadedIds, ...fetchedIds]);
+    return byLeg.size ? byLeg : NO_CANCELATIONS_BY_LEG;
   }, [loadedKey, fetchKey, fetched]);
+}
+
+/** @returns {Set<string>} gtfsIds of stops with a canceled call in any leg of the map. */
+export const toCanceledStopIdSet = byLeg => {
+  const ids = [...byLeg.values()].flat();
+  return ids.length ? new Set(ids) : NO_CANCELATIONS;
+};
+
+/** @returns {Set<string>} gtfsIds of stops with a canceled call in any of the legs. */
+export default function useCanceledStopIds(legs, enabled = true) {
+  const byLeg = useCanceledStopIdsByLeg(legs, enabled);
+  return useMemo(() => toCanceledStopIdSet(byLeg), [byLeg]);
 }

@@ -28,7 +28,12 @@ import EntranceMarker from './EntranceMarker';
 import RouteLineLabels from './route/RouteLineLabels';
 import { getDetourSegments } from './route/skippedSegments';
 import usePatternGeometries from './usePatternGeometries';
-import useCanceledStopIds from '../itinerary/useCanceledStopIds';
+import {
+  hasStoptimesForServiceDate,
+  legKey,
+  toCanceledStopIdSet,
+  useCanceledStopIdsByLeg,
+} from '../itinerary/useCanceledStopIds';
 import { STOP_CALL_STATUS } from '../../utils/stopCallStatusUtils';
 import ClusterNumberMarker from './ClusterNumberMarker';
 import IndoorStepMarker from './IndoorStepMarker';
@@ -54,7 +59,10 @@ const NO_CANCELED_STOPS = {
  * Canceled stop calls of a transit leg: the diverging line sections and the labels
  * for the first and last stop actually served, when those differ from the leg ends.
  */
-function getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, config) {
+function getLegCancelations(leg, geometry, canceledByLeg, patterns, intl, config) {
+  const canceledStopIds = new Set(
+    leg.trip?.gtfsId ? canceledByLeg.get(legKey(leg.trip.gtfsId, leg.serviceDate)) : [],
+  );
   const callStops = leg.stopCalls?.map(sc => sc.stopLocation);
   if (
     !canceledStopIds.size ||
@@ -101,18 +109,24 @@ function getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, conf
   if (!canceled.size) {
     return NO_CANCELED_STOPS;
   }
+  // stoptimesForDate is for the current day; it tells the added stops only for that day.
+  // Otherwise stops missing from the scheduled pattern are the added ones.
+  const patternIds = new Set(patternStops.map(s => s.gtfsId));
   const addedIds = new Set(
-    leg.trip?.stoptimesForDate
-      ?.filter(st => st.realtimeState === 'ADDED')
+    (hasStoptimesForServiceDate(leg, config.timeZone) ? leg.trip.stoptimesForDate : [])
+      .filter(st => st.realtimeState === 'ADDED')
       .map(st => st.stop?.gtfsId),
   );
   const added = new Set();
   stops.forEach((stop, i) => {
-    if (addedIds.has(stop.gtfsId)) {
+    if (addedIds.has(stop.gtfsId) || (patternIds.size && !patternIds.has(stop.gtfsId))) {
       added.add(i);
     }
   });
-  const segments = getDetourSegments(geometry, stops, canceled, added, pattern?.geometry);
+  const segments = getDetourSegments(geometry, stops, canceled, added, pattern?.geometry, [
+    leading.length,
+    leading.length + callStops.length - 1,
+  ]);
   const served = stops.filter((_, i) => !canceled.has(i));
   const labels = [];
   if (served.length) {
@@ -143,7 +157,7 @@ function getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, conf
           key: `detour-label-${i}`,
           position: { lat, lon },
           text: intl.formatMessage({ id: 'route-detour' }),
-          color: leg.route?.color ? `#${leg.route.color}` : config.colors.primary,
+          color,
           placement: 'right',
         });
       });
@@ -182,7 +196,8 @@ export default function ItineraryLine({
   const intl = useIntl();
   const [zoom, setZoom] = useState(() => leaflet.map.getZoom());
   const tripLegs = useMemo(() => legs.filter(leg => leg?.transitLeg), [legs]);
-  const canceledStopIds = useCanceledStopIds(tripLegs, !passive);
+  const canceledByLeg = useCanceledStopIdsByLeg(tripLegs, !passive);
+  const canceledStopIds = useMemo(() => toCanceledStopIdSet(canceledByLeg), [canceledByLeg]);
   const patterns = usePatternGeometries(
     canceledStopIds.size ? tripLegs.map(leg => leg.trip?.pattern?.code).filter(Boolean) : [],
   );
@@ -496,7 +511,7 @@ export default function ItineraryLine({
 
     const cancelations = passive
       ? NO_CANCELED_STOPS
-      : getLegCancelations(leg, geometry, canceledStopIds, patterns, intl, config);
+      : getLegCancelations(leg, geometry, canceledByLeg, patterns, intl, config);
 
     handleLine(
       previousLeg,
