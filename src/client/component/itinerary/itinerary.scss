@@ -1544,6 +1544,12 @@
     height: 40px;
   }
 
+  // Tall rows, such as the return rental box, are connected all the way down
+  .leg-before.no-walk.to-bottom .leg-before-line {
+    height: auto;
+    bottom: 0;
+  }
+
   .leg-before-line {
     height: 100%;
     top: 0.7em;
@@ -2186,6 +2192,7 @@
     }
 
     .itinerary-transit-leg-route-with-link {
+      position: relative;
       display: flex;
       background-color: $background-color-lighter;
       border-radius: 5px;
@@ -2195,7 +2202,8 @@
       .link-to-stop {
         right: 10px;
         position: absolute;
-        top: 34%;
+        top: 50%;
+        transform: translateY(-50%);
       }
 
       .link-to-e-scooter-operator {

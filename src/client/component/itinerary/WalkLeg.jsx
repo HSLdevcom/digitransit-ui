@@ -148,7 +148,7 @@ export default function WalkLeg({
             index={index}
             modeClassName="walk"
             appendClass="taxi"
-            className="no-walk"
+            className={cx('no-walk', { 'to-bottom': returnNotice })}
             viaType={leg.isViaPoint ? leg.from.viaLocationType : null}
           />
         ) : (
@@ -165,7 +165,7 @@ export default function WalkLeg({
         )}
         <div
           className={cx('small-9 columns itinerary-instruction-column', leg.mode.toLowerCase(), {
-            'no-walk': noWalk,
+            'no-walk': noWalk && !returnNotice,
           })}
         >
           {index === 0 ? (
