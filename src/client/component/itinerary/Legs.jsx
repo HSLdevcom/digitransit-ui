@@ -238,7 +238,8 @@ export default function Legs({
   const endsAtStop = lastLeg.transitLeg && lastLeg.to.stop && !isCallAgencyLeg(lastLeg);
   const stopIsDestination =
     endsAtStop && isDestinationStop(parseLocation(match.params?.to).address, lastLeg.to);
-  if (endsAtStop && !stopIsDestination) {
+  const walkRowAdded = endsAtStop && !stopIsDestination;
+  if (walkRowAdded) {
     legs.push(
       <WalkLeg
         index={numberOfLegs}
@@ -259,6 +260,7 @@ export default function Legs({
       focusAction={focus(lastLeg.to)}
       to={lastLeg.to}
       atStop={stopIsDestination}
+      afterTransit={lastLeg.transitLeg && !walkRowAdded}
     >
       {stopIsDestination && stopCode(lastLeg.to.stop)}
     </EndLeg>,

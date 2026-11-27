@@ -13,7 +13,10 @@ import AddressPlace from './AddressPlace';
 import LegPlaceLink from './LegPlaceLink';
 import PlatformNumber from '../PlatformNumber';
 
-/** The end of the itinerary. When the destination is a stop (atStop) the row links to the stop. */
+/**
+ * The end of the itinerary. When the destination is a stop (atStop) the row links to the stop.
+ * When no walk precedes it (afterTransit), the pin is drawn below the transit leg's end circle.
+ */
 export default function EndLeg(props) {
   const match = useMatch();
   const intl = useIntl();
@@ -37,10 +40,12 @@ export default function EndLeg(props) {
       </span>
       <LegTimeColumn time={time} />
       <div
-        className={cx('leg-before', modeClassName, { 'at-stop': props.atStop })}
+        className={cx('leg-before', modeClassName, { 'after-transit': props.afterTransit })}
         aria-hidden="true"
       >
-        {props.atStop && <div className="leg-before-line end-connector walk default-dotted-line" />}
+        {props.afterTransit && (
+          <div className="leg-before-line end-connector walk default-dotted-line" />
+        )}
         <div className={`leg-before-circle circle ${modeClassName}`} />
         <div className="itinerary-icon-container">
           <Icon img="icon_mapMarker" className="itinerary-icon to to-it" />
@@ -48,7 +53,7 @@ export default function EndLeg(props) {
       </div>
       <div
         className={cx('small-9 columns itinerary-instruction-column to end', {
-          'at-stop': props.atStop,
+          'after-transit': props.afterTransit,
         })}
       >
         <div className="itinerary-leg-first-row">
@@ -81,5 +86,6 @@ EndLeg.propTypes = {
   to: stopShape.isRequired,
   focusAction: PropTypes.func.isRequired,
   atStop: PropTypes.bool,
+  afterTransit: PropTypes.bool,
   children: PropTypes.node,
 };
