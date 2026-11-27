@@ -1,4 +1,3 @@
-import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { displayDistance } from '../../../shared/utils/geo-utils';
@@ -27,8 +26,8 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
             time,
             distance,
             to: legDestination(intl, leg),
-            origin: leg.from ? leg.from.name : '',
-            destination: leg.to ? leg.to.name : '',
+            origin: leg.from.name,
+            destination: leg.to.name,
             duration,
           }}
         />
@@ -42,7 +41,7 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
         isStop={!!leg.from.stop}
       />
       <div className="small-9 columns itinerary-instruction-column">
-        <div className={cx('itinerary-leg-first-row', 'bicycle')}>
+        <div className="itinerary-leg-first-row bicycle">
           <div className="address-container">
             <LegPlaceLink
               to={`/${PREFIX_BIKEPARK}/${bikePark.vehicleParkingId}`}
@@ -53,15 +52,11 @@ export default function BikeParkLeg({ leg, index, focusAction, bikePark }) {
             </LegPlaceLink>
             <div className="place">{bikePark.name}</div>
           </div>
-          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
+          <ShowOnMapButton target={leg.from.name} focusAction={focusAction} />
         </div>
-        <div className={cx('itinerary-leg-action', 'bike', 'itinerary-leg-action-content')}>
-          <FormattedMessage
-            id="walk-distance-duration"
-            values={{ distance, duration }}
-            defaultMessage="Walk {distance} ({duration})"
-          />
-          <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
+        <div className="itinerary-leg-action bike itinerary-leg-action-content">
+          <FormattedMessage id="walk-distance-duration" values={{ distance, duration }} />
+          <ShowOnMapButton target={leg.from.name} focusAction={focusAction} />
         </div>
       </div>
     </div>
