@@ -979,6 +979,12 @@ describe('Datetimepicker state', () => {
       expect(summary()).toBe('Avgångstid ons 15.11. 00:13');
     });
 
+    it('follows a time zone change while mounted', () => {
+      const { container, rerenderWith } = renderPicker();
+      rerenderWith({ timeZone: 'UTC' });
+      expect(container.querySelector('button').textContent).toBe('Departure Tue 14.11. 22:13');
+    });
+
     describe('choices of the lists', () => {
       const openField = id => openList(document.querySelector(`input[id$="-${id}-input"]`));
       // 23:58 in Europe/Helsinki on 2023-11-10, three minutes before midnight
