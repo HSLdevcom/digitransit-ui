@@ -13,7 +13,7 @@ describe('<MenuDrawer />', () => {
       <MenuDrawer open label="Main menu" onRequestChange={onRequestChange} breakpoint="large">
         <div>content</div>
       </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
+      { config: { CONFIG: 'default' } },
     );
 
     expect(screen.getByRole('dialog', { name: 'Main menu' })).toBeTruthy();
@@ -33,7 +33,7 @@ describe('<MenuDrawer />', () => {
       >
         <div>content</div>
       </MenuDrawer>,
-      { config: { CONFIG: 'default', language: 'en' } },
+      { config: { CONFIG: 'default' } },
     );
 
     expect(screen.getByRole('button', { name: 'Close the main menu' })).toBeTruthy();

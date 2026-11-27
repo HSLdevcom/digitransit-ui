@@ -10,11 +10,11 @@ npm package families, managed as yarn workspaces via [lerna](https://lernajs.io/
 | `digitransit-store`     | `@digitransit-store/*`     | `packages/digitransit-store/*`        | `src/index.js`                                                | Rollup (no JSX)                              |
 | `digitransit-util`      | `@digitransit-util/*`      | `packages/digitransit-util/*`         | `index.js`                                                    | none                                          |
 
-The main app consumes `component`/`store` via their built Rollup output —
+The main app consumes `component`/`store` and `search-util/query-utils` via their built Rollup output —
 real ESM (`lib/index.js`, via each package's `"module"`/`exports` fields,
 preferred by webpack for `import`) with a UMD `lib/index.cjs` (`"main"`) as
-the `require`/Node fallback — and `search-util`/`util` via raw source, using
-webpack's native ESM support. Treat these packages like
+the `require`/Node fallback — and the other `search-util`/`util` packages via raw
+source, using webpack's native ESM support. Treat these packages like
 semi-external dependencies: changes need a changeset (see
 [Publishing](#publishing)) with the bump type a change to a real npm
 dependency would get.

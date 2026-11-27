@@ -1,4 +1,5 @@
 import PropTypes from 'prop-types';
+import { useIntl } from 'react-intl';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { ReactRelayContext } from 'react-relay';
 import L from 'leaflet';
@@ -48,8 +49,11 @@ const POPUP_OPTIONS = { offset: [0, 0], autoPanPaddingTopLeft: [5, 125], autoPan
 
 /**
  * Send an analytics event on opening popup
+ * @param {object[]} selectableTargets
+ * @param {object} config
+ * @param {string} pathname router location pathname, without the language prefix
  */
-export function sendSelectionAnalytics(selectableTargets, config) {
+export function sendSelectionAnalytics(selectableTargets, config, pathname) {
   if (!selectableTargets || selectableTargets.length === 0) {
     // event for clicking somewhere else on the map will be handled in LocationPopup
     return;
@@ -69,7 +73,7 @@ export function sendSelectionAnalytics(selectableTargets, config) {
   } else {
     name = 'multiple';
   }
-  const pathPrefixMatch = window.location.pathname.match(/^\/([a-z]{2,})\//);
+  const pathPrefixMatch = pathname.match(/^\/([a-z]{2,})\//);
   const prefix = pathPrefixMatch?.[1];
   const context = prefix && prefix !== config.indexPath ? prefix : 'index';
   addAnalyticsEvent({ action: 'SelectMapPoint', category: 'Map', name, type, source: context });
@@ -163,7 +167,7 @@ function onSelectableTargetClicked(
 }
 
 function createTile(tileCoords, done, latest, setSelection) {
-  const { props, config, relayEnvironment } = latest.current;
+  const { props, config, locale, relayEnvironment } = latest.current;
   const tile = new TileContainer(
     tileCoords,
     done,
@@ -175,7 +179,7 @@ function createTile(tileCoords, done, latest, setSelection) {
     props.vehicles,
     props.stopsToShow,
     props.objectsToHide,
-    config.language,
+    locale,
   );
   tile.onSelectableTargetClicked = (...args) =>
     onSelectableTargetClicked(latest, setSelection, tile, ...args);
@@ -203,7 +207,8 @@ export default function TileLayerContainer(props) {
   const { vehicles } = useRealTimeInformation();
   const currentTime = useCurrentTime();
   const config = useConfigContext();
-  const { router } = useRouter();
+  const { locale } = useIntl();
+  const { router, match } = useRouter();
   const { environment: relayEnvironment } = useContext(ReactRelayContext);
   const leaflet = useLeaflet();
   const [selection, setSelection] = useState(null);
@@ -218,7 +223,9 @@ export default function TileLayerContainer(props) {
       vehicles,
     },
     config,
+    locale,
     router,
+    match,
     relayEnvironment,
     leaflet,
     selection,
@@ -271,7 +278,7 @@ export default function TileLayerContainer(props) {
     if (prev.currentTime !== currentTime) {
       /* eslint-disable no-underscore-dangle */
       lodashFilter(layer._tiles, tile => tile.active).forEach(tile =>
-        tile.el.layers?.forEach(l => l.onTimeChange?.(config.language)),
+        tile.el.layers?.forEach(l => l.onTimeChange?.(locale)),
       );
       /* eslint-enable no-underscore-dangle */
     }
@@ -289,7 +296,11 @@ export default function TileLayerContainer(props) {
   }, []);
   const onPopupOpen = useCallback(
     () =>
-      sendSelectionAnalytics(latest.current.selection?.selectableTargets, latest.current.config),
+      sendSelectionAnalytics(
+        latest.current.selection?.selectableTargets,
+        latest.current.config,
+        latest.current.match.location.pathname,
+      ),
     [],
   );
   const selectRow = useCallback(

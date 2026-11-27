@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import { useEffect, useState } from 'react';
 import { graphql, useFragment } from 'react-relay';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, useIntl } from 'react-intl';
 import { useRouter } from 'found';
 import Icon from './Icon';
 import { useBreakpoint } from '../hooks/BreakpointContext';
@@ -40,6 +40,7 @@ export default function RentalVehicleContent({
   const breakpoint = useBreakpoint();
   const [isClient, setClient] = useState(false);
   const config = useConfigContext();
+  const { locale } = useIntl();
   const { match, router } = useRouter();
   const rentalVehicle = useFragment(RentalVehicleContentFragment, rentalVehicleRef);
 
@@ -66,7 +67,6 @@ export default function RentalVehicleContent({
 
   const networkConfig = getRentalNetworkConfig(rentalVehicle.rentalNetwork.networkId, config);
   const vehicleIcon = getRentalNetworkIcon(networkConfig);
-  const { language } = config;
 
   if (networks) {
     return (
@@ -83,7 +83,7 @@ export default function RentalVehicleContent({
               <Icon img={vehicleIcon} />
               <div className="scooter-header">
                 <div className="header">
-                  <h1>{networkConfig.name[language] || rentalVehicle.rentalNetwork.networkId}</h1>
+                  <h1>{networkConfig.name[locale] || rentalVehicle.rentalNetwork.networkId}</h1>
                   <div className="scooter-sub-header">
                     <FormattedMessage id="e-scooter" />
                   </div>
@@ -104,7 +104,7 @@ export default function RentalVehicleContent({
           <div className="scooter-header">
             {breakpoint === 'large' && <BackButton />}
             <div className="header">
-              <h1>{networkConfig.name[language] || rentalVehicle.rentalNetwork.networkId}</h1>
+              <h1>{networkConfig.name[locale] || rentalVehicle.rentalNetwork.networkId}</h1>
               <div className="scooter-sub-header">
                 <FormattedMessage id="e-scooter" />
               </div>

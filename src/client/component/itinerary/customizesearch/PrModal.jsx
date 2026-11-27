@@ -11,8 +11,8 @@ import { hslfiLocale } from '../../../utils/hslfiLocale';
 
 export default function PrModal({ closeModal }) {
   const config = useConfigContext();
-  const { language } = config;
   const intl = useIntl();
+  const { locale } = intl;
   const { formatMessage } = intl;
   const breakpoint = useBreakpoint();
 
@@ -32,8 +32,8 @@ export default function PrModal({ closeModal }) {
               <Text variant="text-s">
                 {formatMessage({ id: 'personalization-modal-highlight-details' })}
               </Text>
-              {config.favouriteLink[language] && (
-                <ArrowLink href={config.favouriteLink[language]} target="_blank" rel="noreferrer">
+              {config.favouriteLink[locale] && (
+                <ArrowLink href={config.favouriteLink[locale]} target="_blank" rel="noreferrer">
                   {formatMessage({ id: 'personalization-modal-link' })}
                 </ArrowLink>
               )}
@@ -66,13 +66,13 @@ export default function PrModal({ closeModal }) {
               <span className="beta-label">Beta</span>
               <Text variant="text-xs">{formatMessage({ id: 'personalization-beta' })}</Text>
               <Spacer size="xxs" />
-              {config.personalizationSurveyLinks[language] && (
+              {config.personalizationSurveyLinks[locale] && (
                 <div>
                   <ButtonLink
                     size="s"
                     variant="primary"
                     expandOnMobile
-                    href={config.personalizationSurveyLinks[language]}
+                    href={config.personalizationSurveyLinks[locale]}
                     target="_blank"
                     rel="noreferrer"
                   >

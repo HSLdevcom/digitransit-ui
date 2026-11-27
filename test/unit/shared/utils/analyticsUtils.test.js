@@ -115,62 +115,44 @@ describe('analytics utils', () => {
       ).toBe(true);
     });
 
-    it('should include Finnish itinerary survey ID when lang=fi', () => {
-      document.cookie = 'lang=fi';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should include Finnish itinerary survey ID when the language is fi', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'fi');
       expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).toBe(true);
     });
-    it('should include Swedish itinerary survey ID when lang=sv', () => {
-      document.cookie = 'lang=sv';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should include Swedish itinerary survey ID when the language is sv', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'sv');
       expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).toBe(true);
     });
-    it('should include English itinerary survey ID when lang=en', () => {
-      document.cookie = 'lang=en';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should include English itinerary survey ID when the language is en', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'en');
       expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).toBe(true);
     });
     it('should not include itinerary survey when language is unknown', () => {
-      document.cookie = 'lang=xx';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'xx');
       expect(res.includes('470215ef-c02e-4123-a9de-2792c0fcaf97')).toBe(false);
       expect(res.includes('dd11434b-5a93-4daa-905e-3198ac502d1e')).toBe(false);
       expect(res.includes('d2ffe981-45a8-43b9-aa1b-68e100aa1c12')).toBe(false);
     });
 
-    it('should include route page survey when lang=fi', () => {
-      document.cookie = 'lang=fi';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should include route page survey when the language is fi', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'fi');
       expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).toBe(true);
     });
-    it('should not include route page survey when lang=sv', () => {
-      document.cookie = 'lang=sv';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should not include route page survey when the language is sv', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'sv');
       expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).toBe(false);
     });
-    it('should not include route page survey when lang=en', () => {
-      document.cookie = 'lang=en';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+    it('should not include route page survey when the language is en', () => {
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'en');
       expect(res.includes('96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9')).toBe(false);
     });
 
     it('should include reitti path check in itinerary survey', () => {
-      document.cookie = 'lang=fi';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'fi');
       expect(res.includes('reitti')).toBe(true);
     });
     it('should include linjat path check in route page survey', () => {
-      document.cookie = 'lang=fi';
-      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req);
-      document.cookie = 'lang=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
+      const res = getAnalyticsInitCode({ GTMid: 1, crazyEgg: true }, req, 'fi');
       expect(res.includes('linjat')).toBe(true);
     });
   });

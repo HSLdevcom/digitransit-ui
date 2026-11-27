@@ -32,7 +32,7 @@ export function addAnalyticsEvent(event) {
  *   Only languages explicitly listed will trigger a survey; no fallback is applied.
  *   e.g. `{ fi: 'uuid-fi', sv: 'uuid-sv', en: 'uuid-en' }`
  * @param {object} [options]
- * @param {string} [options.language] - Current user language (from the lang cookie). If the
+ * @param {string} [options.language] - Current page language. If the
  *   language is not a key in surveyIds, no script is generated.
  * @param {string} [options.pathPrefix] - Only show when pathname includes this value
  * @param {number} [options.surveyShare] - Modulo divisor for sampling (e.g. 250 → ~0.4% of visits)
@@ -71,11 +71,13 @@ export function buildCrazyEggSurveyScript(surveyIds, options = {}) {
 /**
  * Get code to initialize UI analytics in server side
  *
- * @param {number|string} GTMid Google Tag Manager id
+ * @param {object} config
+ * @param {object} req
+ * @param {string} [language] - Current page language, selects the survey.
  *
  * @return string
  */
-export function getAnalyticsInitCode(config, req) {
+export function getAnalyticsInitCode(config, req, language) {
   const { hostname } = req;
   const cookies = new Cookies(req.headers.cookie, { path: '/' });
   const cookieConsent = cookies.get('cookieConsent');
@@ -103,7 +105,6 @@ export function getAnalyticsInitCode(config, req) {
     if (config.crazyEgg) {
       const surveyShare = config.SURVEY_SHARE || 250;
       const surveyStartupDelay = 8000;
-      const lang = cookies.get('lang');
       const ceBase =
         '<script type="text/javascript" src="//script.crazyegg.com/pages/scripts/0030/3436.js" async="async" ></script>';
       // Show survey conditions for certain share of page loads:
@@ -117,7 +118,7 @@ export function getAnalyticsInitCode(config, req) {
           en: 'd2ffe981-45a8-43b9-aa1b-68e100aa1c12',
         },
         {
-          language: lang,
+          language,
           pathPrefix: PREFIX_ITINERARY_SUMMARY,
           surveyShare,
           delay: surveyStartupDelay,
@@ -131,7 +132,7 @@ export function getAnalyticsInitCode(config, req) {
       const ceRoutePage = buildCrazyEggSurveyScript(
         { fi: '96b0b2f3-bc5a-4b40-b910-cc65bb5b6cd9' },
         {
-          language: lang,
+          language,
           pathPrefix: PREFIX_ROUTES,
           surveyShare,
           delay: surveyStartupDelay,
