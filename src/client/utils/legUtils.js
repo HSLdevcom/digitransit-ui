@@ -966,6 +966,24 @@ export function legPlaceAddress(intl, leg, point = leg.from, start = true) {
   return [point.viaLocationType && leg.viaAddress ? leg.viaAddress : address, place];
 }
 
+/**
+ * Checks if the destination the user gave is the stop where the itinerary ends.
+ * @param {string} destination destination address from the URL, e.g. 'Malmi, Helsinki'
+ * @param {object} place end place of the last leg
+ * @returns {boolean} true if the destination has the same name as the stop
+ */
+export function isDestinationStop(destination, place) {
+  if (!destination || !place?.stop || !place.name) {
+    return false;
+  }
+  const mainName = name =>
+    name
+      .split(/, (.+)/)[0]
+      .trim()
+      .toLowerCase();
+  return mainName(destination) === mainName(place.name);
+}
+
 /** Checks if leg is a local call agency.
  * @param {object} leg - The leg object.
  * @param {object} config - Config data.

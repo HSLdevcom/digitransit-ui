@@ -3,6 +3,7 @@ import cx from 'classnames';
 import PropTypes from 'prop-types';
 import { useRouter } from 'found';
 import { fareShape, itineraryShape, relayShape } from '../../utils/shapes';
+import { parseLocation } from '../../../shared/utils/path';
 import TransitLeg from './TransitLeg';
 import WalkLeg from './WalkLeg';
 import WaitLeg from './WaitLeg';
@@ -19,6 +20,7 @@ import TaxiLeg from './TaxiLeg';
 import {
   compressLegs,
   isCallAgencyLeg,
+  isDestinationStop,
   isTaxiLeg,
   isWalkLeg,
   legTime,
@@ -230,9 +232,13 @@ export default function Legs({
   });
 
   // This solves edge case when itinerary ends at the stop without walking.
-  // There should be WalkLeg rendered before EndLeg.
+  // There should be WalkLeg rendered before EndLeg, unless the stop is the destination, in which
+  // case EndLeg shows the stop, or the leg is a call agency leg, which has no stop information.
   const lastLeg = compressedLegs[numberOfLegs - 1];
-  if (lastLeg.transitLeg && lastLeg.to.stop) {
+  const endsAtStop = lastLeg.transitLeg && lastLeg.to.stop && !isCallAgencyLeg(lastLeg);
+  const stopIsDestination =
+    endsAtStop && isDestinationStop(parseLocation(match.params?.to).address, lastLeg.to);
+  if (endsAtStop && !stopIsDestination) {
     legs.push(
       <WalkLeg
         index={numberOfLegs}
@@ -247,7 +253,16 @@ export default function Legs({
     );
   }
 
-  legs.push(<EndLeg endTime={itinerary.end} focusAction={focus(lastLeg.to)} to={lastLeg.to} />);
+  legs.push(
+    <EndLeg
+      endTime={itinerary.end}
+      focusAction={focus(lastLeg.to)}
+      to={lastLeg.to}
+      atStop={stopIsDestination}
+    >
+      {stopIsDestination && stopCode(lastLeg.to.stop)}
+    </EndLeg>,
+  );
 
   legs.push(<ItineraryTotals itinerary={itinerary} />);
 

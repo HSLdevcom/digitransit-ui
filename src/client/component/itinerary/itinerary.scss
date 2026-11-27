@@ -1504,6 +1504,19 @@
       }
     }
 
+    // The transit leg's stop circle is drawn at the top of the row; the pin goes below it,
+    // joined to the circle with a short dotted line
+    &.end.at-stop {
+      > .itinerary-icon-container {
+        top: 32px;
+      }
+
+      .leg-before-line.end-connector {
+        top: 20px;
+        height: 20px;
+      }
+    }
+
     &.wait {
       .icon.wait {
         color: $dark-gray;
@@ -2004,6 +2017,10 @@
 
     &.end {
       min-height: 3em;
+    }
+
+    &.end.at-stop {
+      min-height: 68px;
     }
 
     .itinerary-leg-row-with-link {

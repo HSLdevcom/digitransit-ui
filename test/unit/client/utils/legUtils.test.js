@@ -582,4 +582,18 @@ describe('legUtils', () => {
       });
     });
   });
+
+  describe('isDestinationStop', () => {
+    const place = { name: 'Malmi', stop: { gtfsId: 'HSL:1' } };
+
+    it('should match a stop with the name of the destination, ignoring case and the place', () => {
+      expect(utils.isDestinationStop('MALMI, Helsinki', place)).toBe(true);
+    });
+
+    it('should not match another name or a place that is not a stop', () => {
+      expect(utils.isDestinationStop('Malmin asema, Helsinki', place)).toBe(false);
+      expect(utils.isDestinationStop('Malmi', { name: 'Malmi', stop: null })).toBe(false);
+      expect(utils.isDestinationStop(undefined, place)).toBe(false);
+    });
+  });
 });
