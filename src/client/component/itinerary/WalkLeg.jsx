@@ -84,7 +84,7 @@ export default function WalkLeg({
   const alightNotice = isTaxiLeg(previousLeg) || isTaxiLeg(leg);
   const returnNotice = isBikeOrScooterRentalLeg(previousLeg) ? (
     <FormattedMessage
-      id={networkType === RentalNetworkType.Scooter ? 'return-e-scooter-to' : 'return-cycle-to'}
+      id={isScooter ? 'return-e-scooter-to' : 'return-cycle-to'}
       values={{ station: validatedLegName }}
     />
   ) : null;
@@ -220,7 +220,7 @@ export default function WalkLeg({
                     {alertIcon}
                   </div>
                 )}
-                {networkType !== RentalNetworkType.Scooter && (
+                {!isScooter && (
                   <div className="stop-code-container">
                     {children}
                     {walkPlace.stop && (
