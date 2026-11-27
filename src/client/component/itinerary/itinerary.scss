@@ -2021,6 +2021,10 @@
 
     &.end.at-stop {
       min-height: 68px;
+
+      .place {
+        margin-top: 4px;
+      }
     }
 
     .itinerary-leg-row-with-link {
