@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import cx from 'classnames';
 import { legShape, relayShape } from '../../utils/shapes';
-import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
+import { legTimeStr, legDestination, legPlaceAddress } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
 import { displayDistance } from '../../../shared/utils/geo-utils';
@@ -16,7 +16,6 @@ import {
   RentalNetworkType,
 } from '../../../shared/utils/vehicleRentalUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import { getSettings } from '../../utils/planParamUtil';
 import StopCode from '../StopCode';
@@ -56,10 +55,7 @@ export default function BicycleLeg({
   const walkingClassName = isWalking ? leg.mode.toLowerCase() : 'bicycle';
   const modeClassName = leg.rentedBike ? 'citybike' : walkingClassName;
   const firstLegClassName = index === 0 ? 'start' : '';
-  const [name, place] = splitStringToAddressAndPlace(
-    getValidatedLegName(leg.from.name, intl, true),
-  );
-  const address = (leg.from.viaLocationType && leg.viaAddress) || name;
+  const [address, place] = legPlaceAddress(intl, leg);
   const rentalVehicleNetwork =
     leg.from.vehicleRentalStation?.rentalNetwork.networkId ||
     leg.from.rentalVehicle?.rentalNetwork.networkId;

@@ -11,6 +11,7 @@ import {
   isCallAgencyLeg,
   isTaxiLeg,
   getValidatedLegName,
+  legPlaceAddress,
   isBikeOrScooterRentalLeg,
 } from '../../utils/legUtils';
 import ShowOnMapButton from './ShowOnMapButton';
@@ -27,7 +28,6 @@ import {
 } from '../../../shared/utils/vehicleRentalUtils';
 import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import VehicleRentalLeg from './VehicleRentalLeg';
 import IndoorInfo from './IndoorInfo';
 import {
@@ -39,6 +39,7 @@ import {
 } from '../../utils/indoorUtils';
 import IndoorSteps from './IndoorSteps';
 import WalkLegOrigin from './WalkLegOrigin';
+import AddressPlace from './AddressPlace';
 import { IndoorLegType } from '../../../shared/utils/constants';
 import LegPlaceLink from './LegPlaceLink';
 
@@ -77,8 +78,7 @@ export default function WalkLeg({
     previousPlace?.vehicleRentalStation?.rentalNetwork.networkId ||
     previousPlace?.rentalVehicle?.rentalNetwork.networkId;
   const validatedLegName = getValidatedLegName(walkPlace.name, intl, !isWalk);
-  const [name, place] = splitStringToAddressAndPlace(validatedLegName);
-  const address = walkPlace.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const [address, place] = legPlaceAddress(intl, leg, walkPlace, !isWalk);
   const networkType = getRentalNetworkConfig(
     isBikeOrScooterRentalLeg(previousLeg) && network,
     config,
@@ -177,12 +177,7 @@ export default function WalkLeg({
                   </LegPlaceLink>
                 ) : (
                   <div>
-                    {isFlexArrival && (
-                      <div className="address-container">
-                        <div className="address">{address}</div>
-                        <div className="place">{place}</div>
-                      </div>
-                    )}
+                    {isFlexArrival && <AddressPlace address={address} place={place} />}
                     {returnNotice && (
                       <>
                         <div className="divider" />

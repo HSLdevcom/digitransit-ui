@@ -4,6 +4,7 @@ import { legShape, legTimeShape } from '../../utils/shapes';
 import { durationToString } from '../../utils/timeUtils';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
+import AddressPlace from './AddressPlace';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import { PREFIX_STOPS } from '../../../shared/utils/path';
 import { legTimeStr, getValidatedLegName, isCallAgencyLeg } from '../../utils/legUtils';
@@ -44,10 +45,7 @@ export default function WaitLeg({
         <div className="itinerary-leg-first-row wait">
           <div className="itinerary-leg-row">
             {isCallAgencyLeg(leg) ? (
-              <div className="address-container">
-                <div className="address">{address}</div>
-                <div className="place">{place}</div>
-              </div>
+              <AddressPlace address={address} place={place} />
             ) : (
               <LegPlaceLink
                 to={`/${PREFIX_STOPS}/${leg.to.stop.gtfsId}`}

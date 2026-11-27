@@ -5,12 +5,12 @@ import { legShape } from '../../utils/shapes';
 import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
-import { legSummaryValues, getValidatedLegName } from '../../utils/legUtils';
+import { legSummaryValues, legPlaceAddress } from '../../utils/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import LegCircleLine from './LegCircleLine';
 import LegTimeColumn from './LegTimeColumn';
 import LegArrowIcon from './LegArrowIcon';
+import AddressPlace from './AddressPlace';
 
 export default function TaxiLeg(props) {
   const intl = useIntl();
@@ -39,11 +39,7 @@ export default function TaxiLeg(props) {
     </span>
   );
 
-  const [name, place] = splitStringToAddressAndPlace(
-    getValidatedLegName(props.leg.from.name, intl, true),
-  );
-  const address =
-    props.leg.from.viaLocationType && props.leg.viaAddress ? props.leg.viaAddress : name;
+  const [address, place] = legPlaceAddress(intl, props.leg);
   const { bookingUrl, infoUrl } = props.leg.pickupBookingInfo?.contactInfo ?? {};
   return (
     <>
@@ -60,13 +56,9 @@ export default function TaxiLeg(props) {
             className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${lowerCaseLegMode}`}
           >
             <div className={cx('itinerary-leg-first-row', 'walk', 'first')}>
-              <div className="address-container">
-                <div className="address">
-                  {address}
-                  {leg.from.stop && <LegArrowIcon />}
-                </div>
-                <div className="place">{place}</div>
-              </div>
+              <AddressPlace address={address} place={place}>
+                {leg.from.stop && <LegArrowIcon />}
+              </AddressPlace>
             </div>
             <div className="divider" />
           </div>

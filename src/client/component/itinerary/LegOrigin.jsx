@@ -5,6 +5,7 @@ import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { stopPagePath } from '../../../shared/utils/path';
 import { legShape } from '../../utils/shapes';
 import LegPlaceLink from './LegPlaceLink';
+import AddressPlace from './AddressPlace';
 
 /**
  * Name of the place where a transit leg starts. A call agency leg has no stop page to link to,
@@ -37,13 +38,9 @@ export default function LegOrigin({ leg, mode, index, name }) {
   const [address, place] = splitStringToAddressAndPlace(name || '');
   return (
     <span>
-      <div className="address-container">
-        <div className="address">
-          {address}
-          {viaIcon}
-        </div>
-        <div className="place">{place}</div>
-      </div>
+      <AddressPlace address={address} place={place}>
+        {viaIcon}
+      </AddressPlace>
     </span>
   );
 }

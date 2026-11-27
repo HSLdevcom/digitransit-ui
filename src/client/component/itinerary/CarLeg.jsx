@@ -4,11 +4,11 @@ import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
+import AddressPlace from './AddressPlace';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
-import { legSummaryValues, getValidatedLegName } from '../../utils/legUtils';
+import { legSummaryValues, legPlaceAddress } from '../../utils/legUtils';
 import LegCircleLineLong from './LegCircleLineLong';
-import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegArrowIcon from './LegArrowIcon';
 import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils';
@@ -37,10 +37,7 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
     />
   );
 
-  const [name, place] = splitStringToAddressAndPlace(
-    getValidatedLegName(leg.from.name, intl, true),
-  );
-  const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
+  const [address, place] = legPlaceAddress(intl, leg);
 
   return (
     <div className="row itinerary-row">
@@ -53,14 +50,10 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}
       >
         <div className={`itinerary-leg-first-row ${firstLegClassName}`}>
-          <div className="address-container">
-            <div className="address">
-              {address}
-              {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
-              {leg.from.stop && <LegArrowIcon />}
-            </div>
-            <div className="place">{place}</div>
-          </div>
+          <AddressPlace address={address} place={place}>
+            {leg.isViaPoint && <Icon img="icon_mapMarker" className="itinerary-mapmarker-icon" />}
+            {leg.from.stop && <LegArrowIcon />}
+          </AddressPlace>
           <div>{children}</div>
           <ShowOnMapButton target={leg.from.name || ''} focusAction={focusAction} />
         </div>

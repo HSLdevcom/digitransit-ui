@@ -8,6 +8,7 @@ import { parseLocation } from '../../../shared/utils/path';
 import { timeStr } from '../../utils/timeUtils';
 import { getValidatedLegName } from '../../utils/legUtils';
 import LegTimeColumn from './LegTimeColumn';
+import AddressPlace from './AddressPlace';
 
 export default function EndLeg(props) {
   const match = useMatch();
@@ -39,10 +40,7 @@ export default function EndLeg(props) {
       </div>
       <div className="small-9 columns itinerary-instruction-column to end">
         <div className="itinerary-leg-first-row">
-          <div className="address-container">
-            <div className="address">{!stop ? address : addressFromUrl}</div>
-            <div className="place">{place || placeFromUrl}</div>
-          </div>
+          <AddressPlace address={!stop ? address : addressFromUrl} place={place || placeFromUrl} />
           <ShowOnMapButton target={props.to.name} focusAction={props.focusAction} />
         </div>
       </div>

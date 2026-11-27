@@ -4,6 +4,7 @@ import { BIKEAVL_UNKNOWN } from '../../shared/utils/vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../../shared/utils/constants';
 import { stopCallTime, durationToString } from './timeUtils';
 import { displayDistance } from '../../shared/utils/geo-utils';
+import { splitStringToAddressAndPlace } from '../../shared/utils/otpStrings';
 
 /**
  * Gets a (nested) property value from an object
@@ -947,6 +948,22 @@ export function getValidatedLegName(name, intl, start) {
     return start ? originName : terminusName;
   }
   return name;
+}
+
+/**
+ * Splits the name of a leg's place into an address and a place. A via point shows the address
+ * the user gave for it.
+ * @param {object} intl react-intl instance
+ * @param {object} leg the leg
+ * @param {object} point place of the leg to describe, the start of the leg by default
+ * @param {boolean} start true if the place is a start, used for naming a terminus or an origin
+ * @returns {string[]} [address, place]
+ */
+export function legPlaceAddress(intl, leg, point = leg.from, start = true) {
+  const [address, place] = splitStringToAddressAndPlace(
+    getValidatedLegName(point.name, intl, start),
+  );
+  return [point.viaLocationType && leg.viaAddress ? leg.viaAddress : address, place];
 }
 
 /** Checks if leg is a local call agency.
