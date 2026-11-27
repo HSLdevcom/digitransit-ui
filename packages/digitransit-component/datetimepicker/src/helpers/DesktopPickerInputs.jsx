@@ -1,5 +1,6 @@
 import PropTypes from 'prop-types';
 import { useMemo } from 'react';
+import { DateTime } from 'luxon';
 import { useTranslation } from 'react-i18next';
 import Icon from '@digitransit-component/digitransit-component-icon';
 import DesktopDatetimepicker from './DesktopDatetimepicker';
@@ -23,7 +24,9 @@ export default function DesktopPickerInputs({
 }) {
   const [t] = useTranslation(undefined, { lng: lang });
 
-  // compute choices only when timestamp changes instead of every render
+  // The choices also depend on the current day, so a picker that is kept open over midnight lists the new day
+  const today = DateTime.now().startOf('day').toMillis();
+  // compute choices only when their inputs change instead of every render
   const [timeChoices, dateChoices] = useMemo(
     () =>
       getPickerChoices({
@@ -32,7 +35,7 @@ export default function DesktopPickerInputs({
         serviceTimeRange,
         stepMinutes: isMobile() ? 15 : 1,
       }),
-    [timestamp],
+    [timestamp, displayTimestamp, serviceTimeRange, today],
   );
 
   return (

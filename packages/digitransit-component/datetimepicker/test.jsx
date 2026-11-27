@@ -978,6 +978,41 @@ describe('Datetimepicker state', () => {
       rerenderWith({ lang: 'sv' });
       expect(summary()).toBe('Avgångstid ons 15.11. 00:13');
     });
+
+    describe('choices of the lists', () => {
+      const openField = id => openList(document.querySelector(`input[id$="-${id}-input"]`));
+      // 23:58 in Europe/Helsinki on 2023-11-10, three minutes before midnight
+      const BEFORE_MIDNIGHT = Date.UTC(2023, 10, 10, 21, 58, 0);
+
+      it('lists the dates and times of the new day when "now" is selected over midnight', () => {
+        vi.setSystemTime(BEFORE_MIDNIGHT);
+        const { openButton, calls } = renderPicker({ realtime: true, initialTimestamp: undefined });
+        advance(3 * 60 * 1000);
+        fireEvent.click(openButton());
+        expect(openField('date').slice(0, 2)).toEqual(['Today', 'Tomorrow']);
+        fireEvent.click(screen.getByRole('option', { name: 'Today' }));
+        openField('time');
+        fireEvent.click(screen.getByRole('option', { name: '12:00' }));
+        flushDebounce();
+        expect(calls.onTimeChange[0][0]).toBe(helsinki(11, 11, 12, 0).toSeconds());
+      });
+
+      it('lists the dates from the current day when a picker with a fixed time is opened after midnight', () => {
+        vi.setSystemTime(BEFORE_MIDNIGHT);
+        const { openButton } = renderPicker();
+        advance(3 * 60 * 1000);
+        fireEvent.click(openButton());
+        expect(openField('date').slice(0, 2)).toEqual(['Today', 'Tomorrow']);
+      });
+
+      it('follows a changed serviceTimeRange', () => {
+        const { openButton, rerenderWith } = renderPicker({ serviceTimeRange: 5 });
+        fireEvent.click(openButton());
+        expect(openField('date')).toHaveLength(5);
+        rerenderWith({ serviceTimeRange: 3 });
+        expect(openField('date')).toHaveLength(3);
+      });
+    });
   });
 });
 
