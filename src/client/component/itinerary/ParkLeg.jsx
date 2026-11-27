@@ -4,12 +4,10 @@ import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, parkShape } from '../../utils/shapes';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
-import { displayDistance } from '../../../shared/utils/geo-utils';
-import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
 import { PREFIX_BIKEPARK, PREFIX_CARPARK } from '../../../shared/utils/path';
-import { legTimeStr, legDestination } from '../../utils/legUtils';
+import { legSummaryValues } from '../../utils/legUtils';
 import { useConfigContext } from '../../hooks/ConfigContext';
 import LegPlaceLink from './LegPlaceLink';
 
@@ -23,24 +21,13 @@ export default function ParkLeg({ leg, index, focusAction, park, type }) {
   const { prefix, labelId } = PARK_TYPES[type];
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
-  const duration = durationToString(intl, leg.duration * 1000);
-  const time = legTimeStr(leg.start);
+  const values = legSummaryValues(intl, config, leg);
+  const { time, distance, duration } = values;
 
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
-        <FormattedMessage
-          id="itinerary-details.walk-leg"
-          values={{
-            time,
-            distance,
-            to: legDestination(intl, leg),
-            origin: leg.from.name,
-            destination: leg.to.name,
-            duration,
-          }}
-        />
+        <FormattedMessage id="itinerary-details.walk-leg" values={values} />
       </span>
       <LegTimeColumn time={time} />
       <LegCircleLineWithIcon

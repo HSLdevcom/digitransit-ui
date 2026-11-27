@@ -2,7 +2,8 @@ import cloneDeep from 'lodash/cloneDeep';
 import { getTripOrRouteMode } from './modeUtils';
 import { BIKEAVL_UNKNOWN } from '../../shared/utils/vehicleRentalUtils';
 import { ExtendedRouteTypes, OtpCornerNamingPattern } from '../../shared/utils/constants';
-import { stopCallTime } from './timeUtils';
+import { stopCallTime, durationToString } from './timeUtils';
+import { displayDistance } from '../../shared/utils/geo-utils';
 
 /**
  * Gets a (nested) property value from an object
@@ -862,6 +863,21 @@ export const legDestination = (intl, leg, secondary, nextLeg = null) => {
   }
   return intl.formatMessage({ id, defaultMessage: 'place' });
 };
+
+/**
+ * Values for the leg description messages (itinerary-details.*-leg) and the leg's visible texts.
+ * @param {object} intl react-intl instance
+ * @param {object} config app config
+ * @param {object} leg a leg with distance, duration, start, from and to
+ */
+export const legSummaryValues = (intl, config, leg) => ({
+  time: legTimeStr(leg.start),
+  distance: displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber),
+  duration: durationToString(intl, leg.duration * 1000),
+  to: legDestination(intl, leg),
+  origin: leg.from.name,
+  destination: leg.to.name,
+});
 
 /** The platform status depicts the current state of changes to a platform for a leg. */
 export const PLATFORM_STATUS = { NORMAL: 'normal', CHANGED: 'changed', RESTORED: 'restored' };

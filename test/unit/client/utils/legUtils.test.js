@@ -560,4 +560,26 @@ describe('legUtils', () => {
       expect(utils.getLegNotifications({ route }, {})).toEqual([]);
     });
   });
+
+  describe('legSummaryValues', () => {
+    it('collects the values of the leg description messages', () => {
+      const leg = {
+        mode: 'WALK',
+        distance: 150,
+        duration: 180,
+        start: { scheduledTime: '2026-11-27T08:45:00+02:00' },
+        from: { name: 'Start' },
+        to: { name: 'End' },
+      };
+      const intl = createTestIntl();
+      expect(utils.legSummaryValues(intl, {}, leg)).toEqual({
+        time: '08:45',
+        distance: '150 m',
+        duration: '3 min',
+        to: intl.formatMessage({ id: 'modes.to-place' }),
+        origin: 'Start',
+        destination: 'End',
+      });
+    });
+  });
 });

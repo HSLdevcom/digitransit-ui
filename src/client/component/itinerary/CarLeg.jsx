@@ -4,11 +4,9 @@ import { legShape } from '../../utils/shapes';
 import Icon from '../Icon';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
-import { displayDistance } from '../../../shared/utils/geo-utils';
-import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import LegTimeColumn from './LegTimeColumn';
-import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
+import { legSummaryValues, getValidatedLegName } from '../../utils/legUtils';
 import LegCircleLineLong from './LegCircleLineLong';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import { useConfigContext } from '../../hooks/ConfigContext';
@@ -18,8 +16,8 @@ import { getFromLocalizedMode, getToLocalizedMode } from '../../utils/modeUtils'
 export default function CarLeg({ leg, index, focusAction, focusToLeg, children, carBoardingLeg }) {
   const intl = useIntl();
   const config = useConfigContext();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
-  const duration = durationToString(intl, leg.duration * 1000);
+  const values = legSummaryValues(intl, config, leg);
+  const { time, distance, duration } = values;
   const firstLegClassName = index === 0 ? 'first' : '';
   const modeClassName = 'car';
 
@@ -47,19 +45,9 @@ export default function CarLeg({ leg, index, focusAction, focusToLeg, children, 
   return (
     <div className="row itinerary-row">
       <span className="sr-only">
-        <FormattedMessage
-          id="itinerary-details.car-leg"
-          values={{
-            time: legTimeStr(leg.start),
-            distance,
-            to: legDestination(intl, leg),
-            origin: leg.from ? leg.from.name : '',
-            destination: leg.to ? leg.to.name : '',
-            duration,
-          }}
-        />
+        <FormattedMessage id="itinerary-details.car-leg" values={values} />
       </span>
-      <LegTimeColumn time={legTimeStr(leg.start)} />
+      <LegTimeColumn time={time} />
       {circleLine}
       <div
         className={`small-9 columns itinerary-instruction-column ${firstLegClassName} ${leg.mode.toLowerCase()}`}

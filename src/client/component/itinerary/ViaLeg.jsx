@@ -1,9 +1,8 @@
 import PropTypes from 'prop-types';
 import { FormattedMessage, useIntl } from 'react-intl';
 import { legShape, legTimeShape } from '../../utils/shapes';
-import { displayDistance } from '../../../shared/utils/geo-utils';
 import { durationToString } from '../../utils/timeUtils';
-import { legTime, legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
+import { legTime, legTimeStr, legSummaryValues, getValidatedLegName } from '../../utils/legUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
 import ShowOnMapButton from './ShowOnMapButton';
 import LegAction from './LegAction';
@@ -18,25 +17,17 @@ const DESCRIPTION_IDS = {
 export default function ViaLeg({ leg, arrival, index, children, focusAction, focusToLeg }) {
   const config = useConfigContext();
   const intl = useIntl();
-  const distance = displayDistance(parseInt(leg.distance, 10), config, intl.formatNumber);
+  const values = legSummaryValues(intl, config, leg);
+  const { time: startTime, distance, duration } = values;
   const [name, place] = splitStringToAddressAndPlace(
     getValidatedLegName(leg.from.name, intl, true),
   );
   const address = leg.from.viaLocationType && leg.viaAddress ? leg.viaAddress : name;
-  const startTime = legTimeStr(leg.start);
   const arrivalTime = legTimeStr(arrival);
-  const duration = durationToString(intl, leg.duration * 1000);
   const stayDuration = legTime(leg.start) - legTime(arrival);
   const leaveAction = intl.formatMessage(
     { id: leg.mode === 'BICYCLE' ? 'itinerary-details.biking-leg' : 'itinerary-details.walk-leg' },
-    {
-      time: startTime,
-      to: legDestination(intl, leg),
-      distance,
-      origin: leg.from.name,
-      destination: leg.to.name,
-      duration,
-    },
+    values,
   );
   return (
     <div className="row itinerary-row">

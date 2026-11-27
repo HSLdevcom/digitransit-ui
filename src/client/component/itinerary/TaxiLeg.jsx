@@ -4,10 +4,8 @@ import cx from 'classnames';
 import { legShape } from '../../utils/shapes';
 import ShowOnMapButton from './ShowOnMapButton';
 import { useConfigContext } from '../../hooks/ConfigContext';
-import { displayDistance } from '../../../shared/utils/geo-utils';
-import { durationToString } from '../../utils/timeUtils';
 import LegCircleLineWithIcon from './LegCircleLineWithIcon';
-import { legTimeStr, legDestination, getValidatedLegName } from '../../utils/legUtils';
+import { legSummaryValues, getValidatedLegName } from '../../utils/legUtils';
 import TaxiLinkContainer from './TaxiLinkContainer';
 import { splitStringToAddressAndPlace } from '../../../shared/utils/otpStrings';
 import LegCircleLine from './LegCircleLine';
@@ -29,8 +27,8 @@ export default function TaxiLeg(props) {
     '--taxi-leg-line-bottom': addedPixels ? `${addedPixels * (1 - topBottomRatio)}px` : '0px',
   };
 
-  const distance = displayDistance(parseInt(props.leg.distance, 10), config, intl.formatNumber);
-  const duration = durationToString(intl, props.leg.duration * 1000);
+  const values = legSummaryValues(intl, config, props.leg);
+  const { time, distance, duration } = values;
   const firstLegClassName = props.index === 0 ? 'first' : '';
   const lowerCaseLegMode = props.leg.mode.toLowerCase();
   const modeClassName = 'taxi-external';
@@ -51,7 +49,7 @@ export default function TaxiLeg(props) {
     <>
       {index === 0 && (
         <div className="row itinerary-row">
-          <LegTimeColumn time={legTimeStr(props.leg.start)} />
+          <LegTimeColumn time={time} />
           <LegCircleLine
             index={index}
             modeClassName="walk"
@@ -77,19 +75,9 @@ export default function TaxiLeg(props) {
 
       <div className="row itinerary-row">
         <span className="sr-only">
-          <FormattedMessage
-            id="itinerary-details.taxi-leg"
-            values={{
-              time: legTimeStr(props.leg.start),
-              distance,
-              to: legDestination(intl, props.leg),
-              origin: props.leg.from ? props.leg.from.name : '',
-              destination: props.leg.to ? props.leg.to.name : '',
-              duration,
-            }}
-          />
+          <FormattedMessage id="itinerary-details.taxi-leg" values={values} />
         </span>
-        <LegTimeColumn time={legTimeStr(props.leg.start)} />
+        <LegTimeColumn time={time} />
         <LegCircleLineWithIcon
           index={props.index}
           modeClassName={modeClassName}
